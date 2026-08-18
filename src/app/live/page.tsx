@@ -489,7 +489,7 @@ export default function LiveHubPage() {
           {rooms.map((room, i) => (
             <div
               key={room.name}
-              className="group bg-black/40 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-purple-500/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+              className="group bg-black/40 border border-white/10 rounded-lg  overflow-hidden transition-all duration-300 hover:border-purple-500/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>

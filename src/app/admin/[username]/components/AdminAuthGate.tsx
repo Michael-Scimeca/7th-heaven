@@ -27,7 +27,7 @@ export function AdminAuthGate({
 }: AdminAuthGateProps) {
   return (
     <div className="min-h-screen bg-[var(--color-bg-base)] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[var(--color-bg-surface)] border border-white/10 p-8 rounded-2xl shadow-2xl text-center">
+      <div className="w-full max-w-md bg-[var(--color-bg-surface)] border border-white/10 p-8 rounded-lg  shadow-2xl text-center">
         <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
           🔒
         </div>

@@ -15,7 +15,7 @@ export async function GET() {
       <div class="max-w-4xl mx-auto space-y-6">
         
         {/* Top Navbar Header */}
-        <div class="bg-[#0c0c16] border border-purple-500/30 rounded-2xl p-4 flex items-center justify-between shadow-2xl">
+        <div class="bg-[#0c0c16] border border-purple-500/30 rounded-lg  p-4 flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center font-black text-purple-300 text-lg">
               MR
@@ -39,7 +39,7 @@ export async function GET() {
         </div>
 
         {/* Main Dashboard Banner */}
-        <div class="bg-gradient-to-r from-purple-900/40 via-[#0f0c20] to-[#050508] border border-purple-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-900/40 via-[#0f0c20] to-[#050508] border border-purple-500/30 rounded-lg  p-6 shadow-2xl relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
           <div class="flex items-center justify-between relative z-10">
             <div>
@@ -58,7 +58,7 @@ export async function GET() {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           
           {/* Active Booking Card */}
-          <div class="bg-[#0b0b14] border border-purple-500/30 rounded-2xl p-5 space-y-4">
+          <div class="bg-[#0b0b14] border border-purple-500/30 rounded-lg  p-5 space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
@@ -99,7 +99,7 @@ export async function GET() {
           </div>
 
           {/* Quick Actions Card */}
-          <div class="bg-[#0b0b14] border border-white/10 rounded-2xl p-5 space-y-4">
+          <div class="bg-[#0b0b14] border border-white/10 rounded-lg  p-5 space-y-4">
             <div class="pb-3 border-b border-white/10">
               <span class="font-bold text-sm text-white">Planner Coordinator Tools</span>
               <p class="text-[11px] text-white/40 mt-0.5">Quick actions for your upcoming events</p>

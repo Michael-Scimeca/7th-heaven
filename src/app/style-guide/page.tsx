@@ -8,12 +8,12 @@ import SearchInput from "@/components/SearchInput";
 
 const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
   ssr: false,
-  loading: () => <div className="p-8 text-center text-xs font-mono text-white/40 bg-black/40 rounded-2xl border border-white/10 animate-pulse">Loading Input Style Editor Studio...</div>
+  loading: () => <div className="p-8 text-center text-xs font-mono text-white/40 bg-black/40 rounded-lg  border border-white/10 animate-pulse">Loading Input Style Editor Studio...</div>
 });
 
 const CruiseChat = dynamic(() => import("@/components/CruiseChat"), {
   ssr: false,
-  loading: () => <div className="p-12 text-center text-xs font-mono text-white/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl rounded-2xl border border-purple-500/30 animate-pulse">Loading Live Cruise Chat Box...</div>
+  loading: () => <div className="p-12 text-center text-xs font-mono text-white/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl rounded-lg  border border-purple-500/30 animate-pulse">Loading Live Cruise Chat Box...</div>
 });
 
 const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
@@ -319,7 +319,7 @@ export function NeatButton() {
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+    <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6">
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div>
           <h3 className="text-sm font-mono font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
@@ -1135,7 +1135,7 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Sticky Section Quick Navigation Bar */}
-        <div className="sticky top-20 z-40 bg-[#070510]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <div className="sticky top-20 z-40 bg-[#070510]/90 backdrop-blur-xl border border-white/10 rounded-lg  p-2 shadow-2xl flex items-center gap-2 overflow-x-auto scrollbar-none">
           {sections.map((sec) => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -1196,7 +1196,7 @@ export default function StyleGuidePage() {
                 {/* Studio Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-500/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg  bg-purple-500/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
@@ -1248,7 +1248,7 @@ export default function StyleGuidePage() {
                 {/* Controls Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                   {/* 1. Min Font Size */}
-                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg  bg-white/[0.03] border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-emerald-400 flex items-center gap-1">
                         1. Min Font Size:
@@ -1277,7 +1277,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 2. Max Font Size */}
-                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg  bg-white/[0.03] border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-purple-400 flex items-center gap-1">
                         2. Max Font Size:
@@ -1306,7 +1306,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 3. Min Viewport Width */}
-                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg  bg-white/[0.03] border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-amber-400 flex items-center gap-1">
                         3. Min Viewport Width:
@@ -1336,7 +1336,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 4. Max Viewport Width */}
-                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg  bg-white/[0.03] border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="font-bold text-cyan-400 flex items-center gap-1">
                         4. Max Viewport Width:
@@ -1367,7 +1367,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* 5. Below Min Viewport Behavior Toggle */}
-                <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                <div className="rounded-lg  bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
                   <div>
                     <h4 className="text-xs font-bold text-white flex items-center gap-2">
                       5. Below {studioMinVw}px Boundary Behavior:
@@ -1399,7 +1399,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* Live Formula & Computed Viewport Readout Card */}
-                <div className="rounded-2xl bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
+                <div className="rounded-lg  bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
@@ -1575,7 +1575,7 @@ ${deskRules.join("\n")}
                   const maxLimit = isHero ? 8 : 4; // 128px max for hero display, 64px max for standard text
 
                   return (
-                    <div key={tier.key} data-tier={tier.key} className="group rounded-2xl bg-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-colors p-4">
+                    <div key={tier.key} data-tier={tier.key} className="group rounded-lg  bg-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-colors p-4">
                       <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
                         {/* Label */}
                         <div className="flex items-center gap-2">
@@ -1860,7 +1860,7 @@ ${deskRules.join("\n")}
                 {/* CSS Export Modal Drawer */}
                 {showCssModal && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-                    <div className="relative w-full max-w-3xl bg-[#0d0914] border border-purple-500/30 rounded-2xl p-6 shadow-2xl space-y-4">
+                    <div className="relative w-full max-w-3xl bg-[#0d0914] border border-purple-500/30 rounded-lg  p-6 shadow-2xl space-y-4">
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
                           <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
@@ -1924,7 +1924,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* White Standard Callout */}
-          <div className="p-5 rounded-2xl bg-white/[0.03] border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="p-5 rounded-lg  bg-white/[0.03] border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-mono font-black text-purple-400uppercase tracking-widest block mb-1">
                 Standardized White Palette Rules
@@ -1949,7 +1949,7 @@ ${deskRules.join("\n")}
               <div
                 key={varName}
                 onClick={() => handleCopyToken(varName, colorVal)}
-                className="group relative p-3 rounded-2xl bg-[#0d091a] border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40"
+                className="group relative p-3 rounded-lg  bg-[#0d091a] border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40"
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
@@ -1983,7 +1983,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Inline Theme Token Editor */}
-          <div className="p-5 rounded-2xl bg-black/40 border border-purple-500/30 space-y-4">
+          <div className="p-5 rounded-lg  bg-black/40 border border-purple-500/30 space-y-4">
             <h3 className="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
               <Sliders className="w-4 h-4 text-purple-400" /> Quick Theme Token Overrides
             </h3>
@@ -2032,7 +2032,7 @@ ${deskRules.join("\n")}
 
           <div className="space-y-6">
             {/* Primary Purple Glow */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Primary Glow Purple</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(147,51,234,0.4)] transition">
@@ -2051,7 +2051,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Cyan Neon */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Cyan Neon Action</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
@@ -2067,7 +2067,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Secondary Glass */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-white/70 uppercase tracking-wider">Secondary Glass</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs transition">
@@ -2083,7 +2083,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Ghost & Danger */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Ghost & Danger Buttons</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 text-xs font-bold transition">
@@ -2096,13 +2096,13 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Animated Mesh Gradient Button */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Animated Mesh Gradient Button</h3>
                 <SectionBadge label="Interactive Mesh" color="purple" />
               </div>
               <div className="flex flex-wrap items-center gap-4 p-6 rounded-xl bg-[#08070d]">
-                <button className="mesh-gradient px-7 py-3.5 rounded-2xl border border-white/20 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all group">
+                <button className="mesh-gradient px-7 py-3.5 rounded-lg  border border-white/20 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all group">
                   <div className="frosted-backdrop" />
                   <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
                     <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
@@ -2120,7 +2120,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Gradient CTA Button (CodeFronts import) */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <h3 className="text-xs font-mono font-bold text-fuchsia-400 uppercase tracking-wider">Gradient CTA Button</h3>
                 <SectionBadge label="CodeFronts Import" color="amber" />
@@ -2271,7 +2271,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Gradient Search Bar Button (CodeFronts import) */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Gradient Search Bar Button</h3>
                 <SectionBadge label="CodeFronts Import" color="amber" />
@@ -2298,7 +2298,7 @@ ${deskRules.join("\n")}
                   </button>
 
                   {sbPanelOpen && (
-                    <div className="absolute top-12 right-0 w-64 bg-white rounded-2xl p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left">
+                    <div className="absolute top-12 right-0 w-64 bg-white rounded-lg  p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left">
                       <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Button style</h4>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {searchBarThemes.map((theme, i) => (
@@ -2507,7 +2507,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Sparkle Generate Button (FreeFrontend import) */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Sparkle Generate Button</h3>
                 <SectionBadge label="FreeFrontend Import" color="amber" />
@@ -2526,7 +2526,7 @@ ${deskRules.join("\n")}
                   </button>
 
                   {sgbPanelOpen && (
-                    <div className="absolute top-12 right-0 w-80 max-h-[75vh] overflow-y-auto bg-white rounded-2xl p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left space-y-4">
+                    <div className="absolute top-12 right-0 w-80 max-h-[75vh] overflow-y-auto bg-white rounded-lg  p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="text-[12px] font-extrabold text-[#3b2b20] uppercase tracking-wider">Full Style Controls</span>
                         <button
@@ -3011,7 +3011,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cursor Tracking Aurora Gradient Button (CodeFronts import) */}
-          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+          <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Cursor Tracking Aurora Gradient Button</h3>
               <SectionBadge label="CodeFronts Import" color="cyan" />
@@ -3189,7 +3189,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Hold-to-Confirm Charging Button (original build, inspired by CodeFronts) */}
-          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+          <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Hold-to-Confirm Charging Button</h3>
               <SectionBadge label="CodeFronts Inspired" color="amber" />
@@ -3402,7 +3402,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Shiny Call-to-Action Button (original build, inspired by CodePen) */}
-          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+          <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Shiny VIP Access Button</h3>
               <SectionBadge label="CodePen Inspired" color="amber" />
@@ -3586,7 +3586,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Form Input Studio Controls Component */}
-          <div className="p-6 rounded-2xl bg-black/40 border border-amber-500/30 space-y-4">
+          <div className="p-6 rounded-lg  bg-black/40 border border-amber-500/30 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-amber-400" /> Integrated Form Input Style Studio
@@ -3600,7 +3600,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Text Inputs */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Text Inputs</h3>
 
               {/* Default */}
@@ -3653,7 +3653,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Search & Textarea */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
@@ -3682,7 +3682,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* PIN / OTP Digit Input */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">PIN / OTP Digit Input</h3>
 
               {/* Default State */}
@@ -3827,7 +3827,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Verify Module Cards */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p className="text-[10px] text-white/40">Full glassmorphism verify card modules as used on <code className="text-purple-300 font-mono">/crew/verify</code>, <code className="text-purple-300 font-mono">/planner/verify</code>, <code className="text-purple-300 font-mono">/cruise/verify</code>, and <code className="text-purple-300 font-mono">/admin</code> (2FA).</p>
 
@@ -4019,7 +4019,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Auth Modal Modules */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Auth Modal Modules (Sign In · Sign Up)</h3>
               <p className="text-[10px] text-white/40">Full glassmorphism authentication modal cards as used in <code className="text-purple-300 font-mono">LoginModal.tsx</code> for fan and member login/signup.</p>
 
@@ -4304,7 +4304,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Checkboxes & Radios */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Checkboxes & Radio Controls</h3>
 
               <div className="space-y-3">
@@ -4370,7 +4370,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Switches & Toggles */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Toggles & Switches</h3>
 
               <div className="space-y-4">
@@ -4420,7 +4420,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Default Site Pill Dropdown (`CITY ▼`)</h3>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
@@ -4507,7 +4507,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
-          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
+          <div className="p-5 rounded-lg  bg-white/[0.03] border border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
@@ -4849,7 +4849,7 @@ ${deskRules.join("\n")}
                   ? bubbleColorPalette
                   : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="morph-pick rounded-2xl border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            className="morph-pick rounded-lg  border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
             data-pick-label="Live Chat"
           >
             <CruiseChat activeChannel="general" />
@@ -4894,7 +4894,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/10">
 
             {/* Glass Card Container */}
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
+            <div className="p-6 rounded-lg  bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
               <span className="text-xs font-mono font-bold text-purple-400 uppercase">Glassmorphism Card</span>
               <h4 className="text-lg font-bold text-white">House of Blues Chicago</h4>
               <p className="text-xs text-white/60">
@@ -4906,7 +4906,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Alert Banner Callout */}
-            <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+            <div className="p-6 rounded-lg  bg-amber-500/10 border border-amber-500/30 space-y-3">
               <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
                 <AlertTriangle className="w-4 h-4" /> System Warning Notice
               </div>
@@ -4916,7 +4916,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Modal Trigger */}
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-lg  bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono font-bold text-emerald-400 uppercase">Interactive Modal</span>
                 <h4 className="text-lg font-bold text-white">Login & Authentication Modal</h4>
@@ -4949,7 +4949,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* 1 — Glassmorphism Modal Shell */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono font-bold text-cyan-400 uppercase">Glass Shell</span>
                 <h4 className="text-lg font-bold text-white">Glassmorphism Modal</h4>
@@ -4966,7 +4966,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 2 — Confirmation / Alert Dialog */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono font-bold text-amber-400 uppercase">Confirm / Alert</span>
                 <h4 className="text-lg font-bold text-white">Confirmation Dialog</h4>
@@ -4988,7 +4988,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 3 — Login / Auth Modal */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono font-bold text-emerald-400 uppercase">Auth Modal</span>
                 <h4 className="text-lg font-bold text-white">Login & Signup Modal</h4>
@@ -5006,7 +5006,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Alert / Success Toast Demo (inline) */}
-          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
             <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Success */}
@@ -5144,7 +5144,7 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-4">
             <div className="flex items-center justify-between text-xs font-mono text-white/60">
               <span>Variable: <strong className="text-white">--color-border-main</strong></span>
               <span>Computed Value: <strong className="text-cyan-400">rgba(255, 255, 255, 0.08)</strong></span>
@@ -5183,7 +5183,7 @@ ${deskRules.join("\n")}
             {/* Vertical scroll demo */}
             <div className="space-y-3">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Vertical Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+              <div className="bg-white/[0.02] border border-white/10 rounded-lg  overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
@@ -5202,7 +5202,7 @@ ${deskRules.join("\n")}
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Horizontal Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+              <div className="bg-white/[0.02] border border-white/10 rounded-lg  overflow-hidden">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
@@ -5222,7 +5222,7 @@ ${deskRules.join("\n")}
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
-                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-2xl p-4"
+                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg  p-4"
               >
                 <div style={{ minWidth: 900 }} className="space-y-2">
                   {Array.from({ length: 10 }).map((_, row) => (
@@ -5242,7 +5242,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Usage code block */}
-          <div className="bg-black/40 border border-white/10 rounded-2xl p-5">
+          <div className="bg-black/40 border border-white/10 rounded-lg  p-5">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-3">Usage</p>
             <pre className="text-[11px] text-purple-200 font-mono leading-relaxed overflow-x-auto custom-scrollbar">
               {`// globals.css already defines:
@@ -5270,19 +5270,19 @@ ${deskRules.join("\n")}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400">Mobile Page Padding</span>
               <div className="text-2xl font-black text-white">16px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Used on screens below 768px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-purple-400">Tablet Page Padding</span>
               <div className="text-2xl font-black text-white">32px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-emerald-400">Desktop Page Padding</span>
               <div className="text-2xl font-black text-white">42px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Standardized max desktop horizontal container padding.</p>
@@ -5290,7 +5290,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Dedicated .site-container Utility Specification Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="p-6 rounded-lg  bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
               <span className="text-xs font-mono font-black text-purple-400 uppercase tracking-widest block">
                 Primary Layout Wrapper Class
@@ -5336,7 +5336,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Full-Page Film Grain Controls */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+            <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6">
               <h3 className="text-sm font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
                 <Sparkles className="w-4 h-4" /> 1. Full-Page Film Grain Overlay System
               </h3>
@@ -5435,7 +5435,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
+            <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-5">
               <h3 className="text-sm font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
@@ -5591,15 +5591,15 @@ ${deskRules.join("\n")}
           <div className="space-y-3">
             <h3 className="text-xs font-black uppercase tracking-wider text-white/60">Live Preview</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-5 rounded-2xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+              <div className="p-5 rounded-lg  space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
                 <span className="text-xs font-bold text-pink-400">Card Container</span>
                 <p className="text-xs text-white/60">Uses <code className="text-pink-300 font-mono text-[10px]">--color-bg-card</code> + <code className="text-pink-300 font-mono text-[10px]">--color-border-main</code></p>
               </div>
-              <div className="p-5 rounded-2xl backdrop-blur-xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-glass"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+              <div className="p-5 rounded-lg  backdrop-blur-xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-glass"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
                 <span className="text-xs font-bold text-purple-400">Glass Panel</span>
                 <p className="text-xs text-white/60">Uses <code className="text-purple-300 font-mono text-[10px]">--color-bg-glass</code></p>
               </div>
-              <div className="p-5 rounded-2xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
+              <div className="p-5 rounded-lg  space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
                 <span className="text-xs font-bold text-cyan-400">Surface Panel</span>
                 <p className="text-xs text-white/60">Uses <code className="text-cyan-300 font-mono text-[10px]">--color-bg-surface</code> + <code className="text-cyan-300 font-mono text-[10px]">--color-border-purple</code></p>
               </div>
@@ -5824,7 +5824,7 @@ ${deskRules.join("\n")}
                 return (
                   <div
                     key={room.code}
-                    className="overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
+                    className="overflow-hidden rounded-lg  flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
                   >
                     {isYo && (
                       <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
@@ -6078,7 +6078,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-6 flex flex-col justify-between">
+            <div className="bg-white/[0.02] border border-white/10 rounded-lg  p-6 space-y-6 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                   <div>
@@ -6114,7 +6114,7 @@ ${deskRules.join("\n")}
                 <div className="space-y-3 mt-6">
                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">2. Frosted Glass Select Crew Group Popover</span>
                   <div
-                    className="w-full max-w-sm bg-[#14151f]/80 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl p-4 flex flex-col gap-2 font-sans"
+                    className="w-full max-w-sm bg-[#14151f]/80 backdrop-blur-2xl border border-white/10 rounded-lg  shadow-2xl p-4 flex flex-col gap-2 font-sans"
                     style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
                   >
                     <div className="text-sm text-white/90 font-black uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
@@ -6147,7 +6147,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* MODULE 2: Create New Crew Group Modal Spec */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-6">
+            <div className="bg-white/[0.02] border border-white/10 rounded-lg  p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
                   <h3 className="text-sm font-black uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
@@ -6157,7 +6157,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Modal Frame Mockup */}
-              <div className="bg-black/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl font-sans">
+              <div className="bg-black/30 backdrop-blur-2xl border border-white/10 rounded-lg  overflow-hidden shadow-2xl font-sans">
                 {/* Header */}
                 <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                   <div>

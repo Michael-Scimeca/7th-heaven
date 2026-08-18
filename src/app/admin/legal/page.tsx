@@ -356,7 +356,7 @@ export default function AdminLegalPage() {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
             {/* Pass Rate Gauge Box */}
-            <div className="bg-[#141422] border border-purple-500/30 rounded-2xl p-4 flex items-center gap-4 shadow-xl">
+            <div className="bg-[#141422] border border-purple-500/30 rounded-lg  p-4 flex items-center gap-4 shadow-xl">
               <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-400/40 flex items-center justify-center font-black text-purple-300 text-lg">
                 {passPercentage}%
               </div>
@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-white/5 hover:bg-white/10 border border-white/15 rounded-2xl text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3 bg-white/5 hover:bg-white/10 border border-white/15 rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -395,7 +395,7 @@ export default function AdminLegalPage() {
                   aria-label={sec.title}
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`w-full flex items-center justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer ${isSelected
+                  className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-all duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
                     : `border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/5 text-white/70`
                     }`}
@@ -419,7 +419,7 @@ export default function AdminLegalPage() {
             })}
 
             {/* Legal Disclaimer Box */}
-            <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-2xl">
+            <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
               <span className="text-[0.6rem] font-bold uppercase tracking-widest text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
               <p className="text-[0.65rem] leading-relaxed text-white/50">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
@@ -433,7 +433,7 @@ export default function AdminLegalPage() {
             {/* Active Header Info */}
             <div className="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10 flex-wrap">
               <div className="flex items-center gap-4">
-                <div className={`p-4 rounded-2xl bg-white/5 ${active.color} shrink-0`}>
+                <div className={`p-4 rounded-lg  bg-white/5 ${active.color} shrink-0`}>
                   {active.icon}
                 </div>
                 <div>
@@ -450,7 +450,7 @@ export default function AdminLegalPage() {
             </div>
 
             {/* Compliance Context & Legal Rationale Box */}
-            <div className="bg-purple-950/20 border border-purple-500/30 rounded-2xl p-5 mb-8">
+            <div className="bg-purple-950/20 border border-purple-500/30 rounded-lg  p-5 mb-8">
               <span className="text-xs font-extrabold uppercase tracking-wider text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
@@ -471,7 +471,7 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`border rounded-2xl p-5 transition-all duration-200 ${isChecked
+                    className={`border rounded-lg  p-5 transition-all duration-200 ${isChecked
                       ? 'bg-white/[0.02] border-white/15'
                       : 'bg-rose-950/10 border-rose-500/30'
                       }`}

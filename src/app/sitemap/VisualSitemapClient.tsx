@@ -44,63 +44,59 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const targetPath = data.path || "/";
 
   return (
-    <div className={`w-64 rounded-xl border ${
-      isHeaderNav
-        ? "border-purple-400/60 bg-[#120b22]"
-        : isFooterNav
+    <div className={`w-64 rounded-xl border ${isHeaderNav
+      ? "border-purple-400/60 bg-[#120b22]"
+      : isFooterNav
         ? "border-blue-400/60 bg-[#081022]"
         : isPortal
-        ? "border-cyan-400/50 bg-[#051218]"
-        : isEmail
-        ? "border-amber-400/50 bg-[#161005]"
-        : isModule
-        ? "border-emerald-400/50 bg-[#051810]"
-        : "border-white/15 bg-[#0f0f17]"
-    } shadow-2xl overflow-hidden select-none hover:border-purple-400/90 transition-all duration-200 backdrop-blur-xl group`}>
-      <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${
-        isHeaderNav
-          ? "!bg-purple-400"
-          : isFooterNav
+          ? "border-cyan-400/50 bg-[#051218]"
+          : isEmail
+            ? "border-amber-400/50 bg-[#161005]"
+            : isModule
+              ? "border-emerald-400/50 bg-[#051810]"
+              : "border-white/15 bg-[#0f0f17]"
+      } shadow-2xl overflow-hidden select-none hover:border-purple-400/90 transition-all duration-200 backdrop-blur-xl group`}>
+      <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${isHeaderNav
+        ? "!bg-purple-400"
+        : isFooterNav
           ? "!bg-blue-400"
           : isPortal
-          ? "!bg-cyan-400"
-          : isEmail
-          ? "!bg-amber-400"
-          : "!bg-emerald-400"
-      } !border-0`} />
+            ? "!bg-cyan-400"
+            : isEmail
+              ? "!bg-amber-400"
+              : "!bg-emerald-400"
+        } !border-0`} />
       <Handle type="target" position={Position.Left} id="left" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
-      
+
       {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
       <Link href={targetPath} className="block cursor-pointer">
         {/* Top Browser Header Bar */}
-        <div className={`${
-          isHeaderNav
-            ? "bg-purple-600/30 border-b border-purple-500/40 group-hover:bg-purple-600/40"
-            : isFooterNav
+        <div className={`${isHeaderNav
+          ? "bg-purple-600/30 border-b border-purple-500/40 group-hover:bg-purple-600/40"
+          : isFooterNav
             ? "bg-blue-600/30 border-b border-blue-500/40 group-hover:bg-blue-600/40"
             : isPortal
-            ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
-            : isEmail
-            ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
-            : "bg-emerald-500/20 border-b border-emerald-500/30 group-hover:bg-emerald-500/30"
-        } py-1.5 px-3 flex items-center justify-between transition-colors`}>
+              ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
+              : isEmail
+                ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
+                : "bg-emerald-500/20 border-b border-emerald-500/30 group-hover:bg-emerald-500/30"
+          } py-1.5 px-3 flex items-center justify-between transition-colors`}>
           <div className="flex items-center gap-1.5 min-w-0">
             <div className="flex items-center gap-1 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
             </div>
-            <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
-              isHeaderNav
-                ? "text-purple-200"
-                : isFooterNav
+            <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${isHeaderNav
+              ? "text-purple-200"
+              : isFooterNav
                 ? "text-blue-200"
                 : isPortal
-                ? "text-cyan-300"
-                : isEmail
-                ? "text-amber-300"
-                : "text-emerald-300"
-            }`}>
+                  ? "text-cyan-300"
+                  : isEmail
+                    ? "text-amber-300"
+                    : "text-emerald-300"
+              }`}>
               {data.header}
             </span>
           </div>
@@ -160,15 +156,14 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
             </span>
           </div>
 
-          <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
-            isHeaderNav
-              ? "bg-purple-950/90 border-purple-400/50 text-purple-300"
-              : isFooterNav
+          <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${isHeaderNav
+            ? "bg-purple-950/90 border-purple-400/50 text-purple-300"
+            : isFooterNav
               ? "bg-blue-950/90 border-blue-400/50 text-blue-300"
               : isEmail
-              ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
-              : "bg-black/80 border-white/20 text-cyan-300"
-          }`}>
+                ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
+                : "bg-black/80 border-white/20 text-cyan-300"
+            }`}>
             {isEmail ? "EMAIL PREVIEW" : targetPath}
           </div>
         </div>
@@ -187,15 +182,14 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         )}
       </div>
 
-      <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${
-        isHeaderNav
-          ? "!bg-purple-400"
-          : isFooterNav
+      <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${isHeaderNav
+        ? "!bg-purple-400"
+        : isFooterNav
           ? "!bg-blue-400"
           : isEmail
-          ? "!bg-amber-400"
-          : "!bg-cyan-400"
-      } !border-0`} />
+            ? "!bg-amber-400"
+            : "!bg-cyan-400"
+        } !border-0`} />
       <Handle type="source" position={Position.Right} id="right" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
     </div>
   );
@@ -764,19 +758,19 @@ export default function VisualSitemapClient() {
     activeTab === "BOOKING"
       ? BOOKING_FLOW_NODES
       : activeTab === "CRUISE"
-      ? CRUISE_FLOW_NODES
-      : ARCHITECTURE_NODES;
+        ? CRUISE_FLOW_NODES
+        : ARCHITECTURE_NODES;
 
   const edges =
     activeTab === "BOOKING"
       ? BOOKING_FLOW_EDGES
       : activeTab === "CRUISE"
-      ? CRUISE_FLOW_EDGES
-      : ARCHITECTURE_EDGES;
+        ? CRUISE_FLOW_EDGES
+        : ARCHITECTURE_EDGES;
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
-      
+
       {/* Global CSS override to force fill: none on all SVG edge paths */}
       <style jsx global>{`
         .react-flow__edge-path,
@@ -789,7 +783,7 @@ export default function VisualSitemapClient() {
       `}</style>
 
       {/* Header bar with View Selector Tabs */}
-      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-2xl backdrop-blur-xl">
+      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg  backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             7H
@@ -799,15 +793,15 @@ export default function VisualSitemapClient() {
               {activeTab === "ARCH"
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"
-                ? "Event Booking & PIN Step-by-Step Horizontal Flow"
-                : "Cruise Reservation & Security PIN Flow"}
+                  ? "Event Booking & PIN Step-by-Step Horizontal Flow"
+                  : "Cruise Reservation & Security PIN Flow"}
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
                 ? "Direct Vertical Flow under Book Us: Form ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
                 : activeTab === "BOOKING"
-                ? "Step-by-step user journey: Form Fill ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
-                : "Step-by-step user journey: Cabin Request ➔ Planner PIN Verification Module ➔ Cruise PIN Email ➔ Cruise Confirmation Email"}
+                  ? "Step-by-step user journey: Form Fill ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
+                  : "Step-by-step user journey: Cabin Request ➔ Planner PIN Verification Module ➔ Cruise PIN Email ➔ Cruise Confirmation Email"}
             </p>
           </div>
         </div>
@@ -816,11 +810,10 @@ export default function VisualSitemapClient() {
         <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-white/10">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
-              activeTab === "ARCH"
-                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
           >
             <Layers className="w-3.5 h-3.5 text-purple-300" />
             <span>Full Architecture & Vertical Flow</span>
@@ -828,11 +821,10 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
-              activeTab === "BOOKING"
-                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
           >
             <Calendar className="w-3.5 h-3.5 text-cyan-300" />
             <span>Horizontal Step-by-Step Flow</span>
@@ -840,11 +832,10 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
-              activeTab === "CRUISE"
-                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
             <span>Cruise PIN Flow</span>
@@ -863,7 +854,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[950px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[950px] rounded-lg  border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           key={activeTab}
           nodes={nodes}

@@ -260,7 +260,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative  rounded-2xl overflow-hidden shadow-xl transition-colors"
+                    className="group relative  rounded-lg  overflow-hidden shadow-xl transition-colors"
                   >
                     <div className="aspect-[4/3] bg-black/20 relative overflow-hidden">
                       {isVideo ? (

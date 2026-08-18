@@ -922,7 +922,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         type="button"
                         key={room.code || room.selectValue}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className="w-full text-left bg-transparent border-0 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none"
+                        className="w-full text-left bg-transparent border-0 rounded-lg  overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none"
                       >
                         <div>
                           {room.image && (
@@ -991,7 +991,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <button
                             key={room.code || room.selectValue}
                             onClick={() => handleSelectCabin(room.selectValue)}
-                            className="w-full text-left overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
+                            className="w-full text-left overflow-hidden rounded-lg  flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
                               <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
@@ -1751,7 +1751,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                     {PORTS_DATA.map((port, idx) => (
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group transition-all duration-300">
-                        <div className="h-48 w-full relative overflow-hidden rounded-2xl">
+                        <div className="h-48 w-full relative overflow-hidden rounded-lg ">
                           {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
                           <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/80 backdrop-blur-md border border-white/15 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300">
                             Port Call #{idx + 1}
@@ -2011,10 +2011,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     ]
                   ).map((food, idx) => {
                     return (
-                      <div key={food.name} className="relative overflow-hidden group border border-black/10 h-48 md:h-56">
+                      <div key={food.name} className="relative rounded-lg overflow-hidden group border border-black/10 h-48 md:h-56">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                        <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest text-white bg-purple-600/70 backdrop-blur-md px-2.5 py-1 rounded-full font-black self-start mb-1.5 shadow-md border border-white/20">{food.tag}</span>
                           <p className="font-extrabold text-white text-base md:text-lg leading-snug">{food.name}</p>
                         </div>
@@ -2107,10 +2107,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   ).map((item, idx) => {
                     const isCyan = barTab === "bars";
                     return (
-                      <div key={item.name} className="relative overflow-hidden group border border-black/10 h-48 md:h-56 shadow-sm">
+                      <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56 shadow-sm">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-1 rounded-full font-black text-white bg-purple-600/70 shadow-md border border-white/20 self-start mb-1.5">{item.tag}</span>
                           <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.name}</p>
                         </div>
@@ -2162,12 +2162,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {renderTimeline && (
             <section
               id="history"
-              className="w-full relative overflow-x-clip"
-              style={{
-                marginLeft: "calc(-1 * var(--page-padding-x))",
-                marginRight: "calc(-1 * var(--page-padding-x))",
-                width: "calc(100% + 2 * var(--page-padding-x))",
-              }}
+              className="w-full relative overflow-x-clip site-container"
             >
               <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
                 <CruiseHistoryTimeline history={CRUISE_HISTORY} />

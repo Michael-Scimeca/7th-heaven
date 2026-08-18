@@ -139,7 +139,7 @@ export function PageNav() {
     <div className="fixed bottom-8 left-8 z-[999999] font-sans pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
-          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto"
+          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-lg  shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto"
           style={{ maxHeight: 'min(80vh, 600px)' }}
         >
           {/* Header — fixed, translucent blur */}

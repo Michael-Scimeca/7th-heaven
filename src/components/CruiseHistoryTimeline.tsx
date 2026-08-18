@@ -589,7 +589,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block w-full pt-8 px-0 relative overflow-clip"
+        className="hidden md:block w-full pt-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative overflow-clip site-container"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -871,9 +871,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-full py-6 px-0"
+        className="block md:hidden relative w-full py-6 px-4 sm:px-6 max-w-7xl mx-auto"
       >
-        <div className="space-y-6 pl-6 relative">
+        <div className="space-y-6 pl-8 relative">
           {Array.from(chronologicalHistory, (hist, idx) => ({ hist, idx })).map(({ hist, idx }) => {
             const isReached = idx === 0 || mobileProgress >= Math.max(0, (idx / chronologicalHistory.length) - 0.03);
             const nextHist = chronologicalHistory[idx + 1];

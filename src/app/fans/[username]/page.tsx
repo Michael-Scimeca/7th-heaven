@@ -594,7 +594,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
-                        <div key={day.id} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group transition-colors duration-300 rounded-2xl" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
+                        <div key={day.id} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group transition-colors duration-300 rounded-lg " style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
                           <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
@@ -625,7 +625,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-1">
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
-                  <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group rounded-2xl">
+                  <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group rounded-lg ">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>

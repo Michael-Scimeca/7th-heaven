@@ -785,8 +785,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
                   className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-6 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-xs sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered
-                      ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
-                      : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
+                    ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
+                    : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
                   title="Zoom in on dates & filter show markers"
                 >
@@ -799,7 +799,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   )}
                 </button>
               ) : (
-                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)] backdrop-blur-2xl border border-purple-500/40 p-4.5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
+                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)] backdrop-blur-2xl border border-purple-500/40 p-4.5 rounded-lg  shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
                   {/* Header */}
                   <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                     <div className="flex items-center gap-2">

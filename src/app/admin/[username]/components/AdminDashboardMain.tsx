@@ -280,7 +280,7 @@ function DutyRoleEditorPopover({
 }: DutyRoleEditorPopoverProps) {
   return (
     <div
-      className="absolute right-0 top-full mt-2 p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] text-white z-50 animate-[scaleIn_0.15s_ease-out]"
+      className="absolute right-0 top-full mt-2 p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/20 rounded-lg  shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] text-white z-50 animate-[scaleIn_0.15s_ease-out]"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
@@ -5024,7 +5024,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="text-center text-[9px] text-white/40 font-semibold tracking-wider uppercase">Today 9:41 AM</div>
 
                       {/* SMS Bubble */}
-                      <div className="bg-[#242333] text-white/90 p-3.5 rounded-2xl rounded-tl-xs border border-white/10 shadow-lg text-[11px] leading-relaxed whitespace-pre-wrap">
+                      <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg  rounded-tl-xs border border-white/10 shadow-lg text-[11px] leading-relaxed whitespace-pre-wrap">
                         {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
                           <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
                         )}
@@ -12006,7 +12006,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {METRICS.map((metric) => (
-              <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-2xl transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+              <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg  transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                 <p className="text-[0.65rem] font-black uppercase tracking-wider text-[var(--muted-text)] mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
                   <span className="text-3xl font-black text-white">{metric.value}</span>

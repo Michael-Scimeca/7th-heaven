@@ -192,7 +192,7 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
-              <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-2xl">
+              <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-black text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
                 <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
@@ -238,7 +238,7 @@ export default function PlannerClient() {
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-2xl">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-lg ">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
@@ -304,7 +304,7 @@ export default function PlannerClient() {
             {/* 3-Column Tools */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Notes */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-2xl">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold text-white">Event Notes</h3></div>
                   {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-full border  border-[var(--color-accent)]/30">✓ Saved</span>}
@@ -320,7 +320,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Checklist — editable */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-2xl">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold text-white">Readiness</h3></div>
                   <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
@@ -378,7 +378,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Quick Actions */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-2xl">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold text-white">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
@@ -417,7 +417,7 @@ export default function PlannerClient() {
                         ? { dot: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/5', border: 'border-emerald-500/15' }
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
-                      <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-2xl">
+                      <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg ">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-white truncate">{pb.eventName}</h4>

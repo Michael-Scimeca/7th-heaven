@@ -1022,7 +1022,7 @@ lerpSpeed: ${lerpSpeed}`;
               </div>
 
               {/* 🎨 GROUP 1: COLOR GRADIENT LAYER */}
-              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-2xl border border-purple-500/30">
+              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-lg  border border-purple-500/30">
                 <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
                   <div className="flex items-center gap-2 font-bold text-purple-200">
                     <Paintbrush className="w-3.5 h-3.5 text-purple-400" />
@@ -1156,7 +1156,7 @@ lerpSpeed: ${lerpSpeed}`;
               </div>
 
               {/* ✂️ GROUP 2: CLIPPING MASK LAYER */}
-              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-2xl border border-purple-500/30">
+              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-lg  border border-purple-500/30">
                 <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
                   <div className="flex items-center gap-2 font-bold text-purple-200">
                     <Scissors className="w-3.5 h-3.5 text-purple-400" />

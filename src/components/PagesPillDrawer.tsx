@@ -145,7 +145,7 @@ export default function PagesPillDrawer() {
       {/* ── MODAL DRAWER OVERLAY ── */}
       {isOpen && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn font-sans">
-          
+
           {/* Backdrop Click to Close */}
           <div
             className="absolute inset-0 cursor-pointer"
@@ -154,11 +154,11 @@ export default function PagesPillDrawer() {
 
           {/* Modal Container */}
           <div className="relative w-full max-w-5xl max-h-[85vh] rounded-3xl bg-[rgba(18,18,26,0.95)] border border-purple-500/30 p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col z-10 overflow-hidden">
-            
+
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-[#8b3dff]/20 border border-[#8b3dff]/40 text-[#a855f7]">
+                <div className="p-3 rounded-lg  bg-[#8b3dff]/20 border border-[#8b3dff]/40 text-[#a855f7]">
                   <Menu className="w-6 h-6" />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
+                className="p-2.5 rounded-lg  bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
                 aria-label="Close Pages Modal"
               >
                 <X className="w-6 h-6" />
@@ -186,18 +186,17 @@ export default function PagesPillDrawer() {
             {/* Filter & Search Bar */}
             <div className="py-4 space-y-4 shrink-0 border-b border-white/10">
               <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-                
+
                 {/* Category Pills */}
                 <div className="flex flex-wrap gap-1.5 overflow-x-auto max-w-full">
                   {CATEGORIES.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                        activeCategory === cat
-                          ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
-                          : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
-                      }`}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${activeCategory === cat
+                        ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
+                        : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+                        }`}
                     >
                       {cat}
                     </button>
@@ -227,7 +226,7 @@ export default function PagesPillDrawer() {
                 return (
                   <div
                     key={item.path}
-                    className="group p-4 rounded-2xl bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
+                    className="group p-4 rounded-lg  bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2">
@@ -238,15 +237,14 @@ export default function PagesPillDrawer() {
                           </span>
                         </div>
                         <span
-                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${
-                            item.type === "Static"
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : item.type === "SSG"
+                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${item.type === "Static"
+                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
                               : item.type === "Dynamic"
-                              ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
-                              : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                          }`}
+                                ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
+                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                            }`}
                         >
                           {item.type}
                         </span>

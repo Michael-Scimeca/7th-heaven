@@ -458,7 +458,7 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-2xl md:rounded-none p-5 sm:p-6 md:p-0 pb-5 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
+                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg  md:rounded-none p-5 sm:p-6 md:p-0 pb-5 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
@@ -518,7 +518,7 @@ export default function MediaPage() {
             })}
 
             {filteredVideos.length === 0 && (
-              <div className="py-16 text-center bg-white/5 rounded-2xl border border-white/5">
+              <div className="py-16 text-center bg-white/5 rounded-lg  border border-white/5">
                 <p className="text-white/60 text-sm font-semibold">No videos found matching &quot;{searchQuery}&quot;</p>
                 <button
                   onClick={() => setSearchQuery("")}
@@ -532,7 +532,7 @@ export default function MediaPage() {
 
           {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS ON TABLET & DESKTOP) */}
           <div className="hidden md:block md:col-span-7 shrink-0 md:sticky md:top-[120px] z-20">
-            <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
+            <div className="relative aspect-[16/10] w-full rounded-lg  overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
               {filteredVideos.map((video, index) => {
                 const isActive = activeIndex === index;
                 const isPlaying = playingId === video.id;
@@ -584,7 +584,7 @@ export default function MediaPage() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-2xl shadow-[0_0_30px_rgba(168,85,247,0.5)] flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
+        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg  shadow-[0_0_30px_rgba(168,85,247,0.5)] flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
           <Sparkles className="w-5 h-5 text-purple-300 shrink-0" />
           <span className="text-xs font-bold">{toastMessage}</span>
         </div>
@@ -593,7 +593,7 @@ export default function MediaPage() {
       {/* ── ADD YOUTUBE VIDEO MODAL (Sanity CMS + Media Vault) ── */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-          <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(147,51,234,0.3)] p-6 relative">
+          <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(147,51,234,0.3)] p-6 relative">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">

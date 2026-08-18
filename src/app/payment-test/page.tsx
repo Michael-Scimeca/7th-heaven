@@ -21,7 +21,7 @@ function ProductCard({
     product.variants.find((v) => v.id === userSelectedVariantId) || product.variants[0];
 
   return (
-    <div className="bg-white/[0.04] border border-white/[0.12] rounded-2xl overflow-hidden flex flex-col">
+    <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg  overflow-hidden flex flex-col">
       <div className="relative aspect-square bg-black/40">
         <Image
           src={product.imageUrl}
@@ -53,8 +53,8 @@ function ProductCard({
                 type="button"
                 onClick={() => setUserSelectedVariantId(variant.id)}
                 className={`px-3 py-1.5  rounded-lg  text-xs font-bold transition-colors ${selectedVariant.id === variant.id
-                    ? "bg-[var(--color-accent)] text-white"
-                    : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+                  ? "bg-[var(--color-accent)] text-white"
+                  : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
                   }`}
               >
                 {variant.label}
@@ -210,8 +210,8 @@ export default function PaymentTestShopPage() {
                 type="button"
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat
-                    ? "bg-cyan-500 text-black"
-                    : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+                  ? "bg-cyan-500 text-black"
+                  : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
                   }`}
               >
                 {cat}

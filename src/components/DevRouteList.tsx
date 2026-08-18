@@ -130,11 +130,11 @@ export default function DevRouteList() {
   return (
     <section className="w-full mt-16 mb-12 px-4 md:px-8 font-sans">
       <div className="max-w-7xl mx-auto rounded-3xl bg-[rgba(15,15,22,0.85)] border border-purple-500/20 backdrop-blur-2xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-        
+
         {/* Top Header Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400">
+            <div className="p-2.5 rounded-lg  bg-purple-500/10 border border-purple-500/30 text-purple-400">
               <Code className="w-6 h-6" />
             </div>
             <div>
@@ -164,21 +164,20 @@ export default function DevRouteList() {
         {/* Collapsible Main Section */}
         {isOpen && (
           <div className="pt-6 space-y-6 animate-fadeIn">
-            
+
             {/* Search & Filter Controls */}
             <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
-              
+
               {/* Category Pills */}
               <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                      activeCategory === cat
-                        ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
-                        : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeCategory === cat
+                      ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
+                      : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+                      }`}
                   >
                     {cat}
                   </button>
@@ -207,7 +206,7 @@ export default function DevRouteList() {
                 return (
                   <div
                     key={item.path}
-                    className="group relative p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
+                    className="group relative p-3.5 rounded-lg  bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2">
@@ -217,18 +216,17 @@ export default function DevRouteList() {
                             {item.category}
                           </span>
                         </div>
-                        
+
                         {/* Type Badge */}
                         <span
-                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${
-                            item.type === "Static"
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : item.type === "SSG"
+                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${item.type === "Static"
+                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
                               : item.type === "Dynamic"
-                              ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
-                              : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                          }`}
+                                ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
+                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                            }`}
                         >
                           {item.type}
                         </span>

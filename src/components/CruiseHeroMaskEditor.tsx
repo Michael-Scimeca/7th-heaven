@@ -9,17 +9,17 @@ export interface HeroMaskSettings {
   topFadeEnd: number;        // % (0 - 50)
   topGradientHeight?: number; // px (0 - 400)
   topGradientOpacity?: number;// % (0 - 100)
-  
+
   // Hero Bottom Mask Gradient
   bottomFadeStart: number;   // % (50 - 100)
   bottomFadeEnd: number;     // % (50 - 100)
-  
+
   // Hero Video Filters
   videoBlur: number;         // px (0 - 20)
   videoBrightness: number;   // % (50 - 150)
   videoContrast: number;     // % (50 - 150)
   videoOpacity: number;      // % (0 - 100)
-  
+
   // Hero Bottom ::before Blur Strip Overlay
   beforeHeight: number;      // px (0 - 200)
   beforeBlur: number;        // px (0 - 80)
@@ -211,7 +211,7 @@ export default function CruiseHeroMaskEditor() {
       {/* Main Drawer Panel */}
       {isOpen && (
         <div
-          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
+          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-lg  shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
           style={{ height: 'calc(100vh - 110px)' }}
         >
           {/* Header */}

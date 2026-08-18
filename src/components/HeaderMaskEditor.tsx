@@ -80,7 +80,7 @@ export default function HeaderMaskEditor() {
 
       {/* Control Drawer Panel */}
       {isOpen && (
-        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95 backdrop-blur-2xl text-white border border-purple-500/30 rounded-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95 backdrop-blur-2xl text-white border border-purple-500/30 rounded-lg  p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
               <h3 className="text-sm font-extrabold tracking-wide uppercase text-purple-200">

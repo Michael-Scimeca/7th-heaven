@@ -400,7 +400,7 @@ a:hover {
               {activeTab === "controls" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Background & Blur */}
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
@@ -450,7 +450,7 @@ a:hover {
                   </div>
 
                   {/* Border & Geometry */}
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📐 Border & Geometry
                     </h4>
@@ -494,7 +494,7 @@ a:hover {
                   </div>
 
                   {/* Focus Glow & Colors */}
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
@@ -523,7 +523,7 @@ a:hover {
                   </div>
 
                   {/* Padding & Spacing */}
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
@@ -558,7 +558,7 @@ a:hover {
 
               {activeTab === "search" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
@@ -722,7 +722,7 @@ a:hover {
 
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
@@ -776,11 +776,11 @@ a:hover {
                       <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Checkbox Preview</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
-                          <SquishyToggle id="editor-preview-1" label="Drop on ALL live streams" checked={true} onChange={() => {}} />
+                          <SquishyToggle id="editor-preview-1" label="Drop on ALL live streams" checked={true} onChange={() => { }} />
                           <span>Drop on ALL live streams (Global)</span>
                         </div>
                         <div className="flex items-center gap-3 text-xs text-white/70 cursor-pointer select-none">
-                          <SquishyToggle id="editor-preview-2" label="Send email notification" checked={false} onChange={() => {}} />
+                          <SquishyToggle id="editor-preview-2" label="Send email notification" checked={false} onChange={() => { }} />
                           <span>Send email notification to band members</span>
                         </div>
                       </div>
@@ -791,7 +791,7 @@ a:hover {
 
               {activeTab === "typography" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>
@@ -880,7 +880,7 @@ a:hover {
               )}
 
               {activeTab === "preview" && (
-                <div className="p-6 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black rounded-2xl border border-cyan-500/20 space-y-4">
+                <div className="p-6 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black rounded-lg  border border-cyan-500/20 space-y-4">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300">Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
@@ -900,7 +900,7 @@ a:hover {
                     </div>
                     <div className="pt-2 border-t border-white/10">
                       <div className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
-                        <SquishyToggle id="editor-preview-3" label="Interactive Checkbox Control" checked={true} onChange={() => {}} />
+                        <SquishyToggle id="editor-preview-3" label="Interactive Checkbox Control" checked={true} onChange={() => { }} />
                         <span>Interactive Checkbox Control</span>
                       </div>
                     </div>
@@ -920,7 +920,7 @@ a:hover {
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="p-4 bg-black/80 border border-white/10 rounded-2xl text-xs font-mono text-cyan-200/90 overflow-x-auto max-h-[300px] leading-relaxed">
+                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg  text-xs font-mono text-cyan-200/90 overflow-x-auto max-h-[300px] leading-relaxed">
                     {generatedCSS}
                   </pre>
                 </div>

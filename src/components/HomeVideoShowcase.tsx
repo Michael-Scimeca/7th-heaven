@@ -615,7 +615,7 @@ export default function HomeVideoShowcase() {
       {/* Full Video Modal Lightbox */}
       {activeModalVideo && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border border-white/20 shadow-2xl">
             <button
               onClick={() => setActiveModalVideo(null)}
               className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"

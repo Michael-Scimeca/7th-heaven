@@ -192,9 +192,9 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-2xl border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none shadow-xl`}>
+    <div className={`group relative rounded-lg  border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none shadow-xl`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
-      
+
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
         <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider ${scheme.badge}`}>
           HEADER NAV
@@ -225,7 +225,7 @@ function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
     <div className="group relative rounded-xl border border-amber-400/50 bg-[#2d1c07]/95 shadow-[0_0_15px_rgba(245,158,11,0.25)] px-3 py-2 w-48 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none">
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
-      
+
       <div className="flex items-center justify-center gap-1.5">
         <GitBranch className="w-3.5 h-3.5 text-amber-300 shrink-0" />
         <span className="font-black text-xs text-amber-200 uppercase tracking-wider truncate">
@@ -246,10 +246,10 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-2xl border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg  border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
       <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
-      
+
       <div className="flex items-start gap-3">
         <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
@@ -285,7 +285,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Mail;
 
   return (
-    <div className={`group relative rounded-2xl border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg  border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
 
       <div className="flex items-start gap-3">
@@ -475,7 +475,7 @@ export default function UserFlowMap() {
 
   return (
     <div className="relative w-full h-[850px] rounded-3xl border border-purple-500/30 bg-[#050505] overflow-hidden shadow-2xl backdrop-blur-2xl">
-      
+
       {/* Header Info Bar */}
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-md border-b border-white/10 px-4 py-2.5 flex items-center justify-between text-xs pointer-events-none select-none">
         <div className="flex items-center gap-2">
@@ -512,18 +512,18 @@ export default function UserFlowMap() {
             return d.system === "pink"
               ? "#ec4899"
               : d.system === "teal"
-              ? "#14b8a6"
-              : d.system === "blue"
-              ? "#38bdf8"
-              : d.system === "gold"
-              ? "#f59e0b"
-              : d.system === "purple"
-              ? "#a855f7"
-              : d.system === "peach"
-              ? "#f97316"
-              : d.system === "red"
-              ? "#ef4444"
-              : "#10b981";
+                ? "#14b8a6"
+                : d.system === "blue"
+                  ? "#38bdf8"
+                  : d.system === "gold"
+                    ? "#f59e0b"
+                    : d.system === "purple"
+                      ? "#a855f7"
+                      : d.system === "peach"
+                        ? "#f97316"
+                        : d.system === "red"
+                          ? "#ef4444"
+                          : "#10b981";
           }}
           maskColor="rgba(0, 0, 0, 0.7)"
           className="!bg-black/90 !border-white/10 !rounded-xl"
@@ -531,7 +531,7 @@ export default function UserFlowMap() {
       </ReactFlow>
 
       {/* Bottom Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-xl text-xs font-bold uppercase tracking-widest">
+      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg  backdrop-blur-xl text-xs font-bold uppercase tracking-widest">
         <span className="text-white/40 text-[9px] font-mono">Legend:</span>
         <span className="flex items-center gap-1.5 text-pink-300 text-[10px]"><span className="w-2 h-2 rounded-full bg-pink-400" /> Home</span>
         <span className="flex items-center gap-1.5 text-teal-300 text-[10px]"><span className="w-2 h-2 rounded-full bg-teal-400" /> Merch</span>
@@ -544,7 +544,7 @@ export default function UserFlowMap() {
 
       {/* Slide-out Inspector Detail Drawer */}
       {selectedNode && (
-        <div className="absolute top-14 right-4 bottom-4 w-96 bg-black/95 border border-purple-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-2xl z-30 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right-8 duration-200">
+        <div className="absolute top-14 right-4 bottom-4 w-96 bg-black/95 border border-purple-500/40 rounded-lg  p-6 shadow-2xl backdrop-blur-2xl z-30 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right-8 duration-200">
           <div className="space-y-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">

@@ -508,103 +508,103 @@ export function BookingManager({ email }: { email?: string }) {
   return (
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
-              <div className="my-3">
-                <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
-                <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-                  <div className="flex items-center gap-1.5 text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
-                    <span>✓</span> Passport Verified
-                  </div>
-                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
-                    <span>🎸</span> Band VIP Pass Included
-                  </div>
-                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium border border-cyan-500/20 px-2 py-1 rounded">
-                    <span>📅</span> Check-in: 45 Days Prior
-                  </div>
-                  <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
-                    <span>🏷️</span> Luggage Tags: Dec 1st
-                  </div>
-                </div>
+      <div className="my-3">
+        <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+        <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
+          <div className="flex items-center gap-1.5 text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+            <span>✓</span> Passport Verified
+          </div>
+          <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
+            <span>🎸</span> Band VIP Pass Included
+          </div>
+          <div className="flex items-center gap-1.5 text-cyan-300 font-medium border border-cyan-500/20 px-2 py-1 rounded">
+            <span>📅</span> Check-in: 45 Days Prior
+          </div>
+          <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
+            <span>🏷️</span> Luggage Tags: Dec 1st
+          </div>
+        </div>
+      </div>
+
+      {/* Payment Breakdown: Total Fare, Paid & Owed */}
+      <div className="space-y-2.5 my-3">
+        <div className="flex justify-between items-center text-xs">
+          <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
+          <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
+        </div>
+        <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
+          <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+            <span>✓</span> Amount Paid
+          </span>
+          <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
+        </div>
+        <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
+          <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+            <span>⏳</span> Balance Owed
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+            {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
+              <button aria-label="Action button"
+                onClick={() => setIsPayModalOpen(true)}
+                className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+              >
+                💳 Pay Balance
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {booking.guests && booking.guests.length > 0 && (
+        <div className="mt-3 border-t border-white/5 pt-3">
+          <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
+          <div className="space-y-1.5">
+            {booking.guests.map((g: any, i: number) => (
+              <div key={i} className="flex justify-between items-center text-xs">
+                <span className="text-white font-medium">{g.name || `Guest ${i + 2}`}</span>
+                <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
               </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-              {/* Payment Breakdown: Total Fare, Paid & Owed */}
-              <div className="space-y-2.5 my-3">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
-                  <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
-                  <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                    <span>✓</span> Amount Paid
-                  </span>
-                  <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
-                  <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
-                    <span>⏳</span> Balance Owed
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
-                    {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
-                      <button aria-label="Action button"
-                        onClick={() => setIsPayModalOpen(true)}
-                        className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
-                      >
-                        💳 Pay Balance
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
+      {/* Two Clickable Cruise Agent Email Buttons */}
+      <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+        <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Button 1: Cruise Admin Agent */}
+          <a
+            href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+              `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
+            )}&body=${encodeURIComponent(
+              `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+            )}`}
+            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+          >
+            <div className="flex items-center gap-1.5 font-black">
+              <span>✉️</span> Cruise Admin
+            </div>
+            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
+          </a>
 
-              {booking.guests && booking.guests.length > 0 && (
-                <div className="mt-3 border-t border-white/5 pt-3">
-                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
-                  <div className="space-y-1.5">
-                    {booking.guests.map((g: any, i: number) => (
-                      <div key={i} className="flex justify-between items-center text-xs">
-                        <span className="text-white font-medium">{g.name || `Guest ${i + 2}`}</span>
-                        <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Two Clickable Cruise Agent Email Buttons */}
-              <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-                <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Button 1: Cruise Admin Agent */}
-                  <a
-                    href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
-                      `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
-                    )}&body=${encodeURIComponent(
-                      `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
-                    )}`}
-                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
-                  >
-                    <div className="flex items-center gap-1.5 font-black">
-                      <span>✉️</span> Cruise Admin
-                    </div>
-                    <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
-                  </a>
-
-                  {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
-                  <a
-                    href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
-                      `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
-                    )}&body=${encodeURIComponent(
-                      `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
-                    )}`}
-                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer text-center"
-                  >
-                    <div className="flex items-center gap-1.5 font-black">
-                      <span>✉️</span> Support Agent (Mary)
-                    </div>
-                    <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
-                  </a>
-                </div>
-              </div>
+          {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
+          <a
+            href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+              `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
+            )}&body=${encodeURIComponent(
+              `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+            )}`}
+            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer text-center"
+          >
+            <div className="flex items-center gap-1.5 font-black">
+              <span>✉️</span> Support Agent (Mary)
+            </div>
+            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
+          </a>
+        </div>
+      </div>
 
       {/* Cruising Power Travel Agent Portal Hook */}
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">
@@ -929,7 +929,7 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-2xl transition-colors text-left group/item"
+            className="w-full flex items-center justify-between p-3.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-lg  transition-colors text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>

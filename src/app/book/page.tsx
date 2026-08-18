@@ -986,7 +986,7 @@ function BookPageContent() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {isFromPlanner && (
-            <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-2xl flex items-center gap-4">
+            <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg  flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
@@ -998,7 +998,7 @@ function BookPageContent() {
           )}
 
           {hasSavedForm && !isFromPlanner && (
-            <div className="p-5 bg-purple-950/40 border border-purple-500/30 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+            <div className="p-5 bg-purple-950/40 border border-purple-500/30 rounded-lg  flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
               <div className="flex items-center gap-3">
                 <ClipboardList className="w-6 h-6 text-purple-300 shrink-0" />
                 <div>
@@ -1083,7 +1083,7 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/15 bg-white/[0.02] rounded-2xl">
+              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/15 bg-white/[0.02] rounded-lg ">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className="text-white/60 text-base max-w-md mx-auto">
@@ -1107,7 +1107,7 @@ function BookPageContent() {
                     return (
                       <div
                         key={slot.id}
-                        className="bg-white/5 border border-white/10 hover:border-cyan-400/40 p-6 rounded-2xl relative group transition-colors shadow-lg"
+                        className="bg-white/5 border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg  relative group transition-colors shadow-lg"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1971,7 +1971,7 @@ function MapPickerModal({
 
   return (
     <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-      <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
+      <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
