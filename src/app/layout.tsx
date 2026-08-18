@@ -11,15 +11,9 @@ export const viewport: Viewport = {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Providers from "@/components/Providers";
-import { SanityLive } from "@/sanity/live";
-import { VisualEditing } from "next-sanity/visual-editing";
-
 import { draftMode } from "next/headers";
-import { PageNav } from "@/components/PageNav";
-import ClientOnlyExtras from "@/components/ClientOnlyExtras";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
-import ScrollToTop from "@/components/ScrollToTop";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
@@ -28,6 +22,11 @@ import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
 const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
+const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), { ssr: false });
+const PageNav = dynamic(() => import("@/components/PageNav").then((m) => m.PageNav), { ssr: false });
+const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"), { ssr: false });
+const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive), { ssr: false });
+const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing), { ssr: false });
 
 import localFont from "next/font/local";
 
