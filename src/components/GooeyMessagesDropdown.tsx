@@ -196,14 +196,15 @@ export default function GooeyMessagesDropdown({
     const el = innerContentRef.current;
     if (!el) return;
 
-    const optionButtons = el.querySelectorAll("button");
+    const optionSpans = el.querySelectorAll(".gooey-option-text");
     let maxTextW = 0;
-    optionButtons.forEach((btn: any) => {
-      if (btn.scrollWidth) maxTextW = Math.max(maxTextW, btn.scrollWidth);
+    optionSpans.forEach((span: any) => {
+      if (span.offsetWidth) maxTextW = Math.max(maxTextW, span.offsetWidth);
     });
+    const textNeededW = maxTextW > 0 ? maxTextW + 28 : 0;
     const measuredW = fullWidth
       ? triggerWidth
-      : Math.max(maxTextW > 0 ? maxTextW + 24 : el.offsetWidth, triggerWidth);
+      : Math.max(triggerWidth, textNeededW);
     const measuredH = Math.min(el.offsetHeight + 6, 280);
 
     setPanelWidth((prev) => (prev !== measuredW ? measuredW : prev));
@@ -364,7 +365,7 @@ export default function GooeyMessagesDropdown({
                       setOpen(false);
                     }}
                   >
-                    {c.name}
+                    <span className="gooey-option-text inline-block whitespace-nowrap">{c.name}</span>
                   </button>
                 </li>
               ))}
