@@ -4027,6 +4027,13 @@ header {
 /* Painted before React mounts — the inline script in layout.tsx adds
  * .is-preloading to <html> synchronously, so there is no flash of the real
  * page while the bundle is still parsing. */
+html.is-preloading,
+html.is-preloading body {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
 html.is-preloading::before {
   content: "";
   position: fixed;

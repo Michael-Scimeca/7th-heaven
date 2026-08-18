@@ -135,25 +135,11 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${
-        open ? "z-[99999]" : "z-10"
-      } [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[99999]" : "z-10"
+        } [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
     >
       {/* Hidden SVG Gooey Filter Definition */}
-      <svg className="absolute w-0 h-0 pointer-events-none opacity-0" aria-hidden="true">
-        <defs>
-          <filter id="gooey-morph-filter">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
+
 
       {label && (
         <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-1">
@@ -189,15 +175,12 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 ${
-          fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
-        } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${
-          open
-            ? "bg-[#6917BF] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
-            : "bg-[#180f33] border-white/15 text-white/90 hover:bg-[#221547]"
-        } ${
-          noBorder ? "!border-none" : ""
-        } flex items-center gap-3 cursor-pointer transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
+          } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${open
+            ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
+            : "bg-[#a855f71f] border-white/15 text-white/90 hover:bg-[#221547]"
+          } ${noBorder ? "!border-none" : ""
+          } flex items-center gap-3 cursor-pointer transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -219,9 +202,8 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 text-white/80 transition-transform duration-300 ease-out ${
-            open ? "rotate-90 text-white" : "rotate-0"
-          }`}
+          className={`shrink-0 text-white/80 transition-transform duration-300 ease-out ${open ? "rotate-90 text-white" : "rotate-0"
+            }`}
           aria-hidden="true"
         >
           <path d="M4 2l4 4-4 4" />
@@ -257,11 +239,10 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${
-                      isSelected
-                        ? "text-white bg-purple-500/20 shadow-sm"
-                        : "text-white/80 hover:text-white hover:bg-purple-500/20"
-                    }`}
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                      ? "text-white bg-purple-500/20 shadow-sm"
+                      : "text-white/80 hover:text-white hover:bg-purple-500/20"
+                      }`}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);
@@ -286,12 +267,11 @@ export default function GooeyMessagesDropdown({
                 className="w-full bg-purple-600 rounded-full shadow-[0_0_10px_rgba(192,132,252,1)] transition-all duration-75"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
-                  marginTop: `${
-                    scrollProgress *
+                  marginTop: `${scrollProgress *
                     (100 - Math.max(20, Math.min(100, thumbHeightRatio * 100))) *
                     0.01 *
                     (listRef.current ? listRef.current.clientHeight - 8 : 150)
-                  }px`,
+                    }px`,
                 }}
               />
             </div>

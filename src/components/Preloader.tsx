@@ -64,9 +64,17 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
 
     if (!shouldRun) {
       root.classList.remove("is-preloading");
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
       onComplete?.();
       return;
     }
+
+    // Lock all scrolling while preloader is active
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    (window as unknown as { lenis?: { stop: () => void } }).lenis?.stop();
 
     setActive(true);
     const startedAt = performance.now();
@@ -89,6 +97,9 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           // version did) made it vanish on the first frame instead of leaving.
           setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
+          document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
           onComplete?.();
         }, revealDurationMs())
       );
