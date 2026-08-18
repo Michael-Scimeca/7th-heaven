@@ -484,7 +484,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-center cursor-pointer group transition-all duration-300 p-2 select-none pointer-events-auto relative lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-50 ${effectivePathname === "/"
+            className={`shrink-0 min-w-0 flex items-center justify-center cursor-pointer group transition-all duration-300 p-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
               ? "!text-[#9333ea]"
               : ""
               }`}
