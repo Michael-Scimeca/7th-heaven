@@ -288,14 +288,14 @@ export default function GooeyMessagesDropdown({
         </defs>
       </svg>
 
-      <div className={`absolute left-0 top-0 z-40 pointer-events-none transition-opacity duration-200 ${open || isClicking ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
+      <div className={`absolute left-0 top-0 z-50 pointer-events-none transition-opacity duration-200 ${open ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.4)]">
           <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
               className={`absolute ${currentBg}`}
               style={{
                 ...shapeStyle,
-                backgroundColor: '#a855f71f',
+                backgroundColor: '#140b2e',
                 transition: isClicking
                   ? 'width 420ms cubic-bezier(0.65,0,0.35,1), height 420ms cubic-bezier(0.65,0,0.35,1), left 420ms cubic-bezier(0.65,0,0.35,1), top 420ms cubic-bezier(0.65,0,0.35,1), border-radius 420ms cubic-bezier(0.65,0,0.35,1), background-color 300ms'
                   : 'none',
@@ -311,49 +311,43 @@ export default function GooeyMessagesDropdown({
 
         <div
           ref={panelContentRef}
-          className={`absolute bg-[#a855f71f] backdrop-blur-md border border-white/10 rounded-lg py-2 pl-3 pr-1.5 no-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
+          className={`absolute bg-[#140b2e]/95 backdrop-blur-xl border border-purple-500/40 rounded-xl p-2 shadow-[0_15px_40px_rgba(0,0,0,0.85)] no-scrollbar transition-all duration-200 ease-out ${open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
             }`}
           role="listbox"
-          aria-hidden={!open || !isMorphComplete}
+          aria-hidden={!open}
           style={{
             width: targetPanelWidth,
             maxHeight: panelHeight,
             overflowY: open ? "auto" : "hidden",
             left: 0,
             top: triggerHeight + GAP_BELOW_BUTTON,
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <div ref={innerContentRef} className="w-full">
             {(title || badge) && (
-              <div className="flex items-center justify-between mb-2">
-                {title && <span className="text-sm font-medium text-white leading-[1.2]">{title}</span>}
-                {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
+              <div className="flex items-center justify-between mb-2 px-2 pt-1">
+                {title && <span className="text-xs font-black uppercase tracking-wider text-purple-300 leading-[1.2]">{title}</span>}
+                {badge && <span className="text-[10px] font-bold text-white/50 leading-[1.2]">{badge}</span>}
               </div>
             )}
 
-            <ul className={`list-none m-0 pb-3 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
+            <ul className={`list-none m-0 p-0 flex flex-col space-y-1 transition-opacity duration-200 ease-out ${open ? "opacity-100" : "opacity-0"
               }`}>
               {normalizedCustomers.map((c) => (
-                <li key={c.id} className="border-b border-white/10 last:border-b-0">
+                <li key={c.id}>
                   <button
                     type="button"
                     role="option"
                     aria-selected={c.id === activeSelectedId}
-                    tabIndex={open && isMorphComplete ? 0 : -1}
-                    className={`block w-full text-left pt-2 pb-1 pr-1 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1]  hover:text-white"
+                    tabIndex={open ? 0 : -1}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-xs font-extrabold cursor-pointer transition-all duration-150 ${c.id === activeSelectedId ? "bg-purple-600/30 text-purple-200 border border-purple-500/40 shadow-sm" : "text-white/80 hover:text-white hover:bg-purple-500/20"
                       }`}
                     onClick={() => {
-                      const isSelected = c.id === activeSelectedId;
-                      const nextId = isSelected ? undefined : c.id;
-                      setSelectedIdState(nextId);
+                      setSelectedIdState(c.id);
                       onSelect?.(c);
-                      if (nextId !== undefined) {
-                        onChange?.(nextId);
-                      } else {
-                        onChange?.("");
-                      }
+                      onChange?.(c.id);
                       setOpen(false);
                     }}
                   >

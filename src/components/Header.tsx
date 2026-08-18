@@ -291,9 +291,13 @@ export function Header() {
     );
   }, [effectivePathname]);
 
+  const isAdminRoute = pathname?.startsWith("/admin");
+  const isCrewRoute = pathname?.startsWith("/crew");
   const isDemoFanPage = pathname === "/fans/demo";
   const isDemoCruisePage = pathname === "/cruise/demo";
-  const isDemoPage = isDemoFanPage || isDemoCruisePage;
+  const isDemoPage = isDemoFanPage || isDemoCruisePage || isAdminRoute || isCrewRoute;
+
+  const showUserAuth = isLoggedIn || !!member || isDemoPage;
 
   const checkLive = useCallback(async () => {
     if (document.visibilityState !== "visible") return;
@@ -402,8 +406,23 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  const displayRole = isDemoFanPage || isDemoCruisePage ? "fan" : member?.role || "fan";
-  const displayName = isDemoFanPage ? "Demo Fan" : isDemoCruisePage ? "Demo Cruiser" : member?.name || "Guest";
+  const displayRole = isAdminRoute
+    ? "admin"
+    : isCrewRoute
+      ? "crew"
+      : isDemoFanPage || isDemoCruisePage
+        ? "fan"
+        : member?.role || "fan";
+
+  const displayName = isAdminRoute
+    ? (member?.name || "Admin User")
+    : isCrewRoute
+      ? (member?.name || "Crew Member")
+      : isDemoFanPage
+        ? "Demo Fan"
+        : isDemoCruisePage
+          ? "Demo Cruiser"
+          : member?.name || "Member";
   const initials = displayName
     .split(" ")
     .map((n: string) => n[0])
@@ -568,7 +587,7 @@ export function Header() {
             </TransitionLink>
 
             {/* Cart Icon (only in nav bar when NOT signed in) */}
-            {!isLoggedIn && !isDemoPage && (
+            {!showUserAuth && (
               <TransitionLink
                 href="/merch"
                 className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
@@ -583,7 +602,7 @@ export function Header() {
             )}
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
-            {isLoggedIn || isDemoPage ? (
+            {showUserAuth ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <div className="relative shrink-0 flex items-center justify-center">
                   {/* Cart Icon attached directly to avatar profile circle when signed in */}
@@ -840,7 +859,7 @@ export function Header() {
                     <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline !text-white hover:!text-[#c084fc] transition-colors">YouTube</a>
                   </div>
 
-                  {isLoggedIn ? (
+                  {showUserAuth ? (
                     <button
                       aria-label="Sign out of account"
                       onClick={async () => {
