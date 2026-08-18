@@ -193,6 +193,7 @@ export default function GooeyDropdown({
             background: bgGlassColor,
             backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
             WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            transition: open ? undefined : "none",
           }}
           onTransitionEnd={(e) => {
             if (open && (e.propertyName === "height" || e.propertyName === "width")) {
@@ -208,6 +209,7 @@ export default function GooeyDropdown({
             background: bgGlassColor,
             backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
             WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            transition: "none",
           }}
         />
       </div>
