@@ -190,6 +190,199 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
 
   return (
     <div id="slide-up" className="su-bleed my-12 ">
+      <style>{`
+        .su-bleed{
+          position:relative;
+          background:transparent;
+          color:#f2f1e6;
+          font-family: inherit;
+        }
+        .su-rail-track{
+          position:absolute;
+          top:0;
+          bottom:0;
+          left:-24px;
+          z-index:50;
+          pointer-events:none;
+        }
+        .su-rail{
+          position:sticky;
+          top:50vh;
+          transform:translateY(-50%);
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+        }
+        .su-rail .su-dot{
+          width:7px;
+          height:7px;
+          border-radius:2px;
+          background:rgba(255,255,255,0.18);
+          transition:background .3s ease, height .3s ease;
+        }
+        .su-rail .su-dot.su-active{
+          background:#c084fc;
+          height:22px;
+        }
+        .su-intro{
+          min-height: 40vh;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          text-align:center;
+          padding: 8vh 6vw 4vh;
+          gap:18px;
+        }
+        .su-intro h1{
+          font-size: clamp(2.2rem, 6vw, 4.5rem);
+          font-weight:800;
+          letter-spacing:-0.02em;
+          color:#c084fc;
+          line-height:1.05;
+          margin:0;
+        }
+        .su-intro p{
+          max-width:520px;
+          color:#a9a897;
+          font-size:1rem;
+          line-height:1.6;
+          margin:0;
+        }
+        .su-hint{
+          margin-top:10px;
+          font-size:0.75rem;
+          letter-spacing:0.14em;
+          text-transform:uppercase;
+          color:#a855f7;
+          display:flex;
+          align-items:center;
+          gap:8px;
+        }
+        .su-hint::before{
+          content:"";
+          width:1px;
+          height:26px;
+          background:linear-gradient(#a855f7, transparent);
+          animation: su-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes su-pulse{
+          0%,100%{ opacity:.25; }
+          50%{ opacity:1; }
+        }
+        .su-stack{ position:relative; }
+        .su-card{
+          position:sticky;
+          top:${HEADER_H}px;
+          height:auto;
+          min-height:0;
+          padding-top:32px;
+          padding-bottom:48px;
+          width:100%;
+          display:flex;
+          align-items:flex-start;
+          justify-content:center;
+          overflow:hidden;
+          border-radius:28px 28px 0 0;
+          will-change:transform, filter;
+          background: transparent;
+        }
+        .su-card-inner{
+          position:relative;
+          z-index:2;
+          width: 100vw;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          text-align:center;
+          gap:16px;
+        }
+        .su-tag{
+          font-size:0.85rem;
+          letter-spacing:0.12em;
+          opacity:0.75;
+          font-weight:600;
+        }
+        .su-headline{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap:16px;
+          flex-wrap:wrap;
+          font-size:clamp(1.75rem, 4.2vw, 3.8rem);
+          font-weight:800;
+          letter-spacing:-0.02em;
+          line-height:1.05;
+          max-width:800px;
+          width:100%;
+        }
+        .su-desc{
+          max-width:600px;
+          color:#a9a897;
+          font-size:0.95rem;
+          line-height:1.5;
+          margin:0;
+        }
+        .su-thumbs{
+          display:flex;
+          gap:16px;
+          width:100%;
+          max-width:1100px;
+        }
+        .su-thumb{
+          flex:1;
+          height:clamp(210px, 42vh, 480px);
+          max-height:42vh;
+          aspect-ratio:16/10;
+          border-radius:14px;
+          position:relative;
+          overflow:hidden;
+          display:flex;
+          align-items:flex-end;
+          padding:12px;
+          box-shadow:inset 0 0 0 1px rgba(255,255,255,0.06);
+        }
+        .su-thumb span{
+          position:relative;
+          z-index:2;
+          font-size:0.75rem;
+          font-weight:600;
+          color:#ffffff;
+          background:rgba(147, 51, 234, 0.85);
+          padding:5px 11px;
+          border-radius:20px;
+          backdrop-filter:blur(6px);
+          box-shadow:0 2px 8px rgba(0,0,0,0.3);
+          border:1px solid rgba(255,255,255,0.2);
+        }
+        .su-thumb video{
+          position:absolute;
+          inset:0;
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          z-index:1;
+        }
+        .su-thumb-yt{
+          position:absolute;
+          top:50%;
+          left:50%;
+          height:100%;
+          width:auto;
+          aspect-ratio:16/9;
+          min-width:100%;
+          transform:translate(-50%, -50%);
+          border:0;
+          z-index:1;
+          pointer-events:none;
+        }
+        @media (max-width: 720px){
+          .su-thumbs{ flex-wrap:wrap; }
+          .su-thumb{ flex:1 1 calc(50% - 8px); aspect-ratio:1/1; }
+          .su-rail{ left:12px; }
+        }
+      `}</style>
+
       <div className="su-rail-track">
         <div className="su-rail">
           {SLIDES.map((_, i) => (
@@ -234,6 +427,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                         loading="lazy"
                       />
                     )}
+                    <span>{t.label}</span>
                   </div>
                 ))}
               </div>
