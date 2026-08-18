@@ -3177,3 +3177,12 @@ html.is-preloading.is-revealing #page-content-wrapper {
   html.is-preloading.is-revealing #page-content-wrapper { animation: none; }
 }
 
+/* Google Maps Dark Purple Background Override — prevents white tile background flash while loading */
+.snazzy-map-227862,
+.gm-style,
+.gm-style > div,
+.gm-style iframe {
+  background-color: #160533 !important;
+  background: #160533 !important;
+}
+

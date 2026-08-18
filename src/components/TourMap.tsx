@@ -239,43 +239,29 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Load the Google Maps JavaScript API lazily when the map container enters the viewport.
+  // Load the Google Maps JavaScript API immediately on page load so map is ready before scrolling down.
   useEffect(() => {
     let active = true;
-    const el = mapRef.current;
-    if (!el) return;
 
-    const loadMaps = () => {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      if (!apiKey) {
-        setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
-        console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
-        return;
-      }
-      if (!googleMapsOptionsSet) {
-        setOptions({ key: apiKey, v: "weekly" });
-        googleMapsOptionsSet = true;
-      }
-      importLibrary("maps")
-        .then(() => { if (active) setGoogleReady(true); })
-        .catch((e: unknown) => {
-          console.warn("[TourMap] Failed to load Google Maps:", e);
-          if (active) setMapLoadError("Failed to load Google Maps");
-        });
-    };
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        loadMaps();
-        observer.disconnect();
-      }
-    }, { rootMargin: "-100px", threshold: 0.1 });
-
-    observer.observe(el);
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+      setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+      console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+      return;
+    }
+    if (!googleMapsOptionsSet) {
+      setOptions({ key: apiKey, v: "weekly" });
+      googleMapsOptionsSet = true;
+    }
+    importLibrary("maps")
+      .then(() => { if (active) setGoogleReady(true); })
+      .catch((e: unknown) => {
+        console.warn("[TourMap] Failed to load Google Maps:", e);
+        if (active) setMapLoadError("Failed to load Google Maps");
+      });
 
     return () => {
       active = false;
-      observer.disconnect();
     };
   }, []);
 
@@ -688,8 +674,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)' }}>
-      <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
+    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)' }}>
+      <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862 bg-[#160533]" />
 
       {/* ── Directional Dark Edge Gradient Overlays ── */}
       {mapGradTop && (
