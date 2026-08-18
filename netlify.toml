@@ -9,8 +9,7 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[functions]
-  node_bundler = "esbuild"
+[functions."*"]
   included_files = [
     "!node_modules/@tensorflow/**",
     "!node_modules/nsfwjs/**",
@@ -25,12 +24,41 @@
     "!node_modules/typescript/**",
     "!node_modules/vitest/**",
     "!node_modules/@vitest/**",
-    "!public/movie/**",
-    "!public/demos/**",
-    "!public/images/**",
-    "!public/audio/**",
-    "!public/sitemap-screenshots/**",
-    "!public/uploads/**"
+    "!public/**"
+  ]
+  external_node_modules = [
+    "@tensorflow/tfjs",
+    "nsfwjs",
+    "@tensorflow/tfjs-core",
+    "@tensorflow/tfjs-backend-cpu",
+    "sanity",
+    "@sanity/client",
+    "@sanity/image-url",
+    "@sanity/ui",
+    "@sanity/icons",
+    "puppeteer",
+    "puppeteer-core",
+    "three",
+    "@react-three/fiber",
+    "@react-three/drei"
+  ]
+
+[functions.default]
+  included_files = [
+    "!node_modules/@tensorflow/**",
+    "!node_modules/nsfwjs/**",
+    "!node_modules/sanity/**",
+    "!node_modules/@sanity/**",
+    "!node_modules/puppeteer/**",
+    "!node_modules/puppeteer-core/**",
+    "!node_modules/@puppeteer/**",
+    "!node_modules/three/**",
+    "!node_modules/@react-three/**",
+    "!node_modules/@swc/**",
+    "!node_modules/typescript/**",
+    "!node_modules/vitest/**",
+    "!node_modules/@vitest/**",
+    "!public/**"
   ]
   external_node_modules = [
     "@tensorflow/tfjs",
@@ -64,12 +92,7 @@
     "!node_modules/typescript/**",
     "!node_modules/vitest/**",
     "!node_modules/@vitest/**",
-    "!public/movie/**",
-    "!public/demos/**",
-    "!public/images/**",
-    "!public/audio/**",
-    "!public/sitemap-screenshots/**",
-    "!public/uploads/**"
+    "!public/**"
   ]
   external_node_modules = [
     "@tensorflow/tfjs",
