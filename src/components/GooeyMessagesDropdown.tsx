@@ -311,7 +311,7 @@ export default function GooeyMessagesDropdown({
 
         <div
           ref={panelContentRef}
-          className={`absolute bg-transparent py-2 pl-3 pr-1.5 no-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
+          className={`absolute bg-[#a855f71f] backdrop-blur-md border border-white/10 rounded-lg py-2 pl-3 pr-1.5 no-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
             }`}
           role="listbox"
           aria-hidden={!open || !isMorphComplete}
@@ -321,6 +321,8 @@ export default function GooeyMessagesDropdown({
             overflowY: open ? "auto" : "hidden",
             left: 0,
             top: triggerHeight + GAP_BELOW_BUTTON,
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
           }}
         >
           <div ref={innerContentRef} className="w-full">
