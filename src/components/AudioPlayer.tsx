@@ -460,11 +460,11 @@ export default function AudioPlayerSection() {
     }
   }, [currentTime]);
 
-  // Initialize audio element with metadata preloading
+  // Initialize audio element with lazy preloading (0 bytes transferred on initial page load)
   useEffect(() => {
     if (!audioRef.current) {
       const audio = new Audio();
-      audio.preload = "metadata";
+      audio.preload = "none";
       audioRef.current = audio;
     }
     const audio = audioRef.current;
@@ -485,19 +485,15 @@ export default function AudioPlayerSection() {
     };
   }, [handleNext]);
 
-  // Update audio source using instant HTTP Range Streaming (<30ms start time)
+  // Update audio source dynamically only when user is actively playing
   useEffect(() => {
     if (!audioRef.current || !activeTrack) return;
 
-    const wasPlaying = !audioRef.current.paused || isPlaying;
-    const streamUrl = `/api/audio?t=${encodeURIComponent(btoa(activeTrack.file))}`;
-
-    audioRef.current.src = streamUrl;
-    audioRef.current.load();
-
-    if (wasPlaying) {
+    if (isPlaying) {
+      const streamUrl = `/api/audio?t=${encodeURIComponent(btoa(activeTrack.file))}`;
+      audioRef.current.src = streamUrl;
+      audioRef.current.load();
       audioRef.current.play().catch(e => console.log("Autoplay prevented:", e));
-      setIsPlaying(true);
     }
   }, [activeTrackIndex, activeAlbumIndex, activeTrack, isPlaying]);
 
@@ -511,10 +507,16 @@ export default function AudioPlayerSection() {
     if (!audioRef.current || !activeTrack) return;
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
+      const streamUrl = `/api/audio?t=${encodeURIComponent(btoa(activeTrack.file))}`;
+      if (!audioRef.current.src || audioRef.current.src === "" || audioRef.current.src === window.location.href) {
+        audioRef.current.src = streamUrl;
+        audioRef.current.load();
+      }
       audioRef.current.play().catch(e => console.log("Play prevented:", e));
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
