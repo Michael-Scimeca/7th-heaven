@@ -123,7 +123,7 @@ export default function GooeyMessagesDropdown({
         id={id || "gooey-toggle"}
         name={name}
       >
-        <span className={`text-xs font-black uppercase tracking-wider text-white truncate flex-1 ${triggerTextClassName}`}>
+        <span className={`text-xs font-black uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}>
           {triggerText}
         </span>
         <svg
@@ -145,7 +145,7 @@ export default function GooeyMessagesDropdown({
       {/* Dropdown Options Menu Panel */}
       {open && (
         <div
-          className="absolute left-0 top-full !m-0 !p-0 min-w-full w-max max-w-sm bg-[#120826]/95 border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
+          className="absolute left-0 top-full !m-0 !p-0 min-w-full w-max max-w-md bg-[#a855f71f] border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
           role="listbox"
         >
           {(title || badge) && (
@@ -175,7 +175,7 @@ export default function GooeyMessagesDropdown({
                     setOpen(false);
                   }}
                 >
-                  <span className="truncate pr-2 font-black uppercase tracking-wider">{c.name}</span>
+                  <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">{c.name}</span>
                   {isSelected && (
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2" />
                   )}
