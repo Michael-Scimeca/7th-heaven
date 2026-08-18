@@ -342,7 +342,7 @@ export default function GooeyMessagesDropdown({
                     role="option"
                     aria-selected={c.id === activeSelectedId}
                     tabIndex={open && isMorphComplete ? 0 : -1}
-                    className={`block w-full text-left pt-2 pb-1 pr-1 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1] hover:text-white"
+                    className={`block w-full text-left pt-2 pb-1 pr-1 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1]  hover:text-white"
                       }`}
                     onClick={() => {
                       const isSelected = c.id === activeSelectedId;
@@ -371,7 +371,7 @@ export default function GooeyMessagesDropdown({
         type="button"
         disabled={disabled}
         style={{ backgroundColor: '#a855f71f' }}
-        className={`relative z-50 ${fullWidth
+        className={`relative z-50 border border-white/10 ${fullWidth
           ? "w-full justify-between text-left"
           : "min-w-fit justify-center text-center"
           } ${noPadding ? "p-0" : fullWidth ? "px-5 py-3" : "px-3.5 py-2"} rounded-full ${currentBg} ${noBorder ? "border-none" : ""} flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
