@@ -200,6 +200,8 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+        <HomeShaderGradient />
+        <GrainOverlay />
         <Preloader />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
@@ -245,8 +247,6 @@ export default async function RootLayout({
                   {isDraftMode && <VisualEditing />}
                   <PageNav />
                   <ClientOnlyExtras />
-                  <HomeShaderGradient />
-                  <GrainOverlay />
                 </div>
               </SmoothScroll>
             </Providers>
