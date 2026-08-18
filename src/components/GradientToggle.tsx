@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export interface GradientToggleProps {
   checked: boolean;
@@ -22,35 +22,60 @@ export function GradientToggle({
   const generatedId = React.useId();
   const toggleId = id || generatedId;
 
+  const [animState, setAnimState] = useState<'idle' | 'in' | 'out'>('idle');
+  const prevChecked = useRef(checked);
+
+  useEffect(() => {
+    if (prevChecked.current !== checked) {
+      prevChecked.current = checked;
+      setAnimState(checked ? 'in' : 'out');
+    }
+  }, [checked]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextVal = e.target.checked;
+    prevChecked.current = nextVal;
+    setAnimState(nextVal ? 'in' : 'out');
+    onChange(nextVal);
+  };
+
+  const handleAnimationEnd = () => {
+    setAnimState('idle');
+  };
+
+  const thumbClass = animState === 'in'
+    ? 'animate-squish-in'
+    : animState === 'out'
+    ? 'animate-squish-out'
+    : checked
+    ? 'translate-x-[22px]'
+    : 'translate-x-0';
+
   return (
     <label
       htmlFor={toggleId}
       className={`inline-flex items-center gap-3 select-none cursor-pointer group ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
-      <div className="relative inline-block w-[48px] h-[26px] shrink-0 rounded-full overflow-hidden p-[3px] transition-all duration-300 shadow-sm border border-white/20">
+      <div className="squishy-toggle relative inline-block w-[50px] h-[28px] shrink-0 rounded-full overflow-hidden p-[3px] transition-all duration-300 shadow-inner border border-white/25 bg-black/50">
         <input
           id={toggleId}
           type="checkbox"
           checked={checked}
           disabled={disabled}
-          onChange={(e) => onChange(e.target.checked)}
-          className="peer sr-only"
+          onChange={handleChange}
+          className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
         />
 
         {/* Off background */}
-        <div className="absolute inset-0 bg-white/10 transition-opacity duration-300" />
+        <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300" />
 
         {/* On background (gradient) */}
-        <div className={`absolute inset-0 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
+        <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
 
-        {/* Glow shadow on check */}
-        <div className={`absolute inset-0 shadow-[0_0_12px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
-
-        {/* Sliding White Circle Thumb */}
+        {/* Gooey Squishy Thumb */}
         <div
-          className={`relative z-10 w-[20px] h-[20px] rounded-full bg-white shadow-md transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-            checked ? 'translate-x-[22px]' : 'translate-x-0'
-          }`}
+          onAnimationEnd={handleAnimationEnd}
+          className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
         />
       </div>
 
