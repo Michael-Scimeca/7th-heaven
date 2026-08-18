@@ -89,7 +89,9 @@ export default function GooeyMessagesDropdown({
   }
 
   const activeSelectedId = selected !== undefined ? selected : selectedIdState;
-  const selectedItem = normalizedCustomers.find((c) => c.id === activeSelectedId || (activeSelectedId === "All" && c.id.toLowerCase() === "all"));
+  const selectedItem = normalizedCustomers.find(
+    (c) => c.id === activeSelectedId || (activeSelectedId === "All" && c.id.toLowerCase() === "all")
+  );
   const triggerText = selectedItem ? selectedItem.name : placeholder;
 
   const handleScroll = () => {
@@ -107,7 +109,6 @@ export default function GooeyMessagesDropdown({
 
   useEffect(() => {
     if (open) {
-      // Delay frame to allow DOM layout measurement
       const t = setTimeout(handleScroll, 10);
       return () => clearTimeout(t);
     }
@@ -134,12 +135,21 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[99999]" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[99999]" : "z-10"
+        } [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
     >
       {label && (
         <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-1">
           {label}
         </label>
+      )}
+
+      {/* Gooey Liquid Glow Ambient Backdrop */}
+      {open && (
+        <div
+          className="absolute -inset-1.5 bg-gradient-to-r from-purple-600/40 via-pink-600/40 to-purple-800/40 rounded-2xl blur-lg pointer-events-none z-0 animate-pulse transition-opacity duration-300"
+          aria-hidden="true"
+        />
       )}
 
       {/* Trigger Button */}
@@ -148,9 +158,10 @@ export default function GooeyMessagesDropdown({
         disabled={disabled}
         className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${open
-            ? "bg-[#6917BF] text-white"
-            : "bg-[#180f33] border-white/15 text-white/90"
-          } ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
+            ? "bg-[#6917BF] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
+            : "bg-[#180f33] border-white/15 text-white/90 hover:bg-[#221547]"
+          } ${noBorder ? "!border-none" : ""
+          } flex items-center gap-3 cursor-pointer transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -158,7 +169,9 @@ export default function GooeyMessagesDropdown({
         id={id || "gooey-toggle"}
         name={name}
       >
-        <span className={`text-xs font-black uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}>
+        <span
+          className={`text-xs font-black uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}
+        >
           {triggerText}
         </span>
         <svg
@@ -170,17 +183,18 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 text-white/80 transition-transform duration-200 ${open ? "rotate-90 text-white" : "rotate-0"}`}
+          className={`shrink-0 text-white/80 transition-transform duration-300 ease-out ${open ? "rotate-90 text-white" : "rotate-0"
+            }`}
           aria-hidden="true"
         >
           <path d="M4 2l4 4-4 4" />
         </svg>
       </button>
 
-      {/* Dropdown Options Menu Panel */}
+      {/* Gooey Morphing Options Menu Panel */}
       {open && (
         <div
-          className="absolute left-0 top-full mt-2 min-w-full w-max max-w-md bg-[#120826] border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
+          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40 rounded-xl p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-2xl z-[99999] overflow-hidden transition-all duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           role="listbox"
         >
           {(title || badge) && (
@@ -195,7 +209,7 @@ export default function GooeyMessagesDropdown({
             <div
               ref={listRef}
               onScroll={handleScroll}
-              className="max-h-48 overflow-y-auto no-scrollbar space-y-1 pr-4 pl-1 py-1"
+              className="max-h-48 overflow-y-auto no-scrollbar space-y-1 pr-2"
               data-lenis-prevent="true"
             >
               {normalizedCustomers.map((c) => {
@@ -206,9 +220,9 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full text-left px-3 py-2 rounded-md text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
-                      ? "text-white bg-purple-500/30 border border-purple-400/50 shadow-sm"
-                      : "text-white/80 hover:text-white hover:bg-purple-500/20"
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                        ? "text-white bg-purple-500/20 shadow-sm"
+                        : "text-white/80 hover:text-white hover:bg-purple-500/20"
                       }`}
                     onClick={() => {
                       setSelectedIdState(c.id);
@@ -217,9 +231,11 @@ export default function GooeyMessagesDropdown({
                       setOpen(false);
                     }}
                   >
-                    <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">{c.name}</span>
+                    <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">
+                      {c.name}
+                    </span>
                     {isSelected && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2 animate-pulse" />
                     )}
                   </button>
                 );
@@ -227,12 +243,16 @@ export default function GooeyMessagesDropdown({
             </div>
 
             {/* Permanent Custom React DOM Scrollbar Indicator */}
-            <div className="absolute right-1 top-1 bottom-1 w-1.5 bg-white/10 rounded-full pointer-events-none z-30">
+            <div className="absolute right-0 top-1 bottom-1 w-1.5 bg-white/10 rounded-full pointer-events-none z-30">
               <div
-                className="w-full bg-gradient-to-b from-purple-300 via-purple-500 to-pink-500 rounded-full shadow-[0_0_10px_rgba(192,132,252,1)] border border-white transition-all duration-75"
+                className="w-full bg-purple-600 rounded-full shadow-[0_0_10px_rgba(192,132,252,1)] transition-all duration-75"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
-                  marginTop: `${scrollProgress * (100 - Math.max(20, Math.min(100, thumbHeightRatio * 100))) * 0.01 * (listRef.current ? listRef.current.clientHeight - 8 : 150)}px`,
+                  marginTop: `${scrollProgress *
+                    (100 - Math.max(20, Math.min(100, thumbHeightRatio * 100))) *
+                    0.01 *
+                    (listRef.current ? listRef.current.clientHeight - 8 : 150)
+                    }px`,
                 }}
               />
             </div>
