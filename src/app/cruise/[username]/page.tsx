@@ -842,7 +842,7 @@ export default function CruiseDashboard() {
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
                 className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
-                  ? "bg-purple-600 text-white shadow-md"
+                  ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                   }`}
               >
@@ -852,7 +852,7 @@ export default function CruiseDashboard() {
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
                 className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
-                  ? "bg-purple-700 text-white shadow-md"
+                  ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                   }`}
               >

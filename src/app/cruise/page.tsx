@@ -755,7 +755,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     onClick={() => setActivePriceYear(2027)}
                     className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2027
-                      ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
+                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                       : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                       }`}
                   >
@@ -765,7 +765,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     onClick={() => setActivePriceYear(2028)}
                     className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2028
-                      ? "bg-purple-700 text-white shadow-md shadow-purple-700/30"
+                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                       : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                       }`}
                   >
@@ -956,7 +956,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="text-[var(--font-size-3xs)] text-purple-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                           )}
                           <span
-                            className="mt-3 w-full py-2.5 px-4 bg-purple-600 hover:bg-purple-500 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg group-hover:bg-purple-500 border-0"
+                            className="mt-3 w-full py-2.5 px-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg border-0"
                           >
                             <span>Select & Book Cabin</span>
                             <span>→</span>
@@ -1134,7 +1134,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               type="button"
                               onClick={() => setSuiteTab(perk)}
                               className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk
-                                ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
+                                ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                                 : "bg-transparent text-white/60 hover:text-white"
                                 }`}
                             >
@@ -1499,7 +1499,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </button>
 
                             <button aria-label="Action button" type="button" onClick={() => window.print()}
-                              className="w-full rounded-lg border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
+                              className="w-full rounded-lg border border-purple-600 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
                               Print / Save Booking Form
                             </button>
                           </div>
@@ -1524,7 +1524,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/payment.html"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block rounded-lg mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 !text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
+                          className="inline-block rounded-lg mt-4 px-4 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 !text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
                         >
                           Go to Payment Portal
                         </a>
@@ -1706,7 +1706,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     onClick={() => setActiveItinYear(2027)}
                     className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
-                      ? "bg-purple-600 text-white shadow-md"
+                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                       : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                       }`}
                   >
@@ -1716,7 +1716,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     onClick={() => setActiveItinYear(2028)}
                     className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
-                      ? "bg-purple-700 text-white shadow-md"
+                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                       : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
                       }`}
                   >
@@ -1951,7 +1951,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("included")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-purple-600 text-white font-black shadow-md" : "bg-transparent text-white/60 hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-black shadow-md" : "bg-transparent text-white/60 hover:text-white"
                         }`}
                     >
                       Included (Free)
@@ -1959,7 +1959,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("paid")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-purple-600 text-white font-black shadow-md" : "bg-transparent text-white/60 hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-black shadow-md" : "bg-transparent text-white/60 hover:text-white"
                         }`}
                     >
                       Specialty (With Fee)
@@ -2039,7 +2039,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("bars")}
-                      className={`px-5 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-white/60 hover:text-white"
+                      className={`px-5 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-black shadow-md scale-105" : "text-white/60 hover:text-white"
                         }`}
                     >
                       <span>Bars & Clubs</span>
@@ -2048,7 +2048,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("entertainment")}
-                      className={`px-5 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-white/60 hover:text-white"
+                      className={`px-5 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-black shadow-md scale-105" : "text-white/60 hover:text-white"
                         }`}
                     >
                       <span>Entertainment</span>
