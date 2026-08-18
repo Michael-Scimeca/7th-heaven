@@ -303,35 +303,6 @@ export function CalendarPicker({
               />
             </div>
 
-            {/* Google Maps / Directions URL */}
-            <div>
-              <label htmlFor="cal-map-url" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Google Maps / Directions Link</label>
-              <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field"
-                  id="cal-map-url"
-                  type="url"
-                  placeholder="https://maps.google.com/?q=..."
-                  value={mapUrl || ""}
-                  onChange={(e) => onMapUrlChange?.(e.target.value)}
-                  className="w-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:outline-none transition-colors rounded-xl shadow-inner placeholder:text-white/30"
-                />
-              </div>
-            </div>
-
-            {/* Parking Info / Directions */}
-            <div>
-              <label htmlFor="cal-parking-info" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Parking Info & Directions</label>
-              <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field"
-                  id="cal-parking-info"
-                  type="text"
-                  placeholder="Free lot behind venue / Valet parking..."
-                  value={parkingInfo || ""}
-                  onChange={(e) => onParkingInfoChange?.(e.target.value)}
-                  className="w-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:outline-none transition-colors rounded-xl shadow-inner placeholder:text-white/30"
-                />
-              </div>
-            </div>
           </div>
         </div>
 

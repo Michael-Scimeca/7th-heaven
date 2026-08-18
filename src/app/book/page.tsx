@@ -107,11 +107,13 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full !bg-[#a855f71f] backdrop-blur-md border-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-xl ${value ? 'text-white font-semibold' : 'text-white/45'}`}
-        style={{ background: "#a855f71f" }}
+        className={`group w-full !bg-[#a855f71f] backdrop-blur-md border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-xl ${value ? 'text-white font-semibold' : 'text-white/45'}`}
+        style={{ background: "#a855f71f", border: "1px solid #ffffff1a" }}
       >
-        {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+        <span className={`transition-all duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
+          {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity duration-200"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
         <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border-0 p-4 rounded-xl shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
@@ -272,6 +274,8 @@ function BookPageContent() {
     phone: "",
     organization: "",
     eventDate: "",
+    eventStartTime: "",
+    eventEndTime: "",
     startTime: "",
     endTime: "",
     customEventType: "",
@@ -469,7 +473,7 @@ function BookPageContent() {
       } catch { }
 
       // URL params override localStorage (for specific field overrides)
-      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "startTime", "endTime", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
+      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "eventStartTime", "eventEndTime", "startTime", "endTime", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
       setFormData(prev => {
         const updated = { ...prev };
         allFields.forEach(f => {
@@ -1444,17 +1448,24 @@ function BookPageContent() {
               <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
             </h2>
 
-            {/* Show Event Start & End Times */}
+            {/* Show Event Start & End Times + Band Schedule */}
             <div className="space-y-4">
               <div className="border-b border-white/10 pb-2.5">
                 <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#c27aff]" /> Event Times & Schedule
+                  <Clock className="w-4 h-4 text-[#c27aff]" /> Event & Performance Schedule
                 </h3>
               </div>
 
+              {/* Row 1: Overall Event Start & End */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField label="Event Start Time" name="eventStartTime" value={formData.eventStartTime} onChange={handleChange} placeholder="e.g. 5:00 PM (Doors / Event Starts)" />
+                <InputField label="Event End Time" name="eventEndTime" value={formData.eventEndTime} onChange={handleChange} placeholder="e.g. 11:30 PM (Event Ends)" />
+              </div>
+
+              {/* Row 2: Band Load-In & Band Performance Start / End */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <InputField label="Show Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM" />
-                <InputField label="Show End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM" />
+                <InputField label="Band Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM (Band Plays)" />
+                <InputField label="Band End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM (Band Finish)" />
 
                 <div>
                   <InputField
@@ -1486,7 +1497,7 @@ function BookPageContent() {
                 </div>
               </div>
               <p className="text-[11px] text-purple-300/80 font-medium italic flex items-center gap-1 leading-tight mt-1.5 justify-end">
-                <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Load-in is usually ~2 hours before show start time.
+                <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Band load-in is usually ~2 hours before band start time.
               </p>
 
               {isLoadInUnsure && (

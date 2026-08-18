@@ -149,6 +149,515 @@ const sgbDefaults = {
   particleCount: 12,
 };
 
+const NEAT_DEFAULT_CONFIG = {
+  labelText: "ENTER THE EXPERIENCE",
+  speed: 7.1,
+  hoverSpeed: 6.0,
+  colorSaturation: 7,
+  colorBrightness: 1.0,
+  colorBlending: 8,
+  waveFrequencyX: 2,
+  waveFrequencyY: 3,
+  waveAmplitude: 5,
+  horizontalPressure: 3,
+  verticalPressure: 4,
+  wireframe: false,
+  grainScale: 2,
+  grainSparsity: 0.05,
+  grainIntensity: 0,
+  grainSpeed: 1,
+  btnWidth: 360,
+  btnHeight: 68,
+  btnRadius: 8,
+  colors: ["#6917BF", "#a90eaf", "#6F008E", "#110435", "#7616B7", "#480505"],
+};
+
+function NeatGradientControlDemo() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gradientRef = useRef<any>(null);
+  const [config, setConfig] = useState(NEAT_DEFAULT_CONFIG);
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [activeTab, setActiveTab] = useState<'presets' | 'layout' | 'motion' | 'colors'>('presets');
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!canvasRef.current) return;
+      const { NeatGradient } = await import("@firecms/neat");
+      if (cancelled || !canvasRef.current) return;
+
+      if (gradientRef.current) {
+        gradientRef.current.destroy();
+      }
+
+      const gradient = new NeatGradient({
+        ref: canvasRef.current,
+        colors: config.colors.map((c) => ({ color: c, enabled: true })),
+        speed: config.speed,
+        horizontalPressure: config.horizontalPressure,
+        verticalPressure: config.verticalPressure,
+        waveFrequencyX: config.waveFrequencyX,
+        waveFrequencyY: config.waveFrequencyY,
+        waveAmplitude: config.waveAmplitude,
+        shadows: 1,
+        highlights: 5,
+        colorBrightness: config.colorBrightness,
+        colorSaturation: config.colorSaturation,
+        wireframe: config.wireframe,
+        colorBlending: config.colorBlending,
+        grainScale: config.grainScale,
+        grainSparsity: config.grainSparsity,
+        grainIntensity: config.grainIntensity,
+        grainSpeed: config.grainSpeed,
+        backgroundColor: "#003FFF",
+        backgroundAlpha: 1,
+        resolution: 1,
+      } as any);
+
+      gradientRef.current = gradient;
+    })();
+
+    return () => {
+      cancelled = true;
+      if (gradientRef.current) {
+        gradientRef.current.destroy();
+        gradientRef.current = null;
+      }
+    };
+  }, [
+    config.speed,
+    config.colorSaturation,
+    config.colorBrightness,
+    config.colorBlending,
+    config.waveFrequencyX,
+    config.waveFrequencyY,
+    config.waveAmplitude,
+    config.horizontalPressure,
+    config.verticalPressure,
+    config.wireframe,
+    config.grainScale,
+    config.grainSparsity,
+    config.grainIntensity,
+    config.grainSpeed,
+    config.colors,
+  ]);
+
+  const handlePointerEnter = () => {
+    if (gradientRef.current) {
+      gradientRef.current.speed = config.hoverSpeed;
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (gradientRef.current) {
+      gradientRef.current.speed = config.speed;
+    }
+  };
+
+  const updateColor = (index: number, val: string) => {
+    const next = [...config.colors];
+    next[index] = val;
+    setConfig((prev) => ({ ...prev, colors: next }));
+  };
+
+  const resetDefaults = () => setConfig(NEAT_DEFAULT_CONFIG);
+
+  const copyCode = () => {
+    const code = `// WebGL Neat Liquid Gradient Button Component
+import { useEffect, useRef } from "react";
+
+export function NeatButton() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gradientRef = useRef<any>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!canvasRef.current) return;
+      const { NeatGradient } = await import("@firecms/neat");
+      if (cancelled || !canvasRef.current) return;
+
+      gradientRef.current = new NeatGradient({
+        ref: canvasRef.current,
+        colors: [${config.colors.map(c => `{ color: "${c}", enabled: true }`).join(", ")}],
+        speed: ${config.speed},
+        horizontalPressure: ${config.horizontalPressure},
+        verticalPressure: ${config.verticalPressure},
+        waveFrequencyX: ${config.waveFrequencyX},
+        waveFrequencyY: ${config.waveFrequencyY},
+        waveAmplitude: ${config.waveAmplitude},
+        colorBrightness: ${config.colorBrightness},
+        colorSaturation: ${config.colorSaturation},
+        wireframe: ${config.wireframe},
+        colorBlending: ${config.colorBlending},
+      });
+    })();
+    return () => {
+      cancelled = true;
+      gradientRef.current?.destroy();
+    };
+  }, []);
+
+  return (
+    <button
+      type="button"
+      onPointerEnter={() => { if (gradientRef.current) gradientRef.current.speed = ${config.hoverSpeed}; }}
+      onPointerLeave={() => { if (gradientRef.current) gradientRef.current.speed = ${config.speed}; }}
+      style={{ borderRadius: "${config.btnRadius}px" }}
+      className="group relative isolation-isolate inline-flex items-center justify-center border-none overflow-hidden cursor-pointer bg-[#0d0a12] px-8 py-5 text-center transition-all duration-300 shadow-2xl"
+    >
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block pointer-events-none" />
+      <span className="relative z-10 text-base font-extrabold tracking-wider text-white/85 group-hover:text-white group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] group-hover:scale-105 transition-all duration-300">
+        ${config.labelText}
+      </span>
+    </button>
+  );
+}`;
+    navigator.clipboard.writeText(code);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  return (
+    <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div>
+          <h3 className="text-sm font-mono font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+            ⚙️ Neat Liquid Gradient Settings Control UI
+          </h3>
+          <p className="text-xs text-white/50 mt-0.5">Customize WebGL fluid gradient animation, speeds, colors & button dimensions live</p>
+        </div>
+        <SectionBadge label="@firecms/neat" color="cyan" />
+      </div>
+
+      <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-[#090611] border border-white/10 min-h-[220px] overflow-hidden">
+        <button
+          type="button"
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          style={{
+            borderRadius: `${config.btnRadius}px`,
+          }}
+          className="group relative isolation-isolate inline-flex w-fit items-center justify-center border-none overflow-hidden cursor-pointer bg-[#0d0a12] px-6 py-4 transition-all duration-300 shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400"
+        >
+          <canvas ref={canvasRef} className="absolute -top-[20%] -left-[20%] w-[140%] h-[140%] scale-110 block pointer-events-none" aria-hidden="true" />
+          <span className="relative z-10 text-sm font-extrabold tracking-wider text-white/80 group-hover:text-white transition-all duration-300">
+            {config.labelText}
+          </span>
+        </button>
+      </div>
+
+      <div className="flex items-center gap-2 border-b border-white/10 pb-3 flex-wrap">
+        <button
+          type="button"
+          onClick={() => setActiveTab('presets')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${activeTab === 'presets' ? 'bg-purple-600 text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
+        >
+          🎨 Presets
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('layout')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${activeTab === 'layout' ? 'bg-purple-600 text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
+        >
+          📐 Button Layout
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('motion')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${activeTab === 'motion' ? 'bg-purple-600 text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
+        >
+          🌊 Fluid & Motion
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('colors')}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${activeTab === 'colors' ? 'bg-purple-600 text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
+        >
+          🌈 Colors & Shading
+        </button>
+
+        <div className="ml-auto flex items-center gap-2">
+          <button
+            type="button"
+            onClick={resetDefaults}
+            className="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-white/10 text-white/80 hover:bg-white/20 transition-colors"
+          >
+            ↺ Reset
+          </button>
+          <button
+            type="button"
+            onClick={copyCode}
+            className="px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-purple-600 text-white hover:bg-purple-500 transition-colors flex items-center gap-1.5"
+          >
+            {copiedCode ? "✓ Copied!" : "📋 Copy Code"}
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'presets' && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 animate-[fade-in_0.15s_ease-out]">
+          <button
+            type="button"
+            onClick={() => setConfig(prev => ({ ...prev, colors: ["#6917BF", "#F71FFF", "#6F008E", "#110435", "#7616B7", "#500404"], speed: 2.5, hoverSpeed: 6.0 }))}
+            className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/40 hover:border-purple-400 text-left space-y-1 transition-all cursor-pointer"
+          >
+            <span className="text-xs font-bold text-white block">💜 7th Heaven Signature</span>
+            <span className="text-[10px] text-white/50 block">Deep violet, magenta & purple neon</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setConfig(prev => ({ ...prev, colors: ["#0055FF", "#00F0FF", "#002288", "#050A30", "#0099FF", "#001144"], speed: 3.0, hoverSpeed: 7.0 }))}
+            className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/40 hover:border-cyan-400 text-left space-y-1 transition-all cursor-pointer"
+          >
+            <span className="text-xs font-bold text-white block">💙 Electric Cyan Ocean</span>
+            <span className="text-[10px] text-white/50 block">Vibrant aqua, deep oceanic blue</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setConfig(prev => ({ ...prev, colors: ["#FF0055", "#FF9900", "#770022", "#20000A", "#FF00AA", "#550011"], speed: 3.5, hoverSpeed: 8.0 }))}
+            className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 hover:border-rose-400 text-left space-y-1 transition-all cursor-pointer"
+          >
+            <span className="text-xs font-bold text-white block">🔥 Sunset Neon Inferno</span>
+            <span className="text-[10px] text-white/50 block">Hot pink, fiery orange & dark red</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setConfig(prev => ({ ...prev, colors: ["#00FF66", "#00FFFF", "#006633", "#021A0F", "#00CC44", "#003311"], speed: 2.0, hoverSpeed: 5.0 }))}
+            className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 hover:border-emerald-400 text-left space-y-1 transition-all cursor-pointer"
+          >
+            <span className="text-xs font-bold text-white block">💚 Cyber Emerald</span>
+            <span className="text-[10px] text-white/50 block">Matrix green, neon lime & mint</span>
+          </button>
+        </div>
+      )}
+
+      {activeTab === 'layout' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-[fade-in_0.15s_ease-out]">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Button Text Label</label>
+            <input
+              type="text"
+              value={config.labelText}
+              onChange={(e) => setConfig(prev => ({ ...prev, labelText: e.target.value }))}
+              className="w-full px-3 py-2 bg-white/5 border border-white/15 rounded-lg text-sm text-white focus:outline-none focus:border-purple-400"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Button Width: {config.btnWidth}px</label>
+            </div>
+            <input
+              type="range"
+              min="180"
+              max="600"
+              step="10"
+              value={config.btnWidth}
+              onChange={(e) => setConfig(prev => ({ ...prev, btnWidth: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Button Height: {config.btnHeight}px</label>
+            </div>
+            <input
+              type="range"
+              min="40"
+              max="100"
+              step="2"
+              value={config.btnHeight}
+              onChange={(e) => setConfig(prev => ({ ...prev, btnHeight: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Border Radius: {config.btnRadius}px</label>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="999"
+              step="4"
+              value={config.btnRadius}
+              onChange={(e) => setConfig(prev => ({ ...prev, btnRadius: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'motion' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 animate-[fade-in_0.15s_ease-out]">
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Idle Speed: {config.speed}</label>
+            <input
+              type="range" min="0.1" max="10" step="0.1"
+              value={config.speed}
+              onChange={(e) => setConfig(prev => ({ ...prev, speed: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Hover Speed: {config.hoverSpeed}</label>
+            <input
+              type="range" min="0.5" max="20" step="0.5"
+              value={config.hoverSpeed}
+              onChange={(e) => setConfig(prev => ({ ...prev, hoverSpeed: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Wave Frequency X: {config.waveFrequencyX}</label>
+            <input
+              type="range" min="1" max="10" step="1"
+              value={config.waveFrequencyX}
+              onChange={(e) => setConfig(prev => ({ ...prev, waveFrequencyX: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Wave Frequency Y: {config.waveFrequencyY}</label>
+            <input
+              type="range" min="1" max="10" step="1"
+              value={config.waveFrequencyY}
+              onChange={(e) => setConfig(prev => ({ ...prev, waveFrequencyY: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Wave Amplitude: {config.waveAmplitude}</label>
+            <input
+              type="range" min="0" max="20" step="1"
+              value={config.waveAmplitude}
+              onChange={(e) => setConfig(prev => ({ ...prev, waveAmplitude: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Horizontal Pressure: {config.horizontalPressure}</label>
+            <input
+              type="range" min="0" max="10" step="1"
+              value={config.horizontalPressure}
+              onChange={(e) => setConfig(prev => ({ ...prev, horizontalPressure: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-purple-300 uppercase tracking-wider block">Grain Intensity: {config.grainIntensity}</label>
+            <input
+              type="range" min="0" max="1" step="0.05"
+              value={config.grainIntensity}
+              onChange={(e) => setConfig(prev => ({ ...prev, grainIntensity: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-purple-300 uppercase tracking-wider block">Grain Scale: {config.grainScale}</label>
+            <input
+              type="range" min="0" max="10" step="0.5"
+              value={config.grainScale}
+              onChange={(e) => setConfig(prev => ({ ...prev, grainScale: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-purple-300 uppercase tracking-wider block">Grain Sparsity: {config.grainSparsity}</label>
+            <input
+              type="range" min="0" max="0.5" step="0.01"
+              value={config.grainSparsity}
+              onChange={(e) => setConfig(prev => ({ ...prev, grainSparsity: Number(e.target.value) }))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'colors' && (
+        <div className="space-y-4 animate-[fade-in_0.15s_ease-out]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Color Brightness: {config.colorBrightness}</label>
+              <input
+                type="range" min="0.1" max="3" step="0.1"
+                value={config.colorBrightness}
+                onChange={(e) => setConfig(prev => ({ ...prev, colorBrightness: Number(e.target.value) }))}
+                className="w-full accent-purple-500 cursor-pointer"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Color Saturation: {config.colorSaturation}</label>
+              <input
+                type="range" min="1" max="10" step="1"
+                value={config.colorSaturation}
+                onChange={(e) => setConfig(prev => ({ ...prev, colorSaturation: Number(e.target.value) }))}
+                className="w-full accent-purple-500 cursor-pointer"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Color Blending: {config.colorBlending}</label>
+              <input
+                type="range" min="1" max="10" step="1"
+                value={config.colorBlending}
+                onChange={(e) => setConfig(prev => ({ ...prev, colorBlending: Number(e.target.value) }))}
+                className="w-full accent-purple-500 cursor-pointer"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 pt-2">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold uppercase tracking-wider text-white">
+              <input
+                type="checkbox"
+                checked={config.wireframe}
+                onChange={(e) => setConfig(prev => ({ ...prev, wireframe: e.target.checked }))}
+                className="w-4 h-4 accent-purple-500 cursor-pointer"
+              />
+              Enable Wireframe Mode
+            </label>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <label className="text-xs font-bold text-white/80 uppercase tracking-wider block">Gradient Color Stops (6 Stops)</label>
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-2">
+              {config.colors.map((color, colorIndex) => (
+                <div key={`stop-color-${colorIndex}-${color}`} className="p-2 rounded-lg bg-white/5 border border-white/10 flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={color}
+                    onChange={(e) => updateColor(colorIndex, e.target.value)}
+                    className="w-7 h-7 rounded border-0 cursor-pointer bg-transparent"
+                  />
+                  <input
+                    type="text"
+                    value={color}
+                    onChange={(e) => updateColor(colorIndex, e.target.value)}
+                    className="w-full text-[10px] font-mono uppercase bg-transparent text-white focus:outline-none"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function StyleGuidePage() {
   const { openModal } = useMember();
   const { tokens, isSaving, hasUnsavedChanges, updateToken, saveTheme, resetToDefaults, exportThemeJson } = useThemeTokens();
@@ -381,141 +890,6 @@ export default function StyleGuidePage() {
     btn?.classList.remove("is-done", "is-arming");
     htc1SetCharge(0);
     if (htc1StatusRef.current) htc1StatusRef.current.textContent = "Hold for 1.2s to confirm";
-  };
-
-  /* ── Neat Liquid Gradient Button Demo State (uses @firecms/neat, an installed project dependency) ── */
-  const ngb1CanvasRef = useRef<HTMLCanvasElement>(null);
-  const ngb1GradientRef = useRef<{
-    destroy: () => void;
-    speed: number;
-    chromaticAberration: number;
-    bloomIntensity: number;
-  } | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const canvas = ngb1CanvasRef.current;
-      if (!canvas) return;
-      const { NeatGradient } = await import("@firecms/neat");
-      if (cancelled || !ngb1CanvasRef.current) return;
-      const gradient = new NeatGradient({
-        ref: ngb1CanvasRef.current,
-        colors: [
-          { color: "#6917BF", enabled: true },
-          { color: "#F71FFF", enabled: true },
-          { color: "#6F008E", enabled: true },
-          { color: "#110435", enabled: true },
-          { color: "#7616B7", enabled: true },
-          { color: "#500404", enabled: true },
-        ],
-        speed: 2.5,
-        horizontalPressure: 3,
-        verticalPressure: 4,
-        waveFrequencyX: 2,
-        waveFrequencyY: 3,
-        waveAmplitude: 5,
-        shadows: 1,
-        highlights: 5,
-        colorBrightness: 1,
-        colorSaturation: 7,
-        wireframe: false,
-        antialias: false,
-        colorBlending: 8,
-        backgroundColor: "#003FFF",
-        backgroundAlpha: 1,
-        grainScale: 0,
-        grainSparsity: 0,
-        grainIntensity: 0,
-        grainSpeed: 1,
-        resolution: 1,
-        yOffset: 0,
-        yOffsetWaveMultiplier: 4,
-        yOffsetColorMultiplier: 4,
-        yOffsetFlowMultiplier: 4,
-        flowDistortionA: 0,
-        flowDistortionB: 0,
-        flowScale: 1,
-        flowEase: 0,
-        flowEnabled: true,
-        enableProceduralTexture: false,
-        transparentTextureVoid: false,
-        bakeEdgeSoftness: 1,
-        textureVoidLikelihood: 0.45,
-        textureVoidWidthMin: 200,
-        textureVoidWidthMax: 486,
-        textureBandDensity: 2.15,
-        textureColorBlending: 0.01,
-        textureSeed: 333,
-        textureEase: 0.5,
-        proceduralBackgroundColor: "#000000",
-        textureShapeTriangles: 20,
-        textureShapeCircles: 15,
-        textureShapeBars: 15,
-        textureShapeSquiggles: 10,
-        domainWarpEnabled: false,
-        domainWarpIntensity: 0,
-        domainWarpScale: 3,
-        vignetteIntensity: 0,
-        vignetteRadius: 0.8,
-        fresnelEnabled: false,
-        fresnelPower: 2,
-        fresnelIntensity: 0.5,
-        fresnelColor: "#FFFFFF",
-        iridescenceEnabled: false,
-        iridescenceIntensity: 0.5,
-        iridescenceSpeed: 1,
-        bloomIntensity: 0,
-        bloomThreshold: 0.7,
-        chromaticAberration: 0,
-        shapeType: "plane",
-        shapeRotationX: 0,
-        shapeRotationY: 0,
-        shapeRotationZ: 0,
-        shapeAutoRotateSpeedX: 0,
-        shapeAutoRotateSpeedY: 0,
-        sphereRadius: 15,
-        torusRadius: 15,
-        torusTube: 5,
-        cylinderRadius: 10,
-        cylinderHeight: 40,
-        planeBend: 0,
-        planeTwist: 0,
-        silhouetteFade: 0.25,
-        cylinderFade: 0.08,
-        ribbonFade: 0.05,
-        flatShading: true,
-        cameraLock: true,
-        cameraX: 0,
-        cameraY: 0,
-        cameraZ: 0,
-        cameraRotationX: 0,
-        cameraRotationY: 0,
-        cameraRotationZ: 0,
-        cameraZoom: 1,
-      } as unknown as ConstructorParameters<typeof NeatGradient>[0]);
-      ngb1GradientRef.current = gradient as unknown as typeof ngb1GradientRef.current;
-    })();
-    return () => {
-      cancelled = true;
-      ngb1GradientRef.current?.destroy();
-      ngb1GradientRef.current = null;
-    };
-  }, []);
-
-  const handleNgb1PointerEnter = () => {
-    const g = ngb1GradientRef.current;
-    if (!g) return;
-    g.speed = 6;
-    g.chromaticAberration = 0.4;
-    g.bloomIntensity = 0.35;
-  };
-  const handleNgb1PointerLeave = () => {
-    const g = ngb1GradientRef.current;
-    if (!g) return;
-    g.speed = 2.5;
-    g.chromaticAberration = 0;
-    g.bloomIntensity = 0;
   };
 
   /* ── PIN Input Demo State ── */
@@ -2349,26 +2723,26 @@ ${deskRules.join("\n")}
                     '--sgb1-glow': sgbGlowSize,
                   } as React.CSSProperties}
                 >
-                <div className={`sgb1-stage ${sgbForceHover ? "sgb1-preview-active" : ""}`}>
-                  <button type="button" className="sgb1-btn">
-                    <span className="sgb1-spark" />
-                    <span className="sgb1-backdrop" />
-                    <svg className="sgb1-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14.19 8.1L15 5.25L15.81 8.1C16.02 8.83 16.42 9.5 16.96 10.04C17.5 10.58 18.17 10.98 18.9 11.19L21.75 12L18.9 12.81C18.17 13.02 17.5 13.42 16.96 13.96C16.42 14.5 16.02 15.17 15.81 15.9L15 18.75L14.19 15.9C13.98 15.17 13.58 14.5 13.04 13.96C12.5 13.42 11.83 13.02 11.1 12.81L8.25 12L11.1 11.19C11.83 10.98 12.5 10.58 13.04 10.04C13.58 9.5 13.98 8.83 14.19 8.1L14.19 8.1Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M6 14.25L5.74 15.29C5.59 15.88 5.29 16.42 4.85 16.85C4.42 17.29 3.88 17.59 3.29 17.74L2.25 18L3.29 18.26C3.88 18.41 4.42 18.71 4.85 19.15C5.29 19.58 5.59 20.12 5.74 20.72L6 21.75L6.26 20.72C6.41 20.12 6.71 19.58 7.15 19.15C7.58 18.71 8.12 18.41 8.71 18.26L9.75 18L8.71 17.74C8.12 17.59 7.58 17.29 7.15 16.85C6.71 16.42 6.41 15.88 6.26 15.29L6 14.25Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M6.5 4L6.3 4.59C6.25 4.76 6.15 4.91 6.03 5.03C5.91 5.15 5.76 5.25 5.59 5.3L5 5.5L5.59 5.7C5.76 5.85 5.91 5.97 6.03 6.09C6.15 6.24 6.25 6.41 6.3 6.41L6.5 7L6.7 6.41C6.75 6.24 6.85 6.09 6.97 5.97C7.09 5.85 7.24 5.75 7.41 5.7L8 5.5L7.41 5.3C7.24 5.25 7.09 5.15 6.97 5.03C6.85 4.91 6.75 4.76 6.7 4.59L6.5 4Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="sgb1-text">Generate Site</span>
-                  </button>
-                  <div className="sgb1-bodydrop" />
-                  <span aria-hidden="true" className="sgb1-particle-pen" ref={sgbParticlePenRef}>
-                    {Array.from({ length: sgbParticleCount }).map((_, i) => (
-                      <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
+                  <div className={`sgb1-stage ${sgbForceHover ? "sgb1-preview-active" : ""}`}>
+                    <button type="button" className="sgb1-btn">
+                      <span className="sgb1-spark" />
+                      <span className="sgb1-backdrop" />
+                      <svg className="sgb1-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.19 8.1L15 5.25L15.81 8.1C16.02 8.83 16.42 9.5 16.96 10.04C17.5 10.58 18.17 10.98 18.9 11.19L21.75 12L18.9 12.81C18.17 13.02 17.5 13.42 16.96 13.96C16.42 14.5 16.02 15.17 15.81 15.9L15 18.75L14.19 15.9C13.98 15.17 13.58 14.5 13.04 13.96C12.5 13.42 11.83 13.02 11.1 12.81L8.25 12L11.1 11.19C11.83 10.98 12.5 10.58 13.04 10.04C13.58 9.5 13.98 8.83 14.19 8.1L14.19 8.1Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 14.25L5.74 15.29C5.59 15.88 5.29 16.42 4.85 16.85C4.42 17.29 3.88 17.59 3.29 17.74L2.25 18L3.29 18.26C3.88 18.41 4.42 18.71 4.85 19.15C5.29 19.58 5.59 20.12 5.74 20.72L6 21.75L6.26 20.72C6.41 20.12 6.71 19.58 7.15 19.15C7.58 18.71 8.12 18.41 8.71 18.26L9.75 18L8.71 17.74C8.12 17.59 7.58 17.29 7.15 16.85C6.71 16.42 6.41 15.88 6.26 15.29L6 14.25Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6.5 4L6.3 4.59C6.25 4.76 6.15 4.91 6.03 5.03C5.91 5.15 5.76 5.25 5.59 5.3L5 5.5L5.59 5.7C5.76 5.85 5.91 5.97 6.03 6.09C6.15 6.24 6.25 6.41 6.3 6.41L6.5 7L6.7 6.41C6.75 6.24 6.85 6.09 6.97 5.97C7.09 5.85 7.24 5.75 7.41 5.7L8 5.5L7.41 5.3C7.24 5.25 7.09 5.15 6.97 5.03C6.85 4.91 6.75 4.76 6.7 4.59L6.5 4Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    ))}
-                  </span>
-                </div>
+                      <span className="sgb1-text">Generate Site</span>
+                    </button>
+                    <div className="sgb1-bodydrop" />
+                    <span aria-hidden="true" className="sgb1-particle-pen" ref={sgbParticlePenRef}>
+                      {Array.from({ length: sgbParticleCount }).map((_, i) => (
+                        <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
+                        </svg>
+                      ))}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -3196,77 +3570,8 @@ ${deskRules.join("\n")}
             `}</style>
           </div>
 
-          {/* Neat Liquid Gradient Button (uses @firecms/neat, an installed project dependency) */}
-          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Neat Liquid Gradient Button</h3>
-              <SectionBadge label="@firecms/neat" color="cyan" />
-            </div>
-
-            <div className="ngb1 relative flex items-center justify-center p-8 rounded-xl min-h-[220px] overflow-hidden">
-              <button
-                type="button"
-                className="ngb1-btn"
-                onPointerEnter={handleNgb1PointerEnter}
-                onPointerLeave={handleNgb1PointerLeave}
-              >
-                <canvas ref={ngb1CanvasRef} className="ngb1-canvas" aria-hidden="true" />
-                <span className="ngb1-label">Enter the experience</span>
-              </button>
-            </div>
-
-            <p className="text-[11px] text-white/40">
-              Powered by:{" "}
-              <a
-                href="https://www.npmjs.com/package/@firecms/neat"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-white/60"
-              >
-                @firecms/neat
-              </a>
-              {" "}(WebGL animated gradient, already a project dependency — renders a live canvas inside the button and speeds up on hover; the free tier shows a small NEAT watermark unless a license key is set)
-            </p>
-
-            <style jsx>{`
-              .ngb1-btn {
-                position: relative;
-                isolation: isolate;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                max-width: 360px;
-                height: 68px;
-                border: none;
-                border-radius: 999px;
-                overflow: hidden;
-                cursor: pointer;
-                background: #0d0a12;
-              }
-              .ngb1-canvas {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                display: block;
-              }
-              .ngb1-label {
-                position: relative;
-                z-index: 2;
-                font-size: 15px;
-                font-weight: 800;
-                letter-spacing: 0.04em;
-                text-transform: uppercase;
-                color: #fff;
-                text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
-              }
-              .ngb1-btn:focus-visible {
-                outline: 2px solid #c084fc;
-                outline-offset: 4px;
-              }
-            `}</style>
-          </div>
+          {/* Neat Liquid Gradient Button setting control UI */}
+          <NeatGradientControlDemo />
         </section>
 
         {/* SECTION 4: FORM ELEMENTS */}
