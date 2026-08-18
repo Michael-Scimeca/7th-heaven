@@ -19,7 +19,8 @@ export function GradientToggle({
   disabled = false,
   className = '',
 }: GradientToggleProps) {
-  const toggleId = id || React.useId();
+  const generatedId = React.useId();
+  const toggleId = id || generatedId;
 
   return (
     <label
