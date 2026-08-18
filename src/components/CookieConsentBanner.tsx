@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { GradientToggle } from "./GradientToggle";
 
 type ConsentState = {
   analytics: boolean;
@@ -118,16 +119,11 @@ export default function CookieConsentBanner() {
                   <p className="text-sm font-semibold text-white/80">Analytics</p>
                   <p className="text-xs text-white/30 mt-0.5">Helps us understand how fans use the site (Google Analytics).</p>
                 </div>
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => setAnalytics(!analytics)}
-                  aria-checked={analytics}
-                  role="switch"
-                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${analytics ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
-                    }`}
-                >
-                  <div className="w-4 h-4 rounded-full bg-white shadow-sm" />
-                </button>
+                <GradientToggle
+                  id="cookie-analytics-toggle"
+                  checked={analytics}
+                  onChange={setAnalytics}
+                />
               </div>
               <div className="h-px bg-white/[0.05]" />
               {/* Marketing */}
@@ -136,16 +132,11 @@ export default function CookieConsentBanner() {
                   <p className="text-sm font-semibold text-white/80">Marketing</p>
                   <p className="text-xs text-white/30 mt-0.5">Personalised show recommendations and fan engagement.</p>
                 </div>
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => setMarketing(!marketing)}
-                  aria-checked={marketing}
-                  role="switch"
-                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${marketing ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
-                    }`}
-                >
-                  <div className="w-4 h-4 rounded-full bg-white shadow-sm" />
-                </button>
+                <GradientToggle
+                  id="cookie-marketing-toggle"
+                  checked={marketing}
+                  onChange={setMarketing}
+                />
               </div>
             </div>
           )}

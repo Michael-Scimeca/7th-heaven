@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useSyncExternalStore, useRef } from "
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { GradientToggle } from "@/components/GradientToggle";
 import QRCode from "react-qr-code";
 
 interface Attendee {
@@ -412,19 +413,14 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <button aria-label="Action button"
-                      type="button"
-                      onClick={() => setWantAnonymous(!wantAnonymous)}
-                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors cursor-pointer ${wantAnonymous
-                        ? "border-white/20 bg-white/5 text-white/60"
-                        : "border-white/[0.06] text-white/30 hover:text-white/50"
-                        }`}
-                    >
-                      <span className={`w-7 h-4 rounded-full relative transition-colors shrink-0 ${wantAnonymous ? "bg-white/30" : "bg-white/10"}`}>
-                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantAnonymous ? "left-[14px]" : "left-0.5"}`} />
-                      </span>
-                      Go anonymously
-                    </button>
+                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-white/5">
+                      <GradientToggle
+                        id="show-anonymous-toggle"
+                        label="Go anonymously"
+                        checked={wantAnonymous}
+                        onChange={setWantAnonymous}
+                      />
+                    </div>
                   )}
                 </>
               )}
