@@ -2101,37 +2101,37 @@ html.tour-sort-stuck #tour-sort-bar {
   box-shadow: 0 0 20px rgba(192, 132, 252, 1) !important;
 }
 
-/* 4px Slim Dropdown Scrollbar (Always Visible Knob, No Track Color) */
+/* 6px Slim Dropdown Scrollbar (Always Visible Knob, Track Background) */
 .gooey-dropdown-scrollbar {
   scrollbar-width: thin !important;
-  scrollbar-color: rgba(192, 132, 252, 0.9) transparent !important;
+  scrollbar-color: #c084fc rgba(255, 255, 255, 0.05) !important;
 }
 
 .gooey-dropdown-scrollbar::-webkit-scrollbar {
-  width: 4px !important;
-  height: 4px !important;
+  width: 6px !important;
+  height: 6px !important;
   display: block !important;
   -webkit-appearance: none !important;
 }
 
 .gooey-dropdown-scrollbar::-webkit-scrollbar-track {
-  background: transparent !important;
-  border: none !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 9999px !important;
 }
 
 .gooey-dropdown-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(192, 132, 252, 0.9) !important;
+  background: #c084fc !important;
   border-radius: 9999px !important;
   min-height: 28px !important;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 1) !important;
+  border: 1.5px solid #ffffff !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
 .gooey-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(236, 72, 153, 1) !important;
-  box-shadow: 0 0 14px rgba(236, 72, 153, 1) !important;
+  background: #f472b6 !important;
+  box-shadow: 0 0 16px rgba(244, 114, 182, 1) !important;
 }
 
 /* Prevent transition flash during window resize */

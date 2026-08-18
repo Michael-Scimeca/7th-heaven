@@ -155,7 +155,7 @@ export default function GooeyMessagesDropdown({
             </div>
           )}
 
-          <div className="max-h-60 overflow-y-auto gooey-dropdown-scrollbar space-y-1 " data-lenis-prevent="true">
+          <div className="max-h-60 overflow-y-auto gooey-dropdown-scrollbar space-y-1 pr-3.5 pl-1 py-1" data-lenis-prevent="true">
             {normalizedCustomers.map((c) => {
               const isSelected = c.id === activeSelectedId;
               return (
@@ -164,8 +164,8 @@ export default function GooeyMessagesDropdown({
                   type="button"
                   role="option"
                   aria-selected={isSelected}
-                  className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
-                    ? "text-white bg-purple-500/20 shadow-sm"
+                  className={`w-[calc(100%-4px)] text-left px-3 py-2 rounded-md text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                    ? "text-white bg-purple-500/20 shadow-sm border border-purple-400/40"
                     : "text-white/80 hover:text-white hover:bg-purple-500/20"
                     }`}
                   onClick={() => {
