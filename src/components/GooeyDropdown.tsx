@@ -67,9 +67,16 @@ export interface GooeyDropdownProps {
 }
 
 function hexToRgba(color: string, alpha: number = 1.0): string {
-  if (!color) return `rgba(36, 38, 48, ${alpha})`;
+  if (!color) return "rgba(168, 85, 247, 0.12)";
   if (color.startsWith("rgba") || color.startsWith("hsla")) return color;
   let c = color.replace("#", "");
+  if (c.length === 8) {
+    const r = parseInt(c.slice(0, 2), 16);
+    const g = parseInt(c.slice(2, 4), 16);
+    const b = parseInt(c.slice(4, 6), 16);
+    const a = parseInt(c.slice(6, 8), 16) / 255;
+    return `rgba(${r}, ${g}, ${b}, ${a * alpha})`;
+  }
   if (c.length === 3) c = c.split("").map((x) => x + x).join("");
   const num = parseInt(c, 16);
   if (isNaN(num)) return color;
@@ -118,10 +125,8 @@ export default function GooeyDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Translucent background color for glass backdrop-blur (transparent when closed)
-  const bgGlassColor = open
-    ? hexToRgba(accentColor, glassOpacity)
-    : (transparent ? "transparent" : hexToRgba(accentColor, glassOpacity));
+  // Translucent background color for glass backdrop-blur
+  const bgGlassColor = hexToRgba(accentColor, glassOpacity);
 
   // Keep the trigger-shape / closed-panel size in sync with the real button,
   // so the blob sits exactly behind the label with no gap or overhang.
