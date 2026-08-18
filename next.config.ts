@@ -43,8 +43,19 @@ const nextConfig: NextConfig = {
   },
   outputFileTracingExcludes: {
     '*': [
-      'node_modules/@tensorflow/tfjs/**',
       'node_modules/@tensorflow/**',
+      'node_modules/nsfwjs/**',
+      'node_modules/sanity/**',
+      'node_modules/@sanity/**',
+      'node_modules/puppeteer/**',
+      'node_modules/puppeteer-core/**',
+      'node_modules/@puppeteer/**',
+      'node_modules/three/**',
+      'node_modules/@react-three/**',
+      'node_modules/@swc/**',
+      'node_modules/typescript/**',
+      'node_modules/vitest/**',
+      'node_modules/@vitest/**',
       'node_modules/leaflet/**',
       'node_modules/react-leaflet/**',
       'node_modules/swiper/**',
@@ -55,6 +66,7 @@ const nextConfig: NextConfig = {
       'public/uploads/**',
       'public/audio/**',
       'public/assets/**',
+      'public/sitemap-screenshots/**',
     ],
   },
   images: {

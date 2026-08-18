@@ -87,7 +87,6 @@ const ALL_ROUTES: RouteItem[] = [
   // ── UI Demos & Interactive Lab ──
   { path: "/style-guide", type: "Static", label: "Full UI Style Guide & Fluid Studio", category: "UI Demos & Labs", icon: Layers },
   { path: "/hambuger", type: "Static", label: "Hamburger Menu Animation", category: "UI Demos & Labs", icon: Layers },
-  { path: "/slideup", type: "Static", label: "Slideup Section Stacking", category: "UI Demos & Labs", icon: Layers },
   { path: "/textcolor", type: "Static", label: "Text Color Gradient Studio", category: "UI Demos & Labs", icon: Layers },
   { path: "/video", type: "Static", label: "Video Showcase Studio", category: "UI Demos & Labs", icon: Film },
   { path: "/payment-test", type: "Static", label: "Payment Test Shop (EPX Mock)", category: "UI Demos & Labs", icon: ShoppingBag },
