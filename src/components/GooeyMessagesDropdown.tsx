@@ -288,7 +288,7 @@ export default function GooeyMessagesDropdown({
         </defs>
       </svg>
 
-      <div className="absolute left-0 top-0 z-40 pointer-events-none">
+      <div className={`absolute left-0 top-0 z-40 pointer-events-none transition-opacity duration-200 ${open || isClicking ? 'opacity-100' : 'opacity-0'}`}>
         <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
           <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
@@ -304,16 +304,6 @@ export default function GooeyMessagesDropdown({
                 if (open && (e.propertyName === "height" || e.propertyName === "width")) {
                   setIsMorphComplete(true);
                 }
-              }}
-            />
-            <div
-              className={`absolute ${currentBg} rounded-full transition-colors duration-300`}
-              style={{
-                width: triggerWidth,
-                height: triggerHeight,
-                left: 0,
-                top: 0,
-                backgroundColor: open ? '#242630' : '#2f2f3c',
               }}
             />
           </div>
