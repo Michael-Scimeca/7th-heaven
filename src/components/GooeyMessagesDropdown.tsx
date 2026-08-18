@@ -68,6 +68,10 @@ export default function GooeyMessagesDropdown({
   const [open, setOpen] = useState(false);
   const [selectedIdState, setSelectedIdState] = useState<string | undefined>(defaultSelectedId);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [thumbHeightRatio, setThumbHeightRatio] = useState(1);
 
   const normalizedCustomers: GooeyCustomer[] =
     options && options.length > 0
@@ -77,6 +81,27 @@ export default function GooeyMessagesDropdown({
   const activeSelectedId = selected !== undefined ? selected : selectedIdState;
   const selectedItem = normalizedCustomers.find((c) => c.id === activeSelectedId);
   const triggerText = selectedItem ? selectedItem.name : placeholder;
+
+  const handleScroll = () => {
+    if (!listRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = listRef.current;
+    const maxScroll = scrollHeight - clientHeight;
+    if (maxScroll > 0) {
+      setScrollProgress(scrollTop / maxScroll);
+      setThumbHeightRatio(clientHeight / scrollHeight);
+    } else {
+      setScrollProgress(0);
+      setThumbHeightRatio(1);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      // Delay frame to allow DOM layout measurement
+      const t = setTimeout(handleScroll, 10);
+      return () => clearTimeout(t);
+    }
+  }, [open, normalizedCustomers.length]);
 
   useEffect(() => {
     if (!open) return;
@@ -113,8 +138,8 @@ export default function GooeyMessagesDropdown({
         disabled={disabled}
         className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${open
-            ? "bg-[#6917BF]  text-white "
-            : "bg-[#180f33] border-white/15 text-white/90 "
+            ? "bg-[#6917BF] text-white"
+            : "bg-[#180f33] border-white/15 text-white/90"
           } ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
@@ -145,7 +170,7 @@ export default function GooeyMessagesDropdown({
       {/* Dropdown Options Menu Panel */}
       {open && (
         <div
-          className="absolute left-0 top-full !m-0 !p-0 min-w-full w-max max-w-md bg-[#a855f71f] border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
+          className="absolute left-0 top-full mt-2 min-w-full w-max max-w-md bg-[#120826] border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
           role="listbox"
         >
           {(title || badge) && (
@@ -155,33 +180,52 @@ export default function GooeyMessagesDropdown({
             </div>
           )}
 
-          <div className="max-h-48 overflow-y-scroll gooey-dropdown-scrollbar space-y-1 pr-3.5 pl-1 py-1" data-lenis-prevent="true">
-            {normalizedCustomers.map((c) => {
-              const isSelected = c.id === activeSelectedId;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  role="option"
-                  aria-selected={isSelected}
-                  className={`w-[calc(100%-4px)] text-left px-3 py-2 rounded-md text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
-                    ? "text-white bg-purple-500/20 shadow-sm border border-purple-400/40"
-                    : "text-white/80 hover:text-white hover:bg-purple-500/20"
-                    }`}
-                  onClick={() => {
-                    setSelectedIdState(c.id);
-                    onSelect?.(c);
-                    onChange?.(c.id);
-                    setOpen(false);
-                  }}
-                >
-                  <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">{c.name}</span>
-                  {isSelected && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2" />
-                  )}
-                </button>
-              );
-            })}
+          <div className="relative">
+            {/* Scrollable Container */}
+            <div
+              ref={listRef}
+              onScroll={handleScroll}
+              className="max-h-48 overflow-y-auto no-scrollbar space-y-1 pr-4 pl-1 py-1"
+              data-lenis-prevent="true"
+            >
+              {normalizedCustomers.map((c) => {
+                const isSelected = c.id === activeSelectedId;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    role="option"
+                    aria-selected={isSelected}
+                    className={`w-full text-left px-3 py-2 rounded-md text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                      ? "text-white bg-purple-500/30 border border-purple-400/50 shadow-sm"
+                      : "text-white/80 hover:text-white hover:bg-purple-500/20"
+                      }`}
+                    onClick={() => {
+                      setSelectedIdState(c.id);
+                      onSelect?.(c);
+                      onChange?.(c.id);
+                      setOpen(false);
+                    }}
+                  >
+                    <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">{c.name}</span>
+                    {isSelected && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Permanent Custom React DOM Scrollbar Indicator */}
+            <div className="absolute right-1 top-1 bottom-1 w-1.5 bg-white/10 rounded-full pointer-events-none z-30">
+              <div
+                className="w-full bg-gradient-to-b from-purple-300 via-purple-500 to-pink-500 rounded-full shadow-[0_0_10px_rgba(192,132,252,1)] border border-white transition-all duration-75"
+                style={{
+                  height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
+                  marginTop: `${scrollProgress * (100 - Math.max(20, Math.min(100, thumbHeightRatio * 100))) * 0.01 * (listRef.current ? listRef.current.clientHeight - 8 : 150)}px`,
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
