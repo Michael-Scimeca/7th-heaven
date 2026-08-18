@@ -1024,8 +1024,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <span className="text-[var(--font-size-4xs)] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                               <span
                                 className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo
-                                  ? 'bg-purple-600 group-hover:bg-purple-500 text-white'
-                                  : 'bg-purple-600 group-hover:bg-purple-500 text-white'
+                                  ? 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
+                                  : 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
                                   }`}
                               >
                                 <span>Select Prevailing Rate</span>
@@ -1271,7 +1271,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
+                              <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
