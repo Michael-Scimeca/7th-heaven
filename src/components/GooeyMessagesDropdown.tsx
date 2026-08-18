@@ -32,6 +32,7 @@ export interface GooeyMessagesDropdownProps {
   transparentBg?: boolean;
   noPadding?: boolean;
   disabled?: boolean;
+  showAllOption?: boolean;
   id?: string;
   name?: string;
 }
@@ -56,6 +57,7 @@ export default function GooeyMessagesDropdown({
   customers = DEFAULT_CUSTOMERS,
   defaultSelectedId,
   onSelect,
+  showAllOption = true,
   className = "",
   triggerTextClassName = "",
   fullWidth = false,
@@ -73,13 +75,21 @@ export default function GooeyMessagesDropdown({
   const [scrollProgress, setScrollProgress] = useState(0);
   const [thumbHeightRatio, setThumbHeightRatio] = useState(1);
 
-  const normalizedCustomers: GooeyCustomer[] =
+  let normalizedCustomers: GooeyCustomer[] =
     options && options.length > 0
       ? options.map((opt) => (typeof opt === "string" ? { id: opt, name: opt } : { id: opt.value, name: opt.label }))
       : customers;
 
+  const hasAllOption = normalizedCustomers.some(
+    (c) => c.id.toLowerCase() === "all" || c.name.toLowerCase() === "all"
+  );
+
+  if (showAllOption && !hasAllOption) {
+    normalizedCustomers = [{ id: "All", name: "ALL" }, ...normalizedCustomers];
+  }
+
   const activeSelectedId = selected !== undefined ? selected : selectedIdState;
-  const selectedItem = normalizedCustomers.find((c) => c.id === activeSelectedId);
+  const selectedItem = normalizedCustomers.find((c) => c.id === activeSelectedId || (activeSelectedId === "All" && c.id.toLowerCase() === "all"));
   const triggerText = selectedItem ? selectedItem.name : placeholder;
 
   const handleScroll = () => {
