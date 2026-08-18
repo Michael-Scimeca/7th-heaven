@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import SearchInput from "@/components/SearchInput";
+import { CalendarBadgeIcon } from "@/components/CalendarBadgeIcon";
 
 const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
   ssr: false,
