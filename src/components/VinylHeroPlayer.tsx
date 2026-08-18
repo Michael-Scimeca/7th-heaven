@@ -623,14 +623,31 @@ export default function VinylHeroPlayer({
                           ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
                           : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
                     </svg>
-                    <input aria-label="Input field"
-                      type="range" min="0" max="1" step="0.01"
-                      value={volume}
-                      onChange={handleVolumeChange}
-                      onClick={(e) => e.stopPropagation()}
-                      className="w-14 h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
-                      style={{ accentColor: "#d946ef" }}
-                    />
+                    {/* Volume Slider with Neon Glow Track */}
+                    <div className="relative w-14 h-3 flex items-center cursor-pointer group" onClick={(e) => e.stopPropagation()}>
+                      {/* Track Background */}
+                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                        <div
+                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                          style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                        />
+                      </div>
+                      {/* Glowing Thumb Handle */}
+                      <div
+                        className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3 h-3 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                        style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                      />
+                      <input
+                        aria-label="Adjust volume"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={handleVolumeChange}
+                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                      />
+                    </div>
                   </div>
                 </div>
 
