@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 function nameToUsername(name: string) {
   return name.trim().toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 20);
@@ -186,23 +187,23 @@ export default function CompleteProfilePage() {
                 </span>
 
                 {/* Proximity alerts */}
-                <button aria-label="Action button"
-                  type="button"
+                <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      ? 'bg-purple-600/10 border-purple-500/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                    }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${wantNotifications ? 'left-[18px]' : 'left-0.5'
-                      }`} />
-                  </span>
-                  <span className="text-sm text-white/70 leading-tight text-left">
+                  <SquishyToggle
+                    id="complete-profile-notifications"
+                    label="Email me when 7th Heaven books a show near me"
+                    checked={wantNotifications}
+                    onChange={(val) => setWantNotifications(val)}
+                  />
+                  <span className="text-sm text-white/90 font-bold leading-tight text-left">
                     📍 Email me when 7th Heaven books a show near me
                   </span>
-                </button>
+                </div>
 
                 {/* Zip code */}
                 {wantNotifications && (
@@ -222,23 +223,23 @@ export default function CompleteProfilePage() {
                 )}
 
                 {/* Newsletter */}
-                <button aria-label="Action button"
-                  type="button"
+                <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      ? 'bg-purple-600/10 border-purple-500/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                    }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${wantNewsletter ? 'left-[18px]' : 'left-0.5'
-                      }`} />
-                  </span>
-                  <span className="text-sm text-white/70 leading-tight text-left">
+                  <SquishyToggle
+                    id="complete-profile-newsletter"
+                    label="Send me news, show updates & exclusive drops"
+                    checked={wantNewsletter}
+                    onChange={(val) => setWantNewsletter(val)}
+                  />
+                  <span className="text-sm text-white/90 font-bold leading-tight text-left">
                     📧 Send me news, show updates &amp; exclusive drops
                   </span>
-                </button>
+                </div>
               </div>
 
               {/* Info callout */}

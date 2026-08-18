@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export interface SquishyToggleProps {
   checked: boolean;
@@ -47,7 +47,7 @@ export function SquishyToggle({
   id = 'squishy-toggle',
   className = '',
 }: SquishyToggleProps) {
-  const thumbRef = useRef<HTMLDivElement>(null);
+  const [animState, setAnimState] = useState<'idle' | 'in' | 'out'>('idle');
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -55,11 +55,7 @@ export function SquishyToggle({
       isInitialMount.current = false;
       return;
     }
-    const thumb = thumbRef.current;
-    if (!thumb) return;
-    thumb.classList.remove('animate-squish-in', 'animate-squish-out');
-    void thumb.offsetWidth; // force reflow so the animation restarts every time
-    thumb.classList.add(checked ? 'animate-squish-in' : 'animate-squish-out');
+    setAnimState(checked ? 'in' : 'out');
   }, [checked]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,8 +63,16 @@ export function SquishyToggle({
   };
 
   const handleAnimationEnd = () => {
-    thumbRef.current?.classList.remove('animate-squish-in', 'animate-squish-out');
+    setAnimState('idle');
   };
+
+  const thumbClass = animState === 'in'
+    ? 'animate-squish-in'
+    : animState === 'out'
+    ? 'animate-squish-out'
+    : checked
+    ? 'translate-x-[24px]'
+    : 'translate-x-0';
 
   return (
     <div
@@ -88,13 +92,10 @@ export function SquishyToggle({
       {/* track */}
       <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-all duration-300 peer-checked:bg-linear-to-r peer-checked:from-[#6917BF] peer-checked:via-[#8c0eaf] peer-checked:to-[#6F008E] peer-checked:border-[#8c0eaf] peer-checked:shadow-[0_0_12px_rgba(140,14,175,0.6)]" />
 
-      {/* thumb — resting position set via inline style so it's always correct;
-          the squish animation overrides transform during the bounce then hands back */}
+      {/* thumb */}
       <div
-        ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        style={{ transform: `translateX(${checked ? 24 : 0}px)` }}
-        className="squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)]"
+        className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
       />
     </div>
   );

@@ -4294,7 +4294,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-2 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
                       CREATE ACCOUNT
                     </button>
                   </div>
