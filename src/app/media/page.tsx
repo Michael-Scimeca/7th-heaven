@@ -39,13 +39,15 @@ function VideoThumbnail({ videoId, title, isActive }: { videoId: string; title: 
     <div className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
       {/* 10-Second Video Preview Loop when active starting 10s into video */}
       {isActive && (
-        <iframe
-          key={videoId}
-          src={previewUrl}
-          title={`${title} Preview`}
-          allow="autoplay; encrypted-media"
-          className="absolute inset-0 w-full h-full object-cover scale-125 pointer-events-none z-0 border-0 opacity-90 transition-opacity duration-700"
-        />
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <iframe
+            key={videoId}
+            src={previewUrl}
+            title={`${title} Preview`}
+            allow="autoplay; encrypted-media"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177.77vh] min-h-[56.25vw] w-[160%] h-[160%] max-w-none pointer-events-none border-0 opacity-90 transition-opacity duration-700"
+          />
+        </div>
       )}
 
       {/* Static Fallback Thumbnail Image */}
@@ -374,7 +376,7 @@ export default function MediaPage() {
                 </div>
                 <button aria-label="Action button"
                   onClick={() => setHeroPlaying(true)}
-                  className="flex items-center gap-2.5 px-8 py-3.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
+                  className="flex items-center gap-2.5 px-8 py-3.5 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Watch Featured Video
@@ -458,12 +460,12 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg  md:rounded-none p-5 sm:p-6 md:p-0 pb-5 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
+                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg  md:rounded-none pb-5 pt-5 sm:pb-6 sm:pt-6 md:p-0 pb-5 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
                     <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/85 to-black/60 z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/40 z-10" />
                   </div>
 
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
@@ -505,7 +507,7 @@ export default function MediaPage() {
                           e.stopPropagation();
                           setPlayingId(video.id);
                         }}
-                        className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"
+                        className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-all  cursor-pointer ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"
                           }`}
                       >
                         <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
