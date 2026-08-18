@@ -547,26 +547,13 @@ header {
   }
 }
 
-/* Extend Header backdrop container down with backdrop blur when sort bar / category bar is stuck */
-html.tour-sort-stuck header,
-html.media-category-stuck header {
-  --hm-stop: 62%;
-  height: var(--header-mask-height, 175px) !important;
-  backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
-  -webkit-backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
-  z-index: 40 !important;
-}
-
-@media (max-width: 1023px) {
-  html.tour-sort-stuck header,
-  html.media-category-stuck header {
-    height: var(--header-mask-height, 255px) !important;
-    z-index: 40 !important;
-  }
-}
-
-#tour-sort-bar {
-  z-index: 60 !important;
+/* Sticky Tour Sort Bar — glass backdrop-filter blur when stuck below header */
+#tour-sort-bar.is-stuck {
+  background: rgba(12, 12, 18, 0.85) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* =============================================
