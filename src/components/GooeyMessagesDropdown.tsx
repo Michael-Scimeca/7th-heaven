@@ -331,7 +331,7 @@ export default function GooeyMessagesDropdown({
               </div>
             )}
 
-            <ul className={`list-none m-0 p-0 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
+            <ul className={`list-none m-0 pb-3 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
               }`}>
               {normalizedCustomers.map((c) => (
                 <li key={c.id} className="border-b border-white/10 last:border-b-0">
@@ -340,7 +340,7 @@ export default function GooeyMessagesDropdown({
                     role="option"
                     aria-selected={c.id === activeSelectedId}
                     tabIndex={open && isMorphComplete ? 0 : -1}
-                    className={`block w-full text-left py-2 px-3 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1] hover:text-white"
+                    className={`block w-full text-left pt-2 pb-1 pr-1 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1] hover:text-white"
                       }`}
                     onClick={() => {
                       const isSelected = c.id === activeSelectedId;
