@@ -135,17 +135,17 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 text-white/80 transition-transform duration-200 ${open ? "rotate-180 text-white" : ""}`}
+          className={`shrink-0 text-white/80 transition-transform duration-200 ${open ? "rotate-90 text-white" : "rotate-0"}`}
           aria-hidden="true"
         >
-          <path d="M2 4l4 4 4-4" />
+          <path d="M4 2l4 4-4 4" />
         </svg>
       </button>
 
       {/* Dropdown Options Menu Panel */}
       {open && (
         <div
-          className="absolute left-0 top-full mt-2 min-w-full w-max max-w-sm bg-[#120826]/95 border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
+          className="absolute left-0 top-full !m-0 !p-0 min-w-full w-max max-w-sm bg-[#120826]/95 border border-purple-500/40 rounded-xl p-1 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl z-[99999] overflow-hidden"
           role="listbox"
         >
           {(title || badge) && (
@@ -155,7 +155,7 @@ export default function GooeyMessagesDropdown({
             </div>
           )}
 
-          <div className="max-h-60 overflow-y-auto gooey-dropdown-scrollbar space-y-1 pr-3 pl-1 py-1" data-lenis-prevent="true">
+          <div className="max-h-60 overflow-y-auto gooey-dropdown-scrollbar space-y-1 " data-lenis-prevent="true">
             {normalizedCustomers.map((c) => {
               const isSelected = c.id === activeSelectedId;
               return (
@@ -164,8 +164,8 @@ export default function GooeyMessagesDropdown({
                   type="button"
                   role="option"
                   aria-selected={isSelected}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
-                    ? "text-white bg-purple-500/30 border border-purple-400/50 shadow-sm"
+                  className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                    ? "text-white bg-purple-500/20 shadow-sm"
                     : "text-white/80 hover:text-white hover:bg-purple-500/20"
                     }`}
                   onClick={() => {
