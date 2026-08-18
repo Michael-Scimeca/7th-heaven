@@ -665,16 +665,32 @@ export default function VinylHeroPlayer({
 
                 {/* Progress Scrubber — pinned to very bottom */}
                 <div className="pointer-events-auto px-1 mt-2">
-                  <input aria-label="Input field"
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="0.1"
-                    value={progress}
-                    onChange={handleSeek}
-                    className="w-full h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
-                    style={{ accentColor: "#d946ef" }}
-                  />
+                  <div className="relative w-full h-4 flex items-center cursor-pointer group">
+                    {/* Track Background */}
+                    <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                      {/* Filled Progress Gradient Bar */}
+                      <div
+                        className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_10px_rgba(217,70,239,0.8)]"
+                        style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+                      />
+                    </div>
+                    {/* Glowing Thumb Handle */}
+                    <div
+                      className="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_12px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                      style={{ left: `${Math.min(100, Math.max(0, progress))}%` }}
+                    />
+                    {/* Invisible Native Input for 100% accessible dragging/seeking */}
+                    <input
+                      aria-label="Seek audio position"
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={progress}
+                      onChange={handleSeek}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                    />
+                  </div>
                   <div className="flex justify-between text-[var(--font-size-3xs)] font-mono text-white/60 mt-0.5">
                     <span>{currentTime}</span>
                     <span>{duration}</span>
@@ -714,7 +730,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
+              <div className="backdrop-blur-2xl pl-3 border-l border-white/15 h-full flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px] font-black uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST

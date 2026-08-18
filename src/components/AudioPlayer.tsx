@@ -946,8 +946,21 @@ export default function AudioPlayerSection() {
             </div>
 
             {/* Progress Bar (Extends across all available space to the right!) */}
-            <div className="relative flex-1 h-[4px] bg-white/15 group mx-2 sm:mx-3 min-w-[100px]">
-              <input aria-label="Input field"
+            <div className="relative flex-1 h-3 flex items-center cursor-pointer group mx-2 sm:mx-3 min-w-[100px]">
+              {/* Track Background */}
+              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                <div
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                />
+              </div>
+              {/* Glowing Thumb Indicator Dot */}
+              <div
+                className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_10px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                style={{ left: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+              />
+              <input
+                aria-label="Seek audio position"
                 type="range"
                 min="0"
                 max={duration || 100}
@@ -955,13 +968,6 @@ export default function AudioPlayerSection() {
                 onChange={handleSeek}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
-              <div
-                className="absolute top-0 left-0 h-full bg-[var(--color-accent)] pointer-events-none transition-colors"
-                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-              >
-                {/* Indicator Dot */}
-                <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.4)]" />
-              </div>
             </div>
 
             {/* Full Time */}
