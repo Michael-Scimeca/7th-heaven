@@ -85,7 +85,7 @@ const PANEL_PADDING_Y = 6;
 export default function GooeyDropdown({
   label,
   items,
-  accentColor = "#242630",
+  accentColor = "#a855f71f",
   textColor = "#ffffff",
   panelTextColor,
   chevronColor,
