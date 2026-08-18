@@ -978,7 +978,7 @@ export default function AudioPlayerSection() {
             {/* Right Controls (Volume) */}
             <div className="flex items-center gap-4 shrink-0 ml-auto">
               {/* Volume */}
-              <div className="flex items-center gap-2.5 w-[80px] sm:w-[100px]">
+              <div className="flex items-center gap-2.5 w-[110px] sm:w-[140px]">
                 <button
                   type="button"
                   aria-label="Toggle mute"
@@ -997,7 +997,14 @@ export default function AudioPlayerSection() {
                     )}
                   </svg>
                 </button>
-                <div className="relative flex-1 h-3 flex items-center cursor-pointer group">
+                <div
+                  className="relative flex-1 h-3 flex items-center cursor-pointer group"
+                  onWheel={(e) => {
+                    const delta = e.deltaY < 0 ? 0.05 : -0.05;
+                    const nv = Math.min(1, Math.max(0, volume + delta));
+                    setVolume(nv);
+                  }}
+                >
                   {/* Track Background */}
                   <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
                     <div
@@ -1007,7 +1014,7 @@ export default function AudioPlayerSection() {
                   </div>
                   {/* Glowing Thumb Handle */}
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3 h-3 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                    className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                     style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                   />
                   <input
@@ -1015,7 +1022,7 @@ export default function AudioPlayerSection() {
                     type="range"
                     min="0"
                     max="1"
-                    step="0.05"
+                    step="0.01"
                     value={volume}
                     onChange={(e) => setVolume(Number(e.target.value))}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"

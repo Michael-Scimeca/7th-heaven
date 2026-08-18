@@ -616,15 +616,37 @@ export default function VinylHeroPlayer({
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
                     {/* Volume */}
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
-                      {volume === 0
-                        ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
-                        : volume < 0.5
-                          ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
-                          : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
-                    </svg>
-                    {/* Volume Slider with Neon Glow Track */}
-                    <div className="relative w-14 h-3 flex items-center cursor-pointer group" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      type="button"
+                      aria-label="Toggle mute"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const nv = volume > 0 ? 0 : 1;
+                        setVolume(nv);
+                        if (audioRef.current) audioRef.current.volume = nv;
+                      }}
+                      className="bg-transparent border-0 p-0 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        {volume === 0
+                          ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
+                          : volume < 0.5
+                            ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
+                            : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
+                      </svg>
+                    </button>
+                    {/* Expanded Volume Slider with Mouse Wheel support */}
+                    <div
+                      className="relative w-24 h-4 flex items-center cursor-pointer group"
+                      onClick={(e) => e.stopPropagation()}
+                      onWheel={(e) => {
+                        e.stopPropagation();
+                        const delta = e.deltaY < 0 ? 0.05 : -0.05;
+                        const nv = Math.min(1, Math.max(0, volume + delta));
+                        setVolume(nv);
+                        if (audioRef.current) audioRef.current.volume = nv;
+                      }}
+                    >
                       {/* Track Background */}
                       <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
                         <div
@@ -634,7 +656,7 @@ export default function VinylHeroPlayer({
                       </div>
                       {/* Glowing Thumb Handle */}
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3 h-3 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                        className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                         style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                       />
                       <input
