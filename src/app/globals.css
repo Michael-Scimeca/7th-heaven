@@ -2537,13 +2537,9 @@ textarea,
   border-radius: 999px;
 }
 
-.gooey-drop-wrap:not([data-open="true"]) .gooey-drop-panelShape,
-.gooey-drop-wrap:not([data-open="true"]) .gooey-drop-triggerShape {
-  transition: none !important;
-}
-
-.gooey-drop-panelShape {
-  transition: width 480ms cubic-bezier(0.65, 0, 0.35, 1), height 480ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 480ms cubic-bezier(0.65, 0, 0.35, 1);
+.gooey-drop-panelShape,
+.gooey-drop-triggerShape {
+  transition: none;
 }
 
 .gooey-drop-content {

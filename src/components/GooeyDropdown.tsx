@@ -154,7 +154,15 @@ export default function GooeyDropdown({
     };
   }, [open]);
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const [isClicking, setIsClicking] = useState(false);
+
+  const toggle = useCallback(() => {
+    setIsClicking(true);
+    setOpen((o) => !o);
+    setTimeout(() => {
+      setIsClicking(false);
+    }, 500);
+  }, []);
 
   // Keep the panel exactly as wide as the trigger pill — it should only grow
   // downward, never bulge past the trigger's left/right edges.
@@ -193,7 +201,9 @@ export default function GooeyDropdown({
             background: bgGlassColor,
             backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
             WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
-            transition: open ? undefined : "none",
+            transition: isClicking
+              ? "width 480ms cubic-bezier(0.65, 0, 0.35, 1), height 480ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 480ms cubic-bezier(0.65, 0, 0.35, 1)"
+              : "none",
           }}
           onTransitionEnd={(e) => {
             if (open && (e.propertyName === "height" || e.propertyName === "width")) {
