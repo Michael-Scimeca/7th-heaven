@@ -1,7 +1,8 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { AnchorHTMLAttributes, MouseEvent, ReactNode, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
 
 type TransitionLinkProps = LinkProps &
@@ -12,22 +13,27 @@ type TransitionLinkProps = LinkProps &
 /**
  * Drop-in replacement for next/link's <Link> that routes real page-to-page
  * navigations through the curtain transition (see PageTransition.tsx)
- * instead of Next's default instant client-side swap.
- *
- * Falls through to plain <Link> behavior (no interception) for:
- *   - modified clicks (cmd/ctrl/shift/middle-click) — let the browser open
- *     a new tab as normal.
- *   - same-page hash links (e.g. "/#band") — those are scroll anchors, not
- *     route changes, and shouldn't trigger the curtain.
- *   - a link to the page you're already on.
+ * while prefetching target route payloads instantly on hover / focus / touch.
  */
 export default function TransitionLink({
   href,
   children,
   onClick,
+  onMouseEnter,
+  onPointerEnter,
+  onTouchStart,
+  onFocus,
   ...rest
 }: TransitionLinkProps) {
+  const router = useRouter();
   const { requestTransition } = useTransition();
+
+  const handlePrefetch = useCallback(() => {
+    const targetHref = typeof href === "string" ? href : href.pathname ?? "";
+    if (targetHref && !targetHref.includes("#")) {
+      router.prefetch(targetHref);
+    }
+  }, [href, router]);
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e);
@@ -46,7 +52,27 @@ export default function TransitionLink({
   };
 
   return (
-    <Link href={href} onClick={handleClick} {...rest}>
+    <Link
+      href={href}
+      onClick={handleClick}
+      onMouseEnter={(e) => {
+        onMouseEnter?.(e);
+        handlePrefetch();
+      }}
+      onPointerEnter={(e) => {
+        onPointerEnter?.(e);
+        handlePrefetch();
+      }}
+      onTouchStart={(e) => {
+        onTouchStart?.(e);
+        handlePrefetch();
+      }}
+      onFocus={(e) => {
+        onFocus?.(e);
+        handlePrefetch();
+      }}
+      {...rest}
+    >
       {children}
     </Link>
   );
