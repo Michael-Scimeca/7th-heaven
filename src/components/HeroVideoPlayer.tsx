@@ -361,6 +361,18 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     captureFrame();
   }, [captureFrame]);
 
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const START_TIME = 10;
+    const MAX_DURATION = 10; // Exactly 10 seconds long loop
+    if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
+      try {
+        video.currentTime = START_TIME;
+      } catch (_) { }
+    }
+  }, []);
+
   const handleHeroClick = useCallback(() => {
     const video = videoRef.current;
     if (video) {
@@ -396,6 +408,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           ref={videoRef}
           onCanPlay={handleCanPlay}
           onLoadedMetadata={handleLoadedMetadata}
+          onTimeUpdate={handleTimeUpdate}
           preload="metadata"
           autoPlay
           muted
