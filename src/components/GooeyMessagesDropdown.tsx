@@ -142,12 +142,12 @@ export default function GooeyMessagesDropdown({
       {/* Hidden SVG Gooey Filter Definition */}
       <svg className="absolute w-0 h-0 pointer-events-none opacity-0" aria-hidden="true">
         <defs>
-          <filter id="gooey-dropdown-filter">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <filter id="gooey-morph-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
             <feColorMatrix
               in="blur"
               mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
               result="goo"
             />
             <feComposite in="SourceGraphic" in2="goo" operator="atop" />
@@ -161,11 +161,19 @@ export default function GooeyMessagesDropdown({
         </label>
       )}
 
-      {/* SVG Gooey Liquid Morphing Backdrop Layer */}
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ filter: "url(#gooey-dropdown-filter)" }}>
-        <div className={`w-full h-full rounded-xl transition-all duration-300 ${open ? "bg-[#6917BF]" : "bg-[#180f33]"}`} />
+      {/* SVG Gooey Liquid Droplet Background Container (Shapes Stretch Liquidly From Button) */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ filter: "url(#gooey-morph-filter)" }}>
+        {/* Trigger Pill Base Blob */}
+        <div className={`w-full h-full rounded-xl transition-colors duration-300 ${open ? "bg-[#6917BF]" : "bg-[#180f33]"}`} />
+
+        {/* Droplet Extension & Menu Panel Blob (Stretches Down From Trigger Container) */}
         {open && (
-          <div className="absolute left-0 top-full mt-1.5 min-w-full w-max max-w-md h-52 bg-[#120826] rounded-xl transition-all duration-300 animate-in fade-in zoom-in-95" />
+          <>
+            {/* Liquid Droplet Connecting Neck */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-full -mt-2 w-8 h-4 bg-[#6917BF] rounded-full transition-all duration-300 animate-in fade-in zoom-in-75" />
+            {/* Liquid Menu Panel Shape */}
+            <div className="absolute left-0 top-full mt-1 min-w-full w-max max-w-md h-52 bg-[#120826] rounded-xl transition-all duration-300 origin-top animate-in fade-in slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
+          </>
         )}
       </div>
 
