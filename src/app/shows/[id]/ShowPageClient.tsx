@@ -404,7 +404,7 @@ export default function ShowPageClient({
                     id="rsvp-btn"
                     className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer ${isGoing
                       ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
-                      : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(255,10,61,0.4)]"
+                      : "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] rounded-lg text-white hover:brightness-110 shadow-[0_0_30px_rgba(105,23,191,0.4)]"
                       }`}
                   >
                     {rsvpLoading ? "…" : isGoing ? "✓ Going (tap to cancel)" : "🎸 I'm Going"}

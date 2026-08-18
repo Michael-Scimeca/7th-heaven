@@ -209,7 +209,7 @@ export default function FansPage() {
                   setShowUpload(!showUpload);
                 }
               }}
-              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-colors flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start lg:self-auto hover:scale-105"
+              className="px-8 py-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] rounded-lg text-white text-xs font-black tracking-widest hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(105,23,191,0.4)] cursor-pointer shrink-0 self-start lg:self-auto hover:scale-105"
             >
               <Camera className="w-4 h-4" />
               <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>

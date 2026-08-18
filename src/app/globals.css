@@ -756,6 +756,44 @@ a:visited {
 button,
 [role="button"] {
   cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Global Button Setup */
+.btn-neat,
+.btn-primary {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(to right, #6917BF, #8c0eaf, #6F008E);
+  padding: 1rem 2rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 30px rgba(105, 23, 191, 0.4);
+  flex-shrink: 0;
+}
+
+.btn-neat:hover,
+.btn-primary:hover {
+  color: #ffffff;
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+.btn-neat:active,
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 :root {
