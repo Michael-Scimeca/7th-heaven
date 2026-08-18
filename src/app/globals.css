@@ -2141,6 +2141,7 @@ html.tour-sort-stuck #tour-sort-bar {
   z-index: 99999;
   pointer-events: none;
   overflow: hidden;
+}
 /* Film-grain overlay remains permanently visible at all times */
 
 .grain-overlay::after {
