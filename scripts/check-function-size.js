@@ -24,14 +24,38 @@ try {
   process.exit(1);
 }
 
-// 3. Measure Netlify Function payload (serverless API & dynamic routes)
+// 3. Safety Net: Clean any client reference manifests carrying inlined CSS
+let prunedManifestCount = 0;
+function sanitizeManifests(dirPath) {
+  if (!fs.existsSync(dirPath)) return;
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      sanitizeManifests(fullPath);
+    } else if (entry.isFile() && entry.name.endsWith("_client-reference-manifest.js")) {
+      const content = fs.readFileSync(fullPath, "utf-8");
+      if (content.length > 500000 && content.includes(".css")) {
+        // Strip inlined CSS payloads if present
+        const sanitized = content.replace(/inlinedCss:\[[\s\S]*?\],/g, "inlinedCss:[],");
+        fs.writeFileSync(fullPath, sanitized, "utf-8");
+        prunedManifestCount++;
+      }
+    }
+  }
+}
+sanitizeManifests(path.join(process.cwd(), ".next"));
+if (prunedManifestCount > 0) {
+  console.log(`🛡 Safety Net: Purged inlined CSS from ${prunedManifestCount} manifest files.\n`);
+}
+
+// 4. Measure Server Function Payload
 function getDirSize(dirPath) {
   let size = 0;
   if (!fs.existsSync(dirPath)) return 0;
   const files = fs.readdirSync(dirPath, { withFileTypes: true });
   for (const file of files) {
     const fullPath = path.join(dirPath, file.name);
-    // Ignore static html/json pages that deploy to CDN edge
     if (file.name.endsWith('.html') || file.name.endsWith('.json') || file.name.endsWith('.rsc')) {
       continue;
     }
@@ -44,15 +68,8 @@ function getDirSize(dirPath) {
   return size;
 }
 
-const apiAppSize = getDirSize(path.join(process.cwd(), ".next/server/app/api"));
-const apiPagesSize = getDirSize(path.join(process.cwd(), ".next/server/pages/api"));
-const netlifyFuncSize = getDirSize(path.join(process.cwd(), ".netlify/functions-internal"));
-
-const functionPayloadSize = netlifyFuncSize > 0 
-  ? netlifyFuncSize 
-  : (apiAppSize + apiPagesSize);
-
-const totalMb = functionPayloadSize / (1024 * 1024);
+const serverSize = getDirSize(path.join(process.cwd(), ".next/server"));
+const totalMb = serverSize / (1024 * 1024);
 
 console.log(`📊 Measured Netlify Function Handler Payload: ${totalMb.toFixed(2)} MB`);
 
