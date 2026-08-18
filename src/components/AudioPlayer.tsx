@@ -580,10 +580,9 @@ export default function AudioPlayerSection() {
           <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
             <div
               ref={sidebarScrollRef}
-              data-lenis-prevent="true"
               onScroll={handleSidebarScroll}
-              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
-              style={{ overscrollBehavior: "contain" }}
+              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-auto no-scrollbar min-h-0"
+              style={{ overscrollBehavior: "auto" }}
             >
               {renderAlbumList(originalCds, "Original CD's")}
               {renderAlbumList(medleyCds, "Medley CD's")}
@@ -648,9 +647,9 @@ export default function AudioPlayerSection() {
                   ref={tracklistScrollRef}
                   data-lenis-prevent="true"
                   onScroll={handleTracklistScroll}
-                  className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
+                  className="flex-1 overflow-y-auto overscroll-auto px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
                   style={{
-                    overscrollBehavior: "contain",
+                    overscrollBehavior: "auto",
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                     maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                   }}
