@@ -86,7 +86,7 @@ export function SquishyToggle({
       />
 
       {/* track */}
-      <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-colors duration-300 peer-checked:bg-[#9333ea] peer-checked:border-[#a855f7] peer-checked:shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
+      <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-all duration-300 peer-checked:bg-linear-to-r peer-checked:from-[#6917BF] peer-checked:via-[#8c0eaf] peer-checked:to-[#6F008E] peer-checked:border-[#8c0eaf] peer-checked:shadow-[0_0_12px_rgba(140,14,175,0.6)]" />
 
       {/* thumb — resting position set via inline style so it's always correct;
           the squish animation overrides transform during the bounce then hands back */}
