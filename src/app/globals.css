@@ -554,7 +554,19 @@ html.media-category-stuck header {
   height: var(--header-mask-height, 175px) !important;
   backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
   -webkit-backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
-  z-index: 50 !important;
+  z-index: 40 !important;
+}
+
+@media (max-width: 1023px) {
+  html.tour-sort-stuck header,
+  html.media-category-stuck header {
+    height: var(--header-mask-height, 255px) !important;
+    z-index: 40 !important;
+  }
+}
+
+#tour-sort-bar {
+  z-index: 60 !important;
 }
 
 /* =============================================
