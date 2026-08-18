@@ -383,6 +383,141 @@ export default function StyleGuidePage() {
     if (htc1StatusRef.current) htc1StatusRef.current.textContent = "Hold for 1.2s to confirm";
   };
 
+  /* ── Neat Liquid Gradient Button Demo State (uses @firecms/neat, an installed project dependency) ── */
+  const ngb1CanvasRef = useRef<HTMLCanvasElement>(null);
+  const ngb1GradientRef = useRef<{
+    destroy: () => void;
+    speed: number;
+    chromaticAberration: number;
+    bloomIntensity: number;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const canvas = ngb1CanvasRef.current;
+      if (!canvas) return;
+      const { NeatGradient } = await import("@firecms/neat");
+      if (cancelled || !ngb1CanvasRef.current) return;
+      const gradient = new NeatGradient({
+        ref: ngb1CanvasRef.current,
+        colors: [
+          { color: "#6917BF", enabled: true },
+          { color: "#F71FFF", enabled: true },
+          { color: "#6F008E", enabled: true },
+          { color: "#110435", enabled: true },
+          { color: "#7616B7", enabled: true },
+          { color: "#500404", enabled: true },
+        ],
+        speed: 2.5,
+        horizontalPressure: 3,
+        verticalPressure: 4,
+        waveFrequencyX: 2,
+        waveFrequencyY: 3,
+        waveAmplitude: 5,
+        shadows: 1,
+        highlights: 5,
+        colorBrightness: 1,
+        colorSaturation: 7,
+        wireframe: false,
+        antialias: false,
+        colorBlending: 8,
+        backgroundColor: "#003FFF",
+        backgroundAlpha: 1,
+        grainScale: 0,
+        grainSparsity: 0,
+        grainIntensity: 0,
+        grainSpeed: 1,
+        resolution: 1,
+        yOffset: 0,
+        yOffsetWaveMultiplier: 4,
+        yOffsetColorMultiplier: 4,
+        yOffsetFlowMultiplier: 4,
+        flowDistortionA: 0,
+        flowDistortionB: 0,
+        flowScale: 1,
+        flowEase: 0,
+        flowEnabled: true,
+        enableProceduralTexture: false,
+        transparentTextureVoid: false,
+        bakeEdgeSoftness: 1,
+        textureVoidLikelihood: 0.45,
+        textureVoidWidthMin: 200,
+        textureVoidWidthMax: 486,
+        textureBandDensity: 2.15,
+        textureColorBlending: 0.01,
+        textureSeed: 333,
+        textureEase: 0.5,
+        proceduralBackgroundColor: "#000000",
+        textureShapeTriangles: 20,
+        textureShapeCircles: 15,
+        textureShapeBars: 15,
+        textureShapeSquiggles: 10,
+        domainWarpEnabled: false,
+        domainWarpIntensity: 0,
+        domainWarpScale: 3,
+        vignetteIntensity: 0,
+        vignetteRadius: 0.8,
+        fresnelEnabled: false,
+        fresnelPower: 2,
+        fresnelIntensity: 0.5,
+        fresnelColor: "#FFFFFF",
+        iridescenceEnabled: false,
+        iridescenceIntensity: 0.5,
+        iridescenceSpeed: 1,
+        bloomIntensity: 0,
+        bloomThreshold: 0.7,
+        chromaticAberration: 0,
+        shapeType: "plane",
+        shapeRotationX: 0,
+        shapeRotationY: 0,
+        shapeRotationZ: 0,
+        shapeAutoRotateSpeedX: 0,
+        shapeAutoRotateSpeedY: 0,
+        sphereRadius: 15,
+        torusRadius: 15,
+        torusTube: 5,
+        cylinderRadius: 10,
+        cylinderHeight: 40,
+        planeBend: 0,
+        planeTwist: 0,
+        silhouetteFade: 0.25,
+        cylinderFade: 0.08,
+        ribbonFade: 0.05,
+        flatShading: true,
+        cameraLock: true,
+        cameraX: 0,
+        cameraY: 0,
+        cameraZ: 0,
+        cameraRotationX: 0,
+        cameraRotationY: 0,
+        cameraRotationZ: 0,
+        cameraZoom: 1,
+      } as unknown as ConstructorParameters<typeof NeatGradient>[0]);
+      ngb1GradientRef.current = gradient as unknown as typeof ngb1GradientRef.current;
+    })();
+    return () => {
+      cancelled = true;
+      ngb1GradientRef.current?.destroy();
+      ngb1GradientRef.current = null;
+    };
+  }, []);
+
+  const handleNgb1PointerEnter = () => {
+    const g = ngb1GradientRef.current;
+    if (!g) return;
+    g.speed = 6;
+    g.chromaticAberration = 0.4;
+    g.bloomIntensity = 0.35;
+  };
+  const handleNgb1PointerLeave = () => {
+    const g = ngb1GradientRef.current;
+    if (!g) return;
+    g.speed = 2.5;
+    g.chromaticAberration = 0;
+    g.bloomIntensity = 0;
+  };
+
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
   const [pinDefaultFocusedIndex, setPinDefaultFocusedIndex] = useState<number | null>(null);
@@ -3057,6 +3192,78 @@ ${deskRules.join("\n")}
                 .scta1-label:before {
                   animation: none;
                 }
+              }
+            `}</style>
+          </div>
+
+          {/* Neat Liquid Gradient Button (uses @firecms/neat, an installed project dependency) */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Neat Liquid Gradient Button</h3>
+              <SectionBadge label="@firecms/neat" color="cyan" />
+            </div>
+
+            <div className="ngb1 relative flex items-center justify-center p-8 rounded-xl min-h-[220px] overflow-hidden">
+              <button
+                type="button"
+                className="ngb1-btn"
+                onPointerEnter={handleNgb1PointerEnter}
+                onPointerLeave={handleNgb1PointerLeave}
+              >
+                <canvas ref={ngb1CanvasRef} className="ngb1-canvas" aria-hidden="true" />
+                <span className="ngb1-label">Enter the experience</span>
+              </button>
+            </div>
+
+            <p className="text-[11px] text-white/40">
+              Powered by:{" "}
+              <a
+                href="https://www.npmjs.com/package/@firecms/neat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                @firecms/neat
+              </a>
+              {" "}(WebGL animated gradient, already a project dependency — renders a live canvas inside the button and speeds up on hover; the free tier shows a small NEAT watermark unless a license key is set)
+            </p>
+
+            <style jsx>{`
+              .ngb1-btn {
+                position: relative;
+                isolation: isolate;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                max-width: 360px;
+                height: 68px;
+                border: none;
+                border-radius: 999px;
+                overflow: hidden;
+                cursor: pointer;
+                background: #0d0a12;
+              }
+              .ngb1-canvas {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                display: block;
+              }
+              .ngb1-label {
+                position: relative;
+                z-index: 2;
+                font-size: 15px;
+                font-weight: 800;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: #fff;
+                text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+              }
+              .ngb1-btn:focus-visible {
+                outline: 2px solid #c084fc;
+                outline-offset: 4px;
               }
             `}</style>
           </div>

@@ -158,10 +158,10 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   );
 }
 
-const InputField = ({ label, labelRight, required, id, ...props }: { label: string; labelRight?: React.ReactNode; required?: boolean; id?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
+const InputField = ({ label, labelRight, required, id, className = "", ...props }: { label: string; labelRight?: React.ReactNode; required?: boolean; id?: string; className?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
   const inputId = id || props.name || `book-input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
-    <div>
+    <div className={`flex flex-col justify-end h-full ${className}`}>
       <div className="flex items-center justify-between gap-2 mb-2">
         <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">{label}{required && " *"}</label>
         {labelRight}
@@ -1428,11 +1428,11 @@ function BookPageContent() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <InputField label="Show Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM" />
                 <InputField label="Show End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM" />
 
-                <div className="space-y-1.5">
+                <div>
                   <InputField
                     label="Load-in / Setup Time"
                     name="loadInTime"
@@ -1459,11 +1459,11 @@ function BookPageContent() {
                       </div>
                     }
                   />
-                  <p className="text-[11px] text-purple-300/80 font-medium italic flex items-center gap-1 leading-tight">
-                    <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Load-in is usually ~2 hours before show start time.
-                  </p>
                 </div>
               </div>
+              <p className="text-[11px] text-purple-300/80 font-medium italic flex items-center gap-1 leading-tight mt-1.5 justify-end">
+                <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Load-in is usually ~2 hours before show start time.
+              </p>
 
               {isLoadInUnsure && (
                 <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-xl text-xs text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">

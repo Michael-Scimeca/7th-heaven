@@ -206,8 +206,7 @@ a:hover {
 input,
 select,
 textarea {
-  background-color: #181924 !important;
-  background: #181924 !important;
+  background: #a855f71f !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -296,7 +295,7 @@ textarea::placeholder {
   font-family: inherit !important;
   font-weight: inherit !important;
   letter-spacing: inherit !important;
-  opacity: 0.5 !important;
+
 }
 
 .site-input:focus,
