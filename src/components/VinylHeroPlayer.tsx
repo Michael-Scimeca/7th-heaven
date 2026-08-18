@@ -202,6 +202,7 @@ export default function VinylHeroPlayer({
   const [activeAlbumIdx, setActiveAlbumIdx] = useState(0);
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [showTracklist, setShowTracklist] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -477,9 +478,15 @@ export default function VinylHeroPlayer({
         <audio
           ref={audioRef}
           preload="none"
-          onTimeUpdate={handleTimeUpdate}
+          onTimeUpdate={() => { handleTimeUpdate(); setIsBuffering(false); }}
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={nextTrack}
+          onWaiting={() => setIsBuffering(true)}
+          onLoadStart={() => { if (isPlaying) setIsBuffering(true); }}
+          onCanPlay={() => setIsBuffering(false)}
+          onPlaying={() => setIsBuffering(false)}
+          onPause={() => setIsBuffering(false)}
+          onError={() => setIsBuffering(false)}
         >
           <track kind="captions" />
         </audio>
@@ -593,8 +600,10 @@ export default function VinylHeroPlayer({
                     <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
-                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
-                      {isPlaying ? (
+                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
+                      {isBuffering ? (
+                        <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent rounded-full animate-spin" />
+                      ) : isPlaying ? (
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                       ) : (
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
@@ -683,7 +692,11 @@ export default function VinylHeroPlayer({
                     >
                       <div className="text-[9px] font-black uppercase leading-tight flex items-center gap-1">
                         <span className="truncate">{currentAlbum.title}</span>
-                        <span className="text-[10px] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
+                        {isBuffering ? (
+                          <span className="text-[9px] font-black text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1 rounded animate-pulse shrink-0">BUFFERING MP3</span>
+                        ) : (
+                          <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
+                        )}
                       </div>
                       <div className="text-[10px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                         {currentTrack.title}
