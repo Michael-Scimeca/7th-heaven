@@ -3585,16 +3585,7 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          {/* Form Input Studio Controls Component */}
-          <div className="p-6 rounded-lg  bg-black/40 border border-amber-500/30 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-amber-400" /> Integrated Form Input Style Studio
-              </h3>
-              <span className="text-[11px] font-mono text-white/40">Real-time global control</span>
-            </div>
-            <InputStyleEditor />
-          </div>
+
 
           {/* Interactive Form Controls grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
