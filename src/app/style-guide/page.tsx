@@ -5995,7 +5995,7 @@ ${deskRules.join("\n")}
                     <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                   </p>
                   <p className="text-white/80">
-                    <CreditCard className="w-4 h-4 text-purple-400inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin.
+                    <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
                   </p>
                   <p className="text-white/80">
                     <Calendar className="w-4 h-4 text-purple-400inline mr-1.5" /><strong>Final Payment:</strong> October 1, 2026.

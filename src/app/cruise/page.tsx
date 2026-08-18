@@ -815,7 +815,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                     </p>
                     <p className="text-base text-white/80">
-                      <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin.
+                      <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
                     </p>
                     <p className="text-base text-white/80">
                       <CalendarIcon className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
@@ -1423,7 +1423,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <span className="text-xs font-black uppercase tracking-wider text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
                             </div>
                             <div className="py-2 text-xs text-white/70 font-semibold leading-relaxed border-0">
-                              A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
+                              A $250.00 per-person deposit (Min $500.00 per cabin) is required to secure your cabin under our group code. Payments are mock-processed for staging.
                             </div>
 
                             {/* Card 1 */}
