@@ -29,16 +29,51 @@ interface VideoCategory {
 const thumb = (id: string) => `https://img.youtube.com/vi/${id}/hq720.jpg`;
 const thumbMax = (id: string) => `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
-function VideoThumbnail({ videoId, title, isActive }: { videoId: string; title: string; isActive?: boolean }) {
+function VideoThumbnail({ videoId, title, isActive, index = 0 }: { videoId: string; title: string; isActive?: boolean; index?: number }) {
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
   const [failed, setFailed] = useState(false);
+  const [shouldRenderIframe, setShouldRenderIframe] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isActive) {
+      setShouldRenderIframe(false);
+      return;
+    }
+
+    let isMounted = true;
+    let timer: NodeJS.Timeout;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && isMounted) {
+          // Stagger loading: item 0 loads first (100ms), item 1 loads second (500ms), item 2 loads third (900ms), etc.
+          const delay = Math.min(index * 400 + 100, 2400);
+          timer = setTimeout(() => {
+            if (isMounted) setShouldRenderIframe(true);
+          }, delay);
+        }
+      },
+      { rootMargin: "250px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [isActive, index]);
 
   const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=16&playsinline=1&modestbranding=1&enablejsapi=1`;
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
+    <div ref={containerRef} className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
       {/* 6-Second Video Preview Loop when active starting 10s into video */}
-      {isActive && (
+      {isActive && shouldRenderIframe && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <iframe
             key={videoId}
@@ -464,7 +499,7 @@ export default function MediaPage() {
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-                    <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
+                    <VideoThumbnail videoId={video.id} title={video.title} isActive={true} index={index} />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/40 z-10" />
                   </div>
 
@@ -555,7 +590,7 @@ export default function MediaPage() {
                         className="relative w-full h-full cursor-pointer group/card block text-left"
                         aria-label={`Play ${video.title}`}
                       >
-                        <VideoThumbnail videoId={video.id} title={video.title} isActive={isActive} />
+                        <VideoThumbnail videoId={video.id} title={video.title} isActive={isActive} index={index} />
                         <div className="absolute inset-0  group-hover/card:bg-black/50 transition-colors z-10" />
 
                         {/* Play Icon Badge */}
