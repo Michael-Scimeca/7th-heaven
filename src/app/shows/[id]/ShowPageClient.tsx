@@ -480,7 +480,7 @@ export default function ShowPageClient({
                         <button aria-label="Action button"
                           type="submit"
                           disabled={notifyLoading}
-                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest transition-colors disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                          className="px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-bold text-xs uppercase tracking-widest transition-all disabled:opacity-50 shrink-0 rounded-lg shadow-[0_0_20px_rgba(105,23,191,0.3)] cursor-pointer"
                         >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </button>

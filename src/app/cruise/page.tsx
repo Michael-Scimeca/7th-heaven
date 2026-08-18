@@ -1494,12 +1494,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                             <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
-                              className="w-full rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md disabled:opacity-70 cursor-pointer">
+                              className="w-full rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
                               {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                             </button>
 
                             <button aria-label="Action button" type="button" onClick={() => window.print()}
-                              className="w-full rounded-lg border border-purple-600 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
+                              className="w-full rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
                               Print / Save Booking Form
                             </button>
                           </div>
