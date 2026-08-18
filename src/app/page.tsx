@@ -202,13 +202,13 @@ export default async function Home() {
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
       <LazySection fallbackHeight="500px">
-        <section id="tour" className="bg-transparent py-0">
+        <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
           <TourList initialShows={finalShowsToRender} />
         </section>
       </LazySection>
 
       <LazySection fallbackHeight="600px">
-        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]">
+        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[240px] sm:mt-[280px] md:mt-[320px]">
           <BioParallaxSlider />
         </section>
       </LazySection>
