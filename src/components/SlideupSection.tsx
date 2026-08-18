@@ -27,10 +27,22 @@ function AutoPlayVideo({ src }: { src: string }) {
     return () => observer.disconnect();
   }, [src]);
 
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const MAX_DURATION = 8; // Exactly 8 seconds long loop
+    if (video.currentTime >= MAX_DURATION) {
+      try {
+        video.currentTime = 0;
+      } catch (_) { }
+    }
+  };
+
   return (
     <video
       ref={videoRef}
       src={src}
+      onTimeUpdate={handleTimeUpdate}
       autoPlay
       muted
       loop

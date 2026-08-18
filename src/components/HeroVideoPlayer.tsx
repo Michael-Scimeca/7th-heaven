@@ -365,7 +365,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const video = videoRef.current;
     if (!video) return;
     const START_TIME = 10;
-    const MAX_DURATION = 10; // Exactly 10 seconds long loop
+    const MAX_DURATION = 8; // Exactly 8 seconds long loop
     if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
       try {
         video.currentTime = START_TIME;
