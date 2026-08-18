@@ -52,7 +52,7 @@ export default function GooeyMessagesDropdown({
   label,
   title = "",
   badge = "",
-  placeholder = "Select Option",
+  placeholder = "SELECT OPTION",
   customers = DEFAULT_CUSTOMERS,
   defaultSelectedId,
   onSelect,
@@ -111,10 +111,12 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`relative z-50 border border-white/15 ${
+        className={`relative z-50 border ${
           fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
         } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${
-          open ? "bg-purple-950/90 border-purple-400/50 text-white shadow-[0_0_20px_rgba(168,85,247,0.3)]" : "bg-[#180f33]/90 text-white/90 hover:bg-[#221547]"
+          open
+            ? "bg-[#6917BF] border-purple-400 text-white shadow-[0_0_20px_rgba(105,23,191,0.5)]"
+            : "bg-[#180f33] border-white/15 text-white/90 hover:bg-[#221547]"
         } ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
@@ -135,7 +137,7 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 text-purple-300 transition-transform duration-200 ${open ? "rotate-180 text-pink-400" : ""}`}
+          className={`shrink-0 text-white/80 transition-transform duration-200 ${open ? "rotate-180 text-white" : ""}`}
           aria-hidden="true"
         >
           <path d="M2 4l4 4 4-4" />
@@ -164,9 +166,9 @@ export default function GooeyMessagesDropdown({
                   type="button"
                   role="option"
                   aria-selected={isSelected}
-                  className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-extrabold transition-all duration-150 flex items-center justify-between cursor-pointer ${
+                  className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? "bg-gradient-to-r from-purple-600/50 to-pink-600/40 text-white border border-purple-400/40 shadow-sm"
+                      ? "bg-purple-600/40 text-white border border-purple-400/50 shadow-sm"
                       : "text-white/80 hover:text-white hover:bg-purple-500/20"
                   }`}
                   onClick={() => {
@@ -176,9 +178,9 @@ export default function GooeyMessagesDropdown({
                     setOpen(false);
                   }}
                 >
-                  <span className="truncate pr-2">{c.name}</span>
+                  <span className="truncate pr-2 font-black uppercase tracking-wider">{c.name}</span>
                   {isSelected && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,1)] shrink-0 ml-2" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2" />
                   )}
                 </button>
               );
