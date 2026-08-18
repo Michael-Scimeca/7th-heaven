@@ -290,7 +290,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
         .su-card-inner{
           position:relative;
           z-index:2;
-          width: 100vw;
+          width: 100%;
           display:flex;
           flex-direction:column;
           align-items:center;
@@ -327,7 +327,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           display:flex;
           gap:16px;
           width:100%;
-          max-width:1100px;
+          max-width:100%;
         }
         .su-thumb{
           flex:1;
