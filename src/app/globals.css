@@ -2190,6 +2190,12 @@ html.is-page-transitioning .grain-overlay {
 }
 
 /* ── Header logo responsive positioning & hover ── */
+#header-logo,
+#header-logo * {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
 #header-logo {
   position: absolute !important;
   top: calc(50% - -20px) !important;
@@ -2651,7 +2657,8 @@ textarea,
 
 ::view-transition-old(root) {
   z-index: 1;
-  animation: page-push-out var(--page-transition-duration) linear forwards;
+  animation: page-push-out var(--page-transition-duration) linear forwards,
+             page-push-out-filter var(--page-transition-duration) linear forwards;
 }
 
 ::view-transition-new(root) {
@@ -2721,47 +2728,96 @@ textarea,
  * single property, so a second declaration would replace the first and the
  * dimming would silently vanish. */
 @keyframes page-push-out {
-  0%     { transform: translateY(-0.00%) rotate(0.00deg) scale(1.0000); filter: brightness(1.000) blur(0.00px); }
-  2.5%   { transform: translateY(-0.13%) rotate(-0.07deg) scale(1.0022); filter: brightness(0.999) blur(0.12px); }
-  5%     { transform: translateY(-0.36%) rotate(-0.15deg) scale(1.0046); filter: brightness(0.998) blur(0.26px); }
-  7.5%   { transform: translateY(-0.70%) rotate(-0.23deg) scale(1.0073); filter: brightness(0.997) blur(0.41px); }
-  10%    { transform: translateY(-1.17%) rotate(-0.31deg) scale(1.0101); filter: brightness(0.995) blur(0.57px); }
-  12.5%  { transform: translateY(-1.80%) rotate(-0.39deg) scale(1.0130); filter: brightness(0.992) blur(0.73px); }
-  15%    { transform: translateY(-2.66%) rotate(-0.47deg) scale(1.0161); filter: brightness(0.987) blur(0.90px); }
-  17.5%  { transform: translateY(-3.91%) rotate(-0.55deg) scale(1.0201); filter: brightness(0.980) blur(1.08px); }
-  20%    { transform: translateY(-5.84%) rotate(-0.63deg) scale(1.0258); filter: brightness(0.978) blur(1.26px); }
-  22.5%  { transform: translateY(-8.89%) rotate(-0.70deg) scale(1.0341); filter: brightness(0.974) blur(1.44px); }
-  25%    { transform: translateY(-13.20%) rotate(-0.82deg) scale(1.0457); filter: brightness(0.959) blur(1.62px); }
-  27.5%  { transform: translateY(-18.23%) rotate(-1.21deg) scale(1.0710); filter: brightness(0.931) blur(1.81px); }
-  30%    { transform: translateY(-22.97%) rotate(-1.50deg) scale(1.0863); filter: brightness(0.911) blur(2.00px); }
-  32.5%  { transform: translateY(-26.72%) rotate(-1.67deg) scale(1.0937); filter: brightness(0.899) blur(2.20px); }
-  35%    { transform: translateY(-29.36%) rotate(-1.78deg) scale(1.0991); filter: brightness(0.889) blur(2.39px); }
-  37.5%  { transform: translateY(-31.15%) rotate(-1.87deg) scale(1.1037); filter: brightness(0.884) blur(2.59px); }
-  40%    { transform: translateY(-32.43%) rotate(-1.94deg) scale(1.1079); filter: brightness(0.881) blur(2.79px); }
-  42.5%  { transform: translateY(-33.52%) rotate(-2.00deg) scale(1.1117); filter: brightness(0.874) blur(2.99px); }
-  45%    { transform: translateY(-34.58%) rotate(-2.05deg) scale(1.1151); filter: brightness(0.872) blur(3.19px); }
-  47.5%  { transform: translateY(-35.65%) rotate(-2.09deg) scale(1.1182); filter: brightness(0.870) blur(3.40px); }
-  50%    { transform: translateY(-36.73%) rotate(-2.14deg) scale(1.1211); filter: brightness(0.869) blur(3.61px); }
-  52.5%  { transform: translateY(-37.78%) rotate(-2.18deg) scale(1.1237); filter: brightness(0.868) blur(3.81px); }
-  55%    { transform: translateY(-38.78%) rotate(-2.22deg) scale(1.1262); filter: brightness(0.868) blur(4.02px); }
-  57.5%  { transform: translateY(-39.69%) rotate(-2.26deg) scale(1.1287); filter: brightness(0.867) blur(4.23px); }
-  60%    { transform: translateY(-40.50%) rotate(-2.31deg) scale(1.1310); filter: brightness(0.867) blur(4.45px); }
-  62.5%  { transform: translateY(-41.18%) rotate(-2.35deg) scale(1.1333); filter: brightness(0.866) blur(4.66px); }
-  65%    { transform: translateY(-41.76%) rotate(-2.39deg) scale(1.1354); filter: brightness(0.866) blur(4.87px); }
-  67.5%  { transform: translateY(-42.26%) rotate(-2.42deg) scale(1.1373); filter: brightness(0.865) blur(5.09px); }
-  70%    { transform: translateY(-42.68%) rotate(-2.45deg) scale(1.1390); filter: brightness(0.865) blur(5.31px); }
-  72.5%  { transform: translateY(-43.06%) rotate(-2.48deg) scale(1.1406); filter: brightness(0.865) blur(5.53px); }
-  75%    { transform: translateY(-43.39%) rotate(-2.50deg) scale(1.1419); filter: brightness(0.865) blur(5.75px); }
-  77.5%  { transform: translateY(-43.69%) rotate(-2.51deg) scale(1.1430); filter: brightness(0.865) blur(5.97px); }
-  80%    { transform: translateY(-43.95%) rotate(-2.53deg) scale(1.1441); filter: brightness(0.864) blur(6.19px); }
-  82.5%  { transform: translateY(-44.17%) rotate(-2.54deg) scale(1.1452); filter: brightness(0.864) blur(6.41px); }
-  85%    { transform: translateY(-44.36%) rotate(-2.56deg) scale(1.1462); filter: brightness(0.864) blur(6.64px); }
-  87.5%  { transform: translateY(-44.52%) rotate(-2.57deg) scale(1.1472); filter: brightness(0.864) blur(6.86px); }
-  90%    { transform: translateY(-44.66%) rotate(-2.58deg) scale(1.1480); filter: brightness(0.864) blur(7.09px); }
-  92.5%  { transform: translateY(-44.77%) rotate(-2.59deg) scale(1.1487); filter: brightness(0.864) blur(7.31px); }
-  95%    { transform: translateY(-44.86%) rotate(-2.59deg) scale(1.1493); filter: brightness(0.864) blur(7.54px); }
-  97.5%  { transform: translateY(-44.93%) rotate(-2.60deg) scale(1.1497); filter: brightness(0.864) blur(7.77px); }
-  100%   { transform: translateY(-45.00%) rotate(-2.60deg) scale(1.1500); filter: brightness(0.864) blur(8.00px); }
+  0%     { transform: translateY(-0.00%) rotate(0.00deg) scale(1.0000); }
+  2.5%   { transform: translateY(-0.13%) rotate(-0.07deg) scale(1.0022); }
+  5%     { transform: translateY(-0.36%) rotate(-0.15deg) scale(1.0046); }
+  7.5%   { transform: translateY(-0.70%) rotate(-0.23deg) scale(1.0073); }
+  10%    { transform: translateY(-1.17%) rotate(-0.31deg) scale(1.0101); }
+  12.5%  { transform: translateY(-1.80%) rotate(-0.39deg) scale(1.0130); }
+  15%    { transform: translateY(-2.66%) rotate(-0.47deg) scale(1.0161); }
+  17.5%  { transform: translateY(-3.91%) rotate(-0.55deg) scale(1.0201); }
+  20%    { transform: translateY(-5.84%) rotate(-0.63deg) scale(1.0258); }
+  22.5%  { transform: translateY(-8.89%) rotate(-0.70deg) scale(1.0341); }
+  25%    { transform: translateY(-13.20%) rotate(-0.82deg) scale(1.0457); }
+  27.5%  { transform: translateY(-18.23%) rotate(-1.21deg) scale(1.0710); }
+  30%    { transform: translateY(-22.97%) rotate(-1.50deg) scale(1.0863); }
+  32.5%  { transform: translateY(-26.72%) rotate(-1.67deg) scale(1.0937); }
+  35%    { transform: translateY(-29.36%) rotate(-1.78deg) scale(1.0991); }
+  37.5%  { transform: translateY(-31.15%) rotate(-1.87deg) scale(1.1037); }
+  40%    { transform: translateY(-32.43%) rotate(-1.94deg) scale(1.1079); }
+  42.5%  { transform: translateY(-33.52%) rotate(-2.00deg) scale(1.1117); }
+  45%    { transform: translateY(-34.58%) rotate(-2.05deg) scale(1.1151); }
+  47.5%  { transform: translateY(-35.65%) rotate(-2.09deg) scale(1.1182); }
+  50%    { transform: translateY(-36.73%) rotate(-2.14deg) scale(1.1211); }
+  52.5%  { transform: translateY(-37.78%) rotate(-2.18deg) scale(1.1237); }
+  55%    { transform: translateY(-38.78%) rotate(-2.22deg) scale(1.1262); }
+  57.5%  { transform: translateY(-39.69%) rotate(-2.26deg) scale(1.1287); }
+  60%    { transform: translateY(-40.50%) rotate(-2.31deg) scale(1.1310); }
+  62.5%  { transform: translateY(-41.18%) rotate(-2.35deg) scale(1.1333); }
+  65%    { transform: translateY(-41.76%) rotate(-2.39deg) scale(1.1354); }
+  67.5%  { transform: translateY(-42.26%) rotate(-2.42deg) scale(1.1373); }
+  70%    { transform: translateY(-42.68%) rotate(-2.45deg) scale(1.1390); }
+  72.5%  { transform: translateY(-43.06%) rotate(-2.48deg) scale(1.1406); }
+  75%    { transform: translateY(-43.39%) rotate(-2.50deg) scale(1.1419); }
+  77.5%  { transform: translateY(-43.69%) rotate(-2.51deg) scale(1.1430); }
+  80%    { transform: translateY(-43.95%) rotate(-2.53deg) scale(1.1441); }
+  82.5%  { transform: translateY(-44.17%) rotate(-2.54deg) scale(1.1452); }
+  85%    { transform: translateY(-44.36%) rotate(-2.56deg) scale(1.1462); }
+  87.5%  { transform: translateY(-44.52%) rotate(-2.57deg) scale(1.1472); }
+  90%    { transform: translateY(-44.66%) rotate(-2.58deg) scale(1.1480); }
+  92.5%  { transform: translateY(-44.77%) rotate(-2.59deg) scale(1.1487); }
+  95%    { transform: translateY(-44.86%) rotate(-2.59deg) scale(1.1493); }
+  97.5%  { transform: translateY(-44.93%) rotate(-2.60deg) scale(1.1497); }
+  100%   { transform: translateY(-45.00%) rotate(-2.60deg) scale(1.1500); }
+}
+
+/* Split out of page-push-out so the two can be applied separately. The route
+ * transition uses BOTH. The preloader uses only the transform, because
+ * blurring a lone wordmark reads as out of focus rather than as depth.
+ * Splitting beats writing a second transform track: both consumers still
+ * share ONE set of movement stops and cannot drift apart. */
+@keyframes page-push-out-filter {
+  0%     { filter: brightness(1.000) blur(0.00px); }
+  2.5%   { filter: brightness(0.999) blur(0.12px); }
+  5%     { filter: brightness(0.998) blur(0.26px); }
+  7.5%   { filter: brightness(0.997) blur(0.41px); }
+  10%    { filter: brightness(0.995) blur(0.57px); }
+  12.5%  { filter: brightness(0.992) blur(0.73px); }
+  15%    { filter: brightness(0.987) blur(0.90px); }
+  17.5%  { filter: brightness(0.980) blur(1.08px); }
+  20%    { filter: brightness(0.978) blur(1.26px); }
+  22.5%  { filter: brightness(0.974) blur(1.44px); }
+  25%    { filter: brightness(0.959) blur(1.62px); }
+  27.5%  { filter: brightness(0.931) blur(1.81px); }
+  30%    { filter: brightness(0.911) blur(2.00px); }
+  32.5%  { filter: brightness(0.899) blur(2.20px); }
+  35%    { filter: brightness(0.889) blur(2.39px); }
+  37.5%  { filter: brightness(0.884) blur(2.59px); }
+  40%    { filter: brightness(0.881) blur(2.79px); }
+  42.5%  { filter: brightness(0.874) blur(2.99px); }
+  45%    { filter: brightness(0.872) blur(3.19px); }
+  47.5%  { filter: brightness(0.870) blur(3.40px); }
+  50%    { filter: brightness(0.869) blur(3.61px); }
+  52.5%  { filter: brightness(0.868) blur(3.81px); }
+  55%    { filter: brightness(0.868) blur(4.02px); }
+  57.5%  { filter: brightness(0.867) blur(4.23px); }
+  60%    { filter: brightness(0.867) blur(4.45px); }
+  62.5%  { filter: brightness(0.866) blur(4.66px); }
+  65%    { filter: brightness(0.866) blur(4.87px); }
+  67.5%  { filter: brightness(0.865) blur(5.09px); }
+  70%    { filter: brightness(0.865) blur(5.31px); }
+  72.5%  { filter: brightness(0.865) blur(5.53px); }
+  75%    { filter: brightness(0.865) blur(5.75px); }
+  77.5%  { filter: brightness(0.865) blur(5.97px); }
+  80%    { filter: brightness(0.864) blur(6.19px); }
+  82.5%  { filter: brightness(0.864) blur(6.41px); }
+  85%    { filter: brightness(0.864) blur(6.64px); }
+  87.5%  { filter: brightness(0.864) blur(6.86px); }
+  90%    { filter: brightness(0.864) blur(7.09px); }
+  92.5%  { filter: brightness(0.864) blur(7.31px); }
+  95%    { filter: brightness(0.864) blur(7.54px); }
+  97.5%  { filter: brightness(0.864) blur(7.77px); }
+  100%   { filter: brightness(0.864) blur(8.00px); }
 }
 
 /* INCOMING page: slides a full viewport height WHILE ROTATED, then unrotates
@@ -2916,15 +2972,56 @@ html.is-preloading::before {
   pointer-events: none;
 }
 
+/* Once React mounts, .preloader supplies the black. This static backdrop must
+ * stop painting or the departing overlay slides across a second, stationary
+ * black rectangle and appears not to move at all. */
+html.is-preloading.is-revealing::before {
+  display: none;
+}
+
 html.is-preloading #page-content-wrapper {
   opacity: 0;
   pointer-events: none;
 }
 
+/* position: fixed + inset: 0 is what makes this match the route transition,
+ * and it is NOT optional. page-push-in is authored against a view-transition
+ * snapshot, which is always exactly viewport-sized — its translateY(100%)
+ * means one viewport and its rotate/scale pivot on the viewport centre.
+ * Applied to this element in normal flow it means something else entirely:
+ * the wrapper is as tall as the whole page (measured 9800px against a 1190px
+ * viewport, 8.2x), so 100% flung it in from eight viewports down and the
+ * transform origin sat ~4900px below the fold, swinging the visible area
+ * sideways as it rotated. Pinning it to the viewport makes percentages and the
+ * origin resolve exactly as they do for the snapshot. Reverts when the classes
+ * come off; a fresh load is always at scroll 0, so nothing jumps. */
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1;
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 100002;
   transform-origin: 50% 50%;
-  animation: page-push-in var(--page-transition-duration) linear forwards;
+  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
+}
+
+/* ── Tunable knobs ────────────────────────────────────────────────────────
+ * The only numbers worth touching. Preloader.tsx reads the timings back at
+ * runtime rather than keeping its own copies, so JS cannot drift from CSS. */
+:root {
+  --preloader-start-opacity: 0.269;   /* mark's brightness the instant it appears */
+  --preloader-hold-dim: 200ms;        /* how long it sits dim before filling */
+  --preloader-brighten: 1030ms;       /* dim -> full */
+  --preloader-logo-width: clamp(180px, 30vw, 420px);
+  --preloader-min-visible: 1250ms;    /* floor on visible time. 0 reveals the moment assets are
+                                         ready, which on a warm cache means the whole preloader is
+                                         over in ~1s and effectively never seen. 1250ms clears the
+                                         200ms dim hold + 1030ms fill. */
+  --preloader-reveal-duration: 620ms; /* the exit is the SAME movement as a route change, just
+                                         played quicker. All three exit animations must share this
+                                         one value or the overlay, mark and page separate. */
+  --preloader-mark-exit-extra: 60vh;  /* travel added to the overlay's -45% so the mark clears the top */
 }
 
 .preloader {
@@ -2937,57 +3034,146 @@ html.is-preloading.is-revealing #page-content-wrapper {
   pointer-events: none;
 }
 
-.preloader-mark {
-  width: clamp(180px, 30vw, 420px);
+/* The whole overlay — black and mark together — leaves on page-push-out: the
+ * exact animation the outgoing page uses on every route change. Nothing
+ * bespoke, so entering the site and moving around inside it are the same
+ * movement by construction. Transform track only, no filter: see
+ * page-push-out-filter. */
+.preloader.is-leaving {
   transform-origin: 50% 50%;
-  will-change: opacity, transform;
+  animation: page-push-out var(--preloader-reveal-duration) linear forwards;
 }
 
-.preloader-mark.is-exiting {
-  animation: preloader-mark-out 230ms cubic-bezier(0.4, 0, 1, 1) forwards;
+/* Extra travel for the mark ON TOP of the overlay's. page-push-out travels
+ * -45% because that is an outgoing page's measured parallax — right for a full
+ * page, but it leaves a centred logo near the top rather than gone (centre
+ * starts at 50vh, -45vh puts it at 5vh, and the mark is only ~5vh tall).
+ * Generated from the same stops and normalised against that -45%, so the two
+ * share one progress curve; being purely additive it cannot change how the
+ * overlay moves relative to the page. */
+.preloader.is-leaving .preloader-mark {
+  animation: preloader-mark-exit var(--preloader-reveal-duration) linear forwards;
 }
 
+@keyframes preloader-mark-exit {
+  0%     { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.0)); }
+  2.5%   { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.0029)); }
+  5%     { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.008)); }
+  7.5%   { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.0156)); }
+  10%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.026)); }
+  12.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.04)); }
+  15%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.0591)); }
+  17.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.0869)); }
+  20%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.1298)); }
+  22.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.1976)); }
+  25%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.2933)); }
+  27.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.4051)); }
+  30%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.5104)); }
+  32.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.5938)); }
+  35%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.6524)); }
+  37.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.6922)); }
+  40%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.7207)); }
+  42.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.7449)); }
+  45%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.7684)); }
+  47.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.7922)); }
+  50%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.8162)); }
+  52.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.8396)); }
+  55%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.8618)); }
+  57.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.882)); }
+  60%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9)); }
+  62.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9151)); }
+  65%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.928)); }
+  67.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9391)); }
+  70%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9484)); }
+  72.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9569)); }
+  75%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9642)); }
+  77.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9709)); }
+  80%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9767)); }
+  82.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9816)); }
+  85%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9858)); }
+  87.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9893)); }
+  90%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9924)); }
+  92.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9949)); }
+  95%    { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9969)); }
+  97.5%  { transform: translateY(calc(var(--preloader-mark-exit-extra) * -0.9984)); }
+  100%   { transform: translateY(calc(var(--preloader-mark-exit-extra) * -1.0)); }
+}
+
+.preloader-mark {
+  position: relative; /* the fill copy is absolutely positioned over the base */
+  width: var(--preloader-logo-width);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* Two stacked copies of the same mark: a permanently dim one underneath and a
+ * full-brightness one on top that is clipped away and revealed from the bottom
+ * edge upward. That is what produces the "filling up" read — it does NOT fade
+ * from dim to bright. */
 .preloader-logo {
   display: block;
   width: 100%;
   height: auto;
   color: #fff;
-  opacity: 0.269;
-  animation: preloader-logo-in 1030ms linear 200ms forwards;
 }
 
-/* Opacity stops are the measured luminance ramp normalised against its own
- * plateau (54.5 -> 202.4). Timing function is linear for the same reason as
- * the page transition: the easing lives in the stop values themselves. */
-@keyframes preloader-logo-in {
-  0%     { opacity: 0.269; }
-  6.4%   { opacity: 0.286; }
-  9.7%   { opacity: 0.301; }
-  12.9%  { opacity: 0.329; }
-  16.1%  { opacity: 0.388; }
-  19.4%  { opacity: 0.462; }
-  22.6%  { opacity: 0.517; }
-  25.8%  { opacity: 0.593; }
-  32.2%  { opacity: 0.711; }
-  38.7%  { opacity: 0.797; }
-  45.2%  { opacity: 0.862; }
-  51.6%  { opacity: 0.902; }
-  58.1%  { opacity: 0.931; }
-  64.5%  { opacity: 0.955; }
-  71%    { opacity: 0.971; }
-  77.4%  { opacity: 0.983; }
-  83.9%  { opacity: 0.991; }
-  90.3%  { opacity: 0.997; }
-  100%   { opacity: 1; }
+.preloader-logo-base {
+  opacity: var(--preloader-start-opacity);
 }
 
-@keyframes preloader-mark-out {
-  from { opacity: 1;     transform: scale(1); }
-  to   { opacity: 0.745; transform: scale(0.75); }
+.preloader-logo-fill {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  clip-path: inset(100% 0 0 0);
+  animation: preloader-logo-fill var(--preloader-brighten) linear var(--preloader-hold-dim) forwards;
+}
+
+/* Measured frame by frame. Sampling the mark in horizontal bands showed the
+ * lowest band reaching full brightness ~600ms before the top band did, which a
+ * uniform opacity fade cannot produce — averaging brightness over the whole
+ * mark hides this completely, which is exactly how an earlier pass got it
+ * wrong. inset() clips from the TOP, so 100% hides everything and 0% shows all;
+ * decreasing it grows the visible band upward. Fast then long-tailed: 5% filled
+ * at 600ms, 53% by 866ms, 99% by 1600ms. */
+@keyframes preloader-logo-fill {
+  0%     { clip-path: inset(100% 0 0 0); }
+  2%     { clip-path: inset(94.5% 0 0 0); }
+  5.2%   { clip-path: inset(91.7% 0 0 0); }
+  8.4%   { clip-path: inset(88.1% 0 0 0); }
+  11.8%  { clip-path: inset(83.5% 0 0 0); }
+  15%    { clip-path: inset(78% 0 0 0); }
+  18.2%  { clip-path: inset(70.6% 0 0 0); }
+  21.6%  { clip-path: inset(62.4% 0 0 0); }
+  24.8%  { clip-path: inset(56% 0 0 0); }
+  28%    { clip-path: inset(46.8% 0 0 0); }
+  31.4%  { clip-path: inset(42.2% 0 0 0); }
+  34.6%  { clip-path: inset(33.9% 0 0 0); }
+  37.8%  { clip-path: inset(30.3% 0 0 0); }
+  41.2%  { clip-path: inset(26.6% 0 0 0); }
+  44.4%  { clip-path: inset(23.9% 0 0 0); }
+  47.6%  { clip-path: inset(21.1% 0 0 0); }
+  51%    { clip-path: inset(18.3% 0 0 0); }
+  54.2%  { clip-path: inset(16.5% 0 0 0); }
+  57.5%  { clip-path: inset(14.7% 0 0 0); }
+  60.8%  { clip-path: inset(12.8% 0 0 0); }
+  64%    { clip-path: inset(11.9% 0 0 0); }
+  67.3%  { clip-path: inset(10.1% 0 0 0); }
+  70.6%  { clip-path: inset(9.2% 0 0 0); }
+  73.8%  { clip-path: inset(7.3% 0 0 0); }
+  77.1%  { clip-path: inset(6.4% 0 0 0); }
+  80.4%  { clip-path: inset(5.5% 0 0 0); }
+  83.6%  { clip-path: inset(4.6% 0 0 0); }
+  86.9%  { clip-path: inset(3.7% 0 0 0); }
+  90.2%  { clip-path: inset(2.8% 0 0 0); }
+  96.7%  { clip-path: inset(1.8% 0 0 0); }
+  100%   { clip-path: inset(0% 0 0 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .preloader-logo { animation: none; opacity: 1; }
-  .preloader-mark.is-exiting { animation: none; opacity: 0; }
+  .preloader-logo-fill { animation: none; clip-path: none; }
+  .preloader.is-leaving,
+  .preloader.is-leaving .preloader-mark { animation: none; }
   html.is-preloading.is-revealing #page-content-wrapper { animation: none; }
 }
+

@@ -68,7 +68,19 @@ const barlow = Barlow({
   display: "swap",
 });
 
-const PRELOAD_SCRIPT_CONTENT = "try{if(!sessionStorage.getItem('7h-preloaded')){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+// Runs on EVERY full document load, matching the reference site. Gating this
+// on sessionStorage (as an earlier version did) meant refreshes and direct URL
+// entry skipped the preloader entirely.
+//
+// It only fires on real document loads — client-side route changes never
+// execute it, so in-site navigation gets the page transition instead. That
+// split is intended, not a side effect.
+//
+// The reduced-motion check is the one exception: those users get no animation,
+// so the preloader would just be a black screen held for the minimum-visible
+// window. Going straight to the page is strictly better for them.
+const PRELOAD_SCRIPT_CONTENT =
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('is-preloading')}}catch(e){document.documentElement.classList.add('is-preloading')}";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
@@ -172,10 +184,10 @@ export default async function RootLayout({
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
-         * next/script or a React effect: sessionStorage is only readable on
-         * the client, and by the time React mounts the browser has already
-         * painted the real page — you would see it for a frame and then get
-         * covered by black, which is worse than no preloader at all.
+         * next/script or a React effect. By the time React mounts, the browser
+         * has already painted the real page — you would see it for a frame and
+         * then get covered by black, which is worse than no preloader at all.
+         *
          *
          * It only adds a class. All styling lives in globals.css
          * (html.is-preloading) and all timing lives in Preloader.tsx, so a

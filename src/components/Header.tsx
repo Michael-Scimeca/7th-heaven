@@ -484,14 +484,14 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-50 ${effectivePathname === "/"
+            className={`shrink-0 min-w-0 flex items-center justify-center cursor-pointer group transition-all duration-300 p-2 select-none pointer-events-auto relative lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-50 ${effectivePathname === "/"
               ? "!text-[#9333ea]"
               : "!text-white hover:!text-white/80"
               }`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="w-[180px] h-[36px] sm:h-[40px] flex items-center justify-center">
-              <Logo className="w-full h-full text-current transition-colors duration-200" />
+            <div className="w-[180px] sm:w-[200px] h-[36px] sm:h-[40px] flex items-center justify-center pointer-events-auto select-none">
+              <Logo className="w-full h-full text-current transition-colors duration-200 pointer-events-auto" />
             </div>
           </TransitionLink>
 

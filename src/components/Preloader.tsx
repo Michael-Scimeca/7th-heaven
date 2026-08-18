@@ -5,45 +5,42 @@ import Logo from "./Logo";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // ─── Preloader ───────────────────────────────────────────────────────────────
-// Shape is taken frame by frame from the reference recording:
+// Shape measured frame by frame from the reference recording:
 //   - instant cut to black (ONE frame, not a fade)
-//   - mark appears immediately at ~27% brightness and sits there ~200ms
-//   - brightens to full over ~1030ms, ease-in-out, with a long asymptotic
-//     tail; its bounding box stays 107-110px the whole time, so this is a
-//     brightness/opacity ramp and NOT a scale
-//   - holds at full ~600ms
-//   - shrinks to ~75% and dims to ~75% over ~230ms
-//   - the page then pushes up from below
+//   - mark is already on screen at ~27% brightness and sits flat there ~200ms
+//   - it then FILLS from the bottom edge upward over ~1030ms. Not a fade:
+//     sampling the mark in horizontal bands showed the lowest band reaching
+//     full brightness ~600ms before the top band did. Averaging brightness
+//     across the whole mark hides that completely, which is how an earlier
+//     pass concluded "opacity ramp" and got it wrong.
+//   - the overlay then leaves as an outgoing page while the real page arrives
 //
-// That last step deliberately reuses the page-push-in keyframes from
-// globals.css rather than restating the motion, so the site's entry and its
-// route changes stay identical by construction — retuning one retunes both.
+// That last step reuses page-push-out/page-push-in from globals.css rather
+// than restating the motion, so entering the site and navigating within it are
+// the same movement by construction.
+//
+// Runs on every full document load — PRELOAD_SCRIPT_CONTENT in layout.tsx is
+// the single gate. This component keeps no state of its own about whether it
+// has run, so there is nothing here that can disagree with that script.
 
-// Session-scoped: shows on first arrival, not on later refreshes in the same
-// tab. sessionStorage (not localStorage) so a new tab or a new day shows it
-// again, and no persistent state is left on anyone's machine.
-const SESSION_KEY = "7h-preloaded";
+// Every tunable lives in globals.css (:root) and is read back at runtime, so
+// this file cannot drift out of step with the stylesheet.
+const FALLBACK = { minVisible: 1250, reveal: 620 };
 
-// Chosen behaviour: reveal as soon as assets are actually ready, with NO
-// artificial floor. On a warm cache that means the mark can appear for only a
-// few hundred ms. If that ever reads as a glitch, this is the one line to
-// change — 900 would guarantee the brighten is at least mostly seen.
-const MIN_VISIBLE_MS = 0;
-
-const LOGO_BRIGHTEN_MS = 1030;
-const LOGO_EXIT_MS = 230;
-// Keep in step with --page-transition-duration in globals.css.
-const REVEAL_FALLBACK_MS = 930;
-
-function revealDurationMs(): number {
-  if (typeof window === "undefined") return REVEAL_FALLBACK_MS;
+function cssMs(name: string, fallback: number): number {
+  if (typeof window === "undefined") return fallback;
   const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue("--page-transition-duration")
+    .getPropertyValue(name)
     .trim();
+  if (!raw) return fallback;
   const n = parseFloat(raw);
-  if (!Number.isFinite(n)) return REVEAL_FALLBACK_MS;
+  if (!Number.isFinite(n)) return fallback;
+  // Chrome normalises 620ms to .62s, so the unit must be checked, not assumed.
   return raw.endsWith("ms") ? n : n * 1000;
 }
+
+const minVisibleMs = () => cssMs("--preloader-min-visible", FALLBACK.minVisible);
+const revealDurationMs = () => cssMs("--preloader-reveal-duration", FALLBACK.reveal);
 
 interface PreloaderProps {
   forceShow?: boolean;
@@ -51,16 +48,16 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
-  // Starts false on both server and client so hydration matches. The black
-  // backdrop for the very first paint does NOT come from this component — it
-  // comes from the `html.is-preloading::before` rule in globals.css, which the
-  // blocking inline script in layout.tsx switches on before anything paints.
-  // Otherwise there would be a visible flash of the real page before React
-  // ever mounted.
+  // Starts false on both server and client so hydration matches. The black for
+  // the very first paint does NOT come from this component — it comes from the
+  // html.is-preloading::before rule, which the blocking inline script in
+  // layout.tsx switches on before anything paints. Without that there would be
+  // a visible flash of the real page before React ever mounted.
   const [active, setActive] = useState(false);
-  const [exiting, setExiting] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const doneRef = useRef(false);
 
+  /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
     const root = document.documentElement;
     const shouldRun = forceShow || root.classList.contains("is-preloading");
@@ -68,41 +65,62 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     if (!shouldRun) {
       root.classList.remove("is-preloading");
       onComplete?.();
-      return () => {};
-    }
-
-    try {
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch {
-      // Private mode / storage disabled — the preloader simply shows again
-      // next navigation. Not worth failing the page load over.
+      return;
     }
 
     setActive(true);
+    const startedAt = performance.now();
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-    const finishTimer = setTimeout(() => {
-      setExiting(true);
+    const finish = () => {
+      if (doneRef.current) return;
+      doneRef.current = true;
+
+      // Both layers start in the SAME frame, exactly as a route change does:
+      // the overlay leaves on page-push-out while the page arrives on
+      // page-push-in.
+      setLeaving(true);
       root.classList.add("is-revealing");
-      setActive(false);
-    }, MIN_VISIBLE_MS + LOGO_EXIT_MS);
 
-    const revealTimer = setTimeout(() => {
-      root.classList.remove("is-preloading", "is-revealing");
-      onComplete?.();
-    }, MIN_VISIBLE_MS + LOGO_EXIT_MS + revealDurationMs());
-
-    return () => {
-      clearTimeout(finishTimer);
-      clearTimeout(revealTimer);
+      timers.push(
+        setTimeout(() => {
+          // The overlay stays mounted for the whole reveal so it can travel
+          // off screen. Unmounting it when the reveal starts (as an earlier
+          // version did) made it vanish on the first frame instead of leaving.
+          setActive(false);
+          root.classList.remove("is-preloading", "is-revealing");
+          onComplete?.();
+        }, revealDurationMs())
+      );
     };
+
+    waitForPageReady().then(() => {
+      const waited = performance.now() - startedAt;
+      timers.push(setTimeout(finish, Math.max(0, minVisibleMs() - waited)));
+    });
+
+    // Hard backstop: never strand a visitor on a black screen because one font
+    // or image never resolved. waitForPageReady has its own deadline, but this
+    // covers it throwing or never settling at all.
+    timers.push(setTimeout(finish, 6000));
+
+    return () => timers.forEach(clearTimeout);
   }, [forceShow, onComplete]);
 
   if (!active) return null;
 
   return (
-    <div className="preloader" role="status" aria-label="Loading" aria-live="polite">
-      <div className={`preloader-mark${exiting ? " is-exiting" : ""}`}>
-        <Logo className="preloader-logo" />
+    <div
+      className={`preloader${leaving ? " is-leaving" : ""}`}
+      role="status"
+      aria-label="Loading"
+      aria-live="polite"
+    >
+      <div className="preloader-mark">
+        {/* Dim copy underneath, full-brightness copy clipped over it and
+            revealed from the bottom edge upward. */}
+        <Logo className="preloader-logo preloader-logo-base" />
+        <Logo className="preloader-logo preloader-logo-fill" />
       </div>
     </div>
   );
