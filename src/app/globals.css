@@ -2141,35 +2141,7 @@ html.tour-sort-stuck #tour-sort-bar {
   z-index: 99999;
   pointer-events: none;
   overflow: hidden;
-  /* Fade back in after a page transition — see the .is-page-transitioning
-   * rule below. Only the fade-IN uses this; hiding is deliberately instant. */
-  transition: opacity 260ms ease 60ms;
-}
-
-/* Hide the grain for the duration of a page transition.
- *
- * Why it has to go: startViewTransition() captures the entire document, and
- * this layer is fixed, full-viewport and permanently animating
- * (filmGrainJitter, steps(8)). So the old snapshot freezes it at one jitter
- * step and the new snapshot freezes it at a different one — then those two
- * grain fields rotate, zoom and dim independently on top of each other. The
- * result reads as a flicker.
- *
- * Why not give it a view-transition-name, as the header gets: this layer
- * relies on mix-blend-mode: overlay against whatever is behind it, and a
- * snapshot is composited as a plain image, so the blend does not survive
- * being captured. Lifting it into its own group would replace the flicker
- * with a flat grey wash, which is worse.
- *
- * Dropping it entirely for ~900ms is imperceptible for a texture this subtle,
- * and the class is applied SYNCHRONOUSLY before startViewTransition() so the
- * layer is already gone when the "old" snapshot is taken. `transition: none`
- * matters for the same reason — a fade-out here would still be at opacity ~1
- * at capture time and defeat the whole thing. */
-html.is-page-transitioning .grain-overlay {
-  opacity: 0;
-  transition: none;
-}
+/* Film-grain overlay remains permanently visible at all times */
 
 .grain-overlay::after {
   content: "";
