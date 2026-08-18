@@ -295,7 +295,7 @@ export default function GooeyMessagesDropdown({
               className={`absolute ${currentBg}`}
               style={{
                 ...shapeStyle,
-                backgroundColor: open ? '#242630' : '#a855f71f',
+                backgroundColor: '#a855f71f',
                 transition: isClicking
                   ? 'width 420ms cubic-bezier(0.65,0,0.35,1), height 420ms cubic-bezier(0.65,0,0.35,1), left 420ms cubic-bezier(0.65,0,0.35,1), top 420ms cubic-bezier(0.65,0,0.35,1), border-radius 420ms cubic-bezier(0.65,0,0.35,1), background-color 300ms'
                   : 'none',
@@ -368,7 +368,7 @@ export default function GooeyMessagesDropdown({
         ref={triggerRef}
         type="button"
         disabled={disabled}
-        style={{ backgroundColor: open ? '#242630' : '#a855f71f' }}
+        style={{ backgroundColor: '#a855f71f' }}
         className={`relative z-50 ${fullWidth
           ? "w-full justify-between text-left"
           : "min-w-fit justify-center text-center"
