@@ -756,6 +756,41 @@ a:visited {
 button,
 [role="button"] {
   cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Global Liquid Gradient Button Setup */
+.btn-neat,
+.btn-primary {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6917BF 0%, #8c0eaf 35%, #6F008E 65%, #230434 100%);
+  padding: 1rem 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px -10px rgba(105, 23, 191, 0.5);
+}
+
+.btn-neat:hover,
+.btn-primary:hover {
+  color: #ffffff;
+  box-shadow: 0 12px 35px -8px rgba(140, 14, 175, 0.7);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.btn-neat:active,
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 :root {

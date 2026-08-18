@@ -1837,7 +1837,7 @@ function BookPageContent() {
                   <button aria-label="Action button"
                     type="submit"
                     disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                    className="w-full bg-gradient-to-r from-purple-600 via-cyan-500 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2 rounded-xl shadow-lg shadow-cyan-500/25"
+                    className="w-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold tracking-wider text-base py-4 transition-all flex items-center justify-center gap-2 rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer"
                   >
                     {submitting ? (
                       <>
