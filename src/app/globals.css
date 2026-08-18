@@ -547,13 +547,29 @@ header {
   }
 }
 
-/* Sticky Tour Sort Bar — glass backdrop-filter blur when stuck below header */
+/* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
 #tour-sort-bar.is-stuck {
-  background: rgba(12, 12, 18, 0.85) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  position: sticky !important;
+  z-index: 900 !important;
+}
+
+#tour-sort-bar.is-stuck::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  background: rgba(12, 12, 18, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* =============================================
