@@ -239,7 +239,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Load the Google Maps JavaScript API immediately on page load so map is ready before scrolling down.
+  // Defer loading the Google Maps API until the map container approaches the viewport to prevent initial forced reflows.
   useEffect(() => {
     let active = true;
 
@@ -249,53 +249,86 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
       return;
     }
-    if (!googleMapsOptionsSet) {
-      setOptions({ key: apiKey, v: "weekly" });
-      googleMapsOptionsSet = true;
+
+    const loadMapsApi = () => {
+      if (!googleMapsOptionsSet) {
+        setOptions({ key: apiKey, v: "weekly" });
+        googleMapsOptionsSet = true;
+      }
+      importLibrary("maps")
+        .then(() => { if (active) setGoogleReady(true); })
+        .catch((e: unknown) => {
+          console.warn("[TourMap] Failed to load Google Maps:", e);
+          if (active) setMapLoadError("Failed to load Google Maps");
+        });
+    };
+
+    const container = mapRef.current;
+    if (!container) {
+      loadMapsApi();
+      return;
     }
-    importLibrary("maps")
-      .then(() => { if (active) setGoogleReady(true); })
-      .catch((e: unknown) => {
-        console.warn("[TourMap] Failed to load Google Maps:", e);
-        if (active) setMapLoadError("Failed to load Google Maps");
-      });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          observer.disconnect();
+          loadMapsApi();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+
+    observer.observe(container);
 
     return () => {
       active = false;
+      observer.disconnect();
     };
   }, []);
 
-  // Initialize the Google Map once the API script is ready.
+  // Initialize the Google Map once the API script is ready using requestAnimationFrame to prevent forced reflows.
   useEffect(() => {
     if (!googleReady || !mapRef.current || mapInstanceRef.current) return;
 
-    // Center on Chicagoland — most shows are in the IL suburbs
-    const mapInstance = new google.maps.Map(mapRef.current, {
-      center: { lat: 42.0, lng: -88.0 },
-      zoom: 12,
-      // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
-      // styling and silently ignores the `styles` JSON array below.
-      styles: SNAZZY_MAPS_227862_STYLE,
-      disableDefaultUI: true,
-      zoomControl: false,
-      scrollwheel: false,
-      gestureHandling: "greedy",
-      clickableIcons: false,
-      keyboardShortcuts: false,
-    });
+    const container = mapRef.current;
+    let rafId: number;
+    let tilesListener: google.maps.MapsEventListener | null = null;
 
-    const tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
-      setIsLoaded(true);
-    });
+    rafId = requestAnimationFrame(() => {
+      if (!container || mapInstanceRef.current) return;
 
-    setMap(mapInstance);
-    mapInstanceRef.current = mapInstance;
+      // Center on Chicagoland — most shows are in the IL suburbs
+      const mapInstance = new google.maps.Map(container, {
+        center: { lat: 42.0, lng: -88.0 },
+        zoom: 12,
+        // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
+        // styling and silently ignores the `styles` JSON array below.
+        styles: SNAZZY_MAPS_227862_STYLE,
+        disableDefaultUI: true,
+        zoomControl: false,
+        scrollwheel: false,
+        gestureHandling: "greedy",
+        clickableIcons: false,
+        keyboardShortcuts: false,
+      });
+
+      tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
+        setIsLoaded(true);
+      });
+
+      setMap(mapInstance);
+      mapInstanceRef.current = mapInstance;
+    });
 
     return () => {
-      google.maps.event.removeListener(tilesListener);
-      google.maps.event.clearInstanceListeners(mapInstance);
-      mapInstanceRef.current = null;
-      setMap(null);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (mapInstanceRef.current) {
+        if (tilesListener) google.maps.event.removeListener(tilesListener);
+        google.maps.event.clearInstanceListeners(mapInstanceRef.current);
+        mapInstanceRef.current = null;
+        setMap(null);
+      }
     };
   }, [googleReady]);
 
