@@ -98,7 +98,7 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-export default function HomeShaderGradient() {
+function HomeShaderGradientComponent() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const positionLayerRef = useRef<HTMLDivElement>(null);
   const grainCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -242,7 +242,7 @@ export default function HomeShaderGradient() {
 
     const positionLoop = (t: number) => {
       // Pause position updates during active scrolling or hidden document to free CPU/GPU
-      if (isVisible && !isScrolling && !document.hidden && !(typeof window !== "undefined" && (window as unknown as Record<string, boolean>).__pageTransitionActive)) {
+      if (isVisible && !isScrolling && !document.hidden) {
         const frameCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
         if (t - lastFrameTime > frameCap) {
           updatePositionLayer(t);
@@ -367,3 +367,6 @@ export default function HomeShaderGradient() {
     </>
   );
 }
+
+const HomeShaderGradient = React.memo(HomeShaderGradientComponent);
+export default HomeShaderGradient;
