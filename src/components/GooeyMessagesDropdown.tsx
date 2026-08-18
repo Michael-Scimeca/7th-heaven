@@ -134,6 +134,13 @@ export default function GooeyMessagesDropdown({
   name,
 }: GooeyMessagesDropdownProps) {
   const [open, setOpen] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+
+  const handleToggle = () => {
+    setIsClicking(true);
+    setOpen((o) => !o);
+    setTimeout(() => setIsClicking(false), 500);
+  };
   const [isMorphComplete, setIsMorphComplete] = useState(false);
   const [selectedIdState, setSelectedIdState] = useState<string | undefined>(defaultSelectedId);
 
@@ -282,8 +289,14 @@ export default function GooeyMessagesDropdown({
         <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
           <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
-              className={`absolute ${currentBg} transition-[width,height,left,top,border-radius,background-color] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]`}
-              style={{ ...shapeStyle, backgroundColor: open ? '#242630' : '#2f2f3c' }}
+              className={`absolute ${currentBg}`}
+              style={{
+                ...shapeStyle,
+                backgroundColor: open ? '#242630' : '#2f2f3c',
+                transition: isClicking
+                  ? 'width 420ms cubic-bezier(0.65,0,0.35,1), height 420ms cubic-bezier(0.65,0,0.35,1), left 420ms cubic-bezier(0.65,0,0.35,1), top 420ms cubic-bezier(0.65,0,0.35,1), border-radius 420ms cubic-bezier(0.65,0,0.35,1), background-color 300ms'
+                  : 'none',
+              }}
               onTransitionEnd={(e) => {
                 if (open && (e.propertyName === "height" || e.propertyName === "width")) {
                   setIsMorphComplete(true);
@@ -367,7 +380,7 @@ export default function GooeyMessagesDropdown({
           ? "w-full justify-between text-left"
           : "min-w-[52px] justify-center text-center"
           } px-5 py-3 rounded-full ${currentBg} ${noBorder ? "border-none" : ""} flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
-        onClick={() => setOpen((o) => !o)}
+        onClick={handleToggle}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={triggerText}
