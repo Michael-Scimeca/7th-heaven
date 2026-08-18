@@ -91,8 +91,11 @@ export function SquishyToggle({
         className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
       />
 
-      {/* track */}
-      <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-all duration-300 peer-checked:bg-linear-to-r peer-checked:from-[#6917BF] peer-checked:via-[#8c0eaf] peer-checked:to-[#6F008E] peer-checked:border-[#8c0eaf] peer-checked:shadow-[0_0_12px_rgba(140,14,175,0.6)]" />
+      {/* Base inactive track layer */}
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300" />
+
+      {/* Active linear-gradient track layer (fades smoothly in & out on check) */}
+      <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
 
       {/* thumb */}
       <div
