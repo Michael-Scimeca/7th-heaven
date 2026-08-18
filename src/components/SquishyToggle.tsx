@@ -48,18 +48,20 @@ export function SquishyToggle({
   className = '',
 }: SquishyToggleProps) {
   const [animState, setAnimState] = useState<'idle' | 'in' | 'out'>('idle');
-  const isInitialMount = useRef(true);
+  const prevChecked = useRef(checked);
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
+    if (prevChecked.current !== checked) {
+      prevChecked.current = checked;
+      setAnimState(checked ? 'in' : 'out');
     }
-    setAnimState(checked ? 'in' : 'out');
   }, [checked]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.checked);
+    const nextVal = e.target.checked;
+    prevChecked.current = nextVal;
+    setAnimState(nextVal ? 'in' : 'out');
+    onChange(nextVal);
   };
 
   const handleAnimationEnd = () => {
