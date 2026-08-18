@@ -946,11 +946,12 @@ lerpSpeed: ${lerpSpeed}`;
 
                     </div>
                   </div>
+                </button>
               );
             })}
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

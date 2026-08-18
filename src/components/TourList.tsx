@@ -1177,7 +1177,7 @@ ${filterLine}
               {hasActiveFilters && (
                 <button aria-label="Action button"
                   onClick={clearAll}
-                  className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap"
+                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)]  rounded-lg  px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]"
                 >Clear</button>
               )}
             </div>
@@ -1207,7 +1207,7 @@ ${filterLine}
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-11 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
