@@ -376,6 +376,12 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           z-index:1;
           pointer-events:none;
         }
+        /* From 1800px down until tablet (1025px): exactly 3 videos */
+        @media (max-width: 1800px) and (min-width: 1025px) {
+          .su-thumbs { flex-wrap: nowrap; gap: 14px; }
+          .su-thumb { flex: 1; aspect-ratio: 16/10; }
+          .su-thumb:nth-child(n+4) { display: none !important; }
+        }
         /* Tablet (641px - 1024px): exactly 2 videos */
         @media (min-width: 641px) and (max-width: 1024px) {
           .su-thumbs { flex-wrap: nowrap; gap: 12px; }
