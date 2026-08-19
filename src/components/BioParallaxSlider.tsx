@@ -286,6 +286,34 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     }
   }, [positionConfigs]);
 
+  // Load saved Tuner slider settings on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const saved = localStorage.getItem("band_slider_tuner_config_v1");
+      if (saved) {
+        const cfg = JSON.parse(saved);
+        if (cfg.lerpSpeed !== undefined) setLerpSpeed(cfg.lerpSpeed);
+        if (cfg.dragThreshold !== undefined) setDragThreshold(cfg.dragThreshold);
+        if (cfg.parallaxDepth !== undefined) setParallaxDepth(cfg.parallaxDepth);
+        if (cfg.maxSkew !== undefined) setMaxSkew(cfg.maxSkew);
+        if (cfg.focalScale !== undefined) setFocalScale(cfg.focalScale);
+        if (cfg.cardWidth !== undefined) setCardWidth(cfg.cardWidth);
+        if (cfg.imageHeight !== undefined) setImageHeight(cfg.imageHeight);
+        if (cfg.imageScale !== undefined) setImageScale(cfg.imageScale);
+        if (cfg.imageOffsetY !== undefined) setImageOffsetY(cfg.imageOffsetY);
+        if (cfg.gap !== undefined) setGap(cfg.gap);
+        if (cfg.nameFontSize !== undefined) setNameFontSize(cfg.nameFontSize);
+        if (cfg.roleFontSize !== undefined) setRoleFontSize(cfg.roleFontSize);
+        if (cfg.textBottomOffset !== undefined) setTextBottomOffset(cfg.textBottomOffset);
+        if (cfg.textLayout !== undefined) setTextLayout(cfg.textLayout);
+        if (cfg.textPos !== undefined) setTextPos(cfg.textPos);
+      }
+    } catch (e) {
+      console.error("Failed to load saved tuner config:", e);
+    }
+  }, []);
+
   // Default drawer selected slot index (2 = Pos 3 / Active Center)
   const [selectedPositionIdx, setSelectedPositionIdx] = useState<number>(2);
   const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
@@ -794,28 +822,6 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         />
 
-                        {/* Layer 1: Sibling Overlay Div (Smooth 2D Feathered Radial Gradient Glow with Zero Edge Cuts) */}
-                        {slideCfg.gradient.enabled && (
-                          <div
-                            className="smooothy-overlay-div absolute inset-0 pointer-events-none z-10 transition-all duration-200"
-                            style={{
-                              left: "-82%",
-                              bottom: "0px",
-                              width: "229%",
-                              background: `radial-gradient(ellipse 75% 65% at 50% 100%, ${slideCfg.gradient.color} 0%, ${slideCfg.gradient.color} ${Math.max(0, slideCfg.gradient.startHeight - 15)}%, transparent 100%)`,
-                              opacity: slideCfg.gradient.opacity / 100,
-                              mixBlendMode: slideCfg.gradient.blendMode as any,
-                              WebkitMaskImage: clipStyle
-                                ? `${clipStyle}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)`
-                                : "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
-                              maskImage: clipStyle
-                                ? `${clipStyle}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)`
-                                : "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
-                              WebkitMaskComposite: "source-in",
-                              maskComposite: "intersect",
-                            }}
-                          />
-                        )}
                       </div>
 
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control & Active Slide Opacity Lock) */}
@@ -984,7 +990,7 @@ lerpSpeed: ${lerpSpeed}`;
             {/* 1. Motion & Physics */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">1. Motion & Physics</h4>
-              
+
               <div className="space-y-1">
                 <div className="flex justify-between text-xs font-semibold">
                   <span>Lerp Speed (Inertia)</span>
