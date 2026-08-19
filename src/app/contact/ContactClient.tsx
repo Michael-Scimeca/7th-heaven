@@ -110,9 +110,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           </div>
         </div>
 
-        {/* Right Column: Preloaded Contact Photos Stage (Bottom Aligned to Window) */}
-        <div className="hidden lg:block fixed bottom-0 right-0 z-0 pointer-events-none w-[50vw] max-w-[720px] h-[90vh] max-h-[900px]">
-          <div className="relative w-full h-full">
+        {/* Right Column: Preloaded Contact Photos Stage (Bottom Aligned & Large Stage) */}
+        <div className="hidden lg:block fixed bottom-0 right-0 z-0 pointer-events-none w-[60vw] xl:w-[55vw] max-w-[1300px] h-[98vh]">
+          <div className="relative w-full h-full flex items-end justify-end">
             {ALL_PHOTOS.map((photo) => {
               const isActive = activePhoto === photo.id;
               return (
@@ -129,8 +129,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     alt={photo.alt}
                     fill
                     priority
-                    sizes="(max-width: 1200px) 100vw, 720px"
-                    className="object-contain object-bottom pointer-events-none drop-shadow-2xl"
+                    sizes="60vw"
+                    className="object-contain object-bottom pointer-events-none drop-shadow-2xl scale-125 xl:scale-140 origin-bottom-right"
                   />
                 </div>
               );
