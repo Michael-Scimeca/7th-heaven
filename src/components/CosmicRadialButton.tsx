@@ -214,7 +214,7 @@ export const CosmicRadialButton = React.forwardRef<
             backgroundImage: rafBgImage,
             ...style,
           }}
-          className={`relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] cursor-pointer flex items-center gap-3 group overflow-hidden ${className}`}
+          className={`relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] cursor-pointer flex items-center gap-3 group overflow-hidden ${className}`}
           {...restProps}
         >
           {renderIcon()}
