@@ -4113,7 +4113,16 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * page-push-out-filter. */
 .preloader.is-leaving {
   transform-origin: 50% 50%;
-  animation: page-push-out var(--preloader-reveal-duration) linear forwards;
+  animation: preloader-full-curtain-exit var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes preloader-full-curtain-exit {
+  0% {
+    transform: translateY(0%) rotate(0deg) scale(1);
+  }
+  100% {
+    transform: translateY(-110%) rotate(-2.6deg) scale(1.08);
+  }
 }
 
 /* Extra travel for the mark ON TOP of the overlay's. page-push-out travels
