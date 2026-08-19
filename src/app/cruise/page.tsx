@@ -1675,7 +1675,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND) ── */}
           <section
             id="itinerary"
-            className="py-20 w-full max-w-none px-0 overflow-x-clip"
+            className="py-20 w-full max-w-none px-0 overflow-x-clip relative"
             style={{
               position: "relative",
               left: "50%",
@@ -1686,12 +1686,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               maxWidth: "100vw",
               backgroundColor: "#070d1e",
               backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0%, black 2%, black 95%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0px, black 160px, black calc(100% - 120px), transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 160px, black calc(100% - 120px), transparent 100%)",
             }}
           >
+            {/* Top mask blend overlay for smooth edge feathering */}
+            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/80 via-[#060b18]/40 to-transparent pointer-events-none z-10" />
+
             {/* Inner div with site container padding */}
-            <div className="w-full mx-auto px-[var(--page-padding-x)]">
+            <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
               <div className="text-center max-w-3xl mx-auto mb-12 px-4">
                 <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                   Day-by-Day <span className="accent-gradient-text">Schedules</span>
