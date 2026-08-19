@@ -4521,7 +4521,17 @@ html.is-preloading.is-revealing #page-content-wrapper {
     --r5-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
     --r6-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
     --r6-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow 0.3s ease;
+}
+
+.btn-cosmic-radial-property:hover {
+  --r1-x: 48%; --r1-y: 41%;
+  --r2-x: 16%; --r2-y: 86%;
+  --r3-x: 27%; --r3-y: 68%;
+  --r4-x: 52%; --r4-y: 43%;
+  --r5-x: 71%; --r5-y: 44%;
+  --r6-x: 87%; --r6-y: 18%;
+  box-shadow: 0 15px 45px rgba(138, 79, 255, 0.65);
 }
 
 @keyframes cosmic-radial-property-drift {
