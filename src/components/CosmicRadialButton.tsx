@@ -92,7 +92,7 @@ export const CosmicRadialButton = React.forwardRef<
       COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
     );
 
-    const randomizeRef = useRef<() => void>(() => {});
+    const randomizeRef = useRef<() => void>(() => { });
 
     const randomizePositions = useCallback(() => {
       const span = maxOffset * 2;
@@ -155,21 +155,46 @@ export const CosmicRadialButton = React.forwardRef<
       y: Math.max(0, Math.min(100, Math.round(b.y + (targetOffsets[i]?.dy || 0)))),
     }));
 
+    const renderIcon = () => {
+      if (icon === false || icon === null) return null;
+
+      if (icon === true) {
+        return (
+          <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse shrink-0" />
+        );
+      }
+
+      if (React.isValidElement(icon)) {
+        const existingClassName = (icon.props as { className?: string })?.className || "";
+        const mergedClassName = existingClassName
+          ? existingClassName
+          : "w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 shrink-0";
+        return React.cloneElement(icon as React.ReactElement<{ className?: string }>, {
+          className: mergedClassName,
+        });
+      }
+
+      if (typeof icon === "function" || (typeof icon === "object" && icon !== null)) {
+        const IconComp = icon as unknown as React.ComponentType<{ className?: string }>;
+        return (
+          <IconComp className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 shrink-0" />
+        );
+      }
+
+      return icon;
+    };
+
     if (engine === "keyframes") {
       return (
         <button
           ref={ref}
           type="button"
           onMouseEnter={handleMouseEnter}
-          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest border border-purple-400/30 shadow-xl hover:scale-105 transition-transform cursor-pointer flex items-center gap-2.5 ${className}`}
+          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer flex items-center gap-2.5 ${className}`}
           style={style}
           {...restProps}
         >
-          {icon === true ? (
-            <Sparkles className="w-4 h-4 text-purple-300 animate-pulse shrink-0" />
-          ) : (
-            icon
-          )}
+          {renderIcon()}
           <span>{children}</span>
         </button>
       );
@@ -192,11 +217,7 @@ export const CosmicRadialButton = React.forwardRef<
           className={`relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden ${className}`}
           {...restProps}
         >
-          {icon === true ? (
-            <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse shrink-0" />
-          ) : (
-            icon
-          )}
+          {renderIcon()}
           <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">{children}</span>
         </button>
       );
@@ -230,11 +251,7 @@ export const CosmicRadialButton = React.forwardRef<
         className={`btn-cosmic-radial-property relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden ${className}`}
         {...restProps}
       >
-        {icon === true ? (
-          <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse shrink-0" />
-        ) : (
-          icon
-        )}
+        {renderIcon()}
         <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">{children}</span>
       </button>
     );

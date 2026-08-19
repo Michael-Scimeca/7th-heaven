@@ -396,7 +396,7 @@ function CosmicRadialButtonDemo() {
       <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
-        {/* Reusable CosmicRadialButton Component Instance */}
+        {/* Reusable CosmicRadialButton Component Instance with Default Icon */}
         <CosmicRadialButton
           engine={renderEngine}
           duration={transitionDuration}
@@ -405,6 +405,18 @@ function CosmicRadialButtonDemo() {
           driftInterval={driftIntervalSec}
         >
           Cosmic Morphing Radial CTA
+        </CosmicRadialButton>
+
+        {/* Custom Icon Component Example (<Zap />) */}
+        <CosmicRadialButton
+          engine={renderEngine}
+          duration={transitionDuration}
+          easing={easingCurve}
+          autoDrift={isAutoDrifting}
+          driftInterval={driftIntervalSec}
+          icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}
+        >
+          Upgrade to Pro
         </CosmicRadialButton>
 
         {/* Pure CSS Keyframes @property Drift Button */}
