@@ -46,7 +46,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
 
         {/* Left Column: Contact Cards */}
-        <div className="lg:col-span-5 flex flex-col text-left">
+        <div className="lg:col-span-6 flex flex-col text-left">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
@@ -68,10 +68,11 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   key={contact.phone + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${isSelected
-                    ? "bg-purple-950/40 border-purple-500/50 shadow-[0_0_30px_rgba(140,14,175,0.25)] translate-x-1"
-                    : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
-                    }`}
+                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    isSelected
+                      ? "bg-purple-950/40 border-purple-500/50 shadow-[0_0_30px_rgba(140,14,175,0.25)] translate-x-1"
+                      : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
+                  }`}
                 >
                   {/* Category Pill */}
                   <div className="mb-3">
