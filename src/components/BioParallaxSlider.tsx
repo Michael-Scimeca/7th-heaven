@@ -771,9 +771,9 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom"
+                        className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom w-full"
                         style={{
-                          height: `${imageHeight}px`,
+                          maxHeight: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
@@ -786,9 +786,8 @@ lerpSpeed: ${lerpSpeed}`;
                           unoptimized
                           priority={i === 2}
                           draggable={false}
-                          className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+                          className="smooothy-img w-full h-auto max-h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
-                            maxHeight: `${imageHeight}px`,
                             transform: `scale(${imageScale})`,
                             opacity: 1,
                             ...(clipStyle ? { WebkitMaskImage: clipStyle, maskImage: clipStyle } : {}),
