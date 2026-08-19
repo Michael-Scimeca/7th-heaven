@@ -68,11 +68,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   key={contact.phone + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                    isSelected
-                      ? "bg-purple-950/40 border-purple-500/50 shadow-[0_0_30px_rgba(140,14,175,0.25)] translate-x-1"
-                      : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
-                  }`}
+                  className={`pb-4 border-b border-white/10 ${isSelected
+                    ? ""
+                    : ""
+                    }`}
                 >
                   {/* Category Pill */}
                   <div className="mb-3">
@@ -93,13 +92,13 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     )}
                   </div>
 
-                  {/* Contact Info: Email Top, Phone Directly Underneath (1 Column Stacked) */}
-                  <div className="flex flex-col gap-2.5 pt-3 border-t border-white/10">
+                  {/* Contact Info: Email Top, Phone Directly Underneath (Width Only as Far as Text) */}
+                  <div className="flex flex-col items-start gap-2.5 pt-3">
                     {/* Email */}
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="flex items-center gap-2.5 text-sm md:text-base font-bold text-white/80 hover:text-purple-300 transition-colors group/link"
+                        className="inline-flex items-center gap-2.5 text-sm md:text-base font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit"
                       >
                         <Mail className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300">
@@ -111,7 +110,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {/* Phone Number Directly Below Email */}
                     <a
                       href={`tel:${contact.phone.replace(/-/g, "")}`}
-                      className="flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link"
+                      className="inline-flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit"
                     >
                       <Phone className="w-6 h-6 md:w-7 md:h-7 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                       <span>{contact.phone}</span>
@@ -124,14 +123,13 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         </div>
 
       </div>
-
       {/* Right Column: Preloaded Contact Photos Stage */}
       <div
         className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none max-w-[1400px]"
         style={{
           height: "100vh",
-          width: "50vw",
-          right: 0,
+          width: "76vw",
+          right: -78,
         }}
       >
         <div className="relative w-full h-full flex items-end justify-end">
