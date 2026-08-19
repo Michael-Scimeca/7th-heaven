@@ -624,6 +624,10 @@ lerpSpeed: ${lerpSpeed}`;
     const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
     const totalDelta = dragStartXRef.current - e.clientX;
 
+    if (Math.abs(totalDelta) > 5) {
+      hasTriggeredRef.current = true;
+    }
+
     // Physical responsive visual dragging with smooth multiplier
     const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDelta * dragSensRef.current));
     targetXRef.current = newX;
@@ -635,12 +639,15 @@ lerpSpeed: ${lerpSpeed}`;
 
     const totalDelta = dragStartXRef.current - e.clientX;
     const thresh = dragThresholdRef.current;
+    const isSwipe = Math.abs(totalDelta) >= thresh || Math.abs(velocityRef.current) > 3;
 
-    // If dragged past threshold or flicked with velocity, step to next/prev slide effortlessly
-    if (totalDelta > thresh || velocityRef.current > 4) {
-      goToSlide(dragStartIdxRef.current + 1);
-    } else if (totalDelta < -thresh || velocityRef.current < -4) {
-      goToSlide(dragStartIdxRef.current - 1);
+    if (isSwipe) {
+      hasTriggeredRef.current = true;
+      if (totalDelta > 0 || velocityRef.current > 0) {
+        goToSlide(dragStartIdxRef.current + 1);
+      } else {
+        goToSlide(dragStartIdxRef.current - 1);
+      }
     } else {
       const momentumOffset = velocityRef.current * 12;
       const projectTarget = targetXRef.current + momentumOffset;
@@ -650,7 +657,11 @@ lerpSpeed: ${lerpSpeed}`;
       );
       goToSlide(nearestIdx);
     }
-    hasTriggeredRef.current = false;
+
+    // Keep hasTriggeredRef true for 150ms to suppress synthetic click event
+    setTimeout(() => {
+      hasTriggeredRef.current = false;
+    }, 150);
   };
 
   return (
@@ -802,7 +813,13 @@ lerpSpeed: ${lerpSpeed}`;
                 <button
                   type="button"
                   key={i}
-                  onClick={() => goToSlide(i)}
+                  onClick={(e) => {
+                    if (hasTriggeredRef.current) {
+                      e.preventDefault();
+                      return;
+                    }
+                    goToSlide(i);
+                  }}
                   style={{ width: `${cardWidth}px`, isolation: "isolate" }}
                   className="shrink-0 bg-transparent rounded-3xl px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
