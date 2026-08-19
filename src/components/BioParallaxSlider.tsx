@@ -236,17 +236,17 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const physicsMode: "snap" | "free" = "free";
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
   const dragSens = 1.15;
-  const [dragThreshold, setDragThreshold] = useState<number>(12);
+  const [dragThreshold, setDragThreshold] = useState<number>(50);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(355);
-  const [imageHeight, setImageHeight] = useState<number>(460);
-  const [imageScale, setImageScale] = useState<number>(1.32);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
-  const [gap, setGap] = useState<number>(24);
-  const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
-  const [maxSkew, setMaxSkew] = useState<number>(11);
-  const [focalScale, setFocalScale] = useState<number>(1.36);
+  const [cardWidth, setCardWidth] = useState<number>(510);
+  const [imageHeight, setImageHeight] = useState<number>(700);
+  const [imageScale, setImageScale] = useState<number>(1.44);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(-1);
+  const [gap, setGap] = useState<number>(0);
+  const [parallaxDepth, setParallaxDepth] = useState<number>(0.00);
+  const [maxSkew, setMaxSkew] = useState<number>(30);
+  const [focalScale, setFocalScale] = useState<number>(1.44);
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
@@ -970,23 +970,24 @@ lerpSpeed: ${lerpSpeed}`;
 
       {/* ⚙️ Live Physics & Layout Tuner Side Drawer Modal */}
       {showTuner && (
-        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95 backdrop-blur-2xl border-l border-purple-500/30 p-5 overflow-y-auto text-white shadow-2xl flex flex-col justify-between">
-          <div className="space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <Sliders className="w-5 h-5 text-purple-400" />
-                <h3 className="font-bold text-base text-white">Physics & Layout Tuner</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowTuner(false)}
-                className="p-1 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95 backdrop-blur-2xl border-l border-purple-500/30 p-5 text-white shadow-2xl flex flex-col justify-between overflow-hidden">
+          {/* Header (Sticky Top) */}
+          <div className="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
+            <div className="flex items-center gap-2">
+              <Sliders className="w-5 h-5 text-purple-400" />
+              <h3 className="font-bold text-base text-white">Physics & Layout Tuner</h3>
             </div>
+            <button
+              type="button"
+              onClick={() => setShowTuner(false)}
+              className="p-1 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
+          {/* Scrollable Sliders Content */}
+          <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-6">
             {/* 1. Motion & Physics */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">1. Motion & Physics</h4>
@@ -1231,8 +1232,8 @@ lerpSpeed: ${lerpSpeed}`;
             </div>
           </div>
 
-          {/* Footer Action Buttons */}
-          <div className="pt-4 mt-6 border-t border-white/10 space-y-2">
+          {/* Sticky Footer Action Buttons (Always 100% visible at bottom) */}
+          <div className="pt-3 border-t border-white/10 space-y-2 shrink-0 bg-slate-950/95">
             <button
               type="button"
               onClick={() => {
@@ -1265,9 +1266,9 @@ lerpSpeed: ${lerpSpeed}`;
                     console.error("Failed to save settings:", e);
                   }
                 }}
-                className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95"
+                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95"
               >
-                <Save className="w-3.5 h-3.5" />
+                <Save className="w-4 h-4" />
                 <span>Save</span>
               </button>
 
@@ -1275,22 +1276,22 @@ lerpSpeed: ${lerpSpeed}`;
                 type="button"
                 onClick={() => {
                   setLerpSpeed(0.10);
-                  setDragThreshold(12);
-                  setParallaxDepth(0.14);
-                  setMaxSkew(11);
-                  setFocalScale(1.36);
-                  setCardWidth(355);
-                  setImageHeight(460);
-                  setImageScale(1.32);
-                  setImageOffsetY(0);
-                  setGap(24);
+                  setDragThreshold(50);
+                  setParallaxDepth(0.00);
+                  setMaxSkew(30);
+                  setFocalScale(1.44);
+                  setCardWidth(510);
+                  setImageHeight(700);
+                  setImageScale(1.44);
+                  setImageOffsetY(-1);
+                  setGap(0);
                   setNameFontSize(28);
                   setRoleFontSize(14);
                   setTextBottomOffset(16);
                   setTextLayout("pill");
                   setTextPos("left");
                 }}
-                className="py-2 px-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95"
+                className="py-2.5 px-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset</span>
