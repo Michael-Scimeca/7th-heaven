@@ -7,7 +7,7 @@
 // to be screenshotted by the browser (same reasoning PageTransition already
 // used this for) — sharing one implementation instead of two keeps that
 // definition of "ready" from drifting apart between the two call sites.
-const MAX_WAIT_MS = 500;
+const MAX_WAIT_MS = 1200;
 
 // Deliberately setTimeout, not requestAnimationFrame, everywhere in this
 // file. This function runs inside document.startViewTransition()'s update

@@ -25,7 +25,7 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // Every tunable lives in globals.css (:root) and is read back at runtime, so
 // this file cannot drift out of step with the stylesheet.
-const FALLBACK = { minVisible: 450, reveal: 930 };
+const FALLBACK = { minVisible: 1250, reveal: 620 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
@@ -48,9 +48,12 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
-  // Rendered during SSR so the preloader logo SVG paints on frame 0 in initial HTML.
-  // When React mounts, useEffect manages scroll locking and the reveal animation.
-  const [destroyed, setDestroyed] = useState(false);
+  // Starts false on both server and client so hydration matches. The black for
+  // the very first paint does NOT come from this component — it comes from the
+  // html.is-preloading::before rule, which the blocking inline script in
+  // layout.tsx switches on before anything paints. Without that there would be
+  // a visible flash of the real page before React ever mounted.
+  const [active, setActive] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const doneRef = useRef(false);
 
@@ -59,38 +62,21 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const root = document.documentElement;
     const shouldRun = forceShow || root.classList.contains("is-preloading");
 
-    const getLenis = () =>
-      typeof window !== "undefined" ? (window as any).__lenis || (window as any).lenis : null;
-
-    const lockScroll = () => {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-      const l = getLenis();
-      if (l && typeof l.stop === "function") {
-        try { l.stop(); } catch {}
-      }
-    };
-
-    const unlockScroll = () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-      const l = getLenis();
-      if (l && typeof l.start === "function") {
-        try { l.start(); } catch {}
-      }
-    };
-
     if (!shouldRun) {
       root.classList.remove("is-preloading");
-      unlockScroll();
-      setDestroyed(true);
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
       onComplete?.();
       return;
     }
 
     // Lock all scrolling while preloader is active
-    lockScroll();
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    (window as unknown as { lenis?: { stop: () => void } }).lenis?.stop();
 
+    setActive(true);
     const startedAt = performance.now();
     const timers: ReturnType<typeof setTimeout>[] = [];
 
@@ -109,9 +95,11 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           // The overlay stays mounted for the whole reveal so it can travel
           // off screen. Unmounting it when the reveal starts (as an earlier
           // version did) made it vanish on the first frame instead of leaving.
-          setDestroyed(true);
+          setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
-          unlockScroll();
+          document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
           onComplete?.();
         }, revealDurationMs())
       );
@@ -130,7 +118,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     return () => timers.forEach(clearTimeout);
   }, [forceShow, onComplete]);
 
-  if (destroyed) return null;
+  if (!active) return null;
 
   return (
     <div

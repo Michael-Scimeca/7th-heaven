@@ -4039,7 +4039,7 @@ html.is-preloading::before {
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 9999999;
+  z-index: 100000;
   pointer-events: none;
 }
 
@@ -4055,13 +4055,6 @@ html.is-preloading #page-content-wrapper {
   pointer-events: none;
 }
 
-/* Strict isolation: hide any floating buttons or portal drawers while preloader is active */
-html.is-preloading button:not(.preloader *),
-html.is-preloading [class*="fixed"]:not(.preloader):not(.preloader *) {
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
 /* position: fixed + inset: 0 is what makes this match the route transition,
  * and it is NOT optional. page-push-in is authored against a view-transition
  * snapshot, which is always exactly viewport-sized — its translateY(100%)
@@ -4075,6 +4068,13 @@ html.is-preloading [class*="fixed"]:not(.preloader):not(.preloader *) {
  * come off; a fresh load is always at scroll 0, so nothing jumps. */
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1;
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 100002;
+  transform-origin: 50% 50%;
+  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4083,15 +4083,20 @@ html.is-preloading.is-revealing #page-content-wrapper {
 :root {
   --preloader-start-opacity: 0.269;
   /* mark's brightness the instant it appears */
-  --preloader-hold-dim: 100ms;
+  --preloader-hold-dim: 200ms;
   /* how long it sits dim before filling */
-  --preloader-brighten: 450ms;
+  --preloader-brighten: 1030ms;
   /* dim -> full */
   --preloader-logo-width: clamp(180px, 30vw, 420px);
-  --preloader-min-visible: 450ms;
-  /* floor on visible time. Fast fill for snappy load. */
-  --preloader-reveal-duration: 930ms;
-  /* the exit is the SAME movement as a route change */
+  --preloader-min-visible: 1250ms;
+  /* floor on visible time. 0 reveals the moment assets are
+                                         ready, which on a warm cache means the whole preloader is
+                                         over in ~1s and effectively never seen. 1250ms clears the
+                                         200ms dim hold + 1030ms fill. */
+  --preloader-reveal-duration: 620ms;
+  /* the exit is the SAME movement as a route change, just
+                                         played quicker. All three exit animations must share this
+                                         one value or the overlay, mark and page separate. */
   --preloader-mark-exit-extra: 60vh;
   /* travel added to the overlay's -45% so the mark clears the top */
 }
@@ -4099,7 +4104,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .preloader {
   position: fixed;
   inset: 0;
-  z-index: 9999999;
+  z-index: 100001;
   display: grid;
   place-items: center;
   background: #000;
