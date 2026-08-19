@@ -68,6 +68,11 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
       },
     });
 
+    if (data.error) {
+      console.warn('[Resend API Warning]:', data.error.message || data.error);
+      return { success: false, error: data.error };
+    }
+
     return { success: true, data };
   } catch (error) {
     console.error('Failed to send email:', error);
