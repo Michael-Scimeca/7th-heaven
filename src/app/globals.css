@@ -4050,9 +4050,10 @@ html.is-preloading.is-revealing::before {
   display: none;
 }
 
-html.is-preloading #page-content-wrapper {
-  opacity: 0;
-  pointer-events: none;
+html.is-preloading #page-content-wrapper,
+html.is-preloading [aria-label="Open Pages Directory"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* position: fixed + inset: 0 is what makes this match the route transition,
