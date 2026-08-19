@@ -812,7 +812,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </ul>
                   <div className="pt-3 border-t border-white/10 space-y-2">
                     <p className="text-base text-white/80">
-                      <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
+                      <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">Mary@NTDVacations.com</a>
                     </p>
                     <p className="text-base text-white/80">
                       <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
