@@ -279,7 +279,7 @@ export function Footer() {
                 <button aria-label="Action button"
                   type="submit"
                   disabled={smsStatus === 'sending'}
-                  className="w-full sm:w-auto shrink-0 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto shrink-0 px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
                 >
                   {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
                 </button>

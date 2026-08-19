@@ -516,6 +516,7 @@ header,
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+
 }
 
 /* ── Animated Header Reveal Mask ────────────────────────────────────────────
@@ -552,6 +553,7 @@ header {
 #tour-sort-bar.is-stuck {
   position: sticky !important;
   z-index: 900 !important;
+  padding: 12px 0 60px 0;
 }
 
 /* =============================================
@@ -4114,6 +4116,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   0% {
     transform: translateY(0%);
   }
+
   100% {
     transform: translateY(-110%);
   }

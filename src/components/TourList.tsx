@@ -1185,7 +1185,7 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[68px] sm:top-[68px] z-[900] py-3.5 sm:py-4 md:mt-3 lg:mt-0 flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-[background-color,padding,box-shadow] duration-300 ease-out`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[68px] sm:top-[68px] z-[900 flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-[background-color,padding,box-shadow] duration-300 ease-out`}>
             <div
               className={`absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
               style={{
@@ -1207,8 +1207,9 @@ ${filterLine}
 
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
+              {/* Column 1: DAY */}
               <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-              
+
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
                 <GooeyMessagesDropdown
@@ -1219,7 +1220,10 @@ ${filterLine}
                 />
               </div>
 
-              {/* Column 3: CITY Filter */}
+              {/* Column 3: PLACE / VENUE */}
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Place</span>
+
+              {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
                 <GooeyMessagesDropdown
                   placeholder="CITY"
@@ -1229,11 +1233,8 @@ ${filterLine}
                 />
               </div>
 
-              {/* Column 4: TIME */}
+              {/* Column 5: TIME */}
               <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
-
-              {/* Column 5: Countdown Spacer */}
-              <span className="hidden lg:inline-block" />
 
               {/* Column 6: MAP/CAL */}
               <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
