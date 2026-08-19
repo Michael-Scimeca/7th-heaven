@@ -40,7 +40,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhoto, setActivePhoto] = useState<string>(DEFAULT_PHOTO);
 
   return (
-    <section className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-16 overflow-hidden">
+    <section className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-16">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
         
         {/* Left Column: Contact Cards */}
@@ -110,15 +110,15 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           </div>
         </div>
 
-        {/* Right Column: Preloaded Contact Photos Stage */}
-        <div className="hidden lg:flex lg:col-span-5 relative h-full min-h-[600px] items-end justify-end pointer-events-none">
-          <div className="sticky top-28 w-full max-w-[520px] aspect-[4/5] relative overflow-hidden rounded-3xl">
+        {/* Right Column: Preloaded Contact Photos Stage (Bottom Aligned to Window) */}
+        <div className="hidden lg:block fixed bottom-0 right-0 z-0 pointer-events-none w-[50vw] max-w-[720px] h-[90vh] max-h-[900px]">
+          <div className="relative w-full h-full">
             {ALL_PHOTOS.map((photo) => {
               const isActive = activePhoto === photo.id;
               return (
                 <div
                   key={photo.id}
-                  className={`absolute inset-0 transition-all duration-500 ease-out ${
+                  className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${
                     isActive
                       ? "opacity-100 scale-100 filter-none"
                       : "opacity-0 scale-95 filter blur-sm"
@@ -129,11 +129,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     alt={photo.alt}
                     fill
                     priority
-                    sizes="(max-width: 1200px) 100vw, 500px"
-                    className="object-cover object-top rounded-3xl"
+                    sizes="(max-width: 1200px) 100vw, 720px"
+                    className="object-contain object-bottom pointer-events-none drop-shadow-2xl"
                   />
-                  {/* Subtle edge overlay glow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070314] via-transparent to-transparent opacity-60 rounded-3xl pointer-events-none" />
                 </div>
               );
             })}
