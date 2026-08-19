@@ -241,8 +241,8 @@ function HomeShaderGradientComponent() {
     };
 
     const positionLoop = (t: number) => {
-      // Pause position updates during active scrolling or hidden document to free CPU/GPU
-      if (isVisible && !isScrolling && !document.hidden) {
+      // Keep position updates smooth and continuous without restarting or jumping on scroll
+      if (isVisible && !document.hidden) {
         const frameCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
         if (t - lastFrameTime > frameCap) {
           updatePositionLayer(t);
