@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -137,6 +137,120 @@ const sections = [
   { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
   { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
 ];
+
+const COSMIC_BASE_CENTERS = [
+  { x: 18, y: 71 },
+  { x: 36, y: 76 },
+  { x: 7, y: 98 },
+  { x: 72, y: 23 },
+  { x: 91, y: 74 },
+  { x: 67, y: 38 },
+];
+
+/* ── Cosmic Multi-Radial Morphing Button Component ── */
+function CosmicRadialButtonDemo() {
+  const [isAutoDrifting, setIsAutoDrifting] = useState(true);
+  const [radialOffsets, setRadialOffsets] = useState([
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+  ]);
+
+  const randomizePositions = useCallback(() => {
+    setRadialOffsets([
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
+    ]);
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoDrifting) return;
+    const interval = setInterval(() => {
+      randomizePositions();
+    }, 1800);
+    return () => clearInterval(interval);
+  }, [isAutoDrifting, randomizePositions]);
+
+  const currentCenters = COSMIC_BASE_CENTERS.map((b, i) => ({
+    x: Math.max(0, Math.min(100, Math.round(b.x + (radialOffsets[i]?.dx || 0)))),
+    y: Math.max(0, Math.min(100, Math.round(b.y + (radialOffsets[i]?.dy || 0)))),
+  }));
+
+  const dynamicBgImage = `radial-gradient(18% 28% at ${currentCenters[0].x}% ${currentCenters[0].y}%, #6200FFDB 6%, #073AFF00 100%),radial-gradient(70% 53% at ${currentCenters[1].x}% ${currentCenters[1].y}%, #7217DDFF 0%, #073AFF00 100%),radial-gradient(31% 43% at ${currentCenters[2].x}% ${currentCenters[2].y}%, #000000B5 24%, #073AFF00 100%),radial-gradient(21% 37% at ${currentCenters[3].x}% ${currentCenters[3].y}%, #54007D9C 11%, #3B55B600 100%),radial-gradient(35% 56% at ${currentCenters[4].x}% ${currentCenters[4].y}%, #8A4FFFF5 9%, #073AFF00 100%),radial-gradient(74% 86% at ${currentCenters[5].x}% ${currentCenters[5].y}%, #920092F5 24%, #073AFF00 100%),linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%)`;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
+
+        {/* Primary Interactive JS Morphing Button */}
+        <button
+          type="button"
+          onMouseEnter={randomizePositions}
+          style={{
+            backgroundSize: "100% 100%",
+            backgroundPosition: "0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px",
+            backgroundImage: dynamicBgImage,
+            transition: "background-image 1.5s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease",
+          }}
+          className="relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer transition-all flex items-center gap-3 group overflow-hidden"
+        >
+          <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
+          <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
+        </button>
+
+        {/* Pure CSS Keyframes Drift Button */}
+        <button
+          type="button"
+          className="btn-cosmic-radial animate-cosmic-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest border border-white/20 shadow-xl hover:scale-105 transition-transform cursor-pointer"
+        >
+          <span>CSS Keyframes Drift</span>
+        </button>
+
+        {/* Interactive Controls */}
+        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/10 shrink-0">
+          <button
+            type="button"
+            onClick={randomizePositions}
+            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold rounded-lg shadow-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Randomize (±30%)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsAutoDrifting(!isAutoDrifting)}
+            className={`px-3.5 py-2 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${
+              isAutoDrifting
+                ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
+                : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
+            }`}
+          >
+            {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
+          </button>
+        </div>
+      </div>
+
+      {/* Real-time Radial Center Points Readout Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-xl border border-white/10 font-mono text-[11px]">
+        {currentCenters.map((c, i) => (
+          // eslint-disable-next-line react-doctor/no-array-index-as-key
+          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-white/5 border border-white/5 text-center">
+            <span className="text-purple-400 font-bold block text-[10px]">Radial {i + 1}</span>
+            <span className="text-white/90 font-semibold">{c.x}% {c.y}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── FreeFrontend Sparkle Generate Button Defaults ── */
 const sgbDefaults = {
@@ -2118,6 +2232,21 @@ ${deskRules.join("\n")}
                   </span>
                 </button>
               </div>
+            </div>
+
+            {/* Morphing Multi-Radial Gradient Cosmic Button */}
+            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  <h3 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
+                    Multi-Radial Cosmic Morphing Button (±30% Random Drift)
+                  </h3>
+                </div>
+                <SectionBadge label="6 Radial Layers + CSS/JS Motion" color="purple" />
+              </div>
+
+              <CosmicRadialButtonDemo />
             </div>
 
             {/* Gradient CTA Button (CodeFronts import) */}

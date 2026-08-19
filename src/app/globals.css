@@ -4476,3 +4476,65 @@ html.is-preloading.is-revealing #page-content-wrapper {
   background-color: #160533 !important;
   background: #160533 !important;
 }
+
+/* ── Multi-Radial Morphing Cosmic Button ── */
+.btn-cosmic-radial {
+  background-size: 100% 100%;
+  background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+  background-image: 
+    radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
+    radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
+    radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
+    radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
+    radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
+    radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
+    linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+  transition: background-image 1.2s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes cosmic-radial-drift {
+  0% {
+    background-image: 
+      radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
+      radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
+      radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
+      radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
+      radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
+      radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
+      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+  }
+  33% {
+    background-image: 
+      radial-gradient(22% 32% at 38% 51%, #6200FFDB 6%, #073AFF00 100%),
+      radial-gradient(65% 58% at 20% 90%, #7217DDFF 0%, #073AFF00 100%),
+      radial-gradient(35% 40% at 25% 75%, #000000B5 24%, #073AFF00 100%),
+      radial-gradient(25% 32% at 55% 45%, #54007D9C 11%, #3B55B600 100%),
+      radial-gradient(40% 50% at 75% 50%, #8A4FFFF5 9%, #073AFF00 100%),
+      radial-gradient(70% 80% at 85% 20%, #920092F5 24%, #073AFF00 100%),
+      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+  }
+  66% {
+    background-image: 
+      radial-gradient(25% 35% at 5% 85%, #6200FFDB 6%, #073AFF00 100%),
+      radial-gradient(75% 48% at 55% 60%, #7217DDFF 0%, #073AFF00 100%),
+      radial-gradient(28% 48% at 0% 80%, #000000B5 24%, #073AFF00 100%),
+      radial-gradient(18% 42% at 85% 10%, #54007D9C 11%, #3B55B600 100%),
+      radial-gradient(30% 60% at 98% 85%, #8A4FFFF5 9%, #073AFF00 100%),
+      radial-gradient(78% 90% at 50% 55%, #920092F5 24%, #073AFF00 100%),
+      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+  }
+  100% {
+    background-image: 
+      radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
+      radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
+      radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
+      radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
+      radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
+      radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
+      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+  }
+}
+
+.animate-cosmic-drift {
+  animation: cosmic-radial-drift 6s ease-in-out infinite;
+}
