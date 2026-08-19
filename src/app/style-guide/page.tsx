@@ -153,9 +153,11 @@ function CosmicRadialButtonDemo() {
   const [transitionDuration, setTransitionDuration] = useState<number>(1.5);
   const [easingCurve, setEasingCurve] = useState<string>("cubic-bezier(0.4, 0, 0.2, 1)");
   const [driftIntervalSec, setDriftIntervalSec] = useState<number>(2.0);
+  const [renderEngine, setRenderEngine] = useState<"property" | "raf">("property");
   const [copiedCode, setCopiedCode] = useState(false);
 
-  const [radialOffsets, setRadialOffsets] = useState([
+  // Target offsets (in %)
+  const [targetOffsets, setTargetOffsets] = useState([
     { dx: 0, dy: 0 },
     { dx: 0, dy: 0 },
     { dx: 0, dy: 0 },
@@ -164,8 +166,13 @@ function CosmicRadialButtonDemo() {
     { dx: 0, dy: 0 },
   ]);
 
+  // Current interpolated positions for 60fps RAF mode
+  const [rafCenters, setRafCenters] = useState(() =>
+    COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
+  );
+
   const randomizePositions = useCallback(() => {
-    setRadialOffsets([
+    setTargetOffsets([
       { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
       { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
       { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
@@ -175,6 +182,7 @@ function CosmicRadialButtonDemo() {
     ]);
   }, []);
 
+  // Auto drift interval trigger
   useEffect(() => {
     if (!isAutoDrifting) return;
     const interval = setInterval(() => {
@@ -183,24 +191,112 @@ function CosmicRadialButtonDemo() {
     return () => clearInterval(interval);
   }, [isAutoDrifting, driftIntervalSec, randomizePositions]);
 
-  const currentCenters = COSMIC_BASE_CENTERS.map((b, i) => ({
-    x: Math.max(0, Math.min(100, Math.round(b.x + (radialOffsets[i]?.dx || 0)))),
-    y: Math.max(0, Math.min(100, Math.round(b.y + (radialOffsets[i]?.dy || 0)))),
+  // 60fps RAF Lerp Loop for continuous fluid motion mode
+  useEffect(() => {
+    if (renderEngine !== "raf") return;
+    let animId: number;
+
+    const animate = () => {
+      setRafCenters((prev) =>
+        prev.map((curr, i) => {
+          const base = COSMIC_BASE_CENTERS[i];
+          const tx = Math.max(0, Math.min(100, base.x + (targetOffsets[i]?.dx || 0)));
+          const ty = Math.max(0, Math.min(100, base.y + (targetOffsets[i]?.dy || 0)));
+          const lerpRate = 0.04;
+          return {
+            x: curr.x + (tx - curr.x) * lerpRate,
+            y: curr.y + (ty - curr.y) * lerpRate,
+          };
+        })
+      );
+      animId = requestAnimationFrame(animate);
+    };
+
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, [renderEngine, targetOffsets]);
+
+  // Target center coordinates (for CSS @property engine)
+  const targetCenters = COSMIC_BASE_CENTERS.map((b, i) => ({
+    x: Math.max(0, Math.min(100, Math.round(b.x + (targetOffsets[i]?.dx || 0)))),
+    y: Math.max(0, Math.min(100, Math.round(b.y + (targetOffsets[i]?.dy || 0)))),
   }));
 
-  const dynamicBgImage = `radial-gradient(18% 28% at ${currentCenters[0].x}% ${currentCenters[0].y}%, #6200FFDB 6%, #073AFF00 100%),radial-gradient(70% 53% at ${currentCenters[1].x}% ${currentCenters[1].y}%, #7217DDFF 0%, #073AFF00 100%),radial-gradient(31% 43% at ${currentCenters[2].x}% ${currentCenters[2].y}%, #000000B5 24%, #073AFF00 100%),radial-gradient(21% 37% at ${currentCenters[3].x}% ${currentCenters[3].y}%, #54007D9C 11%, #3B55B600 100%),radial-gradient(35% 56% at ${currentCenters[4].x}% ${currentCenters[4].y}%, #8A4FFFF5 9%, #073AFF00 100%),radial-gradient(74% 86% at ${currentCenters[5].x}% ${currentCenters[5].y}%, #920092F5 24%, #073AFF00 100%),linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%)`;
+  const activeCenters = renderEngine === "raf"
+    ? rafCenters.map((c) => ({ x: Math.round(c.x), y: Math.round(c.y) }))
+    : targetCenters;
 
-  const dynamicCSSCode = `.btn-cosmic-morph {
-  background-size: 100% 100%;
-  background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
-  background-image: ${dynamicBgImage};
-  transition: background-image ${transitionDuration.toFixed(1)}s ${easingCurve}, background-position ${transitionDuration.toFixed(1)}s ${easingCurve}, transform 0.3s ease, box-shadow 0.3s ease;
+  // Custom CSS variables for CSS @property engine (smooth CSS transition)
+  const propertyStyle = {
+    "--cosmic-duration": `${transitionDuration.toFixed(1)}s`,
+    "--cosmic-easing": easingCurve,
+    "--r1-x": `${targetCenters[0].x}%`,
+    "--r1-y": `${targetCenters[0].y}%`,
+    "--r2-x": `${targetCenters[1].x}%`,
+    "--r2-y": `${targetCenters[1].y}%`,
+    "--r3-x": `${targetCenters[2].x}%`,
+    "--r3-y": `${targetCenters[2].y}%`,
+    "--r4-x": `${targetCenters[3].x}%`,
+    "--r4-y": `${targetCenters[3].y}%`,
+    "--r5-x": `${targetCenters[4].x}%`,
+    "--r5-y": `${targetCenters[4].y}%`,
+    "--r6-x": `${targetCenters[5].x}%`,
+    "--r6-y": `${targetCenters[5].y}%`,
+  } as React.CSSProperties;
+
+  // RAF inline gradient string
+  const rafBgImage = `radial-gradient(18% 28% at ${rafCenters[0].x.toFixed(1)}% ${rafCenters[0].y.toFixed(1)}%, #6200FFDB 6%, #073AFF00 100%),radial-gradient(70% 53% at ${rafCenters[1].x.toFixed(1)}% ${rafCenters[1].y.toFixed(1)}%, #7217DDFF 0%, #073AFF00 100%),radial-gradient(31% 43% at ${rafCenters[2].x.toFixed(1)}% ${rafCenters[2].y.toFixed(1)}%, #000000B5 24%, #073AFF00 100%),radial-gradient(21% 37% at ${rafCenters[3].x.toFixed(1)}% ${rafCenters[3].y.toFixed(1)}%, #54007D9C 11%, #3B55B600 100%),radial-gradient(35% 56% at ${rafCenters[4].x.toFixed(1)}% ${rafCenters[4].y.toFixed(1)}%, #8A4FFFF5 9%, #073AFF00 100%),radial-gradient(74% 86% at ${rafCenters[5].x.toFixed(1)}% ${rafCenters[5].y.toFixed(1)}%, #920092F5 24%, #073AFF00 100%),linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%)`;
+
+  const generatedCSSCode = `@property --r1-x { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
+@property --r1-y { syntax: '<percentage>'; inherits: false; initial-value: 71%; }
+
+.btn-cosmic-morph {
+  --r1-x: ${targetCenters[0].x}%; --r1-y: ${targetCenters[0].y}%;
+  --r2-x: ${targetCenters[1].x}%; --r2-y: ${targetCenters[1].y}%;
+  --r3-x: ${targetCenters[2].x}%; --r3-y: ${targetCenters[2].y}%;
+  --r4-x: ${targetCenters[3].x}%; --r4-y: ${targetCenters[3].y}%;
+  --r5-x: ${targetCenters[4].x}%; --r5-y: ${targetCenters[4].y}%;
+  --r6-x: ${targetCenters[5].x}%; --r6-y: ${targetCenters[5].y}%;
+  background-image: radial-gradient(18% 28% at var(--r1-x) var(--r1-y), #6200FFDB 6%, #073AFF00 100%), ...;
+  transition: --r1-x ${transitionDuration.toFixed(1)}s ${easingCurve}, --r1-y ${transitionDuration.toFixed(1)}s ${easingCurve}, ...;
 }`;
 
   return (
     <div className="space-y-4">
       {/* Interactive Controls & Tuning Panel */}
       <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-4">
+        {/* Render Engine Selector */}
+        <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border border-white/10 flex-wrap">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Smooth Motion Engine</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setRenderEngine("property")}
+              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${
+                renderEngine === "property"
+                  ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
+                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+              }`}
+            >
+              ⚡ CSS @property Engine (Smooth CSS Transition)
+            </button>
+            <button
+              type="button"
+              onClick={() => setRenderEngine("raf")}
+              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${
+                renderEngine === "raf"
+                  ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
+                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+              }`}
+            >
+              🌊 60fps RAF Lerp Loop (Fluid Physics)
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           {/* Transition Duration Slider */}
           <div className="space-y-1">
@@ -215,7 +311,8 @@ function CosmicRadialButtonDemo() {
               step="0.1"
               value={transitionDuration}
               onChange={(e) => setTransitionDuration(Number(e.target.value))}
-              className="w-full accent-purple-500 cursor-pointer"
+              disabled={renderEngine === "raf"}
+              className="w-full accent-purple-500 cursor-pointer disabled:opacity-30"
             />
           </div>
 
@@ -242,7 +339,8 @@ function CosmicRadialButtonDemo() {
             <select
               value={easingCurve}
               onChange={(e) => setEasingCurve(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/20 text-white font-mono text-xs focus:outline-none cursor-pointer"
+              disabled={renderEngine === "raf"}
+              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/20 text-white font-mono text-xs focus:outline-none cursor-pointer disabled:opacity-30"
             >
               <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
               <option value="cubic-bezier(0.16, 1, 0.3, 1)">Expo Out (cubic-bezier(0.16, 1, 0.3, 1))</option>
@@ -281,7 +379,7 @@ function CosmicRadialButtonDemo() {
           <button
             type="button"
             onClick={() => {
-              navigator.clipboard?.writeText(dynamicCSSCode);
+              navigator.clipboard?.writeText(generatedCSSCode);
               setCopiedCode(true);
               setTimeout(() => setCopiedCode(false), 2000);
             }}
@@ -297,34 +395,45 @@ function CosmicRadialButtonDemo() {
       <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
-        {/* Primary Interactive JS Morphing Button */}
-        <button
-          type="button"
-          onMouseEnter={randomizePositions}
-          style={{
-            backgroundSize: "100% 100%",
-            backgroundPosition: "0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px",
-            backgroundImage: dynamicBgImage,
-            transition: `background-image ${transitionDuration.toFixed(1)}s ${easingCurve}, background-position ${transitionDuration.toFixed(1)}s ${easingCurve}, transform 0.3s ease, box-shadow 0.3s ease`,
-          }}
-          className="relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer transition-all flex items-center gap-3 group overflow-hidden"
-        >
-          <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
-          <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
-        </button>
+        {/* Primary Interactive Morphing Button */}
+        {renderEngine === "property" ? (
+          <button
+            type="button"
+            onMouseEnter={randomizePositions}
+            style={propertyStyle}
+            className="btn-cosmic-radial-property relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden"
+          >
+            <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
+            <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onMouseEnter={randomizePositions}
+            style={{
+              backgroundSize: "100% 100%",
+              backgroundPosition: "0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px",
+              backgroundImage: rafBgImage,
+            }}
+            className="relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden"
+          >
+            <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
+            <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
+          </button>
+        )}
 
-        {/* Pure CSS Keyframes Drift Button */}
+        {/* Pure CSS Keyframes @property Drift Button */}
         <button
           type="button"
-          className="btn-cosmic-radial animate-cosmic-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest border border-white/20 shadow-xl hover:scale-105 transition-transform cursor-pointer"
+          className="btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest border border-white/20 shadow-xl hover:scale-105 transition-transform cursor-pointer"
         >
-          <span>CSS Keyframes Drift</span>
+          <span>CSS @property Keyframes Drift</span>
         </button>
       </div>
 
       {/* Real-time Radial Center Points Readout Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-xl border border-white/10 font-mono text-[11px]">
-        {currentCenters.map((c, i) => (
+        {activeCenters.map((c, i) => (
           // eslint-disable-next-line react-doctor/no-array-index-as-key
           <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-white/5 border border-white/5 text-center">
             <span className="text-purple-400 font-bold block text-[10px]">Radial {i + 1}</span>

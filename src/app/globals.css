@@ -4478,63 +4478,87 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 /* ── Multi-Radial Morphing Cosmic Button ── */
-.btn-cosmic-radial {
+@property --r1-x { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
+@property --r1-y { syntax: '<percentage>'; inherits: false; initial-value: 71%; }
+@property --r2-x { syntax: '<percentage>'; inherits: false; initial-value: 36%; }
+@property --r2-y { syntax: '<percentage>'; inherits: false; initial-value: 76%; }
+@property --r3-x { syntax: '<percentage>'; inherits: false; initial-value: 7%; }
+@property --r3-y { syntax: '<percentage>'; inherits: false; initial-value: 98%; }
+@property --r4-x { syntax: '<percentage>'; inherits: false; initial-value: 72%; }
+@property --r4-y { syntax: '<percentage>'; inherits: false; initial-value: 23%; }
+@property --r5-x { syntax: '<percentage>'; inherits: false; initial-value: 91%; }
+@property --r5-y { syntax: '<percentage>'; inherits: false; initial-value: 74%; }
+@property --r6-x { syntax: '<percentage>'; inherits: false; initial-value: 67%; }
+@property --r6-y { syntax: '<percentage>'; inherits: false; initial-value: 38%; }
+
+.btn-cosmic-radial-property {
+  --r1-x: 18%; --r1-y: 71%;
+  --r2-x: 36%; --r2-y: 76%;
+  --r3-x: 7%;  --r3-y: 98%;
+  --r4-x: 72%; --r4-y: 23%;
+  --r5-x: 91%; --r5-y: 74%;
+  --r6-x: 67%; --r6-y: 38%;
   background-size: 100% 100%;
   background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
   background-image: 
-    radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
-    radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
-    radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
-    radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
-    radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
-    radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
+    radial-gradient(18% 28% at var(--r1-x) var(--r1-y), #6200FFDB 6%, #073AFF00 100%),
+    radial-gradient(70% 53% at var(--r2-x) var(--r2-y), #7217DDFF 0%, #073AFF00 100%),
+    radial-gradient(31% 43% at var(--r3-x) var(--r3-y), #000000B5 24%, #073AFF00 100%),
+    radial-gradient(21% 37% at var(--r4-x) var(--r4-y), #54007D9C 11%, #3B55B600 100%),
+    radial-gradient(35% 56% at var(--r5-x) var(--r5-y), #8A4FFFF5 9%, #073AFF00 100%),
+    radial-gradient(74% 86% at var(--r6-x) var(--r6-y), #920092F5 24%, #073AFF00 100%),
     linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
-  transition: background-image 1.2s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: 
+    --r1-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r1-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r2-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r2-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r3-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r3-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r4-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r4-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r5-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r5-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r6-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r6-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes cosmic-radial-drift {
+@keyframes cosmic-radial-property-drift {
   0% {
-    background-image: 
-      radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
-      radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
-      radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
-      radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
-      radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
-      radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
-      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+    --r1-x: 18%; --r1-y: 71%;
+    --r2-x: 36%; --r2-y: 76%;
+    --r3-x: 7%;  --r3-y: 98%;
+    --r4-x: 72%; --r4-y: 23%;
+    --r5-x: 91%; --r5-y: 74%;
+    --r6-x: 67%; --r6-y: 38%;
   }
   33% {
-    background-image: 
-      radial-gradient(22% 32% at 38% 51%, #6200FFDB 6%, #073AFF00 100%),
-      radial-gradient(65% 58% at 20% 90%, #7217DDFF 0%, #073AFF00 100%),
-      radial-gradient(35% 40% at 25% 75%, #000000B5 24%, #073AFF00 100%),
-      radial-gradient(25% 32% at 55% 45%, #54007D9C 11%, #3B55B600 100%),
-      radial-gradient(40% 50% at 75% 50%, #8A4FFFF5 9%, #073AFF00 100%),
-      radial-gradient(70% 80% at 85% 20%, #920092F5 24%, #073AFF00 100%),
-      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+    --r1-x: 38%; --r1-y: 51%;
+    --r2-x: 20%; --r2-y: 90%;
+    --r3-x: 25%; --r3-y: 75%;
+    --r4-x: 55%; --r4-y: 45%;
+    --r5-x: 75%; --r5-y: 50%;
+    --r6-x: 85%; --r6-y: 20%;
   }
   66% {
-    background-image: 
-      radial-gradient(25% 35% at 5% 85%, #6200FFDB 6%, #073AFF00 100%),
-      radial-gradient(75% 48% at 55% 60%, #7217DDFF 0%, #073AFF00 100%),
-      radial-gradient(28% 48% at 0% 80%, #000000B5 24%, #073AFF00 100%),
-      radial-gradient(18% 42% at 85% 10%, #54007D9C 11%, #3B55B600 100%),
-      radial-gradient(30% 60% at 98% 85%, #8A4FFFF5 9%, #073AFF00 100%),
-      radial-gradient(78% 90% at 50% 55%, #920092F5 24%, #073AFF00 100%),
-      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+    --r1-x: 5%;  --r1-y: 85%;
+    --r2-x: 55%; --r2-y: 60%;
+    --r3-x: 0%;  --r3-y: 80%;
+    --r4-x: 85%; --r4-y: 10%;
+    --r5-x: 98%; --r5-y: 85%;
+    --r6-x: 50%; --r6-y: 55%;
   }
   100% {
-    background-image: 
-      radial-gradient(18% 28% at 18% 71%, #6200FFDB 6%, #073AFF00 100%),
-      radial-gradient(70% 53% at 36% 76%, #7217DDFF 0%, #073AFF00 100%),
-      radial-gradient(31% 43% at 7% 98%, #000000B5 24%, #073AFF00 100%),
-      radial-gradient(21% 37% at 72% 23%, #54007D9C 11%, #3B55B600 100%),
-      radial-gradient(35% 56% at 91% 74%, #8A4FFFF5 9%, #073AFF00 100%),
-      radial-gradient(74% 86% at 67% 38%, #920092F5 24%, #073AFF00 100%),
-      linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
+    --r1-x: 18%; --r1-y: 71%;
+    --r2-x: 36%; --r2-y: 76%;
+    --r3-x: 7%;  --r3-y: 98%;
+    --r4-x: 72%; --r4-y: 23%;
+    --r5-x: 91%; --r5-y: 74%;
+    --r6-x: 67%; --r6-y: 38%;
   }
 }
 
-.animate-cosmic-drift {
-  animation: cosmic-radial-drift 6s ease-in-out infinite;
+.animate-cosmic-property-drift {
+  animation: cosmic-radial-property-drift 6s ease-in-out infinite;
 }
