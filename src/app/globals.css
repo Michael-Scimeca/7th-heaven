@@ -4039,7 +4039,7 @@ html.is-preloading::before {
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 100000;
+  z-index: 9999999;
   pointer-events: none;
 }
 
@@ -4055,6 +4055,13 @@ html.is-preloading #page-content-wrapper {
   pointer-events: none;
 }
 
+/* Strict isolation: hide any floating buttons or portal drawers while preloader is active */
+html.is-preloading button:not(.preloader *),
+html.is-preloading [class*="fixed"]:not(.preloader):not(.preloader *) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* position: fixed + inset: 0 is what makes this match the route transition,
  * and it is NOT optional. page-push-in is authored against a view-transition
  * snapshot, which is always exactly viewport-sized — its translateY(100%)
@@ -4068,13 +4075,6 @@ html.is-preloading #page-content-wrapper {
  * come off; a fresh load is always at scroll 0, so nothing jumps. */
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1;
-  position: fixed;
-  inset: 0;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 100002;
-  transform-origin: 50% 50%;
-  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4099,7 +4099,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .preloader {
   position: fixed;
   inset: 0;
-  z-index: 100001;
+  z-index: 9999999;
   display: grid;
   place-items: center;
   background: #000;
