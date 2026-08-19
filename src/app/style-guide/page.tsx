@@ -3238,24 +3238,26 @@ ${deskRules.join("\n")}
                 box-sizing: border-box;
               }
               .htc1 {
-                --htc1-bg: #150c08;
-                --htc1-panel: #1f130d;
-                --htc1-line: rgba(251, 191, 36, 0.14);
-                --htc1-c1: #fbbf24;
-                --htc1-c2: #f97316;
-                --htc1-c3: #ef4444;
-                --htc1-ink: #f5ede4;
-                --htc1-mut: #a08670;
+                --htc1-bg: #070314;
+                --htc1-panel: rgba(20, 10, 36, 0.75);
+                --htc1-line: rgba(139, 61, 255, 0.35);
+                --htc1-c1: #a855f7;
+                --htc1-c2: #8b5cf6;
+                --htc1-c3: #06b6d4;
+                --htc1-ink: #ffffff;
+                --htc1-mut: rgba(255, 255, 255, 0.65);
                 font-family: inherit;
-                background: radial-gradient(120% 140% at 18% -10%, rgba(251, 191, 36, 0.06), transparent 55%), var(--htc1-bg);
+                background: radial-gradient(120% 140% at 18% -10%, rgba(139, 61, 255, 0.18), transparent 60%), var(--htc1-bg);
               }
               .htc1-card {
                 width: min(400px, 100%);
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)), var(--htc1-panel);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), var(--htc1-panel);
                 border: 1px solid var(--htc1-line);
                 border-radius: 20px;
                 padding: 28px 28px 24px;
-                box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+                box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 61, 255, 0.15);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
               }
               .htc1-kicker {
                 display: flex;
@@ -3293,9 +3295,9 @@ ${deskRules.join("\n")}
                 width: 100%;
                 margin-top: 22px;
                 padding: 16px 24px;
-                border: 0;
+                border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 999px;
-                background: linear-gradient(120deg, #2a1a12, #1f130d);
+                background: linear-gradient(120deg, rgba(35, 18, 60, 0.9), rgba(20, 10, 36, 0.9));
                 color: var(--htc1-ink);
                 font: inherit;
                 font-size: 15px;
