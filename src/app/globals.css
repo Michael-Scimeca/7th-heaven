@@ -3342,7 +3342,7 @@ textarea,
    * reads this at runtime via getComputedStyle instead of hardcoding its own
    * copy, so the JS that clears transition state can never drift out of sync
    * with the CSS that actually does the animating. Change it here only. */
-  --page-transition-duration: 930ms;
+  --page-transition-duration: 380ms;
 }
 
 ::view-transition-old(root),
@@ -4070,6 +4070,13 @@ html.is-preloading [aria-label="Open Pages Directory"] {
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 100002;
+  transform-origin: 50% 50%;
+  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4088,7 +4095,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
                                          ready, which on a warm cache means the whole preloader is
                                          over in ~1s and effectively never seen. 1250ms clears the
                                          200ms dim hold + 1030ms fill. */
-  --preloader-reveal-duration: 620ms;
+  --preloader-reveal-duration: 380ms;
   /* the exit is the SAME movement as a route change, just
                                          played quicker. All three exit animations must share this
                                          one value or the overlay, mark and page separate. */
@@ -4113,16 +4120,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * page-push-out-filter. */
 .preloader.is-leaving {
   transform-origin: 50% 50%;
-  animation: preloader-full-curtain-exit var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards;
-}
-
-@keyframes preloader-full-curtain-exit {
-  0% {
-    transform: translateY(0%) rotate(0deg) scale(1);
-  }
-  100% {
-    transform: translateY(-110%) rotate(-2.6deg) scale(1.08);
-  }
+  animation: page-push-out var(--preloader-reveal-duration) linear forwards;
 }
 
 /* Extra travel for the mark ON TOP of the overlay's. page-push-out travels

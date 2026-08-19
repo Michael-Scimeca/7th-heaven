@@ -73,7 +73,7 @@ const REVEAL_DURATION = 0.55;
 // wrong (during debugging, a CSS override to 4s left this file still clearing
 // transition state at 550ms — mode went back to "idle" while the page was
 // still visibly mid-animation).
-const VIEW_TRANSITION_FALLBACK_MS = 900;
+const VIEW_TRANSITION_FALLBACK_MS = 380;
 
 function readViewTransitionMs(): number {
   if (typeof window === "undefined") return VIEW_TRANSITION_FALLBACK_MS;
