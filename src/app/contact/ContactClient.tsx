@@ -22,16 +22,18 @@ const ALL_PHOTOS = [
 
 const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
 
-function getPhotoForCategory(category: string): string {
-  const catLower = (category || "").toLowerCase();
-  if (catLower.includes("press") || catLower.includes("media") || catLower.includes("lenny")) {
+function getPhotoForCategory(contact: ContactItem): string {
+  const catLower = (contact.category || "").toLowerCase();
+  const nameLower = (contact.name || "").toLowerCase();
+
+  if (catLower.includes("non-technical") || nameLower.includes("alan") || catLower.includes("alan")) {
+    return "/images/contact/Alan-contact.png";
+  }
+  if (catLower.includes("press") || catLower.includes("media") || nameLower.includes("lenny")) {
     return "/images/contact/Lenny-contact.png";
   }
-  if (catLower.includes("technical") || catLower.includes("production") || catLower.includes("jeff")) {
+  if (nameLower.includes("jeff") || (catLower.includes("technical") && !catLower.includes("non-technical"))) {
     return "/images/contact/Jeff-contact.png";
-  }
-  if (catLower.includes("non-technical") || catLower.includes("alan")) {
-    return "/images/contact/Alan-contact.png";
   }
   return "/images/contact/Dickie-contact.png";
 }
@@ -61,7 +63,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
             onMouseLeave={() => setActivePhoto(DEFAULT_PHOTO)}
           >
             {contacts.map((contact) => {
-              const photoForThisCard = getPhotoForCategory(contact.category);
+              const photoForThisCard = getPhotoForCategory(contact);
 
               return (
                 <div
