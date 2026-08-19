@@ -1185,7 +1185,7 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[68px] sm:top-[68px] z-[900] py-3.5 sm:py-6 md:mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} items-center text-white transition-[background-color,padding,box-shadow] duration-300 ease-out`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[68px] sm:top-[68px] z-[900] py-3.5 sm:py-4 md:mt-3 lg:mt-0 flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-[background-color,padding,box-shadow] duration-300 ease-out`}>
             <div
               className={`absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
               style={{
@@ -1193,37 +1193,57 @@ ${filterLine}
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
               }}
             />
-            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-            <div className="relative order-2 lg:order-none flex items-center gap-2 shrink-0">
-              <GooeyMessagesDropdown
-                placeholder="MONTH"
-                defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
-                customers={months.map((m) => ({ id: m, name: m }))}
-                onSelect={(opt) => setActiveMonth(opt.id)}
-              />
-              <GooeyMessagesDropdown
-                placeholder="CITY"
-                defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
-                customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
-                onSelect={(opt) => setActiveCity(opt.id)}
-              />
-            </div>
-            <div className="input-glow-border rounded-xl w-full order-1 lg:order-none shrink-0">
+
+            {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
+            <div className="input-glow-border rounded-xl w-full max-w-[300px] shrink-0">
               <div className="relative flex items-center w-full">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-11 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-11 pr-7 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
-            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
-            {member?.role === 'admin' && (
-              <div className="hidden lg:block text-right" />
-            )}
+            {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
+            <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+              
+              {/* Column 2: MONTH Filter */}
+              <div className="relative flex items-center shrink-0">
+                <GooeyMessagesDropdown
+                  placeholder="MONTH"
+                  defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
+                  customers={months.map((m) => ({ id: m, name: m }))}
+                  onSelect={(opt) => setActiveMonth(opt.id)}
+                />
+              </div>
+
+              {/* Column 3: CITY Filter */}
+              <div className="relative flex items-center shrink-0">
+                <GooeyMessagesDropdown
+                  placeholder="CITY"
+                  defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
+                  customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
+                  onSelect={(opt) => setActiveCity(opt.id)}
+                />
+              </div>
+
+              {/* Column 4: TIME */}
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+
+              {/* Column 5: Countdown Spacer */}
+              <span className="hidden lg:inline-block" />
+
+              {/* Column 6: MAP/CAL */}
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+
+              {/* Column 7: WEBSITE */}
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+              {member?.role === 'admin' && (
+                <div className="hidden lg:block text-right" />
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
