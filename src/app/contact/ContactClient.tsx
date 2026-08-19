@@ -14,28 +14,28 @@ export interface ContactItem {
 }
 
 const ALL_PHOTOS = [
-  { id: "/images/contact/Dickie-contact.png?v=2", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
-  { id: "/images/contact/Lenny-contact.png?v=2", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
-  { id: "/images/contact/Jeff-contact.png?v=2", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.96]" },
-  { id: "/images/contact/Alan-contact.png?v=2", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-[1.12]" },
+  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
+  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
+  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.96]" },
+  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-[1.12]" },
 ];
 
-const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png?v=2";
+const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
 
 function getPhotoForCategory(contact: ContactItem): string {
   const catLower = (contact.category || "").toLowerCase();
   const nameLower = (contact.name || "").toLowerCase();
 
   if (catLower.includes("non-technical") || nameLower.includes("alan") || catLower.includes("alan")) {
-    return "/images/contact/Alan-contact.png?v=2";
+    return "/images/contact/Alan-contact.png";
   }
   if (catLower.includes("press") || catLower.includes("media") || nameLower.includes("lenny")) {
-    return "/images/contact/Lenny-contact.png?v=2";
+    return "/images/contact/Lenny-contact.png";
   }
   if (nameLower.includes("jeff") || (catLower.includes("technical") && !catLower.includes("non-technical"))) {
-    return "/images/contact/Jeff-contact.png?v=2";
+    return "/images/contact/Jeff-contact.png";
   }
-  return "/images/contact/Dickie-contact.png?v=2";
+  return "/images/contact/Dickie-contact.png";
 }
 
 export default function ContactClient({ contacts }: { contacts: ContactItem[] }) {
