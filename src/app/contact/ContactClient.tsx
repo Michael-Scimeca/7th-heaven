@@ -14,10 +14,10 @@ export interface ContactItem {
 }
 
 const ALL_PHOTOS = [
-  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-120 xl:scale-130" },
-  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-120 xl:scale-130" },
-  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-112 xl:scale-120" },
-  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-140 xl:scale-152" },
+  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
+  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
+  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.92]" },
+  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-[1.25]" },
 ];
 
 const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
@@ -114,8 +114,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       </div>
 
-      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, +10% Larger) */}
-      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[58vw] xl:w-[53vw] max-w-[1120px] h-[92vh] max-h-[960px]">
+      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, Calibrated Sizes) */}
+      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[50vw] xl:w-[45vw] max-w-[960px] h-[85vh] max-h-[850px]">
         <div className="relative w-full h-full flex items-end justify-end">
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhoto === photo.id;
