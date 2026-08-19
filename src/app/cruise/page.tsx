@@ -1672,7 +1672,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </section>
           </div>
 
-          {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND) ── */}
+          {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND WITH SMOOTH TOP MASK) ── */}
           <section
             id="itinerary"
             className="py-20 w-full max-w-none px-0 overflow-x-clip relative"
@@ -1684,14 +1684,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               marginRight: "-50vw",
               width: "100vw",
               maxWidth: "100vw",
-              backgroundColor: "#070d1e",
-              backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0px, black 160px, black calc(100% - 120px), transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 160px, black calc(100% - 120px), transparent 100%)",
+              backgroundColor: "transparent",
+              backgroundImage: "linear-gradient(180deg, transparent 0%, #060b18 220px, #0a142c 50%, #060b18 calc(100% - 160px), transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
             }}
           >
             {/* Top mask blend overlay for smooth edge feathering */}
-            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/80 via-[#060b18]/40 to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-[#05030a] via-[#05030a]/70 to-transparent pointer-events-none z-10" />
 
             {/* Inner div with site container padding */}
             <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
