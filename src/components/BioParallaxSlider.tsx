@@ -235,8 +235,8 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   // Smooothy Physics & Tuned UI Configuration
   const physicsMode: "snap" | "free" = "free";
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
-  const dragSens = 1.15;
-  const [dragThreshold, setDragThreshold] = useState<number>(50);
+  const [dragSens, setDragSens] = useState<number>(2.2);
+  const [dragThreshold, setDragThreshold] = useState<number>(12);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
   const [cardWidth, setCardWidth] = useState<number>(510);
@@ -294,6 +294,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       if (saved) {
         const cfg = JSON.parse(saved);
         if (cfg.lerpSpeed !== undefined) setLerpSpeed(cfg.lerpSpeed);
+        if (cfg.dragSens !== undefined) setDragSens(cfg.dragSens);
         if (cfg.dragThreshold !== undefined) setDragThreshold(cfg.dragThreshold);
         if (cfg.parallaxDepth !== undefined) setParallaxDepth(cfg.parallaxDepth);
         if (cfg.maxSkew !== undefined) setMaxSkew(cfg.maxSkew);
@@ -397,6 +398,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const dragThresholdRef = useRef<number>(dragThreshold);
   useEffect(() => { dragThresholdRef.current = dragThreshold; }, [dragThreshold]);
+
+  const dragSensRef = useRef<number>(dragSens);
+  useEffect(() => { dragSensRef.current = dragSens; }, [dragSens]);
 
   const isDraggingRef = useRef<boolean>(false);
   const dragStartXRef = useRef<number>(0);
@@ -620,8 +624,8 @@ lerpSpeed: ${lerpSpeed}`;
     const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
     const totalDelta = dragStartXRef.current - e.clientX;
 
-    // Physical 1:1 visual dragging with smooth boundary dampening
-    const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDelta * 1.15));
+    // Physical responsive visual dragging with smooth multiplier
+    const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDelta * dragSensRef.current));
     targetXRef.current = newX;
   };
 
@@ -629,15 +633,23 @@ lerpSpeed: ${lerpSpeed}`;
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
 
-    // Calculate inertia target based on drag release velocity
-    const momentumOffset = velocityRef.current * 18;
-    const projectTarget = targetXRef.current + momentumOffset;
-    const nearestIdx = Math.max(
-      0,
-      Math.min(displayMembers.length - 1, Math.round(projectTarget / itemTotalWidth))
-    );
+    const totalDelta = dragStartXRef.current - e.clientX;
+    const thresh = dragThresholdRef.current;
 
-    goToSlide(nearestIdx);
+    // If dragged past threshold or flicked with velocity, step to next/prev slide effortlessly
+    if (totalDelta > thresh || velocityRef.current > 4) {
+      goToSlide(dragStartIdxRef.current + 1);
+    } else if (totalDelta < -thresh || velocityRef.current < -4) {
+      goToSlide(dragStartIdxRef.current - 1);
+    } else {
+      const momentumOffset = velocityRef.current * 12;
+      const projectTarget = targetXRef.current + momentumOffset;
+      const nearestIdx = Math.max(
+        0,
+        Math.min(displayMembers.length - 1, Math.round(projectTarget / itemTotalWidth))
+      );
+      goToSlide(nearestIdx);
+    }
     hasTriggeredRef.current = false;
   };
 
@@ -955,6 +967,30 @@ lerpSpeed: ${lerpSpeed}`;
               );
             })}
           </div>
+
+          {/* ‹ Left Chevron Arrow */}
+          {activeIndex > 0 && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); goToSlide(activeIndex - 1); }}
+              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-slate-950/70 hover:bg-purple-600 text-white backdrop-blur-xl border border-white/20 shadow-2xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
+              aria-label="Previous member"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
+
+          {/* › Right Chevron Arrow */}
+          {activeIndex < displayMembers.length - 1 && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); goToSlide(activeIndex + 1); }}
+              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-slate-950/70 hover:bg-purple-600 text-white backdrop-blur-xl border border-white/20 shadow-2xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
+              aria-label="Next member"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -1004,6 +1040,22 @@ lerpSpeed: ${lerpSpeed}`;
                   step="0.01"
                   value={lerpSpeed}
                   onChange={(e) => setLerpSpeed(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Drag Sensitivity</span>
+                  <span className="font-mono text-purple-300">{dragSens.toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.5"
+                  max="4.0"
+                  step="0.1"
+                  value={dragSens}
+                  onChange={(e) => setDragSens(Number(e.target.value))}
                   className="w-full accent-purple-500 cursor-pointer"
                 />
               </div>
@@ -1238,7 +1290,7 @@ lerpSpeed: ${lerpSpeed}`;
               type="button"
               onClick={() => {
                 const configJSON = JSON.stringify({
-                  lerpSpeed, dragThreshold, parallaxDepth, maxSkew, focalScale,
+                  lerpSpeed, dragSens, dragThreshold, parallaxDepth, maxSkew, focalScale,
                   cardWidth, imageHeight, imageScale, imageOffsetY, gap,
                   nameFontSize, roleFontSize, textBottomOffset, textLayout, textPos
                 }, null, 2);
@@ -1257,7 +1309,7 @@ lerpSpeed: ${lerpSpeed}`;
                 onClick={() => {
                   try {
                     localStorage.setItem("band_slider_tuner_config_v1", JSON.stringify({
-                      lerpSpeed, dragThreshold, parallaxDepth, maxSkew, focalScale,
+                      lerpSpeed, dragSens, dragThreshold, parallaxDepth, maxSkew, focalScale,
                       cardWidth, imageHeight, imageScale, imageOffsetY, gap,
                       nameFontSize, roleFontSize, textBottomOffset, textLayout, textPos
                     }));
@@ -1276,7 +1328,8 @@ lerpSpeed: ${lerpSpeed}`;
                 type="button"
                 onClick={() => {
                   setLerpSpeed(0.10);
-                  setDragThreshold(50);
+                  setDragSens(2.2);
+                  setDragThreshold(12);
                   setParallaxDepth(0.00);
                   setMaxSkew(30);
                   setFocalScale(1.44);
