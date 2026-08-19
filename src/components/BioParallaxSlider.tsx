@@ -756,7 +756,7 @@ lerpSpeed: ${lerpSpeed}`;
           style={{ touchAction: "pan-y" }}
           className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-2 pb-0"
         >
-          {/* TRACK ELEMENT */}
+          {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
             ref={trackRef}
             className="flex items-end pt-2 pb-0"
