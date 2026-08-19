@@ -114,8 +114,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       </div>
 
-      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, Calibrated Sizes) */}
-      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[50vw] xl:w-[45vw] max-w-[960px] h-[85vh] max-h-[850px]">
+      {/* Right Column: Preloaded Contact Photos Stage (Width: calc(50vw - 500px)) */}
+      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[calc(50vw-500px)] min-w-[450px] max-w-[960px] h-[85vh] max-h-[850px]">
         <div className="relative w-full h-full flex items-end justify-end">
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhoto === photo.id;
