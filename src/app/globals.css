@@ -4070,13 +4070,6 @@ html.is-preloading [aria-label="Open Pages Directory"] {
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
-  position: fixed;
-  inset: 0;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 100002;
-  transform-origin: 50% 50%;
-  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
