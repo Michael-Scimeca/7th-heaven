@@ -236,11 +236,11 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const physicsMode: "snap" | "free" = "free";
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
   const [dragSens, setDragSens] = useState<number>(2.2);
-  const [dragThreshold, setDragThreshold] = useState<number>(12);
+  const [dragThreshold, setDragThreshold] = useState<number>(4);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(510);
-  const [imageHeight, setImageHeight] = useState<number>(700);
+  const [cardWidth, setCardWidth] = useState<number>(511);
+  const [imageHeight, setImageHeight] = useState<number>(664);
   const [imageScale, setImageScale] = useState<number>(1.44);
   const [imageOffsetY, setImageOffsetY] = useState<number>(-1);
   const [gap, setGap] = useState<number>(0);
@@ -985,29 +985,6 @@ lerpSpeed: ${lerpSpeed}`;
             })}
           </div>
 
-          {/* ‹ Left Chevron Arrow */}
-          {activeIndex > 0 && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); goToSlide(activeIndex - 1); }}
-              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-slate-950/70 hover:bg-purple-600 text-white backdrop-blur-xl border border-white/20 shadow-2xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
-              aria-label="Previous member"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-          )}
-
-          {/* › Right Chevron Arrow */}
-          {activeIndex < displayMembers.length - 1 && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); goToSlide(activeIndex + 1); }}
-              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-slate-950/70 hover:bg-purple-600 text-white backdrop-blur-xl border border-white/20 shadow-2xl transition-all hover:scale-110 active:scale-95 cursor-pointer"
-              aria-label="Next member"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          )}
         </div>
       </div>
 
@@ -1346,12 +1323,12 @@ lerpSpeed: ${lerpSpeed}`;
                 onClick={() => {
                   setLerpSpeed(0.10);
                   setDragSens(2.2);
-                  setDragThreshold(12);
+                  setDragThreshold(4);
                   setParallaxDepth(0.00);
                   setMaxSkew(30);
                   setFocalScale(1.44);
-                  setCardWidth(510);
-                  setImageHeight(700);
+                  setCardWidth(511);
+                  setImageHeight(664);
                   setImageScale(1.44);
                   setImageOffsetY(-1);
                   setGap(0);
