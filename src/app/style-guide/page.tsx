@@ -33,6 +33,7 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
 
 import RoleBadge from "@/components/RoleBadge";
 import CustomScrollbar from "@/components/CustomScrollbar";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -395,40 +396,21 @@ function CosmicRadialButtonDemo() {
       <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
-        {/* Primary Interactive Morphing Button */}
-        {renderEngine === "property" ? (
-          <button
-            type="button"
-            onMouseEnter={randomizePositions}
-            style={propertyStyle}
-            className="btn-cosmic-radial-property relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden"
-          >
-            <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
-            <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
-          </button>
-        ) : (
-          <button
-            type="button"
-            onMouseEnter={randomizePositions}
-            style={{
-              backgroundSize: "100% 100%",
-              backgroundPosition: "0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px",
-              backgroundImage: rafBgImage,
-            }}
-            className="relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-3 group overflow-hidden"
-          >
-            <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse" />
-            <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Cosmic Morphing Radial CTA</span>
-          </button>
-        )}
+        {/* Reusable CosmicRadialButton Component Instance */}
+        <CosmicRadialButton
+          engine={renderEngine}
+          duration={transitionDuration}
+          easing={easingCurve}
+          autoDrift={isAutoDrifting}
+          driftInterval={driftIntervalSec}
+        >
+          Cosmic Morphing Radial CTA
+        </CosmicRadialButton>
 
         {/* Pure CSS Keyframes @property Drift Button */}
-        <button
-          type="button"
-          className="btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest border border-white/20 shadow-xl hover:scale-105 transition-transform cursor-pointer"
-        >
-          <span>CSS @property Keyframes Drift</span>
-        </button>
+        <CosmicRadialButton engine="keyframes">
+          CSS @property Keyframes Drift
+        </CosmicRadialButton>
       </div>
 
       {/* Real-time Radial Center Points Readout Grid */}
