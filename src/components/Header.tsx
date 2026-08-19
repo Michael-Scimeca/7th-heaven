@@ -640,20 +640,6 @@ export function Header() {
                     {badgeText}
                   </span>
                 </div>
-
-                {/* Exit button */}
-                <button aria-label="Sign Out of Account"
-                  onClick={async () => {
-                    await logout();
-                    router.push("/");
-                    router.refresh();
-                  }}
-                  className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer ml-3"
-                  title="Sign Out of Account"
-                  id="header-sign-out"
-                >
-                  SIGN OUT
-                </button>
               </div>
             ) : (
               <button aria-label="Action button"
@@ -859,27 +845,7 @@ export function Header() {
                     <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline !text-white hover:!text-[#c084fc] transition-colors">YouTube</a>
                   </div>
 
-                  {showUserAuth ? (
-                    <button
-                      aria-label="Sign out of account"
-                      onClick={async () => {
-                        await logout();
-                        setMobileOpen(false);
-                        const isRestricted =
-                          pathname.startsWith("/admin") ||
-                          pathname.startsWith("/crew") ||
-                          pathname.startsWith("/fans") ||
-                          pathname.startsWith("/planner") ||
-                          pathname.startsWith("/cruise/dashboard");
-                        if (isRestricted) {
-                          router.push("/");
-                        }
-                      }}
-                      className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
-                    >
-                      Sign Out
-                    </button>
-                  ) : (
+                  {!showUserAuth && (
                     <button
                       aria-label="Sign in to account"
                       onClick={() => {
