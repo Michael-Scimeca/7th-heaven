@@ -4070,13 +4070,7 @@ html.is-preloading [aria-label="Open Pages Directory"] {
 html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
-  position: fixed;
-  inset: 0;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 100002;
-  transform-origin: 50% 50%;
-  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
+  transition: opacity 150ms ease-out;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4096,11 +4090,8 @@ html.is-preloading.is-revealing #page-content-wrapper {
                                          over in ~1s and effectively never seen. 1250ms clears the
                                          200ms dim hold + 1030ms fill. */
   --preloader-reveal-duration: 380ms;
-  /* the exit is the SAME movement as a route change, just
-                                         played quicker. All three exit animations must share this
-                                         one value or the overlay, mark and page separate. */
+  /* the exit duration for preloader curtain reveal */
   --preloader-mark-exit-extra: 60vh;
-  /* travel added to the overlay's -45% so the mark clears the top */
 }
 
 .preloader {
@@ -4113,25 +4104,19 @@ html.is-preloading.is-revealing #page-content-wrapper {
   pointer-events: none;
 }
 
-/* The whole overlay — black and mark together — leaves on page-push-out: the
- * exact animation the outgoing page uses on every route change. Nothing
- * bespoke, so entering the site and moving around inside it are the same
- * movement by construction. Transform track only, no filter: see
- * page-push-out-filter. */
+/* Smooth curtain slide-up reveal off screen */
 .preloader.is-leaving {
   transform-origin: 50% 50%;
-  animation: page-push-out var(--preloader-reveal-duration) linear forwards;
+  animation: preloader-curtain-up var(--preloader-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Extra travel for the mark ON TOP of the overlay's. page-push-out travels
- * -45% because that is an outgoing page's measured parallax — right for a full
- * page, but it leaves a centred logo near the top rather than gone (centre
- * starts at 50vh, -45vh puts it at 5vh, and the mark is only ~5vh tall).
- * Generated from the same stops and normalised against that -45%, so the two
- * share one progress curve; being purely additive it cannot change how the
- * overlay moves relative to the page. */
-.preloader.is-leaving .preloader-mark {
-  animation: preloader-mark-exit var(--preloader-reveal-duration) linear forwards;
+@keyframes preloader-curtain-up {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-110%);
+  }
 }
 
 @keyframes preloader-mark-exit {
