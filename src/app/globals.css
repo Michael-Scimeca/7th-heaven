@@ -352,6 +352,7 @@ textarea:focus-visible,
   isolation: isolate;
   display: block;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* Thin masked ring, painted ON TOP of the field. Because mask cuts a
@@ -361,11 +362,12 @@ textarea:focus-visible,
 .input-glow-border::after {
   content: "";
   position: absolute;
-  inset: -1.5px;
+  inset: 0;
   z-index: 2;
   pointer-events: none;
   border-radius: inherit;
-  padding: 2px;
+  padding: 1.5px;
+  box-sizing: border-box;
   background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
   animation: border-angle-spin 3.5s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -388,7 +390,7 @@ textarea:focus-visible,
 }
 
 .input-glow-border:has(textarea)::after {
-  inset: -1.5px !important;
+  inset: 0 !important;
 }
 
 .input-glow-border:has(textarea)>textarea,
