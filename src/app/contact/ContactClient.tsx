@@ -45,8 +45,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
     <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
 
-        {/* Left Column: Contact Cards */}
-        <div className="lg:col-span-6 flex flex-col text-left">
+        {/* Left Column: Contact Cards (lg:col-span-4 - 2 Less Columns on Desktop) */}
+        <div className="lg:col-span-4 flex flex-col text-left">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
