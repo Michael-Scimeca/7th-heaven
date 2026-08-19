@@ -114,8 +114,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       </div>
 
-      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, 10% Larger) */}
-      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[53vw] xl:w-[48vw] max-w-[1020px] h-[88vh] max-h-[900px]">
+      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, +10% Larger) */}
+      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[58vw] xl:w-[53vw] max-w-[1120px] h-[92vh] max-h-[960px]">
         <div className="relative w-full h-full flex items-end justify-end">
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhoto === photo.id;
@@ -133,8 +133,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   alt={photo.alt}
                   fill
                   priority
-                  sizes="55vw"
-                  className="object-contain object-bottom pointer-events-none drop-shadow-2xl scale-110 xl:scale-118 origin-bottom-right"
+                  sizes="60vw"
+                  className="object-contain object-bottom pointer-events-none drop-shadow-2xl scale-120 xl:scale-130 origin-bottom-right"
                 />
               </div>
             );
