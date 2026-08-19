@@ -63,7 +63,7 @@ export const CosmicRadialButton = React.forwardRef<
   (
     {
       children = "Cosmic Morphing Radial CTA",
-      duration = 1.5,
+      duration = 0.75,
       easing = "cubic-bezier(0.4, 0, 0.2, 1)",
       autoDrift = true,
       driftInterval = 2.0,

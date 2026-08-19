@@ -4516,24 +4516,24 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(74% 86% at var(--r6-x) var(--r6-y), var(--r6-c) 24%, #073AFF00 100%),
     linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
   transition: 
-    --r1-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r1-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r2-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r2-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r3-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r3-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r4-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r4-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r5-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r5-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r6-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r6-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r1-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r2-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r3-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r4-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r5-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r6-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out);
+    --r1-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r1-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r2-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r2-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r3-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r3-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r4-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r4-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r5-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r5-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r6-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r6-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r1-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r2-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r3-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r4-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r5-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
+    --r6-c var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out);
 }
 
 .btn-cosmic-radial-property:hover {
