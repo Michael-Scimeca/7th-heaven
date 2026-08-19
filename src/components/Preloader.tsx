@@ -62,19 +62,39 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const root = document.documentElement;
     const shouldRun = forceShow || root.classList.contains("is-preloading");
 
-    if (!shouldRun) {
-      root.classList.remove("is-preloading");
+    const getLenis = () => {
+      if (typeof window === "undefined") return null;
+      const l = (window as any).__lenis || (window as any).lenis;
+      return l && typeof l === "object" ? l : null;
+    };
+
+    const lockScroll = () => {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      const l = getLenis();
+      if (l && typeof l.stop === "function") {
+        try { l.stop(); } catch {}
+      }
+    };
+
+    const unlockScroll = () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
-      (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
+      const l = getLenis();
+      if (l && typeof l.start === "function") {
+        try { l.start(); } catch {}
+      }
+    };
+
+    if (!shouldRun) {
+      root.classList.remove("is-preloading");
+      unlockScroll();
       onComplete?.();
       return;
     }
 
     // Lock all scrolling while preloader is active
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-    (window as unknown as { lenis?: { stop: () => void } }).lenis?.stop();
+    lockScroll();
 
     setActive(true);
     const startedAt = performance.now();
@@ -97,9 +117,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           // version did) made it vanish on the first frame instead of leaving.
           setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
-          document.body.style.overflow = "";
-          document.documentElement.style.overflow = "";
-          (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
+          unlockScroll();
           onComplete?.();
         }, revealDurationMs())
       );
