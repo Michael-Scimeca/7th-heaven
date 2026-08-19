@@ -4491,22 +4491,29 @@ html.is-preloading.is-revealing #page-content-wrapper {
 @property --r6-x { syntax: '<percentage>'; inherits: false; initial-value: 67%; }
 @property --r6-y { syntax: '<percentage>'; inherits: false; initial-value: 38%; }
 
+@property --r1-c { syntax: '<color>'; inherits: false; initial-value: #6200FFDB; }
+@property --r2-c { syntax: '<color>'; inherits: false; initial-value: #7217DDFF; }
+@property --r3-c { syntax: '<color>'; inherits: false; initial-value: #000000B5; }
+@property --r4-c { syntax: '<color>'; inherits: false; initial-value: #54007D9C; }
+@property --r5-c { syntax: '<color>'; inherits: false; initial-value: #8A4FFFF5; }
+@property --r6-c { syntax: '<color>'; inherits: false; initial-value: #920092F5; }
+
 .btn-cosmic-radial-property {
-  --r1-x: 18%; --r1-y: 71%;
-  --r2-x: 36%; --r2-y: 76%;
-  --r3-x: 7%;  --r3-y: 98%;
-  --r4-x: 72%; --r4-y: 23%;
-  --r5-x: 91%; --r5-y: 74%;
-  --r6-x: 67%; --r6-y: 38%;
+  --r1-x: 18%; --r1-y: 71%; --r1-c: #6200FFDB;
+  --r2-x: 36%; --r2-y: 76%; --r2-c: #7217DDFF;
+  --r3-x: 7%;  --r3-y: 98%; --r3-c: #000000B5;
+  --r4-x: 72%; --r4-y: 23%; --r4-c: #54007D9C;
+  --r5-x: 91%; --r5-y: 74%; --r5-c: #8A4FFFF5;
+  --r6-x: 67%; --r6-y: 38%; --r6-c: #920092F5;
   background-size: 100% 100%;
   background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
   background-image: 
-    radial-gradient(18% 28% at var(--r1-x) var(--r1-y), #6200FFDB 6%, #073AFF00 100%),
-    radial-gradient(70% 53% at var(--r2-x) var(--r2-y), #7217DDFF 0%, #073AFF00 100%),
-    radial-gradient(31% 43% at var(--r3-x) var(--r3-y), #000000B5 24%, #073AFF00 100%),
-    radial-gradient(21% 37% at var(--r4-x) var(--r4-y), #54007D9C 11%, #3B55B600 100%),
-    radial-gradient(35% 56% at var(--r5-x) var(--r5-y), #8A4FFFF5 9%, #073AFF00 100%),
-    radial-gradient(74% 86% at var(--r6-x) var(--r6-y), #920092F5 24%, #073AFF00 100%),
+    radial-gradient(18% 28% at var(--r1-x) var(--r1-y), var(--r1-c) 6%, #073AFF00 100%),
+    radial-gradient(70% 53% at var(--r2-x) var(--r2-y), var(--r2-c) 0%, #073AFF00 100%),
+    radial-gradient(31% 43% at var(--r3-x) var(--r3-y), var(--r3-c) 24%, #073AFF00 100%),
+    radial-gradient(21% 37% at var(--r4-x) var(--r4-y), var(--r4-c) 11%, #3B55B600 100%),
+    radial-gradient(35% 56% at var(--r5-x) var(--r5-y), var(--r5-c) 9%, #073AFF00 100%),
+    radial-gradient(74% 86% at var(--r6-x) var(--r6-y), var(--r6-c) 24%, #073AFF00 100%),
     linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%);
   transition: 
     --r1-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
@@ -4520,16 +4527,22 @@ html.is-preloading.is-revealing #page-content-wrapper {
     --r5-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
     --r5-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
     --r6-x var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
-    --r6-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out);
+    --r6-y var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r1-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r2-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r3-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r4-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r5-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out),
+    --r6-c var(--cosmic-duration, 1.5s) var(--cosmic-easing, ease-in-out);
 }
 
 .btn-cosmic-radial-property:hover {
-  --r1-x: 43%; --r1-y: 46%;
-  --r2-x: 61%; --r2-y: 51%;
-  --r3-x: 32%; --r3-y: 73%;
-  --r4-x: 97%; --r4-y: 0%;
-  --r5-x: 100%; --r5-y: 49%;
-  --r6-x: 92%; --r6-y: 13%;
+  --r1-x: 43%; --r1-y: 46%; --r1-c: #2B007DDB;
+  --r2-x: 61%; --r2-y: 51%; --r2-c: #350875FF;
+  --r3-x: 32%; --r3-y: 73%; --r3-c: #080219DD;
+  --r4-x: 97%; --r4-y: 0%;  --r4-c: #1E005BCC;
+  --r5-x: 100%; --r5-y: 49%; --r5-c: #411494F5;
+  --r6-x: 92%; --r6-y: 13%; --r6-c: #32004DF5;
 }
 
 @keyframes cosmic-radial-property-drift {
