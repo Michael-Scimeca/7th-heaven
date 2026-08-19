@@ -1617,18 +1617,15 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Primary Glow Purple</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(147,51,234,0.4)] transition">
-                  Default
-                </button>
-                <button className="px-5 py-2.5 rounded-lg bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(168,85,247,0.6)] ring-2 ring-purple-400 transition">
+                <CosmicRadialButton>
+                  Default CTA
+                </CosmicRadialButton>
+                <CosmicRadialButton icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}>
                   Hover / Focus State
-                </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-purple-600/30 text-white/40 font-extrabold text-xs uppercase tracking-wider cursor-not-allowed border border-white/5">
+                </CosmicRadialButton>
+                <CosmicRadialButton disabled>
                   Disabled
-                </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-purple-600/50 text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 cursor-wait">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Processing...
-                </button>
+                </CosmicRadialButton>
               </div>
             </div>
 
