@@ -114,8 +114,15 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       </div>
 
-      {/* Right Column: Preloaded Contact Photos Stage (A Little Bit Smaller) */}
-      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[calc(50vw-540px)] min-w-[390px] max-w-[860px] h-[78vh] max-h-[760px]">
+      {/* Right Column: Preloaded Contact Photos Stage */}
+      <div
+        className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none max-w-[1000px]"
+        style={{
+          height: "100vh",
+          width: "50vw",
+          left: "calc(50vw - 70px)",
+        }}
+      >
         <div className="relative w-full h-full flex items-end justify-end">
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhoto === photo.id;
@@ -123,8 +130,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               <div
                 key={photo.id}
                 className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${isActive
-                    ? "opacity-100 scale-100 filter-none"
-                    : "opacity-0 scale-95 filter blur-sm"
+                  ? "opacity-100 scale-100 filter-none"
+                  : "opacity-0 scale-95 filter blur-sm"
                   }`}
               >
                 <Image
@@ -132,7 +139,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   alt={photo.alt}
                   fill
                   priority
-                  sizes="60vw"
+                  sizes="50vw"
                   className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
                 />
               </div>
