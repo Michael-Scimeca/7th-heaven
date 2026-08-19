@@ -314,12 +314,12 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
       let targetHeight: number;
       if (isMobile) {
-        targetHeight = Math.max(300, Math.min(520, Math.round((vh - 80) * 0.52)));
+        targetHeight = Math.max(300, Math.min(500, Math.round((vh - 60) * 0.55)));
       } else if (isTablet) {
-        // Tablet view (iPad): scale member image heights down by 30%
-        targetHeight = Math.max(250, Math.min(480, Math.round((vh - 100) * 0.57 * 0.70)));
+        // Tablet view: scale member image height to fit proportionally with tablet viewport height
+        targetHeight = Math.max(340, Math.min(540, Math.round((vh - 80) * 0.58)));
       } else {
-        targetHeight = Math.max(360, Math.min(730, Math.round((vh - 100) * 0.57)));
+        targetHeight = Math.max(380, Math.min(730, Math.round((vh - 100) * 0.60)));
       }
 
       const targetWidth = isMobile
@@ -615,7 +615,7 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
-      className="w-full max-w-full overflow-x-clip h-auto min-h-[400px] flex flex-col justify-end select-none font-sans relative bg-transparent pt-16 md:pt-24 lg:pt-28 pb-4 mt-8 md:mt-16 lg:mt-20"
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent pt-4 sm:pt-6 md:pt-8 pb-4 mt-2 sm:mt-4 md:mt-6"
     >
 
 
