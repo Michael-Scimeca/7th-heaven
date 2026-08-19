@@ -3283,6 +3283,10 @@ textarea,
   }
 }
 
+#contact-page {
+  height: 100vh;
+}
+
 /* =============================================
    PAGE TRANSITION: native View Transition "push"
    ============================================= */
@@ -4480,39 +4484,139 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 /* ── Multi-Radial Morphing Cosmic Button ── */
-@property --r1-x { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
-@property --r1-y { syntax: '<percentage>'; inherits: false; initial-value: 71%; }
-@property --r2-x { syntax: '<percentage>'; inherits: false; initial-value: 36%; }
-@property --r2-y { syntax: '<percentage>'; inherits: false; initial-value: 76%; }
-@property --r3-x { syntax: '<percentage>'; inherits: false; initial-value: 7%; }
-@property --r3-y { syntax: '<percentage>'; inherits: false; initial-value: 98%; }
-@property --r4-x { syntax: '<percentage>'; inherits: false; initial-value: 72%; }
-@property --r4-y { syntax: '<percentage>'; inherits: false; initial-value: 23%; }
-@property --r5-x { syntax: '<percentage>'; inherits: false; initial-value: 91%; }
-@property --r5-y { syntax: '<percentage>'; inherits: false; initial-value: 74%; }
-@property --r6-x { syntax: '<percentage>'; inherits: false; initial-value: 67%; }
-@property --r6-y { syntax: '<percentage>'; inherits: false; initial-value: 38%; }
+@property --r1-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 18%;
+}
 
-@property --r1-c { syntax: '<color>'; inherits: false; initial-value: #6200FFDB; }
-@property --r2-c { syntax: '<color>'; inherits: false; initial-value: #7217DDFF; }
-@property --r3-c { syntax: '<color>'; inherits: false; initial-value: #000000B5; }
-@property --r4-c { syntax: '<color>'; inherits: false; initial-value: #54007D9C; }
-@property --r5-c { syntax: '<color>'; inherits: false; initial-value: #8A4FFFF5; }
-@property --r6-c { syntax: '<color>'; inherits: false; initial-value: #920092F5; }
+@property --r1-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 71%;
+}
+
+@property --r2-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 36%;
+}
+
+@property --r2-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 76%;
+}
+
+@property --r3-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 7%;
+}
+
+@property --r3-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 98%;
+}
+
+@property --r4-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 72%;
+}
+
+@property --r4-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 23%;
+}
+
+@property --r5-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 91%;
+}
+
+@property --r5-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 74%;
+}
+
+@property --r6-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 67%;
+}
+
+@property --r6-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 38%;
+}
+
+@property --r1-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #6200FFDB;
+}
+
+@property --r2-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #7217DDFF;
+}
+
+@property --r3-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #000000B5;
+}
+
+@property --r4-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #54007D9C;
+}
+
+@property --r5-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #8A4FFFF5;
+}
+
+@property --r6-c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #920092F5;
+}
 
 .btn-cosmic-radial-property,
 .bg-linear-to-r.from-\[\#6917BF\],
 .bg-gradient-to-r.from-\[\#6917BF\],
 [class*="from-[#6917BF]"] {
-  --r1-x: 18%; --r1-y: 71%; --r1-c: #6200FFDB;
-  --r2-x: 36%; --r2-y: 76%; --r2-c: #7217DDFF;
-  --r3-x: 7%;  --r3-y: 98%; --r3-c: #000000B5;
-  --r4-x: 72%; --r4-y: 23%; --r4-c: #54007D9C;
-  --r5-x: 91%; --r5-y: 74%; --r5-c: #8A4FFFF5;
-  --r6-x: 67%; --r6-y: 38%; --r6-c: #920092F5;
+  --r1-x: 18%;
+  --r1-y: 71%;
+  --r1-c: #6200FFDB;
+  --r2-x: 36%;
+  --r2-y: 76%;
+  --r2-c: #7217DDFF;
+  --r3-x: 7%;
+  --r3-y: 98%;
+  --r3-c: #000000B5;
+  --r4-x: 72%;
+  --r4-y: 23%;
+  --r4-c: #54007D9C;
+  --r5-x: 91%;
+  --r5-y: 74%;
+  --r5-c: #8A4FFFF5;
+  --r6-x: 67%;
+  --r6-y: 38%;
+  --r6-c: #920092F5;
   background-size: 100% 100% !important;
   background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px !important;
-  background-image: 
+  background-image:
     radial-gradient(18% 28% at var(--r1-x) var(--r1-y), var(--r1-c) 6%, #073AFF00 100%),
     radial-gradient(70% 53% at var(--r2-x) var(--r2-y), var(--r2-c) 0%, #073AFF00 100%),
     radial-gradient(31% 43% at var(--r3-x) var(--r3-y), var(--r3-c) 24%, #073AFF00 100%),
@@ -4520,7 +4624,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(35% 56% at var(--r5-x) var(--r5-y), var(--r5-c) 9%, #073AFF00 100%),
     radial-gradient(74% 86% at var(--r6-x) var(--r6-y), var(--r6-c) 24%, #073AFF00 100%),
     linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%) !important;
-  transition: 
+  transition:
     --r1-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
     --r1-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
     --r2-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
@@ -4545,46 +4649,85 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .bg-linear-to-r.from-\[\#6917BF\]:hover,
 .bg-gradient-to-r.from-\[\#6917BF\]:hover,
 [class*="from-[#6917BF]"]:hover {
-  --r1-x: 43%; --r1-y: 46%; --r1-c: #2B007DDB;
-  --r2-x: 61%; --r2-y: 51%; --r2-c: #350875FF;
-  --r3-x: 32%; --r3-y: 73%; --r3-c: #080219DD;
-  --r4-x: 97%; --r4-y: 0%;  --r4-c: #1E005BCC;
-  --r5-x: 100%; --r5-y: 49%; --r5-c: #411494F5;
-  --r6-x: 92%; --r6-y: 13%; --r6-c: #32004DF5;
+  --r1-x: 43%;
+  --r1-y: 46%;
+  --r1-c: #2B007DDB;
+  --r2-x: 61%;
+  --r2-y: 51%;
+  --r2-c: #350875FF;
+  --r3-x: 32%;
+  --r3-y: 73%;
+  --r3-c: #080219DD;
+  --r4-x: 97%;
+  --r4-y: 0%;
+  --r4-c: #1E005BCC;
+  --r5-x: 100%;
+  --r5-y: 49%;
+  --r5-c: #411494F5;
+  --r6-x: 92%;
+  --r6-y: 13%;
+  --r6-c: #32004DF5;
 }
 
 @keyframes cosmic-radial-property-drift {
   0% {
-    --r1-x: 18%; --r1-y: 71%;
-    --r2-x: 36%; --r2-y: 76%;
-    --r3-x: 7%;  --r3-y: 98%;
-    --r4-x: 72%; --r4-y: 23%;
-    --r5-x: 91%; --r5-y: 74%;
-    --r6-x: 67%; --r6-y: 38%;
+    --r1-x: 18%;
+    --r1-y: 71%;
+    --r2-x: 36%;
+    --r2-y: 76%;
+    --r3-x: 7%;
+    --r3-y: 98%;
+    --r4-x: 72%;
+    --r4-y: 23%;
+    --r5-x: 91%;
+    --r5-y: 74%;
+    --r6-x: 67%;
+    --r6-y: 38%;
   }
+
   33% {
-    --r1-x: 38%; --r1-y: 51%;
-    --r2-x: 20%; --r2-y: 90%;
-    --r3-x: 25%; --r3-y: 75%;
-    --r4-x: 55%; --r4-y: 45%;
-    --r5-x: 75%; --r5-y: 50%;
-    --r6-x: 85%; --r6-y: 20%;
+    --r1-x: 38%;
+    --r1-y: 51%;
+    --r2-x: 20%;
+    --r2-y: 90%;
+    --r3-x: 25%;
+    --r3-y: 75%;
+    --r4-x: 55%;
+    --r4-y: 45%;
+    --r5-x: 75%;
+    --r5-y: 50%;
+    --r6-x: 85%;
+    --r6-y: 20%;
   }
+
   66% {
-    --r1-x: 5%;  --r1-y: 85%;
-    --r2-x: 55%; --r2-y: 60%;
-    --r3-x: 0%;  --r3-y: 80%;
-    --r4-x: 85%; --r4-y: 10%;
-    --r5-x: 98%; --r5-y: 85%;
-    --r6-x: 50%; --r6-y: 55%;
+    --r1-x: 5%;
+    --r1-y: 85%;
+    --r2-x: 55%;
+    --r2-y: 60%;
+    --r3-x: 0%;
+    --r3-y: 80%;
+    --r4-x: 85%;
+    --r4-y: 10%;
+    --r5-x: 98%;
+    --r5-y: 85%;
+    --r6-x: 50%;
+    --r6-y: 55%;
   }
+
   100% {
-    --r1-x: 18%; --r1-y: 71%;
-    --r2-x: 36%; --r2-y: 76%;
-    --r3-x: 7%;  --r3-y: 98%;
-    --r4-x: 72%; --r4-y: 23%;
-    --r5-x: 91%; --r5-y: 74%;
-    --r6-x: 67%; --r6-y: 38%;
+    --r1-x: 18%;
+    --r1-y: 71%;
+    --r2-x: 36%;
+    --r2-y: 76%;
+    --r3-x: 7%;
+    --r3-y: 98%;
+    --r4-x: 72%;
+    --r4-y: 23%;
+    --r5-x: 91%;
+    --r5-y: 74%;
+    --r6-x: 67%;
+    --r6-y: 38%;
   }
 }
 

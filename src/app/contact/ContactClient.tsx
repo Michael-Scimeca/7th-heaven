@@ -16,7 +16,7 @@ export interface ContactItem {
 const ALL_PHOTOS = [
   { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
   { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
-  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.92]" },
+  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.78]" },
   { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-[1.25]" },
 ];
 
@@ -43,8 +43,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
   return (
     <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10 pb-16">
-        
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
+
         {/* Left Column: Contact Cards */}
         <div className="lg:col-span-7 flex flex-col text-left">
           {/* Header */}
@@ -122,11 +122,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${
-                  isActive
+                className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${isActive
                     ? "opacity-100 scale-100 filter-none"
                     : "opacity-0 scale-95 filter blur-sm"
-                }`}
+                  }`}
               >
                 <Image
                   src={photo.id}
