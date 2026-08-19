@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Sparkles } from "lucide-react";
 
 export interface CosmicRadialButtonProps
@@ -92,6 +92,8 @@ export const CosmicRadialButton = React.forwardRef<
       COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
     );
 
+    const randomizeRef = useRef<() => void>(() => {});
+
     const randomizePositions = useCallback(() => {
       const span = maxOffset * 2;
       setTargetOffsets([
@@ -104,14 +106,18 @@ export const CosmicRadialButton = React.forwardRef<
       ]);
     }, [maxOffset]);
 
+    useEffect(() => {
+      randomizeRef.current = randomizePositions;
+    }, [randomizePositions]);
+
     // Auto drift timer
     useEffect(() => {
       if (!autoDrift) return;
       const timer = setInterval(() => {
-        randomizePositions();
+        randomizeRef.current();
       }, driftInterval * 1000);
       return () => clearInterval(timer);
-    }, [autoDrift, driftInterval, randomizePositions]);
+    }, [autoDrift, driftInterval]);
 
     // 60fps RAF lerp loop for 'raf' engine mode
     useEffect(() => {
