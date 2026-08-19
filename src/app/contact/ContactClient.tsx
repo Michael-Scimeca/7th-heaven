@@ -40,8 +40,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhoto, setActivePhoto] = useState<string>(DEFAULT_PHOTO);
 
   return (
-    <section className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-16">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
+    <section className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10 pb-16">
         
         {/* Left Column: Contact Cards */}
         <div className="lg:col-span-7 flex flex-col text-left">
@@ -110,34 +110,34 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           </div>
         </div>
 
-        {/* Right Column: Preloaded Contact Photos Stage (Bottom Aligned & Large Stage) */}
-        <div className="hidden lg:block fixed bottom-0 right-0 z-0 pointer-events-none w-[60vw] xl:w-[55vw] max-w-[1300px] h-[98vh]">
-          <div className="relative w-full h-full flex items-end justify-end">
-            {ALL_PHOTOS.map((photo) => {
-              const isActive = activePhoto === photo.id;
-              return (
-                <div
-                  key={photo.id}
-                  className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${
-                    isActive
-                      ? "opacity-100 scale-100 filter-none"
-                      : "opacity-0 scale-95 filter blur-sm"
-                  }`}
-                >
-                  <Image
-                    src={photo.id}
-                    alt={photo.alt}
-                    fill
-                    priority
-                    sizes="60vw"
-                    className="object-contain object-bottom pointer-events-none drop-shadow-2xl scale-125 xl:scale-140 origin-bottom-right"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      </div>
 
+      {/* Right Column: Preloaded Contact Photos Stage (Attached to Bottom of PAGE, not window) */}
+      <div className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none w-[48vw] xl:w-[44vw] max-w-[920px] h-[82vh] max-h-[820px]">
+        <div className="relative w-full h-full flex items-end justify-end">
+          {ALL_PHOTOS.map((photo) => {
+            const isActive = activePhoto === photo.id;
+            return (
+              <div
+                key={photo.id}
+                className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${
+                  isActive
+                    ? "opacity-100 scale-100 filter-none"
+                    : "opacity-0 scale-95 filter blur-sm"
+                }`}
+              >
+                <Image
+                  src={photo.id}
+                  alt={photo.alt}
+                  fill
+                  priority
+                  sizes="50vw"
+                  className="object-contain object-bottom pointer-events-none drop-shadow-2xl"
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
