@@ -150,6 +150,11 @@ const COSMIC_BASE_CENTERS = [
 /* ── Cosmic Multi-Radial Morphing Button Component ── */
 function CosmicRadialButtonDemo() {
   const [isAutoDrifting, setIsAutoDrifting] = useState(true);
+  const [transitionDuration, setTransitionDuration] = useState<number>(1.5);
+  const [easingCurve, setEasingCurve] = useState<string>("cubic-bezier(0.4, 0, 0.2, 1)");
+  const [driftIntervalSec, setDriftIntervalSec] = useState<number>(2.0);
+  const [copiedCode, setCopiedCode] = useState(false);
+
   const [radialOffsets, setRadialOffsets] = useState([
     { dx: 0, dy: 0 },
     { dx: 0, dy: 0 },
@@ -174,9 +179,9 @@ function CosmicRadialButtonDemo() {
     if (!isAutoDrifting) return;
     const interval = setInterval(() => {
       randomizePositions();
-    }, 1800);
+    }, driftIntervalSec * 1000);
     return () => clearInterval(interval);
-  }, [isAutoDrifting, randomizePositions]);
+  }, [isAutoDrifting, driftIntervalSec, randomizePositions]);
 
   const currentCenters = COSMIC_BASE_CENTERS.map((b, i) => ({
     x: Math.max(0, Math.min(100, Math.round(b.x + (radialOffsets[i]?.dx || 0)))),
@@ -185,8 +190,110 @@ function CosmicRadialButtonDemo() {
 
   const dynamicBgImage = `radial-gradient(18% 28% at ${currentCenters[0].x}% ${currentCenters[0].y}%, #6200FFDB 6%, #073AFF00 100%),radial-gradient(70% 53% at ${currentCenters[1].x}% ${currentCenters[1].y}%, #7217DDFF 0%, #073AFF00 100%),radial-gradient(31% 43% at ${currentCenters[2].x}% ${currentCenters[2].y}%, #000000B5 24%, #073AFF00 100%),radial-gradient(21% 37% at ${currentCenters[3].x}% ${currentCenters[3].y}%, #54007D9C 11%, #3B55B600 100%),radial-gradient(35% 56% at ${currentCenters[4].x}% ${currentCenters[4].y}%, #8A4FFFF5 9%, #073AFF00 100%),radial-gradient(74% 86% at ${currentCenters[5].x}% ${currentCenters[5].y}%, #920092F5 24%, #073AFF00 100%),linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%)`;
 
+  const dynamicCSSCode = `.btn-cosmic-morph {
+  background-size: 100% 100%;
+  background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+  background-image: ${dynamicBgImage};
+  transition: background-image ${transitionDuration.toFixed(1)}s ${easingCurve}, background-position ${transitionDuration.toFixed(1)}s ${easingCurve}, transform 0.3s ease, box-shadow 0.3s ease;
+}`;
+
   return (
     <div className="space-y-4">
+      {/* Interactive Controls & Tuning Panel */}
+      <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          {/* Transition Duration Slider */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs font-semibold">
+              <span className="text-white/80">Transition Duration</span>
+              <span className="font-mono text-purple-300">{transitionDuration.toFixed(1)}s</span>
+            </div>
+            <input
+              type="range"
+              min="0.2"
+              max="4.0"
+              step="0.1"
+              value={transitionDuration}
+              onChange={(e) => setTransitionDuration(Number(e.target.value))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          {/* Auto Drift Interval Speed Slider */}
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs font-semibold">
+              <span className="text-white/80">Auto Drift Interval</span>
+              <span className="font-mono text-purple-300">{driftIntervalSec.toFixed(1)}s</span>
+            </div>
+            <input
+              type="range"
+              min="0.8"
+              max="5.0"
+              step="0.2"
+              value={driftIntervalSec}
+              onChange={(e) => setDriftIntervalSec(Number(e.target.value))}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+          </div>
+
+          {/* Easing Function Curve Buttons */}
+          <div className="space-y-1">
+            <span className="text-xs font-semibold block text-white/80">Transition Easing Curve</span>
+            <select
+              value={easingCurve}
+              onChange={(e) => setEasingCurve(e.target.value)}
+              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/20 text-white font-mono text-xs focus:outline-none cursor-pointer"
+            >
+              <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
+              <option value="cubic-bezier(0.16, 1, 0.3, 1)">Expo Out (cubic-bezier(0.16, 1, 0.3, 1))</option>
+              <option value="cubic-bezier(0.34, 1.56, 0.64, 1)">Elastic Spring (cubic-bezier(0.34, 1.56, 0.64, 1))</option>
+              <option value="ease-in-out">ease-in-out</option>
+              <option value="ease-out">ease-out</option>
+              <option value="linear">linear</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/10 flex-wrap">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={randomizePositions}
+              className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold rounded-lg shadow-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Randomize Positions (±30%)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsAutoDrifting(!isAutoDrifting)}
+              className={`px-3.5 py-1.5 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${
+                isAutoDrifting
+                  ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
+                  : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
+              }`}
+            >
+              {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              navigator.clipboard?.writeText(dynamicCSSCode);
+              setCopiedCode(true);
+              setTimeout(() => setCopiedCode(false), 2000);
+            }}
+            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold rounded-lg border border-white/20 cursor-pointer transition-all flex items-center gap-1.5"
+          >
+            {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copiedCode ? "Copied CSS!" : "Copy Generated CSS"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Showcase Stage */}
       <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
@@ -198,7 +305,7 @@ function CosmicRadialButtonDemo() {
             backgroundSize: "100% 100%",
             backgroundPosition: "0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px",
             backgroundImage: dynamicBgImage,
-            transition: "background-image 1.5s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease",
+            transition: `background-image ${transitionDuration.toFixed(1)}s ${easingCurve}, background-position ${transitionDuration.toFixed(1)}s ${easingCurve}, transform 0.3s ease, box-shadow 0.3s ease`,
           }}
           className="relative px-8 py-4 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-[0_10px_35px_rgba(114,23,221,0.45)] hover:shadow-[0_15px_45px_rgba(138,79,255,0.75)] border border-purple-400/40 hover:border-purple-300 hover:scale-105 active:scale-95 cursor-pointer transition-all flex items-center gap-3 group overflow-hidden"
         >
@@ -213,29 +320,6 @@ function CosmicRadialButtonDemo() {
         >
           <span>CSS Keyframes Drift</span>
         </button>
-
-        {/* Interactive Controls */}
-        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/10 shrink-0">
-          <button
-            type="button"
-            onClick={randomizePositions}
-            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold rounded-lg shadow-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Randomize (±30%)</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsAutoDrifting(!isAutoDrifting)}
-            className={`px-3.5 py-2 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${
-              isAutoDrifting
-                ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
-                : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
-            }`}
-          >
-            {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
-          </button>
-        </div>
       </div>
 
       {/* Real-time Radial Center Points Readout Grid */}
