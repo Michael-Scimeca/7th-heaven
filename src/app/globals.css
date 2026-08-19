@@ -2186,13 +2186,13 @@ html.tour-sort-stuck #tour-sort-bar {
   left: -19vw;
   width: calc(100vw + 39vw);
   height: calc(100vh + 590px);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  background-image: url("/images/site-grain-overlay.png");
   background-repeat: repeat !important;
   background-size: 180px 180px !important;
-  opacity: var(--canvas-grain-opacity, 0.18);
+  opacity: var(--canvas-grain-opacity, 0.28);
   mix-blend-mode: var(--canvas-grain-blend, overlay);
   pointer-events: none;
-  animation: filmGrainJitter 0.5s steps(8) infinite !important;
+  animation: filmGrainJitter 0.3s steps(8) infinite !important;
 }
 
 @keyframes filmGrainJitter {
