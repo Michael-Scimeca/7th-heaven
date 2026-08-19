@@ -33,10 +33,10 @@ export default async function ContactPage() {
                 </p>
             </div>
 
-            {/* Contact Items (2 Columns on Desktop) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 max-w-5xl">
+            {/* Contact Items (1 Column Layout) */}
+            <div className="grid grid-cols-1 gap-10 md:gap-12 max-w-3xl">
                 {contacts.map((contact) => (
-                    <div key={contact.category || contact.name} className="flex flex-col justify-between" id={`contact-card-${contact.category}`}>
+                    <div key={contact.category || contact.name} className="flex flex-col justify-between border-b border-white/10 pb-8 last:border-b-0 last:pb-0" id={`contact-card-${contact.category}`}>
                         <div>
                             <h3 className="font-[var(--font-heading)] text-2xl md:text-3xl font-black text-[var(--color-accent)] mb-2">
                                 {contact.category}
@@ -45,15 +45,15 @@ export default async function ContactPage() {
                             {contact.name && <p className="text-sm md:text-lg font-medium text-[var(--muted-text)]">{contact.name}</p>}
                         </div>
 
-                        <div className="flex flex-col gap-2.5 mt-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8 mt-4">
                             {contact.email && (
                                 <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2.5 text-base md:text-xl font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 group">
                                     <Mail className="w-5 h-5 md:w-6 md:h-6 shrink-0 text-[#c084fc] group-hover:text-white transition-colors" />
                                     <span>{contact.email}</span>
                                 </a>
                             )}
-                            <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-2xl md:text-4xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group">
-                                <Phone className="w-6 h-6 md:w-8 md:h-8 shrink-0 text-[#c084fc] group-hover:text-white transition-colors" />
+                            <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group">
+                                <Phone className="w-6 h-6 md:w-7 md:h-7 shrink-0 text-[#c084fc] group-hover:text-white transition-colors" />
                                 <span>{contact.phone}</span>
                             </a>
                         </div>
