@@ -1677,30 +1677,6 @@ ${deskRules.join("\n")}
               </div>
             </div>
 
-            {/* Animated Mesh Gradient Button */}
-            <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Animated Mesh Gradient Button</h3>
-                <SectionBadge label="Interactive Mesh" color="purple" />
-              </div>
-              <div className="flex flex-wrap items-center gap-4 p-6 rounded-xl bg-[#08070d]">
-                <button className="mesh-gradient px-7 py-3.5 rounded-lg  border border-white/20 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all group">
-                  <div className="frosted-backdrop" />
-                  <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-                    <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
-                    Animated Mesh CTA
-                  </span>
-                </button>
-
-                <button className="mesh-gradient px-6 py-3 rounded-full border border-purple-400/40 text-purple-200 font-extrabold text-xs uppercase tracking-widest shadow-xl hover:border-purple-300 transition-all">
-                  <div className="frosted-backdrop" />
-                  <span className="relative z-10 flex items-center gap-2">
-                    Explore Experience →
-                  </span>
-                </button>
-              </div>
-            </div>
-
             {/* Morphing Multi-Radial Gradient Cosmic Button */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
               <div className="flex items-center justify-between gap-2 flex-wrap">
