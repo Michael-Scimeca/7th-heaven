@@ -14,10 +14,10 @@ export interface ContactItem {
 }
 
 const ALL_PHOTOS = [
-  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management" },
-  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media" },
-  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production" },
-  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical" },
+  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-120 xl:scale-130" },
+  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-120 xl:scale-130" },
+  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-112 xl:scale-120" },
+  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-140 xl:scale-152" },
 ];
 
 const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
@@ -134,7 +134,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   fill
                   priority
                   sizes="60vw"
-                  className="object-contain object-bottom pointer-events-none drop-shadow-2xl scale-120 xl:scale-130 origin-bottom-right"
+                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
                 />
               </div>
             );
