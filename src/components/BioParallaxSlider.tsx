@@ -236,7 +236,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const physicsMode: "snap" | "free" = "free";
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
   const dragSens = 1.15;
-  const dragThreshold = 12;
+  const [dragThreshold, setDragThreshold] = useState<number>(12);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
   const [cardWidth, setCardWidth] = useState<number>(355);
@@ -951,6 +951,348 @@ lerpSpeed: ${lerpSpeed}`;
           </div>
         </div>
       </div>
+
+      {/* ⚙️ Floating Tuner Toggle Button */}
+      <button
+        type="button"
+        onClick={() => setShowTuner(!showTuner)}
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-gradient-to-r from-purple-900/90 to-indigo-900/90 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-full shadow-2xl backdrop-blur-xl border border-purple-400/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+      >
+        <Sliders className="w-4 h-4 text-purple-300" />
+        <span>⚙️ Live Tuner</span>
+      </button>
+
+      {/* ⚙️ Live Physics & Layout Tuner Side Drawer Modal */}
+      {showTuner && (
+        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95 backdrop-blur-2xl border-l border-purple-500/30 p-5 overflow-y-auto text-white shadow-2xl flex flex-col justify-between">
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Sliders className="w-5 h-5 text-purple-400" />
+                <h3 className="font-bold text-base text-white">Physics & Layout Tuner</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowTuner(false)}
+                className="p-1 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 1. Motion & Physics */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">1. Motion & Physics</h4>
+              
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Lerp Speed (Inertia)</span>
+                  <span className="font-mono text-purple-300">{lerpSpeed.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.02"
+                  max="0.30"
+                  step="0.01"
+                  value={lerpSpeed}
+                  onChange={(e) => setLerpSpeed(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Drag Threshold (px)</span>
+                  <span className="font-mono text-purple-300">{dragThreshold}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="50"
+                  step="1"
+                  value={dragThreshold}
+                  onChange={(e) => setDragThreshold(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>3D Parallax Depth</span>
+                  <span className="font-mono text-purple-300">{parallaxDepth.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0"
+                  max="0.5"
+                  step="0.01"
+                  value={parallaxDepth}
+                  onChange={(e) => setParallaxDepth(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Max Skew Tilt (deg)</span>
+                  <span className="font-mono text-purple-300">{maxSkew}°</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  step="1"
+                  value={maxSkew}
+                  onChange={(e) => setMaxSkew(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Center Focus Zoom</span>
+                  <span className="font-mono text-purple-300">{focalScale.toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="1.0"
+                  max="2.0"
+                  step="0.02"
+                  value={focalScale}
+                  onChange={(e) => setFocalScale(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* 2. Dimensions & Layout */}
+            <div className="space-y-3 pt-3 border-t border-white/10">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">2. Dimensions & Layout</h4>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Card Width (px)</span>
+                  <span className="font-mono text-purple-300">{cardWidth}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="200"
+                  max="550"
+                  step="5"
+                  value={cardWidth}
+                  onChange={(e) => setCardWidth(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Image Height (px)</span>
+                  <span className="font-mono text-purple-300">{imageHeight}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="250"
+                  max="700"
+                  step="5"
+                  value={imageHeight}
+                  onChange={(e) => setImageHeight(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Photo Zoom Scale</span>
+                  <span className="font-mono text-purple-300">{imageScale.toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.8"
+                  max="2.2"
+                  step="0.02"
+                  value={imageScale}
+                  onChange={(e) => setImageScale(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Photo Offset Y (px)</span>
+                  <span className="font-mono text-purple-300">{imageOffsetY}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-80"
+                  max="80"
+                  step="1"
+                  value={imageOffsetY}
+                  onChange={(e) => setImageOffsetY(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Card Gap (px)</span>
+                  <span className="font-mono text-purple-300">{gap}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="50"
+                  step="2"
+                  value={gap}
+                  onChange={(e) => setGap(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* 3. Member Name & Role Typography */}
+            <div className="space-y-3 pt-3 border-t border-white/10">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">3. Name & Role Labels</h4>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Name Font Size</span>
+                  <span className="font-mono text-purple-300">{nameFontSize}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="18"
+                  max="44"
+                  step="1"
+                  value={nameFontSize}
+                  onChange={(e) => setNameFontSize(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Role Font Size</span>
+                  <span className="font-mono text-purple-300">{roleFontSize}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="20"
+                  step="1"
+                  value={roleFontSize}
+                  onChange={(e) => setRoleFontSize(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span>Text Bottom Offset</span>
+                  <span className="font-mono text-purple-300">{textBottomOffset}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="80"
+                  step="2"
+                  value={textBottomOffset}
+                  onChange={(e) => setTextBottomOffset(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              {/* Text Position Selector */}
+              <div className="space-y-1">
+                <span className="text-xs font-semibold block">Label Alignment</span>
+                <div className="grid grid-cols-3 gap-1">
+                  {(["left", "center", "right", "left-glass", "center-glass", "right-glass", "left-accent", "right-accent"] as const).map((pos) => (
+                    <button
+                      key={pos}
+                      type="button"
+                      onClick={() => setTextPos(pos)}
+                      className={`py-1 px-1.5 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer text-center border ${textPos === pos
+                        ? "bg-purple-600 text-white border-purple-400 shadow-md"
+                        : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                        }`}
+                    >
+                      {pos}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Action Buttons */}
+          <div className="pt-4 mt-6 border-t border-white/10 space-y-2">
+            <button
+              type="button"
+              onClick={() => {
+                const configJSON = JSON.stringify({
+                  lerpSpeed, dragThreshold, parallaxDepth, maxSkew, focalScale,
+                  cardWidth, imageHeight, imageScale, imageOffsetY, gap,
+                  nameFontSize, roleFontSize, textBottomOffset, textLayout, textPos
+                }, null, 2);
+                navigator.clipboard?.writeText(configJSON);
+                alert("📋 Configuration code copied to clipboard!");
+              }}
+              className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Copy Configuration Code</span>
+            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    localStorage.setItem("band_slider_tuner_config_v1", JSON.stringify({
+                      lerpSpeed, dragThreshold, parallaxDepth, maxSkew, focalScale,
+                      cardWidth, imageHeight, imageScale, imageOffsetY, gap,
+                      nameFontSize, roleFontSize, textBottomOffset, textLayout, textPos
+                    }));
+                    alert("💾 Settings saved to browser storage!");
+                  } catch (e) {
+                    console.error("Failed to save settings:", e);
+                  }
+                }}
+                className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Save</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setLerpSpeed(0.10);
+                  setDragThreshold(12);
+                  setParallaxDepth(0.14);
+                  setMaxSkew(11);
+                  setFocalScale(1.36);
+                  setCardWidth(355);
+                  setImageHeight(460);
+                  setImageScale(1.32);
+                  setImageOffsetY(0);
+                  setGap(24);
+                  setNameFontSize(28);
+                  setRoleFontSize(14);
+                  setTextBottomOffset(16);
+                  setTextLayout("pill");
+                  setTextPos("left");
+                }}
+                className="py-2 px-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
