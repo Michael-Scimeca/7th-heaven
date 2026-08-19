@@ -346,7 +346,7 @@ export default function MediaPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div id="media-page" className="min-h-screen">
 
       {/* ── FEATURED HERO (100vh Full Screen) ── */}
       {featuredVideo && (

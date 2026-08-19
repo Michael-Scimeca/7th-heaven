@@ -168,7 +168,7 @@ export default async function Home() {
   const btsVideos = settings?.btsVideos;
 
   return (
-    <>
+    <div id="home-page">
       <LiveStatusSign />
 
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
@@ -252,6 +252,6 @@ export default async function Home() {
           <AudioPlayerSection />
         </section>
       </LazySection>
-    </>
+    </div>
   );
 }

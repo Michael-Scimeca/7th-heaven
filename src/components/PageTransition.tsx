@@ -103,6 +103,14 @@ const GRACE_MS = 180;
 const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 103%, 100% 100%, 0% 100%)";
 const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
+function getPageIdFromPathname(pathname: string): string {
+  if (!pathname || pathname === "/") return "home-page";
+  const cleanPath = pathname.split("?")[0].replace(/^\/|\/$/g, "");
+  if (!cleanPath) return "home-page";
+  const slug = cleanPath.replace(/[^a-zA-Z0-9-]/g, "-").replace(/-+/g, "-");
+  return `${slug}-page`;
+}
+
 /**
  * PageTransition
  * ─────────────────────────────────────────────────────────────────────────
@@ -427,9 +435,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
+  const pageId = getPageIdFromPathname(pathname);
+
   return (
     <>
-      <div ref={contentRef} className="flex-1 flex flex-col">
+      <div id={pageId} ref={contentRef} className="flex-1 flex flex-col">
         {children}
       </div>
 

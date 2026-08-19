@@ -956,7 +956,7 @@ function BookPageContent() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-clip pt-[100px]">
+    <div id="book-page" className="min-h-screen relative overflow-clip pt-[100px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 

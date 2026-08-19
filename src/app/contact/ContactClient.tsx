@@ -42,7 +42,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhoto, setActivePhoto] = useState<string>(DEFAULT_PHOTO);
 
   return (
-    <section className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
+    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10 pb-16">
         
         {/* Left Column: Contact Cards */}

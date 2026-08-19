@@ -654,7 +654,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen text-white pt-0">
+    <div id="cruise-page" className="min-h-screen text-white pt-0">
 
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section

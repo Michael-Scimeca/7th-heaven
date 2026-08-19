@@ -677,7 +677,7 @@ export default function StyleGuidePage() {
   };
 
   return (
-    <div className="min-h-screen  text-white pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">
+    <div id="style-guide-page" className="min-h-screen  text-white pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">
       <div className="max-w-7xl mx-auto space-y-12">
 
         {/* Page Header */}
