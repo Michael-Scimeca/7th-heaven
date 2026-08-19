@@ -16,8 +16,8 @@ export interface ContactItem {
 const ALL_PHOTOS = [
   { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
   { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
-  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-[0.96]" },
-  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-[1.12]" },
+  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-100" },
+  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-100" },
 ];
 
 const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
@@ -46,7 +46,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
 
         {/* Left Column: Contact Cards */}
-        <div className="lg:col-span-7 flex flex-col text-left">
+        <div className="lg:col-span-5 flex flex-col text-left">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
@@ -68,11 +68,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   key={contact.phone + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                    isSelected
-                      ? "bg-purple-950/40 border-purple-500/50 shadow-[0_0_30px_rgba(140,14,175,0.25)] translate-x-1"
-                      : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
-                  }`}
+                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${isSelected
+                    ? "bg-purple-950/40 border-purple-500/50 shadow-[0_0_30px_rgba(140,14,175,0.25)] translate-x-1"
+                    : "bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
+                    }`}
                 >
                   {/* Category Pill */}
                   <div className="mb-3">
@@ -141,8 +140,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               <div
                 key={photo.id}
                 className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${isActive
-                  ? "opacity-100 scale-100 filter-none"
-                  : "opacity-0 scale-95 filter blur-sm"
+                  ? "opacity-100  filter-none"
+                  : "opacity-0 filter blur-sm"
                   }`}
               >
                 <Image
@@ -150,8 +149,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   alt={photo.alt}
                   fill
                   priority
+                  unoptimized
                   sizes="50vw"
-                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
+                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right`}
                 />
               </div>
             );
