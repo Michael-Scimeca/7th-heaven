@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock, Navigation } from "lucide-react";
+import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock, Navigation, Phone, Mail, User, Sliders, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { SquishyToggle } from "@/components/SquishyToggle";
@@ -102,6 +102,7 @@ export default function PlannerDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [editDraft, setEditDraft] = useState<BookingData>(defaultBooking);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
   const [reviveTimeLeft, setReviveTimeLeft] = useState<string | null>(null);
   const [plannerNotes, setPlannerNotes] = useState('');
   const [notesSaving, setNotesSaving] = useState(false);
@@ -182,9 +183,11 @@ export default function PlannerDashboard() {
             loadInTime: item.loadInTime || item.load_in_time || '',
             notes: item.details || item.notes || '',
           }));
-          setAllBookings(mapped);
-          // Active booking = most recent non-cancelled, or just the first
-          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+          const statusOrder: Record<string, number> = { confirmed: 1, pending: 2, cancelled: 3 };
+          const sorted = mapped.sort((a, b) => (statusOrder[a.status] || 9) - (statusOrder[b.status] || 9));
+          setAllBookings(sorted);
+          // Active booking = confirmed booking first, or most recent non-cancelled, or first
+          const active = sorted.find(b => b.status === 'confirmed') || sorted.find(b => b.status !== 'cancelled') || sorted[0];
           setBooking(active);
           setEditDraft(active);
           setPlannerNotes(active.notes || '');
@@ -382,6 +385,114 @@ export default function PlannerDashboard() {
           </div>
         )}
 
+        {/* Band Event Contacts Modal */}
+        {showContactModal && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
+            <div className="bg-[#0b0c10] border border-[var(--color-accent)]/30 p-6 md:p-8 rounded-3xl shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
+                    <PhoneCall className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white tracking-tight uppercase">Band Event Contacts</h3>
+                    <p className="text-xs text-white/40 font-mono">7th Heaven Direct Booking & Advance Team</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowContactModal(false)}
+                  className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/30 transition-colors">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
+                      <h4 className="text-lg font-bold text-white mt-1">Dickie (NTD Management)</h4>
+                      <p className="text-xs text-white/50">Band Contracts, Scheduling & Event Operations</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                      <Phone className="w-3.5 h-3.5" /> (847) 551-5363
+                    </a>
+                    <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold hover:bg-purple-500/20 transition-colors">
+                      <Mail className="w-3.5 h-3.5" /> info@NTDManagement.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 transition-colors">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">Technical & Production Advance</span>
+                      <h4 className="text-lg font-bold text-white mt-1">Jeff Dobbs</h4>
+                      <p className="text-xs text-white/50">PA System, Stage Dimensions, Sound & Power</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                      <Phone className="w-3.5 h-3.5" /> (847) 772-5333
+                    </a>
+                    <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold hover:bg-cyan-500/20 transition-colors">
+                      <Mail className="w-3.5 h-3.5" /> jeffdobbs64@yahoo.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-indigo-500/30 transition-colors">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">Non-Technical Advance</span>
+                      <h4 className="text-lg font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
+                      <p className="text-xs text-white/50">Hospitality, Parking Pass, Green Room & Itinerary</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                      <Phone className="w-3.5 h-3.5" /> (630) 842-9129
+                    </a>
+                    <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold hover:bg-indigo-500/20 transition-colors">
+                      <Mail className="w-3.5 h-3.5" /> Alan@NTDManagement.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-amber-500/30 transition-colors">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Press & Media</span>
+                      <h4 className="text-lg font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
+                      <p className="text-xs text-white/50">Promotional Assets, Logos, Radio & Media Interviews</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                      <Phone className="w-3.5 h-3.5" /> (847) 269-6200
+                    </a>
+                    <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold hover:bg-amber-500/20 transition-colors">
+                      <Mail className="w-3.5 h-3.5" /> LRago@NTDRecords.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-white/10 text-center">
+                <button
+                  onClick={() => setShowContactModal(false)}
+                  className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* BOOKING CARDS */}
         <div className="grid grid-cols-1 gap-6">
           <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
@@ -530,13 +641,14 @@ export default function PlannerDashboard() {
                   Sign in to manage
                 </Link>
               )}
-              <a
-                href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking Dashboard] Issue with Event — ${booking.id}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nI'm reaching out from my Booking Dashboard regarding the following event:\n\n────────────────────────\nBooking ID: ${booking.id}\nEvent: ${booking.eventName}\nType: ${eventTypeLabels[booking.eventType] || booking.eventType}\nDate: ${booking.date}\nTime: ${booking.startTime} – ${booking.endTime}\nVenue: ${booking.venueName}\nCity: ${booking.venueCity}, ${booking.venueState}\nStatus: ${s.label}\n────────────────────────\n\nEvent Planner Message:\n\n`)}`}
-                className="w-full py-3 flex items-center justify-center gap-2 text-white/40 hover: text-[var(--color-accent)] font-bold text-sm uppercase tracking-wider hover:bg-[var(--color-accent)]/5 transition-colors"
+              <button
+                type="button"
+                onClick={() => setShowContactModal(true)}
+                className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-white/5 hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-xl transition-all cursor-pointer shadow-sm"
               >
-                <FileText className="w-4 h-4" />
+                <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
                 Contact 7th Heaven
-              </a>
+              </button>
             </div>
           </div>
 
@@ -722,6 +834,93 @@ export default function PlannerDashboard() {
             </div>
           </div>
         )}
+
+        {/* ── Band & Event Contacts Panel ── */}
+        <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8 rounded-3xl shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--color-accent)]">
+                <PhoneCall className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
+                <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowContactModal(true)}
+              className="px-4 py-2 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold uppercase tracking-wider rounded-xl transition-all self-start sm:self-auto cursor-pointer"
+            >
+              Open Full Contact Directory
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
+                <h4 className="text-base font-bold text-white">Dickie</h4>
+                <p className="text-xs text-white/40 mb-3">NTD Management</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+                <a href="tel:8475515363" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 551-5363
+                </a>
+                <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
+                </a>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 transition-all flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 block w-fit mb-2">Technical Advance</span>
+                <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
+                <p className="text-xs text-white/40 mb-3">Production & Sound</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+                <a href="tel:8477725333" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 772-5333
+                </a>
+                <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
+                </a>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 block w-fit mb-2">Non-Tech Advance</span>
+                <h4 className="text-base font-bold text-white">Alan McRae</h4>
+                <p className="text-xs text-white/40 mb-3">NTD Management</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+                <a href="tel:6308429129" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (630) 842-9129
+                </a>
+                <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
+                </a>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-amber-500/30 transition-all flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 block w-fit mb-2">Press & Media</span>
+                <h4 className="text-base font-bold text-white">Lenny Rago</h4>
+                <p className="text-xs text-white/40 mb-3">NTD Records</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+                <a href="tel:8472696200" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 269-6200
+                </a>
+                <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* ── Booking History Timeline ── */}
         {allBookings.length > 1 && (
