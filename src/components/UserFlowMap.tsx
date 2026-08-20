@@ -371,7 +371,7 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
   { id: "c2-dec", type: "decisionNode", position: { x: 352, y: 890 }, data: { label: "Review Status", sub: "Admin Action", system: "gold", kind: "decision", iconName: "branch" } },
   { id: "c2-rej", type: "emailNode", position: { x: 180, y: 990 }, data: { label: "Booking Canceled Email", sub: "bookingCancelled", system: "red", kind: "email", iconName: "mail", details: { emailSubject: "Booking Canceled Feedback" } } },
   { id: "c2-appr", type: "emailNode", position: { x: 460, y: 990 }, data: { label: "Booking Approved Email", sub: "bookingStatusUpdate", system: "emerald", kind: "email", iconName: "mail", details: { emailSubject: "🎉 Booking Status: Approved!" } } },
-  { id: "c2-planner", type: "pageNode", position: { x: 460, y: 1110 }, data: { label: "Access Planner Dashboard", sub: "/planner", system: "emerald", kind: "page", iconName: "user", imgUrl: "/sitemap-thumbs/planner-dashboard-signed-in.jpg", details: { summary: "Planner manages confirmed booking, schedule & contract", endpointOrPath: "/planner" } } },
+  { id: "c2-planner", type: "pageNode", position: { x: 460, y: 1110 }, data: { label: "Access Planner Dashboard", sub: "/planner", system: "emerald", kind: "page", iconName: "user", imgUrl: "/sitemap-screenshots/planner.png", details: { summary: "Planner manages confirmed booking, schedule & contract", endpointOrPath: "/planner" } } },
 
   // COLUMN 3: CRUISE 2026 (x = 640)
   { id: "c3-1", type: "pageNode", position: { x: 640, y: 290 }, data: { label: "Cruise Landing Page", sub: "/cruise", system: "gold", kind: "page", iconName: "sparkles" } },
