@@ -392,16 +392,16 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "footer-privacy",
+    id: "node-fan-signup-module",
     type: "sitemapCard",
     position: { x: 760, y: 700 },
     data: {
-      header: "PRIVACY POLICY",
-      title: "Privacy Policy & Data Security",
-      path: "/privacy",
-      imgUrl: "/sitemap-thumbs/privacy.jpg",
-      badgeType: "FOOTER_NAV",
-      description: "Footer link to data protection rules, terms of service, and privacy.",
+      header: "SIGN UP FAN MODULE",
+      title: "Fan Account Signup & Security PIN",
+      path: "/fans",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan sign up modal, account registration form, and 6-digit security PIN verification step.",
     },
   },
   {
@@ -620,7 +620,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   // Other section connections
   { id: "e-shows-planner", source: "footer-shows", target: "node-planner", type: "smoothstep" },
   { id: "e-shows-crew", source: "footer-shows", target: "node-crew", type: "smoothstep" },
-  { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
+  { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
