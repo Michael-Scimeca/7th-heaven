@@ -513,49 +513,18 @@ header,
   backface-visibility: hidden;
 }
 
-/* Sort bar gets GPU promotion but NO isolation — isolation would scope its z-index within a stacking context */
 #tour-sort-bar {
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-
-}
-
-/* ── Animated Header Reveal Mask ────────────────────────────────────────────
-   @property lets the browser interpolate the gradient stop as a typed number.
-   Normal:  --hm-stop = 100% → mask is solid black  (no visible fade zone, short nav)
-   Stuck:   --hm-stop = 62%  → solid 62% of 228px (~141px) then fades to transparent
-   Both height AND the gradient stop animate together in the same cubic-bezier curve.
-   ─────────────────────────────────────────────────────────────────────────── */
-@property --hm-stop {
-  syntax: '<percentage>';
-  inherits: false;
-  initial-value: 100%;
-}
-
-/* Apply mask + base height to header */
-header {
-  --hm-stop: 100%;
-
-}
-
-/* On large screens: explicit base height so height:88px → 228px animates (auto → px cannot tween).
-   Also transition --hm-stop in perfect sync with the height change. */
-@media (min-width: 1024px) {
-  header {
-    height: 88px;
-    overflow: visible !important;
-    transition:
-      height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      --hm-stop 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
+  padding: 12px 0 16px 0;
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
 #tour-sort-bar.is-stuck {
   position: sticky !important;
-  z-index: 900 !important;
-  padding: 12px 0 60px 0;
+  z-index: 90 !important;
+  padding: 12px 0 16px 0 !important;
 }
 
 /* =============================================

@@ -785,7 +785,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const isAboveSentinel = sentinelTop <= 68;
+      const stickyThreshold = typeof window !== "undefined" && window.innerWidth >= 640 ? 80 : 72;
+      const isAboveSentinel = sentinelTop <= stickyThreshold;
 
       if (isStuckRef.current !== isAboveSentinel) {
         isStuckRef.current = isAboveSentinel;
