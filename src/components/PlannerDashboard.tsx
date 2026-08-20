@@ -6,6 +6,7 @@ import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Light
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 interface BookingData {
   id: string;
@@ -51,6 +52,25 @@ const defaultBooking: BookingData = {
   parkingNotes: "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
 };
 
+const pendingBooking: BookingData = {
+  id: "7H-BK-9204",
+  eventName: "Lakefront Summer Bash",
+  eventType: "full_band",
+  date: "Sat, Sep 12, 2026",
+  startTime: "6:00 PM",
+  endTime: "11:00 PM",
+  venueName: "Navy Pier Grand Ballroom",
+  venueCity: "Chicago",
+  venueState: "IL",
+  indoorOutdoor: "Indoor",
+  expectedAttendance: "500",
+  organization: "Lakefront Events Co.",
+  status: "pending",
+  soundSystem: "",
+  stageAvailable: "",
+  loadInTime: "",
+};
+
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; text: string; bar: string }> = {
   pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: " text-[var(--color-accent)]", bar: "bg-purple-600" },
   confirmed: { label: "Confirmed", color: "emerald", bg: "bg-emerald-500/10", border: " border-[var(--color-accent)]/30", text: "text-emerald-500", bar: "bg-emerald-500" },
@@ -78,7 +98,7 @@ export default function PlannerDashboard() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const [mounted, setMounted] = useState(false);
   const [booking, setBooking] = useState<BookingData>(defaultBooking);
-  const [allBookings, setAllBookings] = useState<BookingData[]>([]);
+  const [allBookings, setAllBookings] = useState<BookingData[]>([defaultBooking, pendingBooking]);
   const [isEditing, setIsEditing] = useState(false);
   const [editDraft, setEditDraft] = useState<BookingData>(defaultBooking);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
@@ -329,7 +349,7 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className="min-h-screen font-sans pb-16">
+    <section className="min-h-screen font-sans">
       <div className="">
 
 
@@ -652,16 +672,15 @@ export default function PlannerDashboard() {
                     <h4 className="text-sm font-bold uppercase tracking-wider text-white">Venue Location & Parking Setup</h4>
                   </div>
                   {booking.venueName && (
-                    <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                    <CosmicRadialButton
+                      icon={<Navigation className="w-3.5 h-3.5 text-cyan-300" />}
+                      onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
                         [booking.parkingAddress || booking.venueName, booking.venueCity, booking.venueState].filter(Boolean).join(", ")
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-xs font-bold text-white uppercase tracking-wider transition-colors w-fit"
+                      )}`, '_blank')}
+                      className="px-3.5 py-1.5 rounded-lg w-fit"
                     >
-                      <Navigation className="w-3.5 h-3.5 text-cyan-300" /> Open Google Maps Directions
-                    </a>
+                      Open Google Maps Directions
+                    </CosmicRadialButton>
                   )}
                 </div>
 
