@@ -260,13 +260,17 @@ export default function CruisePage() {
 
   // Gate all below-hero sections until the wave is gone
   useEffect(() => {
+    const timer = setTimeout(() => setTransitionDone(true), 1000);
     if (!(window as any).__pageTransitionActive) {
       setTransitionDone(true);
-      return;
+      return () => clearTimeout(timer);
     }
     const done = () => setTransitionDone(true);
     window.addEventListener('7h:pagetransition:done', done, { once: true });
-    return () => window.removeEventListener('7h:pagetransition:done', done);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('7h:pagetransition:done', done);
+    };
   }, []);
 
   const [renderTimeline, setRenderTimeline] = useState(false);
@@ -2364,7 +2368,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
               </div>
 
-
+              {/* ── SECTION 4.5: SHIP & CRUISE YOUTUBE VIDEO GALLERY ── */}
+              <React.Suspense fallback={<div className="h-48 flex items-center justify-center text-xs text-white/50 font-bold uppercase tracking-wider">Loading Video Gallery...</div>}>
+                <CruiseVideoGallery />
+              </React.Suspense>
 
             </section>
 

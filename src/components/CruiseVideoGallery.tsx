@@ -4,11 +4,146 @@ import Image from 'next/image';
 import React, { useState, useEffect, useCallback } from 'react';
 import type { CruiseVideoItem } from '@/app/api/cruise/videos/route';
 
+const FALLBACK_VIDEOS: CruiseVideoItem[] = [
+  {
+    id: 'vid-cmc-1',
+    title: 'Star of the Seas 2027 — Official Promo Video',
+    category: 'Promo & Announcements',
+    url: 'https://www.youtube.com/watch?v=vaMRyPbgAz4',
+    youtubeId: 'vaMRyPbgAz4',
+    poster: 'https://img.youtube.com/vi/vaMRyPbgAz4/hqdefault.jpg',
+    description: 'Official promo video for the 2027 Chicago Music Cruise aboard Royal Caribbean\'s Star of the Seas (Jan 10, 2027).',
+    featured: true,
+    createdAt: '2026-08-01T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-2',
+    title: 'Pre-Cruise Speech — Oasis of the Seas (2025)',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=N3xFvQPXfqk',
+    youtubeId: 'N3xFvQPXfqk',
+    poster: 'https://img.youtube.com/vi/N3xFvQPXfqk/hqdefault.jpg',
+    description: 'Exclusive pre-cruise address & announcements for Oasis of the Seas passengers (March 12, 2025).',
+    featured: false,
+    createdAt: '2025-03-12T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-3',
+    title: 'Pre-Cruise Speech — Icon of the Seas (2025)',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=P4j-2p-qLZE',
+    youtubeId: 'P4j-2p-qLZE',
+    poster: 'https://img.youtube.com/vi/P4j-2p-qLZE/hqdefault.jpg',
+    description: 'Official pre-cruise briefing and group activity overview on Icon of the Seas (January 5, 2025).',
+    featured: false,
+    createdAt: '2025-01-05T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-4',
+    title: 'Pre-Cruise Speech — Wonder of the Seas (2023)',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=bduMR3nhxnA',
+    youtubeId: 'bduMR3nhxnA',
+    poster: 'https://img.youtube.com/vi/bduMR3nhxnA/hqdefault.jpg',
+    description: 'Pre-cruise speech and band performance highlights aboard Wonder of the Seas (December 5, 2023).',
+    featured: false,
+    createdAt: '2023-12-05T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-5',
+    title: 'Pre-Cruise Speech — Wonder of the Seas (2022)',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=55C64kqfR9I',
+    youtubeId: '55C64kqfR9I',
+    poster: 'https://img.youtube.com/vi/55C64kqfR9I/hqdefault.jpg',
+    description: 'Pre-cruise speech and itinerary preview for Wonder of the Seas (December 11, 2022).',
+    featured: false,
+    createdAt: '2022-12-11T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-6',
+    title: 'Pre-Cruise Video Cast — Wonder of the Seas (2022)',
+    category: 'Behind the Scenes',
+    url: 'https://www.youtube.com/watch?v=Tj-gK_g5g1I',
+    youtubeId: 'Tj-gK_g5g1I',
+    poster: 'https://img.youtube.com/vi/Tj-gK_g5g1I/hqdefault.jpg',
+    description: 'Special video cast with band members previewing the upcoming cruise season (March 11, 2022).',
+    featured: false,
+    createdAt: '2022-03-11T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-7',
+    title: 'Pre-Cruise Speech — Allure of the Seas (2020)',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=If2QYmT7AV4',
+    youtubeId: 'If2QYmT7AV4',
+    poster: 'https://img.youtube.com/vi/If2QYmT7AV4/hqdefault.jpg',
+    description: 'Pre-cruise speech for the 2020 Allure of the Seas Eastern Caribbean voyage (January 9, 2020).',
+    featured: false,
+    createdAt: '2020-01-09T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-8',
+    title: 'Chicago Music Cruise — Video Blog #2 (2019)',
+    category: 'Vlogs & Recaps',
+    url: 'https://www.youtube.com/watch?v=jXSyCd_siAA',
+    youtubeId: 'jXSyCd_siAA',
+    poster: 'https://img.youtube.com/vi/jXSyCd_siAA/hqdefault.jpg',
+    description: 'Video blog recap detailing cruise preparations and concert schedules (April 2, 2019).',
+    featured: false,
+    createdAt: '2019-04-02T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-9',
+    title: 'Chicago Music Cruise — Video Blog #1 (2019)',
+    category: 'Vlogs & Recaps',
+    url: 'https://www.youtube.com/watch?v=88TOdJ24Re0',
+    youtubeId: '88TOdJ24Re0',
+    poster: 'https://img.youtube.com/vi/88TOdJ24Re0/hqdefault.jpg',
+    description: 'Inaugural 2019 video blog with behind-the-scenes cruise announcements (March 5, 2019).',
+    featured: false,
+    createdAt: '2019-03-05T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-10',
+    title: 'Pre-Cruise Speech 2019 — Symphony of the Seas',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=6NJKIpsC7bs',
+    youtubeId: '6NJKIpsC7bs',
+    poster: 'https://img.youtube.com/vi/6NJKIpsC7bs/hqdefault.jpg',
+    description: 'Full 2019 pre-cruise presentation for Symphony of the Seas passengers (January 15, 2019).',
+    featured: false,
+    createdAt: '2019-01-15T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-11',
+    title: 'Symphony of the Seas Highlights (2018)',
+    category: 'Highlights & Recaps',
+    url: 'https://www.youtube.com/watch?v=0KkOUuzNYcs',
+    youtubeId: '0KkOUuzNYcs',
+    poster: 'https://img.youtube.com/vi/0KkOUuzNYcs/hqdefault.jpg',
+    description: 'Highlight reel from the historic Symphony of the Seas fan cruise (September 1, 2018).',
+    featured: false,
+    createdAt: '2018-09-01T00:00:00.000Z',
+  },
+  {
+    id: 'vid-cmc-12',
+    title: 'Pre-Cruise Speech 2018 — Liberty of the Seas',
+    category: 'Pre-Cruise Speeches',
+    url: 'https://www.youtube.com/watch?v=5nLO1fjBvmU',
+    youtubeId: '5nLO1fjBvmU',
+    poster: 'https://img.youtube.com/vi/5nLO1fjBvmU/hqdefault.jpg',
+    description: 'Official 2018 pre-cruise speech and band lineup announcement.',
+    featured: false,
+    createdAt: '2018-01-01T00:00:00.000Z',
+  },
+];
+
 export default function CruiseVideoGallery() {
-  const [videos, setVideos] = useState<CruiseVideoItem[]>([]);
+  const [videos, setVideos] = useState<CruiseVideoItem[]>(FALLBACK_VIDEOS);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [activeVideo, setActiveVideo] = useState<CruiseVideoItem | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchVideos = useCallback(async () => {
     try {
@@ -164,16 +299,32 @@ export default function CruiseVideoGallery() {
               </button>
             </div>
 
-            <div className="aspect-video w-full overflow-hidden bg-black">
-              <video
-                src={activeVideo.url}
-                controls
-                autoPlay
-                muted
-                className="w-full h-full object-contain"
-              >
-                <track kind="captions" />
-              </video>
+            <div className="aspect-video w-full overflow-hidden bg-black rounded-2xl relative shadow-2xl">
+              {(() => {
+                const ytId = activeVideo.youtubeId || (activeVideo.url && activeVideo.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1]);
+                if (ytId) {
+                  return (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`}
+                      title={activeVideo.title}
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  );
+                }
+                return (
+                  <video
+                    src={activeVideo.url}
+                    controls
+                    autoPlay
+                    muted
+                    className="w-full h-full object-contain"
+                  >
+                    <track kind="captions" />
+                  </video>
+                );
+              })()}
             </div>
           </div>
         </div>
