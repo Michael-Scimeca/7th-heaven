@@ -36,14 +36,58 @@ export const PORTS_DATA = [
 ];
 
 export const FAQS_EXTENDED = [
-  { q: "What do I need to book the cruise?", a: "Fill out the online booking form with your Legal Name (exactly as on your Passport), Date of Birth, Citizenship, Phone, Email, Credit Card details, and room category. Submissions are processed directly via email to info@NTDVacations.com." },
-  { q: "Do I need a Passport?", a: "YES, a physical passport book valid for 6 months post-cruise (e.g. July 2027 for the 2027 sailing) is highly recommended. A state-certified birth certificate with photo ID can also be used for closed-loop U.S. cruises, but passports are always safest. Check travel.state.gov for details." },
-  { q: "What does the group price include?", a: "It includes your cabin, unlimited meals in various main dining venues, standard beverages (water, iced tea, lemonade, coffee), all 7th Heaven exclusive concert performances, pre-cruise party dinners, group t-shirts, scavenger hunts, giveaways, and access to all onboard ship activities." },
-  { q: "What is NOT included in the cruise fare?", a: "Airfare, travel insurance, port transfers, excursions, specialty dining restaurants, alcohol/sodas, laundry services, spa treatments, casino credits, and shop purchases. Gratuities are not included in prevailing rates (prepaid at $129.50 PP; $147 PP for suites), but they ARE included with our Group Rate cabins." },
-  { q: "When are payments due?", a: "A deposit of $250 per person ($500 per room) is due at booking to lock in your cabin. Final payment is due by October 1, 2026 for the 2027 cruise, and October 1, 2027 for the 2028 cruise." },
-  { q: "Can I choose my dining table mates?", a: "Yes! You can specify dining requests in the booking form notes or email info@NTDVacations.com to be seated with friends and family during our group dinners." },
-  { q: "Can I book through a travel agent?", a: "Yes. Travel agents can book cabins directly for clients and link them to the 7th Heaven group. Agents should use Royal Caribbean Group's official Cruising Power portal (https://www.cruisingpower.com) to register and link reservations to our group code." },
-  { q: "How do onboard payments work?", a: "Onboard purchases are made using your SeaPass cruise card. You can link a credit card or deposit cash at Guest Services during boarding." },
+  {
+    q: "What do I need to book the cruise?",
+    a: "Fill out the online booking form with your Legal Name (as it appears on your Passport), Date of Birth, Citizenship, Phone Number, Email Address, Credit Card Number, Credit Card Expiration Date, Billing Zip Code, 3-Digit Security Code, and desired room category. Submissions are sent directly to info@NTDVacations.com."
+  },
+  {
+    q: "What is the cost?",
+    a: "Rates are based on room category, size, location, and configuration under our exclusive GROUP prices. We can also book you in any prevailing market rate, promotional sale rate, or custom suite class—just let us know your preference!"
+  },
+  {
+    q: "Do I need a Passport?",
+    a: "YES. The cruise travels through international waters to foreign island destinations and passes through U.S. Customs upon return to Florida. You MUST have a physical passport with you (valid for 6 months post-cruise, through July 2027 for the 2027 sailing). Passport processing takes 4–5 months at local Post Offices. Certified state birth certificates with government photo IDs are legally acceptable for closed-loop U.S. sailings, but a physical passport book is strongly recommended."
+  },
+  {
+    q: "What does the group price include?",
+    a: "Your cruise fare includes: Accommodations (private room with shower cleaned daily by a stateroom attendant), Unlimited meals across main dining rooms, buffets, cafes, and 24-hour food spots (water, lemonade, juice, coffee, tea included), All Chicago Music Cruise exclusive concerts & band events, Pre-Cruise Party dinner and drinks, Group T-shirt & free giveaways, Youth & Teen programs (Adventure Ocean), Pools, hot tubs, Casino, Nightlife, Comedy Shows, AquaDome Water Shows, Ice Skating Shows, Main Stage Theater Shows, and access to group deals on hotels and shuttles. *NOTE: You must be booked through NTD Vacations to participate in group events and giveaways."
+  },
+  {
+    q: "What is NOT included in the cruise fare?",
+    a: "Airfare, Travel Insurance (optional), Ground Transportation/Shuttles to/from the ship, Shore Excursions, Meals in Specialty restaurants, Alcoholic beverages, Beer, Wine, Cocktails, Soda, Bottled Water, Laundry, Spa & Salon Services, Casino Gambling, Onboard Shopping, and Gratuities. *Note: Gratuities ARE fully included only with our Group Rate rooms."
+  },
+  {
+    q: "When is Payment Due?",
+    a: "Final Payment for the Chicago Music Cruise 2027 is October 1, 2026 (and October 1, 2027 for the 2028 Legend of the Seas cruise). You can make partial payments at any time. If final payment is not met by the due date, the reservation will cancel and the deposit will be refunded (no exceptions). All payments are charged directly by Royal Caribbean Cruises."
+  },
+  {
+    q: "What if I want to sit with someone at dinner?",
+    a: "Send us your dining request when you book! We will request to link your staterooms so you sit together for main group dinners. Space fills up quickly for early dining seating, so let us know right away."
+  },
+  {
+    q: "Should I get Travel Insurance?",
+    a: "Travel insurance is optional. Rates depend on your room category and insurance MUST be requested upon booking to be included on your booking form. Within 120 days of sailing, you will need to contact a private third-party travel insurance company."
+  },
+  {
+    q: "What is the Cancellation Policy?",
+    a: "Group Rate Rooms: Cancel with no penalty before May 12, 2026. Cancel May 12 – July 12, 2026 ($50 pp fee); July 13 – Sept 10, 2026 ($100 pp fee); Sept 11 – Nov 10, 2026 ($200 pp fee); After Nov 10, 2026 (50% room cost); After Dec 10, 2026 (No Refund). If you get in a bind without insurance, we can work with Royal Caribbean to attempt a credit for a future cruise ($100 change fee pp). Prevailing Rate Rooms (Refundable): Cancel by Oct 10, 2026 for no penalty. Cancel Oct 12–26 (lose 25%); Oct 27 – Nov 10 (lose 50%); After Nov 10 (100% loss). Non-Refundable Prevailing Rates: Deposit is non-refundable upon cancellation."
+  },
+  {
+    q: "How Do I Sign-Up For Drink Packages, Shows & Excursions?",
+    a: "After your booking is confirmed, you can manage your reservation online via Royal Caribbean's Cruise Planner portal to add drink packages, specialty dining, show reservations, and shore excursions. Look out for holiday sales for extra savings!"
+  },
+  {
+    q: "How do I pay for onboard purchases?",
+    a: "All onboard purchases are charged to your personal Cruise Card (SeaPass), eliminating cash onboard. Register your credit card, debit card, or cash deposit at Cruise Card Activation Points or Guest Services upon boarding."
+  },
+  {
+    q: "Is Internet access available from the ship?",
+    a: "Yes, high-speed VOOM WiFi is available onboard for an additional fee (included in select Suite Class rooms)."
+  },
+  {
+    q: "When Do We Depart Port Canaveral, FL (Orlando)?",
+    a: "Guests should arrive at the pier between 12:00 PM and 3:30 PM on sailing day. Online Check-in must be completed via Royal Caribbean no later than 3 days prior to sailing to comply with government manifest regulations."
+  },
 ];
 
 export const CRUISE_HISTORY = [
