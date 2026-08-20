@@ -21,6 +21,19 @@ function formatDateShort(timestamp: number) {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
+function buildGCalUrl(show: { venue: string; city: string; state?: string; date: string; time?: string; info?: string }) {
+  const start = getShowDateTime(undefined, show.date, show.time);
+  if (start.getHours() === 23 && start.getMinutes() === 59) {
+    start.setHours(20, 0, 0, 0); // Default to 8:00 PM if no time set
+  }
+  const end = new Date(start.getTime() + 3 * 60 * 60 * 1000);
+  const formatGCalDate = (d: Date) => d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const title = `7th Heaven at ${show.venue}`;
+  const details = `Catch 7th Heaven live!\nVenue: ${show.venue}\nDetails: ${show.info || ""}`;
+  const location = show.city ? `${show.venue}, ${show.city}${show.state ? `, ${show.state}` : ""}` : show.venue;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${formatGCalDate(start)}/${formatGCalDate(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+}
+
 // SnazzyMaps Style 227862 ("My Custom Map": Royal Purple #3d1b76 & Midnight Water #160533)
 // NOTE: this only takes effect on a real Google Map with NO Map ID set — a Map ID
 // forces Google's cloud-based styling and silently ignores this JSON style array.
@@ -81,6 +94,8 @@ interface ShowData {
   lat?: number;
   lng?: number;
   startDate?: string;
+  parkingInfo?: string;
+  parkingUrl?: string;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -352,6 +367,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       allAges?: boolean;
       mapUrl?: string;
       websiteUrl?: string;
+      parkingInfo?: string;
+      parkingUrl?: string;
     }[];
   }
 
@@ -455,7 +472,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           info: s.info || "",
           allAges: s.allAges,
           mapUrl: s.mapUrl,
-          websiteUrl: s.websiteUrl
+          websiteUrl: s.websiteUrl,
+          parkingInfo: s.parkingInfo || "",
+          parkingUrl: s.parkingUrl || ""
         });
       }
     });
@@ -499,6 +518,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`
         : firstShow.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`;
 
+      const parkingUrl = firstShow.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${v.venue} ${v.city} ${v.state}`)}`;
+      const gcalUrl = buildGCalUrl({ venue: v.venue, city: v.city, state: v.state, date: firstShow.date, time: firstShow.time, info: firstShow.info });
+
       const isAllAges = firstShow.allAges === true || firstShow.info?.toLowerCase().includes("all age") || firstShow.info?.toLowerCase().includes("all-age");
       const is21Plus = firstShow.allAges === false || firstShow.info?.toLowerCase().includes("21 &") || firstShow.info?.toLowerCase().includes("21+");
 
@@ -526,13 +548,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
           <!-- Custom HTML Tooltip (Pure CSS Managed) -->
           <div class="custom-tooltip-card">
-            <div style="background:rgba(8, 8, 18, 0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:white; padding:12px 16px; width:max-content; min-width:200px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,0.6); position:relative; text-align:left;">
+            <div style="background:rgba(8, 8, 18, 0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:white; padding:12px 16px; width:max-content; min-width:220px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,0.6); position:relative; text-align:left;">
               <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
               <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
               <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
                 ${tooltipShowText}
                 ${ageBadge}
               </div>
+              ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ''}
               ${isHappening
           ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
           : isNext
@@ -543,6 +566,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:opacity 0.2s;">
                   📍 Google Location
                 </a>
+                <div style="display:flex; gap:6px;">
+                  <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; whitespace-nowrap;">
+                    📅 Add to Cal
+                  </a>
+                  <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; whitespace-nowrap;">
+                    🅿️ Parking
+                  </a>
+                </div>
                 <div style="font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; text-align:center; font-weight:500;">👉 Click pin for details</div>
               </div>
 
@@ -574,6 +605,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               ${sAgeBadge}
             </div>
             ${s.info ? `<div style="font-size:10px; color:rgba(255,255,255,0.7); margin-top:2px;">${s.info}</div>` : ""}
+            ${s.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-top:3px; font-weight:600;">🅿️ Parking: ${s.parkingInfo}</div>` : ""}
             ${s.websiteUrl ? `
               <div style="margin-top:4px;">
                 <a href="${s.websiteUrl}" target="_blank" rel="noopener noreferrer" style="font-size:10px; color:${cfg.color}; text-decoration:underline; font-weight:bold;">
@@ -586,7 +618,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }).join('');
 
       const popupHtml = `
-        <div style="background:#080812; color:white; padding:14px 16px; min-width:200px; max-width:280px; max-height:280px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
+        <div style="background:#080812; color:white; padding:14px 16px; min-width:220px; max-width:290px; max-height:300px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
           <div style="font-weight:800; font-size:15px; margin-bottom:3px;">${v.venue}</div>
           <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:12px;">${v.city}, ${v.state}</div>
 
@@ -599,6 +631,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:1px; text-decoration:none; padding:8px 12px; border-radius:6px; text-align:center; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(0,0,0,0.4);">
               📍 Google Location
             </a>
+            <div style="display:flex; gap:6px;">
+              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center;">
+                📅 Add to Calendar
+              </a>
+              <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center;">
+                🅿️ Parking Details
+              </a>
+            </div>
           </div>
         </div>
       `;
