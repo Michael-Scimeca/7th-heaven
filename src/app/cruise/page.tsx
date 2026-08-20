@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Ship, Waves, Palmtree, Anchor, Wine, Music, PartyPopper, Compass, HelpCircle, CreditCard, Calendar as CalendarIcon, AlertTriangle, Check, Sun, Crown, DoorClosed, TreePine } from "lucide-react";
+import { Ship, Waves, Palmtree, Anchor, Wine, Music, PartyPopper, Compass, HelpCircle, CreditCard, Calendar as CalendarIcon, AlertTriangle, Check, Sun, Crown, DoorClosed, TreePine, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
@@ -714,21 +714,27 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         />
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-2">
+        <div className="relative z-10 text-center px-[32px] max-w-6xl mx-auto mb-2">
+
+          {/* Eyebrow Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/60 border border-purple-400/40 backdrop-blur-md text-white text-[0.65rem] md:text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+            <span>ANNUAL ROCK &amp; ROLL VACATION AT SEA</span>
+          </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-md leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            7TH HEAVEN FAN CRUISE
+          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            7TH HEAVEN <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white">
-            <span className="bg-white/15 px-3.5 py-1.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-sm flex items-center gap-1.5 shadow-sm">
-              <Ship className="w-4 h-4 text-white" /> STAR OF THE SEAS (2027)
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white">
+            <span className="bg-black/50 px-4 py-2 rounded-xl border border-white/25 text-white font-black backdrop-blur-md flex items-center gap-2 shadow-xl hover:border-purple-400/60 transition-all">
+              <Ship className="w-4 h-4 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-300 bg-purple-500/30 px-2 py-0.5 rounded-md text-[0.7rem] border border-purple-400/30">2027</span>
             </span>
-            <span className="text-white/60">•</span>
-            <span className="bg-white/15 px-3.5 py-1.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-sm flex items-center gap-1.5 shadow-sm">
-              <Ship className="w-4 h-4 text-white" /> LEGEND OF THE SEAS (2028)
+            <span className="text-white/40 hidden sm:inline">•</span>
+            <span className="bg-black/50 px-4 py-2 rounded-xl border border-white/25 text-white font-black backdrop-blur-md flex items-center gap-2 shadow-xl hover:border-purple-400/60 transition-all">
+              <Ship className="w-4 h-4 text-purple-400" /> LEGEND OF THE SEAS <span className="text-purple-300 bg-purple-500/30 px-2 py-0.5 rounded-md text-[0.7rem] border border-purple-400/30">2028</span>
             </span>
           </div>
         </div>
