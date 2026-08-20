@@ -522,7 +522,6 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="rgba(12, 12, 22, 0.88)" style="fill: rgba(12, 12, 22, 0.88) !important;" stroke="${cfg.color}" stroke-width="${isBouncing ? '4' : '3'}"/>
             <text x="50" y="45" dy="0.35em" fill="${cfg.color}" style="fill: ${cfg.color} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
-          ${isBouncing ? `<div class="next-show-ring" style="--ring-color: ${cfg.color}"></div>` : ""}
           <div class="marker-label">${v.venue}</div>
 
           <!-- Custom HTML Tooltip (Pure CSS Managed) -->
@@ -1120,37 +1119,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           z-index: 20;
         }
 
-        /* Pulse ring and subtle smooth glow for next show */
+        /* Solid, non-fading active marker for next show */
         .next-show-bounce {
           position: relative;
-          animation: nextShowGlow 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-        }
-        @keyframes nextShowGlow {
-          0%, 100% { transform: translateY(0); filter: brightness(1); }
-          50% { transform: translateY(-4px); filter: brightness(1.2); }
-        }
-        .next-show-ring {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -70%);
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          border: 2px solid var(--ring-color, #a855f7);
-          animation: nextShowPulse 1.5s ease-out infinite;
-          pointer-events: none;
-        }
-        @keyframes nextShowPulse {
-          0% { transform: translate(-50%, -70%) scale(0.5); opacity: 1; }
-          100% { transform: translate(-50%, -70%) scale(2.5); opacity: 0; }
+          opacity: 1 !important;
+          animation: none !important;
+          filter: drop-shadow(0 0 8px var(--ring-color, #a855f7));
         }
         .next-show-bounce > svg {
-          animation: nextShowBlink 1.5s ease-in-out infinite;
-        }
-        @keyframes nextShowBlink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          animation: none !important;
+          opacity: 1 !important;
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-4px); }
