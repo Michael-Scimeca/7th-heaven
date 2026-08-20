@@ -130,6 +130,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           height: "100vh",
           width: "76vw",
           right: -78,
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
+          maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
         }}
       >
         <div className="relative w-full h-full flex items-end justify-end">
@@ -139,8 +141,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               <div
                 key={photo.id}
                 className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${isActive
-                  ? "opacity-100  filter-none"
-                  : "opacity-0 filter blur-sm"
+                  ? "opacity-100 scale-100 filter-none"
+                  : "opacity-0 scale-95 filter blur-sm"
                   }`}
               >
                 <Image
@@ -150,11 +152,13 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   priority
                   unoptimized
                   sizes="50vw"
-                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right`}
+                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
                 />
               </div>
             );
           })}
+          {/* Bottom Gradient Fade Mask */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#06000c] via-[#06000c]/80 to-transparent pointer-events-none z-10" />
         </div>
       </div>
     </section>
