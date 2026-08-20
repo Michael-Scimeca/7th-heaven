@@ -548,7 +548,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
           <!-- Custom HTML Tooltip (Pure CSS Managed) -->
           <div class="custom-tooltip-card">
-            <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:220px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
+            <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
               <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
               <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
               <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
@@ -567,10 +567,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   📍 Google Location
                 </a>
                 <div style="display:flex; gap:6px;">
-                  <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; whitespace-nowrap;">
+                  <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
                     📅 Add to Cal
                   </a>
-                  <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; whitespace-nowrap;">
+                  <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
                     🅿️ Parking
                   </a>
                 </div>
@@ -618,7 +618,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }).join('');
 
       const popupHtml = `
-        <div style="background:#080812; color:white; padding:14px 16px; min-width:220px; max-width:290px; max-height:300px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
+        <div style="background:#080812; color:white; padding:14px 16px; min-width:230px; max-width:290px; max-height:300px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
           <div style="font-weight:800; font-size:15px; margin-bottom:3px;">${v.venue}</div>
           <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:12px;">${v.city}, ${v.state}</div>
 
@@ -632,11 +632,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               📍 Google Location
             </a>
             <div style="display:flex; gap:6px;">
-              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center;">
-                📅 Add to Calendar
+              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center; white-space:nowrap;">
+                📅 Add to Cal
               </a>
-              <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center;">
-                🅿️ Parking Details
+              <a href="${parkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center; white-space:nowrap;">
+                🅿️ Parking
               </a>
             </div>
           </div>
