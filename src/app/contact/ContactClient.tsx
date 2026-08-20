@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Sparkles } from "lucide-react";
 
 export interface ContactItem {
   category: string;
@@ -62,10 +62,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <div className="lg:col-span-4 flex flex-col text-left">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2 whitespace-nowrap" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Contact & Booking
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-[0.65rem] sm:text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+              <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              CONTACT &amp; <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">BOOKING</span>
             </h1>
-            <p className="text-white/60 text-sm md:text-base font-semibold max-w-xl">
+            <p className="text-white/60 text-sm md:text-base font-semibold max-w-xl leading-relaxed">
               Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
             </p>
           </div>
