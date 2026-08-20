@@ -329,47 +329,10 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className="  min-h-screen font-sans pt-24 pb-16">
-      <div className="max-w-[1400px] mx-auto px-6">
+    <section className="min-h-screen font-sans pb-16">
+      <div className="">
 
 
-        {/* Account Identity Header — matches fan/crew layout */}
-        <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
-          <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
-              {isSignedInPlanner && member?.name
-                ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
-                : <ClipboardList className="w-8 h-8 text-[var(--color-accent)]" />}
-              <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[var(--color-accent)] border-2 border-[#050508] flex items-center justify-center">
-                <ClipboardList className="w-3.5 h-3.5 text-white" />
-              </span>
-            </div>
-            <div className="text-left">
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black italic tracking-tight">{isSignedInPlanner && member?.name ? member.name : 'Event Planner'}</h1>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
-                  <ClipboardList className="w-3.5 h-3.5" /> Event Planner
-                </span>
-              </div>
-              <p className="text-base text-white/40 font-mono mt-1">{isSignedInPlanner && member?.email ? member.email : 'Sign in to manage bookings'}</p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            {(() => {
-              const params = new URLSearchParams();
-              params.set("organization", booking.organization);
-              params.set("from", "planner");
-              return (
-                <a href={isSignedInPlanner ? `/book?${params.toString()}` : "#"}
-                  onClick={(e) => { if (!isSignedInPlanner) { e.preventDefault(); window.location.href = '/planner'; } }}
-                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)] flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5" />
-                  New Booking
-                </a>
-              );
-            })()}
-          </div>
-        </div>
 
         {/* Cancel Confirmation Modal */}
         {showCancelConfirm && (
@@ -561,12 +524,10 @@ export default function PlannerDashboard() {
 
         {/* ── Planner Notes ── */}
         <div className="mt-8">
-          <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
+          <div className="">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-cyan-400" />
-                </div>
+
                 <div>
                   <h3 className="text-lg font-bold text-white tracking-tight">Event Notes</h3>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Private notes for your event — visible to you and the 7th Heaven team</p>
@@ -611,7 +572,7 @@ export default function PlannerDashboard() {
         {/* ── Day-of Checklist ── */}
         {booking.status !== 'cancelled' && (
           <div className="mt-8">
-            <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+            <div className="relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-emerald-500/10 border border-[var(--color-accent)]/30 flex items-center justify-center">
@@ -637,8 +598,8 @@ export default function PlannerDashboard() {
                   const pct = Math.round((done / items.length) * 100);
                   return (
                     <div className="flex items-center gap-3">
-                      <div className="w-32 h-2 bg-white/5 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-colors duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                      <div className="w-32 h-2 bg-white/5 rounded-lg overflow-hidden">
+                        <div className={`h-full rounded-lg transition-colors duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                       </div>
                       <span className={`text-xs font-bold uppercase tracking-widest ${pct === 100 ? 'text-emerald-400' : 'text-white/40'}`}>
                         {done}/{items.length}
@@ -662,7 +623,7 @@ export default function PlannerDashboard() {
                 ].map((item, i) => (
                   <div
                     key={item.label}
-                    className={`flex items-center gap-3 px-4 py-3  border transition-colors ${item.done
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg border transition-colors ${item.done
                       ? 'bg-emerald-500/5 border-emerald-500/15'
                       : 'bg-white/[0.02] border-white/5 hover:border-purple-500/20'
                       }`}
@@ -684,7 +645,7 @@ export default function PlannerDashboard() {
               </div>
 
               {/* ── Google Maps Parking Setup & Directions Card ── */}
-              <div className="mt-4 p-4 bg-purple-600/10 border border-purple-500/20 rounded-xl">
+              <div className="mt-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-5 h-5 text-purple-400" />
