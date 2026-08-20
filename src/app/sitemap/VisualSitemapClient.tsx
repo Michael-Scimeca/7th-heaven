@@ -22,7 +22,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink, Layers, Calendar, Ship } from "lucide-react";
+import { ExternalLink, Layers, Calendar, Ship, UserPlus } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -751,22 +751,102 @@ const CRUISE_FLOW_EDGES: Edge[] = [
   { id: "cf-e3", source: "cf-step3", sourceHandle: "right", target: "cf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
+// --- VIEW 4: STEP-BY-STEP FAN SIGNUP FLOW ---
+const FAN_SIGNUP_FLOW_NODES: Node<SitemapNodeData>[] = [
+  {
+    id: "fs-step1",
+    type: "sitemapCard",
+    position: { x: 0, y: 150 },
+    data: {
+      header: "STEP 1 · FAN ACCOUNT SIGNUP",
+      title: "1. Fan Account Registration Form",
+      path: "/fans",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "HEADER_NAV",
+      description: "Fan opens Sign Up modal or /fans portal and inputs display name, email, password, and preferences.",
+    },
+  },
+  {
+    id: "fs-step2",
+    type: "sitemapCard",
+    position: { x: 380, y: 150 },
+    data: {
+      header: "STEP 2 · ✉ FAN SECURITY PIN EMAIL",
+      title: "2. Email Dispatched with PIN 582901",
+      path: "/api/dev/email-preview?id=auth_pin",
+      imgUrl: "/sitemap-thumbs/email-welcome-fan.jpg",
+      badgeType: "EMAIL",
+      description: "Fan receives automated email containing 6-digit security PIN 582901 to verify email ownership.",
+    },
+  },
+  {
+    id: "fs-step3",
+    type: "sitemapCard",
+    position: { x: 760, y: 150 },
+    data: {
+      header: "STEP 3 · FAN PIN VERIFICATION MODULE",
+      title: "3. Enter PIN Into Verification Module",
+      path: "/fans",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan enters 6-digit PIN [5][8][2][9][0][1] into PIN Verification Module to confirm account.",
+    },
+  },
+  {
+    id: "fs-step4",
+    type: "sitemapCard",
+    position: { x: 1140, y: 150 },
+    data: {
+      header: "STEP 4 · COMPLETE PROFILE ONBOARDING",
+      title: "4. Profile Setup & Favorites",
+      path: "/fans/complete-profile",
+      imgUrl: "/sitemap-thumbs/fan-dashboard.jpg",
+      badgeType: "PORTAL",
+      description: "Fan selects favorite 7th Heaven songs, uploads avatar, and completes onboarding profile.",
+    },
+  },
+  {
+    id: "fs-step5",
+    type: "sitemapCard",
+    position: { x: 1520, y: 150 },
+    data: {
+      header: "STEP 5 · MEMBER HUB & FAN WALL",
+      title: "5. Member Dashboard & Rewards",
+      path: "/fans/[username]",
+      imgUrl: "/sitemap-screenshots/fan-dashboard.png",
+      badgeType: "PORTAL",
+      description: "Fan accesses personal Member Hub to view backstage passes, post to Fan Photo Wall, and enter Guitar Pick Lottery.",
+    },
+  },
+];
+
+const FAN_SIGNUP_FLOW_EDGES: Edge[] = [
+  { id: "fs-e1", source: "fs-step1", sourceHandle: "right", target: "fs-step2", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "fs-e2", source: "fs-step2", sourceHandle: "right", target: "fs-step3", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "fs-e3", source: "fs-step3", sourceHandle: "right", target: "fs-step4", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "fs-e4", source: "fs-step4", sourceHandle: "right", target: "fs-step5", targetHandle: "left", animated: true, type: "smoothstep" },
+];
+
 export default function VisualSitemapClient() {
-  const [activeTab, setActiveTab] = useState<"ARCH" | "BOOKING" | "CRUISE">("ARCH");
+  const [activeTab, setActiveTab] = useState<"ARCH" | "BOOKING" | "CRUISE" | "FAN_SIGNUP">("ARCH");
 
   const nodes =
     activeTab === "BOOKING"
       ? BOOKING_FLOW_NODES
       : activeTab === "CRUISE"
         ? CRUISE_FLOW_NODES
-        : ARCHITECTURE_NODES;
+        : activeTab === "FAN_SIGNUP"
+          ? FAN_SIGNUP_FLOW_NODES
+          : ARCHITECTURE_NODES;
 
   const edges =
     activeTab === "BOOKING"
       ? BOOKING_FLOW_EDGES
       : activeTab === "CRUISE"
         ? CRUISE_FLOW_EDGES
-        : ARCHITECTURE_EDGES;
+        : activeTab === "FAN_SIGNUP"
+          ? FAN_SIGNUP_FLOW_EDGES
+          : ARCHITECTURE_EDGES;
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
@@ -794,14 +874,18 @@ export default function VisualSitemapClient() {
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"
                   ? "Event Booking & PIN Step-by-Step Horizontal Flow"
-                  : "Cruise Reservation & Security PIN Flow"}
+                  : activeTab === "CRUISE"
+                    ? "Cruise Reservation & Security PIN Flow"
+                    : "Fan Account Signup & PIN Verification Flow"}
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
                 ? "Direct Vertical Flow under Book Us: Form ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
                 : activeTab === "BOOKING"
                   ? "Step-by-step user journey: Form Fill ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
-                  : "Step-by-step user journey: Cabin Request ➔ Planner PIN Verification Module ➔ Cruise PIN Email ➔ Cruise Confirmation Email"}
+                  : activeTab === "CRUISE"
+                    ? "Step-by-step user journey: Cabin Request ➔ Planner PIN Verification Module ➔ Cruise PIN Email ➔ Cruise Confirmation Email"
+                    : "Step-by-step user journey: Fan Signup ➔ Fan PIN Email ➔ Enter PIN ➔ Complete Profile ➔ Member Dashboard"}
             </p>
           </div>
         </div>
@@ -816,7 +900,7 @@ export default function VisualSitemapClient() {
               }`}
           >
             <Layers className="w-3.5 h-3.5 text-purple-300" />
-            <span>Full Architecture & Vertical Flow</span>
+            <span>Full Architecture</span>
           </button>
 
           <button
@@ -827,7 +911,7 @@ export default function VisualSitemapClient() {
               }`}
           >
             <Calendar className="w-3.5 h-3.5 text-cyan-300" />
-            <span>Horizontal Step-by-Step Flow</span>
+            <span>Booking Flow</span>
           </button>
 
           <button
@@ -838,7 +922,18 @@ export default function VisualSitemapClient() {
               }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
-            <span>Cruise PIN Flow</span>
+            <span>Cruise Flow</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("FAN_SIGNUP")}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+          >
+            <UserPlus className="w-3.5 h-3.5 text-pink-300" />
+            <span>Fan Signup Flow</span>
           </button>
 
           <a
