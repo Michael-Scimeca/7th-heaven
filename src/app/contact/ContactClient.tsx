@@ -98,11 +98,6 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     <h3 className="text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
-                    {contact.note && (
-                      <p className="text-white/60 text-xs md:text-sm mt-0.5 font-medium">
-                        {contact.note}
-                      </p>
-                    )}
                   </div>
 
                   {/* Contact Info: Email Top, Phone Directly Underneath (Width Only as Far as Text) */}
@@ -138,12 +133,12 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         </div>
 
       </div>
-      {/* Right Column: Preloaded Contact Photos Stage */}
+      {/* Right Column: Preloaded Contact Photos Stage (Visible on Tablet & Desktop) */}
       <div
-        className="hidden lg:block absolute bottom-0 right-0 z-0 pointer-events-none max-w-[1400px]"
+        className="hidden md:block absolute bottom-0 right-0 z-0 pointer-events-none max-w-[1400px]"
         style={{
           height: "100vh",
-          width: "76vw",
+          width: "88vw",
           right: -78,
           WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
           maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
