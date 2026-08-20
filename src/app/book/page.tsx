@@ -1004,24 +1004,7 @@ function BookPageContent() {
           </p>
         </div>
 
-        {/* Signed-in Identity Block */}
-        {isLoggedIn && member && (
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
-            <div className="flex items-center gap-4">
-              <div className="relative w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-purple-300">
-                {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
-              </div>
-              <div className="text-left">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full bg-purple-500/20 text-purple-300 border-purple-500/30">
-                    {member.role === 'event_planner' ? <><ClipboardList className="w-3.5 h-3.5" /> Event Planner</> : member.role === 'admin' ? <><Shield className="w-3.5 h-3.5" /> Admin</> : member.role === 'crew' ? <><Shield className="w-3.5 h-3.5" /> Crew</> : <><Star className="w-3.5 h-3.5" /> Fan</>}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+
 
 
 
