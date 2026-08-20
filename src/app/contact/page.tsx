@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 const MARY_CONTACT = {
-    category: "Excursions / Hotels & Air",
+    category: "Cruise • Excursions / Hotels & Air",
     company: "NTD Vacations",
     name: "Mary Grivas",
     email: "Mary@NTDVacations.com",
