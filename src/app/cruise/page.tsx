@@ -1938,12 +1938,58 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   { label: "Total Length", value: "1,196.9 Feet" },
                   { label: "Total Width", value: "159.1 Feet" },
                   { label: "Decks Tall", value: "20 Decks" },
-                ].map((stat, idx) => (
+                ].map((stat) => (
                   <div key={stat.label} className="bg-transparent border-0 p-0 text-left">
                     <span className="text-[var(--font-size-3xs)] text-white/60 font-black uppercase tracking-wider block">{stat.label}</span>
                     <span className="text-lg md:text-xl font-black text-white mt-1 block">{stat.value}</span>
                   </div>
                 ))}
+              </div>
+
+              {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
+              <div className="mb-16">
+                <div className="mb-6 text-left">
+                  <h3 className="text-xl md:text-3xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                    Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
+                  </h3>
+                  <p className="text-xs md:text-sm text-white/70 font-semibold mt-1">
+                    Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {[
+                    { title: "Star of the Seas Sunset Aerial", img: "/images/cruise/ship/star-aerial-sunset.jpg", category: "Icon Class Ship" },
+                    { title: "Twilight Evening Aerial View", img: "/images/cruise/ship/star-aerial-evening.jpg", category: "Exterior Architecture" },
+                    { title: "The AquaDome Theater", img: "/images/cruise/ship/aquadome.jpg", category: "Mainstage Venue" },
+                    { title: "Central Park Neighborhood", img: "/images/cruise/ship/central-park.jpg", category: "Open-Air Garden" },
+                    { title: "The Hideaway Adults Pool", img: "/images/cruise/ship/hideaway-pool.jpg", category: "Infinity Edge Pool" },
+                    { title: "Category 6 Waterpark", img: "/images/cruise/ship/cat6-waterpark.jpg", category: "Thrill Waterpark" },
+                    { title: "Chops Grille Steakhouse", img: "/images/cruise/ship/chopsgrille.jpg", category: "Specialty Dining" },
+                    { title: "Izumi Teppanyaki & Hibachi", img: "/images/cruise/ship/izumi-hibachi.jpg", category: "Asian Specialty" },
+                    { title: "Lime & Coconut Pool Bar", img: "/images/cruise/ship/lime-and-coconut.jpg", category: "Tropical Lounge" },
+                    { title: "Schooner Piano Lounge", img: "/images/cruise/ship/schooner-bar.jpg", category: "Cocktail Bar" },
+                    { title: "Dueling Pianos Music Hall", img: "/images/cruise/ship/duelingpianos.jpg", category: "Live Nightlife" },
+                    { title: "Ultimate Family Townhouse", img: "/images/cruise/ship/family-townhouse.jpg", category: "Suite Luxury" },
+                  ].map((item) => (
+                    <div key={item.title} className="relative rounded-2xl overflow-hidden group border border-white/10 h-52 sm:h-60 shadow-xl">
+                      <Image
+                        width={400}
+                        height={300}
+                        unoptimized
+                        src={item.img}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-purple-200 bg-purple-600/70 backdrop-blur-md px-2.5 py-1 rounded-full self-start mb-1.5 border border-purple-400/40 shadow-md">
+                          {item.category}
+                        </span>
+                        <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.title}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Dining Tab Section */}
@@ -1977,43 +2023,43 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/80">
                   {(foodTypeTab === "included"
                     ? [
-                      { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
-                      { name: "Main Dining Room", img: "/images/venues/dining_steakhouse.png", tag: "Main Dining" },
-                      { name: "Park Cafe", img: "/images/venues/trellis.png", tag: "Deli & Bites" },
-                      { name: "Pearl Cafe", img: "/images/venues/trellis.png", tag: "24/7 Snacks" },
-                      { name: "Sorrento's Pizza", img: "/images/venues/lime_coconut.png", tag: "Fresh Pizza" },
-                      { name: "Basecamp", img: "/images/venues/hideaway.png", tag: "Casual Eats" },
-                      { name: "Surfside Bites", img: "/images/venues/surf.png", tag: "Quick Service" },
-                      { name: "Surfside Eatery", img: "/images/venues/dining_buffet.png", tag: "Family Buffet" },
-                      { name: "El Loco Fresh", img: "/images/venues/lime_coconut.png", tag: "Mexican" },
-                      { name: "Creme De La Crepe", img: "/images/venues/trellis.png", tag: "Creperie" },
-                      { name: "Pig Out BBQ", img: "/images/venues/lime_coconut.png", tag: "BBQ Grill" },
-                      { name: "Toast & Garden", img: "/images/venues/trellis.png", tag: "Breakfast" },
-                      { name: "Mai Thai", img: "/images/venues/hideaway.png", tag: "Asian Fusion" },
-                      { name: "Feta Mediterranean", img: "/images/venues/trellis.png", tag: "Greek & Med" },
-                      { name: "La Cocinita", img: "/images/venues/lime_coconut.png", tag: "Street Food" },
-                      { name: "Sprinkles Ice Cream", img: "/images/venues/surf.png", tag: "Soft Serve" },
-                      { name: "Coastal Kitchen (Suites)", img: "/images/venues/dining_steakhouse.png", tag: "Suite Dining" },
-                      { name: "The Grove (Suites)", img: "/images/venues/hideaway.png", tag: "Suite Buffet" },
-                      { name: "Vitality Cafe", img: "/images/venues/trellis.png", tag: "Healthy Eats" },
-                      { name: "Room Service (Breakfast)", img: "/images/venues/dining_buffet.png", tag: "In-Stateroom" },
+                      { name: "Windjammer Buffet", img: "/images/cruise/ship/windjammer.jpg", tag: "Buffet" },
+                      { name: "Main Dining Room", img: "/images/cruise/ship/star-aerial-sunset.jpg", tag: "Main Dining" },
+                      { name: "Park Cafe", img: "/images/cruise/ship/central-park.jpg", tag: "Deli & Bites" },
+                      { name: "Pearl Cafe", img: "/images/cruise/ship/central-park.jpg", tag: "24/7 Snacks" },
+                      { name: "Sorrento's Pizza", img: "/images/cruise/ship/lime-and-coconut.jpg", tag: "Fresh Pizza" },
+                      { name: "Basecamp", img: "/images/cruise/ship/hideaway-pool.jpg", tag: "Casual Eats" },
+                      { name: "Surfside Bites", img: "/images/cruise/ship/cat6-waterpark.jpg", tag: "Quick Service" },
+                      { name: "Surfside Eatery", img: "/images/cruise/ship/windjammer.jpg", tag: "Family Buffet" },
+                      { name: "El Loco Fresh", img: "/images/cruise/ship/lime-and-coconut.jpg", tag: "Mexican" },
+                      { name: "Creme De La Crepe", img: "/images/cruise/ship/central-park.jpg", tag: "Creperie" },
+                      { name: "Pig Out BBQ", img: "/images/cruise/ship/lime-and-coconut.jpg", tag: "BBQ Grill" },
+                      { name: "Toast & Garden", img: "/images/cruise/ship/central-park.jpg", tag: "Breakfast" },
+                      { name: "Mai Thai", img: "/images/cruise/ship/hideaway-pool.jpg", tag: "Asian Fusion" },
+                      { name: "Feta Mediterranean", img: "/images/cruise/ship/central-park.jpg", tag: "Greek & Med" },
+                      { name: "La Cocinita", img: "/images/cruise/ship/lime-and-coconut.jpg", tag: "Street Food" },
+                      { name: "Sprinkles Ice Cream", img: "/images/cruise/ship/cat6-waterpark.jpg", tag: "Soft Serve" },
+                      { name: "Coastal Kitchen (Suites)", img: "/images/cruise/ship/family-townhouse.jpg", tag: "Suite Dining" },
+                      { name: "The Grove (Suites)", img: "/images/cruise/ship/hideaway-pool.jpg", tag: "Suite Buffet" },
+                      { name: "Vitality Cafe", img: "/images/cruise/ship/central-park.jpg", tag: "Healthy Eats" },
+                      { name: "Room Service (Breakfast)", img: "/images/cruise/ship/windjammer.jpg", tag: "In-Stateroom" },
                     ]
                     : [
-                      { name: "Chops Grille", img: "/images/venues/dining_steakhouse.png", tag: "Steakhouse" },
-                      { name: "Izumi Hibachi", img: "/images/venues/dining_steakhouse.png", tag: "Teppanyaki" },
-                      { name: "Izumi Sushi", img: "/images/venues/hideaway.png", tag: "Sushi Bar" },
-                      { name: "Izumi in the Park", img: "/images/venues/trellis.png", tag: "Walk-Up Asian" },
-                      { name: "Hooked Seafood", img: "/images/venues/dining_buffet.png", tag: "Seafood" },
-                      { name: "Giovanni's Italian Kitchen", img: "/images/venues/trellis.png", tag: "Trattoria" },
-                      { name: "Playmakers Sports Bar", img: "/images/venues/lime_coconut.png", tag: "Pub & Arcade" },
-                      { name: "Lincoln Park Supper Club", img: "/images/venues/dining_steakhouse.png", tag: "Fine Dining" },
-                      { name: "Desserted Milkshake Bar", img: "/images/venues/surf.png", tag: "Over-the-Top Shakes" },
-                      { name: "Pier 7", img: "/images/venues/lime_coconut.png", tag: "Beach Club" },
-                      { name: "Celebration Table", img: "/images/venues/dining_steakhouse.png", tag: "VIP Dining" },
-                      { name: "Starbucks Coffee", img: "/images/venues/trellis.png", tag: "Espresso Bar" },
-                      { name: "Sugar Beach", img: "/images/venues/surf.png", tag: "Candy & Treats" },
-                      { name: "Room Service (Lunch/Dinner)", img: "/images/venues/dining_steakhouse.png", tag: "24/7 In-Room" },
-                      { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
+                      { name: "Chops Grille", img: "/images/cruise/ship/chopsgrille.jpg", tag: "Steakhouse" },
+                      { name: "Izumi Hibachi", img: "/images/cruise/ship/izumi-hibachi.jpg", tag: "Teppanyaki" },
+                      { name: "Izumi Sushi", img: "/images/cruise/ship/izumi-hibachi.jpg", tag: "Sushi Bar" },
+                      { name: "Izumi in the Park", img: "/images/cruise/ship/izumi-hibachi.jpg", tag: "Walk-Up Asian" },
+                      { name: "Hooked Seafood", img: "/images/cruise/ship/windjammer.jpg", tag: "Seafood" },
+                      { name: "Giovanni's Italian Kitchen", img: "/images/cruise/ship/central-park.jpg", tag: "Trattoria" },
+                      { name: "Playmakers Sports Bar", img: "/images/cruise/ship/duelingpianos.jpg", tag: "Pub & Arcade" },
+                      { name: "Lincoln Park Supper Club", img: "/images/cruise/ship/chopsgrille.jpg", tag: "Fine Dining" },
+                      { name: "Desserted Milkshake Bar", img: "/images/cruise/ship/cat6-waterpark.jpg", tag: "Over-the-Top Shakes" },
+                      { name: "Pier 7", img: "/images/cruise/ship/lime-and-coconut.jpg", tag: "Beach Club" },
+                      { name: "Celebration Table", img: "/images/cruise/ship/chopsgrille.jpg", tag: "VIP Dining" },
+                      { name: "Starbucks Coffee", img: "/images/cruise/ship/central-park.jpg", tag: "Espresso Bar" },
+                      { name: "Sugar Beach", img: "/images/cruise/ship/cat6-waterpark.jpg", tag: "Candy & Treats" },
+                      { name: "Room Service (Lunch/Dinner)", img: "/images/cruise/ship/chopsgrille.jpg", tag: "24/7 In-Room" },
+                      { name: "Trellis Bar Dining", img: "/images/cruise/ship/central-park.jpg", tag: "Outdoor Dining" },
                     ]
                   ).map((food, idx) => {
                     return (
