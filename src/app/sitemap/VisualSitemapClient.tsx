@@ -563,7 +563,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "CRUISE PIN VERIFICATION MODULE",
       title: "Enter PIN into Module on Cruise Page",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-screenshots/cruise-pin-verify-v2.png",
       badgeType: "MODULE",
       description: "Registrant inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module to complete reservation.",
     },

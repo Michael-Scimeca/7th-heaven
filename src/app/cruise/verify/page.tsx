@@ -105,12 +105,12 @@ function CruiseVerifyContent() {
 
   return (
     <div className={`relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-[#020818] overflow-hidden ${outfit.className}`}>
-      {/* Background concert stage image */}
+      {/* Background Cruise image */}
       <div
         className="fixed inset-0 bg-cover bg-center pointer-events-none z-0"
         style={{
-          backgroundImage: "url('/images/hero-band-bg.png')",
-          filter: "brightness(0.35) blur(3px)",
+          backgroundImage: "url('/images/cruise-hero.png')",
+          filter: "brightness(0.4) blur(3px)",
           transform: "scale(1.08)",
         }}
       />
@@ -150,14 +150,6 @@ function CruiseVerifyContent() {
               </p>
             </div>
 
-            {/* Progress bar */}
-            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-6">
-              <div
-                className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-300 rounded-full"
-                style={{ width: `${(filled / 6) * 100}%` }}
-              />
-            </div>
-
             {/* PIN form */}
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-6 gap-2 sm:gap-3">
@@ -172,11 +164,10 @@ function CruiseVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-black text-white bg-black/60 border rounded-xl outline-none transition-all ${
-                      d
-                        ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
-                        : "border-white/15 focus:border-purple-400 focus:bg-purple-950/20"
-                    } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
+                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-black text-white bg-black/60 border rounded-xl outline-none transition-all ${d
+                      ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
+                      : "border-white/15 focus:border-purple-400 focus:bg-purple-950/20"
+                      } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
                   />
                 ))}
               </div>
