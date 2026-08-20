@@ -564,6 +564,19 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Automated Resend email sent to fan containing the 6-digit security PIN 582901 to complete verification.",
     },
   },
+  {
+    id: "node-fan-verify-pin-filled",
+    type: "sitemapCard",
+    position: { x: 760, y: 1720 },
+    data: {
+      header: "FAN PIN VERIFICATION MODULE",
+      title: "Enter PIN into Module on Fan Page",
+      path: "/fans",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan inputs 6-digit PIN [5][8][2][9][0][1] into the Fan PIN Verification Module on the fan page to complete verification.",
+    },
+  },
 
   // ── ROW 5: PLANNER DASHBOARD UNLOCKED (y = 1720) ──
   {
@@ -621,6 +634,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
   { id: "flow-fan-signup-to-pin-module", source: "node-fan-signup-module", target: "node-fan-pin-verification", type: "smoothstep", animated: true },
   { id: "flow-pin-module-to-security-email", source: "node-fan-pin-verification", target: "email-fan-pin-security", type: "smoothstep", animated: true },
+  { id: "flow-security-email-to-filled-module", source: "email-fan-pin-security", target: "node-fan-verify-pin-filled", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
