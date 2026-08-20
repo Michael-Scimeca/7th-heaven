@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText, AlertTriangle, Smartphone, Bell, MessageSquare, Sparkles } from "lucide-react";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -253,36 +254,40 @@ export default function LiveHubPage() {
 
 
         {/* ── HERO HEADER ── */}
-        <div className="text-left max-w-5xl mb-10 pt-4 relative z-10 site-container">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-            <span>OFFICIAL BAND LIVE BROADCAST</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
+          <div className="text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+              <span>OFFICIAL BAND LIVE BROADCAST</span>
+            </div>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              LIVE <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">STREAM HUB</span>
+            </h1>
+            <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+              {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
+            </p>
           </div>
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            LIVE <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">STREAM HUB</span>
-          </h1>
-          <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
-            {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
-          </p>
 
-          {/* Fan Sign Up Callout Bar */}
-          <div className="mt-6 inline-flex items-center gap-4 bg-purple-950/40 border border-purple-500/30 backdrop-blur-md px-5 py-2.5 rounded-2xl max-w-md mx-auto text-left shadow-lg">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
-              <MessageSquare className="w-4 h-4" />
+          {/* Fan Sign Up Callout Bar (Positioned on Right Side) */}
+          <div className="shrink-0 flex justify-start md:justify-end">
+            <div className="inline-flex items-center gap-4 bg-purple-950/40 border border-purple-500/30 backdrop-blur-md px-5 py-2.5 rounded-2xl max-w-md text-left shadow-lg">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                <MessageSquare className="w-4 h-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-black uppercase tracking-wider text-white">Join the Live Chat</span>
+                <span className="text-[11px] text-purple-200/70 font-medium">Sign up as a fan to chat with 7th Heaven live</span>
+              </div>
+              <CosmicRadialButton
+                icon={false}
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
+                }}
+                className="ml-auto px-4 py-2 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+              >
+                Sign Up
+              </CosmicRadialButton>
             </div>
-            <div className="flex flex-col">
-              <span className="text-xs font-black uppercase tracking-wider text-white">Join the Live Chat</span>
-              <span className="text-[11px] text-purple-200/70 font-medium">Sign up as a fan to chat with 7th Heaven live</span>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
-              }}
-              className="ml-auto px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
-            >
-              Sign Up
-            </button>
           </div>
         </div>
 

@@ -148,6 +148,106 @@ const COSMIC_BASE_CENTERS = [
   { x: 67, y: 38 },
 ];
 
+/* ── Hold to Activate Button Demo Component ── */
+function HoldToActivateButtonDemo() {
+  const [holding, setHolding] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [activated, setActivated] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startHold = () => {
+    if (activated) return;
+    setHolding(true);
+    const startTime = Date.now();
+    const duration = 1500;
+
+    intervalRef.current = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const pct = Math.min((elapsed / duration) * 100, 100);
+      setProgress(pct);
+    }, 16);
+
+    timerRef.current = setTimeout(() => {
+      setHolding(false);
+      setActivated(true);
+      setProgress(100);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }, duration);
+  };
+
+  const cancelHold = () => {
+    if (activated) return;
+    setHolding(false);
+    setProgress(0);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  };
+
+  const reset = () => {
+    setActivated(false);
+    setProgress(0);
+    setHolding(false);
+  };
+
+  return (
+    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+          Hold to Activate Action Button
+        </h3>
+        <span className="text-[11px] font-mono text-white/40">Press &amp; hold for 1.5s to trigger</span>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <button
+          onMouseDown={startHold}
+          onMouseUp={cancelHold}
+          onMouseLeave={cancelHold}
+          onTouchStart={startHold}
+          onTouchEnd={cancelHold}
+          className={`relative overflow-hidden px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${
+            activated
+              ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
+              : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
+          }`}
+        >
+          {holding && !activated && (
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 opacity-60 transition-all duration-75"
+              style={{ width: `${progress}%` }}
+            />
+          )}
+          <span className="relative z-10 flex items-center gap-2">
+            {activated ? (
+              <>
+                <Check className="w-4 h-4 text-white" /> Action Activated!
+              </>
+            ) : holding ? (
+              <>
+                <Sparkles className="w-4 h-4 text-amber-300 animate-spin" /> Holding... {Math.round(progress)}%
+              </>
+            ) : (
+              <>
+                <Lock className="w-4 h-4 text-purple-400" /> Press &amp; Hold to Activate
+              </>
+            )}
+          </span>
+        </button>
+
+        {activated && (
+          <button
+            onClick={reset}
+            className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 text-xs font-bold transition"
+          >
+            Reset
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ── Cosmic Multi-Radial Morphing Button Component ── */
 function CosmicRadialButtonDemo() {
   const [isAutoDrifting, setIsAutoDrifting] = useState(true);
@@ -1673,6 +1773,9 @@ ${deskRules.join("\n")}
                 </button>
               </div>
             </div>
+
+            {/* Hold to Activate Button */}
+            <HoldToActivateButtonDemo />
 
             {/* Morphing Multi-Radial Gradient Cosmic Button */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
