@@ -79,11 +79,17 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
 
 const rebookUrl = (b: BookingData) => {
   const p = new URLSearchParams();
-  p.set("from", "rebook"); p.set("organization", b.organization);
-  p.set("venueName", b.venueName); p.set("venueCity", b.venueCity);
-  p.set("venueState", b.venueState); p.set("eventType", b.eventType);
-  p.set("startTime", b.startTime); p.set("endTime", b.endTime);
-  p.set("indoorOutdoor", b.indoorOutdoor); p.set("expectedAttendance", b.expectedAttendance);
+  p.set("from", "rebook");
+  p.set("organization", b.organization);
+  p.set("venueName", b.venueName);
+  p.set("venueCity", b.venueCity);
+  p.set("venueState", b.venueState);
+  p.set("eventType", b.eventType);
+  p.set("indoorOutdoor", b.indoorOutdoor);
+  p.set("expectedAttendance", b.expectedAttendance);
+  if (b.soundSystem) p.set("soundSystem", b.soundSystem);
+  if (b.stageAvailable) p.set("stageAvailable", b.stageAvailable);
+  if (b.loadInTime) p.set("loadInTime", b.loadInTime);
   return `/book?${p.toString()}`;
 };
 
