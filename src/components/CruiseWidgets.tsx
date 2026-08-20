@@ -517,16 +517,16 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="my-3">
         <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-          <div className="flex items-center gap-1.5 text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+          <div className="flex items-center gap-1.5 text-emerald-300 font-bold px-2 py-1 ">
             <span>✓</span> Passport Verified
           </div>
-          <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
+          <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold px-2 py-1 ">
             <span>🎸</span> Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 text-cyan-300 font-medium border border-cyan-500/20 px-2 py-1 rounded">
+          <div className="flex items-center gap-1.5 text-cyan-300 font-medium px-2 py-1 ">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
-          <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
+          <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium  px-2 py-1 ">
             <span>🏷️</span> Luggage Tags: Dec 1st
           </div>
         </div>
@@ -581,34 +581,36 @@ export function BookingManager({ email }: { email?: string }) {
         <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
-          <a
-            href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+          <CosmicRadialButton
+            icon={false}
+            onClick={() => window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
             )}&body=${encodeURIComponent(
               `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
             )}`}
-            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 rounded-lg"
           >
             <div className="flex items-center gap-1.5 font-black">
               <span>✉️</span> Cruise Admin
             </div>
-            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
-          </a>
+            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">cruise@7thheavenband.com</span>
+          </CosmicRadialButton>
 
           {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
-          <a
-            href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+          <CosmicRadialButton
+            icon={false}
+            onClick={() => window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
             )}&body=${encodeURIComponent(
               `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
             )}`}
-            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer text-center"
+            className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 rounded-lg"
           >
             <div className="flex items-center gap-1.5 font-black">
               <span>✉️</span> Support Agent (Mary)
             </div>
-            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
-          </a>
+            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">mary@ntdvacations.com</span>
+          </CosmicRadialButton>
         </div>
       </div>
 
