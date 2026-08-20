@@ -11,6 +11,7 @@ import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 const emptySubscribe = () => () => { };
 
@@ -642,13 +643,14 @@ export function Header() {
                 </div>
               </div>
             ) : (
-              <button aria-label="Action button"
+              <CosmicRadialButton
+                icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black tracking-wider rounded-lg transition-all shadow-md cursor-pointer shrink-0"
+                className="px-3.5 py-1.5 text-xs font-black tracking-wider rounded-lg shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN
-              </button>
+              </CosmicRadialButton>
             )}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
