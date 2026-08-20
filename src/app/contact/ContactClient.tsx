@@ -18,6 +18,7 @@ const ALL_PHOTOS = [
   { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
   { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-100" },
   { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-100" },
+  { id: "/images/contact/Marry-contact.png", alt: "Mary - 7th Heaven Cruise & Vacations", scaleClass: "scale-100" },
 ];
 
 const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
@@ -25,7 +26,11 @@ const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
 function getPhotoForCategory(contact: ContactItem): string {
   const catLower = (contact.category || "").toLowerCase();
   const nameLower = (contact.name || "").toLowerCase();
+  const emailLower = (contact.email || "").toLowerCase();
 
+  if (catLower.includes("vacation") || catLower.includes("cruise") || nameLower.includes("mary") || emailLower.includes("mary")) {
+    return "/images/contact/Marry-contact.png";
+  }
   if (catLower.includes("non-technical") || nameLower.includes("alan") || catLower.includes("alan")) {
     return "/images/contact/Alan-contact.png";
   }
