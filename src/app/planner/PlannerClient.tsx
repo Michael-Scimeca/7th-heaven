@@ -385,7 +385,7 @@ export default function PlannerClient() {
                     className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  text-[var(--color-accent)] hover:bg-purple-600 hover:text-white rounded-lg">
                     <span>🔄</span> Rebook This Event
                   </Link>
-                  <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&startTime=${encodeURIComponent(booking.startTime)}&endTime=${encodeURIComponent(booking.endTime)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
+                  <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
                     className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>

@@ -450,10 +450,18 @@ function BookPageContent() {
             eventDate: '',
             startTime: '',
             endTime: '',
+            eventStartTime: '',
+            eventEndTime: '',
           }));
           if (parsed.eventType) setSelectedType(parsed.eventType);
-          if (parsed.bookingSlots) setBookingSlots(parsed.bookingSlots);
-          else if (parsed.eventDates) {
+
+          if (fromParam === 'rebook') {
+            setBookingSlots([]);
+            setAltDate1('');
+            setAltDate2('');
+          } else if (parsed.bookingSlots) {
+            setBookingSlots(parsed.bookingSlots);
+          } else if (parsed.eventDates) {
             setBookingSlots(parsed.eventDates.map((d: string) => ({
               id: Math.random().toString(36).substring(2, 9),
               date: d,
@@ -474,39 +482,52 @@ function BookPageContent() {
       } catch { }
 
       // URL params override localStorage (for specific field overrides)
-      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "eventStartTime", "eventEndTime", "startTime", "endTime", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
+      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
       setFormData(prev => {
         const updated = { ...prev };
         allFields.forEach(f => {
           const val = searchParams.get(f);
           if (val) (updated as any)[f] = val;
         });
+        if (fromParam === 'rebook') {
+          updated.eventDate = '';
+          updated.startTime = '';
+          updated.endTime = '';
+          updated.eventStartTime = '';
+          updated.eventEndTime = '';
+        }
         return updated;
       });
       const eventType = searchParams.get("eventType");
       if (eventType) setSelectedType(eventType);
 
-      const dateParam = searchParams.get("eventDate");
-      const datesParam = searchParams.get("eventDates");
-      if (datesParam) {
-        setBookingSlots(datesParam.split(",").map((d: string) => ({
-          id: Math.random().toString(36).substring(2, 9),
-          date: d,
-          startTime: searchParams.get("startTime") || "7:00 PM",
-          endTime: searchParams.get("endTime") || "10:00 PM",
-          eventType: searchParams.get("eventType") || "full_band",
-        })));
-      } else if (dateParam) {
-        setBookingSlots([{
-          id: Math.random().toString(36).substring(2, 9),
-          date: dateParam,
-          startTime: searchParams.get("startTime") || "7:00 PM",
-          endTime: searchParams.get("endTime") || "10:00 PM",
-          eventType: searchParams.get("eventType") || "full_band",
-        }]);
+      if (fromParam === 'rebook') {
+        setBookingSlots([]);
+        setAltDate1('');
+        setAltDate2('');
+      } else {
+        const dateParam = searchParams.get("eventDate");
+        const datesParam = searchParams.get("eventDates");
+        if (datesParam) {
+          setBookingSlots(datesParam.split(",").map((d: string) => ({
+            id: Math.random().toString(36).substring(2, 9),
+            date: d,
+            startTime: searchParams.get("startTime") || "7:00 PM",
+            endTime: searchParams.get("endTime") || "10:00 PM",
+            eventType: searchParams.get("eventType") || "full_band",
+          })));
+        } else if (dateParam) {
+          setBookingSlots([{
+            id: Math.random().toString(36).substring(2, 9),
+            date: dateParam,
+            startTime: searchParams.get("startTime") || "7:00 PM",
+            endTime: searchParams.get("endTime") || "10:00 PM",
+            eventType: searchParams.get("eventType") || "full_band",
+          }]);
+        }
       }
     }
-  }, [isFromPlanner, searchParams]);
+  }, [isFromPlanner, searchParams, fromParam]);
 
   // Auto-fill details if user is already logged in
   useEffect(() => {
