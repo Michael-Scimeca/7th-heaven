@@ -752,7 +752,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
 
       {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
-      <div className="absolute inset-x-0 bottom-4 z-[10] pointer-events-none">
+      <div className="absolute inset-x-0 bottom-[36px] z-[10] pointer-events-none">
         <div className="site-container flex items-end justify-between gap-4">
           {/* Left Map Controls: Show Types & Date Range Zoom */}
           <div className="pointer-events-auto flex items-center gap-3 flex-wrap max-w-[calc(100%-120px)] sm:max-w-none">
