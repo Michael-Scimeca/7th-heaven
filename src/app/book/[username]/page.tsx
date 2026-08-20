@@ -8,6 +8,8 @@ import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import PlannerDashboard from "@/components/PlannerDashboard";
+import { CosmicRadialButton } from "@/components/CosmicRadialButton";
+import { Plus } from "lucide-react";
 
 export default function PlannerDashboardPage() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
@@ -61,10 +63,10 @@ export default function PlannerDashboardPage() {
   }
 
   return (
-    <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 selection:bg-[var(--color-accent)] selection:text-white">
+    <div className="site-container min-h-screen bg-transparent text-white pt-[130px] selection:bg-[var(--color-accent)] selection:text-white">
       <div>
         {/* Planner Profile Header */}
-        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-start gap-5">
             {/* Member Avatar */}
             <div className="relative shrink-0">
@@ -90,6 +92,17 @@ export default function PlannerDashboardPage() {
               <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>
               <p className="text-white/40 text-xs font-mono mt-1">{effectiveMember?.email || ''}</p>
             </div>
+          </div>
+
+          {/* Plus Sign Create New Event Button */}
+          <div className="flex items-center self-start md:self-auto">
+            <CosmicRadialButton
+              icon={<Plus className="w-4 h-4 text-white" />}
+              onClick={() => router.push('/book')}
+              className="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs md:text-sm shadow-lg flex items-center gap-2"
+            >
+              Create New Event
+            </CosmicRadialButton>
           </div>
         </header>
 
