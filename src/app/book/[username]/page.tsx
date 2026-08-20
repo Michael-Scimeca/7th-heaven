@@ -62,11 +62,27 @@ export default function PlannerDashboardPage() {
     );
   }
 
+  const handleCreateNewEvent = () => {
+    const p = new URLSearchParams();
+    p.set("from", "planner");
+    const name = effectiveMember?.name || member?.name || "Event Planner";
+    const email = effectiveMember?.email || member?.email || "planner@7thheavenband.com";
+    const phone = effectiveMember?.phone || member?.phone || "(847) 555-0199";
+    const organization = effectiveMember?.organization || member?.organization || "Scoreboard Entertainment";
+
+    if (name) p.set("name", name);
+    if (email) p.set("email", email);
+    if (phone) p.set("phone", phone);
+    if (organization) p.set("organization", organization);
+
+    router.push(`/book?${p.toString()}`);
+  };
+
   return (
     <div className="site-container min-h-screen bg-transparent text-white pt-[130px] selection:bg-[var(--color-accent)] selection:text-white">
       <div>
         {/* Planner Profile Header */}
-        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row items-end md:items-end justify-between gap-6">
           <div className="flex items-start gap-5">
             {/* Member Avatar */}
             <div className="relative shrink-0">
@@ -98,8 +114,8 @@ export default function PlannerDashboardPage() {
           <div className="flex items-center self-start md:self-auto">
             <CosmicRadialButton
               icon={<Plus className="w-4 h-4 text-white" />}
-              onClick={() => router.push('/book')}
-              className="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs md:text-sm shadow-lg flex items-center gap-2"
+              onClick={handleCreateNewEvent}
+              className="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs md:text-sm shadow-lg flex items-center gap-2 cursor-pointer"
             >
               Create New Event
             </CosmicRadialButton>
