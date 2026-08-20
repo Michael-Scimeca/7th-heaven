@@ -195,7 +195,7 @@ p {
 }
 
 a {
-  color: var(--link-color);
+  color: var(--color-accent);
 }
 
 a:hover {
@@ -1917,16 +1917,17 @@ html.tour-sort-stuck #nav-inner-card,
 html.media-category-stuck #nav-inner-card {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  transition: border-radius 0.2s ease;
+  transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease !important;
 }
 
 html:not(.tour-sort-stuck):not(.media-category-stuck) #nav-inner-card {
-  transition: border-radius 0.2s ease;
+  transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease !important;
 }
 
 html.tour-sort-stuck #tour-sort-bar {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
+  transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease !important;
 }
 
 
