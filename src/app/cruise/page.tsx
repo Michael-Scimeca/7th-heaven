@@ -705,10 +705,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         {/* Hero Text */}
         <div className="relative z-10 text-left site-container mb-10 pt-4">
 
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-            <span>ANNUAL ROCK &amp; ROLL VACATION AT SEA</span>
+          {/* Chicago Music Cruise Official Branding Badges */}
+          <div className="flex flex-wrap items-center gap-2.5 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/90 via-black to-purple-950/90 border border-purple-400/50 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+              <Ship className="w-4 h-4 text-cyan-300" />
+              <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest text-amber-300 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/40 shadow-md">
+              ROYAL CARIBBEAN GROUP ID: 3325680
+            </span>
+            <span className="text-xs font-extrabold uppercase tracking-wider text-purple-200 bg-purple-600/30 px-3.5 py-1.5 rounded-full border border-purple-500/30 backdrop-blur-md">
+              NTD Vacations &amp; NTD World
+            </span>
           </div>
 
           {/* Main Title: Cruise Name */}
