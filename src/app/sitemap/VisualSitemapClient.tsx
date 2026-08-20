@@ -512,17 +512,60 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Planner inputs 6-digit PIN [5][8][2][9][0][1] into the Planner PIN Verification Module on the booker page to complete verification.",
     },
   },
+  // ── CRUISE VERTICAL FLOW: STEP 2 — CRUISE PIN VERIFICATION MODULE (y = 700) ──
   {
-    id: "email-cruise-confirm",
+    id: "node-cruise-pin-module",
+    type: "sitemapCard",
+    position: { x: 1520, y: 700 },
+    data: {
+      header: "CRUISE PIN VERIFICATION MODULE",
+      title: "Cruise PIN Verification Module",
+      path: "/cruise",
+      imgUrl: "/sitemap-thumbs/cruise-verify.jpg",
+      badgeType: "MODULE",
+      description: "Submitting cruise reservation form opens PIN Verification Module asking for 6-digit security PIN.",
+    },
+  },
+  // ── CRUISE VERTICAL FLOW: STEP 3 — ✉ CRUISE SECURITY PIN EMAIL (y = 1040) ──
+  {
+    id: "email-cruise-pin-email",
+    type: "sitemapCard",
+    position: { x: 1520, y: 1040 },
+    data: {
+      header: "✉ CRUISE SECURITY PIN EMAIL",
+      title: "Email Dispatched with PIN 582901",
+      path: "/api/dev/email-preview?id=auth_pin",
+      imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
+      badgeType: "EMAIL",
+      description: "Automated Resend email sent to cruise registrant containing the 6-digit security PIN 582901.",
+    },
+  },
+  // ── CRUISE VERTICAL FLOW: STEP 4 — CRUISE PIN VERIFICATION MODULE (PIN FILLED IN) (y = 1380) ──
+  {
+    id: "node-cruise-verify-pin-filled",
     type: "sitemapCard",
     position: { x: 1520, y: 1380 },
     data: {
-      header: "✉ Cruise Confirmation",
-      title: "Cruise Cabin Reservation Email",
+      header: "CRUISE PIN VERIFICATION MODULE",
+      title: "Enter PIN into Module on Cruise Page",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
-      badgeType: "EMAIL",
-      description: "Sent upon 6-digit PIN verification for Cruise 2026 registrations.",
+      imgUrl: "/sitemap-thumbs/cruise-verify.jpg",
+      badgeType: "MODULE",
+      description: "Registrant inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module to complete reservation.",
+    },
+  },
+  // ── CRUISE VERTICAL FLOW: STEP 5 — CRUISE DASHBOARD (y = 1720) ──
+  {
+    id: "node-cruise-dashboard-unlocked",
+    type: "sitemapCard",
+    position: { x: 1520, y: 1720 },
+    data: {
+      header: "CRUISE DASHBOARD",
+      title: "Access Cruise Reservation Dashboard",
+      path: "/cruise",
+      imgUrl: "/sitemap-screenshots/cruise-dashboard.png",
+      badgeType: "PORTAL",
+      description: "Registrant accesses their Cruise Dashboard to view cabin assignment, itinerary, and boarding pass.",
     },
   },
   {
@@ -651,7 +694,11 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-filled-module-to-fan-dashboard", source: "node-fan-verify-pin-filled", target: "node-fan-dashboard-unlocked", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
-  { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
+  // CRUISE VERTICAL FLOW: CRUISE 2026 -> PIN MODULE -> PIN EMAIL -> PIN FILLED -> CRUISE DASHBOARD
+  { id: "flow-cruise-to-pin-module", source: "nav-cruise", target: "node-cruise-pin-module", type: "smoothstep", animated: true },
+  { id: "flow-cruise-pin-to-email", source: "node-cruise-pin-module", target: "email-cruise-pin-email", type: "smoothstep", animated: true },
+  { id: "flow-cruise-email-to-filled", source: "email-cruise-pin-email", target: "node-cruise-verify-pin-filled", type: "smoothstep", animated: true },
+  { id: "flow-cruise-filled-to-dashboard", source: "node-cruise-verify-pin-filled", target: "node-cruise-dashboard-unlocked", type: "smoothstep", animated: true },
   { id: "flow-merch-pickup", source: "nav-merch", target: "email-merch-pickup", type: "smoothstep" },
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
   { id: "flow-admin-alert", source: "node-admin", target: "email-booking-admin", type: "smoothstep" },
