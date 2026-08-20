@@ -548,7 +548,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
           <!-- Custom HTML Tooltip (Pure CSS Managed) -->
           <div class="custom-tooltip-card">
-            <div style="background:rgba(8, 8, 18, 0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:white; padding:12px 16px; width:max-content; min-width:220px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,0.6); position:relative; text-align:left;">
+            <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:220px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
               <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
               <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
               <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
@@ -580,7 +580,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <!-- Arrow border -->
               <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid ${cfg.color}aa; z-index:1; pointer-events:none;"></div>
               <!-- Arrow fill -->
-              <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(-1px); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid rgba(8, 8, 18, 0.7); z-index:2; pointer-events:none;"></div>
+              <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(-1px); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid rgba(8, 8, 18, 0.96); z-index:2; pointer-events:none;"></div>
             </div>
           </div>
         </div>
