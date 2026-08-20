@@ -81,8 +81,8 @@ const pendingBooking: BookingData = {
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; text: string; bar: string }> = {
-  pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: " text-[var(--color-accent)]", bar: "bg-purple-600" },
-  confirmed: { label: "Confirmed", color: "emerald", bg: "bg-emerald-500/10", border: " border-[var(--color-accent)]/30", text: "text-emerald-500", bar: "bg-emerald-500" },
+  pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: "text-purple-300", bar: "bg-purple-600" },
+  confirmed: { label: "Confirmed", color: "purple", bg: "bg-[var(--color-accent)]/10", border: "border-[var(--color-accent)]/30", text: "text-[var(--color-accent)]", bar: "bg-[var(--color-accent)]" },
   cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
 };
 
@@ -432,7 +432,7 @@ export default function PlannerDashboard() {
               </div>
 
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/30 transition-colors">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
@@ -441,64 +441,64 @@ export default function PlannerDashboard() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                    <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Phone className="w-3.5 h-3.5" /> (847) 551-5363
                     </a>
-                    <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold hover:bg-purple-500/20 transition-colors">
+                    <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Mail className="w-3.5 h-3.5" /> info@NTDManagement.com
                     </a>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 transition-colors">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">Technical & Production Advance</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
                       <h4 className="text-lg font-bold text-white mt-1">Jeff Dobbs</h4>
                       <p className="text-xs text-white/50">PA System, Stage Dimensions, Sound & Power</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                    <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Phone className="w-3.5 h-3.5" /> (847) 772-5333
                     </a>
-                    <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold hover:bg-cyan-500/20 transition-colors">
+                    <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Mail className="w-3.5 h-3.5" /> jeffdobbs64@yahoo.com
                     </a>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-indigo-500/30 transition-colors">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">Non-Technical Advance</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
                       <h4 className="text-lg font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
                       <p className="text-xs text-white/50">Hospitality, Parking Pass, Green Room & Itinerary</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                    <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Phone className="w-3.5 h-3.5" /> (630) 842-9129
                     </a>
-                    <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold hover:bg-indigo-500/20 transition-colors">
+                    <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Mail className="w-3.5 h-3.5" /> Alan@NTDManagement.com
                     </a>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-amber-500/30 transition-colors">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Press & Media</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
                       <h4 className="text-lg font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
                       <p className="text-xs text-white/50">Promotional Assets, Logos, Radio & Media Interviews</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-colors">
+                    <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Phone className="w-3.5 h-3.5" /> (847) 269-6200
                     </a>
-                    <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold hover:bg-amber-500/20 transition-colors">
+                    <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                       <Mail className="w-3.5 h-3.5" /> LRago@NTDRecords.com
                     </a>
                   </div>
@@ -627,7 +627,7 @@ export default function PlannerDashboard() {
                       {reviveTimeLeft && (
                         <>
                           <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                            className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
+                            className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
                             Revive Booking
                           </button>
                           <p className="text-center text-white/30 text-xs font-mono">
@@ -678,52 +678,6 @@ export default function PlannerDashboard() {
 
         </div>
 
-        {/* ── Planner Notes ── */}
-        <div className="mt-8">
-          <div className="">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-
-                <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">Event Notes</h3>
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Private notes for your event — visible to you and the 7th Heaven team</p>
-                </div>
-              </div>
-              {notesSaved && (
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/30 animate-[fade-in-up_0.3s_ease-out] flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>
-              )}
-            </div>
-            <textarea aria-label="Text input"
-              value={plannerNotes}
-              onChange={e => { setPlannerNotes(e.target.value); setNotesSaved(false); }}
-              placeholder="Add notes about your event... (e.g. parking instructions, green room needs, special requests, AV contact info)"
-              rows={4}
-              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-base text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors resize-none mb-3"
-            />
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-white/20">{plannerNotes.length}/2000 characters</p>
-              <button aria-label="Action button"
-                onClick={async () => {
-                  setNotesSaving(true);
-                  try {
-                    await fetch('/api/booking', {
-                      method: 'PATCH',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ bookingId: booking.id, notes: plannerNotes }),
-                    });
-                    setNotesSaved(true);
-                    setTimeout(() => setNotesSaved(false), 3000);
-                  } catch { }
-                  setNotesSaving(false);
-                }}
-                disabled={notesSaving}
-                className="px-5 py-2 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer"
-              >
-                {notesSaving ? 'Saving...' : 'Save Notes'}
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* ── Day-of Checklist ── */}
         {booking.status !== 'cancelled' && (
@@ -731,8 +685,8 @@ export default function PlannerDashboard() {
             <div className="relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-500/10 border border-[var(--color-accent)]/30 flex items-center justify-center">
-                    <CheckSquare className="w-5 h-5 text-emerald-400" />
+                  <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center">
+                    <CheckSquare className="w-5 h-5 text-[var(--color-accent)]" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white tracking-tight">Event Readiness Checklist</h3>
@@ -755,9 +709,9 @@ export default function PlannerDashboard() {
                   return (
                     <div className="flex items-center gap-3">
                       <div className="w-32 h-2 bg-white/5 rounded-lg overflow-hidden">
-                        <div className={`h-full rounded-lg transition-colors duration-500 ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                        <div className={`h-full rounded-lg transition-colors duration-500 ${pct === 100 ? 'bg-[var(--color-accent)]' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                       </div>
-                      <span className={`text-xs font-bold uppercase tracking-widest ${pct === 100 ? 'text-emerald-400' : 'text-white/40'}`}>
+                      <span className={`text-xs font-bold uppercase tracking-widest ${pct === 100 ? 'text-[var(--color-accent)]' : 'text-white/40'}`}>
                         {done}/{items.length}
                       </span>
                     </div>
@@ -780,14 +734,14 @@ export default function PlannerDashboard() {
                   <div
                     key={item.label}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg border transition-colors ${item.done
-                      ? 'bg-emerald-500/5 border-emerald-500/15'
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/30'
                       : 'bg-white/[0.02] border-white/5 hover:border-purple-500/20'
                       }`}
                   >
-                    <div className="shrink-0">{item.done ? <CheckSquare className="w-5 h-5 text-emerald-400" /> : <Square className="w-5 h-5 text-white/15" />}</div>
+                    <div className="shrink-0">{item.done ? <CheckSquare className="w-5 h-5 text-[var(--color-accent)]" /> : <Square className="w-5 h-5 text-white/15" />}</div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-bold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</p>
-                      <p className={`text-xs truncate ${item.done ? 'text-emerald-400/70' : 'text-purple-300/60'}`}>
+                      <p className={`text-sm font-bold ${item.done ? 'text-white/90' : 'text-white/40'}`}>{item.label}</p>
+                      <p className={`text-xs truncate ${item.done ? 'text-[var(--color-accent)]/90' : 'text-purple-300/60'}`}>
                         {item.detail}
                       </p>
                     </div>
@@ -822,7 +776,7 @@ export default function PlannerDashboard() {
 
                 {booking.parkingNotes ? (
                   <div className="bg-black/40 border border-white/10 p-3 rounded-lg text-xs text-white/80">
-                    <span className="font-bold text-purple-400uppercase tracking-widest block mb-1 text-[10px]">Parking Instructions & Notes:</span>
+                    <span className="font-bold text-purple-400 uppercase tracking-widest block mb-1 text-[10px]">Parking Instructions & Notes:</span>
                     <p className="whitespace-pre-wrap">{booking.parkingNotes}</p>
                   </div>
                 ) : (
@@ -837,8 +791,8 @@ export default function PlannerDashboard() {
                   !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance,
                 ].filter(i => !i).length;
                 if (missing === 0) return (
-                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-[var(--color-accent)]/30">
-                    <PartyPopper className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 rounded-xl">
+                    <PartyPopper className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
                     <p className="text-sm font-bold text-[var(--color-accent)]">All set! Your event details are complete.</p>
                   </div>
                 );
@@ -887,7 +841,7 @@ export default function PlannerDashboard() {
                 <p className="text-xs text-white/40 mb-3">NTD Management</p>
               </div>
               <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
-                <a href="tel:8475515363" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                   <Phone className="w-3.5 h-3.5" /> (847) 551-5363
                 </a>
                 <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
@@ -896,14 +850,14 @@ export default function PlannerDashboard() {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 transition-all flex flex-col justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
               <div>
-                <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 block w-fit mb-2">Technical Advance</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
                 <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
                 <p className="text-xs text-white/40 mb-3">Production & Sound</p>
               </div>
               <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
-                <a href="tel:8477725333" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                   <Phone className="w-3.5 h-3.5" /> (847) 772-5333
                 </a>
                 <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
@@ -912,14 +866,14 @@ export default function PlannerDashboard() {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
               <div>
-                <span className="text-[9px] font-black uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 block w-fit mb-2">Non-Tech Advance</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
                 <h4 className="text-base font-bold text-white">Alan McRae</h4>
                 <p className="text-xs text-white/40 mb-3">NTD Management</p>
               </div>
               <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
-                <a href="tel:6308429129" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                   <Phone className="w-3.5 h-3.5" /> (630) 842-9129
                 </a>
                 <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
@@ -928,14 +882,14 @@ export default function PlannerDashboard() {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-amber-500/30 transition-all flex flex-col justify-between">
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
               <div>
-                <span className="text-[9px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 block w-fit mb-2">Press & Media</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
                 <h4 className="text-base font-bold text-white">Lenny Rago</h4>
                 <p className="text-xs text-white/40 mb-3">NTD Records</p>
               </div>
               <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
-                <a href="tel:8472696200" className="flex items-center gap-2 text-emerald-400 font-bold hover:underline">
+                <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                   <Phone className="w-3.5 h-3.5" /> (847) 269-6200
                 </a>
                 <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
@@ -951,7 +905,7 @@ export default function PlannerDashboard() {
           <div className="mt-10">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
-                <History className="w-5 h-5 text-cyan-400" />
+                <History className="w-5 h-5 text-[var(--color-accent)]" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
@@ -967,10 +921,10 @@ export default function PlannerDashboard() {
                 {allBookings.map((b, i) => {
                   const isActive = b.id === booking.id;
                   const sc = b.status === 'confirmed'
-                    ? { dot: 'bg-emerald-500', border: ' border-[var(--color-accent)]/30', bg: 'bg-emerald-500/5', text: 'text-emerald-400', label: 'Confirmed' }
+                    ? { dot: 'bg-[var(--color-accent)]', border: 'border-[var(--color-accent)]/30', bg: 'bg-[var(--color-accent)]/10', text: 'text-[var(--color-accent)]', label: 'Confirmed' }
                     : b.status === 'cancelled'
                       ? { dot: 'bg-rose-500', border: 'border-rose-500/20', bg: 'bg-rose-500/5', text: 'text-rose-400', label: 'Cancelled' }
-                      : { dot: 'bg-purple-600', border: 'border-purple-500/20', bg: 'bg-purple-600/5', text: 'text-purple-300', label: 'Pending' };
+                      : { dot: 'bg-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-600/10', text: 'text-purple-300', label: 'Pending' };
 
                   return (
                     <div key={b.id} className="flex gap-4 relative">
