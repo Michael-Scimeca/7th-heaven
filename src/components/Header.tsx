@@ -545,8 +545,8 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#9333ea]"
-                    : "text-white/80 hover:text-white"
+                    ? "!text-[#9333ea] font-extrabold active"
+                    : "text-white hover:text-[var(--color-accent)] opacity-90 hover:opacity-100"
                     }`}
                 >
                   {link.label}
@@ -558,8 +558,8 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea]"
-                : "text-white/80 hover:text-white"
+                ? "!text-[#9333ea] font-extrabold active"
+                : "text-white hover:text-[var(--color-accent)] opacity-90 hover:opacity-100"
                 }`}
             >
               {hasLiveStreams && (
@@ -579,7 +579,7 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] font-extrabold active"
-                : "text-white/80 hover:text-white"
+                : "text-white hover:text-[var(--color-accent)] opacity-90 hover:opacity-100"
                 }`}
             >
               CRUISE
@@ -591,7 +591,7 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] font-extrabold active"
-                : "text-white/80 hover:text-white"
+                : "text-white hover:text-[var(--color-accent)] opacity-90 hover:opacity-100"
                 }`}
             >
               BOOK US
@@ -602,7 +602,7 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] font-extrabold active"
-                : "text-white/80 hover:text-white"
+                : "text-white hover:text-[var(--color-accent)] opacity-90 hover:opacity-100"
                 }`}
             >
               CONTACT
