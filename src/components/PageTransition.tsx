@@ -61,10 +61,14 @@ import Logo from "@/components/Logo";
 //     without it those browsers would just see an instant, motionless
 //     page swap once the curtain (if shown) lifts.
 const COVER_DURATION = 0.35;
-// Fallback-path reveal length only. The real (View Transition) animation's
-// length lives in globals.css as --page-transition-duration and is read at
-// runtime by readViewTransitionMs() below — see the comment there.
-const REVEAL_DURATION = 0.55;
+// Fallback-path reveal length only (browsers without View Transition
+// support, e.g. Firefox). The real (View Transition) animation's length
+// lives in globals.css as --page-transition-duration and is read at
+// runtime by readViewTransitionMs() below — see the comment there. Matched
+// to that same value (currently 1030ms, exoape.com's measured route-push
+// duration) so the fallback path feels the same speed as the primary one
+// instead of running noticeably snappier.
+const REVEAL_DURATION = 1.03;
 
 // The View Transition animation is defined entirely in CSS, so its duration
 // is a CSS value. Reading it back instead of keeping a second hardcoded copy

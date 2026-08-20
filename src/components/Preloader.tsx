@@ -5,27 +5,41 @@ import Logo from "./Logo";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // ─── Preloader ───────────────────────────────────────────────────────────────
-// Shape measured frame by frame from the reference recording:
+// Timings below were originally measured frame-by-frame off a screen
+// recording, then corrected by live-inspecting exoape.com's actual shipped
+// source (window.$nuxt.$root + its component bundle) directly — the
+// recording-based numbers for the fill duration and dim hold turned out to
+// be off, the source values are ground truth:
 //   - instant cut to black (ONE frame, not a fade)
-//   - mark is already on screen at ~27% brightness and sits flat there ~200ms
-//   - it then FILLS from the bottom edge upward over ~1030ms. Not a fade:
-//     sampling the mark in horizontal bands showed the lowest band reaching
-//     full brightness ~600ms before the top band did. Averaging brightness
-//     across the whole mark hides that completely, which is how an earlier
-//     pass concluded "opacity ramp" and got it wrong.
-//   - the overlay then leaves as an outgoing page while the real page arrives
+//   - mark is on screen at 20% brightness (exoape: rgba(light-grey, 0.2) on
+//     their dim `.background` layer) with NO hold — their fill tween starts
+//     at timeline position 0, immediately on mount
+//   - it then FILLS from the bottom edge upward over 2000ms (exoape: their
+//     `.filler` bar is an explicit GSAP `duration: 2` scaleY tween, not a
+//     fade). Not a fade here either: sampling the mark in horizontal bands
+//     showed the lowest band reaching full brightness well before the top
+//     band did — averaging brightness across the whole mark hides that
+//     completely, which is how an earlier pass concluded "opacity ramp" and
+//     got it wrong.
+//   - the mark then shrinks + fades in place (see .preloader-mark.is-leaving
+//     in globals.css) WHILE the overlay leaves as an outgoing page and the
+//     real page arrives — exoape's icon/fill group animates independently
+//     (scale 1->0, autoAlpha 1->0) at the same time as their curtain-lift,
+//     not just riding along attached to it.
 //
-// That last step reuses page-push-out/page-push-in from globals.css rather
-// than restating the motion, so entering the site and navigating within it are
-// the same movement by construction.
+// The curtain-lift step reuses page-push-out/page-push-in's easing curve
+// (not the motion itself — the preloader is a simple translateY, the route
+// transition is a measured push) so entering the site and navigating within
+// it feel like the same system rather than two independently-tuned ones.
 //
 // Runs on every full document load — PRELOAD_SCRIPT_CONTENT in layout.tsx is
 // the single gate. This component keeps no state of its own about whether it
 // has run, so there is nothing here that can disagree with that script.
 
 // Every tunable lives in globals.css (:root) and is read back at runtime, so
-// this file cannot drift out of step with the stylesheet.
-const FALLBACK = { minVisible: 1250, reveal: 620 };
+// this file cannot drift out of step with the stylesheet. These are only the
+// last-resort fallback if that CSS read fails for some reason.
+const FALLBACK = { minVisible: 2000, reveal: 1030 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
@@ -145,9 +159,14 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       aria-label="Loading"
       aria-live="polite"
     >
-      <div className="preloader-mark">
+      <div className={`preloader-mark${leaving ? " is-leaving" : ""}`}>
         {/* Dim copy underneath, full-brightness copy clipped over it and
-            revealed from the bottom edge upward. */}
+            revealed from the bottom edge upward. On leave, this whole mark
+            shrinks + fades in place (preloader-mark-shrink in globals.css)
+            at the same time the backdrop curtain lifts — matching
+            exoape.com's actual leave behavior, where the icon/fill group is
+            animated independently rather than just riding along with the
+            backdrop. */}
         <Logo className="preloader-logo preloader-logo-base" />
         <Logo className="preloader-logo preloader-logo-fill" />
       </div>

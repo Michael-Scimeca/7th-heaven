@@ -3319,8 +3319,17 @@ textarea,
   /* Single source of truth for the transition length. PageTransition.tsx
    * reads this at runtime via getComputedStyle instead of hardcoding its own
    * copy, so the JS that clears transition state can never drift out of sync
-   * with the CSS that actually does the animating. Change it here only. */
-  --page-transition-duration: 380ms;
+   * with the CSS that actually does the animating. Change it here only.
+   *
+   * Was 380ms — far shorter than the ~1033ms full settle this file's own
+   * frame-by-frame measurement documents just above (rotation/scale done at
+   * 667ms, vertical settle finishing at ~1033ms). That mismatch is why the
+   * transition read as "wrong": the correct SHAPE was baked into the
+   * keyframe stops, but squeezing it into 380ms played the whole thing back
+   * ~2.7x too fast. Corroborated independently by inspecting exoape.com's
+   * live GSAP: their own page-push timeline tweens run duration:1 (1000ms)
+   * with a custom easeInOut. 1030ms matches both. */
+  --page-transition-duration: 1030ms;
 }
 
 ::view-transition-old(root),
@@ -4055,20 +4064,35 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * The only numbers worth touching. Preloader.tsx reads the timings back at
  * runtime rather than keeping its own copies, so JS cannot drift from CSS. */
 :root {
-  --preloader-start-opacity: 0.269;
-  /* mark's brightness the instant it appears */
-  --preloader-hold-dim: 200ms;
-  /* how long it sits dim before filling */
-  --preloader-brighten: 1030ms;
-  /* dim -> full */
+  --preloader-start-opacity: 0.2;
+  /* mark's brightness the instant it appears. Was 0.269 (screen-recording
+     estimate); corrected to 0.2 — live-inspected exoape.com's actual DOM:
+     their dim base layer (.background) is
+     rgba(light-grey, 0.2), an exact 0.2 alpha, not an eyeballed value. */
+  --preloader-hold-dim: 0ms;
+  /* how long it sits dim before filling. Was 200ms; exoape.com has no such
+     pause — live-inspected their GSAP timeline: the fill tween starts at
+     timeline position 0, immediately on mount, no hold beforehand. */
+  --preloader-brighten: 2000ms;
+  /* dim -> full. Was 1030ms (screen-recording estimate); corrected to 2000ms
+     — exoape.com's own shipped source has this as an explicit GSAP
+     `duration: 2` tween (their `.filler` bar, scaleY 0 -> 1), not
+     approximated. */
   --preloader-logo-width: clamp(180px, 30vw, 420px);
-  --preloader-min-visible: 1250ms;
+  --preloader-min-visible: 2000ms;
   /* floor on visible time. 0 reveals the moment assets are
                                          ready, which on a warm cache means the whole preloader is
-                                         over in ~1s and effectively never seen. 1250ms clears the
-                                         200ms dim hold + 1030ms fill. */
-  --preloader-reveal-duration: 380ms;
-  /* the exit duration for preloader curtain reveal */
+                                         over in ~1s and effectively never seen. Matches
+                                         --preloader-hold-dim (0ms) + --preloader-brighten (2000ms)
+                                         exactly, and matches exoape.com's actual hold —
+                                         live-inspected their GSAP preloader timeline directly: the
+                                         fill tween is duration:2 (2000ms), and the curtain-lift
+                                         doesn't start until that finishes. */
+  --preloader-reveal-duration: 1030ms;
+  /* the exit duration for preloader curtain reveal. Was 380ms; matched to
+     --page-transition-duration (see that var's comment) so the preloader's
+     curtain-lift and every later route change move at the same speed —
+     exoape.com's own curtain-lift tween is also duration:1 (1000ms). */
   --preloader-mark-exit-extra: 60vh;
 }
 
@@ -4082,20 +4106,156 @@ html.is-preloading.is-revealing #page-content-wrapper {
   pointer-events: none;
 }
 
-/* Smooth curtain slide-up reveal off screen */
+/* Curtain wipe off screen — clip-path, not translateY, and NOT a flat edge.
+ *
+ * Corrected after re-checking exoape.com's actual preloader source (not
+ * just its timing). The previous version of this rule moved the whole
+ * `.preloader` div with `transform: translateY()` — a rigid rectangle
+ * sliding away with a perfectly flat, perfectly horizontal bottom edge.
+ * That's not what exoape does. Their Preloader component's real reveal
+ * animates `clip-path` on the root element itself:
+ *
+ *   const e = `polygon(0 0px, 100% 0px, 100% ${1.1 * windowHeight}px,
+ *                       0 ${windowHeight}px)`;
+ *   gsap.fromTo(this.$el, { clipPath: e },
+ *     { clipPath: "polygon(0 0px, 100% 0px, 100% 0px, 0 0px)",
+ *       delay: 2, duration: 1, ease: easeInOut });
+ *
+ * Read that starting polygon closely: the bottom-RIGHT corner sits at
+ * 110% of viewport height, the bottom-LEFT corner at 100% — a 10% offset
+ * between them, not a flat edge. Because GSAP interpolates each polygon
+ * point independently, that ratio (right = 1.1x left) holds at every
+ * instant of the wipe, not just the start — so the exposed edge is always
+ * slightly diagonal, left side leading, and only reads as "flat" right at
+ * the very end when both corners have shrunk to ~0 together. A translateY
+ * transform structurally cannot produce this — the whole rectangle keeps
+ * one uniform edge no matter what — which is exactly why the old version
+ * of this rule couldn't match no matter how the timing was tuned; the
+ * SHAPE itself was wrong, not just the speed.
+ *
+ * (This 1.1x/10% figure also independently corroborates an ~0.095 ratio a
+ * previous pass in this codebase measured frame-by-frame straight off a
+ * screen recording of the same element — see buildDecayingSlantClipPath in
+ * src/lib/curtainClipPath.ts. Two different methods, close agreement.)
+ *
+ * animation-timing-function is `linear` here on purpose, same reason as
+ * page-push-out/page-push-in above: the easing curve is baked directly into
+ * the keyframe stops instead of approximated by a single CSS bezier,
+ * so it's the EXACT curve rather than a lookalike. That curve is
+ * exoape.com's actual custom GSAP ease — pulled live from their site:
+ * `window.$nuxt.$root.easeInOut` is a compiled GSAP CustomEase, sampled
+ * directly (41 points, evenly spaced) by calling that function at
+ * p = 0, 0.025, 0.05, ... 1. Each stop's polygon below is
+ * leftY = 100% * (1 - sample), rightY = 110% * (1 - sample). */
 .preloader.is-leaving {
-  transform-origin: 50% 50%;
-  animation: preloader-curtain-up var(--preloader-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: preloader-curtain-up var(--preloader-reveal-duration) linear forwards;
 }
 
 @keyframes preloader-curtain-up {
-  0% {
-    transform: translateY(0%);
-  }
+  0% { clip-path: polygon(0% 0%, 100% 0%, 100% 110.00%, 0% 100.00%); }
+  2.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 109.87%, 0% 99.88%); }
+  5% { clip-path: polygon(0% 0%, 100% 0%, 100% 109.52%, 0% 99.56%); }
+  7.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 108.90%, 0% 99.00%); }
+  10% { clip-path: polygon(0% 0%, 100% 0%, 100% 107.95%, 0% 98.14%); }
+  12.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 106.57%, 0% 96.88%); }
+  15% { clip-path: polygon(0% 0%, 100% 0%, 100% 104.63%, 0% 95.11%); }
+  17.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 101.91%, 0% 92.65%); }
+  20% { clip-path: polygon(0% 0%, 100% 0%, 100% 98.11%, 0% 89.19%); }
+  22.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 92.55%, 0% 84.14%); }
+  25% { clip-path: polygon(0% 0%, 100% 0%, 100% 84.37%, 0% 76.70%); }
+  27.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 72.76%, 0% 66.15%); }
+  30% { clip-path: polygon(0% 0%, 100% 0%, 100% 60.13%, 0% 54.66%); }
+  32.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 49.21%, 0% 44.74%); }
+  35% { clip-path: polygon(0% 0%, 100% 0%, 100% 41.04%, 0% 37.31%); }
+  37.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 34.70%, 0% 31.55%); }
+  40% { clip-path: polygon(0% 0%, 100% 0%, 100% 29.60%, 0% 26.91%); }
+  42.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 25.42%, 0% 23.11%); }
+  45% { clip-path: polygon(0% 0%, 100% 0%, 100% 21.91%, 0% 19.92%); }
+  47.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 18.90%, 0% 17.18%); }
+  50% { clip-path: polygon(0% 0%, 100% 0%, 100% 16.33%, 0% 14.84%); }
+  52.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 14.08%, 0% 12.80%); }
+  55% { clip-path: polygon(0% 0%, 100% 0%, 100% 12.10%, 0% 11.00%); }
+  57.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 10.38%, 0% 9.43%); }
+  60% { clip-path: polygon(0% 0%, 100% 0%, 100% 8.86%, 0% 8.05%); }
+  62.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 7.52%, 0% 6.84%); }
+  65% { clip-path: polygon(0% 0%, 100% 0%, 100% 6.34%, 0% 5.77%); }
+  67.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 5.30%, 0% 4.82%); }
+  70% { clip-path: polygon(0% 0%, 100% 0%, 100% 4.39%, 0% 3.99%); }
+  72.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 3.57%, 0% 3.25%); }
+  75% { clip-path: polygon(0% 0%, 100% 0%, 100% 2.88%, 0% 2.62%); }
+  77.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 2.28%, 0% 2.08%); }
+  80% { clip-path: polygon(0% 0%, 100% 0%, 100% 1.76%, 0% 1.60%); }
+  82.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 1.31%, 0% 1.19%); }
+  85% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.95%, 0% 0.87%); }
+  87.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.64%, 0% 0.59%); }
+  90% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.41%, 0% 0.38%); }
+  92.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.24%, 0% 0.22%); }
+  95% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.10%, 0% 0.09%); }
+  97.5% { clip-path: polygon(0% 0%, 100% 0%, 100% 0.04%, 0% 0.04%); }
+  100% { clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%); }
+}
 
-  100% {
-    transform: translateY(-110%);
-  }
+/* Mark shrink + fade, running WHILE the curtain above lifts — not just
+ * riding along rigidly with it. Live-inspected exoape.com's actual DOM
+ * during its leave phase: their icon/fill group (`.mask` ref in their
+ * source) is animated separately — `gsap.fromTo(mask, {scale:1,autoAlpha:1},
+ * {scale:0,autoAlpha:0})`, same 1s duration and easeInOut as the curtain —
+ * so the mark visibly shrinks to nothing and fades in place at the same
+ * time the black backdrop is sliding away. The previous version of this
+ * file had no equivalent: `.preloader-mark` had no leave animation of its
+ * own, so it just translated up wholesale attached to `.preloader`, never
+ * shrinking or fading independently — a real difference from the
+ * reference, not just a timing one.
+ *
+ * Same technique as preloader-curtain-up above: animation-timing-function
+ * linear, curve baked into the stops (1 - the same easeInOut sample used
+ * there), so both animations share the exact same curve as exoape.com. */
+.preloader-mark.is-leaving {
+  animation: preloader-mark-shrink var(--preloader-reveal-duration) linear forwards;
+}
+
+@keyframes preloader-mark-shrink {
+  0% { transform: scale(1); opacity: 1; }
+  2.5% { transform: scale(0.99882); opacity: 0.99882; }
+  5% { transform: scale(0.9956); opacity: 0.9956; }
+  7.5% { transform: scale(0.98999); opacity: 0.98999; }
+  10% { transform: scale(0.9814); opacity: 0.9814; }
+  12.5% { transform: scale(0.96881); opacity: 0.96881; }
+  15% { transform: scale(0.95114); opacity: 0.95114; }
+  17.5% { transform: scale(0.92647); opacity: 0.92647; }
+  20% { transform: scale(0.89192); opacity: 0.89192; }
+  22.5% { transform: scale(0.84139); opacity: 0.84139; }
+  25% { transform: scale(0.76697); opacity: 0.76697; }
+  27.5% { transform: scale(0.66145); opacity: 0.66145; }
+  30% { transform: scale(0.54663); opacity: 0.54663; }
+  32.5% { transform: scale(0.44735); opacity: 0.44735; }
+  35% { transform: scale(0.37308); opacity: 0.37308; }
+  37.5% { transform: scale(0.31545); opacity: 0.31545; }
+  40% { transform: scale(0.26911); opacity: 0.26911; }
+  42.5% { transform: scale(0.23111); opacity: 0.23111; }
+  45% { transform: scale(0.19918); opacity: 0.19918; }
+  47.5% { transform: scale(0.17178); opacity: 0.17178; }
+  50% { transform: scale(0.14842); opacity: 0.14842; }
+  52.5% { transform: scale(0.12797); opacity: 0.12797; }
+  55% { transform: scale(0.11004); opacity: 0.11004; }
+  57.5% { transform: scale(0.09432); opacity: 0.09432; }
+  60% { transform: scale(0.08051); opacity: 0.08051; }
+  62.5% { transform: scale(0.06837); opacity: 0.06837; }
+  65% { transform: scale(0.05767); opacity: 0.05767; }
+  67.5% { transform: scale(0.04822); opacity: 0.04822; }
+  70% { transform: scale(0.03987); opacity: 0.03987; }
+  72.5% { transform: scale(0.03248); opacity: 0.03248; }
+  75% { transform: scale(0.02617); opacity: 0.02617; }
+  77.5% { transform: scale(0.02075); opacity: 0.02075; }
+  80% { transform: scale(0.01596); opacity: 0.01596; }
+  82.5% { transform: scale(0.0119); opacity: 0.0119; }
+  85% { transform: scale(0.00868); opacity: 0.00868; }
+  87.5% { transform: scale(0.00585); opacity: 0.00585; }
+  90% { transform: scale(0.00375); opacity: 0.00375; }
+  92.5% { transform: scale(0.00215); opacity: 0.00215; }
+  95% { transform: scale(0.00093); opacity: 0.00093; }
+  97.5% { transform: scale(0.00039); opacity: 0.00039; }
+  100% { transform: scale(0); opacity: 0; }
 }
 
 @keyframes preloader-mark-exit {

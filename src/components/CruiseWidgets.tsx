@@ -517,13 +517,13 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="my-3">
         <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-          <div className="flex items-center gap-1.5 text-emerald-300 font-bold px-2 py-1 ">
+          <div className="flex items-center gap-1.5 text-emerald-300 font-bold py-1 ">
             <span>✓</span> Passport Verified
           </div>
           <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold px-2 py-1 ">
             <span>🎸</span> Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 text-cyan-300 font-medium px-2 py-1 ">
+          <div className="flex items-center gap-1.5 text-cyan-300 font-medium py-1 ">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
           <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium  px-2 py-1 ">
