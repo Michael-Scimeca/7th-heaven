@@ -19,6 +19,7 @@ const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
 });
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 const PIN_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
@@ -1070,13 +1071,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           className="bg-white/5 border border-white/15 rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
                         />
                       </div>
-                      <button aria-label="Action button"
+                      <CosmicRadialButton
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
-                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer text-center justify-center"
+                        icon={false}
+                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white text-xs font-black uppercase tracking-widest cursor-pointer text-center justify-center"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                   )}
                   {liveAlertStatus === 'error' && (

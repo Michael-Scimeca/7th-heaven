@@ -270,7 +270,7 @@ export default function LiveHubPage() {
 
           {/* Fan Sign Up Callout Bar (Positioned on Right Side) */}
           <div className="shrink-0 flex justify-start md:justify-end">
-            <div className="inline-flex items-center gap-4 bg-purple-950/40 border border-purple-500/30 backdrop-blur-md px-5 py-2.5 rounded-2xl max-w-md text-left shadow-lg">
+            <div className="inline-flex items-center gap-4   py-2.5 rounded-2xl max-w-md text-left">
               <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
                 <MessageSquare className="w-4 h-4" />
               </div>
@@ -587,10 +587,13 @@ export default function LiveHubPage() {
                       className="w-full bg-white/5 border border-white/15 py-3.5 !pl-11 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
                     />
                   </div>
-                  <button aria-label="Action button" type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2 rounded-lg">
-                    <Bell className="w-4 h-4" /> ALERT ME
-                  </button>
+                  <CosmicRadialButton
+                    type="submit"
+                    icon={<Bell className="w-4 h-4 text-amber-300" />}
+                    className="w-full sm:w-auto px-8 py-3.5 text-white text-sm font-black uppercase tracking-widest whitespace-nowrap flex-shrink-0"
+                  >
+                    ALERT ME
+                  </CosmicRadialButton>
                 </form>
                 <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
               </div>
