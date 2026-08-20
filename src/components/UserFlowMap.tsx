@@ -372,13 +372,16 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
   { id: "c3-email2", type: "emailNode", position: { x: 640, y: 890 }, data: { label: "Thanks For Signing Up Email", sub: "cruiseConfirmation", system: "gold", kind: "email", iconName: "mail", details: { emailSubject: "🚢 Thanks for Signing Up!" } } },
   { id: "c3-dash", type: "pageNode", position: { x: 640, y: 1020 }, data: { label: "Cruiser Dashboard Hub", sub: "/cruise/dashboard", system: "gold", kind: "page", iconName: "sparkles" } },
 
-  // COLUMN 4: FAN CLUB & WALL (x = 960)
-  { id: "c4-1", type: "pageNode", position: { x: 960, y: 290 }, data: { label: "Fan Club Portal", sub: "/fans", system: "purple", kind: "page", iconName: "user" } },
-  { id: "c4-2", type: "pageNode", position: { x: 960, y: 410 }, data: { label: "Complete Profile", sub: "/fans/complete-profile", system: "purple", kind: "page", iconName: "userPlus" } },
-  { id: "c4-3", type: "pageNode", position: { x: 960, y: 530 }, data: { label: "Member Profile View", sub: "/fans/[username]", system: "purple", kind: "page", iconName: "user" } },
-  { id: "c4-4", type: "pageNode", position: { x: 960, y: 650 }, data: { label: "Fan Photo Wall", sub: "/fan-photo-wall", system: "purple", kind: "page", iconName: "camera" } },
-  { id: "c4-5", type: "pageNode", position: { x: 960, y: 770 }, data: { label: "Guitar Pick Lottery", sub: "/picks", system: "purple", kind: "page", iconName: "sparkles" } },
-  { id: "c4-email", type: "emailNode", position: { x: 960, y: 890 }, data: { label: "VIP Raffle Win Email", sub: "raffleWin", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🎉 You Won VIP Backstage Passes!" } } },
+  // COLUMN 4: FAN CLUB & FAN SIGNUP WORKFLOW (x = 960)
+  { id: "c4-1", type: "pageNode", position: { x: 960, y: 290 }, data: { label: "Fan Account Signup", sub: "LoginModal.tsx / /fans", system: "purple", kind: "page", iconName: "userPlus" } },
+  { id: "c4-api1", type: "pageNode", position: { x: 960, y: 410 }, data: { label: "POST Fan Register API", sub: "/api/auth/register", system: "purple", kind: "api", iconName: "terminal" } },
+  { id: "c4-email1", type: "emailNode", position: { x: 960, y: 530 }, data: { label: "Fan Security PIN Email", sub: "fanAccountWelcome", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🔑 Your 6-Digit Fan Security PIN" } } },
+  { id: "c4-verify", type: "pageNode", position: { x: 960, y: 650 }, data: { label: "Fan PIN Verification Step", sub: "PIN Verification Module", system: "purple", kind: "page", iconName: "key" } },
+  { id: "c4-profile", type: "pageNode", position: { x: 960, y: 770 }, data: { label: "Complete Profile Onboarding", sub: "/fans/complete-profile", system: "purple", kind: "page", iconName: "userPlus" } },
+  { id: "c4-dash", type: "pageNode", position: { x: 960, y: 890 }, data: { label: "Member Account Hub", sub: "/fans/[username]", system: "purple", kind: "page", iconName: "user" } },
+  { id: "c4-wall", type: "pageNode", position: { x: 960, y: 1010 }, data: { label: "Fan Photo Wall & Live Alerts", sub: "/fan-photo-wall", system: "purple", kind: "page", iconName: "camera" } },
+  { id: "c4-lottery", type: "pageNode", position: { x: 960, y: 1130 }, data: { label: "Guitar Pick Lottery", sub: "/picks", system: "purple", kind: "page", iconName: "sparkles" } },
+  { id: "c4-email2", type: "emailNode", position: { x: 960, y: 1250 }, data: { label: "VIP Raffle Win Email", sub: "raffleWin", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🎉 You Won VIP Backstage Passes!" } } },
 
   // COLUMN 5: CONTACT & SUPPORT (x = 1280)
   { id: "c5-1", type: "pageNode", position: { x: 1280, y: 290 }, data: { label: "Contact Us Form", sub: "/contact", system: "peach", kind: "page", iconName: "mail" } },
@@ -438,11 +441,14 @@ const REFERENCE_EDGES: Edge[] = [
   { id: "ec3-7", source: "c3-email2", target: "c3-dash", type: "smoothstep", style: { stroke: "#f59e0b", strokeWidth: 2 } },
 
   { id: "ec4-1", source: "nav-fans", target: "c4-1", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "ec4-2", source: "c4-1", target: "c4-2", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "ec4-3", source: "c4-2", target: "c4-3", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "ec4-4", source: "c4-3", target: "c4-4", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "ec4-5", source: "c4-4", target: "c4-5", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "ec4-6", source: "c4-5", target: "c4-email", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-2", source: "c4-1", target: "c4-api1", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-3", source: "c4-api1", target: "c4-email1", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-4", source: "c4-email1", target: "c4-verify", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-5", source: "c4-verify", target: "c4-profile", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-6", source: "c4-profile", target: "c4-dash", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-7", source: "c4-dash", target: "c4-wall", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-8", source: "c4-wall", target: "c4-lottery", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "ec4-9", source: "c4-lottery", target: "c4-email2", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2 } },
 
   { id: "ec5-1", source: "nav-support", target: "c5-1", type: "smoothstep", style: { stroke: "#f97316", strokeWidth: 2 } },
   { id: "ec5-2", source: "c5-1", target: "c5-2", type: "smoothstep", style: { stroke: "#f97316", strokeWidth: 2 } },
