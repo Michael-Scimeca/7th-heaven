@@ -1952,18 +1952,40 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "grid" && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                     {PORTS_DATA.map((port, idx) => (
-                      <div key={`grid-${port.name}`} className="flex flex-col justify-between group transition-all duration-300">
-                        <div className="h-48 w-full relative overflow-hidden rounded-lg ">
-                          {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/80 backdrop-blur-md border border-white/15 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300">
+                      <div key={`grid-${port.name}`} className="flex flex-col justify-between group bg-white/5 border border-white/10 hover:border-purple-500/40 rounded-2xl overflow-hidden p-4 transition-all duration-300">
+                        <div className="h-48 w-full relative overflow-hidden rounded-xl bg-black">
+                          {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1 bg-black/80 backdrop-blur-md border border-white/15 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300 shadow-md">
                             Port Call #{idx + 1}
                           </span>
                         </div>
-                        <div className="py-4 flex-1 flex flex-col justify-between">
+                        <div className="pt-4 flex-1 flex flex-col justify-between">
                           <div>
-                            <h4 className="text-base font-black uppercase tracking-tight text-white mb-2 group-hover:text-purple-400 transition-colors">{port.name}</h4>
+                            <h4 className="text-base font-black uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="text-xs leading-relaxed font-semibold text-white/70">{port.desc}</p>
+                            
+                            {/* Port Highlights */}
+                            {port.highlights && (
+                              <div className="flex flex-wrap gap-1.5 mt-3">
+                                {port.highlights.map(h => (
+                                  <span key={h} className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/50 px-2 py-0.5 rounded-full border border-purple-500/30">
+                                    {h}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
+
+                          {/* Gallery Thumbnail Strip */}
+                          {port.gallery && port.gallery.length > 1 && (
+                            <div className="flex gap-1.5 mt-4 pt-3 border-t border-white/10 overflow-x-auto scrollbar-none">
+                              {port.gallery.map((gImg, gIdx) => (
+                                <div key={gIdx} className="w-12 h-10 rounded-md overflow-hidden shrink-0 border border-white/20">
+                                  <Image width={48} height={40} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -1974,13 +1996,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "spotlight" && (
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                     {/* Main Featured Hero Card */}
-                    <div className="lg:col-span-2 bg-[var(--color-bg-surface)] border-none rounded-3xl overflow-hidden relative">
+                    <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-3xl overflow-hidden relative shadow-2xl">
                       <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/40 to-transparent z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent z-10" />
                         {PORTS_DATA[activeSpotlightPort].image && (
-                          <Image width={200} height={200} unoptimized src={PORTS_DATA[activeSpotlightPort].image} alt={PORTS_DATA[activeSpotlightPort].name} className="w-full h-full object-cover scale-105" />
+                          <Image width={800} height={500} unoptimized src={PORTS_DATA[activeSpotlightPort].image} alt={PORTS_DATA[activeSpotlightPort].name} className="w-full h-full object-cover scale-105" />
                         )}
-                        <div className="absolute top-6 left-6 z-20 bg-purple-600 !text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
+                        <div className="absolute top-6 left-6 z-20 bg-purple-600 text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg border border-purple-400/40">
                           ⭐ Featured Destination Spotlight
                         </div>
                       </div>
@@ -1988,16 +2010,42 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <h3 className="text-2xl md:text-4xl font-black uppercase text-white tracking-tight mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
-                        <p className="text-white/70 text-sm md:text-base leading-relaxed mb-6">
+                        <p className="text-white/70 text-sm md:text-base leading-relaxed mb-4">
                           {PORTS_DATA[activeSpotlightPort].desc}
                         </p>
+
+                        {/* Highlights */}
+                        {PORTS_DATA[activeSpotlightPort].highlights && (
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {PORTS_DATA[activeSpotlightPort].highlights.map(h => (
+                              <span key={h} className="text-xs font-bold uppercase tracking-wider text-purple-300 bg-purple-900/60 px-3 py-1 rounded-full border border-purple-500/40">
+                                ✓ {h}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Gallery Thumbnails */}
+                        {PORTS_DATA[activeSpotlightPort].gallery && (
+                          <div className="mb-6 pt-4 border-t border-white/10">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
+                            <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2">
+                              {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => (
+                                <div key={gIdx} className="w-24 h-16 rounded-xl overflow-hidden shrink-0 border border-white/20 shadow-md">
+                                  <Image width={96} height={64} unoptimized src={gImg} alt="Gallery Still" className="w-full h-full object-cover" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
                         <div className="flex flex-wrap gap-4 items-center">
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 !text-white font-black uppercase tracking-widest text-xs transition-colors cursor-pointer border-none"
+                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest text-xs transition-colors cursor-pointer border-none rounded-xl shadow-lg"
                           >
-                            Book Cruise & Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
+                            Book Cruise &amp; Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                           </button>
                         </div>
                       </div>
@@ -2011,16 +2059,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           key={`spotlight-${port.name}`}
                           type="button"
                           onClick={() => setActiveSpotlightPort(idx)}
-                          className={`w-full p-4  border-none text-left transition-colors cursor-pointer flex items-center gap-4 ${activeSpotlightPort === idx
-                            ? "bg-purple-500/10 shadow-md"
-                            : "  hover:bg-white/5"
+                          className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx
+                            ? "bg-purple-500/20 border-purple-500/50 shadow-md"
+                            : "bg-white/5 border-white/10 hover:bg-white/10"
                             }`}
                         >
-                          <div className="w-12 h-12 overflow-hidden shrink-0 bg-black">
+                          <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black border border-white/20">
                             {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className={`text-xs font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-purple-400" : "text-white"}`}>
+                            <h4 className={`text-xs font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
                               {port.name}
                             </h4>
                             <span className="text-[var(--font-size-3xs)] text-white/35 font-mono">Port #{idx + 1}</span>
@@ -2041,7 +2089,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ◀
                       </button>
@@ -2050,7 +2098,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ▶
                       </button>
@@ -2064,18 +2112,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA.map((port, idx) => (
                         <div
                           key={`carousel-${port.name}`}
-                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[var(--color-bg-surface)] border border-white/10 hover:border-purple-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
+                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-white/5 border border-white/10 hover:border-purple-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
                         >
                           <div className="h-52 w-full relative overflow-hidden bg-black/60">
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
-                            {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-400">
+                            {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
+                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300">
                               {idx + 1} / {PORTS_DATA.length}
                             </span>
                           </div>
                           <div className="p-6 relative z-20 -mt-8">
                             <h4 className="text-base font-extrabold text-white uppercase tracking-tight mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="text-white/50 text-xs leading-relaxed">{port.desc}</p>
+
+                            {/* Highlights */}
+                            {port.highlights && (
+                              <div className="flex flex-wrap gap-1.5 mt-3">
+                                {port.highlights.map(h => (
+                                  <span key={h} className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-full border border-purple-500/30">
+                                    {h}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -2087,10 +2146,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "list" && (
                   <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                     {PORTS_DATA.map((port, idx) => (
-                      <div key={`list-${port.name}`} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-purple-500/30 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.02]">
-                        <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden   relative shrink-0">
+                      <div key={`list-${port.name}`} className="bg-white/5 border border-white/10 hover:border-purple-500/30 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
+                        <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden rounded-xl relative shrink-0">
                           {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
-                          <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-purple-400 uppercase">
+                          <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-purple-300 uppercase border border-white/10">
                             Port #{idx + 1}
                           </span>
                         </div>
@@ -2099,11 +2158,22 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <h4 className="text-lg font-black uppercase text-white tracking-tight">{port.name}</h4>
                           </div>
                           <p className="text-white/50 text-xs md:text-sm leading-relaxed">{port.desc}</p>
+                          
+                          {/* Highlights */}
+                          {port.highlights && (
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {port.highlights.map(h => (
+                                <span key={h} className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-full border border-purple-500/30">
+                                  {h}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                          className="shrink-0 px-4 py-2 bg-white/5 hover:bg-purple-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
+                          className="shrink-0 px-4 py-2 bg-white/5 hover:bg-purple-600 hover:text-white border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
                         >
                           Book →
                         </button>

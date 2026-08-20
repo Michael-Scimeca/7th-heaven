@@ -26,13 +26,63 @@ export const BANDS_DATA = [
 ];
 
 export const PORTS_DATA = [
-  { name: "Port Canaveral (Orlando), FL", desc: "The premier Florida cruise port, convenient for theme parks (Disney World, Universal) and space excursions (Kennedy Space Center).", image: "/images/cruise/miami.png" },
-  { name: "Perfect Day at CocoCay, Bahamas", desc: "Royal Caribbean's award-winning private island destination. Features Chill Island, Thrill Waterpark (with Daredevil's Peak), private cabanas, beaches, and Swim & Tonic bar.", image: "/images/cruise/cozumel.png" },
-  { name: "St. Thomas (USVI)", desc: "Pristine beaches like Magens Bay, duty-free shopping in Charlotte Amalie, and gorgeous panoramic lookout points.", image: "/images/cruise/grand-cayman.png" },
-  { name: "St. Maarten", desc: "The stunning dual-culture island offering Philipsburg shopping (Dutch) and Marigot culinary gems (French), along with Maho Beach jet-blast plane spotting.", image: "/images/cruise/roatan.png" },
-  { name: "Willemstad, Curacao", desc: "A colorful UNESCO World Heritage site known for its colorful Dutch architecture, floating Queen Emma bridge, and rich history.", image: "/images/cruise/roatan.png" },
-  { name: "Oranjestad, Aruba", desc: "Beautiful white sands, Dutch colonial charm, duty-free shopping, and crystal clear water.", image: "/images/cruise/cozumel.png" },
-  { name: "Cabo Rojo, Dominican Republic", desc: "Royal Caribbean's newest eco-port destination in the southwest region, offering pristine virgin white sands and natural marvels.", image: "/images/cruise/grand-cayman.png" },
+  {
+    name: "Port Canaveral (Orlando), FL",
+    desc: "The premier Florida departure port for Star of the Seas, convenient to Orlando theme parks (Disney, Universal Studios) and Kennedy Space Center.",
+    image: "/images/cruise/ports/orlando1.jpg",
+    gallery: ["/images/cruise/ports/orlando1.jpg", "/images/cruise/ports/orlando2.jpg"],
+    highlights: ["Close to Orlando Theme Parks", "Kennedy Space Center Excursions", "Deepwater Cruise Terminal"]
+  },
+  {
+    name: "Perfect Day at CocoCay, Bahamas",
+    desc: "Royal Caribbean's award-winning private island destination featuring Thrill Waterpark (with Daredevil's Peak), Coco Beach Club overwater cabanas, Oasis Lagoon, and pristine beaches.",
+    image: "/images/cruise/ports/cococay.jpg",
+    gallery: [
+      "/images/cruise/ports/cococay.jpg",
+      "/images/cruise/ports/june_2024.jpg",
+      "/images/cruise/ports/rci_cococay_cocobeachclubinfinitypool_ret.jpg",
+      "/images/cruise/ports/rci_cococay_overwatercabanas2.jpg",
+      "/images/cruise/ports/rci_pdc_042019_daredevilstower_ret.jpg",
+      "/images/cruise/ports/cococay2.jpg",
+      "/images/cruise/ports/cococay12.jpg"
+    ],
+    highlights: ["Thrill Waterpark & Daredevil's Peak", "Overwater Cabanas & Infinity Pool", "Oasis Lagoon & Swim-Up Bar"]
+  },
+  {
+    name: "St. Thomas (USVI)",
+    desc: "Pristine turquoise waters, world-famous Magens Bay beach, duty-free shopping in Charlotte Amalie, and breathtaking panoramic overlooks.",
+    image: "/images/cruise/ports/stthomas1.jpg",
+    gallery: ["/images/cruise/ports/stthomas1.jpg", "/images/cruise/ports/stthomas2.jpg"],
+    highlights: ["Magens Bay World Class Beach", "Duty-Free Shopping in Charlotte Amalie", "Skyride to Paradise Point"]
+  },
+  {
+    name: "St. Maarten",
+    desc: "The stunning dual-culture island featuring Dutch Philipsburg front-street shopping and French Marigot gourmet cafes, plus Maho Beach jet-plane spotting.",
+    image: "/images/cruise/ports/stmaartin1.jpg",
+    gallery: ["/images/cruise/ports/stmaartin1.jpg", "/images/cruise/ports/stmaarten2.jpg"],
+    highlights: ["Dual Dutch/French Island Cultures", "Maho Beach Jet Spotting", "Philipsburg Boardwalk & Shopping"]
+  },
+  {
+    name: "Willemstad, Curacao",
+    desc: "A colorful UNESCO World Heritage site famous for Dutch colonial architecture, Queen Emma floating pontoon bridge, and vibrant island culture.",
+    image: "/images/cruise/ports/stmaarten2.jpg",
+    gallery: ["/images/cruise/ports/stmaarten2.jpg"],
+    highlights: ["UNESCO Handelskade Waterfront", "Queen Emma Floating Bridge", "Curacao Liqueur Distilleries"]
+  },
+  {
+    name: "Oranjestad, Aruba",
+    desc: "Famous for white sand beaches, flamingo beach islands, Dutch colonial architecture, and crystal-clear Caribbean waters.",
+    image: "/images/cruise/ports/cococay12.jpg",
+    gallery: ["/images/cruise/ports/cococay12.jpg"],
+    highlights: ["Eagle & Palm Beaches", "Dutch Colonial Plaza", "Shipwreck Snorkeling Excursions"]
+  },
+  {
+    name: "Cabo Rojo, Dominican Republic",
+    desc: "Royal Caribbean's newest eco-port destination on the Dominican Republic's southwest coast, featuring untouched white beaches and natural coastal wonders.",
+    image: "/images/cruise/ports/cococay.jpg",
+    gallery: ["/images/cruise/ports/cococay.jpg"],
+    highlights: ["Untouched Eco-Beaches", "Pristine Nature Reserve", "Authentic Dominican Culture"]
+  },
 ];
 
 export const FAQS_EXTENDED = [
