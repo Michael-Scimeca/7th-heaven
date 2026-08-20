@@ -77,7 +77,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <div className="md:col-span-5 lg:col-span-4 max-w-sm md:max-w-md flex flex-col text-left">
 
           {/* Contact Cards List (1 Column Stacked) */}
-          <div className="space-y-2.5 w-full">
+          <div className="space-y-4 w-full">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
               const isSelected = activePhoto === photoForThisCard;
@@ -87,31 +87,31 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className="pb-2 border-b border-white/10"
+                  className="pb-4 border-b border-white/10"
                 >
                   {/* Category Pill */}
-                  <div className="mb-1.5">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">
+                  <div className="mb-3">
+                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
 
                   {/* Name & Title / Note */}
-                  <div className="mb-2">
-                    <h3 className="text-lg md:text-xl font-black text-white tracking-tight whitespace-nowrap">
+                  <div className="mb-3">
+                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
 
                   {/* Contact Info: Email Top, Phone Directly Underneath (Width Only as Far as Text) */}
-                  <div className="flex flex-col items-start gap-1.5">
+                  <div className="flex flex-col items-start gap-2.5">
                     {/* Email */}
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2.5 text-xs md:text-sm font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
                       >
-                        <Mail className="w-3.5 h-3.5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
+                        <Mail className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -122,9 +122,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-base md:text-xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2.5 text-base md:text-xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
                       >
-                        <Phone className="w-4 h-4 md:w-5 md:h-5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
+                        <Phone className="w-5 h-5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}
