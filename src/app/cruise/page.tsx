@@ -777,65 +777,65 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
               </div>
 
-              {/* Cancellation & Policy Guidelines — 3-Column Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
+              {/* Cancellation & Policy Guidelines — 4-Column Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left border-b border-white/10 pb-12">
                 {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
-                <div className="py-6 pl-0 relative text-left">
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
                   <div className="flex items-center gap-3 mb-4">
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
+                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
                   </div>
-                  <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
-                    Book through us to participate & lock in best rates
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                    Book through us to participate &amp; lock in best rates
                   </p>
-                  <p className="text-base text-white/80 leading-relaxed mb-4">
+                  <p className="text-xs text-white/80 leading-relaxed mb-4">
                     To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
                   </p>
-                  <ul className="space-y-3 text-base text-white/80 leading-relaxed mb-6">
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-1" />
-                      <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
+                  <ul className="space-y-2.5 text-xs text-white/80 leading-relaxed mb-6">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-1" />
-                      <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span>We match rates &amp; re-roll your room if prices drop before final payment!</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <HelpCircle className="w-4 h-4 text-purple-400 shrink-0 mt-1" />
-                      <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).</span>
+                    <li className="flex items-start gap-2">
+                      <HelpCircle className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Double Occupancy).</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-1" />
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                       <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <AlertTriangle className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-1" />
-                      <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.</span>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
+                      <span><strong>Prevailing Rates:</strong> Gratuities NOT included ($129.50 PP; $147 PP Suites).</span>
                     </li>
                   </ul>
-                  <div className="pt-3 border-t border-white/10 space-y-2">
-                    <p className="text-base text-white/80">
-                      <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">Mary@NTDVacations.com</a>
+                  <div className="pt-3 border-t border-white/10 space-y-1.5 text-xs">
+                    <p className="text-white/80">
+                      <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                     </p>
-                    <p className="text-base text-white/80">
-                      <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
+                    <p className="text-white/80">
+                      <CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> $250/person ($500/room).
                     </p>
-                    <p className="text-base text-white/80">
-                      <CalendarIcon className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "October 1, 2026" : "October 1, 2027"}.
+                    <p className="text-white/80">
+                      <CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "Oct 1, 2026" : "Oct 1, 2027"}.
                     </p>
                   </div>
                 </div>
 
                 {/* Column 2: Passport Requirements */}
-                <div className="p-6 relative text-left">
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
                   <div className="flex items-center gap-3 mb-4">
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
+                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Guidelines</h3>
                   </div>
-                  <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
                     Essential travel document guidelines
                   </p>
-                  <div className="space-y-4 text-base text-white/80 leading-relaxed">
+                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
                     <p>
                       A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold underline inline-block">highly recommended</strong> for all travelers.
                     </p>
@@ -849,19 +849,19 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Column 3: Cancellation Policy */}
-                <div className="p-6 relative text-left">
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
                   <div className="flex items-center gap-3 mb-4">
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
                   </div>
-                  <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
                     Refund terms before booking
                   </p>
-                  <div className="space-y-4 text-base text-white/80 leading-relaxed">
+                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
                     <div>
-                      <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
+                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Group Rate Rooms:</h4>
                       {activePriceYear === 2027 ? (
-                        <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
+                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
                           <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                           <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
                           <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
@@ -870,7 +870,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <li>After Dec 10, 2026: <strong>No refund</strong></li>
                         </ul>
                       ) : (
-                        <ul className="list-disc pl-5 space-y-1 text-base text-white/80">
+                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
                           <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
                           <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
                           <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
@@ -881,10 +881,98 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
-                      <p className="text-base text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
+                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Prevailing Rate:</h4>
+                      <p className="text-xs text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                     </div>
                   </div>
+                </div>
+
+                {/* Column 4: Ship & Cruise Resource Links (from ship.html) */}
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <Ship className="w-6 h-6 text-purple-400 shrink-0" />
+                      <h3 className="text-lg font-black uppercase text-white tracking-wide">Ship Resources</h3>
+                    </div>
+                    <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                      Official Links &amp; Media
+                    </p>
+                    <ul className="space-y-2 text-xs font-bold uppercase tracking-wider text-white">
+                      <li>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Star_of_the_Seas"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🌐</span> <span>WIKI</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.royalcaribbean.com/cruise-ships/star-of-the-seas"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🚢</span> <span>ROYAL CARIBBEAN PAGE</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🗺️</span> <span>DECK PLAN</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🎥</span> <span>VIDEO OF THE SHIP</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">📜</span> <span>PAST CRUISE COMPASS</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://youtu.be/0LxUHSdFDtY"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🎬</span> <span>SHIP TOUR VIDEO</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://youtu.be/6xCQ4xE7L38"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-purple-500/40 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🔥</span> <span>PROMO VIDEO</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <p className="mt-3 text-[10px] font-semibold text-white/50 uppercase tracking-wider">
+                    Legend of the Seas is an exact sister-ship duplicate.
+                  </p>
                 </div>
               </div>
 
