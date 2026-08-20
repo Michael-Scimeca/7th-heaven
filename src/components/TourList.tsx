@@ -853,17 +853,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     }, 100);
   }, []);
 
-  // Map pin click — scroll WITHOUT clearing filters (row is already visible since map is filter-synced)
-  const handleMapPinClick = useCallback((venue: string, date: string) => {
-    const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
-    setTimeout(() => {
-      const el = document.querySelector(`[id^="${prefix}"]`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setHighlightedId(el.id);
-        setTimeout(() => setHighlightedId(null), 3000);
-      }
-    }, 100);
+  // Map pin click — no-op (auto-scroll disabled per user request)
+  const handleMapPinClick = useCallback(() => {
+    // Scroll behavior removed per user request
   }, []);
 
   const filtered = useMemo(() => {
