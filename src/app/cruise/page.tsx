@@ -714,7 +714,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         />
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-4 sm:px-8 max-w-5xl mx-auto mb-10 pt-4">
+        <div className="relative z-10 text-left site-container mb-10 pt-4">
 
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
@@ -728,7 +728,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-widest text-white">
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-widest text-white">
             <span className="bg-black/60 px-5 py-2.5 rounded-2xl border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
               <Ship className="w-5 h-5 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2027</span>
             </span>
