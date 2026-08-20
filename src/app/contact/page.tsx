@@ -12,7 +12,7 @@ export const revalidate = 60;
 const MARY_CONTACT = {
     category: "7th Heaven Cruise & Vacations",
     company: "NTD Vacations",
-    name: "Mary",
+    name: "Mary Grivas",
     email: "Mary@NTDVacations.com",
     phone: null,
     note: null
