@@ -659,7 +659,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section
         id="cruise-hero"
-        className="-mt-[88px] pt-[95px] sm:pt-[110px] md:pt-[130px] relative flex flex-col justify-center overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white h-[clamp(375px,72vw,80vh)] sm:h-[clamp(340px,50vw,75vh)] max-h-[780px]"
+        className="-mt-[88px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white min-h-[420px] max-h-[780px]"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
