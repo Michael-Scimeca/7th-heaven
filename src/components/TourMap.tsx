@@ -491,8 +491,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       const isNext = nextShowVenue && v.venue === nextShowVenue && v.city === nextShowCity;
       const isBouncing = isHappening || isNext;
-      const w = isBouncing ? 26 : 20;
-      const h = isBouncing ? 34 : 26;
+      const w = isBouncing ? 31 : 24;
+      const h = isBouncing ? 41 : 31;
 
       const firstShow = v.shows[0];
       const directionsUrl = firstShow.mapUrl?.includes('maps.apple.com')
@@ -1090,13 +1090,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           top: 102%;
           left: 50%;
           transform: translateX(-50%);
-          background: rgba(8, 8, 18, 0.82);
-          color: rgba(255, 255, 255, 0.85);
-          font-size: 8px;
+          background: rgba(8, 8, 18, 0.85);
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 10px;
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          padding: 2.5px 6px;
+          padding: 3px 7px;
           border-radius: 4px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           white-space: nowrap;
