@@ -483,6 +483,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   {/* Submit Button (Cosmic Morphing Radial Gradient Component) */}
                   <CosmicRadialButton
                     type="submit"
+                    icon={false}
                     disabled={status === "loading" || !agreeNotify || !agreeTerms}
                     className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl"
                   >
