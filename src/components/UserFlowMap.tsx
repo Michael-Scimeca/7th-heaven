@@ -17,6 +17,8 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
+import Image from "next/image";
+
 import {
   Globe,
   Radio,
@@ -126,6 +128,7 @@ export interface FlowNodeData extends Record<string, unknown> {
   system: "pink" | "teal" | "blue" | "gold" | "purple" | "peach" | "emerald" | "red";
   kind: "root" | "nav" | "page" | "decision" | "api" | "email";
   iconName: string;
+  imgUrl?: string;
   details?: {
     summary?: string;
     endpointOrPath?: string;
@@ -246,7 +249,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-lg  border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
       <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
@@ -272,6 +275,12 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
           </code>
         </div>
       </div>
+
+      {data.imgUrl && (
+        <div className="mt-2.5 rounded-lg overflow-hidden border border-white/15 relative h-28 bg-black/50 shadow-inner">
+          <Image src={data.imgUrl} alt={data.label} fill unoptimized sizes="256px" className="object-cover object-top hover:scale-105 transition duration-300" />
+        </div>
+      )}
 
       <Handle type="source" position={Position.Bottom} className="!w-3 !h-3 !bg-cyan-400 !border-2 !border-black" />
       <Handle type="source" position={Position.Right} className="!w-3 !h-3 !bg-cyan-400 !border-2 !border-black" />
@@ -362,6 +371,7 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
   { id: "c2-dec", type: "decisionNode", position: { x: 352, y: 890 }, data: { label: "Review Status", sub: "Admin Action", system: "gold", kind: "decision", iconName: "branch" } },
   { id: "c2-rej", type: "emailNode", position: { x: 180, y: 990 }, data: { label: "Booking Canceled Email", sub: "bookingCancelled", system: "red", kind: "email", iconName: "mail", details: { emailSubject: "Booking Canceled Feedback" } } },
   { id: "c2-appr", type: "emailNode", position: { x: 460, y: 990 }, data: { label: "Booking Approved Email", sub: "bookingStatusUpdate", system: "emerald", kind: "email", iconName: "mail", details: { emailSubject: "🎉 Booking Status: Approved!" } } },
+  { id: "c2-planner", type: "pageNode", position: { x: 460, y: 1110 }, data: { label: "Access Planner Dashboard", sub: "/planner", system: "emerald", kind: "page", iconName: "user", imgUrl: "/sitemap-thumbs/planner-dashboard-signed-in.jpg", details: { summary: "Planner manages confirmed booking, schedule & contract", endpointOrPath: "/planner" } } },
 
   // COLUMN 3: CRUISE 2026 (x = 640)
   { id: "c3-1", type: "pageNode", position: { x: 640, y: 290 }, data: { label: "Cruise Landing Page", sub: "/cruise", system: "gold", kind: "page", iconName: "sparkles" } },
@@ -431,6 +441,7 @@ const REFERENCE_EDGES: Edge[] = [
   { id: "ec2-6", source: "c2-email1", target: "c2-dec", type: "smoothstep", style: { stroke: "#f59e0b", strokeWidth: 2 } },
   { id: "ec2-7", source: "c2-dec", target: "c2-rej", type: "smoothstep", label: "Rejected", style: { stroke: "#ef4444", strokeWidth: 2 } },
   { id: "ec2-8", source: "c2-dec", target: "c2-appr", type: "smoothstep", label: "Approved", style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "ec2-9", source: "c2-appr", target: "c2-planner", type: "smoothstep", style: { stroke: "#10b981", strokeWidth: 2 } },
 
   { id: "ec3-1", source: "nav-cruise", target: "c3-1", type: "smoothstep", style: { stroke: "#f59e0b", strokeWidth: 2 } },
   { id: "ec3-2", source: "c3-1", target: "c3-api1", type: "smoothstep", style: { stroke: "#f59e0b", strokeWidth: 2 } },
