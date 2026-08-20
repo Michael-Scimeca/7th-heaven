@@ -49,7 +49,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <div className="lg:col-span-4 flex flex-col text-left">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2 whitespace-nowrap" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Contact & Booking
             </h1>
             <p className="text-white/60 text-sm md:text-base font-semibold max-w-xl">
@@ -75,14 +75,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 >
                   {/* Category Pill */}
                   <div className="mb-3">
-                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
 
                   {/* Name & Title / Note */}
                   <div className="mb-4">
-                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">
+                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                     {contact.note && (
@@ -98,10 +98,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2.5 text-sm md:text-base font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit"
+                        className="inline-flex items-center gap-2.5 text-sm md:text-base font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
                       >
                         <Mail className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
-                        <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300">
+                        <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
                       </a>
@@ -110,10 +110,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {/* Phone Number Directly Below Email */}
                     <a
                       href={`tel:${contact.phone.replace(/-/g, "")}`}
-                      className="inline-flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit"
+                      className="inline-flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
                     >
                       <Phone className="w-6 h-6 md:w-7 md:h-7 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
-                      <span>{contact.phone}</span>
+                      <span className="whitespace-nowrap">{contact.phone}</span>
                     </a>
                   </div>
                 </div>
