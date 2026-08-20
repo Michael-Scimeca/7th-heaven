@@ -662,21 +662,6 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Planner successfully accesses their Planner Dashboard to manage event details, schedule, and contract.",
     },
   },
-
-  // ── ROW 6: CREATE A FAN ACCOUNT (y = 2020) ──
-  {
-    id: "node-create-fan-account",
-    type: "sitemapCard",
-    position: { x: 1900, y: 2020 },
-    data: {
-      header: "6. CREATE A FAN ACCOUNT",
-      title: "6. Create Fan Account & Register",
-      path: "/fans",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
-      badgeType: "PORTAL",
-      description: "Create a Fan Account to unlock VIP backstage passes, fan photo wall, and event planner credentials.",
-    },
-  },
 ];
 
 // --- VERTICAL FLOW CONNECTIONS DIRECTLY UNDER BOOK US ---
@@ -693,12 +678,11 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
 
-  // DIRECT VERTICAL FLOW: FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> ENTER PIN INTO MODULE ON BOOKER PAGE -> PLANNER DASHBOARD -> CREATE A FAN ACCOUNT
+  // DIRECT VERTICAL FLOW: FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> ENTER PIN INTO MODULE ON BOOKER PAGE -> PLANNER DASHBOARD
   { id: "flow-book-to-modal-open", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
   { id: "flow-modal-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep", animated: true },
   { id: "flow-pin-email-to-verify-module", source: "email-book-pin-email", target: "node-book-verify-pin", type: "smoothstep", animated: true },
   { id: "flow-verify-module-to-dashboard", source: "node-book-verify-pin", target: "node-planner-unlocked", type: "smoothstep", animated: true },
-  { id: "flow-dashboard-to-create-fan-account", source: "node-planner-unlocked", target: "node-create-fan-account", type: "smoothstep", animated: true },
 
   // Other section connections
   { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
@@ -786,19 +770,6 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
       description: "Planner accesses their Planner Dashboard to manage event details, schedule, and contract.",
     },
   },
-  {
-    id: "bf-step6",
-    type: "sitemapCard",
-    position: { x: 1900, y: 150 },
-    data: {
-      header: "6. CREATE A FAN ACCOUNT",
-      title: "6. Create Fan Account & Register",
-      path: "/fans",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
-      badgeType: "PORTAL",
-      description: "Create a Fan Account to unlock VIP backstage passes, fan photo wall, and event planner credentials.",
-    },
-  },
 ];
 
 const BOOKING_FLOW_EDGES: Edge[] = [
@@ -806,7 +777,6 @@ const BOOKING_FLOW_EDGES: Edge[] = [
   { id: "bf-e2", source: "bf-step2", sourceHandle: "right", target: "bf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e3", source: "bf-step3", sourceHandle: "right", target: "bf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e4", source: "bf-step4", sourceHandle: "right", target: "bf-step5", targetHandle: "left", animated: true, type: "smoothstep" },
-  { id: "bf-e5", source: "bf-step5", sourceHandle: "right", target: "bf-step6", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
 // --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW ---
