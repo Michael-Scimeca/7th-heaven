@@ -9,7 +9,7 @@ export interface ContactItem {
   company?: string | null;
   name?: string | null;
   email?: string | null;
-  phone: string;
+  phone?: string | null;
   note?: string | null;
 }
 
@@ -65,7 +65,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
               return (
                 <div
-                  key={contact.phone + (contact.name || "")}
+                  key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
                   className={`pb-4 border-b border-white/10 ${isSelected
@@ -108,13 +108,15 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     )}
 
                     {/* Phone Number Directly Below Email */}
-                    <a
-                      href={`tel:${contact.phone.replace(/-/g, "")}`}
-                      className="inline-flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
-                    >
-                      <Phone className="w-6 h-6 md:w-7 md:h-7 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
-                      <span className="whitespace-nowrap">{contact.phone}</span>
-                    </a>
+                    {contact.phone && (
+                      <a
+                        href={`tel:${contact.phone.replace(/-/g, "")}`}
+                        className="inline-flex items-center gap-2.5 text-xl md:text-3xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
+                      >
+                        <Phone className="w-6 h-6 md:w-7 md:h-7 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
+                        <span className="whitespace-nowrap">{contact.phone}</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               );

@@ -14,6 +14,7 @@ const FALLBACK_CONTACTS = [
     { category: "Press • Media", company: "NTD Records", name: "Lenny Rago", email: "LRago@NTDRecords.com", phone: "847-269-6200", note: null },
     { category: "Technical • Production • Advance", company: null, name: "Jeff Dobbs", email: "jeffdobbs64@yahoo.com", phone: "847-772-5333", note: null },
     { category: "Advance — Non-Technical", company: null, name: "Alan McRae", email: "Alan@NTDManagement.com", phone: "630-842-9129", note: null },
+    { category: "7th Heaven Cruise & Vacations", company: "NTD Vacations", name: "Mary", email: "Mary@NTDVacations.com", phone: null, note: null },
 ];
 
 export default async function ContactPage() {
