@@ -459,16 +459,16 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "node-planner",
+    id: "node-fan-pin-verification",
     type: "sitemapCard",
     position: { x: 760, y: 1040 },
     data: {
-      header: "Show Planner",
-      title: "Event Booking Coordinator",
-      path: "/planner",
-      imgUrl: "/sitemap-thumbs/planner-dashboard-signed-in.jpg",
-      badgeType: "PORTAL",
-      description: "Private event planner dashboard, date checklist, and coordinator portal.",
+      header: "FAN PIN VERIFICATION MODULE",
+      title: "Fan 6-Digit PIN Security Module",
+      path: "/fans",
+      imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan receives 6-digit security PIN email and enters code into the Fan PIN Verification Module to activate account.",
     },
   },
   {
@@ -618,9 +618,8 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-dashboard-to-create-fan-account", source: "node-planner-unlocked", target: "node-create-fan-account", type: "smoothstep", animated: true },
 
   // Other section connections
-  { id: "e-shows-planner", source: "footer-shows", target: "node-planner", type: "smoothstep" },
-  { id: "e-shows-crew", source: "footer-shows", target: "node-crew", type: "smoothstep" },
   { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
+  { id: "flow-fan-signup-to-pin-module", source: "node-fan-signup-module", target: "node-fan-pin-verification", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
