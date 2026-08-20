@@ -1040,7 +1040,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center group">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/cruise/richard.jpg" alt="Richard Hofherr" className="w-full h-full object-cover" />
+                      <Image width={96} height={96} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="w-full h-full object-cover" />
                     </div>
                     <a href="mailto:info@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Richard Hofherr
@@ -1055,7 +1055,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Mary Grivas */}
                   <div className="flex flex-col items-center group">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/cruise/mary.jpg" alt="Mary Grivas" className="w-full h-full object-cover" />
+                      <Image width={96} height={96} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="w-full h-full object-cover" />
                     </div>
                     <a href="mailto:Mary@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Mary Grivas
@@ -1070,7 +1070,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Alan McRae */}
                   <div className="flex flex-col items-center group">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/cruise/alan.jpg" alt="Alan McRae" className="w-full h-full object-cover" />
+                      <Image width={96} height={96} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="w-full h-full object-cover" />
                     </div>
                     <a href="mailto:alan@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Alan McRae
