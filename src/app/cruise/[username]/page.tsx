@@ -636,15 +636,31 @@ export default function CruiseDashboard() {
     <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
-            <div className="flex items-start gap-4 mb-4">
-              <span className="text-3xl md:text-4xl leading-none">🚢</span>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white leading-none">Cruise Hub</h1>
-                <p className="text-cyan-400 font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Passenger Area</p>
-              </div>
+          <div className="flex items-start gap-5">
+            {/* Member Avatar */}
+            <div className="relative shrink-0">
+              {effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:')) ? (
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                  <img src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white font-black text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                  {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                </div>
+              )}
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-black uppercase text-white bg-sky-500 rounded-full shadow-md border border-sky-400/50">
+                Cruise
+              </span>
             </div>
-            <p className="text-white/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-white">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
+
+            {/* Member Info */}
+            <div>
+              <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white leading-none">
+                {effectiveMember?.name || 'Cruise Guest'}
+              </h1>
+              <p className="text-cyan-400 font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Cruise Member Dashboard</p>
+              <p className="text-white/40 text-xs font-mono mt-1">{effectiveMember?.email || ''}</p>
+            </div>
           </div>
 
           <div className="shrink-0">

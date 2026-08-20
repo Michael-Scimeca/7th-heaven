@@ -411,9 +411,11 @@ export function Header() {
     ? "admin"
     : isCrewRoute
       ? "crew"
-      : isDemoFanPage || isDemoCruisePage
-        ? "fan"
-        : member?.role || "fan";
+      : isDemoCruisePage
+        ? "cruise"
+        : isDemoFanPage
+          ? "fan"
+          : member?.role || "fan";
 
   const displayName = isAdminRoute
     ? (member?.name || "Admin User")
