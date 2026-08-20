@@ -587,37 +587,23 @@ export function Header() {
               CONTACT
             </TransitionLink>
 
-            {/* Cart Icon (only in nav bar when NOT signed in) */}
-            {!showUserAuth && (
-              <TransitionLink
-                href="/merch"
-                className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
-                title="Cart / Merch"
-              >
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-              </TransitionLink>
-            )}
+            {/* Cart Icon — always visible */}
+            <TransitionLink
+              href="/merch"
+              className="text-white/70 hover:text-white transition-colors p-0.5 mx-0.5 shrink-0"
+              title="Cart / Merch"
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+            </TransitionLink>
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {showUserAuth ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <div className="relative shrink-0 flex items-center justify-center">
-                  {/* Cart Icon attached directly to avatar profile circle when signed in */}
-                  <TransitionLink
-                    href="/merch"
-                    className="absolute -top-0.5 -left-1 w-4 h-4 sm:w-5 sm:h-5 bg-[#851def] hover:bg-[#7415d8] text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 z-20"
-                    title="Cart / Merch"
-                  >
-                    <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="9" cy="21" r="1" />
-                      <circle cx="20" cy="21" r="1" />
-                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                    </svg>
-                  </TransitionLink>
                   <TransitionLink
                     href={dashboardHref}
                     className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11"
