@@ -654,12 +654,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div id="cruise-page" className="min-h-screen text-white pt-0">
+    <div id="cruise-page" className="min-h-screen text-white pt-[100px]">
 
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section
         id="cruise-hero"
-        className="-mt-[88px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white min-h-[420px] max-h-[780px]"
+        className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white min-h-[420px] max-h-[780px]"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
@@ -701,17 +701,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           }}
         />
 
-        {/* Bottom ::before Blur Strip Overlay */}
-        <div
-          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip"
-          style={{
-            height: `${heroMaskSettings.beforeHeight}px`,
-            zIndex: heroMaskSettings.beforeZIndex,
-            backdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
-            WebkitBackdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
-            background: `linear-gradient(to bottom, transparent, rgba(6, 6, 12, ${heroMaskSettings.beforeBgOpacity / 100}))`,
-          }}
-        />
 
         {/* Hero Text */}
         <div className="relative z-10 text-left site-container mb-10 pt-4">
@@ -724,7 +713,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Main Title: Cruise Name */}
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            7TH HEAVEN <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
+            7TH HEAVEN <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}

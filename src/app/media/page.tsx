@@ -402,7 +402,7 @@ export default function MediaPage() {
                   className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
                   style={{ fontFamily: "var(--font-barlow-condensed)" }}
                 >
-                  <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
+                  <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
                     {featuredVideo.title}
                   </span>
                 </h1>

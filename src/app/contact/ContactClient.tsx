@@ -64,7 +64,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
         <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-          CONTACT <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
+          CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
         </h1>
         <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
