@@ -296,7 +296,8 @@ export function Header() {
   const isCrewRoute = pathname?.startsWith("/crew");
   const isDemoFanPage = pathname === "/fans/demo";
   const isDemoCruisePage = pathname === "/cruise/demo";
-  const isDemoPage = isDemoFanPage || isDemoCruisePage || isAdminRoute || isCrewRoute;
+  const isDemoPlannerPage = pathname === "/book/demo";
+  const isDemoPage = isDemoFanPage || isDemoCruisePage || isDemoPlannerPage || isAdminRoute || isCrewRoute;
 
   const showUserAuth = isLoggedIn || !!member || isDemoPage;
 
@@ -413,9 +414,11 @@ export function Header() {
       ? "crew"
       : isDemoCruisePage
         ? "cruise"
-        : isDemoFanPage
-          ? "fan"
-          : member?.role || "fan";
+        : isDemoPlannerPage
+          ? "planner"
+          : isDemoFanPage
+            ? "fan"
+            : member?.role || "fan";
 
   const displayName = isAdminRoute
     ? (member?.name || "Admin User")
@@ -425,7 +428,9 @@ export function Header() {
         ? "Demo Fan"
         : isDemoCruisePage
           ? "Demo Cruiser"
-          : member?.name || "Member";
+          : isDemoPlannerPage
+            ? "Event Planner"
+            : member?.name || "Member";
   const initials = displayName
     .split(" ")
     .map((n: string) => n[0])
@@ -436,12 +441,14 @@ export function Header() {
     ? "/fans/demo"
     : isDemoCruisePage
       ? "/cruise/demo"
+      : isDemoPlannerPage
+        ? "/book/demo"
       : displayRole === "admin"
         ? "/admin"
         : displayRole === "crew"
           ? "/crew"
           : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
-            ? "/planner"
+            ? `/book/${member?.username || "me"}`
             : displayRole === "cruise"
               ? `/cruise/${member?.username || "dashboard"}`
               : `/fans/${member?.username || "me"}`;
