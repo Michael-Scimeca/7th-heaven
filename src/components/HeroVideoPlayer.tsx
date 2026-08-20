@@ -2,6 +2,8 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
@@ -54,6 +56,13 @@ function hexToRgba(hex: string, alpha: number): string {
   const b = num & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
 }
+
+const PARALLAX_PRESETS = [
+  { name: "Subtle", range: 6 },
+  { name: "Medium", range: 14 },
+  { name: "Dramatic", range: 22 },
+  { name: "Extreme", range: 30 },
+];
 
 const GRADIENT_PRESETS = [
   { name: "My Custom Choice", height: 46, opacity: 0.95, midstop: 37, color: "#000000" },
@@ -120,6 +129,19 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [isGradUiOpen, setIsGradUiOpen] = useState(false);
   const [gradCopied, setGradCopied] = useState(false);
 
+  // ── Parallax Customizer states ───────────────────────────────────────────
+  // range: how far the background video drifts (± yPercent) as the hero
+  // scrolls through the viewport. scrub: how much the drift lags behind the
+  // actual scroll position (0 = instant, higher = smoother/laggier).
+  // foreground: when on, the thumbs/vinyl row drifts the opposite direction
+  // at half the range for a stronger sense of layered depth.
+  const [pxRange, setPxRange] = useState(14);
+  const [pxScrub, setPxScrub] = useState(0.6);
+  const [pxForeground, setPxForeground] = useState(true);
+  const [isPxUiOpen, setIsPxUiOpen] = useState(false);
+  const [pxCopied, setPxCopied] = useState(false);
+  const foregroundRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const savedColor = localStorage.getItem("7h_tint_color");
     const savedOpacity = localStorage.getItem("7h_tint_opacity");
@@ -139,6 +161,15 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     if (savedGradO) setGradOpacity(parseFloat(savedGradO));
     if (savedGradM) setGradMidstop(parseFloat(savedGradM));
     if (savedGradC) setGradColor(savedGradC);
+
+    // Load parallax settings
+    const savedPxRange = localStorage.getItem("7h_hero_parallax_range");
+    const savedPxScrub = localStorage.getItem("7h_hero_parallax_scrub");
+    const savedPxFg = localStorage.getItem("7h_hero_parallax_fg");
+
+    if (savedPxRange) setPxRange(parseFloat(savedPxRange));
+    if (savedPxScrub) setPxScrub(parseFloat(savedPxScrub));
+    if (savedPxFg) setPxForeground(savedPxFg === "true");
   }, []);
 
   const updateGradHeight = (h: number) => {
@@ -163,6 +194,31 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     navigator.clipboard.writeText(cssText);
     setGradCopied(true);
   };
+
+  const updatePxRange = (r: number) => {
+    setPxRange(r);
+    localStorage.setItem("7h_hero_parallax_range", r.toString());
+  };
+  const updatePxScrub = (s: number) => {
+    setPxScrub(s);
+    localStorage.setItem("7h_hero_parallax_scrub", s.toString());
+  };
+  const updatePxForeground = (on: boolean) => {
+    setPxForeground(on);
+    localStorage.setItem("7h_hero_parallax_fg", on.toString());
+  };
+
+  const copyPxSettings = () => {
+    const snippet = `// Hero parallax settings\nrange: ${pxRange}, // yPercent amplitude (background drift)\nscrub: ${pxScrub}, // scroll-smoothing lag\nforegroundCounterParallax: ${pxForeground},`;
+    navigator.clipboard.writeText(snippet);
+    setPxCopied(true);
+  };
+
+  useEffect(() => {
+    if (!pxCopied) return;
+    const t = setTimeout(() => setPxCopied(false), 2000);
+    return () => clearTimeout(t);
+  }, [pxCopied]);
 
   const [VinylComp, setVinylComp] = useState<ComponentType<any> | null>(null);
   const [YTComp, setYTComp] = useState<ComponentType<any> | null>(null);
@@ -341,6 +397,76 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     };
   }, [isYouTube, videoSrc]);
 
+  // ── Parallax: background video drifts slower than the page as you scroll ────
+  // Desktop-only (matches the perf gating used elsewhere in this component) and
+  // respects prefers-reduced-motion. Depth, smoothing, and the foreground
+  // counter-drift are all live-tunable via the Parallax Customizer panel below
+  // (pxRange / pxScrub / pxForeground), so this effect re-runs whenever those
+  // change. The video's scale grows with pxRange so the translate range never
+  // exposes empty edges inside the overflow-hidden #hero section.
+  useEffect(() => {
+    if (typeof window === "undefined" || !isDesktop || isYouTube) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Extra space needed on each side of the video, as a fraction of its own
+    // height, is pxRange/100 (the max translate distance). A small buffer
+    // (1.05x) keeps the scaled edge from ever peeking into view.
+    const scale = 1 + (pxRange / 50) * 1.05;
+    const halfRange = pxRange / 2;
+
+    const ctx = gsap.context(() => {
+      // GSAP writes a single inline `transform`, which would otherwise clobber
+      // the Tailwind `scale-[1.3]` fallback class (inline style always wins
+      // over the stylesheet rule). Keeping scale in both the "from" and "to"
+      // tween values means GSAP owns the whole transform and the zoom never
+      // drops once this effect takes over.
+      gsap.fromTo(
+        video,
+        { yPercent: -pxRange, scale },
+        {
+          yPercent: pxRange,
+          scale,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: pxScrub,
+          },
+        }
+      );
+
+      // Foreground counter-drift: the thumbs/vinyl row moves the opposite
+      // direction at half the amplitude, so it visually separates from the
+      // background layer instead of scrolling in lockstep with it.
+      if (pxForeground && foregroundRef.current) {
+        gsap.fromTo(
+          foregroundRef.current,
+          { yPercent: halfRange },
+          {
+            yPercent: -halfRange,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#hero",
+              start: "top top",
+              end: "bottom top",
+              scrub: pxScrub,
+            },
+          }
+        );
+      }
+
+      ScrollTrigger.refresh();
+    });
+
+    return () => ctx.revert();
+  }, [isDesktop, isYouTube, videoSrc, pxRange, pxScrub, pxForeground]);
+
   const ctxValue: VideoSnapshotContextValue = useMemo(
     () => ({ snapshots }),
     [snapshots]
@@ -414,7 +540,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none scale-[1.08]"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none scale-[1.3]"
         >
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
@@ -623,8 +749,151 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         </div>
       )}
 
+      {/* ── Parallax Customizer Floating Panel (Dev/Tester Only) ── */}
+      {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
+        <div className="absolute top-[160px] right-6 z-40 md:right-8 flex flex-col items-end">
+          {!isPxUiOpen ? (
+            <button aria-label="Action button"
+              onClick={() => setIsPxUiOpen(true)}
+              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              title="Open Parallax Customizer"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white/80 group-hover:text-[var(--color-accent)] transition-colors duration-300"
+              >
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+            </button>
+          ) : (
+            <div
+              className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                <div className="flex flex-col">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider  text-[var(--color-accent)]">
+                    Parallax Tester
+                  </span>
+                  <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
+                    Tune the hero scroll depth
+                  </span>
+                </div>
+                <button aria-label="Action button"
+                  onClick={() => setIsPxUiOpen(false)}
+                  className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+
+              {/* Presets */}
+              <div className="space-y-1.5">
+                <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Presets</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {PARALLAX_PRESETS.map((preset) => (
+                    <button aria-label="Action button"
+                      key={preset.name}
+                      onClick={() => updatePxRange(preset.range)}
+                      className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
+                        ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
+                        : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
+                        }`}
+                    >
+                      {preset.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Depth (range) Slider */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
+                  <span>Depth</span>
+                  <span className=" text-[var(--color-accent)] font-mono font-black">±{pxRange}%</span>
+                </div>
+                <input aria-label="Input field"
+                  type="range"
+                  min="0"
+                  max="30"
+                  step="1"
+                  value={pxRange}
+                  onChange={(e) => updatePxRange(parseFloat(e.target.value))}
+                  className="w-full accent-amber-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              {/* Scrub (smoothing) Slider */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
+                  <span>Smoothing</span>
+                  <span className=" text-[var(--color-accent)] font-mono font-black">{pxScrub.toFixed(1)}s</span>
+                </div>
+                <input aria-label="Input field"
+                  type="range"
+                  min="0"
+                  max="2"
+                  step="0.1"
+                  value={pxScrub}
+                  onChange={(e) => updatePxScrub(parseFloat(e.target.value))}
+                  className="w-full accent-amber-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              {/* Foreground Counter-Drift Toggle */}
+              <button aria-label="Action button"
+                onClick={() => updatePxForeground(!pxForeground)}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground
+                  ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
+                  : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10"
+                  }`}
+              >
+                <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider">Foreground Counter-Drift</span>
+                <span className={`w-8 h-4 rounded-full relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
+                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"}`} />
+                </span>
+              </button>
+
+              {/* Active Values HUD */}
+              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 text-[var(--font-size-4xs)] font-mono text-white/40 space-y-0.5">
+                <div>Depth: <span className="text-white font-bold">±{pxRange}%</span></div>
+                <div>Smoothing: <span className="text-white font-bold">{pxScrub.toFixed(1)}s</span></div>
+                <div>Foreground drift: <span className="text-white font-bold">{pxForeground ? "on" : "off"}</span></div>
+              </div>
+
+              {/* Copy Settings Button */}
+              <button aria-label="Action button"
+                onClick={copyPxSettings}
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                {pxCopied ? (
+                  <>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
+                    Copy Settings
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Bottom row: live stream thumbs on left + vinyl player on right ── */}
-      <div className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
+      <div ref={foregroundRef} className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
         {/* Live stream small thumbnails */}
         <div className="relative z-30 flex justify-start ml-8">
           {children}

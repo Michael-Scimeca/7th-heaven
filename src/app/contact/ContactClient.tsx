@@ -71,7 +71,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           </div>
 
           {/* Contact Cards List (1 Column Stacked) */}
-          <div className="space-y-4 max-w-2xl">
+          <div className="space-y-3 max-w-2xl">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
               const isSelected = activePhoto === photoForThisCard;
@@ -81,7 +81,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className={`pb-4 border-b border-white/10 ${isSelected
+                  className={`pb-2 border-b border-white/10 ${isSelected
                     ? ""
                     : ""
                     }`}
