@@ -519,11 +519,11 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1520, y: 700 },
     data: {
       header: "CRUISE MEMBER SIGNUP MODULE",
-      title: "Cruise Member Registration & Signup",
+      title: "Cruise Account Signup & Registration",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
       badgeType: "MODULE",
-      description: "Cruise member signup form, cabin selection, and passenger registration to reserve a spot on the 2026 Caribbean Rock Cruise.",
+      description: "Select CRUISE account type in the Sign Up module, enter email and password to register as a Cruise 2026 member.",
     },
   },
   // ── CRUISE VERTICAL FLOW: STEP 3 — ✉ CRUISE SECURITY PIN EMAIL (y = 1040) ──
