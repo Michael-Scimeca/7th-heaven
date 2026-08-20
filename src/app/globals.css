@@ -2239,8 +2239,8 @@ html.tour-sort-stuck #tour-sort-bar {
 #header-logo:hover svg,
 #header-logo:hover path,
 #header-logo:hover polygon {
-  color: #c084fc !important;
-  fill: #c084fc !important;
+  color: #9333ea !important;
+  fill: #9333ea !important;
 }
 
 /* Hide Next.js development indicator badge (N) & Neat Gradient Watermark Link */

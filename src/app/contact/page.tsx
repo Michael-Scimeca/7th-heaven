@@ -14,7 +14,7 @@ const MARY_CONTACT = {
     company: "NTD Vacations",
     name: "Mary Grivas",
     email: "Mary@NTDVacations.com",
-    phone: "(877) 683-9753 ext 5",
+    phone: "877-683-9753 Ext 5",
     note: null
 };
 
@@ -30,7 +30,7 @@ export default async function ContactPage() {
     const settingsData = await sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } });
     const settings = settingsData as SanitySiteSettings | null;
     const baseContacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
-    
+
     const contacts = [...baseContacts];
     if (!contacts.some(c => c.email?.toLowerCase().includes("mary@ntdvacations.com"))) {
         contacts.push(MARY_CONTACT);
