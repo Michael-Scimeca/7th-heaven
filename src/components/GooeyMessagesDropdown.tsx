@@ -147,30 +147,6 @@ export default function GooeyMessagesDropdown({
         </label>
       )}
 
-      {/* SVG Gooey Liquid Droplet Background Container (Shapes Stretch Liquidly From Button) */}
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ filter: "url(#gooey-morph-filter)" }}>
-        {/* Trigger Pill Base Blob */}
-        <div className={`w-full h-full rounded-xl transition-colors duration-300 ${open ? "bg-[#6917BF]" : "bg-[#180f33]"}`} />
-
-        {/* Droplet Extension & Menu Panel Blob (Stretches Down From Trigger Container) */}
-        {open && (
-          <>
-            {/* Liquid Droplet Connecting Neck */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full -mt-2 w-8 h-4 bg-[#6917BF] rounded-full transition-all duration-300 animate-in fade-in zoom-in-75" />
-            {/* Liquid Menu Panel Shape */}
-            <div className="absolute left-0 top-full mt-1 min-w-full w-max max-w-md h-52 bg-[#120826] rounded-xl transition-all duration-300 origin-top animate-in fade-in slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
-          </>
-        )}
-      </div>
-
-      {/* Gooey Ambient Glow */}
-      {open && (
-        <div
-          className="absolute -inset-1.5 bg-gradient-to-r from-purple-600/40 via-pink-600/40 to-purple-800/40 rounded-2xl blur-lg pointer-events-none z-0 animate-pulse transition-opacity duration-300"
-          aria-hidden="true"
-        />
-      )}
-
       {/* Trigger Button (Crisp Foreground Layer) */}
       <button
         type="button"
