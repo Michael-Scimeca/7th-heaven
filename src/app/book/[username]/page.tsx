@@ -69,11 +69,31 @@ export default function PlannerDashboardPage() {
     const email = effectiveMember?.email || member?.email || "planner@7thheavenband.com";
     const phone = effectiveMember?.phone || member?.phone || "(847) 555-0199";
     const organization = effectiveMember?.organization || member?.organization || "Scoreboard Entertainment";
+    const venueName = effectiveMember?.venueName || "Bridges Scoreboard";
+    const venueCity = effectiveMember?.venueCity || "Chicago";
+    const venueState = effectiveMember?.venueState || "IL";
+    const indoorOutdoor = "Outdoor";
+    const expectedAttendance = "250";
+    const soundSystem = "Yes — full PA system";
+    const stageAvailable = "Yes";
+    const loadInTime = "3:00 PM";
+    const parkingAddress = "980 S Bartlett Rd, Lot B";
+    const parkingNotes = "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.";
 
     if (name) p.set("name", name);
     if (email) p.set("email", email);
     if (phone) p.set("phone", phone);
     if (organization) p.set("organization", organization);
+    if (venueName) p.set("venueName", venueName);
+    if (venueCity) p.set("venueCity", venueCity);
+    if (venueState) p.set("venueState", venueState);
+    if (indoorOutdoor) p.set("indoorOutdoor", indoorOutdoor);
+    if (expectedAttendance) p.set("expectedAttendance", expectedAttendance);
+    if (soundSystem) p.set("soundSystem", soundSystem);
+    if (stageAvailable) p.set("stageAvailable", stageAvailable);
+    if (loadInTime) p.set("loadInTime", loadInTime);
+    if (parkingAddress) p.set("parkingAddress", parkingAddress);
+    if (parkingNotes) p.set("parkingNotes", parkingNotes);
 
     router.push(`/book?${p.toString()}`);
   };

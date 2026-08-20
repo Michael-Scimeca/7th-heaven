@@ -489,10 +489,13 @@ function BookPageContent() {
           const val = searchParams.get(f);
           if (val) (updated as any)[f] = val;
         });
-        if (fromParam === 'rebook') {
+        if (isFromPlanner) {
           if (!updated.venueName) updated.venueName = searchParams.get("venueName") || "Bridges Scoreboard";
           if (!updated.venueCity) updated.venueCity = searchParams.get("venueCity") || "Chicago";
           if (!updated.venueState) updated.venueState = searchParams.get("venueState") || "IL";
+          if (!updated.organization) updated.organization = searchParams.get("organization") || "Scoreboard Entertainment";
+        }
+        if (fromParam === 'rebook') {
           updated.eventDate = '';
           updated.startTime = '';
           updated.endTime = '';
