@@ -512,18 +512,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Planner inputs 6-digit PIN [5][8][2][9][0][1] into the Planner PIN Verification Module on the booker page to complete verification.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 2 — CRUISE PIN VERIFICATION MODULE (y = 700) ──
+  // ── CRUISE VERTICAL FLOW: STEP 2 — CRUISE MEMBER SIGNUP MODULE (y = 700) ──
   {
     id: "node-cruise-pin-module",
     type: "sitemapCard",
     position: { x: 1520, y: 700 },
     data: {
-      header: "CRUISE PIN VERIFICATION MODULE",
-      title: "Cruise PIN Verification Module",
+      header: "CRUISE MEMBER SIGNUP MODULE",
+      title: "Cruise Member Registration & Signup",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/cruise-verify.jpg",
+      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
       badgeType: "MODULE",
-      description: "Submitting cruise reservation form opens PIN Verification Module asking for 6-digit security PIN.",
+      description: "Cruise member signup form, cabin selection, and passenger registration to reserve a spot on the 2026 Caribbean Rock Cruise.",
     },
   },
   // ── CRUISE VERTICAL FLOW: STEP 3 — ✉ CRUISE SECURITY PIN EMAIL (y = 1040) ──
