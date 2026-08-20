@@ -714,27 +714,27 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         />
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center px-[32px] max-w-6xl mx-auto mb-2">
+        <div className="relative z-10 text-center px-4 sm:px-8 max-w-[1400px] mx-auto mb-4">
 
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/60 border border-purple-400/40 backdrop-blur-md text-white text-[0.65rem] md:text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-purple-950/70 border border-purple-400/50 backdrop-blur-md text-white text-xs md:text-sm font-black uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(168,85,247,0.6)] mb-5">
+            <Sparkles className="w-4 h-4 text-purple-300 animate-pulse" />
             <span>ANNUAL ROCK &amp; ROLL VACATION AT SEA</span>
           </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            7TH HEAVEN <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10.5rem] xl:text-[12.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_12px_45px_rgba(0,0,0,0.98)] leading-[0.88]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            7TH HEAVEN <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white">
-            <span className="bg-black/50 px-4 py-2 rounded-xl border border-white/25 text-white font-black backdrop-blur-md flex items-center gap-2 shadow-xl hover:border-purple-400/60 transition-all">
-              <Ship className="w-4 h-4 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-300 bg-purple-500/30 px-2 py-0.5 rounded-md text-[0.7rem] border border-purple-400/30">2027</span>
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-widest text-white">
+            <span className="bg-black/60 px-5 py-2.5 rounded-2xl border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+              <Ship className="w-5 h-5 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2027</span>
             </span>
-            <span className="text-white/40 hidden sm:inline">•</span>
-            <span className="bg-black/50 px-4 py-2 rounded-xl border border-white/25 text-white font-black backdrop-blur-md flex items-center gap-2 shadow-xl hover:border-purple-400/60 transition-all">
-              <Ship className="w-4 h-4 text-purple-400" /> LEGEND OF THE SEAS <span className="text-purple-300 bg-purple-500/30 px-2 py-0.5 rounded-md text-[0.7rem] border border-purple-400/30">2028</span>
+            <span className="text-white/40 hidden sm:inline text-lg">•</span>
+            <span className="bg-black/60 px-5 py-2.5 rounded-2xl border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+              <Ship className="w-5 h-5 text-purple-400" /> LEGEND OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2028</span>
             </span>
           </div>
         </div>
