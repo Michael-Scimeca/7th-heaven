@@ -779,115 +779,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
               {/* Cancellation & Policy Guidelines — 4-Column Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left border-b border-white/10 pb-12">
-                {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
-                  </div>
-                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
-                    Book through us to participate &amp; lock in best rates
-                  </p>
-                  <p className="text-xs text-white/80 leading-relaxed mb-4">
-                    To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
-                  </p>
-                  <ul className="space-y-2.5 text-xs text-white/80 leading-relaxed mb-6">
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span>We match rates &amp; re-roll your room if prices drop before final payment!</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <HelpCircle className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Double Occupancy).</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>Group Rate:</strong> Gratuities fully included.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
-                      <span><strong>Prevailing Rates:</strong> Gratuities NOT included ($129.50 PP; $147 PP Suites).</span>
-                    </li>
-                  </ul>
-                  <div className="pt-3 border-t border-white/10 space-y-1.5 text-xs">
-                    <p className="text-white/80">
-                      <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
-                    </p>
-                    <p className="text-white/80">
-                      <CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> $250/person ($500/room).
-                    </p>
-                    <p className="text-white/80">
-                      <CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "Oct 1, 2026" : "Oct 1, 2027"}.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Column 2: Passport Requirements */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Guidelines</h3>
-                  </div>
-                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
-                    Essential travel document guidelines
-                  </p>
-                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
-                    <p>
-                      A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold underline inline-block">highly recommended</strong> for all travelers.
-                    </p>
-                    <p>
-                      For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
-                    </p>
-                    <p>
-                      Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-extrabold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Column 3: Cancellation Policy */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
-                  </div>
-                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
-                    Refund terms before booking
-                  </p>
-                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
-                    <div>
-                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Group Rate Rooms:</h4>
-                      {activePriceYear === 2027 ? (
-                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
-                          <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
-                          <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
-                          <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
-                          <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
-                          <li>After Nov 10, 2026: <strong>50% cost</strong></li>
-                          <li>After Dec 10, 2026: <strong>No refund</strong></li>
-                        </ul>
-                      ) : (
-                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
-                          <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
-                          <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
-                          <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
-                          <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
-                          <li>After Nov 8, 2027: <strong>50% cost</strong></li>
-                          <li>After Dec 9, 2027: <strong>No refund</strong></li>
-                        </ul>
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Prevailing Rate:</h4>
-                      <p className="text-xs text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Column 4: Ship & Cruise Resource Links (from ship.html) */}
+                {/* Column 1: Ship & Cruise Resource Links (from ship.html) */}
                 <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-3 mb-4">
@@ -973,6 +865,172 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <p className="mt-3 text-[10px] font-semibold text-white/50 uppercase tracking-wider">
                     Legend of the Seas is an exact sister-ship duplicate.
                   </p>
+                </div>
+
+                {/* Column 2: Booking Policy & Best Rate Guarantee */}
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
+                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
+                  </div>
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                    Book through us to participate &amp; lock in best rates
+                  </p>
+                  <p className="text-xs text-white/80 leading-relaxed mb-4">
+                    To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
+                  </p>
+                  <ul className="space-y-2.5 text-xs text-white/80 leading-relaxed mb-6">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span>We match rates &amp; re-roll your room if prices drop before final payment!</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <HelpCircle className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Double Occupancy).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <span><strong>Group Rate:</strong> Gratuities fully included.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
+                      <span><strong>Prevailing Rates:</strong> Gratuities NOT included ($129.50 PP; $147 PP Suites).</span>
+                    </li>
+                  </ul>
+                  <div className="pt-3 border-t border-white/10 space-y-1.5 text-xs">
+                    <p className="text-white/80">
+                      <strong>Email:</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
+                    </p>
+                    <p className="text-white/80">
+                      <strong>Call Us:</strong> (877) 683-9753 - opt 5 • (877) NTD-WRLD - opt 5
+                    </p>
+                    <p className="text-white/80">
+                      <CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> $250/person ($500/room).
+                    </p>
+                    <p className="text-white/80">
+                      <CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "Oct 1, 2026" : "Oct 1, 2027"}.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Column 3: Passport Requirements */}
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Compass className="w-6 h-6 text-purple-400 shrink-0" />
+                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Guidelines</h3>
+                  </div>
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                    Essential travel document guidelines
+                  </p>
+                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
+                    <p>
+                      A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold underline inline-block">highly recommended</strong> for all travelers.
+                    </p>
+                    <p>
+                      For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
+                    </p>
+                    <p>
+                      Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-extrabold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Column 4: Cancellation Policy */}
+                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
+                    <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
+                  </div>
+                  <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                    Refund terms before booking
+                  </p>
+                  <div className="space-y-4 text-xs text-white/80 leading-relaxed">
+                    <div>
+                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Group Rate Rooms:</h4>
+                      {activePriceYear === 2027 ? (
+                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
+                          <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
+                          <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
+                          <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
+                          <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
+                          <li>After Nov 10, 2026: <strong>50% cost</strong></li>
+                          <li>After Dec 10, 2026: <strong>No refund</strong></li>
+                        </ul>
+                      ) : (
+                        <ul className="list-disc pl-4 space-y-1 text-xs text-white/80">
+                          <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
+                          <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
+                          <li>July 14, 2027 – Sept 10, 2027: <strong>$100 pp fee</strong></li>
+                          <li>Sept 11, 2027 – Nov 8, 2027: <strong>$200 pp fee</strong></li>
+                          <li>After Nov 8, 2027: <strong>50% cost</strong></li>
+                          <li>After Dec 9, 2027: <strong>No refund</strong></li>
+                        </ul>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-white uppercase tracking-wider text-[11px] mb-1">Prevailing Rate:</h4>
+                      <p className="text-xs text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* NTD Vacations Official Cruise Support Team Banner */}
+              <div className="mb-16 p-6 md:p-8 bg-white/5 rounded-2xl border border-white/10 shadow-2xl text-center">
+                <p className="text-xs font-mono uppercase tracking-[0.25em] text-purple-300 font-extrabold mb-1">
+                  Official Cruise Concierge &amp; Booking Team
+                </p>
+                <h4 className="text-xl md:text-2xl font-black uppercase text-white tracking-wide mb-2">
+                  Email is the best way to reach us:{" "}
+                  <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">
+                    info@NTDVacations.com
+                  </a>
+                </h4>
+                <p className="text-xs md:text-sm font-bold text-white/80 tracking-wide mb-6">
+                  Call us at: <span className="text-white font-extrabold">(877) 683-9753 - option 5</span> &nbsp;•&nbsp; <span className="text-white font-extrabold">(877) NTD-WRLD - option 5</span>
+                </p>
+
+                {/* 3 Team Members Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
+                  {/* Richard Hofherr */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
+                      <Image width={96} height={96} unoptimized src="/images/cruise/richard.jpg" alt="Richard Hofherr" className="w-full h-full object-cover" />
+                    </div>
+                    <a href="mailto:info@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
+                      Richard Hofherr
+                    </a>
+                    <p className="text-xs text-white/70 font-semibold mt-1">CEO / Booking / Bands</p>
+                    <p className="text-xs text-white/50 font-medium">Marketing / Media</p>
+                  </div>
+
+                  {/* Mary Grivas */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
+                      <Image width={96} height={96} unoptimized src="/images/cruise/mary.jpg" alt="Mary Grivas" className="w-full h-full object-cover" />
+                    </div>
+                    <a href="mailto:Mary@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
+                      Mary Grivas
+                    </a>
+                    <p className="text-xs text-white/70 font-semibold mt-1">Group Excursions / Group Hotels</p>
+                    <p className="text-xs text-white/50 font-medium">Group Air / Charters / Shuttles</p>
+                  </div>
+
+                  {/* Alan McRae */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
+                      <Image width={96} height={96} unoptimized src="/images/cruise/alan.jpg" alt="Alan McRae" className="w-full h-full object-cover" />
+                    </div>
+                    <a href="mailto:alan@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
+                      Alan McRae
+                    </a>
+                    <p className="text-xs text-white/70 font-semibold mt-1">Schedule</p>
+                    <p className="text-xs text-white/50 font-medium">Activities / Logistics</p>
+                  </div>
                 </div>
               </div>
 
