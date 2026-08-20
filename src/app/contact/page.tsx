@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 const MARY_CONTACT = {
-    category: "7th Heaven Cruise & Vacations",
+    category: "Excursions / Hotels & Air",
     company: "NTD Vacations",
     name: "Mary Grivas",
     email: "Mary@NTDVacations.com",
-    phone: null,
+    phone: "(877) 683-9753 ext 5",
     note: null
 };
 

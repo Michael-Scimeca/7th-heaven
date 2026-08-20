@@ -28,7 +28,15 @@ function getPhotoForCategory(contact: ContactItem): string {
   const nameLower = (contact.name || "").toLowerCase();
   const emailLower = (contact.email || "").toLowerCase();
 
-  if (catLower.includes("vacation") || catLower.includes("cruise") || nameLower.includes("mary") || emailLower.includes("mary")) {
+  if (
+    catLower.includes("excursion") ||
+    catLower.includes("hotel") ||
+    catLower.includes("air") ||
+    catLower.includes("vacation") ||
+    catLower.includes("cruise") ||
+    nameLower.includes("mary") ||
+    emailLower.includes("mary")
+  ) {
     return "/images/contact/Mary-contact.png";
   }
   if (catLower.includes("non-technical") || nameLower.includes("alan") || catLower.includes("alan")) {
@@ -98,7 +106,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   </div>
 
                   {/* Contact Info: Email Top, Phone Directly Underneath (Width Only as Far as Text) */}
-                  <div className="flex flex-col items-start gap-2.5 pt-3">
+                  <div className="flex flex-col items-start gap-2.5">
                     {/* Email */}
                     {contact.email && (
                       <a
