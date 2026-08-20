@@ -705,7 +705,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         {/* Hero Text */}
         <div className="relative z-10 text-left site-container mb-10 pt-4">
 
-          {/* Chicago Music Cruise Official Branding Badges */}
+          {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/90 via-black to-purple-950/90 border border-purple-400/50 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
               <Ship className="w-4 h-4 text-cyan-300" />
@@ -714,9 +714,46 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <span className="text-xs font-black uppercase tracking-widest text-amber-300 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/40 shadow-md">
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-purple-200 bg-purple-600/30 px-3.5 py-1.5 rounded-full border border-purple-500/30 backdrop-blur-md">
-              NTD Vacations &amp; NTD World
-            </span>
+
+            {/* Official Cruise Social Links */}
+            <div className="flex items-center gap-1.5 bg-black/60 p-1 rounded-full border border-white/20 backdrop-blur-md shadow-lg">
+              <a
+                href="https://www.facebook.com/chicagomusiccruise/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 rounded-full bg-blue-600/30 hover:bg-blue-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
+                title="Chicago Music Cruise Facebook"
+              >
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://www.instagram.com/chicagomusiccruise"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 rounded-full bg-pink-600/30 hover:bg-pink-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
+                title="Chicago Music Cruise Instagram"
+              >
+                <span>Instagram</span>
+              </a>
+              <a
+                href="https://x.com/CMCNTDV"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 rounded-full bg-slate-700/50 hover:bg-black text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
+                title="Chicago Music Cruise X (Twitter)"
+              >
+                <span>X (Twitter)</span>
+              </a>
+              <a
+                href="https://www.youtube.com/channel/UCjYApPvQ71rXL5USPuUyr6Q"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 rounded-full bg-red-600/30 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
+                title="Chicago Music Cruise YouTube Channel"
+              >
+                <span>YouTube</span>
+              </a>
+            </div>
           </div>
 
           {/* Main Title: Cruise Name */}
