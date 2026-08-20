@@ -11,6 +11,7 @@ import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 interface ProximityNotifyProps {
   nextShow?: {
@@ -479,14 +480,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                   </div>
 
-                  {/* Submit Button */}
-                  <button
+                  {/* Submit Button (Cosmic Morphing Radial Gradient Component) */}
+                  <CosmicRadialButton
                     type="submit"
                     disabled={status === "loading" || !agreeNotify || !agreeTerms}
-                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm uppercase tracking-wider py-3.5 rounded-xl shadow-lg shadow-purple-600/30 transition-all cursor-pointer disabled:opacity-50"
+                    className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
-                  </button>
+                  </CosmicRadialButton>
 
                   {/* Errors */}
                   {Object.keys(fieldErrors).length > 0 && (
