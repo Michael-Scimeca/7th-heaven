@@ -630,7 +630,7 @@ export function Header() {
                   </span>
                 </div>
                 <button
-                  onClick={logout}
+                  onClick={() => { logout(); router.push('/'); }}
                   className="hidden lg:block text-[9px] font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
