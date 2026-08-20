@@ -6,6 +6,7 @@
 import { useMember } from "@/context/MemberContext";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState, useCallback, useRef } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
@@ -641,7 +642,7 @@ export default function CruiseDashboard() {
             <div className="relative shrink-0">
               {effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:')) ? (
                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-                  <img src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
+                  <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white font-black text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
