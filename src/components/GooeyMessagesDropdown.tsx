@@ -151,7 +151,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
+        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 min-h-[46px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${open
             ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
             : "bg-[#a855f71f] border-white/15 text-white/90 hover:bg-[#221547]"
