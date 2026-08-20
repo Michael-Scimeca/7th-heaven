@@ -510,15 +510,15 @@ function BookPageContent() {
 
   // Auto-fill details if user is already logged in
   useEffect(() => {
-    if (member && !isFromPlanner) {
+    if (member) {
       setFormData(prev => ({
         ...prev,
-        name: member.name || prev.name,
-        email: member.email || prev.email,
-        phone: member.phone || prev.phone,
+        name: prev.name || member.name || '',
+        email: prev.email || member.email || '',
+        phone: prev.phone || member.phone || '',
       }));
     }
-  }, [member, isFromPlanner]);
+  }, [member]);
 
   const handleLoadLastForm = () => {
     try {

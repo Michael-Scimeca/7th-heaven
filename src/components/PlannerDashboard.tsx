@@ -29,6 +29,9 @@ interface BookingData {
   parkingAddress?: string;
   parkingNotes?: string;
   notes?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
 }
 
 const defaultBooking: BookingData = {
@@ -45,6 +48,9 @@ const defaultBooking: BookingData = {
   expectedAttendance: "250",
   organization: "Scoreboard Entertainment",
   status: "confirmed",
+  name: "Event Planner",
+  email: "planner@7thheavenband.com",
+  phone: "(847) 555-0199",
   soundSystem: "Yes — full PA system",
   stageAvailable: "Yes",
   loadInTime: "3:00 PM",
@@ -66,6 +72,9 @@ const pendingBooking: BookingData = {
   expectedAttendance: "500",
   organization: "Lakefront Events Co.",
   status: "pending",
+  name: "Event Planner",
+  email: "planner@7thheavenband.com",
+  phone: "(847) 555-0199",
   soundSystem: "",
   stageAvailable: "",
   loadInTime: "",
@@ -77,7 +86,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
 };
 
-const rebookUrl = (b: BookingData) => {
+const rebookUrl = (b: BookingData, member?: any) => {
   const p = new URLSearchParams();
   p.set("from", "rebook");
   p.set("organization", b.organization);
@@ -87,6 +96,15 @@ const rebookUrl = (b: BookingData) => {
   p.set("eventType", b.eventType);
   p.set("indoorOutdoor", b.indoorOutdoor);
   p.set("expectedAttendance", b.expectedAttendance);
+
+  const contactName = b.name || member?.name || "Event Planner";
+  const contactEmail = b.email || member?.email || "planner@7thheavenband.com";
+  const contactPhone = b.phone || member?.phone || "(847) 555-0199";
+
+  if (contactName) p.set("name", contactName);
+  if (contactEmail) p.set("email", contactEmail);
+  if (contactPhone) p.set("phone", contactPhone);
+
   if (b.soundSystem) p.set("soundSystem", b.soundSystem);
   if (b.stageAvailable) p.set("stageAvailable", b.stageAvailable);
   if (b.loadInTime) p.set("loadInTime", b.loadInTime);
@@ -601,8 +619,8 @@ export default function PlannerDashboard() {
                     /* Cancelled state — rebook or revive */
                     <>
                       <a
-                        href={rebookUrl(booking)}
-                        className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center"
+                        href={rebookUrl(booking, member)}
+                        className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                       >
                         Rebook This Event
                       </a>
@@ -622,8 +640,8 @@ export default function PlannerDashboard() {
                     /* Normal actions */
                     <>
                       <a
-                        href={rebookUrl(booking)}
-                        className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center"
+                        href={rebookUrl(booking, member)}
+                        className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                       >
                         Rebook This Event
                       </a>
