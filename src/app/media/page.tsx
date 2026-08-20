@@ -394,14 +394,17 @@ export default function MediaPage() {
           {!heroPlaying && (
             <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
               <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
-                  Featured Media
-                </span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+                  <span>FEATURED MEDIA</span>
+                </div>
                 <h1
-                  className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3 transform-gpu isolate"
+                  className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
                   style={{ fontFamily: "var(--font-barlow-condensed)" }}
                 >
-                  {featuredVideo.title}
+                  <span className="bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
+                    {featuredVideo.title}
+                  </span>
                 </h1>
                 {featuredVideo.description && (
                   <p className="text-white/60 text-sm mb-4 leading-relaxed max-w-md">{featuredVideo.description}</p>
