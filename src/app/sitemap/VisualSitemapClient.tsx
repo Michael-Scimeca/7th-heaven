@@ -568,18 +568,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Registrant inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module to complete reservation.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 6 — CRUISE DASHBOARD (y = 2060) ──
+  // ── CRUISE VERTICAL FLOW: STEP 6 — CRUISE MEMBER DASHBOARD (y = 2060) ──
   {
     id: "node-cruise-dashboard-unlocked",
     type: "sitemapCard",
     position: { x: 1520, y: 2060 },
     data: {
-      header: "CRUISE DASHBOARD",
-      title: "Access Cruise Reservation Dashboard",
-      path: "/cruise",
+      header: "CRUISE MEMBER DASHBOARD",
+      title: "Access Cruise Member Dashboard",
+      path: "/cruise/dashboard",
       imgUrl: "/sitemap-screenshots/cruise-dashboard.png",
       badgeType: "PORTAL",
-      description: "Registrant accesses their Cruise Dashboard to view cabin assignment, itinerary, and boarding pass.",
+      description: "Cruise member accesses their Cruise Hub with embarkation countdown, passenger lounge chat, travel checklist, itinerary, and booking manager.",
     },
   },
   {

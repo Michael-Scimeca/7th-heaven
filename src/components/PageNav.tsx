@@ -48,6 +48,12 @@ const CATEGORIES = [
     ]
   },
   {
+    name: "Cruise Pages",
+    pages: [
+      { path: "/cruise/dashboard", label: "Cruise Dashboard" },
+    ]
+  },
+  {
     name: "Verification Pages",
     pages: [
       { path: "/crew/verify", label: "Crew Verify" },
