@@ -552,16 +552,16 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "email-booking-admin",
+    id: "email-fan-pin-security",
     type: "sitemapCard",
     position: { x: 760, y: 1380 },
     data: {
-      header: "✉ Band Admin Alert",
-      title: "Management Alert Email",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
+      header: "✉ FAN SECURITY PIN EMAIL",
+      title: "Email Dispatched with PIN 582901",
+      path: "/api/dev/email-preview?id=auth_pin",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "7th Heaven management receives instant notification email with Quick Approve & Decline links.",
+      description: "Automated Resend email sent to fan containing the 6-digit security PIN 582901 to complete verification.",
     },
   },
 
@@ -620,6 +620,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   // Other section connections
   { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
   { id: "flow-fan-signup-to-pin-module", source: "node-fan-signup-module", target: "node-fan-pin-verification", type: "smoothstep", animated: true },
+  { id: "flow-pin-module-to-security-email", source: "node-fan-pin-verification", target: "email-fan-pin-security", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
