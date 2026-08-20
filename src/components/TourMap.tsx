@@ -301,7 +301,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       // Center on Chicagoland — most shows are in the IL suburbs
       const mapInstance = new google.maps.Map(container, {
         center: { lat: 42.0, lng: -88.0 },
-        zoom: 12,
+        zoom: 14,
         // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
         // styling and silently ignores the `styles` JSON array below.
         styles: SNAZZY_MAPS_227862_STYLE,
@@ -611,7 +611,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    // Center map on active show and zoom in +1 level as default
+    // Center map on active show and zoom in +2 levels as default
     if (filteredVenues.length > 0) {
       // Find active or up next venue (fallback to first venue)
       const activeVenue = filteredVenues.find(v =>
@@ -631,7 +631,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       if (activeVenue) {
         const boundsListener = google.maps.event.addListenerOnce(map, "idle", () => {
           const currentZoom = map.getZoom() ?? 12;
-          const defaultZoom = Math.min(15, currentZoom + 1);
+          const defaultZoom = Math.min(16, currentZoom + 2);
           map.setZoom(defaultZoom);
           map.panTo({ lat: activeVenue.lat, lng: activeVenue.lng });
         });
