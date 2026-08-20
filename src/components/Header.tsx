@@ -285,6 +285,18 @@ export function Header() {
   const isNavActive = useCallback((targetHref: string) => {
     if (!effectivePathname) return false;
     if (targetHref === "/") return effectivePathname === "/";
+
+    // Dashboard subroutes (/book/demo, /book/[username], /cruise/demo) are user dashboards, not main nav pages
+    if (targetHref === "/book") {
+      return effectivePathname === "/book" || (effectivePathname.startsWith("/book?") && !effectivePathname.startsWith("/book/"));
+    }
+    if (targetHref === "/cruise") {
+      return effectivePathname === "/cruise" || (effectivePathname.startsWith("/cruise?") && !effectivePathname.startsWith("/cruise/"));
+    }
+    if (targetHref === "/fans") {
+      return effectivePathname === "/fans" || (effectivePathname.startsWith("/fans?") && !effectivePathname.startsWith("/fans/"));
+    }
+
     return (
       effectivePathname === targetHref ||
       effectivePathname.startsWith(targetHref + "/") ||
