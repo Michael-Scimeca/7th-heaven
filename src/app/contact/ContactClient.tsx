@@ -73,8 +73,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start relative z-10">
 
-        {/* Left Column: Contact Cards (Smaller on Tablet md:col-span-4) */}
-        <div className="md:col-span-5 lg:col-span-4 max-w-sm md:max-w-md flex flex-col text-left">
+        {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
+        <div className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
 
           {/* Contact Cards List (1 Column Stacked) */}
           <div className="space-y-4 w-full">
@@ -91,14 +91,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 >
                   {/* Category Pill */}
                   <div className="mb-3">
-                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">
+                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 inline-block">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
 
                   {/* Name & Title / Note */}
                   <div className="mb-3">
-                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
+                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
