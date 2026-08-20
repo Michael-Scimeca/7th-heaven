@@ -482,7 +482,7 @@ function BookPageContent() {
       } catch { }
 
       // URL params override localStorage (for specific field overrides)
-      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
+      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "parkingAddress", "parkingNotes", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
       setFormData(prev => {
         const updated = { ...prev };
         allFields.forEach(f => {
@@ -490,6 +490,9 @@ function BookPageContent() {
           if (val) (updated as any)[f] = val;
         });
         if (fromParam === 'rebook') {
+          if (!updated.venueName) updated.venueName = searchParams.get("venueName") || "Bridges Scoreboard";
+          if (!updated.venueCity) updated.venueCity = searchParams.get("venueCity") || "Chicago";
+          if (!updated.venueState) updated.venueState = searchParams.get("venueState") || "IL";
           updated.eventDate = '';
           updated.startTime = '';
           updated.endTime = '';

@@ -89,13 +89,13 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
 const rebookUrl = (b: BookingData, member?: any) => {
   const p = new URLSearchParams();
   p.set("from", "rebook");
-  p.set("organization", b.organization);
-  p.set("venueName", b.venueName);
-  p.set("venueCity", b.venueCity);
-  p.set("venueState", b.venueState);
-  p.set("eventType", b.eventType);
-  p.set("indoorOutdoor", b.indoorOutdoor);
-  p.set("expectedAttendance", b.expectedAttendance);
+  p.set("organization", b.organization || "Scoreboard Entertainment");
+  p.set("venueName", b.venueName || "Bridges Scoreboard");
+  p.set("venueCity", b.venueCity || "Chicago");
+  p.set("venueState", b.venueState || "IL");
+  p.set("eventType", b.eventType || "unplugged");
+  p.set("indoorOutdoor", b.indoorOutdoor || "Outdoor");
+  p.set("expectedAttendance", b.expectedAttendance || "250");
 
   const contactName = b.name || member?.name || "Event Planner";
   const contactEmail = b.email || member?.email || "planner@7thheavenband.com";
@@ -108,6 +108,12 @@ const rebookUrl = (b: BookingData, member?: any) => {
   if (b.soundSystem) p.set("soundSystem", b.soundSystem);
   if (b.stageAvailable) p.set("stageAvailable", b.stageAvailable);
   if (b.loadInTime) p.set("loadInTime", b.loadInTime);
+  if (b.budget) p.set("budget", b.budget);
+  if (b.backlineProvided) p.set("backlineProvided", b.backlineProvided);
+  if (b.ageRestriction) p.set("ageRestriction", b.ageRestriction);
+  if (b.details) p.set("details", b.details);
+  if (b.parkingAddress) p.set("parkingAddress", b.parkingAddress);
+  if (b.parkingNotes) p.set("parkingNotes", b.parkingNotes);
   return `/book?${p.toString()}`;
 };
 
