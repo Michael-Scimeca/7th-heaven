@@ -1159,16 +1159,20 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           z-index: 20;
         }
 
-        /* Solid, non-fading active marker for next show */
+        /* Solid, bouncing active marker for next show */
         .next-show-bounce {
           position: relative;
           opacity: 1 !important;
-          animation: none !important;
-          filter: drop-shadow(0 0 8px var(--ring-color, #a855f7));
+          animation: markerBounce 1.2s cubic-bezier(0.28, 0.84, 0.42, 1) infinite !important;
+          filter: drop-shadow(0 0 10px var(--ring-color, #a855f7));
         }
         .next-show-bounce > svg {
           animation: none !important;
           opacity: 1 !important;
+        }
+        @keyframes markerBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-4px); }
