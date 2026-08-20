@@ -374,21 +374,34 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       private onClickCb: () => void;
       div: HTMLDivElement | null = null;
 
-      constructor(position: google.maps.LatLng, html: string, onClickCb: () => void) {
+      private initialZIndex: number;
+
+      constructor(position: google.maps.LatLng, html: string, onClickCb: () => void, initialZIndex: number = 1) {
         super();
         this.position = position;
         this.html = html;
         this.onClickCb = onClickCb;
+        this.initialZIndex = initialZIndex;
       }
 
       onAdd() {
         const div = document.createElement("div");
         div.style.position = "absolute";
         div.style.transform = "translate(-50%, -100%)";
+        div.style.zIndex = String(this.initialZIndex);
+
         const doc = new DOMParser().parseFromString(this.html, "text/html");
         Array.from(doc.body.childNodes).forEach((node) => {
           div.appendChild(document.importNode(node, true));
         });
+
+        div.addEventListener("mouseenter", () => {
+          div.style.zIndex = "999999";
+        });
+        div.addEventListener("mouseleave", () => {
+          div.style.zIndex = String(this.initialZIndex);
+        });
+
         div.addEventListener("click", (e) => {
           const target = e.target as HTMLElement;
           if (target.closest("a")) return; // let "Google Location" link through
@@ -605,7 +618,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         infoWindow.setPosition(position);
         infoWindow.open({ map });
         onPinClickRef.current?.(v.venue, firstShow.date);
-      });
+      }, isBouncing ? 1000 : 1);
       overlay.setMap(map);
 
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
@@ -1042,15 +1055,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         /* Google's required attribution/logo — keep visible, just de-emphasize */
         .gm-style-cc { opacity: 0.6; }
 
-        /* Custom CSS Tooltip Card Styling */
+        /* Custom CSS Tooltip Card Styling (Instant Display — No Fade In / Out) */
         .custom-tooltip-card {
           position: absolute;
           bottom: 100%;
           left: 50%;
-          transform: translateX(-50%) translateY(-4px);
+          transform: translateX(-50%) translateY(-12px);
           opacity: 0;
           visibility: hidden;
-          transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+          transition: none !important;
           pointer-events: none;
           z-index: 99999;
         }
@@ -1093,7 +1106,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           z-index: 10;
           opacity: 1;
           visibility: visible;
-          transition: all 0.2s ease;
+          transition: none !important;
         }
         .custom-venue-marker:hover .marker-label,
         .next-show-bounce .marker-label {
