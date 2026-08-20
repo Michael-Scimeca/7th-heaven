@@ -584,7 +584,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "FAN DASHBOARD",
       title: "Access Fan Account Dashboard",
-      path: "/fans/[username]",
+      path: "/fans",
       imgUrl: "/sitemap-screenshots/fan-dashboard.png",
       badgeType: "PORTAL",
       description: "Fan successfully verifies PIN security code and accesses their personalized Member Hub, backstage passes, and fan photo wall.",
@@ -870,7 +870,7 @@ const FAN_SIGNUP_FLOW_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "STEP 5 · MEMBER HUB & FAN WALL",
       title: "5. Member Dashboard & Rewards",
-      path: "/fans/[username]",
+      path: "/fans",
       imgUrl: "/sitemap-screenshots/fan-dashboard.png",
       badgeType: "PORTAL",
       description: "Fan accesses personal Member Hub to view backstage passes, post to Fan Photo Wall, and enter Guitar Pick Lottery.",
