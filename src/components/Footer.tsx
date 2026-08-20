@@ -10,6 +10,7 @@ import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import dynamic from "next/dynamic";
 
 // Decorative physics scene (matter-js) — not needed for SSR/SEO, and it
@@ -276,13 +277,14 @@ export function Footer() {
                     />
                   </div>
                 </div>
-                <button aria-label="Action button"
+                <CosmicRadialButton
                   type="submit"
                   disabled={smsStatus === 'sending'}
-                  className="w-full sm:w-auto shrink-0 px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
+                  icon={<Smartphone className="w-4 h-4" />}
+                  className="w-full sm:w-auto shrink-0 px-6 py-3 text-white font-bold text-sm uppercase tracking-widest rounded-lg disabled:opacity-50 whitespace-nowrap"
                 >
-                  {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
-                </button>
+                  {smsStatus === 'sending' ? '...' : 'Subscribe'}
+                </CosmicRadialButton>
               </form>
             )}
             {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}

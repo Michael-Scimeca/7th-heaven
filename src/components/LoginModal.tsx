@@ -10,6 +10,7 @@ import { isValidEmail } from "@/lib/validation";
 import { SquishyToggle } from "./SquishyToggle";
 import GooeyDropdown from "./GooeyDropdown";
 import Dropdown from "@/components/Dropdown";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { getFakeLogins } from "@/lib/get-fake-logins";
 // Dev-only: never ships in the production bundle
 const fakeLogins = getFakeLogins();
@@ -1026,9 +1027,11 @@ function LoginModalBodyContent(props: any) {
               <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
             )}
 
-            <button type="submit"
+            <CosmicRadialButton
+              type="submit"
+              icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] rounded-lg text-white font-extrabold text-xs sm:text-sm tracking-wider hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(105,23,191,0.4)]"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-extrabold text-xs sm:text-sm tracking-wider disabled:opacity-50"
             >
               {loading
                 ? "Processing..."
@@ -1039,7 +1042,7 @@ function LoginModalBodyContent(props: any) {
                     : isInviteFlow
                       ? "Activate Account"
                       : "Create Account"}
-            </button>
+            </CosmicRadialButton>
 
             {modalMode === "forgot" && (
               <button type="button"

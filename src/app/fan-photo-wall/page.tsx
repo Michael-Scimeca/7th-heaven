@@ -5,6 +5,7 @@ import { Lock, Camera, Shield, MapPin, X } from "lucide-react";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -201,7 +202,7 @@ export default function FansPage() {
               )}
             </div>
 
-            <button aria-label="Action button"
+            <CosmicRadialButton
               onClick={() => {
                 if (!isLoggedIn) {
                   openModal("login");
@@ -209,11 +210,11 @@ export default function FansPage() {
                   setShowUpload(!showUpload);
                 }
               }}
-              className="px-8 py-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] rounded-lg text-white text-xs font-black tracking-widest hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(105,23,191,0.4)] cursor-pointer shrink-0 self-start lg:self-auto hover:scale-105"
+              icon={<Camera className="w-4 h-4" />}
+              className="px-8 py-4 rounded-lg text-white text-xs font-black tracking-widest shrink-0 self-start lg:self-auto"
             >
-              <Camera className="w-4 h-4" />
-              <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>
-            </button>
+              {showUpload ? "Hide Upload Form" : "Upload Photo / Video"}
+            </CosmicRadialButton>
           </div>
 
 
@@ -307,13 +308,14 @@ export default function FansPage() {
                       >
                         Reject & Delete
                       </button>
-                      <button aria-label="Action button"
+                      <CosmicRadialButton
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 px-4 text-[0.6rem] font-black tracking-wider text-white bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 rounded-lg transition-all cursor-pointer shadow-[0_0_15px_rgba(105,23,191,0.3)]"
+                        icon={false}
+                        className="py-3 px-4 text-[0.6rem] font-black tracking-wider text-white rounded-lg"
                       >
                         Safe & Approve
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                   </div>
                 );

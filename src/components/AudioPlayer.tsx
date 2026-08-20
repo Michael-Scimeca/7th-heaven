@@ -1,8 +1,10 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-event-handler */
+/* oxlint-disable react-doctor/no-giant-component, react-doctor/no-event-handler */
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import data from "../../public/data/albums.json";
 
 interface LyricSong {
@@ -836,17 +838,18 @@ export default function AudioPlayerSection() {
                     {/* Buy / Stream Buttons */}
                     <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2 w-full">
                       {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
-                        <a
-                          href={activeAlbum?.paypalButtonId
-                            ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}`
-                            : activeAlbum?.storeUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center  justify-center gap-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] !text-white font-bold text-xs uppercase tracking-widest py-2.5 px-4 rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] w-full"
+                        <CosmicRadialButton
+                          icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>}
+                          onClick={() => {
+                            const url = activeAlbum?.paypalButtonId
+                              ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}`
+                              : activeAlbum?.storeUrl;
+                            if (url) window.open(url, "_blank", "noopener,noreferrer");
+                          }}
+                          className="!text-white font-bold text-xs uppercase tracking-widest py-2.5 px-4 rounded-lg w-full"
                         >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
                           Buy CD
-                        </a>
+                        </CosmicRadialButton>
                       )}
                       <div className="flex flex-col xl:flex-row gap-2 w-full">
                         {activeAlbum?.spotifyUrl && (

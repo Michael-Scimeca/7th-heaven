@@ -9,6 +9,7 @@ import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield,
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import PlannerDashboard from "@/components/PlannerDashboard";
 
 const eventTypes = [
@@ -1834,10 +1835,11 @@ function BookPageContent() {
                     </div>
                   )}
 
-                  <button aria-label="Action button"
+                  <CosmicRadialButton
                     type="submit"
+                    icon={false}
                     disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                    className="w-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold tracking-wider text-base py-4 transition-all flex items-center justify-center gap-2 rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer"
+                    className="w-full text-white font-extrabold tracking-wider text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <>
@@ -1845,12 +1847,9 @@ function BookPageContent() {
                         Submitting...
                       </>
                     ) : (
-                      <>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                        Submit Booking Request
-                      </>
+                      "Submit Booking Request"
                     )}
-                  </button>
+                  </CosmicRadialButton>
                   <p className="text-base text-white/50 text-center mt-4">
                     By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
                   </p>

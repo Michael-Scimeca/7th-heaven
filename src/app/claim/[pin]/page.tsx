@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
+import CosmicRadialButton from '@/components/CosmicRadialButton';
 
 export default function ClaimPage() {
   const params = useParams();
@@ -209,12 +210,13 @@ export default function ClaimPage() {
             <p className="text-white/40 text-sm mb-6">
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
-            <button aria-label="Action button"
+            <CosmicRadialButton
               onClick={() => openModal()}
-              className="w-full py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-extrabold text-xs tracking-wider rounded-lg transition-all cursor-pointer"
+              icon={false}
+              className="w-full py-3 text-white font-extrabold text-xs tracking-wider rounded-lg"
             >
               Sign In to Verify
-            </button>
+            </CosmicRadialButton>
           </div>
         )}
 
@@ -293,12 +295,13 @@ export default function ClaimPage() {
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
-                  <button aria-label="Action button"
+                  <CosmicRadialButton
                     onClick={handleClaimConfirm}
-                    className="w-full py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-extrabold text-xs tracking-wider rounded-lg transition-all cursor-pointer font-sans"
+                    icon={false}
+                    className="w-full py-3 text-white font-extrabold text-xs tracking-wider rounded-lg font-sans"
                   >
                     Confirm Prize Claim
-                  </button>
+                  </CosmicRadialButton>
                 )}
               </div>
 

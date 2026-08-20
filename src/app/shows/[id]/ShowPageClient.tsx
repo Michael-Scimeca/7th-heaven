@@ -7,6 +7,7 @@ import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { GradientToggle } from "@/components/GradientToggle";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import QRCode from "react-qr-code";
 
 interface Attendee {
@@ -399,17 +400,26 @@ export default function ShowPageClient({
             <div className="flex flex-col gap-3 shrink-0 min-w-[200px]">
               {!isPast && (
                 <>
-                  <button aria-label="Action button"
-                    onClick={handleRsvp}
-                    disabled={rsvpLoading}
-                    id="rsvp-btn"
-                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer ${isGoing
-                      ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
-                      : "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] rounded-lg text-white hover:brightness-110 shadow-[0_0_30px_rgba(105,23,191,0.4)]"
-                      }`}
-                  >
-                    {rsvpLoading ? "…" : isGoing ? "✓ Going (tap to cancel)" : "🎸 I'm Going"}
-                  </button>
+                  {isGoing ? (
+                    <button
+                      onClick={handleRsvp}
+                      disabled={rsvpLoading}
+                      id="rsvp-btn"
+                      className="px-8 py-4 text-sm font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                    >
+                      {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
+                    </button>
+                  ) : (
+                    <CosmicRadialButton
+                      onClick={handleRsvp}
+                      disabled={rsvpLoading}
+                      icon={false}
+                      id="rsvp-btn"
+                      className="px-8 py-4 text-sm font-black uppercase tracking-widest disabled:opacity-50"
+                    >
+                      {rsvpLoading ? "…" : "🎸 I'm Going"}
+                    </CosmicRadialButton>
+                  )}
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
@@ -473,13 +483,14 @@ export default function ShowPageClient({
                             className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                           />
                         </div>
-                        <button aria-label="Action button"
+                        <CosmicRadialButton
                           type="submit"
                           disabled={notifyLoading}
-                          className="px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-bold text-xs uppercase tracking-widest transition-all disabled:opacity-50 shrink-0 rounded-lg shadow-[0_0_20px_rgba(105,23,191,0.3)] cursor-pointer"
+                          icon={false}
+                          className="px-6 py-3 text-white font-bold text-xs uppercase tracking-widest disabled:opacity-50 shrink-0 rounded-lg"
                         >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
-                        </button>
+                        </CosmicRadialButton>
                       </div>
                       {notifyError && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
                     </form>
@@ -608,9 +619,13 @@ export default function ShowPageClient({
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <button aria-label="Action button" onClick={copyLink} className="px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-sm font-black tracking-wider rounded-lg transition-all cursor-pointer">
+                <CosmicRadialButton
+                  onClick={copyLink}
+                  icon={false}
+                  className="px-6 py-3 text-white text-sm font-black tracking-wider rounded-lg"
+                >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
-                </button>
+                </CosmicRadialButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
                   className="px-6 py-3 border border-white/10 text-white/50 text-sm font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"

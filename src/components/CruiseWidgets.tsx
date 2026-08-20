@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -498,9 +499,14 @@ export function BookingManager({ email }: { email?: string }) {
 
         {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
 
-        <button aria-label="Action button" type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black tracking-wider text-xs rounded-lg transition-all shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+        <CosmicRadialButton
+          type="submit"
+          icon={false}
+          disabled={registering}
+          className="w-full mt-2 py-2.5 text-white font-black tracking-wider text-xs rounded-lg disabled:opacity-50"
+        >
           {registering ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
-        </button>
+        </CosmicRadialButton>
       </form>
     </div>
   );
@@ -871,12 +877,13 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   >
                     Cancel
                   </button>
-                  <button aria-label="Action button"
+                  <CosmicRadialButton
                     type="submit"
-                    className="flex-1 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black tracking-wider rounded-lg transition-all cursor-pointer shadow-lg shadow-purple-600/30"
+                    icon={false}
+                    className="flex-1 py-2.5 text-white text-xs font-black tracking-wider rounded-lg"
                   >
                     Pay {balanceDue}
-                  </button>
+                  </CosmicRadialButton>
                 </div>
               </>
             )}

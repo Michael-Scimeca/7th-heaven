@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMember } from "@/context/MemberContext";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 
@@ -410,13 +411,13 @@ export default function MediaPage() {
                   {featuredVideo.duration && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.duration}</span></>}
                   {featuredVideo.viewCount && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.viewCount} views</span></>}
                 </div>
-                <button aria-label="Action button"
+                <CosmicRadialButton
                   onClick={() => setHeroPlaying(true)}
-                  className="flex items-center gap-2.5 px-8 py-3.5 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
+                  icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>}
+                  className="px-8 py-3.5 rounded-lg text-white font-black text-xs uppercase tracking-widest"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Watch Featured Video
-                </button>
+                </CosmicRadialButton>
               </div>
             </div>
           )}
@@ -540,17 +541,16 @@ export default function MediaPage() {
                     )}
 
                     {!isPlaying && (
-                      <button
+                      <CosmicRadialButton
                         onClick={(e) => {
                           e.stopPropagation();
                           setPlayingId(video.id);
                         }}
-                        className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-all  cursor-pointer ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"
-                          }`}
+                        icon={<Play className="w-3.5 h-3.5 fill-white ml-0.5" />}
+                        className={`mt-4 px-5 py-2.5 rounded-lg text-white text-xs font-black uppercase tracking-widest ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
                       >
-                        <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
-                        <span>Play Video</span>
-                      </button>
+                        Play Video
+                      </CosmicRadialButton>
                     )}
                   </div>
                 </div>
