@@ -15,6 +15,7 @@ import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 import {
   BANDS_DATA,
   PORTS_DATA,
@@ -1728,15 +1729,25 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                            <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
-                              className="w-full rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
+                            <CosmicRadialButton
+                              syncId="cruise-booking-form"
+                              icon={false}
+                              type="submit"
+                              disabled={signupStatus === "submitting"}
+                              className="w-full !py-4 text-xs font-black uppercase tracking-widest justify-center shadow-md cursor-pointer disabled:opacity-70"
+                            >
                               {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
-                            </button>
+                            </CosmicRadialButton>
 
-                            <button aria-label="Action button" type="button" onClick={() => window.print()}
-                              className="w-full rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
+                            <CosmicRadialButton
+                              syncId="cruise-booking-form"
+                              icon={false}
+                              type="button"
+                              onClick={() => window.print()}
+                              className="w-full !py-4 text-xs font-black uppercase tracking-widest justify-center shadow-md cursor-pointer"
+                            >
                               Print / Save Booking Form
-                            </button>
+                            </CosmicRadialButton>
                           </div>
 
                           <p className="text-[var(--font-size-3xs)] text-white/60 font-semibold text-center leading-relaxed">

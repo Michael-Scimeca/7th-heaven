@@ -38,6 +38,10 @@ export interface CosmicRadialButtonProps
    */
   engine?: "property" | "raf" | "keyframes";
   /**
+   * Optional group synchronization ID. Buttons with the same syncId will match transition timing, speed, and color palette.
+   */
+  syncId?: string;
+  /**
    * Custom icon component (optional, defaults to Sparkles icon if true, or custom ReactNode)
    */
   icon?: React.ReactNode | boolean;
@@ -69,6 +73,7 @@ export const CosmicRadialButton = React.forwardRef<
       driftInterval = 2.0,
       maxOffset = 30,
       engine = "property",
+      syncId,
       icon = true,
       className = "",
       onMouseEnter,
@@ -105,7 +110,7 @@ const PALETTES = [
   ["rgba(192, 38, 211, 0.85)", "rgba(124, 58, 237, 0.9)", "rgba(10, 0, 25, 0.7)", "rgba(232, 121, 249, 0.85)", "rgba(99, 102, 241, 0.8)", "rgba(217, 70, 239, 0.95)"],
 ];
 
-    // Unique desynchronized random motion, direction & color palette per button instance
+    // Unique desynchronized random motion, direction & color palette per button instance (or synced if syncId provided)
     const [randomAnimProps, setRandomAnimProps] = useState<{
       name: string;
       dur: string;
@@ -129,27 +134,37 @@ const PALETTES = [
     });
 
     useEffect(() => {
+      let seed = 0;
+      if (syncId) {
+        for (let i = 0; i < syncId.length; i++) {
+          seed = (seed << 5) - seed + syncId.charCodeAt(i);
+          seed |= 0;
+        }
+      } else {
+        seed = Math.floor(Math.random() * 1000000);
+      }
+      const absSeed = Math.abs(seed);
       const animNames = [
         "cosmic-radial-property-drift",
         "cosmic-radial-property-drift-reverse",
         "cosmic-radial-property-drift-spiral",
       ];
       const directions = ["normal", "reverse", "alternate", "alternate-reverse"];
-      const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-      const rName = animNames[Math.floor(Math.random() * animNames.length)];
-      const rDur = (3.8 + Math.random() * 4.5).toFixed(2);
-      const rDelay = (-Math.random() * 6).toFixed(2);
-      const rDir = directions[Math.floor(Math.random() * directions.length)];
+      const palette = PALETTES[absSeed % PALETTES.length];
+      const rName = animNames[absSeed % animNames.length];
+      const rDur = (3.8 + (absSeed % 45) / 10).toFixed(2);
+      const rDelay = syncId ? "0s" : (-((absSeed % 60) / 10)).toFixed(2);
+      const rDir = directions[absSeed % directions.length];
 
-      const r1x = Math.floor(10 + Math.random() * 80);
-      const r1y = Math.floor(10 + Math.random() * 80);
-      const r2x = Math.floor(10 + Math.random() * 80);
-      const r2y = Math.floor(10 + Math.random() * 80);
+      const r1x = Math.floor(15 + (absSeed % 70));
+      const r1y = Math.floor(15 + ((absSeed * 3) % 70));
+      const r2x = Math.floor(15 + ((absSeed * 7) % 70));
+      const r2y = Math.floor(15 + ((absSeed * 11) % 70));
 
       setRandomAnimProps({
         name: rName,
         dur: `${rDur}s`,
-        delay: `${rDelay}s`,
+        delay: rDelay,
         dir: rDir,
         r1c: palette[0],
         r2c: palette[1],
@@ -162,7 +177,7 @@ const PALETTES = [
         r2x: `${r2x}%`,
         r2y: `${r2y}%`,
       });
-    }, []);
+    }, [syncId]);
 
     const randomizeRef = useRef<() => void>(() => { });
 
