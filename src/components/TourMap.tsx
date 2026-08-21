@@ -660,42 +660,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    // Fit map bounds to show ALL show markers, while auto-opening active show InfoWindow
+    // Fit map bounds to show ALL show markers
     if (filteredVenues.length > 0) {
       const bounds = new google.maps.LatLngBounds();
       filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
-      map.fitBounds(bounds, { top: 100, right: 60, bottom: 100, left: 60 });
-
-      const targetVenueName = nextShowVenue?.toLowerCase().trim();
-      const targetCityName = nextShowCity?.toLowerCase().trim();
-
-      // Find active show, up-next show, or fallback to first venue
-      const activeVenue = filteredVenues.find(v => {
-        const vName = v.venue.toLowerCase().trim();
-        const vCity = v.city.toLowerCase().trim();
-        if (targetVenueName && (vName === targetVenueName || vName.includes(targetVenueName) || targetVenueName.includes(vName))) {
-          if (!targetCityName || vCity === targetCityName || vCity.includes(targetCityName)) {
-            return true;
-          }
-        }
-        return v.shows.some(s => {
-          const start = getShowDateTime(undefined, s.date, s.time);
-          const end = new Date(start.getTime() + 4 * 60 * 60 * 1000);
-          const now = new Date();
-          return now >= start && now < end;
-        });
-      }) || filteredVenues[0];
-
-      if (activeVenue) {
-        // Auto-open info window popup for the active show pin
-        const activeMarker = markersRef.current.find(m =>
-          m.venue.toLowerCase().trim() === activeVenue.venue.toLowerCase().trim()
-        );
-        if (activeMarker) {
-          activeMarker.infoWindow.setPosition({ lat: activeVenue.lat, lng: activeVenue.lng });
-          activeMarker.infoWindow.open({ map });
-        }
-      }
+      map.fitBounds(bounds, { top: 80, right: 60, bottom: 80, left: 60 });
     }
 
     return () => {
