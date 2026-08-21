@@ -3,7 +3,6 @@ import path from "path";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   devIndicators: false,
   reactStrictMode: true,
   poweredByHeader: false,
