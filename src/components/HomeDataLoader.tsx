@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import LazySection from "@/components/LazySection";
 
 const TourList = dynamic(() => import("@/components/TourList"));
+const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
 const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
 
 interface Show {
@@ -127,6 +128,13 @@ export default function HomeDataLoader() {
       <LazySection fallbackHeight="400px">
         <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
           <TourList initialShows={shows} />
+        </section>
+      </LazySection>
+
+      {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
+      <LazySection fallbackHeight="600px">
+        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 my-12">
+          <BioParallaxSlider />
         </section>
       </LazySection>
 
