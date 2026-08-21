@@ -34,7 +34,7 @@ export default function LazySection({
           observer.disconnect();
         }
       },
-      { rootMargin: "300px 0px" } // Load 300px before viewport entry for smooth scroll without early pageload penalty
+      { rootMargin: "100px 0px" } // Defer rendering until 100px from section viewport
     );
 
     observer.observe(el);
