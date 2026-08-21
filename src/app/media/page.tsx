@@ -10,6 +10,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import { useHeroParallax } from "@/lib/useHeroParallax";
+import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 
@@ -150,6 +152,20 @@ export default function MediaPage() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const videoItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Same shared parallax as the home page hero (src/lib/useHeroParallax.ts) —
+  // tuning it via either page's customizer panel updates the default on both.
+  // Disabled while the featured video is playing, since the background image
+  // and foreground caption are both unmounted then (see the hero JSX below).
+  const heroImgRef = useRef<HTMLImageElement>(null);
+  const heroForegroundRef = useRef<HTMLDivElement>(null);
+  const featuredVideo = categories.find(c => c.category === 'Official Music Videos')?.videos[0];
+  const heroParallax = useHeroParallax({
+    mediaRef: heroImgRef,
+    foregroundRef: heroForegroundRef,
+    triggerSelector: "#media-hero",
+    enabled: !heroPlaying && Boolean(featuredVideo),
+  });
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -297,8 +313,6 @@ export default function MediaPage() {
     }
   };
 
-  const featuredVideo = categories.find(c => c.category === 'Official Music Videos')?.videos[0];
-
   const selectedCategory = categories.find(c => c.category === activeFilter) || categories[0];
 
   // Filter videos inside the selected category by search
@@ -372,9 +386,10 @@ export default function MediaPage() {
             ) : (
               <>
                 <Image width={200} height={200} unoptimized
+                  ref={heroImgRef}
                   src={thumbMax(featuredVideo.id)}
                   alt="7th Heaven Media"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover scale-[1.3]"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent pointer-events-none" />
@@ -392,7 +407,9 @@ export default function MediaPage() {
           </div>
 
           {!heroPlaying && (
-            <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
+            <>
+              <HeroParallaxCustomizer {...heroParallax} />
+              <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
               <div className="max-w-lg pointer-events-auto transform-gpu isolate">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                   <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
@@ -422,7 +439,8 @@ export default function MediaPage() {
                   Watch Featured Video
                 </CosmicRadialButton>
               </div>
-            </div>
+              </div>
+            </>
           )}
         </section>
       )}
