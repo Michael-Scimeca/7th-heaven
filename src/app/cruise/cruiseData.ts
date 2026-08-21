@@ -13,7 +13,7 @@ export const BANDS_DATA = [
     desc: "Founder and guitarist of 7th Heaven leading high-energy performances and crowd favorites.", 
     website: "https://www.7thheavenband.com/", 
     logo: "🎸",
-    photo: "/images/members/richard.png"
+    photo: "/images/members/dicky.png"
   },
   { 
     name: "Tony Ocean", 
