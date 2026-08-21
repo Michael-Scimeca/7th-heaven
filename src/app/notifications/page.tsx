@@ -179,9 +179,19 @@ export default function NotificationsPage() {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.error || "Failed to send push test");
       }
+
+      setLiveToast({ title: testTitle, message: testMessage });
+
+      if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
+        new Notification(testTitle, {
+          body: testMessage,
+          icon: "/favicon.ico",
+        });
+      }
+
       setTestStatus({
         ok: true,
-        msg: `Push notification sent to "${activeTab}" channel! Check your screen/browser now.`,
+        msg: `🚀 Push notification sent to "${activeTab}" channel! Check your screen/browser now.`,
       });
     } catch (err: any) {
       setTestStatus({ ok: false, msg: err.message || "Failed to send test push" });
