@@ -48,7 +48,10 @@ export default function PushAlertsCard({
   useEffect(() => {
     let active = true;
     fetch(`/api/ntfy/topic?group=${group}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load topic");
+        return res.json();
+      })
       .then((data: TopicResponse) => {
         if (active) setInfo(data);
       })
