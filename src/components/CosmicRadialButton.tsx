@@ -92,6 +92,39 @@ export const CosmicRadialButton = React.forwardRef<
       COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
     );
 
+    // Unique desynchronized random motion & direction per button instance
+    const [randomAnimProps, setRandomAnimProps] = useState<{
+      name: string;
+      dur: string;
+      delay: string;
+      dir: string;
+    }>({
+      name: "cosmic-radial-property-drift",
+      dur: "6s",
+      delay: "0s",
+      dir: "alternate",
+    });
+
+    useEffect(() => {
+      const animNames = [
+        "cosmic-radial-property-drift",
+        "cosmic-radial-property-drift-reverse",
+        "cosmic-radial-property-drift-spiral",
+      ];
+      const directions = ["normal", "reverse", "alternate", "alternate-reverse"];
+      const rName = animNames[Math.floor(Math.random() * animNames.length)];
+      const rDur = (3.8 + Math.random() * 4.5).toFixed(2);
+      const rDelay = (-Math.random() * 6).toFixed(2);
+      const rDir = directions[Math.floor(Math.random() * directions.length)];
+
+      setRandomAnimProps({
+        name: rName,
+        dur: `${rDur}s`,
+        delay: `${rDelay}s`,
+        dir: rDir,
+      });
+    }, []);
+
     const randomizeRef = useRef<() => void>(() => { });
 
     const randomizePositions = useCallback(() => {
@@ -225,6 +258,10 @@ export const CosmicRadialButton = React.forwardRef<
 
     // Default 'property' engine mode (CSS @property registered percentage variables)
     const propertyStyle = {
+      "--cosmic-anim-name": randomAnimProps.name,
+      "--cosmic-anim-dur": randomAnimProps.dur,
+      "--cosmic-anim-delay": randomAnimProps.delay,
+      "--cosmic-anim-dir": randomAnimProps.dir,
       "--cosmic-duration": `${duration.toFixed(1)}s`,
       "--cosmic-easing": easing,
       "--r1-x": `${targetCenters[0].x}%`,

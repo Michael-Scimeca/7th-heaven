@@ -5042,7 +5042,12 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(40% 50% at var(--r5-x) var(--r5-y), var(--r5-c) 0%, transparent 100%),
     radial-gradient(70% 80% at var(--r6-x) var(--r6-y), var(--r6-c) 0%, transparent 100%),
     linear-gradient(135deg, #471bcd 0%, #863f0d 100%) !important;
-  animation: cosmic-radial-property-drift 6s ease-in-out infinite !important;
+  animation-name: var(--cosmic-anim-name, cosmic-radial-property-drift) !important;
+  animation-duration: var(--cosmic-anim-dur, 6s) !important;
+  animation-delay: var(--cosmic-anim-delay, 0s) !important;
+  animation-direction: var(--cosmic-anim-dir, alternate) !important;
+  animation-timing-function: var(--cosmic-anim-timing, ease-in-out) !important;
+  animation-iteration-count: infinite !important;
   transition:
     --r1-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
     --r1-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
@@ -5095,63 +5100,106 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
 @keyframes cosmic-radial-property-drift {
   0% {
-    --r1-x: 18%;
-    --r1-y: 71%;
-    --r2-x: 36%;
-    --r2-y: 76%;
-    --r3-x: 7%;
-    --r3-y: 98%;
-    --r4-x: 72%;
-    --r4-y: 23%;
-    --r5-x: 91%;
-    --r5-y: 74%;
-    --r6-x: 67%;
-    --r6-y: 38%;
+    --r1-x: 18%; --r1-y: 71%;
+    --r2-x: 36%; --r2-y: 76%;
+    --r3-x: 7%;  --r3-y: 98%;
+    --r4-x: 72%; --r4-y: 23%;
+    --r5-x: 91%; --r5-y: 74%;
+    --r6-x: 67%; --r6-y: 38%;
   }
-
   33% {
-    --r1-x: 38%;
-    --r1-y: 51%;
-    --r2-x: 20%;
-    --r2-y: 90%;
-    --r3-x: 25%;
-    --r3-y: 75%;
-    --r4-x: 55%;
-    --r4-y: 45%;
-    --r5-x: 75%;
-    --r5-y: 50%;
-    --r6-x: 85%;
-    --r6-y: 20%;
+    --r1-x: 38%; --r1-y: 51%;
+    --r2-x: 20%; --r2-y: 90%;
+    --r3-x: 25%; --r3-y: 75%;
+    --r4-x: 55%; --r4-y: 45%;
+    --r5-x: 75%; --r5-y: 50%;
+    --r6-x: 85%; --r6-y: 20%;
   }
-
   66% {
-    --r1-x: 5%;
-    --r1-y: 85%;
-    --r2-x: 55%;
-    --r2-y: 60%;
-    --r3-x: 0%;
-    --r3-y: 80%;
-    --r4-x: 85%;
-    --r4-y: 10%;
-    --r5-x: 98%;
-    --r5-y: 85%;
-    --r6-x: 50%;
-    --r6-y: 55%;
+    --r1-x: 5%;  --r1-y: 85%;
+    --r2-x: 55%; --r2-y: 60%;
+    --r3-x: 0%;  --r3-y: 80%;
+    --r4-x: 85%; --r4-y: 10%;
+    --r5-x: 98%; --r5-y: 85%;
+    --r6-x: 50%; --r6-y: 55%;
   }
-
   100% {
-    --r1-x: 18%;
-    --r1-y: 71%;
-    --r2-x: 36%;
-    --r2-y: 76%;
-    --r3-x: 7%;
-    --r3-y: 98%;
-    --r4-x: 72%;
-    --r4-y: 23%;
-    --r5-x: 91%;
-    --r5-y: 74%;
-    --r6-x: 67%;
-    --r6-y: 38%;
+    --r1-x: 18%; --r1-y: 71%;
+    --r2-x: 36%; --r2-y: 76%;
+    --r3-x: 7%;  --r3-y: 98%;
+    --r4-x: 72%; --r4-y: 23%;
+    --r5-x: 91%; --r5-y: 74%;
+    --r6-x: 67%; --r6-y: 38%;
+  }
+}
+
+@keyframes cosmic-radial-property-drift-reverse {
+  0% {
+    --r1-x: 85%; --r1-y: 15%;
+    --r2-x: 70%; --r2-y: 25%;
+    --r3-x: 90%; --r3-y: 10%;
+    --r4-x: 15%; --r4-y: 85%;
+    --r5-x: 10%; --r5-y: 90%;
+    --r6-x: 20%; --r6-y: 80%;
+  }
+  50% {
+    --r1-x: 15%; --r1-y: 85%;
+    --r2-x: 25%; --r2-y: 75%;
+    --r3-x: 10%; --r3-y: 90%;
+    --r4-x: 85%; --r4-y: 15%;
+    --r5-x: 90%; --r5-y: 10%;
+    --r6-x: 80%; --r6-y: 20%;
+  }
+  100% {
+    --r1-x: 85%; --r1-y: 15%;
+    --r2-x: 70%; --r2-y: 25%;
+    --r3-x: 90%; --r3-y: 10%;
+    --r4-x: 15%; --r4-y: 85%;
+    --r5-x: 10%; --r5-y: 90%;
+    --r6-x: 20%; --r6-y: 80%;
+  }
+}
+
+@keyframes cosmic-radial-property-drift-spiral {
+  0% {
+    --r1-x: 50%; --r1-y: 10%;
+    --r2-x: 90%; --r2-y: 50%;
+    --r3-x: 50%; --r3-y: 90%;
+    --r4-x: 10%; --r4-y: 50%;
+    --r5-x: 50%; --r5-y: 50%;
+    --r6-x: 30%; --r6-y: 30%;
+  }
+  25% {
+    --r1-x: 90%; --r1-y: 50%;
+    --r2-x: 50%; --r2-y: 90%;
+    --r3-x: 10%; --r3-y: 50%;
+    --r4-x: 50%; --r4-y: 10%;
+    --r5-x: 70%; --r5-y: 30%;
+    --r6-x: 70%; --r6-y: 70%;
+  }
+  50% {
+    --r1-x: 50%; --r1-y: 90%;
+    --r2-x: 10%; --r2-y: 50%;
+    --r3-x: 50%; --r3-y: 10%;
+    --r4-x: 90%; --r4-y: 50%;
+    --r5-x: 30%; --r5-y: 70%;
+    --r6-x: 30%; --r6-y: 30%;
+  }
+  75% {
+    --r1-x: 10%; --r1-y: 50%;
+    --r2-x: 50%; --r2-y: 10%;
+    --r3-x: 90%; --r3-y: 50%;
+    --r4-x: 50%; --r4-y: 90%;
+    --r5-x: 30%; --r5-y: 30%;
+    --r6-x: 70%; --r6-y: 30%;
+  }
+  100% {
+    --r1-x: 50%; --r1-y: 10%;
+    --r2-x: 90%; --r2-y: 50%;
+    --r3-x: 50%; --r3-y: 90%;
+    --r4-x: 10%; --r4-y: 50%;
+    --r5-x: 50%; --r5-y: 50%;
+    --r6-x: 30%; --r6-y: 30%;
   }
 }
 
