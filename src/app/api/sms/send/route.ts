@@ -214,14 +214,19 @@ export async function POST(request: Request) {
       });
     }
 
-    // Dev mode — no Twilio credentials
+    // Dev mode / push broadcast mode
+    const ntfySent = typeof pushResult === "object" && pushResult?.ok;
+    const ntfyStatus = ntfySent
+      ? "📲 Instant ntfy push notification sent to Fans group!"
+      : "⚠️ ntfy push skipped or unconfigured";
+
     return NextResponse.json({
       success: true,
-      message: `Would send SMS text to ${nearbySubscribers.length} recipient${nearbySubscribers.length === 1 ? "" : "s"}`,
+      message: `${ntfyStatus} (SMS simulated for ${nearbySubscribers.length} recipient${nearbySubscribers.length === 1 ? "" : "s"})`,
+      ntfy: pushResult,
       nearbyCount: nearbySubscribers.length,
       totalSubscribers: allSubscribersCount,
       preview: smsBody,
-      note: "Twilio API status active",
     });
   } catch (error: any) {
     console.error("SMS send error:", error?.message || error);

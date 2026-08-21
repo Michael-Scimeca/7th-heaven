@@ -41,22 +41,22 @@ export interface NtfyResult {
 
 export const NTFY_SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/+$/, "");
 
-const GROUP_TOPIC_ENV: Record<NtfyGroup, string | undefined> = {
-  fans: process.env.NTFY_TOPIC_FANS,
-  crew: process.env.NTFY_TOPIC_CREW,
-  admins: process.env.NTFY_TOPIC_ADMINS,
-  cruise: process.env.NTFY_TOPIC_CRUISE,
-};
-
 /** Returns the configured topic name for a group, or null if it isn't set. */
 export function getNtfyTopic(group: NtfyGroup): string | null {
-  const topic = GROUP_TOPIC_ENV[group];
+  const envMap: Record<NtfyGroup, string | undefined> = {
+    fans: process.env.NTFY_TOPIC_FANS,
+    crew: process.env.NTFY_TOPIC_CREW,
+    admins: process.env.NTFY_TOPIC_ADMINS,
+    cruise: process.env.NTFY_TOPIC_CRUISE,
+  };
+  const topic = envMap[group];
   return topic && topic.trim() ? topic.trim() : null;
 }
 
 /** True if at least one ntfy group topic is configured. */
 export function isNtfyConfigured(): boolean {
-  return (Object.keys(GROUP_TOPIC_ENV) as NtfyGroup[]).some((g) => getNtfyTopic(g));
+  const groups: NtfyGroup[] = ["fans", "crew", "admins", "cruise"];
+  return groups.some((g) => getNtfyTopic(g));
 }
 
 /**
