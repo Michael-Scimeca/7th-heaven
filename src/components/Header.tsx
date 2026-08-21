@@ -497,8 +497,9 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none  ${scrolled
-        ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
+      id="site-header"
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-all duration-300 pointer-events-none ${scrolled
+        ? "bg-[var(--surface-overlay)]/60 text-[var(--text-color)] shadow-lg"
         : "bg-transparent text-white"
         }`}
       style={{
@@ -507,7 +508,47 @@ export function Header() {
       }}
       suppressHydrationWarning
     >
-      <div className="w-full max-w-full site-container">
+      {/* ── Progressive Multi-Layer Glassmorphic Blur Background ── */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(3px)",
+            WebkitBackdropFilter: "blur(3px)",
+            maskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%)",
+            WebkitMaskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            maskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 75%)",
+            WebkitMaskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 75%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(9px)",
+            WebkitBackdropFilter: "blur(9px)",
+            maskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 50%)",
+            WebkitMaskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 50%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            maskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 25%)",
+            WebkitMaskImage: "linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 25%)",
+          }}
+        />
+      </div>
+
+      <div className="w-full max-w-full site-container relative z-10">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
