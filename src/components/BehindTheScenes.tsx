@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import CosmicRadialButton from "./CosmicRadialButton";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
@@ -146,11 +147,14 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       />
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
                       <div className="absolute top-4 right-4 z-[3]">
-                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-accent)]/80 group-hover:scale-110">
+                        <CosmicRadialButton
+                          icon={false}
+                          className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110 border border-purple-300/40"
+                        >
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />
                           </svg>
-                        </div>
+                        </CosmicRadialButton>
                       </div>
                     </button>
                   )}

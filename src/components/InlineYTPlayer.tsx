@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
+import CosmicRadialButton from "./CosmicRadialButton";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
 
 interface InlineYTPlayerProps {
@@ -239,8 +240,9 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             {/* Play/Pause */}
-            <button onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
+            <CosmicRadialButton onClick={togglePlay}
+              icon={false}
+              className="w-8 h-8 !rounded-full !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -252,7 +254,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
               )}
-            </button>
+            </CosmicRadialButton>
 
             {/* Volume */}
             <div

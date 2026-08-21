@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import CosmicRadialButton from "./CosmicRadialButton";
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
 type VideoCategoryData = {
@@ -163,9 +164,12 @@ export default function VideoSection() {
                         onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover/thumb:bg-black/50 transition-colors duration-300 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300 shadow-2xl shadow-red-600/50">
+                        <CosmicRadialButton
+                          icon={false}
+                          className="w-16 h-16 !rounded-full !p-0 text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300 shadow-2xl border border-purple-300/40"
+                        >
                           <svg width="22" height="24" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
-                        </div>
+                        </CosmicRadialButton>
                       </div>
                       {latest.duration && (
                         <div className="absolute bottom-3 right-3 z-[3] px-2 py-1 bg-black/80 backdrop-blur-sm text-xs font-bold text-white rounded tracking-wider">
@@ -282,9 +286,12 @@ export default function VideoSection() {
                       }}
                     />
                     <div className="absolute inset-0 z-[2] bg-black/10 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300">
-                        <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
-                      </div>
+                      <CosmicRadialButton
+                        icon={false}
+                        className="w-12 h-12 !rounded-full !p-0 text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 border border-purple-300/40"
+                      >
+                        <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
+                      </CosmicRadialButton>
                     </div>
                     {/* Duration badge */}
                     {video.duration && (
