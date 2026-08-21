@@ -13,6 +13,7 @@ import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
 import { SquishyToggle } from "@/components/SquishyToggle";
+import LazySection from "@/components/LazySection";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
@@ -1045,7 +1046,9 @@ ${filterLine}
                 WebkitBackfaceVisibility: 'hidden',
               }}
             >
-              <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+              <LazySection fallbackHeight="350px">
+                <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+              </LazySection>
             </div>
           )}
 

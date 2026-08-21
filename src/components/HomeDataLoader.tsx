@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import dynamic from "next/dynamic";
+import LazySection from "@/components/LazySection";
 
 const TourList = dynamic(() => import("@/components/TourList"));
 const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
@@ -123,9 +124,11 @@ export default function HomeDataLoader() {
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
-        <TourList initialShows={shows} />
-      </section>
+      <LazySection fallbackHeight="400px">
+        <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
+          <TourList initialShows={shows} />
+        </section>
+      </LazySection>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
       <div className="mt-8">
