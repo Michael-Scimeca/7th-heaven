@@ -212,7 +212,9 @@ export default function FallingPicks() {
     Composite.add(engine.world, mouseConstraint);
     mouseConstraintRef.current = mouseConstraint;
 
-    const runner = Runner.create();
+    const runner = Runner.create({
+      delta: 1000 / 60,
+    });
     Runner.run(runner, engine);
 
     function spawnPick() {

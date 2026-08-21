@@ -147,7 +147,7 @@ export default function FooterPicks() {
     let lastTime = performance.now();
     const physicsInterval = setInterval(() => {
       const now = performance.now();
-      const delta = Math.min(now - lastTime, 50);
+      const delta = Math.min(now - lastTime, 1000 / 60);
       lastTime = now;
 
       Engine.update(engine, delta);
