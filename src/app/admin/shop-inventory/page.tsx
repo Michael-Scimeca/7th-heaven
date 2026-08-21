@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 
 type Variant = {
@@ -262,8 +263,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
       <div className="p-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3 min-w-0">
           {product.image_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.image_url} alt="" className="w-12 h-12 rounded-lg object-cover bg-white/5" />
+            <Image width={48} height={48} unoptimized src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-white/5" />
           ) : (
             <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-white/30 text-xs font-bold">
               No Pic
