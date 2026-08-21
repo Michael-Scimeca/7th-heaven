@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 
@@ -51,14 +51,11 @@ function slugify(text: string) {
 
 export default function ShopInventoryAdminPage() {
   const { member, isLoggedIn, openModal } = useMember();
-  const [devBypass, setDevBypass] = useState(false);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development" && localStorage.getItem("7h_dev_bypass") === "true") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setDevBypass(true);
-    }
-  }, []);
+  const devBypass = useSyncExternalStore(
+    () => () => {},
+    () => process.env.NODE_ENV === "development" && localStorage.getItem("7h_dev_bypass") === "true",
+    () => false
+  );
 
   const allowedRoles = ["admin", "crew", "merch"];
   const authorized = devBypass || (isLoggedIn && !!member?.role && allowedRoles.includes(member.role));
@@ -344,14 +341,6 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
   const [lowStock, setLowStock] = useState(String(variant.low_stock_threshold));
   const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    setLabel(variant.label);
-    setPrice(String(variant.price));
-    setStock(String(variant.stock_quantity));
-    setLowStock(String(variant.low_stock_threshold));
-    setDirty(false);
-  }, [variant]);
 
   const markDirty = () => setDirty(true);
 
