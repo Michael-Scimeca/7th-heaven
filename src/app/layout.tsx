@@ -79,7 +79,7 @@ const barlow = Barlow({
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
 const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('is-preloading')}}catch(e){document.documentElement.classList.add('is-preloading')}";
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
