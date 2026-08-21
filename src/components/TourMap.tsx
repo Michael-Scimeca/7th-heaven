@@ -505,10 +505,19 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         return now >= start && now < end;
       });
 
-      const isNext = nextShowVenue && v.venue === nextShowVenue && v.city === nextShowCity;
+      const targetVenueName = nextShowVenue?.toLowerCase().trim();
+      const targetCityName = nextShowCity?.toLowerCase().trim();
+      const vName = v.venue.toLowerCase().trim();
+      const vCity = v.city.toLowerCase().trim();
+
+      const isNext = targetVenueName
+        ? (vName === targetVenueName || vName.includes(targetVenueName) || targetVenueName.includes(vName)) &&
+          (!targetCityName || vCity === targetCityName || vCity.includes(targetCityName))
+        : v === filteredVenues[0];
+
       const isBouncing = isHappening || isNext;
-      const w = isBouncing ? 31 : 24;
-      const h = isBouncing ? 41 : 31;
+      const w = isBouncing ? 34 : 24;
+      const h = isBouncing ? 44 : 31;
 
       const firstShow = v.shows[0];
       const directionsUrl = firstShow.mapUrl?.includes('maps.apple.com')
@@ -1132,8 +1141,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         .next-show-bounce {
           position: relative;
           opacity: 1 !important;
-          animation: markerBounce 1.2s cubic-bezier(0.28, 0.84, 0.42, 1) infinite !important;
-          filter: drop-shadow(0 0 10px var(--ring-color, #a855f7));
+          animation: markerBounce 1s ease-in-out infinite !important;
+          filter: drop-shadow(0 0 14px var(--ring-color, #a855f7));
         }
         .next-show-bounce > svg {
           animation: none !important;
@@ -1141,7 +1150,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         }
         @keyframes markerBounce {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+          50% { transform: translateY(-18px); }
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-4px); }
