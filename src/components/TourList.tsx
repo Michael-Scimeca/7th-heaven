@@ -1629,7 +1629,7 @@ ${filterLine}
           </div>
 
           {displayLimit && !maxShows && filtered.length > displayLimit && (
-            <div className="flex justify-center py-8 relative z-20">
+            <div className="flex justify-center pt-8 pb-16 relative z-20">
               <button
                 type="button"
                 onClick={() => setDisplayLimit(null)}
