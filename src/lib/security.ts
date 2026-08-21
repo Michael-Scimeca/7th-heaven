@@ -1,12 +1,11 @@
 /**
  * Security & Input Validation Utilities
  */
-import DOMPurify from 'isomorphic-dompurify';
 import { z } from 'zod';
 import { applyRateLimit } from '@/lib/api-utils';
 
 /**
- * Sanitizes user input string against XSS injections using DOMPurify
+ * Sanitizes user input string against XSS injections using DOMPurify with fallback
  */
 export function sanitizeInput(input: string | null | undefined): string {
   if (!input) return '';
@@ -15,7 +14,19 @@ export function sanitizeInput(input: string | null | undefined): string {
     .replace(/on\w+="[^"]*"/gi, '')
     .replace(/on\w+='[^']*'/gi, '')
     .replace(/javascript:[^\s"']*/gi, '');
-  const domPurified = DOMPurify.sanitize(cleaned);
+
+  let domPurified = cleaned;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const DOMPurify = require('isomorphic-dompurify');
+    const purify = DOMPurify?.default || DOMPurify;
+    if (purify && typeof purify.sanitize === 'function') {
+      domPurified = purify.sanitize(cleaned);
+    }
+  } catch {
+    /* fallback to regex sanitization if jsdom/undici environment fails */
+  }
+
   return domPurified
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
