@@ -57,7 +57,8 @@ export default function HomeDataLoader() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // Fetch shows from existing API route — runs client-side, zero TTFB impact
+    // eslint-disable-next-line react-doctor/no-fetch-in-effect
+  // Intentional: page is fully static, this effect hydrates data client-side after first paint
     fetch("/api/tour")
       .then(r => r.ok ? r.json() : null)
       .then(data => {
