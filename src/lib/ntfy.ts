@@ -39,7 +39,7 @@ export interface NtfyResult {
   error?: string;
 }
 
-const NTFY_SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/+$/, "");
+export const NTFY_SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/+$/, "");
 
 const GROUP_TOPIC_ENV: Record<NtfyGroup, string | undefined> = {
   fans: process.env.NTFY_TOPIC_FANS,
