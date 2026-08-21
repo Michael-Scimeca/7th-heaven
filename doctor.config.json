@@ -24,6 +24,7 @@
     "react-doctor/no-placeholder-only-field": "off",
     "react-doctor/only-export-components": "off",
     "react-doctor/prefer-module-scope-static": "off",
-    "react-doctor/prefer-module-scope-constants": "off"
+    "react-doctor/prefer-module-scope-constants": "off",
+    "react-doctor/no-fetch-in-effect": "off"
   }
 }
