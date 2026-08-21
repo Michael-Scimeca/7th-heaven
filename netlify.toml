@@ -55,7 +55,13 @@
     "puppeteer-core",
     "three",
     "@react-three/fiber",
-    "@react-three/drei"
+    "@react-three/drei",
+    "@supabase/supabase-js",
+    "@supabase/ssr",
+    "resend",
+    "twilio",
+    "sharp",
+    "lucide-react"
   ]
 
 [[headers]]
