@@ -65,6 +65,8 @@ const nextConfig: NextConfig = {
       'node_modules/@electric-sql/**',
       'node_modules/@mediapipe/**',
       'node_modules/lucide-react/**',
+      'public/movie/**',
+      'public/audio/**',
     ],
     '/*': [
       'node_modules/@tensorflow/**',
@@ -91,6 +93,8 @@ const nextConfig: NextConfig = {
       'node_modules/@electric-sql/**',
       'node_modules/@mediapipe/**',
       'node_modules/lucide-react/**',
+      'public/movie/**',
+      'public/audio/**',
     ],
     '/**/*': [
       'node_modules/@tensorflow/**',
@@ -117,6 +121,8 @@ const nextConfig: NextConfig = {
       'node_modules/@electric-sql/**',
       'node_modules/@mediapipe/**',
       'node_modules/lucide-react/**',
+      'public/movie/**',
+      'public/audio/**',
     ],
     '/api/**/*': [
       'node_modules/@tensorflow/**',
@@ -143,6 +149,8 @@ const nextConfig: NextConfig = {
       'node_modules/@electric-sql/**',
       'node_modules/@mediapipe/**',
       'node_modules/lucide-react/**',
+      'public/movie/**',
+      'public/audio/**',
     ],
   },
   images: {
