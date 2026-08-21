@@ -313,7 +313,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       // Center on Chicagoland — most shows are in the IL suburbs
       const mapInstance = new google.maps.Map(container, {
         center: { lat: 42.0, lng: -88.0 },
-        zoom: 14,
+        zoom: 9,
         // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
         // styling and silently ignores the `styles` JSON array below.
         styles: SNAZZY_MAPS_227862_STYLE,
