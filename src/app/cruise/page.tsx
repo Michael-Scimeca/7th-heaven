@@ -1057,7 +1057,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center group">
-                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                    <div
+                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      style={{
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                      }}
+                    >
                       <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:info@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
@@ -1072,7 +1078,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                   {/* Mary Grivas */}
                   <div className="flex flex-col items-center group">
-                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                    <div
+                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      style={{
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                      }}
+                    >
                       <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:Mary@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
@@ -1087,7 +1099,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                   {/* Alan McRae */}
                   <div className="flex flex-col items-center group">
-                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                    <div
+                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      style={{
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                      }}
+                    >
                       <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:alan@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
