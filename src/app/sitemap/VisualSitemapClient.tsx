@@ -405,21 +405,6 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "footer-terms",
-    type: "sitemapCard",
-    position: { x: 1140, y: 700 },
-    data: {
-      header: "TERMS OF SERVICE",
-      title: "Terms & Conditions",
-      path: "/terms",
-      imgUrl: "/sitemap-thumbs/privacy.jpg",
-      badgeType: "FOOTER_NAV",
-      description: "Footer legal terms of service, ticket policies, and user agreements.",
-    },
-  },
-
-  // ── ROW 3: PLANNER SECURITY PIN EMAIL DISPATCHED TO INBOX (y = 1040) ──
-  {
     id: "email-book-pin-email",
     type: "sitemapCard",
     position: { x: 1900, y: 1040 },
@@ -663,7 +648,6 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-shows", source: "root", target: "footer-shows", type: "smoothstep" },
   { id: "e-root-footer-faq", source: "root", target: "footer-faq", type: "smoothstep" },
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
-  { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
 
   // DIRECT VERTICAL FLOW: FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> ENTER PIN INTO MODULE ON BOOKER PAGE -> PLANNER DASHBOARD
   { id: "flow-book-to-modal-open", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
