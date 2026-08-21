@@ -288,7 +288,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           loadMapsApi();
         }
       },
-      { rootMargin: "0px" }
+      { rootMargin: "400px" }
     );
 
     observer.observe(container);
@@ -686,11 +686,18 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    // Fit map bounds to show ALL show markers
+    // Fit map bounds to show ALL show markers with regional Chicagoland zoom cap
     if (filteredVenues.length > 0) {
       const bounds = new google.maps.LatLngBounds();
       filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
       map.fitBounds(bounds, { top: 80, right: 60, bottom: 80, left: 60 });
+
+      // Cap maximum automatic zoom level to 11 to keep regional Chicagoland context
+      const listener = google.maps.event.addListenerOnce(map, "idle", () => {
+        if (map.getZoom() && map.getZoom()! > 11) {
+          map.setZoom(11);
+        }
+      });
     }
 
     return () => {
