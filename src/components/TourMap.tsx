@@ -279,10 +279,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     };
 
     const container = mapRef.current;
-    if (!container) {
-      loadMapsApi();
-      return;
-    }
+    if (!container) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
