@@ -381,9 +381,12 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
   const deleteVariant = async () => {
     if (!confirm(`Delete variant "${variant.label}"?`)) return;
     setBusy(true);
-    await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, { method: "DELETE" });
-    setBusy(false);
-    onChanged();
+    try {
+      await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, { method: "DELETE" });
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
   };
 
   const isLow = Number(stock) <= Number(lowStock) && Number(stock) > 0;
