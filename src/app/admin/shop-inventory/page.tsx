@@ -343,10 +343,10 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 }
 
 function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () => void }) {
-  const [label, setLabel] = useState(variant.label);
-  const [price, setPrice] = useState(String(variant.price));
-  const [stock, setStock] = useState(String(variant.stock_quantity));
-  const [lowStock, setLowStock] = useState(String(variant.low_stock_threshold));
+  const [label, setLabel] = useState(() => variant.label);
+  const [price, setPrice] = useState(() => String(variant.price));
+  const [stock, setStock] = useState(() => String(variant.stock_quantity));
+  const [lowStock, setLowStock] = useState(() => String(variant.low_stock_threshold));
   const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState(false);
 
