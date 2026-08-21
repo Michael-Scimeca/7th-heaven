@@ -4870,7 +4870,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   display: inline-block !important;
   opacity: 1 !important;
   animation: mapMarkerBounce 0.65s cubic-bezier(0.28, 0.84, 0.42, 1) infinite alternate !important;
-  filter: drop-shadow(0 0 16px #a855f7) drop-shadow(0 4px 12px rgba(168, 85, 247, 0.7)) !important;
+  filter: none !important;
   z-index: 9999 !important;
 }
 

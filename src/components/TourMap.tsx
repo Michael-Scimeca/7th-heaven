@@ -1147,12 +1147,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         .active-show-label {
           opacity: 1 !important;
           visibility: visible !important;
-          background: linear-gradient(135deg, #581c87, #9333ea) !important;
-          border-color: #c084fc !important;
+          background: rgba(8, 8, 18, 0.95) !important;
+          border-color: rgba(255, 255, 255, 0.25) !important;
           color: #ffffff !important;
-          font-weight: 900 !important;
-          box-shadow: 0 4px 14px rgba(168, 85, 247, 0.8) !important;
-          transform: translateX(-50%) scale(1.08) !important;
+          font-weight: 800 !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+          transform: translateX(-50%) !important;
           z-index: 9999 !important;
         }
 
