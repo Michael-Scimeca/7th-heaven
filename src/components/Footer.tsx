@@ -190,8 +190,9 @@ export function Footer() {
         const isHidden = isCovered || revealPct < 0.02;
         return {
           opacity: isHidden ? 0 : Math.min(1, revealPct * 4),
-          visibility: isHidden ? 'hidden' : 'visible',
-          pointerEvents: isHidden ? 'none' : 'auto',
+          visibility: isHidden ? ("hidden" as const) : ("visible" as const),
+          pointerEvents: isHidden ? ("none" as const) : ("auto" as const),
+          display: isHidden ? ("none" as const) : ("block" as const),
           zIndex: isHidden ? -1 : 1,
           maskImage: mask,
           WebkitMaskImage: mask,
