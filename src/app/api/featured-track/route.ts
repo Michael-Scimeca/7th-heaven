@@ -7,11 +7,9 @@ import { requireAdmin } from '@/lib/api-utils';
 
 export const dynamic = 'force-dynamic';
 
-// Supabase admin client that bypasses RLS
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
+const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
 const AUDIO_BITRATES: Record<string, string> = { superb: '320k', standard: '192k', high: '128k' };
 
