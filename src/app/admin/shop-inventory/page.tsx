@@ -510,6 +510,7 @@ function AddVariantForm({
       onDone();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to add variant.");
+    } finally {
       setSubmitting(false);
     }
   };
@@ -593,6 +594,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
       onCreated();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create product.");
+    } finally {
       setSubmitting(false);
     }
   };
