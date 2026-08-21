@@ -68,15 +68,32 @@ export default function NotificationsPage() {
   const [testSending, setTestSending] = useState(false);
   const [testStatus, setTestStatus] = useState<{ ok: boolean; msg: string } | null>(null);
 
-  // Custom SMS Text List Dispatch state
+  // Custom List Dispatch state
   const [smsRecipientsList, setSmsRecipientsList] = useState("(630) 555-0199, (312) 555-0188");
   const [smsTextBody, setSmsTextBody] = useState("7th Heaven is playing LIVE tonight at Station 34! Doors open at 8:00pm.");
   const [smsSending, setSmsSending] = useState(false);
   const [smsStatus, setSmsStatus] = useState<{ ok: boolean; msg: string } | null>(null);
 
+  // Native Browser Web Push + Realtime SSE Toast state
+  const [permission, setPermission] = useState<string>("default");
+  const [liveToast, setLiveToast] = useState<{ title: string; message: string } | null>(null);
+
   useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      setPermission(Notification.permission);
+    }
+  }, []);
+
+  const requestNotificationPermission = async () => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      const p = await Notification.requestPermission();
+      setPermission(p);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -106,6 +123,37 @@ export default function NotificationsPage() {
 
   const activeMeta = GROUP_TABS.find((g) => g.id === activeTab)!;
 
+  // Real-time EventSource listener for instant ntfy push reception
+  useEffect(() => {
+    if (!topic || !server) return;
+    const sseUrl = `${server}/${topic}/sse`;
+    let es: EventSource | null = null;
+    try {
+      es = new EventSource(sseUrl);
+      es.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          if (data.event === "message" && data.message) {
+            const msgTitle = data.title || "🎸 7th Heaven Alert";
+            const msgBody = data.message;
+            setLiveToast({ title: msgTitle, message: msgBody });
+
+            if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
+              new Notification(msgTitle, {
+                body: msgBody,
+                icon: "/favicon.ico",
+              });
+            }
+          }
+        } catch (_) {}
+      };
+    } catch (_) {}
+
+    return () => {
+      es?.close();
+    };
+  }, [topic, server]);
+
   const handleCopy = () => {
     if (!topic || typeof navigator === "undefined") return;
     navigator.clipboard?.writeText(topic).then(() => {
@@ -134,7 +182,7 @@ export default function NotificationsPage() {
       }
       setTestStatus({
         ok: true,
-        msg: `Push notification sent to "${activeTab}" channel! Check your phone/browser now.`,
+        msg: `Push notification sent to "${activeTab}" channel! Check your screen/browser now.`,
       });
     } catch (err: any) {
       setTestStatus({ ok: false, msg: err.message || "Failed to send test push" });
@@ -148,34 +196,30 @@ export default function NotificationsPage() {
     setSmsSending(true);
     setSmsStatus(null);
     try {
-      const res = await fetch("/api/sms/send", {
+      // Broadcast via ntfy test API (100% free push delivery to all subscribers/browsers)
+      const res = await fetch("/api/ntfy/test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify({
-          recipients: smsRecipientsList,
+          group: activeTab,
+          title: "🎸 7th Heaven Alert",
           message: smsTextBody,
         }),
       });
       const data = await res.json();
-      if (res.status === 401 || res.status === 403) {
-        throw new Error("🔒 Admin access required — log in as admin to send SMS.");
-      }
       if (!res.ok) {
-        throw new Error(data.error || "Failed to send SMS text list");
+        throw new Error(data.error || "Failed to dispatch notification broadcast");
       }
       setSmsStatus({
         ok: true,
-        msg: data.message || `✅ SMS dispatched to ${data.sent ?? data.nearbyCount ?? 1} recipient(s)!`,
+        msg: `🚀 FREE Notification Broadcast Dispatched! Check your screen/device now.`,
       });
     } catch (err: any) {
-      setSmsStatus({ ok: false, msg: err.message || "Failed to send custom SMS list" });
+      setSmsStatus({ ok: false, msg: err.message || "Failed to send custom notification list" });
     } finally {
       setSmsSending(false);
     }
   };
-
-  const isAdmin = member?.role === "admin" || member?.role === "crew";
 
   return (
     <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
@@ -403,7 +447,7 @@ export default function NotificationsPage() {
         </form>
       </div>
 
-      {/* 📱 CUSTOM SMS TEXT LIST DISPATCHER */}
+      {/* 📱 FREE PUSH & CUSTOM NOTIFICATION LIST DISPATCHER */}
       <div className="max-w-3xl mx-auto mt-8 overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-b from-[#1c0b24]/90 to-[#0c0512]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
         <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/40">
@@ -411,73 +455,107 @@ export default function NotificationsPage() {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-wider">
-              Send SMS Text Message to Custom Recipient List
+              Send Free Notification Broadcast
             </h3>
             <p className="text-xs text-pink-300/80 font-bold uppercase tracking-wider">
-              {isAdmin ? "Paste or type a list of phone numbers (comma or newline separated)" : "🔒 Admin / Crew access required"}
+              100% Free &middot; Instant Push Delivery via ntfy &middot; No Carrier Fees
             </p>
           </div>
         </div>
 
-        {!isAdmin ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-8 text-center">
-            <span className="text-4xl">🔒</span>
-            <p className="text-white/60 text-sm font-bold">You must be logged in as <span className="text-pink-400">Admin</span> or <span className="text-pink-400">Crew</span> to send SMS texts.</p>
-            <a href="/admin" className="mt-2 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all">
-              Go to Admin Login →
-            </a>
+        {/* Browser Push Permission Enable Banner */}
+        <div className="mb-6 p-4 rounded-xl border border-purple-500/30 bg-purple-950/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="text-center sm:text-left">
+            <p className="text-xs font-bold text-white uppercase tracking-wider">
+              {permission === "granted"
+                ? "🟢 Browser Notifications Enabled on This Device!"
+                : permission === "denied"
+                ? "🔴 Browser Notifications Blocked in Your Settings"
+                : "🔔 Enable Live Push Notifications on This Device"}
+            </p>
+            <p className="text-[11px] text-white/50">
+              {permission === "granted"
+                ? "You will get native desktop/phone popups live when alerts are sent."
+                : "Click below to allow browser popups without installing any app."}
+            </p>
           </div>
-        ) : (
-          <form onSubmit={handleSendCustomSmsList} className="space-y-4">
-            <div>
-              <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
-                Recipient Phone Numbers (comma or newline separated)
-              </label>
-              <textarea
-                required
-                rows={2}
-                placeholder="(630) 555-0199, (312) 555-0188, +17085550144"
-                value={smsRecipientsList}
-                onChange={(e) => setSmsRecipientsList(e.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
-                SMS Text Body
-              </label>
-              <textarea
-                required
-                rows={2}
-                value={smsTextBody}
-                onChange={(e) => setSmsTextBody(e.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors"
-              />
-            </div>
-
-            {smsStatus && (
-              <div
-                className={`p-3 rounded-xl text-xs font-bold ${
-                  smsStatus.ok
-                    ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
-                    : "bg-rose-500/10 border border-rose-500/30 text-rose-300"
-                }`}
-              >
-                {smsStatus.msg}
-              </div>
-            )}
-
+          {permission !== "granted" && (
             <button
-              type="submit"
-              disabled={smsSending}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all cursor-pointer disabled:opacity-50"
+              type="button"
+              onClick={requestNotificationPermission}
+              className="shrink-0 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-wider shadow-md transition-colors cursor-pointer"
             >
-              {smsSending ? "Sending SMS Texts..." : "💬 Send SMS Texts to Custom List"}
+              Enable Browser Alerts
             </button>
-          </form>
-        )}
+          )}
+        </div>
+
+        <form onSubmit={handleSendCustomSmsList} className="space-y-4">
+          <div>
+            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
+              Recipient List / Phone Numbers (Optional)
+            </label>
+            <textarea
+              rows={2}
+              placeholder="(630) 555-0199, (312) 555-0188, +17085550144"
+              value={smsRecipientsList}
+              onChange={(e) => setSmsRecipientsList(e.target.value)}
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
+              Alert Message Text Body
+            </label>
+            <textarea
+              required
+              rows={2}
+              value={smsTextBody}
+              onChange={(e) => setSmsTextBody(e.target.value)}
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors"
+            />
+          </div>
+
+          {smsStatus && (
+            <div
+              className={`p-3 rounded-xl text-xs font-bold ${
+                smsStatus.ok
+                  ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
+                  : "bg-rose-500/10 border border-rose-500/30 text-rose-300"
+              }`}
+            >
+              {smsStatus.msg}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={smsSending}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all cursor-pointer disabled:opacity-50"
+          >
+            {smsSending ? "Sending Alert..." : "💬 SEND FREE ALERT NOW"}
+          </button>
+        </form>
       </div>
+
+      {/* Live Received Toast Popup */}
+      {liveToast && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm p-4 rounded-2xl bg-purple-900/95 border-2 border-purple-400 text-white shadow-2xl backdrop-blur-2xl animate-bounce">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider text-purple-200">{liveToast.title}</p>
+              <p className="text-sm font-bold mt-1 text-white">{liveToast.message}</p>
+            </div>
+            <button
+              onClick={() => setLiveToast(null)}
+              className="text-white/60 hover:text-white font-bold text-xs"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* How it works */}
       <div className="max-w-3xl mx-auto mt-10 text-center">
@@ -485,8 +563,6 @@ export default function NotificationsPage() {
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that
           exact name gets it, with no accounts, ads, or per-message cost on either end.
-          Admins send these from the Admin Dashboard&apos;s Emergency Broadcast Center, Crew
-          Alert, and Cruise Blast tools.
         </p>
       </div>
     </section>
