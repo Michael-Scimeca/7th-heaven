@@ -596,19 +596,6 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "email-newsletter-blast",
-    type: "sitemapCard",
-    position: { x: 1140, y: 1380 },
-    data: {
-      header: "✉ Tour Announcement",
-      title: "Newsletter Broadcast Email",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-newsletter-blast.jpg",
-      badgeType: "EMAIL",
-      description: "Dispatched from Admin Newsletter Studio to subscribed fan members.",
-    },
-  },
-  {
     id: "email-fan-pin-security",
     type: "sitemapCard",
     position: { x: 760, y: 1380 },
@@ -699,7 +686,6 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-cruise-filled-to-pin-filled", source: "node-cruise-verify-pin-filled", target: "node-cruise-pin-filled", type: "smoothstep", animated: true },
   { id: "flow-cruise-pin-filled-to-dashboard", source: "node-cruise-pin-filled", target: "node-cruise-dashboard-unlocked", type: "smoothstep", animated: true },
   { id: "flow-merch-pickup", source: "nav-merch", target: "email-merch-pickup", type: "smoothstep" },
-  { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
   { id: "flow-admin-alert", source: "node-admin", target: "email-booking-admin", type: "smoothstep" },
 ];
 
