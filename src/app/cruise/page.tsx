@@ -13,6 +13,8 @@ import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
+import { useHeroParallax } from "@/lib/useHeroParallax";
+import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import {
   BANDS_DATA,
   PORTS_DATA,
@@ -219,6 +221,20 @@ export default function CruisePage() {
     observer.observe(videoEl);
     return () => observer.disconnect();
   }, []);
+
+  // Same shared parallax as the home page and /media heroes
+  // (src/lib/useHeroParallax.ts) — tuning it via any of these pages' panels
+  // updates the default on all of them. #cruise-hero renders unconditionally
+  // at the top of this component (unlike /media's featured hero, which waits
+  // on an async fetch), so `heroVideoRef`/`heroForegroundRef` are already
+  // populated by the time this hook's effect runs — no extra readiness
+  // check needed in `enabled`.
+  const heroForegroundRef = useRef<HTMLDivElement>(null);
+  const heroParallax = useHeroParallax({
+    mediaRef: heroVideoRef,
+    foregroundRef: heroForegroundRef,
+    triggerSelector: "#cruise-hero",
+  });
 
   // Don't render below-hero content until the wave transition exits.
   // Rendering ~1500 lines of JSX synchronously was blocking the main thread.
@@ -663,7 +679,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section
         id="cruise-hero"
-        className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white min-h-[420px] max-h-[780px]"
+        className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-6 sm:pb-8 md:pb-12 text-white min-h-[560px] max-h-[960px]"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
@@ -684,7 +700,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             muted
             loop
             playsInline
-            className="w-full h-full object-cover scale-105"
+            className="w-full h-full object-cover scale-[1.3]"
             style={{
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
@@ -705,9 +721,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           }}
         />
 
+        {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts */}
+        <HeroParallaxCustomizer {...heroParallax} />
 
         {/* Hero Text */}
-        <div className="relative z-10 text-left site-container mb-10 pt-4">
+        <div ref={heroForegroundRef} className="relative z-10 text-left site-container mb-10 pt-4">
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
@@ -1001,37 +1019,37 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     href="https://www.facebook.com/chicagomusiccruise/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-blue-600/30 hover:bg-blue-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
+                    className="px-3.5 py-1.5 rounded-full bg-blue-600/40 hover:bg-blue-600 !text-white text-xs font-extrabold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
                     title="Chicago Music Cruise Facebook"
                   >
-                    <span>Facebook</span>
+                    <span className="!text-white">Facebook</span>
                   </a>
                   <a
                     href="https://www.instagram.com/chicagomusiccruise"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-pink-600/30 hover:bg-pink-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
+                    className="px-3.5 py-1.5 rounded-full bg-pink-600/40 hover:bg-pink-600 !text-white text-xs font-extrabold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
                     title="Chicago Music Cruise Instagram"
                   >
-                    <span>Instagram</span>
+                    <span className="!text-white">Instagram</span>
                   </a>
                   <a
                     href="https://x.com/CMCNTDV"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-slate-700/50 hover:bg-black text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
+                    className="px-3.5 py-1.5 rounded-full bg-slate-700/60 hover:bg-black !text-white text-xs font-extrabold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
                     title="Chicago Music Cruise X (Twitter)"
                   >
-                    <span>X (Twitter)</span>
+                    <span className="!text-white">X (Twitter)</span>
                   </a>
                   <a
                     href="https://www.youtube.com/channel/UCjYApPvQ71rXL5USPuUyr6Q"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-red-600/30 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
+                    className="px-3.5 py-1.5 rounded-full bg-red-600/40 hover:bg-red-600 !text-white text-xs font-extrabold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
                     title="Chicago Music Cruise YouTube Channel"
                   >
-                    <span>YouTube</span>
+                    <span className="!text-white">YouTube</span>
                   </a>
                 </div>
 
@@ -1039,8 +1057,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center group">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="w-full h-full object-cover" />
+                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                      <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:info@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Richard Hofherr
@@ -1054,8 +1072,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                   {/* Mary Grivas */}
                   <div className="flex flex-col items-center group">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="w-full h-full object-cover" />
+                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                      <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:Mary@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Mary Grivas
@@ -1069,8 +1087,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                   {/* Alan McRae */}
                   <div className="flex flex-col items-center group">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-500/40 shadow-xl mb-3 group-hover:scale-105 transition-transform duration-300">
-                      <Image width={96} height={96} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="w-full h-full object-cover" />
+                    <div className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                      <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain" />
                     </div>
                     <a href="mailto:alan@NTDVacations.com" className="text-sm font-extrabold text-purple-300 hover:text-white underline transition-colors">
                       Alan McRae
