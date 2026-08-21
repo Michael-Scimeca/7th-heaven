@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { distanceMiles } from "@/lib/geo";
 import { VENUE_COORDS } from "@/lib/venue-coords";
-import { requireAdmin } from "@/lib/api-utils";
+import { requireAdmin, requireAdminSecret } from "@/lib/api-utils";
 import { publishToGroup } from "@/lib/ntfy";
 
 const supabase = createClient(
@@ -27,8 +27,12 @@ const supabase = createClient(
  *   radius    — (optional) Override max radius in miles (default: use each subscriber's own radius)
  */
 export async function POST(request: Request) {
-  const authError = await requireAdmin(request);
-  if (authError) return authError;
+  // Accept either a valid admin session cookie OR the x-admin-secret header
+  const secretError = requireAdminSecret(request);
+  if (secretError) {
+    const sessionError = await requireAdmin(request);
+    if (sessionError) return sessionError;
+  }
 
   try {
     const body = await request.json();

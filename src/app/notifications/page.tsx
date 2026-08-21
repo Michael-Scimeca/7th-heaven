@@ -151,18 +151,22 @@ export default function NotificationsPage() {
       const res = await fetch("/api/sms/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           recipients: smsRecipientsList,
           message: smsTextBody,
         }),
       });
       const data = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        throw new Error("🔒 Admin access required — log in as admin to send SMS.");
+      }
       if (!res.ok) {
         throw new Error(data.error || "Failed to send SMS text list");
       }
       setSmsStatus({
         ok: true,
-        msg: data.message || `SMS text broadcast dispatched to ${data.nearbyCount || data.sent || 1} phone recipient(s)!`,
+        msg: data.message || `✅ SMS dispatched to ${data.sent ?? data.nearbyCount ?? 1} recipient(s)!`,
       });
     } catch (err: any) {
       setSmsStatus({ ok: false, msg: err.message || "Failed to send custom SMS list" });
@@ -170,6 +174,8 @@ export default function NotificationsPage() {
       setSmsSending(false);
     }
   };
+
+  const isAdmin = member?.role === "admin" || member?.role === "crew";
 
   return (
     <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
@@ -398,7 +404,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* 📱 CUSTOM SMS TEXT LIST DISPATCHER */}
-      <div className="max-w-3xl mx-auto mt-8 overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-b from-[#1c0b24]/90 to-[#0c0512]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+      <div className="max-w-3xl mx-auto mt-8 overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-b from-[#1c0b24]/90 to-[#0c0512]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
         <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/40">
             <span className="text-lg">📱</span>
@@ -408,59 +414,69 @@ export default function NotificationsPage() {
               Send SMS Text Message to Custom Recipient List
             </h3>
             <p className="text-xs text-pink-300/80 font-bold uppercase tracking-wider">
-              Paste or type a list of phone numbers (comma or newline separated)
+              {isAdmin ? "Paste or type a list of phone numbers (comma or newline separated)" : "🔒 Admin / Crew access required"}
             </p>
           </div>
         </div>
 
-        <form onSubmit={handleSendCustomSmsList} className="space-y-4">
-          <div>
-            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
-              Recipient Phone Numbers (comma or newline separated)
-            </label>
-            <textarea
-              required
-              rows={2}
-              placeholder="(630) 555-0199, (312) 555-0188, +17085550144"
-              value={smsRecipientsList}
-              onChange={(e) => setSmsRecipientsList(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors"
-            />
+        {!isAdmin ? (
+          <div className="flex flex-col items-center justify-center gap-3 py-8 text-center">
+            <span className="text-4xl">🔒</span>
+            <p className="text-white/60 text-sm font-bold">You must be logged in as <span className="text-pink-400">Admin</span> or <span className="text-pink-400">Crew</span> to send SMS texts.</p>
+            <a href="/admin" className="mt-2 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all">
+              Go to Admin Login →
+            </a>
           </div>
-
-          <div>
-            <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
-              SMS Text Body
-            </label>
-            <textarea
-              required
-              rows={2}
-              value={smsTextBody}
-              onChange={(e) => setSmsTextBody(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors"
-            />
-          </div>
-
-          {smsStatus && (
-            <div
-              className={`p-3 rounded-xl text-xs font-bold ${
-                smsStatus.ok
-                  ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
-                  : "bg-rose-500/10 border border-rose-500/30 text-rose-300"
-              }`}
-            >
-              {smsStatus.msg}
+        ) : (
+          <form onSubmit={handleSendCustomSmsList} className="space-y-4">
+            <div>
+              <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
+                Recipient Phone Numbers (comma or newline separated)
+              </label>
+              <textarea
+                required
+                rows={2}
+                placeholder="(630) 555-0199, (312) 555-0188, +17085550144"
+                value={smsRecipientsList}
+                onChange={(e) => setSmsRecipientsList(e.target.value)}
+                className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors"
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={smsSending}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all cursor-pointer disabled:opacity-50"
-          >
-            {smsSending ? "Sending SMS Texts..." : "💬 Send SMS Texts to Custom List"}
-          </button>
-        </form>
+            <div>
+              <label className="block text-[11px] font-extrabold uppercase tracking-wider text-white/60 mb-1">
+                SMS Text Body
+              </label>
+              <textarea
+                required
+                rows={2}
+                value={smsTextBody}
+                onChange={(e) => setSmsTextBody(e.target.value)}
+                className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors"
+              />
+            </div>
+
+            {smsStatus && (
+              <div
+                className={`p-3 rounded-xl text-xs font-bold ${
+                  smsStatus.ok
+                    ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
+                    : "bg-rose-500/10 border border-rose-500/30 text-rose-300"
+                }`}
+              >
+                {smsStatus.msg}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={smsSending}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all cursor-pointer disabled:opacity-50"
+            >
+              {smsSending ? "Sending SMS Texts..." : "💬 Send SMS Texts to Custom List"}
+            </button>
+          </form>
+        )}
       </div>
 
       {/* How it works */}
