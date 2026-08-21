@@ -492,15 +492,22 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       return acc;
     }, []);
 
-    setMarkerCount(filteredVenues.length);
-
     const normStr = (str: string) => str.replace(/['’`\\]/g, '').toLowerCase().trim();
     const targetVenueName = nextShowVenue ? normStr(nextShowVenue) : undefined;
     const targetCityName = nextShowCity ? normStr(nextShowCity) : undefined;
-
-    // Dynamically identify the active / next show venue
     const now = new Date();
+    const venueNextShowMap = new Map<string, number>();
+    filteredVenues.forEach(v => {
+      let minTime = Infinity;
+      v.shows.forEach(s => {
+        const t = getShowDateTime(undefined, s.date, s.time).getTime();
+        if (t >= now.getTime() && t < minTime) minTime = t;
+      });
+      venueNextShowMap.set(`${normStr(v.venue)}|${normStr(v.city)}`, minTime);
+    });
+
     const activeVenue = filteredVenues.find(v => {
+      const key = `${normStr(v.venue)}|${normStr(v.city)}`;
       const vName = normStr(v.venue);
       const vCity = normStr(v.city);
       if (targetVenueName && (vName === targetVenueName || vName.includes(targetVenueName) || targetVenueName.includes(vName))) {
@@ -508,10 +515,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           return true;
         }
       }
-      return v.shows.some(s => {
-        const start = getShowDateTime(undefined, s.date, s.time);
-        return start >= now;
-      });
+      return (venueNextShowMap.get(key) ?? Infinity) !== Infinity;
     }) || filteredVenues[0];
 
     filteredVenues.forEach((v) => {
