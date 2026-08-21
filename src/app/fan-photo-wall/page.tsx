@@ -331,17 +331,13 @@ export default function FansPage() {
         {/* Featured Hero Photo */}
         {approvedPhotos.length > 0 && (
           <div className="mx-auto">
-            <button aria-label="Action button"
-              type="button"
-              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer text-left"
-              onClick={() => setSelectedPhoto(approvedPhotos[0])}
-            >
+            <div className="relative w-full aspect-[21/9] overflow-hidden text-left">
               {approvedPhotos[0].type === "video" ||
                 approvedPhotos[0].src.endsWith(".mp4") ||
                 approvedPhotos[0].src.endsWith(".mov") ? (
                 <video
                   src={approvedPhotos[0].src}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                   autoPlay
                   loop
                   muted
@@ -351,7 +347,7 @@ export default function FansPage() {
                 <Image width={200} height={200} unoptimized
                   src={approvedPhotos[0].src}
                   alt={`Featured: ${approvedPhotos[0].name}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
@@ -375,7 +371,7 @@ export default function FansPage() {
                   </p>
                 )}
               </div>
-            </button>
+            </div>
           </div>
         )}
 
