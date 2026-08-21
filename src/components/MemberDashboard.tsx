@@ -14,6 +14,7 @@ const FanUploadForm = dynamic(() => import("./FanUploadForm"), {
 });
 
 import PickAwardsSection from "./PickAwardsSection";
+import PushAlertsCard from "./PushAlertsCard";
 
 // Venue data for proximity check
 const showVenues = [
@@ -286,6 +287,9 @@ export default function MemberDashboard() {
             )}
           </div>
         </div>
+
+        {/* Free Push Alerts Setup Card */}
+        <PushAlertsCard group="fans" className="mb-10" />
 
         {/* Digital Tickets / Inbox moved to top */}
         <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">

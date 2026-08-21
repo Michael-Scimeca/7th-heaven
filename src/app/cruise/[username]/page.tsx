@@ -14,6 +14,7 @@ import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/co
 import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
+import PushAlertsCard from "@/components/PushAlertsCard";
 
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
@@ -669,6 +670,9 @@ export default function CruiseDashboard() {
             <EmbarkationCountdown />
           </div>
         </header>
+
+        {/* Free Cruise Push Alerts Card */}
+        <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
           <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl group">

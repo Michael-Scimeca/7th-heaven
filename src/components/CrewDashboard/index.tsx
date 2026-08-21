@@ -14,6 +14,7 @@ import { AlertTriangle, Ban, Trash2, X, Check, Sparkles, Gift, Users, Music, Vol
 import { getShowDateTime } from '@/lib/date-utils';
 import ChatInputBar from '@/components/ChatInputBar';
 import SquishyToggle from '@/components/SquishyToggle';
+import PushAlertsCard from '@/components/PushAlertsCard';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -2682,6 +2683,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="py-8 space-y-6">
+
+        {/* Free Crew Push Alerts Setup Card */}
+        <PushAlertsCard group="crew" />
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
         <div className="transition-colors duration-300 text-white">
