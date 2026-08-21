@@ -608,6 +608,20 @@ export function Header() {
               CONTACT
             </TransitionLink>
 
+            {/* Test Shop link — temporary, for testing the North (EPX)
+                Browser Post shopping cart integration. Remove once that
+                flow is either promoted to a real page or dropped. */}
+            <TransitionLink
+              href="/payment-test"
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/payment-test")
+                ? "!text-[#9333ea] font-extrabold active"
+                : "!text-white/90 hover:!text-white"
+                }`}
+              title="Test Shop — North (EPX) checkout demo"
+            >
+              TEST SHOP
+            </TransitionLink>
+
             {/* Cart Icon — always visible */}
             <TransitionLink
               href="/merch"
@@ -819,6 +833,7 @@ export function Header() {
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },
                       { href: "/contact", label: "CONTACT" },
+                      { href: "/payment-test", label: "TEST SHOP" },
                     ].map((link, i) => (
                       <TransitionLink
                         key={link.href}

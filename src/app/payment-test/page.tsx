@@ -4,27 +4,51 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { SHOP_PRODUCTS, ShopProduct } from "@/data/north-shop-products";
 import { useNorthCart } from "@/context/NorthCartContext";
 
 const CATEGORIES = ["All", "Shirts", "Albums", "Hats"] as const;
 
+type ApiVariant = {
+  id: string;
+  label: string;
+  price: number | string;
+  stock_quantity: number | string;
+  low_stock_threshold: number | string;
+};
+
+type ApiProduct = {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  category: "Shirts" | "Albums" | "Hats";
+  variant_kind: "Size" | "Format" | "Color";
+  variants: ApiVariant[];
+};
+
 function ProductCard({
   product,
+  cartQuantities,
   onAdd,
 }: {
-  product: ShopProduct;
+  product: ApiProduct;
+  cartQuantities: Map<string, number>;
   onAdd: (variantId: string) => void;
 }) {
   const [userSelectedVariantId, setUserSelectedVariantId] = useState<string | null>(null);
   const selectedVariant =
     product.variants.find((v) => v.id === userSelectedVariantId) || product.variants[0];
+  const selectedStock = Number(selectedVariant.stock_quantity);
+  const inCart = cartQuantities.get(selectedVariant.id) || 0;
+  const soldOut = selectedStock <= 0;
+  const maxedOut = inCart >= selectedStock;
+  const lowStock = !soldOut && selectedStock <= Number(selectedVariant.low_stock_threshold);
 
   return (
-    <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg  overflow-hidden flex flex-col">
+    <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg overflow-hidden flex flex-col">
       <div className="relative aspect-square bg-black/40">
         <Image
-          src={product.imageUrl}
+          src={product.image_url}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -34,6 +58,16 @@ function ProductCard({
         <span className="absolute top-3 left-3 text-[10px] font-black uppercase tracking-widest bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
           {product.category}
         </span>
+        {soldOut && (
+          <span className="absolute top-3 right-3 text-[10px] font-black uppercase tracking-widest bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
+            Sold Out
+          </span>
+        )}
+        {lowStock && (
+          <span className="absolute bottom-3 left-3 text-[10px] font-black uppercase tracking-widest bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
+            Only {selectedStock} left
+          </span>
+        )}
       </div>
 
       <div className="p-5 flex flex-col gap-3 flex-1">
@@ -44,35 +78,41 @@ function ProductCard({
 
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 block mb-1.5">
-            {product.variantKind}
+            {product.variant_kind}
           </span>
           <div className="flex flex-wrap gap-1.5">
-            {product.variants.map((variant) => (
-              <button
-                key={variant.id}
-                type="button"
-                onClick={() => setUserSelectedVariantId(variant.id)}
-                className={`px-3 py-1.5  rounded-lg  text-xs font-bold transition-colors ${selectedVariant.id === variant.id
-                  ? "bg-[var(--color-accent)] text-white"
-                  : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+            {product.variants.map((variant) => {
+              const variantSoldOut = Number(variant.stock_quantity) <= 0;
+              return (
+                <button
+                  key={variant.id}
+                  type="button"
+                  disabled={variantSoldOut}
+                  onClick={() => setUserSelectedVariantId(variant.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${
+                    selectedVariant.id === variant.id
+                      ? "bg-[var(--color-accent)] text-white"
+                      : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
                   }`}
-              >
-                {variant.label}
-              </button>
-            ))}
+                >
+                  {variant.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         <div className="mt-auto flex items-center justify-between pt-2">
           <span className="text-lg font-black text-[var(--color-accent)]">
-            ${selectedVariant.price.toFixed(2)}
+            ${Number(selectedVariant.price).toFixed(2)}
           </span>
           <button
             type="button"
+            disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors"
+            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            Add to Cart
+            {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
         </div>
       </div>
@@ -83,11 +123,15 @@ function ProductCard({
 export default function PaymentTestShopPage() {
   const router = useRouter();
   const cart = useNorthCart();
+  const [products, setProducts] = useState<ApiProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [productsError, setProductsError] = useState("");
   const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]>("All");
   const [showCart, setShowCart] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const [startingCheckout, setStartingCheckout] = useState(false);
   const [mockMode, setMockMode] = useState(false);
+  const [showLimitations, setShowLimitations] = useState(false);
 
   // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
@@ -107,34 +151,83 @@ export default function PaymentTestShopPage() {
     };
   }, []);
 
+  // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/payment-test/products");
+        const data = await res.json();
+        if (!active) return;
+        if (!res.ok) {
+          setProductsError(data.error || "Failed to load products.");
+        } else {
+          setProducts(data);
+        }
+      } catch {
+        if (active) setProductsError("Failed to load products.");
+      } finally {
+        if (active) setLoadingProducts(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const variantLookup = useMemo(() => {
-    const map = new Map<string, { product: ShopProduct; label: string }>();
-    for (const product of SHOP_PRODUCTS) {
+    const map = new Map<string, { product: ApiProduct; variant: ApiVariant }>();
+    for (const product of products) {
       for (const variant of product.variants) {
-        map.set(variant.id, { product, label: variant.label });
+        map.set(variant.id, { product, variant });
       }
     }
     return map;
-  }, []);
+  }, [products]);
+
+  const cartQuantities = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const item of cart.items) map.set(item.id, item.quantity);
+    return map;
+  }, [cart.items]);
 
   const filteredProducts =
-    activeCategory === "All"
-      ? SHOP_PRODUCTS
-      : SHOP_PRODUCTS.filter((p) => p.category === activeCategory);
+    activeCategory === "All" ? products : products.filter((p) => p.category === activeCategory);
 
   const handleAdd = (variantId: string) => {
     const entry = variantLookup.get(variantId);
     if (!entry) return;
-    const variant = entry.product.variants.find((v) => v.id === variantId)!;
+    const { product, variant } = entry;
+    const stock = Number(variant.stock_quantity);
+    const alreadyInCart = cartQuantities.get(variantId) || 0;
+    if (alreadyInCart >= stock) return; // guarded by disabled button too
+
     cart.addOneItemToCart({
       id: variantId,
-      productId: entry.product.id,
-      title: entry.product.title,
-      variantLabel: entry.label,
-      imageUrl: entry.product.imageUrl,
-      unitPrice: variant.price,
+      productId: product.id,
+      title: product.title,
+      variantLabel: variant.label,
+      imageUrl: product.image_url,
+      unitPrice: Number(variant.price),
     });
     setShowCart(true);
+  };
+
+  const handleCartIncrement = (variantId: string) => {
+    const entry = variantLookup.get(variantId);
+    const stock = entry ? Number(entry.variant.stock_quantity) : Infinity;
+    const current = cartQuantities.get(variantId) || 0;
+    if (current >= stock) return;
+    const item = cart.items.find((i) => i.id === variantId);
+    if (!item) return;
+    cart.addOneItemToCart({
+      id: item.id,
+      productId: item.productId,
+      title: item.title,
+      variantLabel: item.variantLabel,
+      imageUrl: item.imageUrl,
+      unitPrice: item.unitPrice,
+    });
   };
 
   const handleCheckout = async () => {
@@ -144,10 +237,19 @@ export default function PaymentTestShopPage() {
     setStartingCheckout(true);
     try {
       const amount = cart.getTotalCost().toFixed(2);
+      const items = cart.items.map((item) => ({
+        variantId: item.id,
+        productId: item.productId,
+        title: item.title,
+        variantLabel: item.variantLabel,
+        unitPrice: item.unitPrice,
+        quantity: item.quantity,
+      }));
+
       const res = await fetch("/api/payment-test/north/tac", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount, items }),
       });
       const data = await res.json();
 
@@ -188,7 +290,7 @@ export default function PaymentTestShopPage() {
           <p className="text-white/40 text-sm mt-2 max-w-xl leading-relaxed">
             Add items to your cart, then checkout through North&apos;s Browser Post API. Card
             details are entered on a form that posts straight to EPX&apos;s servers — nothing
-            sensitive ever touches this app.
+            sensitive ever touches this app. Stock is real and tracked in the database.
           </p>
 
           {mockMode && (
@@ -199,7 +301,124 @@ export default function PaymentTestShopPage() {
               off <code className="font-mono">NORTH_MOCK_MODE</code> to go live.
             </div>
           )}
+
+          <div className="flex flex-wrap gap-2 mt-4">
+            <button
+              type="button"
+              onClick={() => setShowLimitations(!showLimitations)}
+              className="flex items-center gap-1.5 text-xs font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
+            >
+              ℹ️ What This Shop Can &amp; Can&apos;t Do (vs. Shopify)
+            </button>
+            <Link
+              href="/admin/shop-inventory"
+              className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
+            >
+              🛠️ Manage Inventory
+            </Link>
+          </div>
         </div>
+
+        {/* ── North vs. Shopify capability breakdown ── */}
+        {showLimitations && (
+          <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+              <div>
+                <h3 className="text-white font-black text-sm uppercase tracking-wide">
+                  North (EPX) vs. Shopify — What&apos;s Actually Here
+                </h3>
+                <p className="text-white/40 text-xs mt-1">
+                  North&apos;s Browser Post API is a payment terminal, not a storefront. This page
+                  is a custom shop wired to real inventory, but there&apos;s still real ground
+                  Shopify covers that this doesn&apos;t.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowLimitations(false)}
+                className="text-white/40 hover:text-white text-xs uppercase font-bold shrink-0 ml-4"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/70">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ✅ Real Inventory Tracking
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Products and variants live in Supabase with real per-variant stock counts.
+                  Sold-out sizes/formats/colors disable themselves automatically.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ✅ Order Records &amp; Stock Decrement
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Checkout creates a pending order with the full cart snapshot. Once North
+                  confirms payment, stock decrements and the order is marked paid.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ✅ Catalog Admin
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  <Link href="/admin/shop-inventory" className="underline hover:text-white">
+                    /admin/shop-inventory
+                  </Link>{" "}
+                  lets you add products, set prices, and adjust stock limits without touching code.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ❌ Customer Accounts &amp; Order History
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  No login, no past-orders list for shoppers. North&apos;s API only ever sees a
+                  single transaction — it has no concept of a returning customer.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ❌ Discounts, Tax &amp; Shipping Calculation
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  The cart total is just the sum of line items. No promo codes, no sales tax, no
+                  shipping rates — all things Shopify (or its apps) compute automatically.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ❌ Abandoned Cart Recovery &amp; Analytics
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Nothing emails a shopper who leaves items in their cart, and there&apos;s no
+                  sales dashboard beyond the raw order list. That&apos;s Shopify (or a marketing
+                  app) territory.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-cyan-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ✅ QR Codes
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Not Shopify-specific — a QR code is just a link. The Shopify shop at{" "}
+                  <code className="text-white font-mono">/qr/merch</code> already has one; the
+                  same could be added here.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Category tabs + cart button */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
@@ -229,11 +448,29 @@ export default function PaymentTestShopPage() {
         </div>
 
         {/* Product grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onAdd={handleAdd} />
-          ))}
-        </div>
+        {loadingProducts ? (
+          <p className="text-white/40 text-sm py-12 text-center">Loading products…</p>
+        ) : productsError ? (
+          <p className="text-rose-400 text-sm py-12 text-center">⚠️ {productsError}</p>
+        ) : filteredProducts.length === 0 ? (
+          <p className="text-white/40 text-sm py-12 text-center">
+            No products yet.{" "}
+            <Link href="/admin/shop-inventory" className="underline hover:text-white">
+              Add some in the inventory admin.
+            </Link>
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                cartQuantities={cartQuantities}
+                onAdd={handleAdd}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Cart drawer */}
@@ -255,59 +492,56 @@ export default function PaymentTestShopPage() {
               <p className="text-white/50 text-sm py-8 text-center">Your cart is empty.</p>
             ) : (
               <div className="space-y-3">
-                {cart.items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
-                  >
-                    <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-black/40">
-                      <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-bold text-sm truncate">{item.title}</p>
-                      <p className="text-white/40 text-xs">{item.variantLabel}</p>
-                      <p className="text-[var(--color-accent)] font-bold text-xs mt-0.5">
-                        ${item.unitPrice.toFixed(2)} each
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => cart.removeOneItemFromCart(item.id)}
-                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10  rounded-lg  text-white/70 hover:text-white text-sm font-bold"
-                      >
-                        −
-                      </button>
-                      <span className="w-5 text-center text-sm font-bold text-white">
-                        {item.quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          cart.addOneItemToCart({
-                            id: item.id,
-                            productId: item.productId,
-                            title: item.title,
-                            variantLabel: item.variantLabel,
-                            imageUrl: item.imageUrl,
-                            unitPrice: item.unitPrice,
-                          })
-                        }
-                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10  rounded-lg  text-white/70 hover:text-white text-sm font-bold"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => cart.deleteItemFromCart(item.id)}
-                      className="text-white/30 hover:text-rose-400 text-sm px-1"
-                      aria-label={`Remove ${item.title}`}
+                {cart.items.map((item) => {
+                  const entry = variantLookup.get(item.id);
+                  const stock = entry ? Number(entry.variant.stock_quantity) : Infinity;
+                  const atMax = item.quantity >= stock;
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
                     >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                      <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-black/40">
+                        <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-bold text-sm truncate">{item.title}</p>
+                        <p className="text-white/40 text-xs">{item.variantLabel}</p>
+                        <p className="text-[var(--color-accent)] font-bold text-xs mt-0.5">
+                          ${item.unitPrice.toFixed(2)} each
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => cart.removeOneItemFromCart(item.id)}
+                          className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
+                        >
+                          −
+                        </button>
+                        <span className="w-5 text-center text-sm font-bold text-white">
+                          {item.quantity}
+                        </span>
+                        <button
+                          type="button"
+                          disabled={atMax}
+                          onClick={() => handleCartIncrement(item.id)}
+                          className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => cart.deleteItemFromCart(item.id)}
+                        className="text-white/30 hover:text-rose-400 text-sm px-1"
+                        aria-label={`Remove ${item.title}`}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
 

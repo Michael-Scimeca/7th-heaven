@@ -1,10 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { shopDb } from "@/lib/north-shop-db";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+type OrderLineItem = {
+  variantId: string;
+  quantity: number;
+};
+
+/**
+ * Finalizes the pending order tied to this transaction: decrements stock on
+ * approval, marks the order paid/failed either way. Best-effort — if
+ * anything here fails, the payment result itself is still recorded and
+ * shown to the shopper; inventory can be reconciled manually via the admin
+ * order list if needed.
+ */
+async function finalizeOrder(tranNbr: string, authResp: string, authRespText: string, maskedAccount: string) {
+  if (!tranNbr) return;
+
+  const { data: order } = await shopDb
+    .from("north_shop_orders")
+    .select("id, status, line_items")
+    .eq("tran_nbr", tranNbr)
+    .maybeSingle();
+
+  // Nothing to do if we never recorded this order, or already finalized it
+  // (guards against EPX or a client retry re-posting the same result).
+  if (!order || order.status !== "pending") return;
+
+  const approved = authResp === "00";
+
+  if (approved) {
+    const lineItems = (order.line_items || []) as OrderLineItem[];
+    for (const item of lineItems) {
+      const { data: variant } = await shopDb
+        .from("north_shop_variants")
+        .select("stock_quantity")
+        .eq("id", item.variantId)
+        .maybeSingle();
+      if (!variant) continue;
+      const newStock = Math.max(0, variant.stock_quantity - item.quantity);
+      await shopDb.from("north_shop_variants").update({ stock_quantity: newStock }).eq("id", item.variantId);
+    }
+  }
+
+  await shopDb
+    .from("north_shop_orders")
+    .update({
+      status: approved ? "paid" : "failed",
+      auth_resp: authResp || null,
+      auth_resp_text: authRespText || null,
+      masked_account_nbr: maskedAccount || null,
+      paid_at: approved ? new Date().toISOString() : null,
+    })
+    .eq("id", order.id);
+}
 
 /**
  * POST /api/payment-test/north/result
@@ -42,6 +96,17 @@ export async function POST(req: NextRequest) {
       console.error("[payment-test/north/result] insert error:", error);
       // Still send the shopper somewhere sensible even if persistence failed.
       return NextResponse.redirect(`${siteUrl}/payment-test/result?error=1`, 303);
+    }
+
+    try {
+      await finalizeOrder(
+        raw.TRAN_NBR,
+        raw.AUTH_RESP,
+        raw.AUTH_RESP_TEXT,
+        raw.AUTH_MASKED_ACCOUNT_NBR
+      );
+    } catch (finalizeErr) {
+      console.error("[payment-test/north/result] order finalization error:", finalizeErr);
     }
 
     // 303 converts EPX's POST into a GET on the results page for this browser.

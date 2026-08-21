@@ -82,6 +82,7 @@ const CATEGORIES = [
     pages: [
       { path: "/merch", label: "Merch Store" },
       { path: "/qr/merch", label: "QR Merch" },
+      { path: "/payment-test", label: "Test Shop (North/EPX)" },
     ]
   },
   {

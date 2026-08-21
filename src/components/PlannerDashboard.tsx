@@ -32,6 +32,10 @@ interface BookingData {
   name?: string;
   email?: string;
   phone?: string;
+  budget?: string;
+  backlineProvided?: string;
+  ageRestriction?: string;
+  details?: string;
 }
 
 const defaultBooking: BookingData = {

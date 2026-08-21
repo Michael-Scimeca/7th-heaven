@@ -25,6 +25,10 @@ export interface Member {
   notificationRadius: number; // miles
   role: "fan" | "crew" | "admin" | "merch" | "event_planner" | "cruise";
   phone?: string;
+  organization?: string;
+  venueName?: string;
+  venueCity?: string;
+  venueState?: string;
   cruise_signup_id?: string;
   signup_source?: string;
   is_warned?: boolean;
