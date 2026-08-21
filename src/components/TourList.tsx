@@ -279,7 +279,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
-  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || 25);
+  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || null);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
