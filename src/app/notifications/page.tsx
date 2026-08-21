@@ -88,9 +88,16 @@ export default function NotificationsPage() {
   }, []);
 
   const requestNotificationPermission = async () => {
-    if (typeof window !== "undefined" && "Notification" in window) {
-      const p = await Notification.requestPermission();
-      setPermission(p);
+    if (typeof window !== "undefined") {
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isIOS && browserUrl) {
+        window.open(browserUrl, "_blank");
+        return;
+      }
+      if ("Notification" in window) {
+        const p = await Notification.requestPermission();
+        setPermission(p);
+      }
     }
   };
 
@@ -485,6 +492,8 @@ export default function NotificationsPage() {
             <p className="text-[11px] text-white/50">
               {permission === "granted"
                 ? "You will get native desktop/phone popups live when alerts are sent."
+                : typeof navigator !== "undefined" && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+                ? "On iPhone Safari, tap below to subscribe in 1 click (no app required)."
                 : "Click below to allow browser popups without installing any app."}
             </p>
           </div>
