@@ -713,16 +713,26 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
 // Orders tab
 // ─────────────────────────────────────────────────────────────────────────
 
+const statusStyles: Record<Order["status"], string> = {
+  paid: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+  failed: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  pending: "bg-yellow-500/15 text-yellow-300 border-yellow-500/30",
+};
+
+const ORDER_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" });
+
+function formatOrderDate(dateStr: string) {
+  try {
+    return ORDER_DATE_FORMATTER.format(new Date(dateStr));
+  } catch {
+    return dateStr;
+  }
+}
+
 function OrdersTab({ orders }: { orders: Order[] }) {
   if (orders.length === 0) {
     return <p className="text-white/40 text-sm py-12 text-center">No orders yet.</p>;
   }
-
-  const statusStyles: Record<Order["status"], string> = {
-    paid: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-    failed: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-    pending: "bg-yellow-500/15 text-yellow-300 border-yellow-500/30",
-  };
 
   return (
     <div className="space-y-2">
@@ -737,7 +747,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-white/40 text-xs">
-                {new Date(order.created_at).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+                {formatOrderDate(order.created_at)}
               </span>
               <span className="text-[var(--color-accent)] font-black text-sm">
                 ${Number(order.total_amount).toFixed(2)}
