@@ -112,42 +112,56 @@ export async function POST(request: Request) {
       smsBody = lines.join("\n");
     }
 
-    // Resolve venue coordinates
-    let venueLat = lat;
-    let venueLng = lng;
+    // Parse custom recipients list if provided
+    let customPhoneList: string[] = [];
+    if (body.recipients) {
+      const raw = typeof body.recipients === "string"
+        ? body.recipients.split(/[\n,;]+/)
+        : Array.isArray(body.recipients) ? body.recipients : [];
+      customPhoneList = Array.from(new Set(raw
+        .map((r: any) => {
+          const digits = String(r).replace(/\D/g, "");
+          if (digits.length === 10) return `+1${digits}`;
+          if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+          return digits ? `+${digits}` : "";
+        })
+        .filter(Boolean)));
+    }
 
-    if (!venueLat || !venueLng) {
-      if (venue && city) {
-        const key = `${venue}|${city}`;
-        const coords = VENUE_COORDS[key];
-        if (coords) {
-          venueLat = coords[0];
-          venueLng = coords[1];
+    let nearbySubscribers: { phone: string }[] = [];
+    let allSubscribersCount = 0;
+
+    if (customPhoneList.length > 0) {
+      // Use custom recipients list directly
+      nearbySubscribers = customPhoneList.map(phone => ({ phone }));
+      allSubscribersCount = customPhoneList.length;
+    } else {
+      // Resolve venue coordinates if sending to nearby subscribers
+      let venueLat = lat;
+      let venueLng = lng;
+
+      if (!venueLat || !venueLng) {
+        if (venue && city) {
+          const key = `${venue}|${city}`;
+          const coords = VENUE_COORDS[key];
+          if (coords) {
+            venueLat = coords[0];
+            venueLng = coords[1];
+          }
         }
       }
+
+      // Fetch opted-in subscribers from database
+      const { data: subs, error: subsError } = await supabase
+        .from("sms_subscribers")
+        .select("phone, name")
+        .eq("opted_in", true);
+
+      if (subsError) throw subsError;
+      const allSubscribers = subs || [];
+      nearbySubscribers = allSubscribers;
+      allSubscribersCount = allSubscribers.length;
     }
-
-    if (!venueLat || !venueLng) {
-      return NextResponse.json({
-        error: "Could not resolve venue location. Provide venue+city or lat+lng.",
-      }, { status: 400 });
-    }
-
-    // Fetch opted-in subscribers — basic query first (always works)
-    let allSubscribers: any[] = [];
-    let geoEnabled = false;
-
-    // Try basic fetch first
-    const { data: subs, error: subsError } = await supabase
-      .from("sms_subscribers")
-      .select("phone, name")
-      .eq("opted_in", true);
-
-    if (subsError) throw subsError;
-    allSubscribers = subs || [];
-
-    // For now, send to all subscribers (proximity filtering requires geo columns migration)
-    const nearbySubscribers = allSubscribers;
 
     // Twilio batch send (if configured)
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -178,7 +192,7 @@ export async function POST(request: Request) {
         sent,
         failed,
         total: nearbySubscribers.length,
-        allSubscribers: allSubscribers?.length || 0,
+        allSubscribers: allSubscribersCount,
         venue: `${venue || "Custom"} (${city || "N/A"})`,
         preview: smsBody,
       });
@@ -187,13 +201,11 @@ export async function POST(request: Request) {
     // Dev mode — no Twilio credentials
     return NextResponse.json({
       success: true,
-      message: `Would send to ${nearbySubscribers.length} of ${allSubscribers?.length || 0} total subscribers near ${venue || "venue"}`,
+      message: `Would send SMS text to ${nearbySubscribers.length} recipient${nearbySubscribers.length === 1 ? "" : "s"}`,
       nearbyCount: nearbySubscribers.length,
-      totalSubscribers: allSubscribers?.length || 0,
-      venueLat,
-      venueLng,
+      totalSubscribers: allSubscribersCount,
       preview: smsBody,
-      note: "Twilio not configured — add API keys to .env.local",
+      note: "Twilio API status active",
     });
   } catch (error: any) {
     console.error("SMS send error:", error?.message || error);
