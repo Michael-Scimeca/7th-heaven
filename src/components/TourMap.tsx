@@ -402,7 +402,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         const div = document.createElement("div");
         div.style.position = "absolute";
         div.style.transform = "translate(-50%, -100%)";
-        div.style.zIndex = String(this.initialZIndex);
+        div.style.zIndex = this.html.includes("next-show-bounce") ? "9999" : String(this.initialZIndex);
 
         const doc = new DOMParser().parseFromString(this.html, "text/html");
         Array.from(doc.body.childNodes).forEach((node) => {
@@ -1140,17 +1140,23 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         /* Solid, bouncing active marker for next show */
         .next-show-bounce {
           position: relative;
+          display: inline-block;
           opacity: 1 !important;
-          animation: markerBounce 1s ease-in-out infinite !important;
-          filter: drop-shadow(0 0 14px var(--ring-color, #a855f7));
+          animation: markerBounce 0.75s ease-in-out infinite alternate !important;
+          filter: drop-shadow(0 0 16px var(--ring-color, #a855f7)) drop-shadow(0 4px 12px rgba(168, 85, 247, 0.6)) !important;
+          z-index: 9999 !important;
         }
         .next-show-bounce > svg {
           animation: none !important;
           opacity: 1 !important;
         }
         @keyframes markerBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-18px); }
+          0% {
+            transform: translateY(0px);
+          }
+          100% {
+            transform: translateY(-22px);
+          }
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-4px); }
