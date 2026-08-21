@@ -122,6 +122,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             alt={title}
             fill
             sizes="96px"
+            quality={60}
             className="object-cover group-hover/art:scale-105 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-black/40 group-hover/art: flex items-center justify-center transition-colors">
