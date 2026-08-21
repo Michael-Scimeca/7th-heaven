@@ -660,8 +660,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    // Center map on active show and zoom in directly onto the venue
+    // Fit map bounds to show ALL show markers, while auto-opening active show InfoWindow
     if (filteredVenues.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
+      map.fitBounds(bounds, { top: 100, right: 60, bottom: 100, left: 60 });
+
       const targetVenueName = nextShowVenue?.toLowerCase().trim();
       const targetCityName = nextShowCity?.toLowerCase().trim();
 
@@ -683,10 +687,6 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }) || filteredVenues[0];
 
       if (activeVenue) {
-        // Pan & zoom directly to active venue
-        map.setCenter({ lat: activeVenue.lat, lng: activeVenue.lng });
-        map.setZoom(13);
-
         // Auto-open info window popup for the active show pin
         const activeMarker = markersRef.current.find(m =>
           m.venue.toLowerCase().trim() === activeVenue.venue.toLowerCase().trim()
@@ -695,10 +695,6 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           activeMarker.infoWindow.setPosition({ lat: activeVenue.lat, lng: activeVenue.lng });
           activeMarker.infoWindow.open({ map });
         }
-      } else {
-        const bounds = new google.maps.LatLngBounds();
-        filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
-        map.fitBounds(bounds, { top: 80, right: 60, bottom: 80, left: 60 });
       }
     }
 
