@@ -36,16 +36,18 @@ async function finalizeOrder(tranNbr: string, authResp: string, authRespText: st
 
   if (approved) {
     const lineItems = (order.line_items || []) as OrderLineItem[];
-    for (const item of lineItems) {
-      const { data: variant } = await shopDb
-        .from("north_shop_variants")
-        .select("stock_quantity")
-        .eq("id", item.variantId)
-        .maybeSingle();
-      if (!variant) continue;
-      const newStock = Math.max(0, variant.stock_quantity - item.quantity);
-      await shopDb.from("north_shop_variants").update({ stock_quantity: newStock }).eq("id", item.variantId);
-    }
+    await Promise.all(
+      lineItems.map(async (item) => {
+        const { data: variant } = await shopDb
+          .from("north_shop_variants")
+          .select("stock_quantity")
+          .eq("id", item.variantId)
+          .maybeSingle();
+        if (!variant) return;
+        const newStock = Math.max(0, variant.stock_quantity - item.quantity);
+        await shopDb.from("north_shop_variants").update({ stock_quantity: newStock }).eq("id", item.variantId);
+      })
+    );
   }
 
   await shopDb
