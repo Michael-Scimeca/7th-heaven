@@ -1,5 +1,7 @@
 'use client';
 import Image from 'next/image';
+import { Play } from "lucide-react";
+import CosmicRadialButton from "./CosmicRadialButton";
 
 import React, { useState, useEffect, useCallback } from 'react';
 import type { CruiseVideoItem } from '@/app/api/cruise/videos/route';
@@ -237,9 +239,12 @@ export default function CruiseVideoGallery() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-cyan-500/90 text-black font-black text-xl flex items-center justify-center pl-1 shadow-[0_0_25px_rgba(6,182,212,0.8)] group-hover:scale-110 group-hover:bg-cyan-400 transition-colors duration-300">
-                    ▶
-                  </div>
+                  <CosmicRadialButton
+                    icon={false}
+                    className="w-14 h-14 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
+                  >
+                    <Play className="w-6 h-6 fill-white text-white ml-0.5" />
+                  </CosmicRadialButton>
                 </div>
 
                 <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-cyan-300 text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-cyan-500/30">
