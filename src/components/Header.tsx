@@ -498,9 +498,9 @@ export function Header() {
   return (
     <header
       id="site-header"
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-all duration-300 pointer-events-none ${scrolled
-        ? "bg-black/60 text-[var(--text-color)] shadow-xl border-b border-white/10"
-        : "bg-black/30 text-white"
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-all duration-300 pointer-events-none bg-transparent ${scrolled
+        ? "text-[var(--text-color)]"
+        : "text-white"
         }`}
       suppressHydrationWarning
     >
@@ -509,19 +509,28 @@ export function Header() {
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(4px)",
-            WebkitBackdropFilter: "blur(4px)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%, rgba(0,0,0,0) 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%, rgba(0,0,0,0) 100%)",
+            backdropFilter: "blur(3px)",
+            WebkitBackdropFilter: "blur(3px)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 100%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 100%, transparent 100%)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backdropFilter: "blur(9px)",
+            WebkitBackdropFilter: "blur(9px)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 50%, transparent 75%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 50%, transparent 75%)",
           }}
         />
         <div
@@ -529,17 +538,8 @@ export function Header() {
           style={{
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 75%)",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 75%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0) 50%)",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0) 50%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 25%, transparent 50%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 25%, transparent 50%)",
           }}
         />
       </div>
