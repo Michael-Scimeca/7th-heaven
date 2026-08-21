@@ -66,6 +66,7 @@ const CATEGORIES = [
     name: "Admin Pages",
     pages: [
       { path: "/admin", label: "Admin Dashboard" },
+      { path: "/admin/shop-inventory", label: "Shop Inventory" },
       { path: "/studio", label: "Sanity Studio" },
     ]
   },

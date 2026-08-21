@@ -64,7 +64,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const variantRows = variants.map((v: any, i: number) => ({
+    type InputVariant = {
+      label: string;
+      sku?: string;
+      price: number;
+      stockQuantity?: number;
+      lowStockThreshold?: number;
+    };
+    const variantRows = (variants as InputVariant[]).map((v, i) => ({
       product_id: product.id,
       label: v.label,
       sku: v.sku || null,

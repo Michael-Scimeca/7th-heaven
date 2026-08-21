@@ -32,7 +32,7 @@ const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
 const HomeMerch = dynamic(() => import("@/components/HomeMerch"));
 const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
 const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"));
-const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
+const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"), { ssr: false });
 const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
 const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = dynamic(() => import("@/components/SlideupSection"));

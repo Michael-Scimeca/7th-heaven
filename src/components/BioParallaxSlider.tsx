@@ -21,7 +21,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Midwest Girls In The Summertime",
     favQuote: "Success is where preparation and opportunity meet",
     funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/members/frankie.png"
+    image: "/images/members/frankie.webp"
   },
   {
     name: "Nick Cox", role: "Guitars • Vocals • Piano",
@@ -32,7 +32,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "American History X", fav7hSong: "Take Me With You",
     favQuote: "The universe is a pretty big place... seems like an awful waste of space.",
     funFact: "I love just staying home on my couch",
-    image: "/images/members/nick.png"
+    image: "/images/members/nick.webp"
   },
   {
     name: "Adam Heisler", role: "Lead Vocals",
@@ -42,7 +42,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Give me a good romantic comedy",
     fav7hSong: "You and I", favQuote: "I'm always happy and never satisfied",
     funFact: "I used to be a Jr. Black belt in Tae Kwon Do",
-    image: "/images/members/adam.png"
+    image: "/images/members/adam.webp"
   },
   {
     name: "Richard Hofherr", role: "Guitars • Keys • Vocals",
@@ -54,7 +54,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Sing, Diamonds, Midwest Girls",
     favQuote: "Life is all about perspectives. You can look at the glass half-empty and half-full.",
     funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/members/dicky.png"
+    image: "/images/members/dicky.webp"
   },
   {
     name: "Mark Kennetz", role: "Bass • Vocals • Uke • Guitar",
@@ -64,7 +64,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Hot Fuzz, Anchorman", fav7hSong: "Ethereal",
     favQuote: "The past is in our heads, the future is in our hands",
     funFact: "Stage 2 carnivore — eat anything with 2 legs or less!",
-    image: "/images/members/mark.png"
+    image: "/images/members/mark.webp"
   },
 ];
 
@@ -788,12 +788,12 @@ lerpSpeed: ${lerpSpeed}`;
             {displayMembers.map((m, i) => {
               const nameLower = m?.name?.toLowerCase() || "";
               let imageSrc = "";
-              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
-              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
-              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
-              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
-              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
-              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/members/adam.png";
+              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.webp";
+              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.webp";
+              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.webp";
+              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.webp";
+              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.webp";
+              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/members/adam.webp";
 
               // Stage slot index relative to current active centered slide (2 = Active Center, 1 = Left, 0 = Far Left, 3 = Right, 4 = Far Right)
               const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
@@ -837,11 +837,10 @@ lerpSpeed: ${lerpSpeed}`;
                         <Image
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
-                          width={1200}
-                          height={1600}
-                          quality={100}
-                          unoptimized
-                          priority={i === 2}
+                          width={600}
+                          height={800}
+                          sizes="(max-width: 768px) 100vw, 600px"
+                          loading="lazy"
                           draggable={false}
                           className="smooothy-img w-full h-auto max-h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
