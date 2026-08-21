@@ -4724,34 +4724,34 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .bg-linear-to-r.from-\[\#6917BF\],
 .bg-gradient-to-r.from-\[\#6917BF\],
 [class*="from-[#6917BF]"] {
-  --r1-x: 18%;
-  --r1-y: 71%;
-  --r1-c: #6200FFDB;
-  --r2-x: 36%;
-  --r2-y: 76%;
-  --r2-c: #7217DDFF;
-  --r3-x: 7%;
-  --r3-y: 98%;
-  --r3-c: #000000B5;
-  --r4-x: 72%;
-  --r4-y: 23%;
-  --r4-c: #54007D9C;
-  --r5-x: 91%;
-  --r5-y: 74%;
-  --r5-c: #8A4FFFF5;
-  --r6-x: 67%;
-  --r6-y: 38%;
-  --r6-c: #920092F5;
+  --r1-x: 20%;
+  --r1-y: 25%;
+  --r1-c: rgba(0, 240, 255, 0.85); /* Electric Cyan */
+  --r2-x: 80%;
+  --r2-y: 20%;
+  --r2-c: rgba(255, 0, 214, 0.9);  /* Neon Magenta */
+  --r3-x: 10%;
+  --r3-y: 90%;
+  --r3-c: rgba(0, 0, 0, 0.7);
+  --r4-x: 75%;
+  --r4-y: 80%;
+  --r4-c: rgba(157, 0, 255, 0.85); /* Electric Purple */
+  --r5-x: 50%;
+  --r5-y: 50%;
+  --r5-c: rgba(236, 72, 153, 0.8); /* Vivid Pink */
+  --r6-x: 65%;
+  --r6-y: 35%;
+  --r6-c: rgba(124, 58, 237, 0.95);/* Deep Royal Violet */
   background-size: 100% 100% !important;
   background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px !important;
   background-image:
-    radial-gradient(18% 28% at var(--r1-x) var(--r1-y), var(--r1-c) 6%, #073AFF00 100%),
-    radial-gradient(70% 53% at var(--r2-x) var(--r2-y), var(--r2-c) 0%, #073AFF00 100%),
-    radial-gradient(31% 43% at var(--r3-x) var(--r3-y), var(--r3-c) 24%, #073AFF00 100%),
-    radial-gradient(21% 37% at var(--r4-x) var(--r4-y), var(--r4-c) 11%, #3B55B600 100%),
-    radial-gradient(35% 56% at var(--r5-x) var(--r5-y), var(--r5-c) 9%, #073AFF00 100%),
-    radial-gradient(74% 86% at var(--r6-x) var(--r6-y), var(--r6-c) 24%, #073AFF00 100%),
-    linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%) !important;
+    radial-gradient(40% 45% at var(--r1-x) var(--r1-y), var(--r1-c) 0%, transparent 100%),
+    radial-gradient(55% 50% at var(--r2-x) var(--r2-y), var(--r2-c) 0%, transparent 100%),
+    radial-gradient(35% 45% at var(--r3-x) var(--r3-y), var(--r3-c) 0%, transparent 100%),
+    radial-gradient(45% 40% at var(--r4-x) var(--r4-y), var(--r4-c) 0%, transparent 100%),
+    radial-gradient(40% 50% at var(--r5-x) var(--r5-y), var(--r5-c) 0%, transparent 100%),
+    radial-gradient(70% 80% at var(--r6-x) var(--r6-y), var(--r6-c) 0%, transparent 100%),
+    linear-gradient(135deg, #180036 0%, #090117 100%) !important;
   transition:
     --r1-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
     --r1-y var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
