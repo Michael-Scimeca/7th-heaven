@@ -767,11 +767,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Cruise Ship Names Subtitle */}
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-widest text-white">
-            <span className="bg-black/60 px-5 py-2.5 rounded-2xl border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+            <span className="bg-black/60 px-5 py-2.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
               <Ship className="w-5 h-5 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2027</span>
             </span>
-            <span className="text-white/40 hidden sm:inline text-lg">•</span>
-            <span className="bg-black/60 px-5 py-2.5 rounded-2xl border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+            <span className="bg-black/60 px-5 py-2.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
               <Ship className="w-5 h-5 text-purple-400" /> LEGEND OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2028</span>
             </span>
           </div>
@@ -1034,6 +1033,46 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <p className="text-xs md:text-sm font-bold text-white/80 tracking-wide mb-6">
                   Call us at: <span className="text-white font-extrabold">(877) 683-9753 - option 5</span> &nbsp;•&nbsp; <span className="text-white font-extrabold">(877) NTD-WRLD - option 5</span>
                 </p>
+
+                {/* Official Cruise Social Links */}
+                <div className="flex items-center justify-center gap-1.5 bg-black/60 p-1.5 rounded-full border border-white/20 backdrop-blur-md shadow-lg max-w-fit mx-auto mb-8">
+                  <a
+                    href="https://www.facebook.com/chicagomusiccruise/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-blue-600/30 hover:bg-blue-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
+                    title="Chicago Music Cruise Facebook"
+                  >
+                    <span>Facebook</span>
+                  </a>
+                  <a
+                    href="https://www.instagram.com/chicagomusiccruise"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-pink-600/30 hover:bg-pink-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
+                    title="Chicago Music Cruise Instagram"
+                  >
+                    <span>Instagram</span>
+                  </a>
+                  <a
+                    href="https://x.com/CMCNTDV"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-slate-700/50 hover:bg-black text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
+                    title="Chicago Music Cruise X (Twitter)"
+                  >
+                    <span>X (Twitter)</span>
+                  </a>
+                  <a
+                    href="https://www.youtube.com/channel/UCjYApPvQ71rXL5USPuUyr6Q"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-red-600/30 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
+                    title="Chicago Music Cruise YouTube Channel"
+                  >
+                    <span>YouTube</span>
+                  </a>
+                </div>
 
                 {/* 3 Team Members Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
@@ -1963,7 +2002,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div>
                             <h4 className="text-base font-black uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="text-xs leading-relaxed font-semibold text-white/70">{port.desc}</p>
-                            
+
                             {/* Port Highlights */}
                             {port.highlights && (
                               <div className="flex flex-wrap gap-1.5 mt-3">
@@ -2158,7 +2197,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <h4 className="text-lg font-black uppercase text-white tracking-tight">{port.name}</h4>
                           </div>
                           <p className="text-white/50 text-xs md:text-sm leading-relaxed">{port.desc}</p>
-                          
+
                           {/* Highlights */}
                           {port.highlights && (
                             <div className="flex flex-wrap gap-1.5 mt-2">
