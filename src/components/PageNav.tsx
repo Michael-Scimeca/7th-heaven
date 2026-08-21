@@ -16,12 +16,14 @@ const CATEGORIES = [
       { path: "/cruise", label: "Cruise" },
       { path: "/book", label: "Book Band" },
       { path: "/contact", label: "Contact" },
+      { path: "/notifications", label: "🔔 Push Alerts Tester" },
     ]
   },
   {
     name: "Footer Nav Pages",
     pages: [
       { path: "/faq", label: "FAQ" },
+      { path: "/notifications", label: "Push Alerts" },
       { path: "/shows/past", label: "Past Shows Archive" },
       { path: "/privacy", label: "Privacy Policy" },
       { path: "/terms", label: "Terms of Service" },

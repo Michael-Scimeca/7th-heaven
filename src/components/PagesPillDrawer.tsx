@@ -16,7 +16,8 @@ import {
   UserCheck,
   Film,
   Layers,
-  Terminal
+  Terminal,
+  Bell
 } from "lucide-react";
 
 interface RouteItem {
@@ -41,6 +42,7 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/privacy", type: "Static", label: "Privacy Policy", category: "Public Pages", icon: Globe },
   { path: "/terms", type: "Static", label: "Terms of Service", category: "Public Pages", icon: Globe },
   { path: "/returns", type: "Static", label: "Return Policy", category: "Public Pages", icon: Globe },
+  { path: "/notifications", type: "Static", label: "🔔 Push Notifications Tester", category: "Public Pages", icon: Bell },
 
   // ── Store & Merch ──
   { path: "/merch", type: "Static", label: "Official Merch Catalog", category: "Store & Merch", icon: ShoppingBag },
