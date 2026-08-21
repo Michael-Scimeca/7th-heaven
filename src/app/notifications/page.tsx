@@ -210,17 +210,18 @@ export default function NotificationsPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* QR Code */}
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="bg-white p-3 rounded-2xl shadow-lg border border-white/20 min-w-[172px] min-h-[172px] flex items-center justify-center">
-                {mounted && (browserUrl || appDeepLink) ? (
-                  <QRCode
-                    value={browserUrl || appDeepLink}
-                    size={148}
-                    fgColor="#000000"
-                    bgColor="#ffffff"
-                    level="M"
+              <div className="bg-white p-3 rounded-2xl shadow-xl border border-white/20 min-w-[174px] min-h-[174px] flex items-center justify-center">
+                {browserUrl || appDeepLink ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(browserUrl || appDeepLink)}`}
+                    alt="Scan Push Notification QR Code"
+                    width={150}
+                    height={150}
+                    className="w-[150px] h-[150px] object-contain rounded-lg shadow-sm"
                   />
                 ) : (
-                  <div className="w-[148px] h-[148px] bg-gray-100 animate-pulse rounded-xl" />
+                  <div className="w-[150px] h-[150px] bg-gray-100 animate-pulse rounded-xl" />
                 )}
               </div>
               <p className="text-[10px] text-white/50 font-extrabold uppercase tracking-widest text-center max-w-[160px]">
