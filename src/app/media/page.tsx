@@ -622,9 +622,12 @@ export default function MediaPage() {
 
                         {/* Play Icon Badge */}
                         <div className="absolute inset-0 hidden group-hover/card:flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
-                          <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.6)] group-hover/card:scale-110 transition-transform">
+                          <CosmicRadialButton
+                            icon={false}
+                            className="w-16 h-16 !rounded-full !p-0 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.7)] group-hover/card:scale-110 transition-transform border border-purple-300/40"
+                          >
                             <Play className="w-7 h-7 fill-white ml-1 text-white" />
-                          </div>
+                          </CosmicRadialButton>
                         </div>
 
                         {/* Caption Overlay */}
