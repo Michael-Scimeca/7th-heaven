@@ -278,6 +278,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || 25);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
@@ -1243,11 +1244,12 @@ ${filterLine}
           <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
             {Array.from((() => {
               let rows = filtered;
-              if (maxShows && upNext) {
+              const effectiveLimit = maxShows || displayLimit;
+              if (effectiveLimit && upNext) {
                 const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
-                rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
-              } else if (maxShows) {
-                rows = filtered.slice(0, maxShows);
+                rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + effectiveLimit);
+              } else if (effectiveLimit) {
+                rows = filtered.slice(0, effectiveLimit);
               }
               return rows;
             })(), (show, i) => ({ show, i })).map(({ show, i }) => {
@@ -1622,6 +1624,18 @@ ${filterLine}
               );
             })}
           </div>
+
+          {displayLimit && !maxShows && filtered.length > displayLimit && (
+            <div className="flex justify-center py-8 relative z-20">
+              <button
+                type="button"
+                onClick={() => setDisplayLimit(null)}
+                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600/30 via-black to-purple-600/30 hover:from-purple-600/50 hover:to-purple-600/50 text-white font-black uppercase tracking-widest text-xs sm:text-sm border border-purple-400/40 backdrop-blur-md shadow-[0_0_25px_rgba(168,85,247,0.3)] transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+              >
+                <span>Show All Tour Dates ({filtered.length - displayLimit} More Shows)</span>
+              </button>
+            </div>
+          )}
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
