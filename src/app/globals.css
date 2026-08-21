@@ -5041,7 +5041,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(45% 40% at var(--r4-x) var(--r4-y), var(--r4-c) 0%, transparent 100%),
     radial-gradient(40% 50% at var(--r5-x) var(--r5-y), var(--r5-c) 0%, transparent 100%),
     radial-gradient(70% 80% at var(--r6-x) var(--r6-y), var(--r6-c) 0%, transparent 100%),
-    linear-gradient(135deg, #180036 0%, #090117 100%) !important;
+    linear-gradient(135deg, #471bcd 0%, #863f0d 100%) !important;
   animation: cosmic-radial-property-drift 6s ease-in-out infinite !important;
   transition:
     --r1-x var(--cosmic-duration, 0.75s) var(--cosmic-easing, ease-in-out),
