@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState, useRef, useSyncExternalStore } from 'react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 
 // Fix Leaflet default icon paths (prevents missing marker issues)

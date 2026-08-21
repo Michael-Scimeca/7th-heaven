@@ -20,6 +20,7 @@ import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruis
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+import 'react-quill-new/dist/quill.snow.css';
 
 type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
 type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };

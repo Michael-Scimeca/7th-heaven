@@ -30,6 +30,7 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
   loading: () => <div className="w-full h-[400px] bg-black/40 animate-pulse" />
 });
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+import 'react-quill-new/dist/quill.snow.css';
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
 
