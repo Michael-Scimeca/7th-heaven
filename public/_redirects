@@ -1,0 +1,4 @@
+# Netlify Redirects & Rewrites for Next.js App Router
+# Guarantees direct URL navigation (e.g. /notifications, /crew, /planner) works seamlessly on Netlify CDN
+
+/*   /.netlify/functions/___netlify-handler   200!
