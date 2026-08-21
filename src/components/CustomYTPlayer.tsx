@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
+import CosmicRadialButton from "./CosmicRadialButton";
 
 declare global {
   interface Window {
@@ -281,11 +282,14 @@ export default function CustomYTPlayer({
             className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
               }`}
           >
-            <div className="w-20 h-20 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center">
+            <CosmicRadialButton
+              icon={false}
+              className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl"
+            >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
-            </div>
+            </CosmicRadialButton>
           </div>
 
           {/* Top Gradient */}
@@ -383,8 +387,9 @@ export default function CustomYTPlayer({
                 )}
 
                 {/* Play/Pause */}
-                <button onClick={togglePlay}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
+                <CosmicRadialButton onClick={togglePlay}
+                  icon={false}
+                  className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -396,7 +401,7 @@ export default function CustomYTPlayer({
                       <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                   )}
-                </button>
+                </CosmicRadialButton>
 
                 {/* Next */}
                 {hasNext && (
