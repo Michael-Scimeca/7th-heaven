@@ -491,7 +491,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const video = videoRef.current;
     if (!video) return;
     const START_TIME = 10;
-    const MAX_DURATION = 8; // Exactly 8 seconds long loop
+    const isMobile = typeof window !== "undefined" ? !window.matchMedia("(min-width: 768px)").matches : false;
+    const MAX_DURATION = isMobile ? 6 : 8; // 6 second loop on mobile, 8 second on desktop
     if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
       try {
         video.currentTime = START_TIME;
@@ -525,10 +526,9 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       `}} />
 
       {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
-      {/* On mobile (<768px), skip video stream — show static dark bg to save 2.4MB network */}
       {isYouTube && YTComp ? (
         <YTComp videoId={ytId} />
-      ) : isDesktop ? (
+      ) : (
         <video
           key={videoSrc}
           ref={videoRef}
@@ -545,18 +545,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
         </video>
-      ) : (
-        /* Mobile: optimized priority LCP hero image — instant paint */
-        <Image
-          src="/images/hero-banner.webp"
-          alt="7th Heaven Live Stage"
-          fill
-          priority
-          fetchPriority="high"
-          quality={30}
-          sizes="100vw"
-          className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
-        />
       )}
       <div
         role="button"

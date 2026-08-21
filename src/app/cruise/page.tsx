@@ -719,45 +719,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
 
-            {/* Official Cruise Social Links */}
-            <div className="flex items-center gap-1.5 bg-black/60 p-1 rounded-full border border-white/20 backdrop-blur-md shadow-lg">
-              <a
-                href="https://www.facebook.com/chicagomusiccruise/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 rounded-full bg-blue-600/30 hover:bg-blue-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
-                title="Chicago Music Cruise Facebook"
-              >
-                <span>Facebook</span>
-              </a>
-              <a
-                href="https://www.instagram.com/chicagomusiccruise"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 rounded-full bg-pink-600/30 hover:bg-pink-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
-                title="Chicago Music Cruise Instagram"
-              >
-                <span>Instagram</span>
-              </a>
-              <a
-                href="https://x.com/CMCNTDV"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 rounded-full bg-slate-700/50 hover:bg-black text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
-                title="Chicago Music Cruise X (Twitter)"
-              >
-                <span>X (Twitter)</span>
-              </a>
-              <a
-                href="https://www.youtube.com/channel/UCjYApPvQ71rXL5USPuUyr6Q"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 rounded-full bg-red-600/30 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
-                title="Chicago Music Cruise YouTube Channel"
-              >
-                <span>YouTube</span>
-              </a>
-            </div>
           </div>
 
           {/* Main Title: Cruise Name */}

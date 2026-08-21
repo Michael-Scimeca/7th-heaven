@@ -30,7 +30,8 @@ function AutoPlayVideo({ src }: { src: string }) {
   const handleTimeUpdate = () => {
     const video = videoRef.current;
     if (!video) return;
-    const MAX_DURATION = 8; // Exactly 8 seconds long loop
+    const isMobile = typeof window !== "undefined" ? !window.matchMedia("(min-width: 768px)").matches : false;
+    const MAX_DURATION = isMobile ? 6 : 8; // 6 seconds long loop on mobile, 8 seconds on desktop
     if (video.currentTime >= MAX_DURATION) {
       try {
         video.currentTime = 0;
