@@ -92,12 +92,35 @@ export const CosmicRadialButton = React.forwardRef<
       COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
     );
 
-    // Unique desynchronized random motion & direction per button instance
+const PALETTES = [
+  // Electric Cyan & Magenta
+  ["rgba(0, 240, 255, 0.85)", "rgba(255, 0, 214, 0.9)", "rgba(0, 0, 0, 0.7)", "rgba(157, 0, 255, 0.85)", "rgba(236, 72, 153, 0.8)", "rgba(124, 58, 237, 0.95)"],
+  // Neon Amber & Crimson
+  ["rgba(255, 107, 0, 0.85)", "rgba(255, 0, 102, 0.9)", "rgba(15, 0, 30, 0.7)", "rgba(245, 158, 11, 0.85)", "rgba(239, 68, 68, 0.8)", "rgba(147, 51, 234, 0.95)"],
+  // Cyber Emerald & Electric Blue
+  ["rgba(16, 185, 129, 0.85)", "rgba(6, 182, 212, 0.9)", "rgba(5, 15, 30, 0.7)", "rgba(59, 130, 246, 0.85)", "rgba(168, 85, 247, 0.8)", "rgba(16, 185, 129, 0.95)"],
+  // Royal Sunset & Gold
+  ["rgba(236, 72, 153, 0.85)", "rgba(168, 85, 247, 0.9)", "rgba(20, 0, 40, 0.7)", "rgba(251, 146, 60, 0.85)", "rgba(244, 63, 94, 0.8)", "rgba(99, 102, 241, 0.95)"],
+  // Deep Purple Hyperglow
+  ["rgba(192, 38, 211, 0.85)", "rgba(124, 58, 237, 0.9)", "rgba(10, 0, 25, 0.7)", "rgba(232, 121, 249, 0.85)", "rgba(99, 102, 241, 0.8)", "rgba(217, 70, 239, 0.95)"],
+];
+
+    // Unique desynchronized random motion, direction & color palette per button instance
     const [randomAnimProps, setRandomAnimProps] = useState<{
       name: string;
       dur: string;
       delay: string;
       dir: string;
+      r1c?: string;
+      r2c?: string;
+      r3c?: string;
+      r4c?: string;
+      r5c?: string;
+      r6c?: string;
+      r1x?: string;
+      r1y?: string;
+      r2x?: string;
+      r2y?: string;
     }>({
       name: "cosmic-radial-property-drift",
       dur: "6s",
@@ -112,16 +135,32 @@ export const CosmicRadialButton = React.forwardRef<
         "cosmic-radial-property-drift-spiral",
       ];
       const directions = ["normal", "reverse", "alternate", "alternate-reverse"];
+      const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
       const rName = animNames[Math.floor(Math.random() * animNames.length)];
       const rDur = (3.8 + Math.random() * 4.5).toFixed(2);
       const rDelay = (-Math.random() * 6).toFixed(2);
       const rDir = directions[Math.floor(Math.random() * directions.length)];
+
+      const r1x = Math.floor(10 + Math.random() * 80);
+      const r1y = Math.floor(10 + Math.random() * 80);
+      const r2x = Math.floor(10 + Math.random() * 80);
+      const r2y = Math.floor(10 + Math.random() * 80);
 
       setRandomAnimProps({
         name: rName,
         dur: `${rDur}s`,
         delay: `${rDelay}s`,
         dir: rDir,
+        r1c: palette[0],
+        r2c: palette[1],
+        r3c: palette[2],
+        r4c: palette[3],
+        r5c: palette[4],
+        r6c: palette[5],
+        r1x: `${r1x}%`,
+        r1y: `${r1y}%`,
+        r2x: `${r2x}%`,
+        r2y: `${r2y}%`,
       });
     }, []);
 
@@ -262,6 +301,16 @@ export const CosmicRadialButton = React.forwardRef<
       "--cosmic-anim-dur": randomAnimProps.dur,
       "--cosmic-anim-delay": randomAnimProps.delay,
       "--cosmic-anim-dir": randomAnimProps.dir,
+      ...(randomAnimProps.r1c ? { "--r1-c": randomAnimProps.r1c } : {}),
+      ...(randomAnimProps.r2c ? { "--r2-c": randomAnimProps.r2c } : {}),
+      ...(randomAnimProps.r3c ? { "--r3-c": randomAnimProps.r3c } : {}),
+      ...(randomAnimProps.r4c ? { "--r4-c": randomAnimProps.r4c } : {}),
+      ...(randomAnimProps.r5c ? { "--r5-c": randomAnimProps.r5c } : {}),
+      ...(randomAnimProps.r6c ? { "--r6-c": randomAnimProps.r6c } : {}),
+      ...(randomAnimProps.r1x ? { "--r1-x": randomAnimProps.r1x } : {}),
+      ...(randomAnimProps.r1y ? { "--r1-y": randomAnimProps.r1y } : {}),
+      ...(randomAnimProps.r2x ? { "--r2-x": randomAnimProps.r2x } : {}),
+      ...(randomAnimProps.r2y ? { "--r2-y": randomAnimProps.r2y } : {}),
       "--cosmic-duration": `${duration.toFixed(1)}s`,
       "--cosmic-easing": easing,
       "--r1-x": `${targetCenters[0].x}%`,
