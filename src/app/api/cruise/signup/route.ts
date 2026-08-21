@@ -6,6 +6,7 @@ import { isValidEmail, isValidPhone, sanitizeName, sanitizeNotes } from '@/lib/v
 import { isSpam } from '@/lib/api-utils';
 import { encrypt } from '@/lib/encryption';
 import { savePin } from '@/lib/pins';
+import { publishToGroup } from '@/lib/ntfy';
 import crypto from 'crypto';
 
 const supabase = createClient(
@@ -285,6 +286,14 @@ card2_amount: ${encrypt(card2.amountCharged)}
       }
       throw error;
     }
+
+    // Push ntfy alert to admins about new cruise registration
+    publishToGroup('admins', {
+      title: '🚢 New Cruise Passenger Registered',
+      message: `${safeName} (${email}) registered for Cruise 2026! (${guest_count || 1} guest(s))`,
+      priority: 'high',
+      tags: ['ship', 'sparkles'],
+    }).catch((err) => console.error('[ntfy] Failed to notify admins of cruise signup:', err));
 
     // ── PIN-based verification flow ──
     // Generate a 6-digit PIN, store it for 30 min, and email it.

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifyPin } from "@/lib/pins";
 import { createClient } from "@supabase/supabase-js";
+import { publishToGroup } from "@/lib/ntfy";
 
 export async function POST(req: Request) {
   try {
@@ -117,6 +118,14 @@ export async function POST(req: Request) {
         console.error("Failed to add newsletter subscription:", newsletterError.message);
       }
     }
+
+    // Push ntfy alert to admins about new fan signup
+    publishToGroup('admins', {
+      title: '🎉 New Fan Account Registered',
+      message: `${name || email} registered as a Fan (${email})`,
+      priority: 'high',
+      tags: ['partying_face', 'user'],
+    }).catch((err) => console.error('[ntfy] Failed to notify admins of fan signup:', err));
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
