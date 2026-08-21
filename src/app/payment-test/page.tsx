@@ -132,6 +132,7 @@ export default function PaymentTestShopPage() {
   const [startingCheckout, setStartingCheckout] = useState(false);
   const [mockMode, setMockMode] = useState(false);
   const [showLimitations, setShowLimitations] = useState(false);
+  const [showRoadmap, setShowRoadmap] = useState(false);
 
   // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
@@ -310,6 +311,13 @@ export default function PaymentTestShopPage() {
             >
               ℹ️ What This Shop Can &amp; Can&apos;t Do (vs. Shopify)
             </button>
+            <button
+              type="button"
+              onClick={() => setShowRoadmap(!showRoadmap)}
+              className="flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition-colors"
+            >
+              🗺️ Roadmap: Closing the Gap With North&apos;s API
+            </button>
             <Link
               href="/admin/shop-inventory"
               className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
@@ -414,6 +422,119 @@ export default function PaymentTestShopPage() {
                   Not Shopify-specific — a QR code is just a link. The Shopify shop at{" "}
                   <code className="text-white font-mono">/qr/merch</code> already has one; the
                   same could be added here.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Roadmap: features buildable on North's actual API suite ── */}
+        {showRoadmap && (
+          <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+              <div>
+                <h3 className="text-white font-black text-sm uppercase tracking-wide">
+                  Roadmap: Closing the Gap With North&apos;s Real API Suite
+                </h3>
+                <p className="text-white/40 text-xs mt-1 max-w-2xl">
+                  This page only uses North&apos;s Browser Post API — one product in a larger
+                  suite. North (EPX) also publishes a Recurring Billing API, Gateway Invoicing
+                  API, Embedded Checkout, and reporting APIs. Combined with the inventory/order
+                  system already built here, most of the &quot;❌&quot; items above have a real,
+                  buildable path — no Shopify migration required.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRoadmap(false)}
+                className="text-white/40 hover:text-white text-xs uppercase font-bold shrink-0 ml-4"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/70">
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  🔁 Fan Club / Merch Subscriptions
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  North&apos;s <strong className="text-white">Recurring Billing API</strong>{" "}
+                  supports weekly/bi-weekly/monthly charges with pause, resume, and cancel at any
+                  time. Could power a &quot;merch box of the month&quot; or paid fan-club tier —
+                  something Shopify needs a subscriptions app for.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  💳 Saved Cards &amp; Refunds
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Every transaction through North&apos;s Recurring Billing API is tokenized. That
+                  token can issue refunds against a past charge and, longer-term, let a returning
+                  fan skip re-entering their card. Refunds today would need to go through North&apos;s
+                  merchant portal or a tokenized-refund call, not this page.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  🧾 Custom / VIP Order Invoicing
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  North&apos;s <strong className="text-white">Gateway Invoicing API</strong> is
+                  built for mail-order/telephone-order flows — send a fan a payment link for a
+                  custom bundle, signed vinyl, or VIP package without them touching the storefront.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  📊 Real Sales Dashboard
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  North&apos;s Merchant Reporting and Gateway Business Reporting APIs expose
+                  settlement and transaction data that could feed a revenue dashboard inside{" "}
+                  <Link href="/admin/shop-inventory" className="underline hover:text-white">
+                    /admin/shop-inventory
+                  </Link>{" "}
+                  — closer to Shopify Analytics than the raw order list is today.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  🖥️ Embedded Checkout Upgrade
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  North offers a hosted <strong className="text-white">Embedded Checkout</strong>{" "}
+                  widget as an alternative to a raw Browser Post form — same PCI-scope benefit,
+                  nicer built-in card-entry UI, without hand-rolling every field.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
+                <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  🏬 In-Person + Online, One Inventory
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  North also does card-present/in-person payments. Ringing up merch-table sales
+                  against the same Supabase stock table this shop already uses would keep online
+                  and in-person inventory in sync — genuine Shopify POS parity.
+                </p>
+              </div>
+
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-yellow-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  🛠️ Not North — Custom-Built Only
+                </span>
+                <p className="text-white/60 leading-relaxed">
+                  Customer accounts/order history (hook into the site&apos;s existing member
+                  login), discount codes and sales tax (apply before requesting the TAC), and
+                  abandoned-cart emails (the site already has Resend/Twilio wired up elsewhere)
+                  are all outside North&apos;s API — they&apos;d be built on this app&apos;s own
+                  infrastructure, same as Shopify apps bolt on top of Shopify&apos;s core.
                 </p>
               </div>
             </div>

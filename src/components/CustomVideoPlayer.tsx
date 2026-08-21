@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import Image from "next/image";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, RotateCcw, RotateCw, X } from "lucide-react";
+import CosmicRadialButton from "./CosmicRadialButton";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
 
 interface CustomVideoPlayerProps {
@@ -291,9 +292,10 @@ export default function CustomVideoPlayer({
           {/* Left Controls: Play, Rewind, Fast Forward, Time */}
           <div className="flex items-center gap-3">
             {/* Play/Pause */}
-            <button
+            <CosmicRadialButton
               onClick={togglePlay}
-              className="w-10 h-10 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.5)]"
+              icon={false}
+              className="w-10 h-10 !rounded-full !p-0 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -301,7 +303,7 @@ export default function CustomVideoPlayer({
               ) : (
                 <Play className="w-5 h-5 fill-white ml-0.5" />
               )}
-            </button>
+            </CosmicRadialButton>
 
             {/* Skip -10s */}
             <button

@@ -10,6 +10,7 @@ import {
   Play,
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
+import CosmicRadialButton from "./CosmicRadialButton";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
@@ -559,18 +560,18 @@ export default function HomeVideoShowcase() {
                         : "opacity-90 sm:opacity-0 group-hover:opacity-100"
                         }`}
                     >
-                      <button
-                        type="button"
+                      <CosmicRadialButton
                         onClick={(e) => {
                           e.stopPropagation();
                           setActiveModalVideo(video);
                         }}
-                        className={`${playButtonSize} rounded-full ${playButtonColor} active:scale-95 text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-2xl transition-all cursor-pointer pointer-events-auto hover:scale-110`}
+                        icon={false}
+                        className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl transition-all cursor-pointer pointer-events-auto hover:scale-110`}
                         aria-label={`Play full video for ${video.title}`}
                         title="Play Full Video"
                       >
                         <Play className="w-6 h-6 fill-white ml-0.5" />
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                   )}
 
