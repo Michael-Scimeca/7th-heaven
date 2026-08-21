@@ -56,6 +56,11 @@ export default function NotificationsPage() {
   const [info, setInfo] = useState<TopicResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Live Test Push state
   const [testTitle, setTestTitle] = useState("🚨 7th Heaven Live Push Test");
@@ -205,11 +210,21 @@ export default function NotificationsPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* QR Code */}
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="bg-white p-3 rounded-2xl shadow-lg">
-                <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-white/20 min-w-[172px] min-h-[172px] flex items-center justify-center">
+                {mounted && (browserUrl || appDeepLink) ? (
+                  <QRCode
+                    value={browserUrl || appDeepLink}
+                    size={148}
+                    fgColor="#000000"
+                    bgColor="#ffffff"
+                    level="M"
+                  />
+                ) : (
+                  <div className="w-[148px] h-[148px] bg-gray-100 animate-pulse rounded-xl" />
+                )}
               </div>
-              <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest text-center max-w-[160px]">
-                Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
+              <p className="text-[10px] text-white/50 font-extrabold uppercase tracking-widest text-center max-w-[160px]">
+                Scan with phone camera or inside ntfy app
               </p>
             </div>
 
