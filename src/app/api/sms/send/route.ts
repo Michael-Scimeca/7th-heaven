@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { distanceMiles } from "@/lib/geo";
 import { VENUE_COORDS } from "@/lib/venue-coords";
 import { requireAdmin } from "@/lib/api-utils";
+import { publishToGroup } from "@/lib/ntfy";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -162,6 +163,17 @@ export async function POST(request: Request) {
       nearbySubscribers = allSubscribers;
       allSubscribersCount = allSubscribers.length;
     }
+
+    // Always dispatch instant ntfy push notification to fans group
+    const pushResult = await publishToGroup('fans', {
+      title: venue ? `🎸 7th Heaven at ${venue}` : '🚨 7th Heaven Alert',
+      message: customMessage || smsBody,
+      priority: 'high',
+      tags: ['guitar', 'bell'],
+    }).catch((err) => {
+      console.error('[ntfy] Push dispatch failed:', err);
+      return false;
+    });
 
     // Twilio batch send (if configured)
     const accountSid = process.env.TWILIO_ACCOUNT_SID;

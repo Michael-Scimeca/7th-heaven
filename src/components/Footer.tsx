@@ -4,7 +4,7 @@
 import Image from 'next/image';
 
 import Link from "next/link";
-import { Smartphone, Check } from "lucide-react";
+import { Smartphone, Check, Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
@@ -47,6 +47,7 @@ const FALLBACK_ENDORSEMENTS = [
 
 const footerLinks = [
   { href: "/faq", label: "FAQ" },
+  { href: "/notifications", label: "Push Alerts" },
   { href: "/shows/past", label: "Past Shows Archive" },
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },
@@ -200,95 +201,27 @@ export function Footer() {
       <FooterPicks />
 
       <div className="relative z-10">
-        <div className="site-container relative z-10">
-
-
-
-        </div>
-
-        {/* SMS Text Alerts */}
-        <div className="site-container pt-0 pb-2" suppressHydrationWarning>
-          <div className="max-w-2xl" suppressHydrationWarning>
-            <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
-              <Smartphone className="w-5 h-5 text-[var(--color-accent)]" />
-              <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-[var(--text-color)]">Text Alerts</h3>
-            </div>
-            <p className="text-base text-[var(--muted-text)] mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
-            {smsStatus === 'success' ? (
-              <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-                <Check className="w-5 h-5 text-emerald-600" />
-                <p className="text-sm font-bold text-emerald-600">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
+        {/* Free Push Alerts (ntfy) Banner */}
+        <div id="push-alerts-footer" className="site-container pt-0 pb-6">
+          <div className="max-w-2xl bg-gradient-to-r from-purple-900/40 via-purple-800/30 to-black/50 p-6 rounded-2xl border border-purple-500/30 shadow-xl backdrop-blur-md">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0">
+                <Bell className="w-5 h-5 text-purple-400" />
               </div>
-            ) : (
-              <form
-                suppressHydrationWarning
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  const digits = smsPhone.replace(/\D/g, '');
-                  if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
-                  setSmsStatus('sending');
-                  try {
-                    const res = await fetch('/api/sms/subscribe', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, distance: smsDistance, name: member?.name || '' }),
-                    });
-                    if (res.ok) { setSmsStatus('success'); setSmsPhone(''); setSmsZip(''); }
-                    else setSmsStatus('error');
-                  } catch { setSmsStatus('error'); }
-                }}
-                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
-              >
-                <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]" suppressHydrationWarning>
-                  <input aria-label="Input field"
-                    type="tel"
-                    value={smsPhone}
-                    onChange={e => setSmsPhone(formatPhone(e.target.value))}
-                    placeholder="(555) 123-4567"
-                    required
-                    suppressHydrationWarning
-                    className="w-full px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
-                  />
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto shrink-0" suppressHydrationWarning>
-                  <div className="input-glow-border rounded-lg w-24 sm:w-28" suppressHydrationWarning>
-                    <input aria-label="Input field"
-                      type="text"
-                      value={smsZip}
-                      onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                      placeholder="Zip code"
-                      required
-                      maxLength={5}
-                      suppressHydrationWarning
-                      className="w-full px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
-                    />
-                  </div>
-                  <div className="shrink-0 flex items-center">
-                    <GooeyMessagesDropdown
-                      placeholder={`${smsDistance} mi`}
-                      defaultSelectedId={String(smsDistance)}
-                      customers={[
-                        { id: "25", name: "25 mi" },
-                        { id: "50", name: "50 mi" },
-                        { id: "100", name: "100 mi" },
-                        { id: "200", name: "200 mi" },
-                      ]}
-                      onSelect={(opt) => setSmsDistance(opt.id)}
-                    />
-                  </div>
-                </div>
-                <CosmicRadialButton
-                  type="submit"
-                  disabled={smsStatus === 'sending'}
-                  icon={<Smartphone className="w-4 h-4" />}
-                  className="w-full sm:w-auto shrink-0 px-6 py-3 text-white font-bold text-sm uppercase tracking-widest rounded-lg disabled:opacity-50 whitespace-nowrap"
-                >
-                  {smsStatus === 'sending' ? '...' : 'Subscribe'}
-                </CosmicRadialButton>
-              </form>
-            )}
-            {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}
-            <p className="text-xs text-[var(--muted-text)] mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <Link href="/privacy" className="underline hover:text-[var(--text-color)] transition-colors">Privacy</Link> & <Link href="/terms" className="underline hover:text-[var(--text-color)] transition-colors">Terms</Link>.</p>
+              <div>
+                <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Instant Free Push Alerts</h3>
+                <p className="text-xs text-purple-300 font-bold uppercase tracking-wider">No phone number &middot; No carrier text fees</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 mb-4 leading-relaxed">
+              Get instant push notifications straight to your phone or browser the moment 7th Heaven drops new shows, ticket links, or merch restocks.
+            </p>
+            <Link
+              href="/notifications"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all"
+            >
+              <Bell className="w-4 h-4" /> Enable Free Push Alerts &rarr;
+            </Link>
           </div>
         </div>
 

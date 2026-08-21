@@ -186,15 +186,10 @@ export default function NotificationsPage() {
           7th Heaven can push an alert straight to your phone the moment we post one &mdash;
           new shows, ticket drops, cruise news, whatever the group needs. It doesn&apos;t
           use text messages or carrier fees; it rides on{" "}
-          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">
+          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="underline hover:text-purple-400 transition-colors font-bold">
             ntfy
           </a>
-          , a free, open push network, so there&apos;s no cost to you and none to us.
-          Prefer old-fashioned texts? There&apos;s a paid SMS option{" "}
-          <a href="#text-alerts-footer" className="underline hover:text-white transition-colors">
-            in the footer
-          </a>{" "}
-          too.
+          , a 100% free, open push network with zero carrier costs for fans or the band.
         </p>
       </div>
 
