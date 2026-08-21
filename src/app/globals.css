@@ -4862,3 +4862,22 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .animate-cosmic-property-drift {
   animation: cosmic-radial-property-drift 6s ease-in-out infinite;
 }
+
+/* Active / Up-Next Show Map Marker Bounce Animation */
+.next-show-bounce {
+  position: relative !important;
+  display: inline-block !important;
+  opacity: 1 !important;
+  animation: mapMarkerBounce 0.75s ease-in-out infinite alternate !important;
+  filter: drop-shadow(0 0 16px #a855f7) drop-shadow(0 4px 12px rgba(168, 85, 247, 0.7)) !important;
+  z-index: 9999 !important;
+}
+
+@keyframes mapMarkerBounce {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-22px);
+  }
+}
