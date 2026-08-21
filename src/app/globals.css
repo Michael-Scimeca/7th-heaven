@@ -4777,24 +4777,24 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .bg-linear-to-r.from-\[\#6917BF\]:hover,
 .bg-gradient-to-r.from-\[\#6917BF\]:hover,
 [class*="from-[#6917BF]"]:hover {
-  --r1-x: 43%;
-  --r1-y: 46%;
-  --r1-c: #2B007DDB;
-  --r2-x: 61%;
-  --r2-y: 51%;
-  --r2-c: #350875FF;
-  --r3-x: 32%;
-  --r3-y: 73%;
-  --r3-c: #080219DD;
-  --r4-x: 97%;
-  --r4-y: 0%;
-  --r4-c: #1E005BCC;
-  --r5-x: 100%;
-  --r5-y: 49%;
-  --r5-c: #411494F5;
-  --r6-x: 92%;
-  --r6-y: 13%;
-  --r6-c: #32004DF5;
+  --r1-x: 75%;
+  --r1-y: 80%;
+  --r1-c: rgba(0, 240, 255, 0.95);  /* Electric Cyan */
+  --r2-x: 25%;
+  --r2-y: 75%;
+  --r2-c: rgba(255, 0, 214, 0.95); /* Neon Magenta */
+  --r3-x: 85%;
+  --r3-y: 15%;
+  --r3-c: rgba(0, 0, 0, 0.6);
+  --r4-x: 15%;
+  --r4-y: 25%;
+  --r4-c: rgba(168, 85, 247, 0.95);/* Electric Purple */
+  --r5-x: 60%;
+  --r5-y: 40%;
+  --r5-c: rgba(236, 72, 153, 0.9); /* Vivid Pink */
+  --r6-x: 35%;
+  --r6-y: 65%;
+  --r6-c: rgba(147, 51, 234, 0.95);/* Deep Royal Violet */
 }
 
 @keyframes cosmic-radial-property-drift {
