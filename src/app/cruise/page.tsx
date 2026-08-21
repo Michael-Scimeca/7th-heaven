@@ -1056,9 +1056,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {/* 3 Team Members Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
                   {/* Richard Hofherr */}
-                  <div className="flex flex-col items-center group">
+                  <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
@@ -1077,9 +1077,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
 
                   {/* Mary Grivas */}
-                  <div className="flex flex-col items-center group">
+                  <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
@@ -1098,9 +1098,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
 
                   {/* Alan McRae */}
-                  <div className="flex flex-col items-center group">
+                  <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
