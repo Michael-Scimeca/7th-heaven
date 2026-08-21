@@ -36,6 +36,7 @@ type Order = {
   line_items: { title: string; variantLabel: string; quantity: number; unitPrice: number }[];
   total_amount: number;
   created_at: string;
+  formatted_date?: string;
 };
 
 const CATEGORIES = ["Shirts", "Albums", "Hats"] as const;
@@ -82,7 +83,14 @@ export default function ShopInventoryAdminPage() {
     try {
       const res = await fetch("/api/admin/shop-inventory/orders");
       const data = await res.json();
-      if (res.ok) setOrders(data);
+      if (res.ok) {
+        setOrders(
+          (data || []).map((o: Order) => ({
+            ...o,
+            formatted_date: formatOrderDate(o.created_at),
+          }))
+        );
+      }
     } catch {
       /* non-fatal */
     }
@@ -747,7 +755,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-white/40 text-xs">
-                {formatOrderDate(order.created_at)}
+                {order.formatted_date || order.created_at}
               </span>
               <span className="text-[var(--color-accent)] font-black text-sm">
                 ${Number(order.total_amount).toFixed(2)}
