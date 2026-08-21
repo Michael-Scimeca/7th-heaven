@@ -229,65 +229,87 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
   const toggleActive = async () => {
     setBusy(true);
-    await fetch(`/api/admin/shop-inventory/products/${product.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ active: !product.active }),
-    });
-    setBusy(false);
-    onChanged();
+    try {
+      await fetch(`/api/admin/shop-inventory/products/${product.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: !product.active }),
+      });
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
   };
 
   const deleteProduct = async () => {
     if (!confirm(`Delete "${product.title}" and all its variants? This can't be undone.`)) return;
     setBusy(true);
-    await fetch(`/api/admin/shop-inventory/products/${product.id}`, { method: "DELETE" });
-    setBusy(false);
-    onChanged();
+    try {
+      await fetch(`/api/admin/shop-inventory/products/${product.id}`, { method: "DELETE" });
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <div className={`bg-white/[0.04] border rounded-2xl overflow-hidden ${product.active ? "border-white/[0.12]" : "border-white/[0.06] opacity-50"}`}>
-      <div className="flex items-center gap-3 p-4">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-black/40 shrink-0" />
-        <button type="button" className="flex-1 text-left" onClick={() => setExpanded(!expanded)}>
-          <p className="text-white font-black text-sm">{product.title}</p>
-          <p className="text-white/40 text-xs">
-            {product.category} · {product.variant_kind} · {product.variants.length} variant
-            {product.variants.length === 1 ? "" : "s"}
-            {!product.active && " · inactive"}
-          </p>
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={toggleActive}
-          className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors ${product.active ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-white/50 border border-white/10"}`}
-        >
-          {product.active ? "Active" : "Inactive"}
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={deleteProduct}
-          className="text-white/30 hover:text-rose-400 text-sm px-1"
-          aria-label={`Delete ${product.title}`}
-        >
-          ✕
-        </button>
-        <button
-          type="button"
-          onClick={() => setExpanded(!expanded)}
-          className="text-white/40 hover:text-white text-xs px-1"
-        >
-          {expanded ? "▲" : "▼"}
-        </button>
+      <div className="p-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08]">
+        <div className="flex items-center gap-3 min-w-0">
+          {product.image_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={product.image_url} alt="" className="w-12 h-12 rounded-lg object-cover bg-white/5" />
+          ) : (
+            <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-white/30 text-xs font-bold">
+              No Pic
+            </div>
+          )}
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white font-bold text-base truncate">{product.title}</h3>
+              <span className="text-[10px] font-black uppercase tracking-wider text-white/40 bg-white/5 px-2 py-0.5 rounded">
+                {product.category}
+              </span>
+            </div>
+            <p className="text-white/40 text-xs truncate">{product.description || "No description."}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={busy}
+            onClick={toggleActive}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${
+              product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-white/40 border border-white/10"
+            }`}
+          >
+            {product.active ? "Active" : "Inactive"}
+          </button>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={deleteProduct}
+            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg text-xs font-bold uppercase transition-colors"
+          >
+            Delete
+          </button>
+          <button
+            type="button"
+            onClick={() => setExpanded(!expanded)}
+            className="px-3 py-1.5 bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-bold uppercase transition-colors"
+          >
+            {expanded ? "Collapse" : `Variants (${product.variants?.length || 0})`}
+          </button>
+        </div>
       </div>
 
       {expanded && (
-        <div className="border-t border-white/10 p-4 space-y-2">
-          {product.variants.map((variant) => (
+        <div className="p-4 bg-black/20 space-y-2">
+          <div className="text-[10px] font-black uppercase tracking-wider text-white/40 mb-2">
+            Variants ({product.variant_kind})
+          </div>
+          {(product.variants || []).map((variant) => (
             <VariantRow key={variant.id} variant={variant} onChanged={onChanged} />
           ))}
 
@@ -323,34 +345,48 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
   const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState(false);
 
+  useEffect(() => {
+    setLabel(variant.label);
+    setPrice(String(variant.price));
+    setStock(String(variant.stock_quantity));
+    setLowStock(String(variant.low_stock_threshold));
+    setDirty(false);
+  }, [variant]);
+
   const markDirty = () => setDirty(true);
 
   const save = async () => {
     setBusy(true);
-    await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        label,
-        price: parseFloat(price) || 0,
-        stockQuantity: Math.max(0, parseInt(stock, 10) || 0),
-        lowStockThreshold: Math.max(0, parseInt(lowStock, 10) || 0),
-      }),
-    });
-    setBusy(false);
-    setDirty(false);
-    onChanged();
+    try {
+      await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          label,
+          price: parseFloat(price) || 0,
+          stockQuantity: Math.max(0, parseInt(stock, 10) || 0),
+          lowStockThreshold: Math.max(0, parseInt(lowStock, 10) || 0),
+        }),
+      });
+      setDirty(false);
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
   };
 
   const toggleActive = async () => {
     setBusy(true);
-    await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ active: !variant.active }),
-    });
-    setBusy(false);
-    onChanged();
+    try {
+      await fetch(`/api/admin/shop-inventory/variants/${variant.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: !variant.active }),
+      });
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
   };
 
   const deleteVariant = async () => {
