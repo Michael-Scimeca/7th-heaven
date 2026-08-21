@@ -46,8 +46,3 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/___netlify-handler"
-  status = 200
-

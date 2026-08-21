@@ -2,11 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import QRCode from "react-qr-code";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
-
-export const dynamic = "force-dynamic";
 
 type Group = "fans" | "crew" | "cruise";
 
