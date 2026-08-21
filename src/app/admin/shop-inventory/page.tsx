@@ -524,7 +524,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("Shirts");
   const [variantKind, setVariantKind] = useState<(typeof VARIANT_KINDS)[number]>("Size");
-  const [variants, setVariants] = useState([{ label: "", price: "", stock: "0" }]);
+  const [variants, setVariants] = useState([{ id: "var-0", label: "", price: "", stock: "0" }]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -626,7 +626,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           </label>
           <div className="space-y-2">
             {variants.map((v, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={v.id} className="flex gap-2">
                 <input
                   value={v.label}
                   onChange={(e) => updateVariant(i, "label", e.target.value)}
@@ -653,7 +653,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           </div>
           <button
             type="button"
-            onClick={() => setVariants([...variants, { label: "", price: "", stock: "0" }])}
+            onClick={() => setVariants([...variants, { id: `var-${Date.now()}-${variants.length}`, label: "", price: "", stock: "0" }])}
             className="mt-2 text-xs font-bold text-cyan-300 hover:text-cyan-200"
           >
             + Another variant
@@ -716,7 +716,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
           </div>
           <div className="text-white/60 text-xs">
             {(order.line_items || []).map((item, i) => (
-              <span key={i}>
+              <span key={`${item.title}-${item.variantLabel}-${i}`}>
                 {item.title} ({item.variantLabel}) × {item.quantity}
                 {i < order.line_items.length - 1 ? ", " : ""}
               </span>
