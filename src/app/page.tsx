@@ -50,14 +50,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Announcement banner + Tour list + ProximityNotify — loaded client-side after paint */}
-      <HomeDataLoader />
-
+      {/* ====== BAND BIO PARALLAX SLIDER ====== */}
       <LazySection fallbackHeight="600px">
-        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[240px] sm:mt-[280px] md:mt-[320px]">
+        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-8 sm:mt-12 mb-12">
           <BioParallaxSlider />
         </section>
       </LazySection>
+
+      {/* Announcement banner + Tour list + ProximityNotify — loaded client-side after paint */}
+      <HomeDataLoader />
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
       <LazySection fallbackHeight="400px">
