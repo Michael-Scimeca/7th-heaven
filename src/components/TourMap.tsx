@@ -505,10 +505,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         return now >= start && now < end;
       });
 
-      const targetVenueName = nextShowVenue?.toLowerCase().trim();
-      const targetCityName = nextShowCity?.toLowerCase().trim();
-      const vName = v.venue.toLowerCase().trim();
-      const vCity = v.city.toLowerCase().trim();
+      const normStr = (str: string) => str.replace(/['’`\\]/g, '').toLowerCase().trim();
+      const targetVenueName = nextShowVenue ? normStr(nextShowVenue) : undefined;
+      const targetCityName = nextShowCity ? normStr(nextShowCity) : undefined;
+      const vName = normStr(v.venue);
+      const vCity = normStr(v.city);
 
       const isNext = targetVenueName
         ? (vName === targetVenueName || vName.includes(targetVenueName) || targetVenueName.includes(vName)) &&
@@ -544,9 +545,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const textColor = isLightColor ? '#000000' : '#ffffff';
       const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
 
-      const pinHtml = `<div class="custom-venue-marker">
+      const pinHtml = `<div class="custom-venue-marker ${isBouncing ? "is-bouncing-marker" : ""}">
         <div class="${isBouncing ? "next-show-bounce" : ""} relative">
-          <svg width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="rgba(12, 12, 22, 0.88)" style="fill: rgba(12, 12, 22, 0.88) !important;" stroke="${cfg.color}" stroke-width="${isBouncing ? '4' : '3'}"/>
             <text x="50" y="45" dy="0.35em" fill="${cfg.color}" style="fill: ${cfg.color} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
