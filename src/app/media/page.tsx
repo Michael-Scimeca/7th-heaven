@@ -398,9 +398,12 @@ export default function MediaPage() {
                   className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
                   aria-label="Play featured video"
                 >
-                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                  </div>
+                  <CosmicRadialButton
+                    icon={false}
+                    className="w-24 h-24 !rounded-full !p-0 flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300 shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-300/40"
+                  >
+                    <Play className="w-9 h-9 text-white fill-white ml-1.5" />
+                  </CosmicRadialButton>
                 </button>
               </>
             )}
