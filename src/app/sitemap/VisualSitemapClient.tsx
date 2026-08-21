@@ -451,7 +451,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "FAN PIN VERIFICATION MODULE",
       title: "Fan 6-Digit PIN Security Module",
       path: "/fans",
-      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
+      imgUrl: "/sitemap-thumbs/fan-pin-verification.png",
       badgeType: "MODULE",
       description: "Fan receives 6-digit security PIN email and enters code into the Fan PIN Verification Module to activate account.",
     },
