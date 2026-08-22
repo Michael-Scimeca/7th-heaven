@@ -15,6 +15,7 @@ import { getShowDateTime } from '@/lib/date-utils';
 import ChatInputBar from '@/components/ChatInputBar';
 import SquishyToggle from '@/components/SquishyToggle';
 import PushAlertsCard from '@/components/PushAlertsCard';
+import { useTransition } from '@/context/TransitionContext';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -317,6 +318,7 @@ const formatTime = (s: number) => {
 // eslint-disable-next-line react-doctor/prefer-useReducer
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
   const supabase = React.useMemo(() => createClient(), []);
+  const { requestTransition } = useTransition();
 
   // --- Auth State ---
   const [isLoading, setIsLoading] = useState(true);
@@ -2731,7 +2733,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <select
                       aria-label="Switch Dashboard Feed"
                       className="w-full bg-white/5 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
-                      onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
+                      onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
                       {Object.values(MEMBER_SEEDS).map(member => (

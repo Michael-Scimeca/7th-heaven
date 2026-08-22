@@ -333,12 +333,60 @@ function HomeShaderGradientComponent() {
     };
   }, []);
 
-  // Static Film Grain (fixed seed so grain layer does not move or jitter)
+  // Static Film Grain & Real-time Canvas Studio Sync
   useEffect(() => {
     const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
     if (feTurb) {
       feTurb.setAttribute("seed", "42");
     }
+
+    const applySettings = (settings: any) => {
+      if (!settings || typeof window === "undefined") return;
+      if (settings.grainOpacity !== undefined) {
+        document.documentElement.style.setProperty("--canvas-grain-opacity", `${settings.grainOpacity / 100}`);
+      }
+      if (settings.grainBlend) {
+        document.documentElement.style.setProperty("--canvas-grain-blend", settings.grainBlend);
+      }
+      if (settings.grainSize !== undefined) {
+        document.documentElement.style.setProperty("--canvas-grain-size", `${settings.grainSize}`);
+        const feTurbEl = document.querySelector("#globalGrainFilter feTurbulence");
+        if (feTurbEl) feTurbEl.setAttribute("baseFrequency", `${settings.grainSize}`);
+      }
+      const neat = (window as any).__neatInstance;
+      if (neat) {
+        if (settings.speed !== undefined) neat.speed = settings.speed;
+        if (settings.waveAmp !== undefined) neat.waveAmplitude = settings.waveAmp;
+        if (settings.waveFreqX !== undefined) neat.waveFrequencyX = settings.waveFreqX;
+        if (settings.waveFreqY !== undefined) neat.waveFrequencyY = settings.waveFreqY;
+        if (settings.colorBlending !== undefined) neat.colorBlending = settings.colorBlending;
+        if (settings.colorSaturation !== undefined) neat.colorSaturation = settings.colorSaturation;
+        if (settings.colorBrightness !== undefined) neat.colorBrightness = settings.colorBrightness;
+        if (settings.shadows !== undefined) neat.shadows = settings.shadows;
+        if (settings.highlights !== undefined) neat.highlights = settings.highlights;
+        if (settings.hPressure !== undefined) neat.horizontalPressure = settings.hPressure;
+        if (settings.vPressure !== undefined) neat.verticalPressure = settings.vPressure;
+        if (settings.bgColor) neat.backgroundColor = settings.bgColor;
+      }
+    };
+
+    // Apply initial saved settings from localStorage if available
+    try {
+      const saved = localStorage.getItem("7th_heaven_canvas_settings_v1");
+      if (saved) {
+        applySettings(JSON.parse(saved));
+      }
+    } catch {}
+
+    const handleSettingsChange = (e: Event) => {
+      const customEv = e as CustomEvent;
+      applySettings(customEv.detail);
+    };
+
+    window.addEventListener("canvas-settings-changed", handleSettingsChange);
+    return () => {
+      window.removeEventListener("canvas-settings-changed", handleSettingsChange);
+    };
   }, []);
 
   return (

@@ -647,6 +647,31 @@ export default function StyleGuidePage() {
   const [canvasBgColor, setCanvasBgColor] = useState<string>("#05030a");
   const [copiedCanvasSpec, setCopiedCanvasSpec] = useState<boolean>(false);
 
+  // Load saved canvas settings post-hydration to prevent SSR mismatch
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("7th_heaven_canvas_settings_v1");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.grainOpacity !== undefined) setCanvasGrainOpacity(parsed.grainOpacity);
+        if (parsed.grainBlend) setCanvasGrainBlend(parsed.grainBlend);
+        if (parsed.grainSize !== undefined) setCanvasGrainSize(parsed.grainSize);
+        if (parsed.speed !== undefined) setCanvasSpeed(parsed.speed);
+        if (parsed.waveAmp !== undefined) setCanvasWaveAmp(parsed.waveAmp);
+        if (parsed.waveFreqX !== undefined) setCanvasWaveFreqX(parsed.waveFreqX);
+        if (parsed.waveFreqY !== undefined) setCanvasWaveFreqY(parsed.waveFreqY);
+        if (parsed.colorBlending !== undefined) setCanvasColorBlending(parsed.colorBlending);
+        if (parsed.colorSaturation !== undefined) setCanvasColorSaturation(parsed.colorSaturation);
+        if (parsed.colorBrightness !== undefined) setCanvasColorBrightness(parsed.colorBrightness);
+        if (parsed.shadows !== undefined) setCanvasShadows(parsed.shadows);
+        if (parsed.highlights !== undefined) setCanvasHighlights(parsed.highlights);
+        if (parsed.hPressure !== undefined) setCanvasHPressure(parsed.hPressure);
+        if (parsed.vPressure !== undefined) setCanvasVPressure(parsed.vPressure);
+        if (parsed.bgColor) setCanvasBgColor(parsed.bgColor);
+      }
+    } catch {}
+  }, []);
+
   // Stateroom Catalog & Suite Perks interactive preview states
   const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
@@ -720,7 +745,7 @@ export default function StyleGuidePage() {
     }
   }, [studioSelectedTier, studioMinFs, studioMaxFs, studioMinVw, studioMaxVw, studioMode]);
 
-  // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance
+  // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance & broadcast via event/localStorage
   useEffect(() => {
     document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
     document.documentElement.style.setProperty("--canvas-grain-blend", canvasGrainBlend);
@@ -743,6 +768,29 @@ export default function StyleGuidePage() {
       neat.verticalPressure = canvasVPressure;
       neat.backgroundColor = canvasBgColor;
     }
+
+    const payload = {
+      grainOpacity: canvasGrainOpacity,
+      grainBlend: canvasGrainBlend,
+      grainSize: canvasGrainSize,
+      speed: canvasSpeed,
+      waveAmp: canvasWaveAmp,
+      waveFreqX: canvasWaveFreqX,
+      waveFreqY: canvasWaveFreqY,
+      colorBlending: canvasColorBlending,
+      colorSaturation: canvasColorSaturation,
+      colorBrightness: canvasColorBrightness,
+      shadows: canvasShadows,
+      highlights: canvasHighlights,
+      hPressure: canvasHPressure,
+      vPressure: canvasVPressure,
+      bgColor: canvasBgColor,
+    };
+
+    try {
+      localStorage.setItem("7th_heaven_canvas_settings_v1", JSON.stringify(payload));
+      window.dispatchEvent(new CustomEvent("canvas-settings-changed", { detail: payload }));
+    } catch {}
   }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize, canvasSpeed, canvasWaveAmp, canvasWaveFreqX, canvasWaveFreqY, canvasColorBlending, canvasColorSaturation, canvasColorBrightness, canvasShadows, canvasHighlights, canvasHPressure, canvasVPressure, canvasBgColor]);
 
   const handleCopyCanvasSpec = () => {

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase-client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import SearchInput from "@/components/SearchInput";
+import { useTransition } from "@/context/TransitionContext";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
   sammy: { id: "sammy", name: "Sammy D", email: "sammy@7thheaven.com", avatar: "SD", role: "Vocalist" },
@@ -51,6 +52,7 @@ const getRoleColor = (role: string) => {
 };
 
 export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
+  const { requestTransition } = useTransition();
   const slug = (defaultMemberId || "michael").toLowerCase().trim();
   const LS = useCallback((key: string) => `${key}_${slug}`, [slug]);
 
@@ -501,7 +503,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex items-center gap-3">
             <select aria-label="Select option"
               className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
-              onChange={e => { if (e.target.value) window.location.href = e.target.value; }}
+              onChange={e => { if (e.target.value) requestTransition(e.target.value); }}
               value={`/crew-${defaultMemberId || slug}`}
             >
               {Object.values(MEMBER_SEEDS).map(m => (
