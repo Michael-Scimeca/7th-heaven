@@ -126,16 +126,20 @@ export default function PushSubscribeModal({
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
-                <div className="relative input-glow-border rounded-xl w-full">
-                  <User className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 pointer-events-none z-10" />
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Michael Scimeca"
-                    className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
-                  />
+                <div className="relative w-full">
+                  <div className="input-glow-border rounded-xl w-full">
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Michael Scimeca"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                    />
+                  </div>
+                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
+                    <User className="w-4 h-4" />
+                  </div>
                 </div>
               </div>
 
@@ -143,16 +147,20 @@ export default function PushSubscribeModal({
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
-                <div className="relative input-glow-border rounded-xl w-full">
-                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 pointer-events-none z-10" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="michael@example.com"
-                    className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
-                  />
+                <div className="relative w-full">
+                  <div className="input-glow-border rounded-xl w-full">
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="michael@example.com"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                    />
+                  </div>
+                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
+                    <Mail className="w-4 h-4" />
+                  </div>
                 </div>
               </div>
 

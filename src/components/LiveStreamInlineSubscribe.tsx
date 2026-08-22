@@ -109,28 +109,36 @@ export default function LiveStreamInlineSubscribe() {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div className="relative input-glow-border rounded-xl w-full">
-            <User className="absolute left-3 top-3 w-4 h-4 text-white/40 pointer-events-none z-10" />
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your Full Name"
-              className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
-            />
+          <div className="relative w-full">
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Full Name"
+                className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
+              />
+            </div>
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
+              <User className="w-4 h-4" />
+            </div>
           </div>
 
-          <div className="relative input-glow-border rounded-xl w-full">
-            <Mail className="absolute left-3 top-3 w-4 h-4 text-white/40 pointer-events-none z-10" />
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your Email Address"
-              className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
-            />
+          <div className="relative w-full">
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your Email Address"
+                className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
+              />
+            </div>
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
+              <Mail className="w-4 h-4" />
+            </div>
           </div>
         </div>
 
