@@ -4291,17 +4291,23 @@ html.is-preloading.is-revealing #page-content-wrapper {
   --preloader-mark-exit-extra: 60vh;
 }
 
-.preloader {
+.preloader,
+.preloader-cosmic-bg {
   position: fixed;
   inset: 0;
   z-index: 100005;
   display: grid;
   place-items: center;
-  background: #000;
+  background-color: #030006 !important;
   background-image:
-    radial-gradient(circle at 50% 45%, rgba(133, 29, 239, 0.35) 0%, rgba(147, 51, 234, 0.14) 45%, rgba(0, 0, 0, 0.98) 100%),
-    radial-gradient(circle at 20% 20%, rgba(192, 132, 252, 0.2) 0%, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.25) 0%, transparent 55%);
+    radial-gradient(45% 55% at var(--r1-x, 18%) var(--r1-y, 71%), rgba(192, 38, 211, 0.5) 0%, transparent 100%),
+    radial-gradient(55% 50% at var(--r2-x, 36%) var(--r2-y, 76%), rgba(124, 58, 237, 0.55) 0%, transparent 100%),
+    radial-gradient(35% 45% at var(--r3-x, 7%) var(--r3-y, 98%), rgba(147, 51, 234, 0.4) 0%, transparent 100%),
+    radial-gradient(45% 40% at var(--r4-x, 72%) var(--r4-y, 23%), rgba(232, 121, 249, 0.45) 0%, transparent 100%),
+    radial-gradient(40% 50% at var(--r5-x, 91%) var(--r5-y, 74%), rgba(99, 102, 241, 0.45) 0%, transparent 100%),
+    radial-gradient(70% 80% at var(--r6-x, 67%) var(--r6-y, 38%), rgba(217, 70, 239, 0.5) 0%, transparent 100%),
+    linear-gradient(135deg, #090314 0%, #000000 100%) !important;
+  animation: cosmic-radial-property-drift 7s ease-in-out infinite alternate !important;
   pointer-events: none;
 }
 
