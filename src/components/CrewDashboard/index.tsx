@@ -2684,8 +2684,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="py-8 space-y-6">
 
-        {/* Free Crew Push Alerts Setup Card */}
-        <PushAlertsCard group="crew" />
+        {/* Free Crew Member Live Stream Push Alerts Setup Card */}
+        <PushAlertsCard
+          group="crew"
+          title="Crew Member Live Stream Push Alerts"
+          subtitle="Subscribe to get instant free push alerts on your phone or browser whenever a crew or band member goes live!"
+        />
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
         <div className="transition-colors duration-300 text-white">

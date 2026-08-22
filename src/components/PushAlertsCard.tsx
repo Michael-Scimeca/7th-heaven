@@ -76,14 +76,14 @@ export default function PushAlertsCard({
     group === "fans"
       ? "Instant Show & Merch Push Alerts"
       : group === "crew"
-      ? "Crew Logistics & Show-Day Push Alerts"
+      ? "Crew Member Live Stream Push Alerts"
       : "Cruise Passenger Push Alerts";
 
   const defaultSubtitle =
     group === "fans"
       ? "Get instant free push alerts on your phone whenever 7th Heaven drops new show dates, tickets, or merch!"
       : group === "crew"
-      ? "Receive instant band alerts for set times, load-in shifts, and show-day schedule changes."
+      ? "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
       : "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.";
 
   return (

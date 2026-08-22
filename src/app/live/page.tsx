@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText, AlertTriangle, Smartphone, Bell, MessageSquare, Sparkles } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import PushAlertsCard from "@/components/PushAlertsCard";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -562,6 +563,15 @@ export default function LiveHubPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* ── LIVE STREAM PUSH ALERTS CARD ── */}
+        <div className="site-container mt-12">
+          <PushAlertsCard
+            group="crew"
+            title="Crew Member Live Stream Push Alerts"
+            subtitle="Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
+          />
         </div>
 
         {/* ── SMS ALERTS BANNER ── */}
