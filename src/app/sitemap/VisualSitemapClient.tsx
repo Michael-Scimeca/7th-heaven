@@ -826,12 +826,12 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 380, y: 150 },
     data: {
-      header: "STEP 2 · PLANNER PIN VERIFICATION MODULE",
-      title: "2. Planner PIN Verification Module",
+      header: "STEP 2 · CRUISE PIN VERIFICATION MODULE",
+      title: "2. Cruise PIN Verification Module",
       path: "/cruise",
       imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
       badgeType: "MODULE",
-      description: "Fan enters 6-digit PIN into the Planner PIN Verification Module to reserve cabin on 2026 Cruise.",
+      description: "Submitting cabin registration opens the Cruise PIN Verification Module, asking for a 6-digit security PIN to reserve the cabin on the 2026 Cruise.",
     },
   },
   {
@@ -852,8 +852,21 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 150 },
     data: {
-      header: "STEP 4 · CABIN CONFIRMATION EMAIL",
-      title: "4. Official Cruise Confirmation",
+      header: "STEP 4 · CRUISE PIN VERIFICATION MODULE",
+      title: "4. Enter PIN into Module on Cruise Page",
+      path: "/cruise",
+      imgUrl: "/sitemap-screenshots/cruise-pin-verify-v2.png",
+      badgeType: "MODULE",
+      description: "Fan inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module on the cruise page to complete the reservation.",
+    },
+  },
+  {
+    id: "cf-step5",
+    type: "sitemapCard",
+    position: { x: 1520, y: 150 },
+    data: {
+      header: "STEP 5 · CABIN CONFIRMATION EMAIL",
+      title: "5. Official Cruise Confirmation",
       path: "/cruise",
       imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
       badgeType: "EMAIL",
@@ -866,6 +879,7 @@ const CRUISE_FLOW_EDGES: Edge[] = [
   { id: "cf-e1", source: "cf-step1", sourceHandle: "right", target: "cf-step2", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "cf-e2", source: "cf-step2", sourceHandle: "right", target: "cf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "cf-e3", source: "cf-step3", sourceHandle: "right", target: "cf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "cf-e4", source: "cf-step4", sourceHandle: "right", target: "cf-step5", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
 // --- VIEW 4: STEP-BY-STEP FAN SIGNUP FLOW ---
@@ -1001,7 +1015,7 @@ export default function VisualSitemapClient() {
                 : activeTab === "BOOKING"
                   ? "Step-by-step user journey: Form Fill ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
                   : activeTab === "CRUISE"
-                    ? "Step-by-step user journey: Cabin Request ➔ Planner PIN Verification Module ➔ Cruise PIN Email ➔ Cruise Confirmation Email"
+                    ? "Step-by-step user journey: Cabin Request ➔ Cruise PIN Verification Module ➔ Cruise PIN Email ➔ Enter PIN ➔ Cruise Confirmation Email"
                     : "Step-by-step user journey: Fan Signup ➔ Fan PIN Email ➔ Enter PIN ➔ Complete Profile ➔ Member Dashboard"}
             </p>
           </div>

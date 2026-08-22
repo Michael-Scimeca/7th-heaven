@@ -188,12 +188,12 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 const InputField = ({ label, labelRight, required, id, className = "", ...props }: { label: string; labelRight?: React.ReactNode; required?: boolean; id?: string; className?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
   const inputId = id || props.name || `book-input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
-    <div className={`flex flex-col justify-end h-full ${className}`}>
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">{label}{required && " *"}</label>
+    <div className={`flex flex-col justify-start w-full ${className}`}>
+      <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
+        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block leading-tight">{label}{required && " *"}</label>
         {labelRight}
       </div>
-      <div className="input-glow-border rounded-lg">
+      <div className="input-glow-border rounded-lg w-full">
         <input aria-label="Input field" id={inputId} {...props} required={required}
           className="w-full bg-white/5 border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
         />
@@ -269,10 +269,10 @@ function BookPageContent() {
   );
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+  const [formData, setFormData] = useState(() => ({
+    name: member?.name || "",
+    email: member?.email || "",
+    phone: member?.phone || "",
     organization: "",
     eventDate: "",
     eventStartTime: "",
@@ -297,7 +297,7 @@ function BookPageContent() {
     details: "",
     hearAbout: "",
     website: "", // Honeypot
-  });
+  }));
   const [hasParkingNotes, setHasParkingNotes] = useState(false);
   const [isLoadInUnsure, setIsLoadInUnsure] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
