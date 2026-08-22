@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle, ShoppingCart } from "lucide-react";
@@ -55,6 +56,7 @@ const DEMO_PRODUCTS: ShopifyProduct[] = [
 ];
 
 export default function HomeMerch() {
+  const router = useRouter();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -78,11 +80,9 @@ export default function HomeMerch() {
     loadInventory();
   }, [loadInventory]);
 
-  const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com';
-
-  const handleBuy = (product: ShopifyProduct) => {
-    window.open(`https://${domain}/products/${product.handle}`, '_blank', 'noopener,noreferrer');
-  };
+  const handleBuy = useCallback(() => {
+    router.push("/payment-test");
+  }, [router]);
 
   if (loading) {
     return (
@@ -140,7 +140,7 @@ export default function HomeMerch() {
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
             <span className="text-purple-300 text-xs font-black uppercase tracking-widest">Demo</span>
-            <p className="text-purple-200/50 text-xs">These are placeholder products. Connect Shopify and tag items "featured" or "sale" to replace them.</p>
+            <p className="text-purple-200/50 text-xs">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
@@ -194,7 +194,7 @@ export default function HomeMerch() {
                       <span className="text-[var(--font-size-2xs)] text-white/15 uppercase tracking-widest">Sold Out</span>
                     ) : (
                       <button aria-label="Action button"
-                        onClick={() => handleBuy(product)}
+                        onClick={() => handleBuy()}
                         className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
                       >
                         Buy →

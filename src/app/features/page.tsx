@@ -71,7 +71,7 @@ const FEATURES: FeatureCard[] = [
       "Countdown timer to the next upcoming show with venue name and ticket/RSVP CTA",
       "Embedded interactive Leaflet map showing all tour stops — fans see immediately where the band is headed",
       "Inline music player for the latest releases — plays without navigating away",
-      "Merch quick-shop powered by the Shopify Storefront API — add to cart without leaving the homepage",
+      "Merch quick-shop powered by Direct Merchant E-Commerce API — add to cart without leaving the homepage",
       "Fan photo wall preview grid showing the most recent approved submissions",
       "Behind-the-scenes video section with custom inline YouTube player",
       "Proximity notification system: fans near an upcoming venue see a push notification prompt",
@@ -80,9 +80,9 @@ const FEATURES: FeatureCard[] = [
       "On page load, a Supabase subscription listens for live_streams table changes in real time",
       "If any stream is detected, the LIVE banner component renders immediately — no refresh needed",
       "Sanity CMS provides tour dates, bio content, and site settings — any update in Sanity appears on the site within seconds",
-      "Shopify GraphQL queries hydrate the merch section with live product data and pricing",
+      "Direct merchant API queries hydrate the merch section with live product data and pricing",
     ],
-    tags: ["Live Detection", "Music Player", "Interactive Map", "Shopify", "Sanity CMS"],
+    tags: ["Live Detection", "Music Player", "Interactive Map", "Direct Store", "Sanity CMS"],
     demo: "/demos/homepage.webp",
     category: ["fan", "live"],
     highlight: true,
@@ -1131,7 +1131,7 @@ const TECH = [
   { name: "Next.js 15", desc: "React framework with App Router, SSR, ISR, and API routes — every page and API endpoint.", icon: "▲", color: "#ffffff" },
   { name: "Supabase", desc: "Auth, Postgres database, real-time subscriptions, Row-Level Security, and Storage.", icon: "⚡", color: "#3ecf8e" },
   { name: "LiveKit", desc: "WebRTC rooms, participant tracking, and token generation for crew broadcasts and fan viewing.", icon: "📡", color: "#818cf8" },
-  { name: "Shopify", desc: "Storefront API via GraphQL — products, cart mutations, and headless checkout.", icon: "🛒", color: "#96bf48" },
+  { name: "Direct Store Engine", desc: "Custom merchant storefront with direct gateway processing, real-time stock sync & per-variant control.", icon: "🛒", color: "#c084fc" },
   { name: "Twilio", desc: "All 10 SMS templates — outbound blasts, inbound webhooks, STOP/START compliance.", icon: "📱", color: "#f22f46" },
   { name: "Resend", desc: "All 12 transactional email templates — delivery, bounce handling, and test previews.", icon: "📧", color: "#60a5fa" },
   { name: "Sanity CMS", desc: "Tour dates, news, band bios, member profiles, site settings, and media library.", icon: "📝", color: "#f43f5e" },
@@ -1400,7 +1400,7 @@ export default function FeaturesPage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-            {["WebRTC Live Streaming", "Twilio SMS", "Shopify Headless Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "10 SMS Templates", "Sanity CMS"].map(p => (
+            {["WebRTC Live Streaming", "Twilio SMS", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "10 SMS Templates", "Sanity CMS"].map(p => (
               <span key={p} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
             ))}
           </div>

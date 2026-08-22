@@ -54,7 +54,7 @@ function slugify(text: string) {
 export default function ShopInventoryAdminPage() {
   const { member, isLoggedIn, openModal } = useMember();
   const devBypass = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => process.env.NODE_ENV === "development" && localStorage.getItem("7h_dev_bypass") === "true",
     () => false
   );
@@ -114,7 +114,7 @@ export default function ShopInventoryAdminPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24 flex items-center justify-center px-6">
+      <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12] rounded-3xl p-8 text-center">
           <h1 className="text-xl font-black uppercase text-white mb-2">Admin Access Required</h1>
           <p className="text-white/50 text-sm mb-6">
@@ -134,7 +134,7 @@ export default function ShopInventoryAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24">
+    <div className="min-h-screen  text-white pt-32 pb-24">
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/payment-test"
@@ -285,9 +285,8 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${
-              product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-white/40 border border-white/10"
-            }`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-white/40 border border-white/10"
+              }`}
           >
             {product.active ? "Active" : "Inactive"}
           </button>
