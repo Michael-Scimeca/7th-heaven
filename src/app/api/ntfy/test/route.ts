@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const result = await publishToGroup(group as NtfyGroup, {
       title: cleanTitle,
       message: cleanMessage,
-      priority: "high",
+      priority: "max",
       tags: ["bell", "rocket", "guitar"],
     });
 
