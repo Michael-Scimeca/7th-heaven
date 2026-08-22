@@ -456,7 +456,7 @@ export default function NotificationsPage() {
               required
               value={testTitle}
               onChange={(e) => setTestTitle(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-bold text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-bold text-white outline-none focus:border-purple-500 transition-colors relative z-20 pointer-events-auto touch-manipulation select-text cursor-text"
             />
           </div>
 
@@ -469,7 +469,7 @@ export default function NotificationsPage() {
               rows={2}
               value={testMessage}
               onChange={(e) => setTestMessage(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-purple-500 transition-colors relative z-20 pointer-events-auto touch-manipulation select-text cursor-text"
             />
           </div>
 
@@ -550,7 +550,7 @@ export default function NotificationsPage() {
               placeholder="(630) 555-0199, (312) 555-0188, +17085550144"
               value={smsRecipientsList}
               onChange={(e) => setSmsRecipientsList(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors"
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-mono text-pink-200 outline-none focus:border-pink-500 transition-colors relative z-20 pointer-events-auto touch-manipulation select-text cursor-text"
             />
           </div>
 
@@ -563,7 +563,7 @@ export default function NotificationsPage() {
               rows={2}
               value={smsTextBody}
               onChange={(e) => setSmsTextBody(e.target.value)}
-              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors"
+              className="w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-sm font-medium text-white outline-none focus:border-pink-500 transition-colors relative z-20 pointer-events-auto touch-manipulation select-text cursor-text"
             />
           </div>
 
