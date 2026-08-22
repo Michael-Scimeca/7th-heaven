@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import PushSubscribeModal from "@/components/PushSubscribeModal";
 
 type Group = "fans" | "crew" | "cruise";
 
