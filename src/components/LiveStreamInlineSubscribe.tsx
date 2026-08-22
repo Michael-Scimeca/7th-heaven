@@ -238,6 +238,7 @@ export default function LiveStreamInlineSubscribe({
               Scan this QR code with your phone camera or visit <strong className="text-purple-400 font-mono">ntfy.sh/7thheaven_crew</strong> in the free ntfy mobile app to receive instant lock screen notifications whenever a 7th Heaven member goes live!
             </p>
             <div className="mx-auto w-48 h-48 bg-white p-3 rounded-xl shadow-inner mb-6 flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(topicUrl)}`}
                 alt="Push Alert QR Code"
