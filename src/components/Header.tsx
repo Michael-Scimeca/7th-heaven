@@ -19,6 +19,7 @@ const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
+  { href: "/sitemap", label: "SITEMAP" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -829,11 +830,11 @@ export function Header() {
                       { href: "/merch", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
+                      { href: "/sitemap", label: "SITEMAP" },
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },
                       { href: "/contact", label: "CONTACT" },
-                      { href: "/payment-test", label: "TEST SHOP" },
                     ].map((link, i) => (
                       <TransitionLink
                         key={link.href}
