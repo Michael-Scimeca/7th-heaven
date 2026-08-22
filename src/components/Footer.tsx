@@ -109,59 +109,7 @@ export function Footer() {
     loadSettings();
   }, [loadSettings]);
 
-  // Scroll-driven reveal via mask-image (not opacity).
-  // Tracks content-area's bottom edge so the mask opens exactly when page
-  // content lifts off the footer — 1:1 pixel-perfect sync.
-  const [revealPct, setRevealPct] = useState(0); // 0 = hidden, 1 = fully visible
 
-  useEffect(() => {
-    let ticking = false;
-    let cachedFooterHeight = 420;
-    const footerEl = document.getElementById('footer');
-    const contentArea = document.querySelector<HTMLElement>('#page-content-wrapper > .content-area');
-
-    const updateFooterHeight = () => {
-      if (footerEl) {
-        cachedFooterHeight = footerEl.offsetHeight || 420;
-        document.documentElement.style.setProperty('--footer-reveal-height', `${cachedFooterHeight}px`);
-      }
-    };
-
-    updateFooterHeight();
-
-    const updateReveal = () => {
-      // Fast path: skip DOM layout reads if scroll position is far above footer reveal zone
-      const winH = window.innerHeight;
-      const scrollY = window.scrollY || window.pageYOffset;
-      const docH = document.documentElement.scrollHeight;
-      if (docH - (scrollY + winH) > cachedFooterHeight * 2.5) {
-        setRevealPct((prev) => (prev !== 0 ? 0 : prev));
-        return;
-      }
-
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
-        const pct = Math.max(0, Math.min(1, (winH - contentBottom) / cachedFooterHeight));
-        setRevealPct((prev) => (Math.abs(prev - pct) > 0.001 ? pct : prev));
-      });
-    };
-
-    const lenis = (window as any).__lenis;
-    if (lenis) lenis.on('scroll', updateReveal);
-    window.addEventListener('scroll', updateReveal, { passive: true });
-    window.addEventListener('resize', updateFooterHeight, { passive: true });
-    updateReveal();
-
-    return () => {
-      const l = (window as any).__lenis;
-      if (l) l.off('scroll', updateReveal);
-      window.removeEventListener('scroll', updateReveal);
-      window.removeEventListener('resize', updateFooterHeight);
-    };
-  }, []);
 
   // Hide footer when the overlay is at full coverage (isCovered=true).
   // This is driven by the overlay animation event — not the route change —
@@ -170,41 +118,17 @@ export function Footer() {
 
   return (
     <footer
-      className="relative text-[var(--text-color)] pt-8 pb-6 overflow-hidden"
+      className={`relative text-[var(--text-color)] pt-12 pb-8 overflow-hidden border-t border-white/10 bg-[#090312]/95 backdrop-blur-2xl ${
+        isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+      }`}
       id="footer"
       suppressHydrationWarning
-      style={(() => {
-        // Mask opens bottom-to-top: as page content lifts off the footer, the
-        // BOTTOM portion of the footer is uncovered first (content edge moves up).
-        // revealPct=0 → fully clipped; revealPct=1 → fully visible.
-        const p = revealPct * 100;             // 0–100
-        const visibleStart = 100 - p;          // top of the visible portion (%)
-        const fadeZone = 12;                   // gradient fade width (% of footer)
-        const fadeStart = Math.min(100, visibleStart + fadeZone); // where solid begins
-
-        const mask = p <= 0
-          ? 'linear-gradient(to bottom, transparent 0%, transparent 100%)'   // all hidden
-          : p >= 100
-            ? 'linear-gradient(to bottom, black 0%, black 100%)'             // all visible
-            : `linear-gradient(to bottom, transparent 0%, transparent ${visibleStart.toFixed(1)}%, black ${fadeStart.toFixed(1)}%, black 100%)`;
-
-        const isHidden = isCovered || revealPct < 0.02;
-        return {
-          opacity: isHidden ? 0 : Math.min(1, revealPct * 4),
-          visibility: isHidden ? ("hidden" as const) : ("visible" as const),
-          pointerEvents: isHidden ? ("none" as const) : ("auto" as const),
-          display: isHidden ? ("none" as const) : ("block" as const),
-          zIndex: isHidden ? -1 : 1,
-          maskImage: mask,
-          WebkitMaskImage: mask,
-        };
-      })()}
     >
       <FooterPicks />
 
-      <div className="relative z-10">
+      <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}
-        <div id="push-alerts-footer" className="site-container pt-0 pb-6">
+        <div id="push-alerts-footer" className="py-6">
           <FooterProximityAlerts />
         </div>
 

@@ -83,7 +83,7 @@ export default function Home() {
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
       <LazySection fallbackHeight="500px">
-        <section id="music" className="relative w-full min-h-[600px] mt-0 overflow-visible">
+        <section id="music" className="relative w-full min-h-[600px] mt-0 mb-16 overflow-visible">
           <AudioPlayerSection />
         </section>
       </LazySection>
