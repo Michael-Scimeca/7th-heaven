@@ -258,6 +258,16 @@ export default function NotificationsPage() {
       if (!res.ok) {
         throw new Error(data.error || "Failed to dispatch notification broadcast");
       }
+
+      setLiveToast({ title: "🎸 7th Heaven Alert", message: smsTextBody });
+
+      if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
+        new Notification("🎸 7th Heaven Alert", {
+          body: smsTextBody,
+          icon: "/favicon.ico",
+        });
+      }
+
       setSmsStatus({
         ok: true,
         msg: `🚀 FREE Notification Broadcast Dispatched! Check your screen/device now.`,
@@ -533,7 +543,7 @@ export default function NotificationsPage() {
             <button
               type="button"
               onClick={requestNotificationPermission}
-              className="shrink-0 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-wider shadow-md transition-colors cursor-pointer"
+              className="shrink-0 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-wider shadow-md transition-colors relative z-20 pointer-events-auto touch-manipulation cursor-pointer active:scale-95"
             >
               Enable Browser Alerts
             </button>
@@ -582,7 +592,7 @@ export default function NotificationsPage() {
           <button
             type="submit"
             disabled={smsSending}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all cursor-pointer disabled:opacity-50"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-3 text-xs font-black uppercase tracking-wider text-white hover:brightness-110 shadow-lg transition-all relative z-20 pointer-events-auto touch-manipulation cursor-pointer active:scale-95 disabled:opacity-50"
           >
             {smsSending ? "Sending Alert..." : "💬 SEND FREE ALERT NOW"}
           </button>
