@@ -197,7 +197,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
         <Logo
           className="preloader-logo preloader-logo-fill"
           style={{
-            clipPath: `inset(${Math.max(0, 100 - fillPercent).toFixed(2)}% 0 0 0)`,
+            clipPath: `polygon(-10% ${(92 - fillPercent * 1.07).toFixed(2)}%, 110% ${(108 - fillPercent * 1.07).toFixed(2)}%, 110% 130%, -10% 130%)`,
             animation: "none",
           }}
         />
