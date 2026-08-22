@@ -514,16 +514,16 @@ function SingleStickyCard({
     >
       {/* Note Header */}
       <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 select-none">
-        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
-          <Move className="w-3.5 h-3.5 text-amber-400" />
-          <span className="font-mono text-[10px] uppercase tracking-wider text-amber-300">
+        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400 min-w-0 shrink">
+          <Move className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <span className="font-mono text-[10px] uppercase tracking-wider text-amber-300 truncate">
             Sticky Note #{note.id.slice(-4)}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 shrink-0">
           <span
-            className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
+            className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${
               note.status === "submitted"
                 ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                 : "bg-amber-500/20 text-amber-300 border border-amber-500/40"
