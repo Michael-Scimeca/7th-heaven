@@ -130,7 +130,7 @@ export default function HomeDataLoader() {
       </section>
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-x-clip pt-12 sm:pt-20 pb-8 mt-12 sm:mt-20 mb-16 sm:mb-24">
+      <section id="band" className="relative w-full bg-transparent overflow-x-clip pt-28 sm:pt-44 pb-8 mt-16 sm:mt-24 mb-16 sm:mb-24">
         <BioParallaxSlider />
       </section>
 

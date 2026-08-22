@@ -777,12 +777,12 @@ lerpSpeed: ${lerpSpeed}`;
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{ touchAction: "pan-y" }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-2 pb-0"
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-24 sm:pt-36 pb-0"
         >
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
             ref={trackRef}
-            className="flex items-end pt-2 pb-0"
+            className="flex items-end pt-24 sm:pt-36 pb-0"
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
