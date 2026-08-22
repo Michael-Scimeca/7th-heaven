@@ -73,7 +73,7 @@ export default function FooterProximityAlerts() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-gradient-to-b from-[#1c0b2d]/95 via-[#130722]/95 to-[#0a0414]/98 p-6 sm:p-8 rounded-3xl border border-purple-500/30 shadow-2xl backdrop-blur-xl relative overflow-hidden z-20">
+    <div className="max-w-3xl mx-auto py-4 relative overflow-hidden z-20">
       {/* Background glow accent */}
       <div className="absolute -top-24 -right-24 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
