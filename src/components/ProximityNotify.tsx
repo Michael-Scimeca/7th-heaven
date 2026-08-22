@@ -9,9 +9,29 @@ import Image from 'next/image';
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
-import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import { GlowInput } from "@/components/GlowInput";
+import { User, Mail, MapPin, Sliders, Music, Check } from "lucide-react";
+
+const RADIUS_OPTIONS = [
+  { value: "15", label: "15 Mi" },
+  { value: "30", label: "30 Mi" },
+  { value: "50", label: "50 Mi" },
+  { value: "100", label: "100 Mi" },
+  { value: "all", label: "All" },
+];
+
+const SHOW_TYPES = [
+  { id: "all", label: "All Shows", icon: "🎸" },
+  { id: "full", label: "Full Band", icon: "🟣" },
+  { id: "unplugged", label: "Unplugged", icon: "🟣" },
+  { id: "outdoor", label: "Outdoor", icon: "🟢" },
+  { id: "casino", label: "Casino", icon: "🟡" },
+  { id: "tv", label: "TV", icon: "🔵" },
+  { id: "fundraiser", label: "Fundraiser", icon: "🔴" },
+  { id: "special", label: "Special", icon: "💗" },
+];
 
 interface ProximityNotifyProps {
   nextShow?: {
@@ -34,10 +54,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
   const isAllAges = nextShow
     ? (nextShow.allAges === true || showInfo.toLowerCase().includes("all age") || showInfo.toLowerCase().includes("all-age"))
-    : false; // default to 21+ for Station 34
+    : false;
   const is21Plus = nextShow
     ? (nextShow.allAges === false || showInfo.toLowerCase().includes("21 &") || showInfo.toLowerCase().includes("21+"))
-    : true; // default to 21+ for Station 34
+    : true;
 
   const ageLabel = isAllAges ? "All Ages" : "21+";
 
@@ -49,7 +69,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [zip, setZip] = useState("");
   const [radius, setRadius] = useState("50");
   const [profilePic, setProfilePic] = useState<string | null>(null);
@@ -61,9 +80,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const [notifyAreaShows, setNotifyAreaShows] = useState(true);
   const [notifyNextShow, setNotifyNextShow] = useState(true);
   const [notifyBrowser, setNotifyBrowser] = useState(false);
-  const [selectedShowTypes, setSelectedShowTypes] = useState<string[]>([
-    "full", "unplugged", "outdoor", "casino", "tv", "special"
-  ]);
+  const [selectedShowTypes, setSelectedShowTypes] = useState<string[]>(["all"]);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleBrowserNotifyToggle = (checked: boolean) => {
@@ -107,7 +124,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     const validation = signupSchema.safeParse({
       name,
       email,
-      phone,
       zip,
       radius,
       notifyAreaShows,
@@ -127,7 +143,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         body: JSON.stringify({
           name,
           email,
-          phone,
           zip,
           radius,
           notifyAreaShows,
@@ -138,7 +153,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
       if (res.ok) {
         setStatus("success");
-        setName(""); setEmail(""); setPhone(""); setZip(""); setProfilePic(null);
+        setName(""); setEmail(""); setZip(""); setProfilePic(null);
         if (notifyBrowser && typeof window !== "undefined" && "Notification" in window) {
           if (Notification.permission === "granted") {
             new Notification("7th Heaven Alerts", {
@@ -339,73 +354,105 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                   </div>
 
-                  {/* Input Fields */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div className="input-glow-border rounded-xl">
-                      <input
+                  {/* Input Fields (Matching Footer Setup) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-1 flex items-center gap-1">
+                        <User className="w-3 h-3 text-purple-400" /> Full Name
+                      </label>
+                      <GlowInput
                         type="text"
-                        aria-label="Full name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        required
                         placeholder="Full name"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
+                        wrapperClassName="w-full"
                       />
                     </div>
-                    <div className="input-glow-border rounded-xl">
-                      <input
+                    <div>
+                      <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-1 flex items-center gap-1">
+                        <Mail className="w-3 h-3 text-purple-400" /> Email address
+                      </label>
+                      <GlowInput
                         type="email"
-                        aria-label="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                         placeholder="Email address"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
+                        wrapperClassName="w-full"
                       />
                     </div>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        type="tel"
-                        aria-label="Phone number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
-                        placeholder="Phone number"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
-                      />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="input-glow-border rounded-xl flex-1 min-w-0">
-                        <input
+                    <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                      <div className="w-full sm:w-[220px]">
+                        <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-1 flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-pink-400" /> Zip Code / City
+                        </label>
+                        <GlowInput
                           type="text"
-                          aria-label="Zip code"
                           value={zip}
-                          onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
-                          required
-                          placeholder="Zip code"
-                          maxLength={5}
-                          pattern="\d{5}"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
+                          onChange={(e) => setZip(e.target.value)}
+                          placeholder="e.g. 60056"
+                          wrapperClassName="w-full"
                         />
                       </div>
-                      <div className="shrink-0 flex items-center">
-                        <GooeyMessagesDropdown
-                          placeholder={`${radius} mi`}
-                          defaultSelectedId={String(radius)}
-                          customers={[
-                            { id: "25", name: "25 mi" },
-                            { id: "50", name: "50 mi" },
-                            { id: "100", name: "100 mi" },
-                            { id: "200", name: "200 mi" },
-                          ]}
-                          onSelect={(opt) => setRadius(opt.id)}
-                        />
+                      <div className="w-full flex-1">
+                        <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-1 flex items-center gap-1">
+                          <Sliders className="w-3 h-3 text-purple-400" /> Distance Radius
+                        </label>
+                        <div className="flex flex-wrap gap-1 items-center">
+                          {RADIUS_OPTIONS.map((opt) => {
+                            const active = radius === opt.value;
+                            return (
+                              <button
+                                key={opt.value}
+                                type="button"
+                                onClick={() => setRadius(opt.value)}
+                                className={`h-[42px] px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${active
+                                  ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-pink-400 shadow-md scale-105"
+                                  : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                                  }`}
+                              >
+                                {opt.label}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Show Type Preferences */}
+                  <div className="pt-2 border-t border-white/10 space-y-1.5">
+                    <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 flex items-center gap-1">
+                      <Music className="w-3 h-3 text-cyan-400" /> Notification Types
+                    </label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {SHOW_TYPES.map((type) => {
+                        const isSelected = selectedShowTypes.includes(type.id);
+                        return (
+                          <button
+                            key={type.id}
+                            type="button"
+                            onClick={() => {
+                              if (type.id === "all") { setSelectedShowTypes(["all"]); return; }
+                              let next = selectedShowTypes.filter((t) => t !== "all");
+                              next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
+                              setSelectedShowTypes(next.length === 0 ? ["all"] : next);
+                            }}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${isSelected
+                              ? "bg-purple-600/80 text-white border-purple-400 shadow-md scale-105"
+                              : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                              }`}
+                          >
+                            <span>{type.icon}</span>
+                            <span>{type.label}</span>
+                            {isSelected && <Check className="w-3 h-3 text-pink-300 ml-0.5" />}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
                   {/* Checkbox Preferences */}
                   <div className="pt-2 border-t border-white/10 space-y-2">
-                    <p className="text-[11px] uppercase tracking-wider text-white/50 font-bold">Notification Preferences</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <label className="flex items-center gap-2 cursor-pointer transition-colors">
                         <SquishyToggle
@@ -416,7 +463,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         />
                         <div className="flex flex-col justify-center leading-none">
                           <p className="text-xs font-bold text-white/90 leading-none">Area Shows</p>
-                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Within {radius}mi</p>
+                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Within {radius === "all" ? "All" : `${radius}mi`}</p>
                         </div>
                       </label>
 
@@ -459,7 +506,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           onChange={setAgreeNotify}
                         />
                       </div>
-                      <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; SMS alerts for nearby shows.</span>
+                      <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; show alerts.</span>
                     </div>
 
                     <div
@@ -480,12 +527,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                   </div>
 
-                  {/* Submit Button (Cosmic Morphing Radial Gradient Component) */}
+                  {/* Submit Button */}
                   <CosmicRadialButton
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeNotify || !agreeTerms}
-                    className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl"
+                    className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl cursor-pointer hover:scale-[1.02] transition-all disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>

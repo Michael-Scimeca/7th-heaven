@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Bell, MapPin, Check, Sliders, Music, Mail } from "lucide-react";
+import { Bell, MapPin, Check, Sliders, Music, Mail, User } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { GlowInput } from "@/components/GlowInput";
 
@@ -40,6 +40,7 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 }
 
 export default function FooterProximityAlerts() {
+  const [name, setName] = useState("");
   const [zip, setZip] = useState("");
   const [email, setEmail] = useState("");
   const [radius, setRadius] = useState("50");
@@ -62,6 +63,7 @@ export default function FooterProximityAlerts() {
       const saved = localStorage.getItem("7h_alert_prefs");
       if (saved) {
         const prefs = JSON.parse(saved);
+        if (prefs.name) setName(prefs.name);
         if (prefs.zip) setZip(prefs.zip);
         if (prefs.email) setEmail(prefs.email);
         if (prefs.radius) setRadius(prefs.radius);
@@ -106,7 +108,7 @@ export default function FooterProximityAlerts() {
   /** Save prefs locally and POST the subscription to the server */
   async function persistSubscription(pushSub: PushSubscription) {
     // Save locally
-    localStorage.setItem("7h_alert_prefs", JSON.stringify({ zip, email, radius, selectedTypes }));
+    localStorage.setItem("7h_alert_prefs", JSON.stringify({ name, zip, email, radius, selectedTypes }));
 
     // Convert PushSubscription to plain object
     const subJson = pushSub.toJSON();
@@ -119,6 +121,7 @@ export default function FooterProximityAlerts() {
           endpoint: subJson.endpoint,
           keys: { p256dh: subJson.keys?.p256dh, auth: subJson.keys?.auth },
         },
+        name: name.trim() || undefined,
         email: email.trim() || undefined,
         zip: zip.trim() || undefined,
         radius,
@@ -222,8 +225,22 @@ export default function FooterProximityAlerts() {
         </div>
       )}
 
-      {/* Line 1: Zip Code, Email, & Distance Radius */}
+      {/* Line 1: Full Name, Zip Code, Email, & Distance Radius */}
       <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
+        {/* Full Name Input */}
+        <div className="shrink-0 w-full sm:w-[300px]">
+          <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
+            <User className="w-3.5 h-3.5 text-purple-400" /> Full Name <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+          </label>
+          <GlowInput
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. John Doe"
+            wrapperClassName="w-full sm:w-[300px]"
+          />
+        </div>
+
         {/* Zip Code Input */}
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
