@@ -478,7 +478,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       title: "Name & Email Push Alert Modal",
       path: "/live/michael",
       imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
-      badgeType: "SECURITY",
+      badgeType: "MODULE",
       description: "Collects fan Full Name & Email Address, requests browser Web Push permission, and registers live stream alert subscriber.",
     },
   },
