@@ -11,6 +11,8 @@ export interface ClientNote {
   author_role?: string;
   x_offset_pct: number;
   y_offset_pct: number;
+  custom_x?: number;
+  custom_y?: number;
   status: "draft" | "submitted" | "resolved";
   created_at: string;
   updated_at: string;
@@ -73,6 +75,8 @@ export async function POST(req: NextRequest) {
       author_role: body.author_role || "client",
       x_offset_pct: body.x_offset_pct ?? 50,
       y_offset_pct: body.y_offset_pct ?? 50,
+      custom_x: body.custom_x,
+      custom_y: body.custom_y,
       status: body.status || "submitted",
       created_at: body.created_at || now,
       updated_at: now,
