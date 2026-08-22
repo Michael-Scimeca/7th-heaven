@@ -511,7 +511,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 1140, y: 2060 },
+    position: { x: 2280, y: 700 },
     data: {
       header: "CREW BROADCAST HUB",
       title: "Crew Member Broadcast & Control Hub",
@@ -715,11 +715,11 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-filled-module-to-fan-dashboard", source: "node-fan-verify-pin-filled", target: "node-fan-dashboard-unlocked", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
+  { id: "e-live-crew", source: "nav-live", target: "node-crew", type: "smoothstep" },
   { id: "flow-live-to-michael", source: "nav-live", target: "node-live-michael", type: "smoothstep", animated: true },
   { id: "flow-michael-to-modal", source: "node-live-michael", target: "node-live-push-modal", type: "smoothstep", animated: true },
   { id: "flow-modal-to-subscribed-email", source: "node-live-push-modal", target: "email-live-subscribed", type: "smoothstep", animated: true },
   { id: "flow-subscribed-to-unsubscribed-email", source: "email-live-subscribed", target: "email-live-unsubscribed", type: "smoothstep", animated: true },
-  { id: "flow-unsubscribed-to-crew", source: "email-live-unsubscribed", target: "node-crew", type: "smoothstep", animated: true },
   // CRUISE VERTICAL FLOW: CRUISE 2026 -> SIGNUP -> PIN MODULE -> PIN EMAIL -> PIN FILLED -> CRUISE DASHBOARD
   { id: "flow-cruise-to-pin-module", source: "nav-cruise", target: "node-cruise-pin-module", type: "smoothstep", animated: true },
   { id: "flow-cruise-pin-to-email", source: "node-cruise-pin-module", target: "email-cruise-pin-email", type: "smoothstep", animated: true },

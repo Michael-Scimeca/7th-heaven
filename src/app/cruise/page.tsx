@@ -201,22 +201,30 @@ export default function CruisePage() {
     return () => window.removeEventListener('hero-mask-update', handleUpdate);
   }, []);
 
-  // Pause hero video when scrolled out of view
+  // Pause hero video only when scrolled far out of view
   useEffect(() => {
     const videoEl = heroVideoRef.current;
     if (!videoEl) return;
+
+    // Ensure video is playing on mount
+    videoEl.play().catch(() => { });
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            videoEl.play().catch(() => { });
+            if (videoEl.paused) {
+              videoEl.play().catch(() => { });
+            }
           } else {
-            videoEl.pause();
+            // Only pause if scrolled down past the hero header to prevent initial page-load flicker
+            if (typeof window !== 'undefined' && window.scrollY > 150 && !videoEl.paused) {
+              videoEl.pause();
+            }
           }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.01 }
     );
 
     observer.observe(videoEl);
@@ -702,6 +710,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             muted
             loop
             playsInline
+            preload="auto"
             className="w-full h-full object-cover scale-[1.3]"
             style={{
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
