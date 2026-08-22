@@ -8,6 +8,7 @@ import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, Scrol
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
+import LiveStreamInlineSubscribe from "@/components/LiveStreamInlineSubscribe";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -271,24 +272,9 @@ export default function LiveHubPage() {
             </p>
           </div>
 
-          {/* Fan Sign Up Callout Bar (Positioned on Right Side) */}
+          {/* Inline Live Stream Alert & Fan Subscription Form (2 Inputs + Legal Checkbox) */}
           <div className="shrink-0 flex justify-start md:justify-end">
-            <div className="inline-flex items-center gap-4   py-2.5 rounded-2xl max-w-md text-left">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
-                <MessageSquare className="w-4 h-4" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs font-black uppercase tracking-wider text-white">Join the Live Chat</span>
-                <span className="text-[11px] text-purple-200/70 font-medium">Sign up as a fan to chat with 7th Heaven live</span>
-              </div>
-              <CosmicRadialButton
-                icon={false}
-                onClick={() => setShowSubscribeModal(true)}
-                className="ml-auto px-4 py-2 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
-              >
-                Sign Up
-              </CosmicRadialButton>
-            </div>
+            <LiveStreamInlineSubscribe />
           </div>
         </div>
 
