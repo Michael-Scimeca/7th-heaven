@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import ProximityNotify from "@/components/ProximityNotify";
+import ProximitySubscriberAdminPanel from "@/components/admin/ProximitySubscriberAdminPanel";
 
 type Group = "fans" | "crew" | "cruise";
 
@@ -518,6 +519,10 @@ export default function NotificationsPage() {
           publishes a message to a private channel name and anyone subscribed to that
           exact name gets it, with no accounts, ads, or per-message cost on either end.
         </p>
+      </div>
+      {/* 🛡️ ADMIN CONTROL PANEL: PROXIMITY & PUSH SUBSCRIBERS */}
+      <div className="max-w-3xl mx-auto mt-12">
+        <ProximitySubscriberAdminPanel />
       </div>
     </section>
   );
