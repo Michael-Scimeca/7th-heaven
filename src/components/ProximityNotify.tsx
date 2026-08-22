@@ -72,7 +72,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const [zip, setZip] = useState("");
   const [radius, setRadius] = useState("50");
   const [profilePic, setProfilePic] = useState<string | null>(null);
-  const [agreeNotify, setAgreeNotify] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -118,7 +117,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     setFieldErrors({});
     setErrorMsg("");
 
-    if (!agreeTerms || !agreeNotify) return;
+    if (!agreeTerms) return;
 
     // Client-side validation with Zod
     const validation = signupSchema.safeParse({
@@ -265,45 +264,45 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
             </div>
 
             {/* Metrics Counter Display (2 Clean Vertical Columns) */}
-            <div className="flex flex-row gap-12 sm:gap-20 py-2 w-full">
+            <div className="flex flex-row gap-8 sm:gap-12 py-1 w-full">
               {/* Left Column */}
-              <div className="flex flex-col space-y-6 min-w-[140px]">
+              <div className="flex flex-col space-y-3 min-w-[110px]">
                 <div>
-                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Countries
                   </p>
-                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                  <p className="text-xl sm:text-2xl font-black text-amber-200 tracking-tight">
                     7
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Impressions
                   </p>
-                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                    2.100.000
+                  <p className="text-xl sm:text-2xl font-black text-amber-200 tracking-tight">
+                    2,100,000
                   </p>
                 </div>
               </div>
 
               {/* Right Column */}
-              <div className="flex flex-col space-y-6">
+              <div className="flex flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Followers &amp; Fans
                   </p>
-                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                    +18.000
+                  <p className="text-xl sm:text-2xl font-black text-amber-200 tracking-tight">
+                    +18,000
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Live Engagements
                   </p>
-                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                    160.000
+                  <p className="text-xl sm:text-2xl font-black text-amber-200 tracking-tight">
+                    160,000
                   </p>
                 </div>
               </div>
@@ -324,36 +323,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="bg-transparent p-0 space-y-4">
-                  {/* Profile Picture Upload */}
-                  <div className="flex items-center gap-4 pb-3 border-b border-white/10">
-                    <button
-                      type="button"
-                      onClick={() => fileRef.current?.click()}
-                      className={`relative w-14 h-14 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-all duration-200 overflow-hidden group ${profilePic
-                        ? 'border-2 border-purple-400'
-                        : name.trim()
-                          ? 'bg-gradient-to-br from-purple-600 to-indigo-600 border-2 border-white/20'
-                          : 'bg-white/10 border-2 border-dashed border-white/20 hover:border-purple-400 hover:bg-white/15'
-                        }`}
-                    >
-                      {profilePic ? (
-                        <Image width={200} height={200} unoptimized src={profilePic} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
-                      ) : name.trim() ? (
-                        <span className="text-xl font-bold text-white leading-none">{name.trim()[0].toUpperCase()}</span>
-                      ) : (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </svg>
-                      )}
-                    </button>
-                    <input ref={fileRef} type="file" accept="image/*" onChange={handleProfilePic} className="hidden" />
-                    <div>
-                      <p className="text-sm font-semibold text-white/90">{profilePic ? 'Change Photo' : 'Add a Profile Photo'}</p>
-                      <p className="text-xs text-white/40">Visible to other members at shows</p>
-                    </div>
-                  </div>
-
                   {/* Input Fields (Matching Footer Setup) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -453,18 +422,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                   {/* Agreements */}
                   <div className="pt-2 space-y-2">
-                    <div className="flex items-start gap-2.5 cursor-pointer text-left w-full" onClick={() => setAgreeNotify(!agreeNotify)}>
-                      <div className="shrink-0 mt-0.5">
-                        <SquishyToggle
-                          id="agree-notify"
-                          label="Enable proximity notifications & SMS alerts"
-                          checked={agreeNotify}
-                          onChange={setAgreeNotify}
-                        />
-                      </div>
-                      <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; show alerts.</span>
-                    </div>
-
                     <div
                       className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
                       onClick={() => setAgreeTerms(!agreeTerms)}
@@ -487,7 +444,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <CosmicRadialButton
                     type="submit"
                     icon={false}
-                    disabled={status === "loading" || !agreeNotify || !agreeTerms}
+                    disabled={status === "loading" || !agreeTerms}
                     className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl cursor-pointer hover:scale-[1.02] transition-all disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
