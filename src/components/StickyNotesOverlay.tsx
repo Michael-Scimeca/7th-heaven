@@ -35,64 +35,9 @@ export interface ClientNoteItem {
   updated_at: string;
 }
 
-// Generate unique CSS selector for any hovered DOM element
-function getUniqueSelector(el: HTMLElement): { selector: string; tag: string } {
-  if (el.id) {
-    return { selector: `#${el.id}`, tag: el.tagName };
-  }
-  const dataTest = el.getAttribute("data-testid") || el.getAttribute("data-section");
-  if (dataTest) {
-    return { selector: `[data-testid="${dataTest}"]`, tag: el.tagName };
-  }
-
-  const parts: string[] = [];
-  let curr: HTMLElement | null = el;
-
-  while (curr && curr !== document.body && curr !== document.documentElement) {
-    if (curr.id) {
-      parts.unshift(`#${curr.id}`);
-      break;
-    }
-    let tag = curr.tagName.toLowerCase();
-    const parent: HTMLElement | null = curr.parentElement;
-    if (parent) {
-      const siblings = Array.from(parent.children).filter((c) => c.tagName === curr!.tagName);
-      if (siblings.length > 1) {
-        const index = siblings.indexOf(curr) + 1;
-        tag += `:nth-of-type(${index})`;
-      }
-    }
-    parts.unshift(tag);
-    curr = parent;
-  }
-
-  const selector = parts.length > 0 ? parts.join(" > ") : el.tagName.toLowerCase();
-  return { selector, tag: el.tagName };
-}
-
-// Safely query DOM elements without throwing on complex selector syntax
-function safeQuerySelector(selector: string): HTMLElement | null {
-  if (!selector || selector === "body") return null;
-  try {
-    const found = document.querySelector(selector);
-    if (found) return found as HTMLElement;
-  } catch {
-    if (selector.startsWith("#")) {
-      const idPart = selector.substring(1).split(" ")[0].split(">")[0];
-      const byId = document.getElementById(idPart);
-      if (byId) return byId;
-    }
-  }
-  return null;
-}
-
 export default function StickyNotesOverlay() {
   const pathname = usePathname();
   const [notes, setNotes] = useState<ClientNoteItem[]>([]);
-  const [isAddingMode, setIsAddingMode] = useState<boolean>(false);
-  const [hoveredEl, setHoveredEl] = useState<HTMLElement | null>(null);
-  const [hoverBox, setHoverBox] = useState<{ top: number; left: number; width: number; height: number; tag: string } | null>(null);
-  const [dragHoverBox, setDragHoverBox] = useState<{ top: number; left: number; width: number; height: number; tag: string } | null>(null);
   const [visible, setVisible] = useState<boolean>(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState<"all" | "open" | "resolved">("open");
@@ -106,7 +51,6 @@ export default function StickyNotesOverlay() {
         const data = await res.json();
         if (data.notes && data.notes.length > 0) {
           setNotes((prev) => {
-            // Keep local unsubmitted drafts while merging fetched notes
             const map = new Map<string, ClientNoteItem>();
             prev.forEach((n) => map.set(n.id, n));
             data.notes.forEach((n: ClientNoteItem) => map.set(n.id, n));
@@ -122,7 +66,6 @@ export default function StickyNotesOverlay() {
   useEffect(() => {
     fetchNotes();
 
-    // Supabase Realtime channel subscription
     try {
       const supabase = createClient();
       const channel = supabase
@@ -154,49 +97,28 @@ export default function StickyNotesOverlay() {
     }
   };
 
-  // Instant Add Sticky Note right in front of user in current viewport
+  // Create a new sticky note directly in viewport center
   const handleAddInstantNote = () => {
+    const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
+    const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
     const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
-    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
 
-    // Direct visible screen placement center-left (Viewport Fixed Coordinates)
-    const initialX = Math.round(Math.max(30, viewportWidth / 2 - 144));
-    const initialY = 180;
-
-    let elementSelector = "body";
-    let elementTag = "BODY";
-    let xPct = 50;
-    let yPct = 30;
-
-    // Detect center DOM element if possible
-    if (typeof document !== "undefined") {
-      const pointEl = document.elementFromPoint(viewportWidth / 2, viewportHeight / 3) as HTMLElement | null;
-      if (pointEl && !pointEl.closest("#sticky-notes-root") && !pointEl.closest(".sticky-note-card")) {
-        const { selector, tag } = getUniqueSelector(pointEl);
-        const rect = pointEl.getBoundingClientRect();
-        elementSelector = selector;
-        elementTag = tag;
-        const relX = viewportWidth / 2 - rect.left;
-        const relY = viewportHeight / 3 - rect.top;
-        xPct = Math.round((relX / rect.width) * 100);
-        yPct = Math.round((relY / rect.height) * 100);
-        xPct = Number.isNaN(xPct) ? 50 : Math.max(0, Math.min(100, xPct));
-        yPct = Number.isNaN(yPct) ? 30 : Math.max(0, Math.min(100, yPct));
-      }
-    }
+    // Page relative coordinates (so it scrolls naturally with page)
+    const pageX = Math.round(scrollX + Math.max(30, viewportWidth / 2 - 144));
+    const pageY = Math.round(scrollY + 180);
 
     const newNote: ClientNoteItem = {
       id: `note-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       page_path: pathname,
-      element_selector: elementSelector,
-      element_tag: elementTag,
+      element_selector: "body",
+      element_tag: "NOTE",
       note_text: "",
       author_name: "Client Feedback",
       author_role: "client",
-      x_offset_pct: xPct,
-      y_offset_pct: yPct,
-      custom_x: initialX,
-      custom_y: initialY,
+      x_offset_pct: 50,
+      y_offset_pct: 30,
+      custom_x: pageX,
+      custom_y: pageY,
       status: "draft",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -207,83 +129,6 @@ export default function StickyNotesOverlay() {
     handleUpdateNote(newNote);
   };
 
-  // Crosshair Picker Mode
-  useEffect(() => {
-    if (!isAddingMode) {
-      setHoveredEl(null);
-      setHoverBox(null);
-      return;
-    }
-
-    const handlePointerMove = (e: PointerEvent) => {
-      const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      if (!target) return;
-
-      if (target.closest("#sticky-notes-root") || target.closest(".sticky-note-card")) {
-        setHoverBox(null);
-        setHoveredEl(null);
-        return;
-      }
-
-      const rect = target.getBoundingClientRect();
-      setHoveredEl(target);
-      setHoverBox({
-        top: rect.top + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-        height: rect.height,
-        tag: target.tagName.toLowerCase(),
-      });
-    };
-
-    const handlePointerDown = (e: MouseEvent) => {
-      if (!hoveredEl) return;
-      const target = e.target as HTMLElement | null;
-      if (target?.closest("#sticky-notes-root") || target?.closest(".sticky-note-card")) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const { selector, tag } = getUniqueSelector(hoveredEl);
-      const rect = hoveredEl.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-      const xPct = Math.round((clickX / rect.width) * 100);
-      const yPct = Math.round((clickY / rect.height) * 100);
-
-      const newNote: ClientNoteItem = {
-        id: `note-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-        page_path: pathname,
-        element_selector: selector,
-        element_tag: tag,
-        note_text: "",
-        author_name: "Client Feedback",
-        author_role: "client",
-        x_offset_pct: Number.isNaN(xPct) ? 50 : Math.max(0, Math.min(100, xPct)),
-        y_offset_pct: Number.isNaN(yPct) ? 50 : Math.max(0, Math.min(100, yPct)),
-        custom_x: Math.round(e.clientX - 144),
-        custom_y: Math.round(e.clientY - 30),
-        status: "draft",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-
-      setNotes((prev) => [...prev, newNote]);
-      setIsAddingMode(false);
-      setHoverBox(null);
-      setHoveredEl(null);
-      handleUpdateNote(newNote);
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, true);
-    window.addEventListener("click", handlePointerDown, true);
-
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove, true);
-      window.removeEventListener("click", handlePointerDown, true);
-    };
-  }, [isAddingMode, hoveredEl, pathname]);
-
   const handleDeleteNote = async (id: string) => {
     setNotes((prev) => prev.filter((n) => n.id !== id));
     try {
@@ -293,72 +138,17 @@ export default function StickyNotesOverlay() {
     }
   };
 
-  const handleScrollToNote = (selector: string, noteId: string) => {
+  const handleScrollToNote = (noteId: string) => {
     setHighlightedNoteId(noteId);
-    try {
-      const el = safeQuerySelector(selector);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    } catch {
-      // Selector fallback
+    const note = notes.find((n) => n.id === noteId);
+    if (note && note.custom_y !== undefined) {
+      window.scrollTo({ top: Math.max(0, note.custom_y - 200), behavior: "smooth" });
     }
     setTimeout(() => setHighlightedNoteId(null), 3000);
   };
 
   return (
     <div id="sticky-notes-root" className="relative">
-      {/* Target Element Hover Box (Picker Mode) */}
-      {isAddingMode && hoverBox && (
-        <div
-          className="pointer-events-none absolute z-[99998] border-2 border-amber-400 bg-amber-400/10 rounded shadow-[0_0_20px_rgba(245,158,11,0.6)] animate-pulse transition-all duration-75"
-          style={{
-            top: `${hoverBox.top}px`,
-            left: `${hoverBox.left}px`,
-            width: `${hoverBox.width}px`,
-            height: `${hoverBox.height}px`,
-          }}
-        >
-          <div className="absolute -top-7 left-0 bg-amber-400 text-black text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded shadow">
-            📍 Target: &lt;{hoverBox.tag}&gt; (Click to Attach Note)
-          </div>
-        </div>
-      )}
-
-      {/* Target Element Hover Box when dragging note */}
-      {dragHoverBox && (
-        <div
-          className="pointer-events-none absolute z-[99997] border-2 border-emerald-400 bg-emerald-400/10 rounded shadow-[0_0_25px_rgba(16,185,129,0.7)] animate-pulse transition-all duration-75"
-          style={{
-            top: `${dragHoverBox.top}px`,
-            left: `${dragHoverBox.left}px`,
-            width: `${dragHoverBox.width}px`,
-            height: `${dragHoverBox.height}px`,
-          }}
-        >
-          <div className="absolute -top-7 left-0 bg-emerald-400 text-black text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded shadow">
-            🧲 Snap Note to: &lt;{dragHoverBox.tag}&gt;
-          </div>
-        </div>
-      )}
-
-      {/* Crosshair Cursor Overlay when crosshair mode active */}
-      {isAddingMode && (
-        <div className="fixed inset-0 z-[99997] cursor-crosshair pointer-events-none border-4 border-amber-400/40">
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/90 border border-amber-400 text-amber-300 font-mono text-xs px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 animate-bounce pointer-events-auto">
-            <Target className="w-4 h-4 text-amber-400" />
-            <span>Click any element to attach note</span>
-            <button
-              type="button"
-              onClick={() => setIsAddingMode(false)}
-              className="ml-2 p-1 rounded-full hover:bg-white/20 text-white"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Render Active Sticky Note Cards */}
       {visible &&
         notes.map((note) => (
@@ -368,7 +158,6 @@ export default function StickyNotesOverlay() {
             isHighlighted={highlightedNoteId === note.id}
             onUpdate={handleUpdateNote}
             onDelete={handleDeleteNote}
-            setDragHoverBox={setDragHoverBox}
           />
         ))}
 
@@ -381,17 +170,6 @@ export default function StickyNotesOverlay() {
         >
           <Plus className="w-4 h-4" />
           <span>Add Sticky Note</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setIsAddingMode(!isAddingMode)}
-          title="Pick Element with Crosshair"
-          className={`p-2 rounded-xl border text-xs font-bold transition cursor-pointer ${
-            isAddingMode ? "bg-amber-400 text-black border-amber-300 ring-2 ring-amber-400/50" : "bg-white/5 border-white/15 text-amber-400 hover:bg-white/10"
-          }`}
-        >
-          <Target className="w-4 h-4" />
         </button>
 
         <button
@@ -464,7 +242,7 @@ export default function StickyNotesOverlay() {
                     className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-400/40 transition"
                   >
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-mono text-amber-400 font-bold">&lt;{n.element_tag}&gt;</span>
+                      <span className="font-mono text-amber-400 font-bold">Sticky Note #{n.id.slice(-4)}</span>
                       <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
                     </div>
 
@@ -475,11 +253,11 @@ export default function StickyNotesOverlay() {
                         type="button"
                         onClick={() => {
                           setIsDrawerOpen(false);
-                          handleScrollToNote(n.element_selector, n.id);
+                          handleScrollToNote(n.id);
                         }}
                         className="text-[10px] font-bold uppercase tracking-wider text-amber-300 hover:underline flex items-center gap-1 cursor-pointer"
                       >
-                        <CornerDownRight className="w-3 h-3" /> Go To Element
+                        <CornerDownRight className="w-3 h-3" /> Go To Note
                       </button>
 
                       <button
@@ -507,36 +285,37 @@ export default function StickyNotesOverlay() {
 }
 
 /**
- * Individual Drag-and-Drop Sticky Card Attached to DOM Element
+ * Individual Drag-and-Drop Sticky Card — Zero Snapping Pure Placement
  */
 function SingleStickyCard({
   note,
   isHighlighted,
   onUpdate,
   onDelete,
-  setDragHoverBox,
 }: {
   note: ClientNoteItem;
   isHighlighted: boolean;
   onUpdate: (n: ClientNoteItem) => void;
   onDelete: (id: string) => void;
-  setDragHoverBox: (box: { top: number; left: number; width: number; height: number; tag: string } | null) => void;
 }) {
   const [text, setText] = useState<string>("");
-  const defaultPos = React.useMemo(() => {
+  const defaultViewportPos = React.useMemo(() => {
     const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
     const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
     const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
+
+    const pageX = note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
+    const pageY = note.custom_y ?? Math.round(scrollY + 180);
+
     return {
-      left: note.custom_x ?? Math.round(scrollX + Math.max(20, vw / 2 - 144)),
-      top: note.custom_y ?? Math.round(scrollY + 200),
+      left: pageX - scrollX,
+      top: pageY - scrollY,
     };
   }, [note.custom_x, note.custom_y]);
 
-  const [pos, setPos] = useState<{ left: number; top: number }>(defaultPos);
+  const [pos, setPos] = useState<{ left: number; top: number }>(defaultViewportPos);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragRef = useRef<{ startX: number; startY: number; initialLeft: number; initialTop: number }>({ startX: 0, startY: 0, initialLeft: 0, initialTop: 0 });
-  const currentHoveredTargetRef = useRef<{ selector: string; tag: string; xPct: number; yPct: number } | null>(null);
 
   useEffect(() => {
     setText(note.note_text);
@@ -546,49 +325,35 @@ function SingleStickyCard({
     return note.created_at ? note.created_at.substring(11, 16) : "";
   }, [note.created_at]);
 
-  // Recalculate position relative to target DOM element (Viewport Fixed Coordinates)
+  // Recalculate position as page scrolls naturally
   const updatePosition = useCallback(() => {
     if (typeof window === "undefined" || isDragging) return;
 
-    try {
-      const targetEl = safeQuerySelector(note.element_selector);
-      if (targetEl && targetEl !== document.body) {
-        const rect = targetEl.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+    const vw = window.innerWidth;
 
-        const viewportLeft = Math.round(rect.left + (rect.width * note.x_offset_pct) / 100);
-        const viewportTop = Math.round(rect.top + (rect.height * note.y_offset_pct) / 100);
+    const pageX = note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
+    const pageY = note.custom_y ?? Math.round(scrollY + 180);
 
-        setPos({ left: viewportLeft, top: viewportTop });
-        return;
-      }
-    } catch {
-      // Element not on this page
-    }
-
-    // Fallback position directly in viewport center
-    if (note.custom_x !== undefined && note.custom_y !== undefined) {
-      setPos({ left: note.custom_x, top: note.custom_y });
-    } else {
-      const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
-      setPos({ left: Math.round(vw / 2 - 144), top: 180 });
-    }
-  }, [note.element_selector, note.x_offset_pct, note.y_offset_pct, note.custom_x, note.custom_y, isDragging]);
+    setPos({
+      left: Math.round(pageX - scrollX),
+      top: Math.round(pageY - scrollY),
+    });
+  }, [note.custom_x, note.custom_y, isDragging]);
 
   useEffect(() => {
     updatePosition();
     window.addEventListener("scroll", updatePosition, { passive: true });
     window.addEventListener("resize", updatePosition, { passive: true });
 
-    const interval = setInterval(updatePosition, 300);
-
     return () => {
       window.removeEventListener("scroll", updatePosition);
       window.removeEventListener("resize", updatePosition);
-      clearInterval(interval);
     };
   }, [updatePosition]);
 
-  // Drag handler & live element detection on entire card
+  // Drag handler on entire card
   const handlePointerDown = (e: React.PointerEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest("textarea") || target.closest("button") || target.closest("a")) return;
@@ -604,12 +369,10 @@ function SingleStickyCard({
 
   const onUpdateRef = useRef(onUpdate);
   const noteRef = useRef(note);
-  const setDragHoverBoxRef = useRef(setDragHoverBox);
 
   useEffect(() => {
     onUpdateRef.current = onUpdate;
     noteRef.current = note;
-    setDragHoverBoxRef.current = setDragHoverBox;
   });
 
   useEffect(() => {
@@ -622,64 +385,23 @@ function SingleStickyCard({
       const newTop = dragRef.current.initialTop + dy;
 
       setPos({ left: newLeft, top: newTop });
-
-      // Detect element under cursor/drag handle
-      const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      if (target && !target.closest("#sticky-notes-root") && !target.closest(".sticky-note-card")) {
-        const { selector, tag } = getUniqueSelector(target);
-        const rect = target.getBoundingClientRect();
-
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
-        const xPct = Math.round((clickX / rect.width) * 100);
-        const yPct = Math.round((clickY / rect.height) * 100);
-
-        currentHoveredTargetRef.current = {
-          selector,
-          tag,
-          xPct: Number.isNaN(xPct) ? 50 : Math.max(0, Math.min(100, xPct)),
-          yPct: Number.isNaN(yPct) ? 50 : Math.max(0, Math.min(100, yPct)),
-        };
-
-        setDragHoverBoxRef.current({
-          top: rect.top + window.scrollY,
-          left: rect.left + window.scrollX,
-          width: rect.width,
-          height: rect.height,
-          tag,
-        });
-      } else {
-        setDragHoverBoxRef.current(null);
-      }
     };
 
     const handlePointerUp = () => {
       setIsDragging(false);
-      setDragHoverBoxRef.current(null);
 
-      // Snap & lock sticky note to target DOM element if dropped on one
-      if (currentHoveredTargetRef.current) {
-        const { selector, tag, xPct, yPct } = currentHoveredTargetRef.current;
-        onUpdateRef.current({
-          ...noteRef.current,
-          element_selector: selector,
-          element_tag: tag,
-          x_offset_pct: xPct,
-          y_offset_pct: yPct,
-          custom_x: pos.left,
-          custom_y: pos.top,
-          updated_at: new Date().toISOString(),
-        });
-        currentHoveredTargetRef.current = null;
-      } else {
-        // Save dropped position as custom_x / custom_y fallback
-        onUpdateRef.current({
-          ...noteRef.current,
-          custom_x: pos.left,
-          custom_y: pos.top,
-          updated_at: new Date().toISOString(),
-        });
-      }
+      // Save exact page coordinates where user let go
+      const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
+      const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
+      const pageX = Math.round(pos.left + scrollX);
+      const pageY = Math.round(pos.top + scrollY);
+
+      onUpdateRef.current({
+        ...noteRef.current,
+        custom_x: pageX,
+        custom_y: pageY,
+        updated_at: new Date().toISOString(),
+      });
     };
 
     window.addEventListener("pointermove", handlePointerMove);
@@ -716,14 +438,12 @@ function SingleStickyCard({
         top: `${pos.top}px`,
       }}
     >
-      {/* Note Header / Drag handle */}
-      <div
-        className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 select-none"
-      >
+      {/* Note Header */}
+      <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 select-none">
         <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
           <Move className="w-3.5 h-3.5 text-amber-400" />
           <span className="font-mono text-[10px] uppercase tracking-wider text-amber-300">
-            &lt;{note.element_tag}&gt;
+            Sticky Note #{note.id.slice(-4)}
           </span>
         </div>
 
