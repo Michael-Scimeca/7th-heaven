@@ -18,6 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase-client';
 import ChatInputBar from '@/components/ChatInputBar';
 import CruiseChat from '@/components/CruiseChat';
+import PushSubscribeModal from '@/components/PushSubscribeModal';
 
 const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
   const key = (nameOrInstrument || '').toLowerCase();
@@ -100,6 +101,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [showOverlay, setShowOverlay] = useState(false);
   const [notifyingFans, setNotifyingFans] = useState(false);
   const [notifySuccess, setNotifySuccess] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [liveFeedStatuses, setLiveFeedStatuses] = useState<Record<string, string>>({});
   useEffect(() => {
     const slugs = { mike: 'michael', sammy: 'sammy', ryan: 'ryan', tony: 'tony' };
@@ -1314,24 +1316,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     setNotifyingFans(false);
                   }
                 } else {
-                  // Fan / Viewer mode: Subscribe to Live Stream Push Alerts
-                  try {
-                    if (typeof window !== 'undefined' && 'Notification' in window) {
-                      await Notification.requestPermission();
-                    }
-                    const res = await fetch('/api/ntfy/topic?group=fans');
-                    const data = await res.json();
-                    if (data?.topic) {
-                      const topicUrl = `${data.server || 'https://ntfy.sh'}/${data.topic}`;
-                      window.open(topicUrl, '_blank');
-                    }
-                    setNotifySuccess(true);
-                    setTimeout(() => setNotifySuccess(false), 5000);
-                  } catch (err) {
-                    console.error('Failed to subscribe:', err);
-                  } finally {
-                    setNotifyingFans(false);
-                  }
+                  // Fan / Viewer mode: Open PushSubscribeModal to collect Name, Email, and enable live alerts
+                  setShowSubscribeModal(true);
+                  setNotifyingFans(false);
                 }
               }}
               className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${
@@ -3199,6 +3186,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             </div>
           );
         })()}
+
+        {/* ── Push Subscribe Modal (collects Name & Email + sets up live alerts) ── */}
+        <PushSubscribeModal
+          isOpen={showSubscribeModal}
+          onClose={() => setShowSubscribeModal(false)}
+          group="fans"
+          onSuccess={() => setNotifySuccess(true)}
+        />
       </section>
     </>
   );
