@@ -220,6 +220,50 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);
 
+  // Global click listener to hook up page transitions to EVERY internal link across the site
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleGlobalClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+        return;
+      }
+
+      const anchor = (e.target as HTMLElement)?.closest?.("a");
+      if (!anchor) return;
+
+      const target = anchor.getAttribute("target");
+      if (target && target !== "_self") return;
+      if (anchor.hasAttribute("download")) return;
+
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      if (href.startsWith("#") || href.startsWith("javascript:") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+        return;
+      }
+
+      try {
+        const url = new URL(href, window.location.href);
+        if (url.origin !== window.location.origin) return;
+
+        const targetPath = url.pathname + url.search;
+        const currentPath = window.location.pathname + window.location.search;
+
+        if (url.pathname === window.location.pathname && url.hash) return;
+        if (targetPath === currentPath) return;
+
+        e.preventDefault();
+        requestTransition(targetPath);
+      } catch {
+        // Ignore invalid URLs
+      }
+    };
+
+    document.addEventListener("click", handleGlobalClick, true);
+    return () => document.removeEventListener("click", handleGlobalClick, true);
+  }, [requestTransition]);
+
   const value = useMemo(
     () => ({
       mode,
