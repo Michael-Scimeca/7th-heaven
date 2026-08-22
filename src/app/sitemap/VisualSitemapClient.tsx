@@ -474,12 +474,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 1040 },
     data: {
-      header: "🔔 LIVE ALERTS SIGNUP MODAL",
-      title: "Name & Email Push Alert Modal",
+      header: "🔔 LIVE ALERTS POPUP FORM",
+      title: "Name & Email Alert Subscription Form",
       path: "/live/michael",
-      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
       badgeType: "MODULE",
-      description: "Collects fan Full Name & Email Address, requests browser Web Push permission, and registers live stream alert subscriber.",
+      description: "Simple 2-input form (Name & Email) — fans enter details and click to receive automated live stream email & push notifications.",
     },
   },
   {
