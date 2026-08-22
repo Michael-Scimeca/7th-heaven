@@ -111,7 +111,7 @@ export default function LiveStreamInlineSubscribe({
 
   return (
     <>
-      <div className={`w-full ${maxWidth} p-5 sm:p-7 rounded-2xl border border-purple-500/30 bg-gradient-to-b from-[#130b24]/90 via-[#0d071b]/95 to-[#080410] backdrop-blur-xl text-white shadow-2xl ${className}`}>
+      <div className={`w-full ${maxWidth} text-white ${className}`}>
         {/* Header Title & Pill */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">

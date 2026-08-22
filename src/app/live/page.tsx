@@ -547,46 +547,11 @@ export default function LiveHubPage() {
         </div>
 
         {/* ── LIVE STREAM MASTER PUSH & EMAIL ALERTS CARD (UNIFIED 2 INPUTS + SQUISHY TOGGLE + PUSH ACTIVATION) ── */}
-        <div className="site-container mt-14 flex justify-center">
+        <div className="site-container mt-14 flex ">
           <LiveStreamInlineSubscribe className="w-full" maxWidth="max-w-4xl" />
         </div>
 
-        {/* ── SMS ALERTS BANNER ── */}
-        {liveAlertsEnabled && (
-          <div className="site-container mt-16 relative overflow-hidden bg-transparent border-none">
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
-                <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
-              </div>
-              <div className="max-w-xl">
-                <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
-                <p className="text-sm text-white/60 mb-8 leading-relaxed">
-                  Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
-                </p>
-                <form action={() => { alert("You are now subscribed to Live Stream Alerts!"); }}
-                  className="flex flex-col sm:flex-row gap-3 items-center w-full">
-                  <div className="relative flex-1 w-full">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Smartphone className="w-4 h-4 text-white/40" />
-                    </div>
-                    <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-white/5 border border-white/15 py-3.5 !pl-11 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
-                    />
-                  </div>
-                  <CosmicRadialButton
-                    type="submit"
-                    icon={<Bell className="w-4 h-4 text-amber-300" />}
-                    className="w-full sm:w-auto px-8 py-3.5 text-white text-sm font-black uppercase tracking-widest whitespace-nowrap flex-shrink-0"
-                  >
-                    ALERT ME
-                  </CosmicRadialButton>
-                </form>
-                <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
-              </div>
-            </div>
-          </div>
-        )}
+
 
         {/* Live Stream Push Alert & Fan Signup Modal */}
         <PushSubscribeModal
