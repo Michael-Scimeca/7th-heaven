@@ -196,65 +196,19 @@ export default function LiveStreamInlineSubscribe({
             </label>
           </div>
 
-          {/* Actions Bar: Subscribe Button + Web Alerts & Mobile QR Links */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+          {/* Action Button */}
+          <div className="pt-2">
             <CosmicRadialButton
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full sm:flex-1 py-3 text-white text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3 text-white text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
             >
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>
-
-            <a
-              href={topicUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-4 py-3 bg-white/5 hover:bg-white/15 text-purple-300 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-purple-500/20 flex items-center justify-center gap-2 shrink-0"
-            >
-              <span>Web Alerts</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-
-            <button
-              type="button"
-              onClick={() => setShowQrModal(true)}
-              className="w-full sm:w-auto px-4 py-3 bg-white/5 hover:bg-white/15 text-purple-300 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-purple-500/20 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
-            >
-              <QrCode className="w-3.5 h-3.5" />
-              <span>Scan QR Guide →</span>
-            </button>
           </div>
         </form>
       </div>
-
-      {/* QR Code / Mobile Guide Modal */}
-      {showQrModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="relative w-full max-w-md p-6 rounded-2xl border border-purple-500/30 bg-[#0e0a1a] text-white shadow-2xl text-center">
-            <h3 className="text-xl font-black mb-2">Mobile Push Alert Setup</h3>
-            <p className="text-xs text-gray-300 mb-6 leading-relaxed">
-              Scan this QR code with your phone camera or visit <strong className="text-purple-400 font-mono">ntfy.sh/7thheaven_crew</strong> in the free ntfy mobile app to receive instant lock screen notifications whenever a 7th Heaven member goes live!
-            </p>
-            <div className="mx-auto w-48 h-48 bg-white p-3 rounded-xl shadow-inner mb-6 flex items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(topicUrl)}`}
-                alt="Push Alert QR Code"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowQrModal(false)}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors"
-            >
-              Close Guide
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 }
