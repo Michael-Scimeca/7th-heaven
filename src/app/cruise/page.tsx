@@ -154,43 +154,44 @@ export default function CruisePage() {
   const { isLoggedIn, member, openModal } = useMember();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
 
-  const [heroMaskSettings, setHeroMaskSettings] = useState({
-    topFadeStart: 0,
-    topFadeEnd: 15,
-    topGradientHeight: 240,
-    topGradientOpacity: 85,
-    bottomFadeStart: 73,
-    bottomFadeEnd: 100,
-    videoBlur: 0,
-    videoBrightness: 90,
-    videoContrast: 100,
-    videoOpacity: 100,
-    beforeHeight: 0,
-    beforeBlur: 0,
-    beforeBgOpacity: 85,
-    beforeZIndex: 10,
-    itinTopFadeStart: 0,
-    itinTopFadeEnd: 3,
-    itinBottomFadeStart: 95,
-    itinBottomFadeEnd: 100,
-    itinBgOpacity: 90,
-    itinBlur: 16,
-    historyTopFadeStart: 0,
-    historyTopFadeEnd: 2,
-    historyBottomFadeStart: 95,
-    historyBottomFadeEnd: 100,
-    historyBgOpacity: 90,
-    historyBlur: 16,
+  const [heroMaskSettings, setHeroMaskSettings] = useState(() => {
+    const defaults = {
+      topFadeStart: 0,
+      topFadeEnd: 15,
+      topGradientHeight: 240,
+      topGradientOpacity: 85,
+      bottomFadeStart: 73,
+      bottomFadeEnd: 100,
+      videoBlur: 0,
+      videoBrightness: 90,
+      videoContrast: 100,
+      videoOpacity: 100,
+      beforeHeight: 0,
+      beforeBlur: 0,
+      beforeBgOpacity: 85,
+      beforeZIndex: 10,
+      itinTopFadeStart: 0,
+      itinTopFadeEnd: 3,
+      itinBottomFadeStart: 95,
+      itinBottomFadeEnd: 100,
+      itinBgOpacity: 90,
+      itinBlur: 16,
+      historyTopFadeStart: 0,
+      historyTopFadeEnd: 2,
+      historyBottomFadeStart: 95,
+      historyBottomFadeEnd: 100,
+      historyBgOpacity: 90,
+      historyBlur: 16,
+    };
+    if (typeof window === "undefined") return defaults;
+    try {
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
+      if (saved) return { ...defaults, ...JSON.parse(saved) };
+    } catch { }
+    return defaults;
   });
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
-      if (saved) {
-        setHeroMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
-      }
-    } catch { }
-
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail) {
@@ -698,7 +699,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       >
         {/* Cruise Hero Video Background Overlay with Top & Bottom Clipping Mask */}
         <div
-          className="absolute inset-0 z-0 overflow-hidden"
+          className="absolute inset-0 z-0 overflow-hidden bg-black"
           style={{
             maskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.topFadeStart}%, black ${heroMaskSettings.topFadeEnd}%, black ${heroMaskSettings.bottomFadeStart}%, transparent ${heroMaskSettings.bottomFadeEnd}%)`,
             WebkitMaskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.topFadeStart}%, black ${heroMaskSettings.topFadeEnd}%, black ${heroMaskSettings.bottomFadeStart}%, transparent ${heroMaskSettings.bottomFadeEnd}%)`,
@@ -717,7 +718,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               opacity: heroMaskSettings.videoOpacity / 100,
             }}
-            poster="/images/cruise-hero.png"
           >
             <source src="/movie/cruise.mp4" type="video/mp4" />
           </video>
