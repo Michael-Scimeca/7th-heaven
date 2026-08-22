@@ -5,6 +5,8 @@ import { Bell, Check, Sparkles, User, Mail, Shield } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { useMember } from "@/context/MemberContext";
 
+import SquishyToggle from "@/components/SquishyToggle";
+
 export default function LiveStreamInlineSubscribe() {
   const { member } = useMember();
   const [name, setName] = useState("");
@@ -84,7 +86,7 @@ export default function LiveStreamInlineSubscribe() {
   }
 
   return (
-    <div className="w-full max-w-xl p-5 sm:p-6 rounded-2xl border border-purple-500/30 bg-gradient-to-b from-[#130b24]/90 via-[#0d071b]/95 to-[#080410] backdrop-blur-xl text-white shadow-2xl">
+    <div className="w-full max-w-xl backdrop-blur-xl text-white shadow-2xl">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0">
           <Bell className="w-5 h-5 animate-pulse" />
@@ -133,16 +135,14 @@ export default function LiveStreamInlineSubscribe() {
         </div>
 
         {/* Legal Terms & Privacy Checkbox */}
-        <div className="flex items-start gap-2 pt-0.5">
-          <input
-            type="checkbox"
-            id="inline-terms-checkbox"
-            required
+        <div className="flex items-center gap-3 pt-1 pb-1">
+          <SquishyToggle
+            id="inline-terms-toggle"
+            label="I agree to the Terms of Service & Privacy Policy"
             checked={agreedToTerms}
-            onChange={(e) => setAgreedToTerms(e.target.checked)}
-            className="mt-0.5 h-3.5 w-3.5 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-purple-500 cursor-pointer shrink-0"
+            onChange={(checked) => setAgreedToTerms(checked)}
           />
-          <label htmlFor="inline-terms-checkbox" className="text-[11px] text-gray-300/80 leading-tight cursor-pointer select-none">
+          <label htmlFor="inline-terms-toggle" className="text-[11px] text-gray-300/90 leading-tight cursor-pointer select-none">
             I agree to the{" "}
             <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
               Terms of Service
@@ -151,7 +151,7 @@ export default function LiveStreamInlineSubscribe() {
             <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
               Privacy Policy
             </a>{" "}
-            for live stream push & email notifications.
+            for live stream alerts.
           </label>
         </div>
 

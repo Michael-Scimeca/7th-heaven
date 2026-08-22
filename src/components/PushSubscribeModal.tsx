@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Bell, Check, X, Shield, Mail, User, Sparkles } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SquishyToggle from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
 
 interface PushSubscribeModalProps {
@@ -155,17 +156,15 @@ export default function PushSubscribeModal({
                 </div>
               </div>
 
-              {/* Legal Terms of Service & Privacy Policy Checkbox */}
-              <div className="flex items-start gap-2.5 pt-1 pb-1">
-                <input
-                  type="checkbox"
-                  id="terms-checkbox"
-                  required
+              {/* Legal Terms of Service & Privacy Policy Toggle */}
+              <div className="flex items-center gap-3 pt-1 pb-1">
+                <SquishyToggle
+                  id="modal-terms-toggle"
+                  label="I agree to the Terms of Service & Privacy Policy"
                   checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-purple-500 cursor-pointer shrink-0"
+                  onChange={(checked) => setAgreedToTerms(checked)}
                 />
-                <label htmlFor="terms-checkbox" className="text-xs text-gray-300/90 leading-normal cursor-pointer select-none">
+                <label htmlFor="modal-terms-toggle" className="text-xs text-gray-300/90 leading-normal cursor-pointer select-none">
                   I agree to the{" "}
                   <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
                     Terms of Service
