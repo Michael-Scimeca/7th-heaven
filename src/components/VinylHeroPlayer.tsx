@@ -36,7 +36,7 @@ const ALBUMS: Album[] = [
     year: "2021",
     coverImage: "/images/album/Be-Here.png",
     centerLabelColor: "#eab308",
-    storeUrl: "/store",
+    storeUrl: "/merch",
     tracks: [
       { id: "bh1", number: 1, title: "ARE WE THERE YET", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDElMjBBcmUlMjBXZSUyMFRoZXJlJTIwWWV0Lm1wMw==" },
       { id: "bh2", number: 2, title: "COME WHAT MAY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDIlMjBDb21lJTIwV2hhdCUyME1heS5tcDM=" },
@@ -61,7 +61,7 @@ const ALBUMS: Album[] = [
     year: "2018",
     coverImage: "/images/album/colot-in-motion.png",
     centerLabelColor: "#ec4899",
-    storeUrl: "/store",
+    storeUrl: "/merch",
     tracks: [
       { id: "cim1", number: 1, title: "THIS IS WHERE THE PARTY'S AT", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAxJTIwVGhpcyUyMElzJTIwV2hlcmUlMjBUaGUlMjBQYXJ0eSUyN3MlMjBBdC5tcDM=" },
       { id: "cim2", number: 2, title: "WONDERFUL WORLD", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAyJTIwV29uZGVyZnVsJTIwV29ybGQubXAz" },
@@ -82,7 +82,7 @@ const ALBUMS: Album[] = [
     year: "2017",
     coverImage: "/images/album/luminous.png",
     centerLabelColor: "#8b5cf6",
-    storeUrl: "/store",
+    storeUrl: "/merch",
     tracks: [
       { id: "lu1", number: 1, title: "HOME", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMSUyMEhvbWUubXAz" },
       { id: "lu2", number: 2, title: "BEAUTIFUL LIFE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMiUyMEJlYXV0aWZ1bCUyMExpZmUubXAz" },

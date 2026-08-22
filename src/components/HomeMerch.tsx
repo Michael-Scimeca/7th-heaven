@@ -149,7 +149,7 @@ export default function HomeMerch() {
             <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
             <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
           </div>
-          <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
+          <Link href="/merch" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
             Shop All →
           </Link>
         </div>

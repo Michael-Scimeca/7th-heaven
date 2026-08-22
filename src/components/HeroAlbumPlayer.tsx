@@ -37,7 +37,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
 
   const spotifyUrl = release?.spotifyLink || "https://open.spotify.com/artist/7thheaven";
   const appleMusicUrl = release?.appleMusicLink || "https://music.apple.com/us/artist/7th-heaven";
-  const buyUrl = release?.buyLink || "/store";
+  const buyUrl = release?.buyLink || "/merch";
 
   const togglePlay = () => {
     if (!audioRef.current) return;

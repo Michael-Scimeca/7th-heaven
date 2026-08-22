@@ -1228,7 +1228,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mt-8 text-white">
                 <div className="flex items-center justify-between mb-5">
                   <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-fuchsia-400">🛍️ Quick Shop</span>
-                  <Link href="/store" className="text-xs text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>
+                  <Link href="/merch" className="text-xs text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (
@@ -1242,7 +1242,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-sm font-bold text-white truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg font-black text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/store`} className="text-xs font-black uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/15 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
+                          <Link href={`/merch`} className="text-xs font-black uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/15 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
                     </div>

@@ -840,7 +840,7 @@ const FEATURES: FeatureCard[] = [
     demo: "/demos/store-merch.webp",
     category: ["ecommerce"],
     highlight: true,
-    link: "/store",
+    link: "/merch",
   },
 
   {
@@ -2197,8 +2197,7 @@ export default function FeaturesPage() {
             {
               group: "🛒 Commerce",
               pages: [
-                { path: "/store", label: "Merch Store", desc: "Headless Shopify — product grid, cart drawer, category filters, checkout", access: "public" },
-                { path: "/merch", label: "Merch Landing", desc: "Featured merch showcase with quick-add to cart", access: "public" },
+                { path: "/merch", label: "Merch Store", desc: "Headless Shopify — product grid, cart drawer, category filters, checkout", access: "public" },
               ],
             },
             {
@@ -2435,8 +2434,7 @@ export default function FeaturesPage() {
             {
               group: "🛒 Commerce",
               pages: [
-                { path: "/store", label: "Merch Store", desc: "Headless Shopify storefront — products, cart, checkout", access: "public" },
-                { path: "/merch", label: "Merch Landing", desc: "Featured merch showcase with quick-shop", access: "public" },
+                { path: "/merch", label: "Merch Store", desc: "Headless Shopify storefront — products, cart, checkout", access: "public" },
               ],
             },
             {

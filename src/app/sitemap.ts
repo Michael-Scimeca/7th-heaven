@@ -139,12 +139,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // ── Store ──
     {
-      url: `${baseUrl}/store`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/merch`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
