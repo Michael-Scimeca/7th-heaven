@@ -464,7 +464,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "FAN LIVE STREAM ROOM",
       title: "Fan Live Stream & Chat Room",
       path: "/live/michael",
-      imgUrl: "/sitemap-thumbs/live-feed.jpg",
+      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
       badgeType: "PORTAL",
       description: "What the FAN sees: Interactive live video feed with real-time fan chat box, setlist voting, hype meter, and reaction emojis (/live/michael).",
     },
