@@ -125,18 +125,14 @@ export default function HomeDataLoader() {
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <LazySection fallbackHeight="400px">
-        <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
-          <TourList initialShows={shows} />
-        </section>
-      </LazySection>
+      <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
+        <TourList initialShows={shows} />
+      </section>
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
-      <LazySection fallbackHeight="600px">
-        <section id="band" className="relative w-full bg-transparent overflow-x-clip pt-12 sm:pt-20 pb-8 mt-12 sm:mt-20 mb-16 sm:mb-24">
-          <BioParallaxSlider />
-        </section>
-      </LazySection>
+      <section id="band" className="relative w-full bg-transparent overflow-x-clip pt-12 sm:pt-20 pb-8 mt-12 sm:mt-20 mb-16 sm:mb-24">
+        <BioParallaxSlider />
+      </section>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
       <div className="mt-8">

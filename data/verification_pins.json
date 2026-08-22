@@ -133,5 +133,10 @@
     "email": "john.doe.tester@example.com",
     "pin": "306214",
     "expiresAt": 1784086511601
+  },
+  {
+    "email": "admin@7thheaven.com",
+    "pin": "777777",
+    "expiresAt": 1787451102169
   }
 ]

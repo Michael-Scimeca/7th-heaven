@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { Bell, MapPin, Check, Sliders, Music, Sparkles } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Bell, MapPin, Check, Sliders, Music, Mail } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import { GlowInput } from "@/components/GlowInput";
+
+const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
+  "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
 
 const RADIUS_OPTIONS = [
   { value: "15", label: "15 Miles" },
@@ -15,67 +18,178 @@ const RADIUS_OPTIONS = [
 
 const SHOW_TYPES = [
   { id: "all", label: "All Shows", icon: "🎸" },
-  { id: "full", label: "Full Electric & Festivals", icon: "⚡" },
-  { id: "acoustic", label: "Acoustic / Unplugged", icon: "🎤" },
-  { id: "casino", label: "Casino & Special Events", icon: "🎰" },
-  { id: "tickets", label: "Ticket Drops Only", icon: "🎟️" },
+  { id: "full", label: "Full Band", icon: "🟣" },
+  { id: "unplugged", label: "Unplugged", icon: "🟣" },
+  { id: "outdoor", label: "Outdoor", icon: "🟢" },
+  { id: "casino", label: "Casino", icon: "🟡" },
+  { id: "tv", label: "TV", icon: "🔵" },
+  { id: "fundraiser", label: "Fundraiser", icon: "🔴" },
+  { id: "special", label: "Special", icon: "💗" },
 ];
+
+// Convert VAPID public key to Uint8Array for PushManager
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
 
 export default function FooterProximityAlerts() {
   const [zip, setZip] = useState("");
+  const [email, setEmail] = useState("");
   const [radius, setRadius] = useState("50");
-  const [scope, setScope] = useState("all");
   const [selectedTypes, setSelectedTypes] = useState<string[]>(["all"]);
-  const [permission, setPermission] = useState<NotificationPermission | "unsupported">(
-    typeof window !== "undefined" && "Notification" in window ? Notification.permission : "unsupported"
-  );
-  const [status, setStatus] = useState<"idle" | "saved">("idle");
+  const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Set current permission state
+    if ("Notification" in window) {
+      setPermission(Notification.permission);
+    } else {
+      setPermission("unsupported");
+    }
+    // Restore saved prefs
+    try {
+      const saved = localStorage.getItem("7h_alert_prefs");
+      if (saved) {
+        const prefs = JSON.parse(saved);
+        if (prefs.zip) setZip(prefs.zip);
+        if (prefs.email) setEmail(prefs.email);
+        if (prefs.radius) setRadius(prefs.radius);
+        if (prefs.selectedTypes?.length) setSelectedTypes(prefs.selectedTypes);
+      }
+    } catch {}
+  }, []);
 
   const toggleType = (id: string) => {
-    if (id === "all") {
-      setSelectedTypes(["all"]);
-      return;
-    }
-
+    if (id === "all") { setSelectedTypes(["all"]); return; }
     let next = selectedTypes.filter((t) => t !== "all");
-    if (next.includes(id)) {
-      next = next.filter((t) => t !== id);
-    } else {
-      next.push(id);
-    }
-
-    if (next.length === 0) {
-      next = ["all"];
-    }
-    setSelectedTypes(next);
+    next = next.includes(id) ? next.filter((t) => t !== id) : [...next, id];
+    setSelectedTypes(next.length === 0 ? ["all"] : next);
   };
+
+  /** Get the current push subscription from the active service worker */
+  async function getExistingSubscription(): Promise<PushSubscription | null> {
+    if (!("serviceWorker" in navigator)) return null;
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      return await reg.pushManager.getSubscription();
+    } catch {
+      return null;
+    }
+  }
+
+  /** Create a new push subscription */
+  async function createSubscription(): Promise<PushSubscription | null> {
+    if (!("serviceWorker" in navigator)) return null;
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      return await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as unknown as ArrayBuffer,
+      });
+    } catch (e) {
+      console.warn("[push] subscribe failed:", e);
+      return null;
+    }
+  }
+
+  /** Save prefs locally and POST the subscription to the server */
+  async function persistSubscription(pushSub: PushSubscription) {
+    // Save locally
+    localStorage.setItem("7h_alert_prefs", JSON.stringify({ zip, email, radius, selectedTypes }));
+
+    // Convert PushSubscription to plain object
+    const subJson = pushSub.toJSON();
+
+    const res = await fetch("/api/web-push/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        subscription: {
+          endpoint: subJson.endpoint,
+          keys: { p256dh: subJson.keys?.p256dh, auth: subJson.keys?.auth },
+        },
+        email: email.trim() || undefined,
+        zip: zip.trim() || undefined,
+        radius,
+        selectedTypes,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Server error saving subscription");
+    }
+  }
 
   const handleEnableAlerts = async () => {
-    if (typeof window !== "undefined" && "Notification" in window) {
-      try {
-        const p = await Notification.requestPermission();
-        setPermission(p);
+    if (!("Notification" in window)) return;
+    setStatus("saving");
+    setErrorMsg("");
+    try {
+      // 1. Request browser permission
+      const p = await Notification.requestPermission();
+      setPermission(p);
+      if (p !== "granted") { setStatus("idle"); return; }
 
-        if (p === "granted" && "serviceWorker" in navigator) {
-          const reg = await navigator.serviceWorker.register("/sw.js");
-          // Save preference locally
-          localStorage.setItem(
-            "7h_alert_prefs",
-            JSON.stringify({ zip, radius, selectedTypes })
-          );
-          setStatus("saved");
-          setTimeout(() => setStatus("idle"), 4000);
-        }
-      } catch (err) {
-        console.warn("Notification request failed:", err);
-      }
+      // 2. Register service worker (idempotent)
+      await navigator.serviceWorker.register("/sw.js");
+
+      // 3. Create a real push subscription via PushManager
+      const pushSub = await createSubscription();
+      if (!pushSub) throw new Error("Could not create push subscription");
+
+      // 4. POST to server → Supabase
+      await persistSubscription(pushSub);
+
+      setStatus("saved");
+      setTimeout(() => setStatus("idle"), 3000);
+    } catch (err: any) {
+      console.error("[push] handleEnableAlerts:", err);
+      setErrorMsg(err.message || "Something went wrong");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
     }
   };
 
+  const handleSavePrefs = async () => {
+    setStatus("saving");
+    setErrorMsg("");
+    try {
+      // Get existing subscription (already granted)
+      let pushSub = await getExistingSubscription();
+      if (!pushSub) {
+        // Edge case: permission was granted but subscription expired — re-subscribe
+        pushSub = await createSubscription();
+      }
+      if (!pushSub) throw new Error("No active push subscription found");
+
+      await persistSubscription(pushSub);
+
+      setStatus("saved");
+      setTimeout(() => setStatus("idle"), 3000);
+    } catch (err: any) {
+      console.error("[push] handleSavePrefs:", err);
+      setErrorMsg(err.message || "Something went wrong");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  };
+
+  const isBusy = status === "saving";
+
   return (
-    <div className="w-full max-w-4xl mx-auto relative z-10">
-      {/* Background glow accent */}
-      <div className="absolute -top-24 -right-24 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full relative z-10">
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
@@ -92,45 +206,58 @@ export default function FooterProximityAlerts() {
             </p>
           </div>
         </div>
-
-        {permission === "granted" ? (
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider">
-            <Check className="w-4 h-4 text-emerald-400" /> Push Enabled
-          </span>
-        ) : (
-          <CosmicRadialButton
-            icon={false}
-            onClick={handleEnableAlerts}
-            className="!px-5 !py-2.5 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all"
-          >
-            <Bell className="w-4 h-4" />
-            Enable Alerts ({radius === "all" ? "All Distance" : `${radius} Mi`})
-          </CosmicRadialButton>
-        )}
       </div>
 
-      {/* Input Row 1: Zip Code & Distance Radius */}
-      <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-6 relative z-10">
+      {/* Error banner */}
+      {status === "error" && errorMsg && (
+        <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
+          ⚠️ {errorMsg}
+        </div>
+      )}
+
+      {/* Permission denied notice */}
+      {permission === "denied" && (
+        <div className="mb-4 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold">
+          🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
+        </div>
+      )}
+
+      {/* Line 1: Zip Code, Email, & Distance Radius */}
+      <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
         {/* Zip Code Input */}
-        <div className="sm:col-span-5">
+        <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-pink-400" /> Your Zip Code / City
           </label>
-          <input
+          <GlowInput
             type="text"
             value={zip}
             onChange={(e) => setZip(e.target.value)}
             placeholder="e.g. 60056 or Chicago"
-            className="w-full bg-black/50 border border-purple-500/30 focus:border-pink-500/60 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none transition-colors"
+            wrapperClassName="w-full sm:w-[300px]"
+          />
+        </div>
+
+        {/* Email Input (Optional) */}
+        <div className="shrink-0 w-full sm:w-[300px]">
+          <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
+            <Mail className="w-3.5 h-3.5 text-purple-400" /> Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+          </label>
+          <GlowInput
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            wrapperClassName="w-full sm:w-[300px]"
           />
         </div>
 
         {/* Distance Radius Pills */}
-        <div className="sm:col-span-7">
+        <div className="shrink-0">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <Sliders className="w-3.5 h-3.5 text-purple-400" /> Maximum Distance Radius
           </label>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5 items-center">
             {RADIUS_OPTIONS.map((opt) => {
               const active = radius === opt.value;
               return (
@@ -138,11 +265,10 @@ export default function FooterProximityAlerts() {
                   key={opt.value}
                   type="button"
                   onClick={() => setRadius(opt.value)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                    active
-                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-pink-400 shadow-md scale-105"
-                      : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
-                  }`}
+                  className={`h-[42px] px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${active
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-pink-400 shadow-md scale-105"
+                    : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                    }`}
                 >
                   {opt.label}
                 </button>
@@ -152,7 +278,7 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
-      {/* Input Row 2: Show Type Filters */}
+      {/* Line 2: Show Type Filters */}
       <div className="mb-6 relative z-10">
         <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
           <Music className="w-3.5 h-3.5 text-cyan-400" /> Which Types of Show Notifications?
@@ -165,11 +291,10 @@ export default function FooterProximityAlerts() {
                 key={type.id}
                 type="button"
                 onClick={() => toggleType(type.id)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                  isSelected
-                    ? "bg-purple-600/80 text-white border-purple-400 shadow-lg scale-105"
-                    : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
-                }`}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${isSelected
+                  ? "bg-purple-600/80 text-white border-purple-400 shadow-lg scale-105"
+                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                  }`}
               >
                 <span>{type.icon}</span>
                 <span>{type.label}</span>
@@ -180,30 +305,50 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
-      {/* Footer helper notice */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-white/50 pt-4 border-t border-white/10 relative z-10">
-        <p className="flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-          <span>
-            {radius === "all"
-              ? "Receiving alerts for all 7th Heaven shows nationwide."
-              : `Only alerting you when 7th Heaven plays within ${radius} miles${zip ? ` of ${zip}` : ""}.`}
-          </span>
-        </p>
-
-        {status === "saved" ? (
-          <span className="text-emerald-400 font-bold flex items-center gap-1 animate-pulse">
-            <Check className="w-4 h-4" /> Preferences Saved!
-          </span>
+      {/* Bottom Action Bar */}
+      <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
+        {permission === "granted" ? (
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider">
+              <Check className="w-4 h-4 text-emerald-400" /> Push Enabled
+            </span>
+            <CosmicRadialButton
+              icon={false}
+              onClick={handleSavePrefs}
+              disabled={isBusy}
+              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
+            >
+              {status === "saving" ? (
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
+              ) : status === "saved" ? (
+                <><Check className="w-4 h-4 text-emerald-300" /> Saved!</>
+              ) : (
+                "Save Preferences"
+              )}
+            </CosmicRadialButton>
+          </div>
         ) : (
-          <Link
-            href="/notifications"
-            className="text-purple-300 hover:text-pink-300 underline font-bold transition-colors text-right"
+          <CosmicRadialButton
+            icon={false}
+            onClick={handleEnableAlerts}
+            disabled={isBusy || permission === "denied" || permission === "unsupported"}
+            className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
           >
-            Manage All Alert Settings &rarr;
-          </Link>
+            {status === "saving" ? (
+              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
+            ) : (
+              <><Bell className="w-4 h-4" /> Enable Alerts ({radius === "all" ? "All Distance" : `${radius} Mi`})</>
+            )}
+          </CosmicRadialButton>
         )}
+
+        <p className="text-xs text-white/50 font-bold uppercase tracking-wider">
+          {permission === "granted"
+            ? "Your notifications are enabled. Update filters above and save anytime."
+            : "Click to enable instant browser & proximity alerts for nearby shows."}
+        </p>
       </div>
+
     </div>
   );
 }

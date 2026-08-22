@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
   try {
     // Capture raw body before destructuring so isSpam can inspect timing (_t) and alt-honeypot (_hp)
     const body = await req.json();
-    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, website, paymentDetails } = body;
+    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, cruiseNotifications, website, paymentDetails } = body;
 
     // ── Protection ──
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
@@ -278,6 +278,7 @@ card2_amount: ${encrypt(card2.amountCharged)}
       notes: finalNotes || null,
       cancel_token: cancelToken,
       anonymous: anonymous || false,
+      cruise_notifications: cruiseNotifications !== false, // default true
     }).select().single();
 
     if (error) {

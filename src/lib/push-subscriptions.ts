@@ -1,130 +1,143 @@
 import webPush from "web-push";
+import { createClient } from "@supabase/supabase-js";
 
+// ── Supabase client (server-side only) ──────────────────────────────────────
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
+// ── Types ────────────────────────────────────────────────────────────────────
 export interface PushSubscriptionItem {
   id: string;
   endpoint: string;
-  keys: {
-    p256dh: string;
-    auth: string;
-  };
+  keys: { p256dh: string; auth: string };
+  email?: string;
   zip?: string;
   radius?: string;
   selectedTypes?: string[];
   createdAt: string;
   updatedAt: string;
-  deviceType?: string;
-  fanName?: string;
 }
 
-const globalStore = globalThis as unknown as {
-  __pushSubscriptions?: PushSubscriptionItem[];
-};
-
-const INITIAL_DEMO_SUBSCRIBERS: PushSubscriptionItem[] = [
-  {
-    id: "sub_demo_1",
-    endpoint: "https://fcm.googleapis.com/fcm/send/demo-token-60056",
-    keys: { p256dh: "demo_p256dh_key_1", auth: "demo_auth_key_1" },
-    zip: "60056",
-    radius: "50",
-    selectedTypes: ["all"],
-    createdAt: new Date(Date.now() - 86400000 * 3).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
-    deviceType: "iPhone 15 Pro",
-    fanName: "Mike S. (Mt. Prospect, IL)",
-  },
-  {
-    id: "sub_demo_2",
-    endpoint: "https://updates.push.apple.com/demo-token-60010",
-    keys: { p256dh: "demo_p256dh_key_2", auth: "demo_auth_key_2" },
-    zip: "60010",
-    radius: "30",
-    selectedTypes: ["full", "acoustic"],
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    deviceType: "iPad Air",
-    fanName: "Sarah K. (Barrington, IL)",
-  },
-  {
-    id: "sub_demo_3",
-    endpoint: "https://fcm.googleapis.com/fcm/send/demo-token-60601",
-    keys: { p256dh: "demo_p256dh_key_3", auth: "demo_auth_key_3" },
-    zip: "60601",
-    radius: "15",
-    selectedTypes: ["tickets"],
-    createdAt: new Date(Date.now() - 86400000 * 1).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
-    deviceType: "Pixel 8 Pro",
-    fanName: "David L. (Chicago, IL)",
-  },
-];
-
-if (!globalStore.__pushSubscriptions || globalStore.__pushSubscriptions.length === 0) {
-  globalStore.__pushSubscriptions = INITIAL_DEMO_SUBSCRIBERS;
+// Row shape from Supabase (snake_case)
+interface DbRow {
+  id: string;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  email?: string | null;
+  zip?: string | null;
+  radius?: string;
+  selected_types?: string[];
+  created_at: string;
+  updated_at: string;
 }
 
-export function addOrUpdatePushSubscription(payload: Partial<PushSubscriptionItem>): PushSubscriptionItem {
-  const store = globalStore.__pushSubscriptions!;
-  const endpoint = payload.endpoint || "";
-  const existingIdx = store.findIndex((s) => s.endpoint === endpoint || (payload.id && s.id === payload.id));
+function rowToItem(row: DbRow): PushSubscriptionItem {
+  return {
+    id: row.id,
+    endpoint: row.endpoint,
+    keys: { p256dh: row.p256dh, auth: row.auth },
+    email: row.email ?? undefined,
+    zip: row.zip ?? undefined,
+    radius: row.radius ?? "50",
+    selectedTypes: row.selected_types ?? ["all"],
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
 
-  const now = new Date().toISOString();
+// ── CRUD ─────────────────────────────────────────────────────────────────────
 
-  if (existingIdx >= 0) {
-    const updatedItem: PushSubscriptionItem = {
-      ...store[existingIdx],
-      ...payload,
-      zip: payload.zip ?? store[existingIdx].zip ?? "60056",
-      radius: payload.radius ?? store[existingIdx].radius ?? "50",
-      selectedTypes: payload.selectedTypes ?? store[existingIdx].selectedTypes ?? ["all"],
-      updatedAt: now,
-    };
-    store[existingIdx] = updatedItem;
-    return updatedItem;
-  }
+/** Upsert a subscription (keyed on endpoint). Returns the saved item. */
+export async function addOrUpdatePushSubscription(
+  payload: Partial<PushSubscriptionItem>
+): Promise<PushSubscriptionItem> {
+  const sb = getSupabase();
 
-  const newItem: PushSubscriptionItem = {
-    id: payload.id || `sub_${Math.random().toString(36).substring(2, 9)}`,
-    endpoint: payload.endpoint || `https://push.7thheavenband.com/demo/${Math.random().toString(36).substring(2, 7)}`,
-    keys: payload.keys || { p256dh: "p256dh_default", auth: "auth_default" },
-    zip: payload.zip || "60056",
-    radius: payload.radius || "50",
-    selectedTypes: payload.selectedTypes || ["all"],
-    createdAt: now,
-    updatedAt: now,
-    deviceType: payload.deviceType || (typeof navigator !== "undefined" && /iPhone|iPad/i.test(navigator.userAgent) ? "iOS Safari" : "Web Browser"),
-    fanName: payload.fanName || "Anonymous Fan",
+  const row = {
+    endpoint: payload.endpoint!,
+    p256dh: payload.keys?.p256dh ?? "",
+    auth: payload.keys?.auth ?? "",
+    email: payload.email ?? null,
+    zip: payload.zip ?? null,
+    radius: payload.radius ?? "50",
+    selected_types: payload.selectedTypes ?? ["all"],
+    updated_at: new Date().toISOString(),
   };
 
-  store.unshift(newItem);
-  return newItem;
+  const { data, error } = await sb
+    .from("push_subscribers")
+    .upsert(row, { onConflict: "endpoint" })
+    .select()
+    .single();
+
+  if (error) throw new Error(`[push-subscriptions] upsert failed: ${error.message}`);
+  return rowToItem(data as DbRow);
 }
 
-export function getPushSubscriptions(): PushSubscriptionItem[] {
-  return globalStore.__pushSubscriptions || [];
-}
+/** Fetch all push subscribers. */
+export async function getPushSubscriptions(): Promise<PushSubscriptionItem[]> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("push_subscribers")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-export function updatePushSubscription(id: string, updates: Partial<PushSubscriptionItem>): PushSubscriptionItem | null {
-  const store = globalStore.__pushSubscriptions || [];
-  const idx = store.findIndex((s) => s.id === id);
-  if (idx < 0) return null;
-
-  store[idx] = {
-    ...store[idx],
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
-  return store[idx];
-}
-
-export function removePushSubscription(id: string): boolean {
-  const store = globalStore.__pushSubscriptions || [];
-  const idx = store.findIndex((s) => s.id === id);
-  if (idx >= 0) {
-    store.splice(idx, 1);
-    return true;
+  if (error) {
+    console.error("[push-subscriptions] fetch failed:", error.message);
+    return [];
   }
-  return false;
+  return (data as DbRow[]).map(rowToItem);
+}
+
+/** Update specific fields on a subscription by id. */
+export async function updatePushSubscription(
+  id: string,
+  updates: Partial<PushSubscriptionItem>
+): Promise<PushSubscriptionItem | null> {
+  const sb = getSupabase();
+  const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  if (updates.zip !== undefined) patch.zip = updates.zip;
+  if (updates.radius !== undefined) patch.radius = updates.radius;
+  if (updates.selectedTypes !== undefined) patch.selected_types = updates.selectedTypes;
+  if (updates.email !== undefined) patch.email = updates.email;
+
+  const { data, error } = await sb
+    .from("push_subscribers")
+    .update(patch)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("[push-subscriptions] update failed:", error.message);
+    return null;
+  }
+  return rowToItem(data as DbRow);
+}
+
+/** Remove a subscription by id. */
+export async function removePushSubscription(id: string): Promise<boolean> {
+  const sb = getSupabase();
+  const { error } = await sb.from("push_subscribers").delete().eq("id", id);
+  return !error;
+}
+
+// ── Web Push Sender ──────────────────────────────────────────────────────────
+
+function setVapid() {
+  const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
+  const privateKey = process.env.VAPID_PRIVATE_KEY!;
+  const subject = process.env.VAPID_SUBJECT || "mailto:admin@7thheavenband.com";
+  try {
+    webPush.setVapidDetails(subject, publicKey, privateKey);
+  } catch (e) {
+    console.warn("[web-push] VAPID details warning:", e);
+  }
 }
 
 export async function sendWebPushNotification(
@@ -133,53 +146,26 @@ export async function sendWebPushNotification(
   url: string = "/notifications",
   targetSubId?: string
 ) {
-  const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
-  const privateKey = process.env.VAPID_PRIVATE_KEY || "8q78LSuQ0bHjQSen3PocoQCPdKPB-ALMmJmvu33eGO8";
-  const subject = process.env.VAPID_SUBJECT || "mailto:admin@7thheavenband.com";
+  setVapid();
 
-  try {
-    webPush.setVapidDetails(subject, publicKey, privateKey);
-  } catch (e) {
-    console.warn("[web-push] VAPID details set warning:", e);
-  }
+  let subs = await getPushSubscriptions();
+  if (targetSubId) subs = subs.filter((s) => s.id === targetSubId);
 
-  let subs = getPushSubscriptions();
-  if (targetSubId) {
-    subs = subs.filter((s) => s.id === targetSubId);
-  }
-
-  const payload = JSON.stringify({
-    title,
-    body: message,
-    icon: "/favicon.ico",
-    url,
-  });
+  const payload = JSON.stringify({ title, body: message, icon: "/favicon.ico", url });
 
   let sent = 0;
   let failed = 0;
 
   const results = await Promise.allSettled(
     subs.map((sub) => {
-      // Only invoke webPush if it looks like a valid URL endpoint
-      if (sub.endpoint.startsWith("http")) {
-        return webPush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            keys: sub.keys,
-          },
-          payload
-        );
-      }
-      return Promise.resolve();
+      if (!sub.endpoint.startsWith("http")) return Promise.resolve();
+      return webPush.sendNotification({ endpoint: sub.endpoint, keys: sub.keys }, payload);
     })
   );
 
   results.forEach((res) => {
-    if (res.status === "fulfilled") {
-      sent++;
-    } else {
-      failed++;
-    }
+    if (res.status === "fulfilled") sent++;
+    else failed++;
   });
 
   return { total: subs.length, sent, failed };

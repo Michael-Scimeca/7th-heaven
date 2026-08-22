@@ -244,7 +244,7 @@ export default function CruisePage() {
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", notes: "", anonymous: false,
-    joinCommunity: true, website: "", guestCount: 1, cabinPreference: "",
+    joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
     dob1: "", crownAnchor1: "", tshirtSize1: "L",
     cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
     cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
@@ -601,6 +601,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           notes: serializedNotes,
           anonymous: formData.anonymous,
           joinCommunity: formData.joinCommunity,
+          cruiseNotifications: formData.cruiseNotifications,
           guests: activeGuests.map(g => ({
             name: g.name,
             email: g.email || null,
@@ -652,7 +653,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       // Reset form
       setFormData({
         name: "", email: "", phone: "", notes: "", anonymous: false,
-        joinCommunity: true, website: "", guestCount: 1, cabinPreference: "",
+        joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
         dob1: "", crownAnchor1: "", tshirtSize1: "L",
         cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
         cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
@@ -1719,7 +1720,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             />
                             <label htmlFor="join-community-toggle" className="flex-1 cursor-pointer">
                               <p className="text-xs text-white font-extrabold transition-colors">Join the 7th Heaven Cruise Community</p>
-                              <p className="text-[var(--font-size-3xs)] text-white/60 font-semibold">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
+                              <p className="text-[var(--font-size-3xs)] text-white/60 font-semibold !m-0">Get early access to chatroom, update news, deck plans, and pre-cruise passenger chat rooms.</p>
+                            </label>
+                          </div>
+
+                          <div className="flex items-center gap-3 select-none">
+                            <SquishyToggle
+                              id="cruise-notifications-toggle"
+                              label="Cruise Notifications"
+                              checked={formData.cruiseNotifications}
+                              onChange={(checked) => setFormData((f: any) => ({ ...f, cruiseNotifications: checked }))}
+                            />
+                            <label htmlFor="cruise-notifications-toggle" className="flex-1 cursor-pointer">
+                              <p className="text-xs text-white font-extrabold transition-colors">Cruise Notifications</p>
+                              <p className="text-[var(--font-size-3xs)] text-white/60 font-semibold !m-0">Get push alerts for cruise announcements, itinerary changes, and exclusive passenger updates.</p>
                             </label>
                           </div>
 

@@ -349,7 +349,7 @@ const PALETTES = [
         type="button"
         onMouseEnter={handleMouseEnter}
         style={propertyStyle}
-        className={`btn-cosmic-radial-property relative px-2 py-2 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] cursor-pointer flex items-center justify-center gap-3 group overflow-hidden ${className}`}
+        className={`btn-cosmic-radial-property relative px-2 py-2 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] cursor-pointer flex items-center justify-center gap-3 group overflow-hidden hover:scale-105 hover:brightness-115 active:scale-95 transition-all duration-300 shadow-[0_0_25px_rgba(147,51,234,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.75)] ${className}`}
         {...restProps}
       >
         {renderIcon()}

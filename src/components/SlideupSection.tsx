@@ -123,6 +123,15 @@ const SLIDES: {
 export default function SlideupSection({ showIntro = false }: { showIntro?: boolean }) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Per-card record of what was last actually WRITTEN to the DOM, so the
+  // scroll handler below can skip re-writing a style that hasn't materially
+  // changed. mask-image is a paint-time property (unlike transform/opacity,
+  // it can't be handled by the compositor), so rewriting it every single
+  // rAF tick of Lenis's eased scroll — even to the same effective value —
+  // was forcing a repaint of these cards (which also contain playing
+  // <video> elements) on nearly every frame. That was the main source of
+  // the scroll stutter through this section.
+  const lastStateRef = useRef<{ overlap: number; scale: number; translateY: number; masked: boolean }[]>([]);
 
   useEffect(() => {
     const vh = () => window.innerHeight - HEADER_H;
@@ -140,40 +149,60 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
         };
       });
 
-      // Phase 2: Batch ALL DOM style mutations (no geometry reads)
+      // Phase 2: Batch ALL DOM style mutations — but only for cards whose
+      // rounded/quantized values actually moved since the last frame we
+      // wrote. On any given frame only one (occasionally two) of the four
+      // cards is mid-transition, so this cuts the number of paint-triggering
+      // writes by roughly 75%+ compared to writing all four every tick.
+      const last = lastStateRef.current;
       cardRefs.current.forEach((card, i) => {
         if (!card || !rects[i]) return;
+        const prev = last[i] || (last[i] = { overlap: -1, scale: -1, translateY: NaN, masked: false });
         const nextData = rects[i + 1];
+
         if (nextData) {
           const innerRect = rects[i]!.innerRect;
           const nextRect = nextData.cardRect;
 
           const coveredProgress = Math.min(Math.max((viewportH + HEADER_H - nextRect.top) / viewportH, 0), 1);
-          const scale = 1 - coveredProgress * 0.05;
-          const translateY = -coveredProgress * 20;
+          const scale = Math.round((1 - coveredProgress * 0.05) * 1000) / 1000;
+          const translateY = Math.round(-coveredProgress * 20 * 10) / 10;
 
           const overlapPx = Math.max(0, innerRect.bottom - nextRect.top + 20);
-          const overlapPercent = Math.min(100, (overlapPx / innerRect.height) * 100);
+          // Quantized to quarter-percent steps — smooth to the eye, but far
+          // fewer distinct values than raw sub-pixel scroll deltas produce.
+          const overlapPercent = Math.round(Math.min(100, (overlapPx / innerRect.height) * 100) * 4) / 4;
 
-          if (overlapPercent > 0) {
-            const maskTopPercent = Math.max(0, 100 - overlapPercent);
-            const fadeEdge = Math.max(0, maskTopPercent - 6);
-            const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
-            card.style.maskImage = maskVal;
-            (card.style as any).webkitMaskImage = maskVal;
+          if (scale !== prev.scale || translateY !== prev.translateY) {
             card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-            card.style.opacity = "1";
-          } else {
-            card.style.maskImage = "none";
-            (card.style as any).webkitMaskImage = "none";
-            card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-            card.style.opacity = "1";
+            prev.scale = scale;
+            prev.translateY = translateY;
           }
-        } else {
+
+          if (overlapPercent !== prev.overlap) {
+            if (overlapPercent > 0) {
+              const maskTopPercent = Math.max(0, 100 - overlapPercent);
+              const fadeEdge = Math.max(0, maskTopPercent - 6);
+              const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
+              card.style.maskImage = maskVal;
+              (card.style as any).webkitMaskImage = maskVal;
+              prev.masked = true;
+            } else if (prev.masked) {
+              card.style.maskImage = "none";
+              (card.style as any).webkitMaskImage = "none";
+              prev.masked = false;
+            }
+            prev.overlap = overlapPercent;
+          }
+
+          if (card.style.opacity !== "1") card.style.opacity = "1";
+        } else if (prev.overlap !== 0 || prev.masked) {
           card.style.transform = "none";
           card.style.opacity = "1";
           card.style.maskImage = "none";
           (card.style as any).webkitMaskImage = "none";
+          prev.overlap = 0;
+          prev.masked = false;
         }
       });
 

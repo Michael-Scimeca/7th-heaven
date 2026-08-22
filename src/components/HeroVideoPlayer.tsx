@@ -421,11 +421,32 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         }
       `}} />
 
-      {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
-      {/* On mobile (<768px), skip video stream — show static dark bg to save 2.4MB network */}
-      {isYouTube && YTComp ? (
+      {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
+      {!isDesktop ? (
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+          <Image
+            src="/images/hero-banner.webp"
+            alt="7th Heaven Live Stage"
+            fill
+            priority
+            fetchPriority="high"
+            quality={30}
+            sizes="100vw"
+            className="object-cover z-0 brightness-[0.65]"
+          />
+          <video
+            src="/movie/hero-mobile.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.25] opacity-90 transition-opacity duration-500"
+          />
+        </div>
+      ) : isYouTube && YTComp ? (
         <YTComp videoId={ytId} />
-      ) : isDesktop ? (
+      ) : (
         <video
           key={videoSrc}
           ref={videoRef}
@@ -442,18 +463,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
         </video>
-      ) : (
-        /* Mobile: optimized priority LCP hero image — instant paint */
-        <Image
-          src="/images/hero-banner.webp"
-          alt="7th Heaven Live Stage"
-          fill
-          priority
-          fetchPriority="high"
-          quality={30}
-          sizes="100vw"
-          className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
-        />
       )}
       <div
         role="button"

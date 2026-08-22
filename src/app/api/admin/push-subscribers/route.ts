@@ -8,7 +8,7 @@ import {
 
 export async function GET() {
   try {
-    const subscribers = getPushSubscriptions();
+    const subscribers = await getPushSubscriptions();
     return NextResponse.json({ ok: true, count: subscribers.length, subscribers });
   } catch (err: any) {
     return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const { action, id, zip, radius, selectedTypes, fanName, title, message } = body;
 
     if (action === "update" && id) {
-      const updated = updatePushSubscription(id, { zip, radius, selectedTypes, fanName });
+      const updated = await updatePushSubscription(id, { zip, radius, selectedTypes });
       if (!updated) {
         return NextResponse.json({ ok: false, error: "Subscriber not found" }, { status: 404 });
       }
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     }
 
     if (action === "delete" && id) {
-      const removed = removePushSubscription(id);
+      const removed = await removePushSubscription(id);
       return NextResponse.json({ ok: true, removed });
     }
 

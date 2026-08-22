@@ -118,9 +118,8 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative text-[var(--text-color)] pt-12 pb-8 overflow-hidden border-t border-white/10 bg-[#090312]/95 backdrop-blur-2xl ${
-        isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
-      }`}
+      className={`relative text-[var(--text-color)] pt-12 pb-8 overflow-hidden   ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+        }`}
       id="footer"
       suppressHydrationWarning
     >
@@ -133,7 +132,7 @@ export function Footer() {
         </div>
 
         {/* Endorsements */}
-        <div className="site-container py-8 text-left">
+        <div className=" py-8 text-left">
           <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-6 sm:mb-8">Official Gear Endorsements</p>
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
@@ -149,7 +148,7 @@ export function Footer() {
         </div>
 
         {/* Inline Links Row — MOVED TO BOTTOM */}
-        <div className="site-container pt-2 pb-4">
+        <div className="pt-2 pb-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* Nav Links */}
             <div className="flex flex-wrap items-center gap-1">

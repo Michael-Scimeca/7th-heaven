@@ -139,7 +139,16 @@ export default function HomeVideoShowcase() {
   const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const smooothyInstanceRef = useRef<SmooothyInstance | null>(null);
+  // Tracks whether this carousel is on/near screen. Once it lazy-mounts it
+  // stays mounted for the rest of the page's life, and its render loop below
+  // was running forever regardless of scroll position — still querying every
+  // slide and writing parallax transforms every frame long after the user
+  // scrolled past it. That compounded with everything else fighting for
+  // frame budget further down the page. rootMargin keeps it warm just before
+  // it scrolls into view so there's no pop-in.
+  const isInViewRef = useRef(true);
 
   // ── PARALLAX + SPEED BOUNCY EFFECT STATE ──
   const [isParallaxEnabled, setIsParallaxEnabled] = useState<boolean>(true);
@@ -204,6 +213,17 @@ export default function HomeVideoShowcase() {
     isParallaxEnabledRef.current = isParallaxEnabled;
     isSpeedBouncyEnabledRef.current = isSpeedBouncyEnabled;
   }, [isParallaxEnabled, isSpeedBouncyEnabled]);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { isInViewRef.current = entry.isIntersecting; },
+      { rootMargin: "300px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const totalVideos = CATEGORY_SHOWCASE.length;
 
@@ -286,10 +306,11 @@ export default function HomeVideoShowcase() {
 
       smooothyInstanceRef.current = instance;
 
-      // Official Smooothy animation frame update loop
+      // Official Smooothy animation frame update loop — paused while the
+      // carousel is scrolled out of view (see isInViewRef above).
       let animId: number;
       const renderLoop = () => {
-        if (smooothyInstanceRef.current?.update) {
+        if (isInViewRef.current && smooothyInstanceRef.current?.update) {
           smooothyInstanceRef.current.update();
         }
         animId = requestAnimationFrame(renderLoop);
@@ -463,7 +484,7 @@ export default function HomeVideoShowcase() {
   const gapPx = getGapPx();
 
   return (
-    <section id="video-slider" className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
+    <section ref={sectionRef} id="video-slider" className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
 
       <div className="w-full relative z-10">
         {/* Section Header with Container Padding */}

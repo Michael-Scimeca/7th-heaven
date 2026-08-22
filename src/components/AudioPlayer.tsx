@@ -303,49 +303,7 @@ export default function AudioPlayerSection() {
     };
   }, [activeAlbumIndex, searchQuery]);
 
-  // Non-passive wheel event listener for sidebar scroll container
-  useEffect(() => {
-    const el = sidebarScrollRef.current;
-    if (!el) return;
 
-    const onWheel = (e: WheelEvent) => {
-      if (el.scrollHeight <= el.clientHeight) return;
-      const delta = e.deltaY;
-      const atTop = el.scrollTop <= 0 && delta < 0;
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1 && delta > 0;
-
-      if (!atTop && !atBottom) {
-        e.preventDefault();
-        e.stopPropagation();
-        el.scrollTop += delta;
-      }
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, []);
-
-  // Non-passive wheel event listener for tracklist scroll container
-  useEffect(() => {
-    const el = tracklistScrollRef.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (el.scrollHeight <= el.clientHeight) return;
-      const delta = e.deltaY;
-      const atTop = el.scrollTop <= 0 && delta < 0;
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1 && delta > 0;
-
-      if (!atTop && !atBottom) {
-        e.preventDefault();
-        e.stopPropagation();
-        el.scrollTop += delta;
-      }
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, []);
 
   const handleTracklistTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = tracklistScrollRef.current;
@@ -585,8 +543,8 @@ export default function AudioPlayerSection() {
             <div
               ref={sidebarScrollRef}
               onScroll={handleSidebarScroll}
-              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-auto no-scrollbar min-h-0"
-              style={{ overscrollBehavior: "auto" }}
+              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
+              style={{ overscrollBehavior: "contain" }}
             >
               {renderAlbumList(originalCds, "Original CD's")}
               {renderAlbumList(medleyCds, "Medley CD's")}
@@ -651,9 +609,9 @@ export default function AudioPlayerSection() {
                   ref={tracklistScrollRef}
                   data-lenis-prevent="true"
                   onScroll={handleTracklistScroll}
-                  className="flex-1 overflow-y-auto overscroll-auto px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
+                  className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
                   style={{
-                    overscrollBehavior: "auto",
+                    overscrollBehavior: "contain",
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                     maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                   }}

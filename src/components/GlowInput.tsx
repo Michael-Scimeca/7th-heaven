@@ -18,13 +18,13 @@ export interface GlowInputProps
 }
 
 export function GlowInput({
-  wrapperClassName = "",
+  wrapperClassName = "w-full",
   rounded = "rounded-xl",
   className = "",
   ...props
 }: GlowInputProps) {
   return (
-    <div className={`input-glow-border ${rounded} w-full ${wrapperClassName}`}>
+    <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <input
         {...props}
         className={`w-full bg-white/5 border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-all ${className}`}
@@ -42,14 +42,14 @@ export interface GlowSelectProps
 }
 
 export function GlowSelect({
-  wrapperClassName = "",
+  wrapperClassName = "w-full",
   rounded = "rounded-xl",
   className = "",
   children,
   ...props
 }: GlowSelectProps) {
   return (
-    <div className={`input-glow-border ${rounded} w-full ${wrapperClassName}`}>
+    <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <select
         {...props}
         className={`w-full bg-white/5 border border-white/10 ${rounded} text-white px-4 py-2.5 text-sm outline-none transition-all cursor-pointer appearance-none ${className}`}
@@ -68,13 +68,13 @@ export interface GlowTextareaProps
 }
 
 export function GlowTextarea({
-  wrapperClassName = "",
+  wrapperClassName = "w-full",
   rounded = "rounded-xl",
   className = "",
   ...props
 }: GlowTextareaProps) {
   return (
-    <div className={`input-glow-border ${rounded} w-full ${wrapperClassName}`}>
+    <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <textarea
         {...props}
         className={`w-full bg-white/5 border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-all resize-y ${className}`}

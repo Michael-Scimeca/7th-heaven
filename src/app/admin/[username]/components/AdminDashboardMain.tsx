@@ -45,6 +45,7 @@ import CustomScrollbar from "@/components/CustomScrollbar";
 import { EmergencyBroadcastCenter } from "@/components/EmergencyBroadcastCenter";
 import { SectionBadge } from "@/components/SectionBadge";
 import { RoleEmailDirectory } from "@/components/admin/RoleEmailDirectory";
+import ProximitySubscriberAdminPanel from "@/components/admin/ProximitySubscriberAdminPanel";
 import { cruiseCommunityBlast, crewSmsDispatchedAlert } from "@/lib/email-templates";
 import CruiseChat from "@/components/CruiseChat";
 
@@ -3183,6 +3184,29 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('emaildirectory', 'Role-Based Email Lists & Subscriber Directory', 'Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins. Copy bulk BCC lists or export CSV files.')}
         <div style={{ display: isSectionOpen('emaildirectory') ? undefined : 'none' }}>
           <RoleEmailDirectory dynamicUsers={users} />
+        </div>
+      </section>
+
+      {/* Web Push & Proximity Alert Subscribers */}
+      <section id="admin-sec-pushsubscribers" className="overflow-hidden">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('pushsubscribers'); } }} onClick={() => toggleSection('pushsubscribers')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+              Proximity & Web Push Alert Subscribers
+            </h3>
+            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Manage browser push subscriptions, zip code locations, distance radii, and test show alerts</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <SectionBadge label="Web Push • Proximity • Supabase" color="pink" />
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('pushsubscribers') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
+        </div>
+        {renderInfoBanner('pushsubscribers', 'Proximity & Web Push Alert Subscribers', 'View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.')}
+        <div style={{ display: isSectionOpen('pushsubscribers') ? undefined : 'none' }}>
+          <ProximitySubscriberAdminPanel />
         </div>
       </section>
       <section id="admin-sec-announcements" className="overflow-hidden">

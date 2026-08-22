@@ -54,39 +54,27 @@ export default function Home() {
       <HomeDataLoader />
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
-      <LazySection fallbackHeight="400px">
-        <HomeVideoShowcase />
-      </LazySection>
+      <HomeVideoShowcase />
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
-      <LazySection fallbackHeight="400px">
-        <SlideupSection />
-      </LazySection>
+      <SlideupSection />
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <LazySection fallbackHeight="180px">
-        <section id="logos" className="relative w-full py-4">
-          <LogoTicker items={ARTIST_LOGOS} direction="left" />
-          <LogoTicker items={PRESS_LOGOS} direction="right" />
-        </section>
-      </LazySection>
+      <section id="logos" className="relative w-full py-4">
+        <LogoTicker items={ARTIST_LOGOS} direction="left" />
+        <LogoTicker items={PRESS_LOGOS} direction="right" />
+      </section>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <LazySection fallbackHeight="400px">
-        <HomeNewsSection />
-      </LazySection>
+      <HomeNewsSection />
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <LazySection fallbackHeight="400px">
-        <HomeMerch />
-      </LazySection>
+      <HomeMerch />
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <LazySection fallbackHeight="500px">
-        <section id="music" className="relative w-full min-h-[600px] mt-0 mb-16 overflow-visible">
-          <AudioPlayerSection />
-        </section>
-      </LazySection>
+      <section id="music" className="relative w-full min-h-[600px] mt-0 mb-16 overflow-visible">
+        <AudioPlayerSection />
+      </section>
     </div>
   );
 }

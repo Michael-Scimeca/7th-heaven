@@ -1,5 +1,6 @@
 "use client";
 import Image from 'next/image';
+import staticVideoCategories from "../../../public/data/videos.json";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
@@ -132,10 +133,10 @@ export default function MediaPage() {
   const { member } = useMember();
   const isAdmin = member?.role === 'admin' || member?.role === 'crew';
 
-  const [categories, setCategories] = useState<VideoCategory[]>([]);
+  const [categories, setCategories] = useState<VideoCategory[]>(staticVideoCategories as VideoCategory[]);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [heroPlaying, setHeroPlaying] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>((staticVideoCategories as VideoCategory[])[0]?.category || "Official Music Videos");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -385,10 +386,14 @@ export default function MediaPage() {
               </div>
             ) : (
               <>
-                <Image width={200} height={200} unoptimized
+                <Image
                   ref={heroImgRef}
                   src={thumbMax(featuredVideo.id)}
                   alt="7th Heaven Media"
+                  fill
+                  priority
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover scale-[1.3]"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
                 />

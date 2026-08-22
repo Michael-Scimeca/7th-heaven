@@ -243,7 +243,13 @@ function HomeShaderGradientComponent() {
     const positionLoop = (t: number) => {
       // Keep position updates smooth and continuous without restarting or jumping on scroll
       if (isVisible && !document.hidden) {
-        const frameCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
+        const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
+        // This loop runs for the lifetime of every page (it lives in the root
+        // layout), competing with scroll-driven work for main-thread frame
+        // budget. Ambient background drift isn't something anyone perceives
+        // the rate of, so halve the update rate while the user is actively
+        // scrolling to free that budget for scroll smoothness instead.
+        const frameCap = isScrolling ? baseCap * 2 : baseCap;
         if (t - lastFrameTime > frameCap) {
           updatePositionLayer(t);
           lastFrameTime = t;

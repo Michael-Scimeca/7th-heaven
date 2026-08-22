@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     // Fetch all cruise signups & unsubscribed preferences
     const [{ data: signups, error }, { data: unsubscribedRecords }] = await Promise.all([
-      supabase.from('cruise_signups').select('name, email'),
+      supabase.from('cruise_signups').select('name, email').eq('cruise_notifications', true),
       supabase.from('newsletter_subscribers').select('email').eq('subscribed', false),
     ]);
 
