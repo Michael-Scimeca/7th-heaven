@@ -282,13 +282,12 @@ const FEATURES: FeatureCard[] = [
       "Auto-cron option: system can automatically blast subscribers for shows within X days without admin involvement",
     ],
     howItWorks: [
-      "Twilio powers all SMS sending — a proven carrier-grade platform with 99.95% uptime",
-      "The /api/sms/send endpoint accepts a show ID, queries Supabase for nearby subscribers, and sends via Twilio's API",
-      "Proximity matching uses the Haversine formula on stored lat/lng coordinates vs. venue coordinates",
-      "The /api/sms/webhook endpoint receives all fan replies and routes them: STOP → unsubscribe, 1 → RSVP, 2 → directions",
-      "Vercel Cron Jobs can trigger /api/sms/auto-blast daily at 9am to auto-send for upcoming shows",
+      "Web Push API powers browser push notifications directly to subscribed fan devices",
+      "The /api/notifications endpoint queries nearby subscribers and triggers browser push notifications & emails",
+      "Proximity matching uses stored lat/lng coordinates vs. venue coordinates",
+      "Proximity alerts allow 1-click RSVP and venue directions directly inside the notification prompt",
     ],
-    tags: ["Twilio SMS", "Geo-Targeting", "TCPA Compliant", "Auto-Cron", "98% Open Rate"],
+    tags: ["Web Push API", "Geo-Targeting", "Browser Push", "Email Alerts", "High Engagement"],
     category: ["fan", "comms"],
   },
 
@@ -909,34 +908,30 @@ const FEATURES: FeatureCard[] = [
     category: ["comms"],
     highlight: true,
   },
-
   {
-    icon: "📱",
-    title: "10-Template SMS System",
-    tagline: "Twilio-powered text messages for every fan interaction.",
+    icon: "🔔",
+    title: "Web Push & Email Notifications Engine",
+    tagline: "Instant browser push & email alerts for every fan interaction.",
     description:
-      "The SMS system is a complete Twilio integration covering every scenario where a text message makes sense: show proximity alerts, live-stream notifications, RSVP confirmations, Google Maps directions, opt-in/opt-out lifecycle, and internal crew alerts. All fan-facing messages are TCPA-compliant with fully automated STOP/START handling.",
+      "A complete notification engine delivering instant Web Push notifications and transactional emails for show proximity alerts, live stream broadcasts, RSVP confirmations, venue directions, and crew announcements. No carrier SMS friction required.",
     whyItMatters:
-      "Text messages have a 98% open rate within 3 minutes. For time-sensitive events — a show tonight, a crew member just went live — there is no more effective communication channel. The 10-template system covers every touchpoint where a text message converts a fan action into a real-world result.",
+      "Browser push notifications deliver instant, native device prompts with 100% direct reach. Fans receive real-time alerts the moment a live stream starts or when a show is happening nearby.",
     bullets: [
-      "Subscribe: welcome text sent immediately when a fan opts in, confirms their ZIP code on file",
-      "Live Alert: blasted to all subscribers the moment a crew member starts a broadcast",
-      "Proximity Blast: show details + RSVP link sent to fans near the venue",
-      "Auto-Cron Blast: Vercel cron fires daily — auto-sends proximity blasts without admin involvement",
-      "RSVP Reply (reply '1' or 'GOING'): auto-sends show page link with ?rsvp=going pre-filled",
-      "Directions Reply (reply '2' or 'DIRECTIONS'): auto-sends Google Maps link using venue GPS coordinates",
-      "STOP Auto-Reply: immediate unsubscribe confirmation — TCPA required",
-      "START Auto-Reply: re-subscribe confirmation for returning fans",
-      "Crew Alert: admin sends urgent internal messages to all crew members simultaneously",
+      "Subscribe: instant browser push permission prompt and email confirmation",
+      "Live Stream Alert: real-time browser push broadcast the moment a band member starts streaming",
+      "Proximity Push Alert: venue proximity detection triggers instant show alerts for fans nearby",
+      "RSVP Confirmation Email: itemized show details with 1-click Google Calendar sync",
+      "Directions Prompt: 1-click Google Maps navigation directly inside notification alerts",
+      "Merch Order Confirmation Email: itemized receipt email with quick order tracking",
+      "Crew Internal Alerts: instant notification broadcasts to band members and staff",
     ],
     howItWorks: [
-      "Twilio sends all outbound SMS via the /api/sms/* endpoints using the Twilio Node.js SDK",
-      "Inbound fan replies (STOP, START, 1, 2) are received by Twilio and forwarded to /api/sms/webhook",
-      "The webhook parses the reply body and routes to the appropriate handler (unsubscribe, RSVP, directions)",
-      "The auto-cron blast is triggered by a Vercel Cron Job at 9am daily — it queries Sanity for upcoming shows and Supabase for nearby subscribers",
-      "TCPA compliance: STOP removes opted_in=true in Supabase, START restores it",
+      "Web Push API triggers native browser push notifications via Service Worker background tasks",
+      "Resend API handles transactional HTML email dispatch with instant delivery and bounce monitoring",
+      "Geolocation engine matches fan coordinates with upcoming show venue locations",
+      "Notifications tester page (/notifications) lets admins test push alerts in real time",
     ],
-    tags: ["Twilio", "10 Templates", "TCPA Compliant", "Auto-Cron", "Vercel Cron", "98% Open Rate"],
+    tags: ["Web Push API", "Browser Push", "Resend Email", "Proximity Alerts", "Service Worker"],
     category: ["comms"],
   },
 
@@ -1132,7 +1127,7 @@ const TECH = [
   { name: "Supabase", desc: "Auth, Postgres database, real-time subscriptions, Row-Level Security, and Storage.", icon: "⚡", color: "#3ecf8e" },
   { name: "LiveKit", desc: "WebRTC rooms, participant tracking, and token generation for crew broadcasts and fan viewing.", icon: "📡", color: "#818cf8" },
   { name: "Direct Store Engine", desc: "Custom merchant storefront with direct gateway processing, real-time stock sync & per-variant control.", icon: "🛒", color: "#c084fc" },
-  { name: "Twilio", desc: "All 10 SMS templates — outbound blasts, inbound webhooks, STOP/START compliance.", icon: "📱", color: "#f22f46" },
+  { name: "Web Push API", desc: "Browser push notifications & Service Workers for show proximity, live broadcasts, and fan updates.", icon: "🔔", color: "#f59e0b" },
   { name: "Resend", desc: "All 12 transactional email templates — delivery, bounce handling, and test previews.", icon: "📧", color: "#60a5fa" },
   { name: "Sanity CMS", desc: "Tour dates, news, band bios, member profiles, site settings, and media library.", icon: "📝", color: "#f43f5e" },
   { name: "TensorFlow.js", desc: "Client-side NSFW image detection for fan photo submissions — zero server exposure.", icon: "🧠", color: "#fb923c" },
@@ -1400,7 +1395,7 @@ export default function FeaturesPage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-            {["WebRTC Live Streaming", "Twilio SMS", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "10 SMS Templates", "Sanity CMS"].map(p => (
+            {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
               <span key={p} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
             ))}
           </div>
@@ -1420,9 +1415,9 @@ export default function FeaturesPage() {
       <section className="border-y border-white/[0.06] bg-gradient-to-r from-[#851DEF]/5 via-transparent to-[#851DEF]/5">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/[0.06]">
           <Counter end={30} label="Features Live" sublabel="Fan, Live, Booking, Commerce, Comms & Platform" />
-          <Counter end={40} label="API Endpoints" sublabel="Auth, SMS, Email, CMS, Shopify, LiveKit" />
+          <Counter end={40} label="API Endpoints" sublabel="Auth, Push, Email, CMS, Merchant, LiveKit" />
           <Counter end={12} label="Email Templates" sublabel="Resend-powered, branded HTML, all flows covered" />
-          <Counter end={10} label="SMS Templates" sublabel="Twilio — proximity, RSVP, live alerts, crew" />
+          <Counter end={10} label="Push Notification Alerts" sublabel="Web Push — proximity, RSVP, live broadcasts, crew" />
         </div>
       </section>
 
