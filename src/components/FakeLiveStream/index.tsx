@@ -98,6 +98,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     setCrewIsLive(localStorage.getItem(`is_live_${membSlug}`) === 'true');
   }, [memberId]);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [notifyingFans, setNotifyingFans] = useState(false);
+  const [notifySuccess, setNotifySuccess] = useState(false);
   const [liveFeedStatuses, setLiveFeedStatuses] = useState<Record<string, string>>({});
   useEffect(() => {
     const slugs = { mike: 'michael', sammy: 'sammy', ryan: 'ryan', tony: 'tony' };
@@ -1282,8 +1284,43 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             </div>
           </div>
 
-          {/* Right — crew member link + crew side button + demo badge */}
+          {/* Right — crew member link + notify fans button + crew side button + demo badge */}
           <div className="shrink-0 flex items-center gap-2">
+            {/* Live Stream Push Alert Trigger Button */}
+            <button
+              type="button"
+              onClick={async () => {
+                setNotifyingFans(true);
+                try {
+                  await fetch('/api/ntfy/push-live', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      crewName: activeFeedCrew.name,
+                      title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
+                      message: `${activeFeedCrew.name} (${activeFeedCrew.cameraLabel}) just started streaming! Join live stream now.`,
+                      url: window.location.href,
+                    }),
+                  });
+                  setNotifySuccess(true);
+                  setTimeout(() => setNotifySuccess(false), 4500);
+                } catch (err) {
+                  console.error('Failed to notify fans:', err);
+                } finally {
+                  setNotifyingFans(false);
+                }
+              }}
+              className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${
+                notifySuccess
+                  ? 'bg-emerald-600 text-white border-emerald-400'
+                  : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white border-pink-400/40 hover:scale-105'
+              }`}
+              title="Send instant push notification alert to all subscribed fans that this live stream is active"
+            >
+              <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+              <span>{notifySuccess ? "✓ Push Sent to Fans! 🔔" : notifyingFans ? "Notifying..." : "Notify Fans We Are Live 🔔"}</span>
+            </button>
+
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
               className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-purple-300 hover:text-white transition-colors no-underline"
