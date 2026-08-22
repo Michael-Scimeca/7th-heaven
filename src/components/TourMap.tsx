@@ -254,7 +254,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Defer loading the Google Maps API until the map container approaches the viewport to prevent initial forced reflows.
+  // Load the Google Maps API immediately on mount so tiles and markers load behind preloader
   useEffect(() => {
     let active = true;
 
@@ -265,37 +265,19 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       return;
     }
 
-    const loadMapsApi = () => {
-      if (!googleMapsOptionsSet) {
-        setOptions({ key: apiKey, v: "weekly" });
-        googleMapsOptionsSet = true;
-      }
-      importLibrary("maps")
-        .then(() => { if (active) setGoogleReady(true); })
-        .catch((e: unknown) => {
-          console.warn("[TourMap] Failed to load Google Maps:", e);
-          if (active) setMapLoadError("Failed to load Google Maps");
-        });
-    };
-
-    const container = mapRef.current;
-    if (!container) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          observer.disconnect();
-          loadMapsApi();
-        }
-      },
-      { rootMargin: "400px" }
-    );
-
-    observer.observe(container);
+    if (!googleMapsOptionsSet) {
+      setOptions({ key: apiKey, v: "weekly" });
+      googleMapsOptionsSet = true;
+    }
+    importLibrary("maps")
+      .then(() => { if (active) setGoogleReady(true); })
+      .catch((e: unknown) => {
+        console.warn("[TourMap] Failed to load Google Maps:", e);
+        if (active) setMapLoadError("Failed to load Google Maps");
+      });
 
     return () => {
       active = false;
-      observer.disconnect();
     };
   }, []);
 
@@ -327,6 +309,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
         setIsLoaded(true);
+        if (typeof window !== "undefined") {
+          (window as any).__7hMapLoaded = true;
+          window.dispatchEvent(new CustomEvent("7h-map-ready"));
+        }
       });
 
       setMap(mapInstance);

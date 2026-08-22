@@ -7,7 +7,7 @@
 // to be screenshotted by the browser (same reasoning PageTransition already
 // used this for) — sharing one implementation instead of two keeps that
 // definition of "ready" from drifting apart between the two call sites.
-const MAX_WAIT_MS = 1200;
+const MAX_WAIT_MS = 2500;
 
 // Deliberately setTimeout, not requestAnimationFrame, everywhere in this
 // file. This function runs inside document.startViewTransition()'s update
@@ -46,7 +46,21 @@ export async function waitForPageReady(): Promise<void> {
     } catch {}
   }
 
-  // 2. Ensure text content is rendered in DOM and images/paint passes complete
+  // 2. If a map component is present on the page, wait for map tiles & markers to finish loading
+  if (typeof window !== "undefined" && document.querySelector(".snazzy-map-227862, #tour, .leaflet-container")) {
+    if (!(window as any).__7hMapLoaded) {
+      await new Promise<void>((resolve) => {
+        const onMapReady = () => {
+          window.removeEventListener("7h-map-ready", onMapReady);
+          resolve();
+        };
+        window.addEventListener("7h-map-ready", onMapReady);
+        setTimeout(resolve, 1800); // Safety fallback so visitor is never stranded
+      });
+    }
+  }
+
+  // 3. Ensure text content is rendered in DOM and images/paint passes complete
   return new Promise<void>((resolve) => {
     let resolved = false;
     const finish = () => {
