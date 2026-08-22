@@ -127,7 +127,13 @@ export async function removePushSubscription(id: string): Promise<boolean> {
   return !error;
 }
 
-// ── Web Push Sender ──────────────────────────────────────────────────────────
+// ── Web Push Sender with Preference Filtering ─────────────────────────────
+
+export interface PushFilterOptions {
+  showType?: string;        // e.g. "full", "unplugged", "outdoor", "casino", "tv", "fundraiser", "special"
+  showZip?: string;         // Zip code of concert location
+  distanceMiles?: number;   // Calculated distance from subscriber zip to show zip
+}
 
 function setVapid() {
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
@@ -144,12 +150,37 @@ export async function sendWebPushNotification(
   title: string,
   message: string,
   url: string = "/notifications",
-  targetSubId?: string
+  targetSubId?: string,
+  filterOptions?: PushFilterOptions
 ) {
   setVapid();
 
   let subs = await getPushSubscriptions();
-  if (targetSubId) subs = subs.filter((s) => s.id === targetSubId);
+  if (targetSubId) {
+    subs = subs.filter((s) => s.id === targetSubId);
+  }
+
+  // Filter subscribers based on their proximity and show type preferences
+  if (filterOptions) {
+    subs = subs.filter((sub) => {
+      // 1. Show Type Filter Check
+      if (filterOptions.showType) {
+        const subTypes = sub.selectedTypes || ["all"];
+        const matchesType = subTypes.includes("all") || subTypes.includes(filterOptions.showType);
+        if (!matchesType) return false;
+      }
+
+      // 2. Distance Radius Check
+      if (filterOptions.distanceMiles !== undefined && sub.radius && sub.radius !== "all") {
+        const maxRadius = parseFloat(sub.radius);
+        if (!isNaN(maxRadius) && filterOptions.distanceMiles > maxRadius) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
 
   const payload = JSON.stringify({ title, body: message, icon: "/favicon.ico", url });
 
