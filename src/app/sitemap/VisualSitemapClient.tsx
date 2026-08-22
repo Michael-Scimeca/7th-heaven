@@ -461,12 +461,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 700 },
     data: {
-      header: "MICHAEL LIVE STREAM",
-      title: "Michael's Live Broadcast Room",
+      header: "FAN LIVE STREAM ROOM",
+      title: "Fan Live Stream & Chat Room",
       path: "/live/michael",
-      imgUrl: "/sitemap-thumbs/live.jpg",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
-      description: "Dedicated member live stream broadcast & interactive feed room for Michael (/live/michael).",
+      description: "What the FAN sees: Interactive live video feed with real-time fan chat box, setlist voting, hype meter, and reaction emojis (/live/michael).",
     },
   },
   {
@@ -475,11 +475,11 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1140, y: 1040 },
     data: {
       header: "CREW BROADCAST HUB",
-      title: "Crew Member Broadcast & Control Portal",
+      title: "Crew Member Broadcast & Control Hub",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/crew-dashboard.jpg",
       badgeType: "PORTAL",
-      description: "Live camera switching, stream feeds, chat moderation, merch drops, and fan push alerts for crew members (/crew).",
+      description: "What the CREW MEMBER sees: Live camera switching, multi-cam broadcast controls, chat moderation, merch drops, and push alert triggers (/crew).",
     },
   },
   {
