@@ -386,7 +386,7 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className="min-h-screen font-sans">
+    <section className="font-sans pb-8">
       <div className="">
 
 
