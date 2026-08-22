@@ -100,11 +100,11 @@ export default function NotificationsPage() {
 
   const requestNotificationPermission = async () => {
     if (typeof window !== "undefined") {
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isIOS && browserUrl) {
-        window.open(browserUrl, "_blank", "noopener,noreferrer");
-        return;
-      }
+      const isStandalone =
+        (window.navigator as any).standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches;
+
+      // 1. If Notification API and Service Worker exist (Desktop, Android, and iOS Home Screen PWA)
       if ("Notification" in window && "serviceWorker" in navigator) {
         const p = await Notification.requestPermission();
         setPermission(p);
@@ -129,6 +129,13 @@ export default function NotificationsPage() {
             console.warn("Service Worker / Web Push setup warning:", err);
           }
         }
+        return;
+      }
+
+      // 2. Fallback for iOS inside standard Safari browser tab (not added to home screen yet)
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isIOS && !isStandalone && browserUrl) {
+        window.open(browserUrl, "_blank", "noopener,noreferrer");
       }
     }
   };
