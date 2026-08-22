@@ -72,7 +72,7 @@ export default function FooterProximityAlerts() {
         if (prefs.radius) setRadius(prefs.radius);
         if (prefs.selectedTypes?.length) setSelectedTypes(prefs.selectedTypes);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const toggleType = (id: string) => {
@@ -285,9 +285,9 @@ export default function FooterProximityAlerts() {
                   key={opt.value}
                   type="button"
                   onClick={() => setRadius(opt.value)}
-                  className={`h-[42px] px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${active
+                  className={`h-[42px] px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${active
                     ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-lg shadow-purple-500/30 scale-105"
-                    : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                 >
                   {opt.label}
@@ -311,8 +311,8 @@ export default function FooterProximityAlerts() {
                 key={type.id}
                 type="button"
                 onClick={() => toggleType(type.id)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${isSelected
-                  ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-lg shadow-purple-500/30 scale-105"
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${isSelected
+                  ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 scale-105"
                   : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
                   }`}
               >

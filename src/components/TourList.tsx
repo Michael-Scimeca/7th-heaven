@@ -1017,9 +1017,7 @@ ${filterLine}
 
   const daysLabel = getDaysUntil();
 
-  const gridClass = member?.role === 'admin'
-    ? "grid-cols-1 lg:grid-cols-[65px_175px_2.5fr_1.4fr_1fr_140px_120px_140px]"
-    : "grid-cols-1 lg:grid-cols-[65px_175px_2.5fr_1.4fr_1fr_140px_120px]";
+  const gridClass = "grid-cols-1 lg:grid-cols-[60px_165px_2.5fr_1.4fr_1fr_130px_minmax(120px,1fr)]";
 
   return (
     <>
@@ -1238,9 +1236,6 @@ ${filterLine}
 
               {/* Column 7: WEBSITE */}
               <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
-              {member?.role === 'admin' && (
-                <div className="hidden lg:block text-right" />
-              )}
             </div>
           </div>
 
@@ -1392,7 +1387,7 @@ ${filterLine}
                         </>
                       )}
                     </span>
-                    <span className="flex justify-end">
+                    <span className="flex items-center justify-end gap-2 text-right">
                       {!isPrivate && (
                         <a
                           href={show.websiteUrl || `https://www.google.com/search?q=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`}
@@ -1405,29 +1400,23 @@ ${filterLine}
                           Website
                         </a>
                       )}
+                      {member?.role === 'admin' && show._id && (
+                        <div className="flex items-center gap-1 shrink-0 ml-1">
+                          <button aria-label="Action button"
+                            onClick={() => handleEditClick(show)}
+                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
+                          >
+                            Edit
+                          </button>
+                          <button aria-label="Action button"
+                            onClick={() => handleDeleteShow(show._id)}
+                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
+                          >
+                            Del
+                          </button>
+                        </div>
+                      )}
                     </span>
-
-                    {/* Admin Row Actions */}
-                    {member?.role === 'admin' && (
-                      <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
-                        {show._id ? (
-                          <>
-                            <button aria-label="Action button"
-                              onClick={() => handleEditClick(show)}
-                              className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
-                            >
-                              Edit
-                            </button>
-                            <button aria-label="Action button"
-                              onClick={() => handleDeleteShow(show._id)}
-                              className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
-                            >
-                              Del
-                            </button>
-                          </>
-                        ) : null}
-                      </div>
-                    )}
                   </div>
 
                   {/* Mobile/Tablet Card Layout */}
