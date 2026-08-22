@@ -425,11 +425,7 @@ function SingleStickyCard({
   }, [note.note_text]);
 
   const formattedTime = React.useMemo(() => {
-    try {
-      return new Date(note.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    } catch {
-      return "";
-    }
+    return note.created_at ? note.created_at.substring(11, 16) : "";
   }, [note.created_at]);
 
   // Recalculate position relative to target DOM element
@@ -582,14 +578,6 @@ function SingleStickyCard({
             onClick={handleSubmit}
             className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-black text-[10px] uppercase tracking-wider transition flex items-center gap-1.5 shadow-md shadow-amber-400/20"
           >
-            <Send className="w-3 h-3" />
-            <span>Submit Note</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
             <Send className="w-3 h-3" />
             <span>Submit Note</span>
           </button>
