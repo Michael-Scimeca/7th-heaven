@@ -12,6 +12,7 @@ import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import dynamic from "next/dynamic";
+import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 
 // Decorative physics scene (matter-js) — not needed for SSR/SEO, and it
 // renders on every page via the global Footer, so keep it out of the
@@ -204,34 +205,7 @@ export function Footer() {
       <div className="relative z-10">
         {/* Proximity Distance & Free Push Alerts Section */}
         <div id="push-alerts-footer" className="site-container pt-0 pb-6">
-          <div className="max-w-3xl bg-gradient-to-r from-purple-950/80 via-purple-900/60 to-black/80 p-6 sm:p-8 rounded-3xl border border-purple-500/30 shadow-2xl backdrop-blur-xl">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0">
-                  <Bell className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="font-[var(--font-heading)] text-lg sm:text-xl font-black uppercase tracking-tight text-white">
-                    Proximity & Free Push Alerts
-                  </h3>
-                  <p className="text-xs text-purple-300 font-bold uppercase tracking-wider">
-                    Get alerted when 7th Heaven plays within your distance
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                href="/notifications"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all shrink-0 cursor-pointer"
-              >
-                <Bell className="w-4 h-4" /> Enable Browser Alerts &rarr;
-              </Link>
-            </div>
-
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
-              Subscribe 100% free to receive native push notifications on your phone or computer the moment new show dates, ticket drops, or venue updates are announced in your area.
-            </p>
-          </div>
+          <FooterProximityAlerts />
         </div>
 
         {/* Endorsements */}
