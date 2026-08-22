@@ -158,7 +158,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       currentFillRef.current = finalVal;
       setFillPercent(finalVal);
 
-      if (pageReadyRef.current && finalVal >= 98) {
+      if (pageReadyRef.current && finalVal >= 98 && elapsed >= minVisibleMs()) {
         finish();
       } else {
         rafId = requestAnimationFrame(animateFill);
