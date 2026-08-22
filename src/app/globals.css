@@ -4359,7 +4359,16 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * p = 0, 0.025, 0.05, ... 1. Each stop's polygon below is
  * leftY = 100% * (1 - sample), rightY = 110% * (1 - sample). */
 .preloader.is-leaving {
-  animation: preloader-curtain-up var(--preloader-reveal-duration) linear forwards;
+  animation: preloader-slide-up var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes preloader-slide-up {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 
 @keyframes preloader-curtain-up {
@@ -4544,7 +4553,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * linear, curve baked into the stops (1 - the same easeInOut sample used
  * there), so both animations share the exact same curve as exoape.com. */
 .preloader-mark.is-leaving {
-  animation: preloader-mark-shrink var(--preloader-reveal-duration) linear forwards;
+  animation: none !important;
 }
 
 @keyframes preloader-mark-shrink {
