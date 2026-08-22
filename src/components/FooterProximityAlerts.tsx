@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Bell, MapPin, Check, Sliders, Music, Mail, User } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { GlowInput } from "@/components/GlowInput";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
   "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
@@ -45,6 +47,7 @@ export default function FooterProximityAlerts() {
   const [email, setEmail] = useState("");
   const [radius, setRadius] = useState("50");
   const [selectedTypes, setSelectedTypes] = useState<string[]>(["all"]);
+  const [agreeTerms, setAgreeTerms] = useState(true);
   const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -322,6 +325,19 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
+      {/* Agreements Toggle */}
+      <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
+        <SquishyToggle
+          id="footer-agree-terms"
+          label="Agree to terms and privacy policy"
+          checked={agreeTerms}
+          onChange={setAgreeTerms}
+        />
+        <span className="text-xs text-white/60 leading-tight font-medium">
+          I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+        </span>
+      </div>
+
       {/* Bottom Action Bar */}
       <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
@@ -332,7 +348,7 @@ export default function FooterProximityAlerts() {
             <CosmicRadialButton
               icon={false}
               onClick={handleSavePrefs}
-              disabled={isBusy}
+              disabled={isBusy || !agreeTerms}
               className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
             >
               {status === "saving" ? (
@@ -348,7 +364,7 @@ export default function FooterProximityAlerts() {
           <CosmicRadialButton
             icon={false}
             onClick={handleEnableAlerts}
-            disabled={isBusy || permission === "denied" || permission === "unsupported"}
+            disabled={isBusy || !agreeTerms || permission === "denied" || permission === "unsupported"}
             className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
           >
             {status === "saving" ? (
