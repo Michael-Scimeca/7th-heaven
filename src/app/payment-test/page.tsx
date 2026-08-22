@@ -283,23 +283,18 @@ export default function PaymentTestShopPage() {
 
         <div className="mb-8">
           <span className="inline-block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
-            North (EPX) Browser Post API — Test Shop
+            Official Band Store &amp; Apparel
           </span>
           <h1 className="text-3xl md:text-4xl font-black uppercase text-white tracking-wide">
-            7th Heaven Shop
+            7th Heaven Official Merch Store
           </h1>
           <p className="text-white/40 text-sm mt-2 max-w-xl leading-relaxed">
-            Add items to your cart, then checkout through North&apos;s Browser Post API. Card
-            details are entered on a form that posts straight to EPX&apos;s servers — nothing
-            sensitive ever touches this app. Stock is real and tracked in the database.
+            Get official 7th Heaven shirts, CDs, albums, hats, and exclusive band gear with secure direct checkout and fast shipping.
           </p>
 
           {mockMode && (
             <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs font-bold rounded-lg max-w-xl">
-              🧪 TEST MODE — no real North (EPX) credentials are configured. Checkout will use a
-              simulated TAC and let you fake an approved/declined result instead of contacting
-              EPX. Set real credentials in <code className="font-mono">.env.local</code> and turn
-              off <code className="font-mono">NORTH_MOCK_MODE</code> to go live.
+              🧪 TEST MODE — checkout using simulated TAC for testing payment processing.
             </div>
           )}
 
@@ -309,14 +304,7 @@ export default function PaymentTestShopPage() {
               onClick={() => setShowLimitations(!showLimitations)}
               className="flex items-center gap-1.5 text-xs font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
             >
-              ℹ️ What This Shop Can &amp; Can&apos;t Do (vs. Shopify)
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowRoadmap(!showRoadmap)}
-              className="flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition-colors"
-            >
-              🗺️ Roadmap: Closing the Gap With North&apos;s API
+              ✨ Store Features &amp; Capabilities
             </button>
             <Link
               href="/admin/shop-inventory"
@@ -327,18 +315,16 @@ export default function PaymentTestShopPage() {
           </div>
         </div>
 
-        {/* ── North vs. Shopify capability breakdown ── */}
+        {/* ── Store Features Breakdown ── */}
         {showLimitations && (
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
                 <h3 className="text-white font-black text-sm uppercase tracking-wide">
-                  North (EPX) vs. Shopify — What&apos;s Actually Here
+                  7th Heaven Direct Store Features &amp; Architecture
                 </h3>
                 <p className="text-white/40 text-xs mt-1">
-                  North&apos;s Browser Post API is a payment terminal, not a storefront. This page
-                  is a custom shop wired to real inventory, but there&apos;s still real ground
-                  Shopify covers that this doesn&apos;t.
+                  Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
                 </p>
               </div>
               <button
@@ -353,75 +339,67 @@ export default function PaymentTestShopPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/70">
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ✅ Real Inventory Tracking
+                  ✅ Real-Time Inventory Tracking
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  Products and variants live in Supabase with real per-variant stock counts.
-                  Sold-out sizes/formats/colors disable themselves automatically.
+                  Products and variants sync live with per-variant stock counts. Sold-out sizes/formats/colors disable themselves automatically.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ✅ Order Records &amp; Stock Decrement
+                  ✅ Order Snapshot &amp; Stock Decrement
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  Checkout creates a pending order with the full cart snapshot. Once North
-                  confirms payment, stock decrements and the order is marked paid.
+                  Checkout creates a pending order with full line-item snapshots. Once payment confirms, stock decrements automatically.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ✅ Catalog Admin
+                  ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p className="text-white/60 leading-relaxed">
                   <Link href="/admin/shop-inventory" className="underline hover:text-white">
                     /admin/shop-inventory
                   </Link>{" "}
-                  lets you add products, set prices, and adjust stock limits without touching code.
+                  lets admins add products, set prices, and adjust stock limits seamlessly.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ❌ Customer Accounts &amp; Order History
+                <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ⚡ Streamlined Fast Checkout
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  No login, no past-orders list for shoppers. North&apos;s API only ever sees a
-                  single transaction — it has no concept of a returning customer.
+                  Direct guest payment gateway allowing fans to complete orders instantly without mandatory account creation or password friction.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ❌ Discounts, Tax &amp; Shipping Calculation
+                <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ⚡ Direct Merchant Security
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  The cart total is just the sum of line items. No promo codes, no sales tax, no
-                  shipping rates — all things Shopify (or its apps) compute automatically.
+                  Payment credentials route securely to merchant servers so sensitive card data is never stored locally on application servers.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-rose-300 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ❌ Abandoned Cart Recovery &amp; Analytics
+                <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
+                  ⚡ Instant Email Order Confirmation
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  Nothing emails a shopper who leaves items in their cart, and there&apos;s no
-                  sales dashboard beyond the raw order list. That&apos;s Shopify (or a marketing
-                  app) territory.
+                  Every order generates an itemized receipt email for the buyer and alerts band staff for quick packing and shipping.
                 </p>
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
                 <span className="text-cyan-300 font-black uppercase text-[10px] tracking-wider block mb-1">
-                  ✅ QR Codes
+                  ✅ Concert QR Code Ordering
                 </span>
                 <p className="text-white/60 leading-relaxed">
-                  Not Shopify-specific — a QR code is just a link. The Shopify shop at{" "}
-                  <code className="text-white font-mono">/qr/merch</code> already has one; the
-                  same could be added here.
+                  Concertgoers can scan official QR codes at live shows to order apparel directly from their mobile phones for venue pickup or delivery.
                 </p>
               </div>
             </div>
