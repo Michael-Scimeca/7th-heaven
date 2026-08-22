@@ -1376,3 +1376,101 @@ export function shiftCoverageRequest(b: {
 </p>
   `);
 }
+
+// ═══════════════════════════════════════════════
+// 19. PUSH & PROXIMITY ALERTS WELCOME & GUIDE EMAIL
+// ═══════════════════════════════════════════════
+export function pushWelcomeEmail(data: {
+  name?: string;
+  email: string;
+  zip?: string;
+  radius?: string;
+  selectedTypes?: string[];
+}) {
+  const nameDisplay = data.name ? sanitize(data.name) : '7th Heaven Fan';
+  const zipDisplay = data.zip ? sanitize(data.zip) : 'Your Area';
+  const radiusDisplay = data.radius && data.radius !== 'all' ? `${data.radius} Miles` : 'All Show Radius';
+  const typesDisplay = data.selectedTypes && data.selectedTypes.length > 0 ? data.selectedTypes.map(t => t.toUpperCase()).join(', ') : 'All Show Types';
+
+  const tdLabel = 'padding:6px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
+  const tdVal = 'padding:6px 0;color:#fff;font-size:14px;font-weight:600;';
+
+  return wrap(`
+    <!-- Hero Title -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <h1 style="margin:0 0 8px;color:#fff;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:1px;">You're All Set For 7th Heaven Show Alerts! 🎸</h1>
+      <p style="margin:0;color:#c084fc;font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:800;">Proximity Alerts & Web Push Guide</p>
+    </div>
+
+    <p style="color:rgba(255,255,255,0.85);font-size:15px;line-height:1.6;margin:0 0 24px;">
+      Hey <strong style="color:#fff;">${nameDisplay}</strong>, thanks for activating 7th Heaven notifications! You'll now receive instant alerts whenever 7th Heaven schedules a show near you.
+    </p>
+
+    <!-- Active Preferences Card -->
+    <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:14px;padding:24px;margin-bottom:28px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#c084fc;font-weight:800;">Your Active Notification Preferences</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="${tdLabel}">Zip / City</td><td style="${tdVal}">${zipDisplay}</td></tr>
+        <tr><td style="${tdLabel}">Distance Radius</td><td style="${tdVal}">${radiusDisplay}</td></tr>
+        <tr><td style="${tdLabel}">Show Types</td><td style="${tdVal}">${typesDisplay}</td></tr>
+      </table>
+    </div>
+
+    <!-- How It Works Section -->
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;margin-bottom:28px;">
+      <p style="margin:0 0 16px;font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#fff;font-weight:900;">How Your Push Notifications Work</p>
+      
+      <table style="width:100%;border-spacing:0 12px;">
+        <tr>
+          <td style="color:#ec4899;font-weight:900;font-size:18px;width:32px;vertical-align:top;">📍</td>
+          <td style="color:rgba(255,255,255,0.8);font-size:13px;line-height:1.5;">
+            <strong style="color:#fff;">Proximity Radius Matching:</strong> Our tour system automatically measures the distance between the venue and your location (<strong>${zipDisplay}</strong>). If the gig is within <strong>${radiusDisplay}</strong>, an alert is sent instantly to your device!
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#ec4899;font-weight:900;font-size:18px;width:32px;vertical-align:top;">🎸</td>
+          <td style="color:rgba(255,255,255,0.8);font-size:13px;line-height:1.5;">
+            <strong style="color:#fff;">Filtered Show Types:</strong> You only get alerts for the types of shows you care about (Full Band, Unplugged, Outdoor, Casino, Special Events, etc.).
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#ec4899;font-weight:900;font-size:18px;width:32px;vertical-align:top;">🔔</td>
+          <td style="color:rgba(255,255,255,0.8);font-size:13px;line-height:1.5;">
+            <strong style="color:#fff;">Real-Time Web Push:</strong> Push popups appear directly on your Phone or Desktop screen when a new show is posted or when doors open.
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- How to Remove Yourself / Unsubscribe Section -->
+    <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:14px;padding:24px;margin-bottom:28px;">
+      <p style="margin:0 0 14px;font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#f87171;font-weight:900;">How to Remove Yourself or Manage Push Notifications</p>
+      <p style="margin:0 0 14px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.5;">
+        You are in 100% control of your notifications. You can change your distance, update show types, or remove yourself at any time using either method below:
+      </p>
+
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;margin-bottom:12px;">
+        <p style="margin:0 0 6px;color:#fff;font-size:13px;font-weight:800;">Method 1: In Your Browser Settings (Instant Block)</p>
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5;">
+          Click the <strong>Tune / Lock icon</strong> next to <code style="color:#c084fc;background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">7thheavenband.com</code> in your browser address bar &rarr; Select <strong>Site Settings / Permissions</strong> &rarr; Change <strong>Notifications</strong> to <strong>Block</strong> or <strong>Reset</strong>.
+        </p>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;">
+        <p style="margin:0 0 6px;color:#fff;font-size:13px;font-weight:800;">Method 2: On the 7th Heaven Website Footer</p>
+        <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5;">
+          Visit <a href="https://7thheavenband.com/notifications" style="color:#c084fc;text-decoration:underline;">7thheavenband.com/notifications</a> or scroll to the website footer to adjust your radius, deselect show types, or toggle off notifications completely.
+        </p>
+      </div>
+    </div>
+
+    <!-- Call to Action Buttons -->
+    <div style="text-align:center;margin-bottom:20px;">
+      <a href="https://7thheavenband.com/notifications" style="${btnStyle}">Manage Alert Preferences</a>
+    </div>
+
+    <p style="color:rgba(255,255,255,0.35);font-size:12px;text-align:center;margin:0;">
+      Need help? Reply to this email or visit <a href="https://7thheavenband.com/privacy" style="color:#a855f7;text-decoration:underline;">7thheavenband.com/privacy</a>.
+    </p>
+  `);
+}

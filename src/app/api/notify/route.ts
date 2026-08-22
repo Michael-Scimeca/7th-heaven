@@ -4,6 +4,8 @@ import fs from "fs";
 import path from "path";
 import { validateSignup } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { sendEmail } from "@/lib/email";
+import { pushWelcomeEmail } from "@/lib/email-templates";
 
 const ACCOUNTS_FILE_PATH = path.join(process.cwd(), "data", "accounts.json");
 const ACCOUNTS_DIR = path.dirname(ACCOUNTS_FILE_PATH);
@@ -111,9 +113,24 @@ export async function POST(request: Request) {
     accounts.push(account);
     await fs.promises.writeFile(ACCOUNTS_FILE_PATH, JSON.stringify(accounts, null, 2));
 
-    // ── 7. TODO: Send confirmation email ──
-    // When ready, integrate with Resend, SendGrid, or Supabase Auth:
-    // await sendConfirmationEmail(email, account.id);
+    // ── 7. Send Push Notification Welcome & Management Guide Email ──
+    try {
+      const html = pushWelcomeEmail({
+        name,
+        email,
+        zip,
+        radius: String(radius || "50"),
+        selectedTypes: showTypes || ["all"],
+      });
+
+      await sendEmail({
+        to: email,
+        subject: "Welcome to 7th Heaven Show Alerts! 🎸 How Your Notifications Work",
+        html,
+      });
+    } catch (emailErr) {
+      console.warn("[notify/route] Failed to send welcome email:", emailErr);
+    }
 
     return NextResponse.json(
       {

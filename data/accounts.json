@@ -111,5 +111,41 @@
     "createdAt": "2026-06-20T02:07:09.525Z",
     "lastLogin": null,
     "active": true
+  },
+  {
+    "id": "e99fa190-d501-475d-bada-0e47dc4c3bd3",
+    "name": "Test Subscriber",
+    "email": "testsub@example.com",
+    "phone": "",
+    "zip": "60056",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "all"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-08-22T16:15:52.377Z",
+    "lastLogin": null,
+    "active": true
+  },
+  {
+    "id": "c6df9bfb-533f-4c6a-a452-df3182ad806f",
+    "name": "John Doe",
+    "email": "john@test.com",
+    "phone": "",
+    "zip": "60056",
+    "radius": "50",
+    "notificationsEnabled": true,
+    "notifyAreaShows": true,
+    "notifyNextShow": true,
+    "preferredShowTypes": [
+      "all"
+    ],
+    "emailConfirmed": false,
+    "createdAt": "2026-08-22T16:19:59.740Z",
+    "lastLogin": null,
+    "active": true
   }
 ]
