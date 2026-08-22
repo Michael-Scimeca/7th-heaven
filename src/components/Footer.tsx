@@ -12,6 +12,7 @@ import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import dynamic from "next/dynamic";
+import ProximityNotify from "@/components/ProximityNotify";
 
 // Decorative physics scene (matter-js) — not needed for SSR/SEO, and it
 // renders on every page via the global Footer, so keep it out of the
@@ -202,28 +203,9 @@ export function Footer() {
       <FooterPicks />
 
       <div className="relative z-10">
-        {/* Free Push Alerts (ntfy) Banner */}
+        {/* Proximity Distance & Free Push Alerts Section */}
         <div id="push-alerts-footer" className="site-container pt-0 pb-6">
-          <div className="max-w-2xl bg-gradient-to-r from-purple-900/40 via-purple-800/30 to-black/50 p-6 rounded-2xl border border-purple-500/30 shadow-xl backdrop-blur-md">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0">
-                <Bell className="w-5 h-5 text-purple-400" />
-              </div>
-              <div>
-                <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-white">Instant Free Push Alerts</h3>
-                <p className="text-xs text-purple-300 font-bold uppercase tracking-wider">No phone number &middot; No carrier text fees</p>
-              </div>
-            </div>
-            <p className="text-sm text-gray-300 mb-4 leading-relaxed">
-              Get instant push notifications straight to your phone or browser the moment 7th Heaven drops new shows, ticket links, or merch restocks.
-            </p>
-            <Link
-              href="/notifications"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all"
-            >
-              <Bell className="w-4 h-4" /> Enable Free Push Alerts &rarr;
-            </Link>
-          </div>
+          <ProximityNotify />
         </div>
 
         {/* Endorsements */}
