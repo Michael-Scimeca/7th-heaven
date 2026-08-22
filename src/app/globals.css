@@ -459,19 +459,8 @@ select option {
    No background on page-content-wrapper needed — avoids the solid-black issue.
    ─────────────────────────────────────────────────────────────────────────── */
 footer#footer {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: -1;
-  /* mask-image is set dynamically in Footer.tsx scroll handler */
-}
-
-#page-content-wrapper::after {
-  content: '';
-  display: block;
-  height: var(--footer-reveal-height, 420px);
-  pointer-events: none;
+  position: relative !important;
+  z-index: 10;
 }
 
 
