@@ -459,7 +459,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 1140, y: 1040 },
+    position: { x: 1140, y: 700 },
     data: {
       header: "Crew HQ",
       title: "Road Crew & Staff Portal",
