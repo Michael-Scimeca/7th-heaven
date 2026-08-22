@@ -70,17 +70,16 @@ export default function PrivacyPage() {
 
                     {/* 4 */}
                     <div>
-                        <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. SMS/Text Message Program</h2>
+                        <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. Proximity Alerts & Web Push Program</h2>
                         <div className="py-2 border-0 bg-transparent shadow-none">
-                            <p className="mb-3">By subscribing to 7th Heaven Show Alerts, you consent to receive recurring automated text messages at the phone number you provided. Key details:</p>
+                            <p className="mb-3">By subscribing to 7th Heaven Proximity & Show Alerts, you consent to receive automated notifications regarding nearby concerts and show updates. Key details:</p>
                             <ul className="list-disc pl-5 space-y-2 text-base">
-                                <li><strong className="text-[var(--text-color)]">Message Frequency:</strong> Varies. Typically 1–4 messages per month, with occasional additional messages for special events.</li>
-                                <li><strong className="text-[var(--text-color)]">Message & Data Rates:</strong> Standard message and data rates may apply depending on your mobile carrier plan.</li>
-                                <li><strong className="text-[var(--text-color)]">Opt-Out:</strong> Text <strong className="text-[var(--color-accent)] font-bold">STOP</strong> to any message to unsubscribe immediately. You will receive one final confirmation text.</li>
-                                <li><strong className="text-[var(--text-color)]">Help:</strong> Text <strong className="text-[var(--color-accent)] font-bold">HELP</strong> for assistance, or contact us at the information below.</li>
-                                <li><strong className="text-[var(--text-color)]">Carriers:</strong> Compatible with all major US carriers including AT&T, T-Mobile, Verizon, and others.</li>
+                                <li><strong className="text-[var(--text-color)] font-bold">Data Collected:</strong> Full name (optional), email address (optional), zip code or city, distance radius (e.g. 15 mi, 30 mi, 50 mi, 100 mi, or all shows), show type filter preferences, and browser web push subscription credentials.</li>
+                                <li><strong className="text-[var(--text-color)] font-bold">Notification Frequency:</strong> Varies based on tour date additions. Typically 1–4 notifications per month for nearby shows.</li>
+                                <li><strong className="text-[var(--text-color)] font-bold">Web Push & Browser Control:</strong> Browser push notifications are delivered directly to your device when permissions are granted. You may grant or block push notifications at any time via your browser settings.</li>
+                                <li><strong className="text-[var(--text-color)] font-bold">Opt-Out & Preference Updates:</strong> You can modify your distance radius, toggle show types, or unsubscribe from alerts at any time via the alert preferences panel in the site footer or fan dashboard.</li>
                             </ul>
-                            <p className="mt-3 text-sm text-[var(--muted-text)]">Your consent to receive texts is not a condition of any purchase. You can also unsubscribe via the fan dashboard at any time.</p>
+                            <p className="mt-3 text-sm text-[var(--muted-text)]">Your consent to receive alerts is not a condition of any purchase.</p>
                         </div>
                     </div>
 
