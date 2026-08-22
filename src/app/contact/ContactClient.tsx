@@ -55,18 +55,18 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhoto, setActivePhoto] = useState<string>(DEFAULT_PHOTO);
 
   return (
-    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0">
+    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[clamp(75px,10vh,120px)] min-h-[calc(100vh-100px)] pb-6">
 
       {/* Hero Header */}
-      <div className="text-start max-w-5xl mb-10 pt-4 relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+      <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-[clamp(0.65rem,1vh,0.75rem)] font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-[clamp(0.35rem,1vh,1rem)]">
           <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
-        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
           CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
         </h1>
-        <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+        <p className="text-white/60 text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
         </p>
       </div>
@@ -77,41 +77,40 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <div className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
 
           {/* Contact Cards List (1 Column Stacked) */}
-          <div className="space-y-4 w-full">
+          <div className="space-y-[clamp(0.4rem,1.2vh,1rem)] w-full">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
-              const isSelected = activePhoto === photoForThisCard;
 
               return (
                 <div
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhoto(photoForThisCard)}
                   onClick={() => setActivePhoto(photoForThisCard)}
-                  className="pb-4 border-b border-white/10"
+                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10"
                 >
                   {/* Category Pill */}
-                  <div className="mb-3">
-                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 inline-block">
+                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
+                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 inline-block">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
 
                   {/* Name & Title / Note */}
-                  <div className="mb-3">
-                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">
+                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
+                    <h3 className="text-[clamp(1.1rem,2vh,1.5rem)] font-black text-white tracking-tight leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
 
-                  {/* Contact Info: Email Top, Phone Directly Underneath (Width Only as Far as Text) */}
-                  <div className="flex flex-col items-start gap-2.5">
+                  {/* Contact Info: Email Top, Phone Directly Underneath */}
+                  <div className="flex flex-col items-start gap-[clamp(0.15rem,0.5vh,0.625rem)]">
                     {/* Email */}
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2.5 text-xs md:text-sm font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
                       >
-                        <Mail className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
+                        <Mail className="w-3.5 h-3.5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -122,9 +121,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2.5 text-base md:text-xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
                       >
-                        <Phone className="w-5 h-5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
+                        <Phone className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}
