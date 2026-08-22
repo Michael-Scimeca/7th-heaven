@@ -7,7 +7,13 @@ import { useMember } from "@/context/MemberContext";
 
 import SquishyToggle from "@/components/SquishyToggle";
 
-export default function LiveStreamInlineSubscribe() {
+export default function LiveStreamInlineSubscribe({
+  className = "",
+  maxWidth = "max-w-xl",
+}: {
+  className?: string;
+  maxWidth?: string;
+}) {
   const { member } = useMember();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -71,7 +77,7 @@ export default function LiveStreamInlineSubscribe() {
 
   if (subscribed) {
     return (
-      <div className="w-full max-w-xl p-5 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 backdrop-blur-xl text-white shadow-xl flex items-center gap-4">
+      <div className={`w-full ${maxWidth} p-5 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 backdrop-blur-xl text-white shadow-xl flex items-center gap-4 ${className}`}>
         <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0">
           <Check className="w-5 h-5" />
         </div>
@@ -86,7 +92,7 @@ export default function LiveStreamInlineSubscribe() {
   }
 
   return (
-    <div className="w-full max-w-xl backdrop-blur-xl text-white shadow-2xl">
+    <div className={`w-full ${maxWidth} p-5 sm:p-6 rounded-2xl border border-purple-500/30 bg-gradient-to-b from-[#130b24]/90 via-[#0d071b]/95 to-[#080410] backdrop-blur-xl text-white shadow-2xl ${className}`}>
       <div className="flex items-center gap-3 mb-3">
         <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0">
           <Bell className="w-5 h-5 animate-pulse" />

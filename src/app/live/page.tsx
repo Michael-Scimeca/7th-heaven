@@ -272,9 +272,24 @@ export default function LiveHubPage() {
             </p>
           </div>
 
-          {/* Inline Live Stream Alert & Fan Subscription Form (2 Inputs + Legal Checkbox) */}
+          {/* Fan Sign Up Callout Bar (Positioned on Right Side) */}
           <div className="shrink-0 flex justify-start md:justify-end">
-            <LiveStreamInlineSubscribe />
+            <div className="inline-flex items-center gap-4 py-2.5 rounded-2xl max-w-md text-left">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                <MessageSquare className="w-4 h-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-black uppercase tracking-wider text-white">Join the Live Chat</span>
+                <span className="text-[11px] text-purple-200/70 font-medium">Sign up as a fan to chat with 7th Heaven live</span>
+              </div>
+              <CosmicRadialButton
+                icon={false}
+                onClick={() => setShowSubscribeModal(true)}
+                className="ml-auto px-4 py-2 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+              >
+                Sign Up
+              </CosmicRadialButton>
+            </div>
           </div>
         </div>
 
@@ -551,8 +566,13 @@ export default function LiveHubPage() {
           ))}
         </div>
 
+        {/* ── LIVE STREAM INLINE SUBSCRIBE FORM (2 INPUTS + SQUISHY TOGGLE) ── */}
+        <div className="site-container mt-12 flex justify-center">
+          <LiveStreamInlineSubscribe className="w-full" maxWidth="max-w-4xl" />
+        </div>
+
         {/* ── LIVE STREAM PUSH ALERTS CARD ── */}
-        <div className="site-container mt-12">
+        <div className="site-container mt-8">
           <PushAlertsCard
             group="crew"
             title="Crew Member Live Stream Push Alerts"
