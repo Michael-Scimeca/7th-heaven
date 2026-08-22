@@ -546,18 +546,9 @@ export default function LiveHubPage() {
           ))}
         </div>
 
-        {/* ── LIVE STREAM INLINE SUBSCRIBE FORM (2 INPUTS + SQUISHY TOGGLE) ── */}
-        <div className="site-container mt-12 flex justify-center">
+        {/* ── LIVE STREAM MASTER PUSH & EMAIL ALERTS CARD (UNIFIED 2 INPUTS + SQUISHY TOGGLE + PUSH ACTIVATION) ── */}
+        <div className="site-container mt-14 flex justify-center">
           <LiveStreamInlineSubscribe className="w-full" maxWidth="max-w-4xl" />
-        </div>
-
-        {/* ── LIVE STREAM PUSH ALERTS CARD ── */}
-        <div className="site-container mt-8">
-          <PushAlertsCard
-            group="crew"
-            title="Crew Member Live Stream Push Alerts"
-            subtitle="Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
-          />
         </div>
 
         {/* ── SMS ALERTS BANNER ── */}
