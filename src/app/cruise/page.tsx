@@ -2530,7 +2530,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {renderTimeline && (
             <section
               id="history"
-              className="w-full relative overflow-x-clip site-container"
+              className="w-full relative overflow-x-clip site-container pb-24 mb-12"
             >
               <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
                 <CruiseHistoryTimeline history={CRUISE_HISTORY} />
