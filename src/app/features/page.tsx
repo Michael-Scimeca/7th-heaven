@@ -27,6 +27,34 @@ interface FeatureCard {
    FEATURE DATA
 ══════════════════════════════════════════════ */
 const FEATURES: FeatureCard[] = [
+  {
+    icon: "📌",
+    title: "Interactive Client Sticky Notes System",
+    tagline: "Drag & drop sticky notes anywhere on screen with zero-snapping pixel-exact placement.",
+    description:
+      "A complete real-time client feedback and sticky note annotation tool built directly into the site. Clients and band managers can add sticky notes anywhere on any page, drag them with pixel-exact free placement, type feedback notes, minimize/hide them, and log notes to a real-time database.",
+    whyItMatters:
+      "Eliminates miscommunication during design and review iterations by allowing stakeholders to leave notes pinned to exact page coordinates with instant real-time synchronization.",
+    bullets: [
+      "Instant '+ ADD STICKY NOTE' button pops up a visible note card directly in your current viewport center",
+      "100% pure free drag placement — zero element snapping or layout displacement",
+      "Page-scoped note routing — sticky notes stay strictly on the page URL path where they were created",
+      "Individual note minimize/hide (-) state saved persistently in localStorage ('7th_heaven_hidden_note_ids_v1')",
+      "Slide-over Admin Notes Log drawer (≡ NOTES) with 1-click navigate-to-note and unhide options",
+      "Real-time database sync via Supabase Realtime channels with resilient memory store fallback",
+      "React Doctor 100/100 certified architecture with hydration-safe persistence",
+    ],
+    howItWorks: [
+      "Clicking + ADD STICKY NOTE calculates viewport center coordinates and inserts a draft note into state",
+      "Dragging computes page-relative offset (pageY - scrollY) to ensure natural movement as the page scrolls",
+      "Saving updates Supabase Postgres table 'client_notes' and broadcasts changes via WebSocket",
+      "LocalStorage remembers hidden note IDs ('7th_heaven_hidden_note_ids_v1') across page refreshes",
+    ],
+    tags: ["Sticky Notes", "Supabase Realtime", "Drag & Drop", "LocalStorage", "Client Feedback"],
+    category: ["comms", "platform"],
+    highlight: true,
+    link: "/",
+  },
 
   // ── FAN EXPERIENCE ──────────────────────────
 

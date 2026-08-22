@@ -9,6 +9,7 @@ const CATEGORIES = [
     name: "Header Nav Pages",
     pages: [
       { path: "/", label: "Home" },
+      { path: "/features", label: "Features" },
       { path: "/merch", label: "Merch" },
       { path: "/media", label: "Media" },
       { path: "/fan-photo-wall", label: "Fan Wall" },
