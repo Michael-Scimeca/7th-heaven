@@ -82,7 +82,7 @@ export default function NorthCheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24">
+    <div className="min-h-screen bg-transparent text-white pt-32 pb-24">
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
           href="/payment-test"

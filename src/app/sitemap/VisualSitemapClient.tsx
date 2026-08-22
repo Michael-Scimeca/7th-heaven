@@ -33,169 +33,80 @@ export interface SitemapNodeData extends Record<string, unknown> {
   badgeType?: "HEADER_NAV" | "FOOTER_NAV" | "PORTAL" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH DISTINCT BADGES ---
+
+// --- COMPACT SITEMAP CARD NODE (page cards vs. small secondary email/PIN chips) ---
+const ACCENT: Record<string, { text: string; bar: string; chip: string; ring: string }> = {
+  HEADER_NAV: { text: "text-violet-300", bar: "bg-violet-500", chip: "bg-violet-500/15 text-violet-300", ring: "hover:border-violet-400/60" },
+  FOOTER_NAV: { text: "text-sky-300", bar: "bg-sky-500", chip: "bg-sky-500/15 text-sky-300", ring: "hover:border-sky-400/60" },
+  PORTAL: { text: "text-teal-300", bar: "bg-teal-500", chip: "bg-teal-500/15 text-teal-300", ring: "hover:border-teal-400/60" },
+  MODULE: { text: "text-emerald-300", bar: "bg-emerald-500", chip: "bg-emerald-500/15 text-emerald-300", ring: "hover:border-emerald-400/60" },
+  EMAIL: { text: "text-amber-300", bar: "bg-amber-500", chip: "bg-amber-500/15 text-amber-300", ring: "hover:border-amber-400/60" },
+};
+
+const BADGE_LABEL: Record<string, string> = {
+  HEADER_NAV: "NAV",
+  FOOTER_NAV: "NAV",
+  PORTAL: "PAGE",
+  MODULE: "PIN",
+  EMAIL: "MAIL",
+};
+
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const [imgError, setImgError] = useState(false);
-  const isHeaderNav = data.badgeType === "HEADER_NAV";
-  const isFooterNav = data.badgeType === "FOOTER_NAV";
-  const isPortal = data.badgeType === "PORTAL";
-  const isEmail = data.badgeType === "EMAIL";
-  const isModule = data.badgeType === "MODULE";
   const targetPath = data.path || "/";
+  const isSmall = data.badgeType === "EMAIL" || data.badgeType === "MODULE";
+  const accent = ACCENT[data.badgeType || "PORTAL"];
 
   return (
-    <div className={`w-64 rounded-xl border ${isHeaderNav
-      ? "border-purple-400/60 bg-[#120b22]"
-      : isFooterNav
-        ? "border-blue-400/60 bg-[#081022]"
-        : isPortal
-          ? "border-cyan-400/50 bg-[#051218]"
-          : isEmail
-            ? "border-amber-400/50 bg-[#161005]"
-            : isModule
-              ? "border-emerald-400/50 bg-[#051810]"
-              : "border-white/15 bg-[#0f0f17]"
-      } shadow-2xl overflow-hidden select-none hover:border-purple-400/90 transition-all duration-200 backdrop-blur-xl group`}>
-      <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${isHeaderNav
-        ? "!bg-purple-400"
-        : isFooterNav
-          ? "!bg-blue-400"
-          : isPortal
-            ? "!bg-cyan-400"
-            : isEmail
-              ? "!bg-amber-400"
-              : "!bg-emerald-400"
-        } !border-0`} />
-      <Handle type="target" position={Position.Left} id="left" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
+    <div
+      title={data.description || data.title}
+      className={`${isSmall ? "w-[190px]" : "w-60"} rounded-lg border border-white/10 bg-[#0d0d14] overflow-hidden select-none transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${accent.ring} group`}
+    >
+      <Handle type="target" position={Position.Top} className={`!w-2 !h-2 ${accent.bar} !border-0`} />
 
-      {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
       <Link href={targetPath} className="block cursor-pointer">
-        {/* Top Browser Header Bar */}
-        <div className={`${isHeaderNav
-          ? "bg-purple-600/30 border-b border-purple-500/40 group-hover:bg-purple-600/40"
-          : isFooterNav
-            ? "bg-blue-600/30 border-b border-blue-500/40 group-hover:bg-blue-600/40"
-            : isPortal
-              ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
-              : isEmail
-                ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
-                : "bg-emerald-500/20 border-b border-emerald-500/30 group-hover:bg-emerald-500/30"
-          } py-1.5 px-3 flex items-center justify-between transition-colors`}>
-          <div className="flex items-center gap-1.5 min-w-0">
-            <div className="flex items-center gap-1 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
-            </div>
-            <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${isHeaderNav
-              ? "text-purple-200"
-              : isFooterNav
-                ? "text-blue-200"
-                : isPortal
-                  ? "text-cyan-300"
-                  : isEmail
-                    ? "text-amber-300"
-                    : "text-emerald-300"
-              }`}>
-              {data.header}
-            </span>
-          </div>
-          {isHeaderNav ? (
-            <span className="px-1.5 py-0.2 rounded bg-purple-500/40 text-purple-200 text-[7px] font-mono font-black shrink-0">
-              HEADER NAV
-            </span>
-          ) : isFooterNav ? (
-            <span className="px-1.5 py-0.2 rounded bg-blue-500/40 text-blue-200 text-[7px] font-mono font-black shrink-0">
-              FOOTER NAV
-            </span>
-          ) : isPortal ? (
-            <span className="px-1.5 py-0.2 rounded bg-cyan-500/30 text-cyan-200 text-[7px] font-mono font-black shrink-0">
-              PORTAL
-            </span>
-          ) : isEmail ? (
-            <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
-              ✉ RESEND
-            </span>
-          ) : (
-            <span className="px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 text-[7px] font-mono font-black shrink-0">
-              PIN MODULE
-            </span>
-          )}
+        <div className={`h-1 w-full ${accent.bar}`} />
+
+        <div className="flex items-center justify-between gap-1 px-2 py-1">
+          <span className={`font-bold ${isSmall ? "text-[8px]" : "text-[9px]"} tracking-wide uppercase truncate ${accent.text}`}>
+            {data.header}
+          </span>
+          <span className={`shrink-0 px-1 py-[1px] rounded text-[7px] font-mono font-bold ${accent.chip}`}>
+            {BADGE_LABEL[data.badgeType || "PORTAL"]}
+          </span>
         </div>
 
-        {/* CLICKABLE REAL JPG SCREENSHOT PREVIEW WITH HOVER EFFECT */}
-        <div className="w-full h-36 bg-[#080810] border-b border-white/10 overflow-hidden relative cursor-pointer">
+        <div className={`w-full ${isSmall ? "h-14" : "h-24"} bg-[#08080d] border-y border-white/5 overflow-hidden relative`}>
           {!imgError ? (
             <Image
               src={data.imgUrl}
               alt={data.title}
-              width={400}
-              height={200}
+              width={300}
+              height={160}
               unoptimized
               onError={() => setImgError(true)}
-              className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
+              className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-150 block"
             />
           ) : (
-            <div className="w-full h-full p-3 flex flex-col justify-between bg-gradient-to-br from-[#12121f] to-[#080810]">
-              <div className="flex justify-between items-center text-[8px] font-mono text-cyan-300">
-                <span>{targetPath}</span>
-                <span>7H ENGINE</span>
-              </div>
-              <div className="space-y-1">
-                <div className="h-3 bg-purple-500/30 rounded w-3/4" />
-                <div className="h-2 bg-white/20 rounded w-1/2" />
-              </div>
-              <span className="text-[7px] font-mono text-white/40">VISUAL PREVIEW</span>
+            <div className="w-full h-full flex items-center justify-center text-white/20 text-[9px] font-mono">
+              {targetPath}
             </div>
           )}
+        </div>
 
-          {/* Hover Overlay Hint Badge */}
-          <div className="absolute inset-0 bg-purple-950/40 opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center gap-1.5 text-white font-extrabold text-xs tracking-wider backdrop-blur-[2px]">
-            <span className="bg-purple-600/90 px-3 py-1 rounded-full border border-purple-300/40 shadow-xl flex items-center gap-1.5">
-              OPEN PAGE <ExternalLink className="w-3.5 h-3.5 text-cyan-300" />
-            </span>
-          </div>
-
-          <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${isHeaderNav
-            ? "bg-purple-950/90 border-purple-400/50 text-purple-300"
-            : isFooterNav
-              ? "bg-blue-950/90 border-blue-400/50 text-blue-300"
-              : isEmail
-                ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
-                : "bg-black/80 border-white/20 text-cyan-300"
-            }`}>
-            {isEmail ? "EMAIL PREVIEW" : targetPath}
-          </div>
+        <div className="px-2 py-1.5">
+          <p className={`font-semibold ${isSmall ? "text-[9px]" : "text-[10.5px]"} text-white/85 group-hover:text-white leading-tight truncate`}>
+            {data.title}
+          </p>
         </div>
       </Link>
 
-      {/* Body Content */}
-      <div className="p-3 text-left space-y-1">
-        <Link href={targetPath} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug truncate">
-          {data.title}
-        </Link>
-
-        {data.description && (
-          <p className="text-white/60 text-[11px] leading-snug mt-1 line-clamp-2">
-            {data.description}
-          </p>
-        )}
-      </div>
-
-      <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${isHeaderNav
-        ? "!bg-purple-400"
-        : isFooterNav
-          ? "!bg-blue-400"
-          : isEmail
-            ? "!bg-amber-400"
-            : "!bg-cyan-400"
-        } !border-0`} />
-      <Handle type="source" position={Position.Right} id="right" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
+      <Handle type="source" position={Position.Bottom} className={`!w-2 !h-2 ${accent.bar} !border-0`} />
     </div>
   );
 }
 
-// --- CUSTOM TREE EDGE (Forces stroke-only 2.5px lines, absolutely zero fill) ---
+// --- CUSTOM TREE EDGE (calm, uniform slate connector lines — no neon, no animation by default) ---
 function CustomTreeEdge({
   id,
   sourceX,
@@ -214,7 +125,7 @@ function CustomTreeEdge({
     targetX,
     targetY,
     targetPosition,
-    borderRadius: 12,
+    borderRadius: 10,
   });
 
   return (
@@ -225,8 +136,8 @@ function CustomTreeEdge({
       style={{
         ...style,
         fill: "none",
-        stroke: "#a855f7",
-        strokeWidth: 2.5,
+        stroke: "#52525b",
+        strokeWidth: 1.5,
       }}
     />
   );
@@ -243,11 +154,10 @@ const edgeTypes = {
 
 // --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US: FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> ENTER PIN ON BOOKER PAGE -> PLANNER DASHBOARD) ---
 const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
-  // ROOT HOME PAGE
   {
     id: "root",
     type: "sitemapCard",
-    position: { x: 1330, y: 30 },
+    position: { x: 7355, y: 0 },
     data: {
       header: "Home Page",
       title: "7th Heaven — Official Band Website",
@@ -257,12 +167,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "7th Heaven chart-topping rock experience from Chicago with #1 Billboard hits.",
     },
   },
-
-  // ── ROW 1: HEADER NAV ──
   {
     id: "nav-merch",
     type: "sitemapCard",
-    position: { x: 0, y: 360 },
+    position: { x: 106, y: 230 },
     data: {
       header: "MERCH",
       title: "Official Band Store & Merchandise",
@@ -275,7 +183,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-media",
     type: "sitemapCard",
-    position: { x: 380, y: 360 },
+    position: { x: 522, y: 230 },
     data: {
       header: "MEDIA",
       title: "Photos, Videos & Press Kit",
@@ -288,7 +196,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-fanwall",
     type: "sitemapCard",
-    position: { x: 760, y: 360 },
+    position: { x: 951, y: 230 },
     data: {
       header: "FAN WALL",
       title: "Fan Photo Wall & Concert Uploads",
@@ -301,7 +209,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-live",
     type: "sitemapCard",
-    position: { x: 1140, y: 360 },
+    position: { x: 5674, y: 230 },
     data: {
       header: "LIVE STREAM",
       title: "Live Concert Stream & Broadcast",
@@ -314,7 +222,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-cruise",
     type: "sitemapCard",
-    position: { x: 1520, y: 360 },
+    position: { x: 9443, y: 230 },
     data: {
       header: "CRUISE 2026",
       title: "Caribbean Rock Cruise 2026",
@@ -327,7 +235,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-book",
     type: "sitemapCard",
-    position: { x: 1900, y: 360 },
+    position: { x: 11171, y: 230 },
     data: {
       header: "1. FILL BOOKING FORM",
       title: "1. Fill Event Details & Email",
@@ -340,7 +248,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "nav-contact",
     type: "sitemapCard",
-    position: { x: 2280, y: 360 },
+    position: { x: 11820, y: 230 },
     data: {
       header: "CONTACT",
       title: "Contact Management & Inquiries",
@@ -350,12 +258,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Direct contact inquiry form for booking agents and event organizers.",
     },
   },
-
-  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US FORM (PLANNER PIN VERIFICATION MODULE OPENS ON SCREEN) ──
   {
     id: "node-book-pin-module",
     type: "sitemapCard",
-    position: { x: 1900, y: 700 },
+    position: { x: 10807, y: 460 },
     data: {
       header: "2. PLANNER PIN VERIFICATION MODULE",
       title: "2. Planner PIN Verification Module",
@@ -368,7 +274,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-shows",
     type: "sitemapCard",
-    position: { x: 0, y: 700 },
+    position: { x: 12106, y: 230 },
     data: {
       header: "PAST SHOWS ARCHIVE",
       title: "1,200+ Performance Archive",
@@ -381,7 +287,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-faq",
     type: "sitemapCard",
-    position: { x: 380, y: 700 },
+    position: { x: 12392, y: 230 },
     data: {
       header: "FAQ & HELP",
       title: "Frequently Asked Questions",
@@ -394,7 +300,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-fan-signup-module",
     type: "sitemapCard",
-    position: { x: 760, y: 700 },
+    position: { x: 833, y: 690 },
     data: {
       header: "SIGN UP FAN MODULE",
       title: "Fan Account Signup & Security PIN",
@@ -407,7 +313,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-book-pin-email",
     type: "sitemapCard",
-    position: { x: 1900, y: 1040 },
+    position: { x: 10807, y: 690 },
     data: {
       header: "3. ✉ PLANNER SECURITY PIN EMAIL",
       title: "3. Email Dispatched with PIN 582901",
@@ -420,7 +326,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-fans",
     type: "sitemapCard",
-    position: { x: 0, y: 1040 },
+    position: { x: 808, y: 460 },
     data: {
       header: "Fan Club Hub",
       title: "Fan Club VIP Member Portal",
@@ -433,7 +339,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-picks",
     type: "sitemapCard",
-    position: { x: 380, y: 1040 },
+    position: { x: 1094, y: 460 },
     data: {
       header: "Pick Collector",
       title: "Guitar Pick Lottery Game",
@@ -446,7 +352,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-fan-pin-verification",
     type: "sitemapCard",
-    position: { x: 760, y: 1040 },
+    position: { x: 833, y: 920 },
     data: {
       header: "FAN PIN VERIFICATION MODULE",
       title: "Fan 6-Digit PIN Security Module",
@@ -459,7 +365,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-michael",
     type: "sitemapCard",
-    position: { x: 1140, y: 700 },
+    position: { x: 7544, y: 460 },
     data: {
       header: "FAN LIVE STREAM ROOM",
       title: "Fan Live Stream & Chat Room",
@@ -472,7 +378,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-push-modal",
     type: "sitemapCard",
-    position: { x: 1140, y: 1040 },
+    position: { x: 7569, y: 690 },
     data: {
       header: "🔔 LIVE ALERTS MASTER FORM",
       title: "Name, Email & SquishyToggle Form",
@@ -485,7 +391,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-live-subscribed",
     type: "sitemapCard",
-    position: { x: 1140, y: 1380 },
+    position: { x: 7569, y: 920 },
     data: {
       header: "✉ DOUBLE OPT-IN VERIFICATION EMAIL",
       title: "Confirm Live Stream Alerts Subscription",
@@ -498,7 +404,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-live-unsubscribed",
     type: "sitemapCard",
-    position: { x: 1140, y: 1720 },
+    position: { x: 7569, y: 1150 },
     data: {
       header: "✉ ACTIVE ALERTS & UNSUBSCRIBE LINK",
       title: "Live Alerts Activated & 1-Click Unsubscribe",
@@ -511,7 +417,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 2280, y: 700 },
+    position: { x: 5755, y: 460 },
     data: {
       header: "CREW BROADCAST HUB",
       title: "Crew Member Broadcast & Control Hub",
@@ -524,7 +430,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin",
     type: "sitemapCard",
-    position: { x: 1520, y: 1040 },
+    position: { x: 2660, y: 460 },
     data: {
       header: "Master Admin",
       title: "Admin Command Center",
@@ -534,12 +440,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Master admin dashboard, concert manager, financial reports, and broadcast center.",
     },
   },
-
-  // ── ROW 4: ENTER PIN 582901 INTO VERIFICATION MODULE ON BOOKER PAGE (y = 1380) ──
   {
     id: "node-book-verify-pin",
     type: "sitemapCard",
-    position: { x: 1900, y: 1380 },
+    position: { x: 10553, y: 920 },
     data: {
       header: "4. PLANNER PIN VERIFICATION MODULE",
       title: "4. Enter PIN into Module on Booker Page",
@@ -549,11 +453,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Planner inputs 6-digit PIN [5][8][2][9][0][1] into the Planner PIN Verification Module on the booker page to complete verification.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 2 — CRUISE MEMBER SIGNUP MODULE (y = 700) ──
   {
     id: "node-cruise-pin-module",
     type: "sitemapCard",
-    position: { x: 1520, y: 700 },
+    position: { x: 9130, y: 460 },
     data: {
       header: "CRUISE MEMBER SIGNUP MODULE",
       title: "Cruise Account Signup & Registration",
@@ -563,11 +466,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Select CRUISE account type in the Sign Up module, enter email and password to register as a Cruise 2026 member.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 3 — CRUISE PIN VERIFICATION MODULE (y = 1040) ──
   {
     id: "email-cruise-pin-email",
     type: "sitemapCard",
-    position: { x: 1520, y: 1040 },
+    position: { x: 9130, y: 690 },
     data: {
       header: "CRUISE PIN VERIFICATION MODULE",
       title: "Cruise PIN Verification Module",
@@ -577,11 +479,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Submitting cruise signup opens the PIN Verification Module asking for 6-digit security PIN to verify identity.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 4 — ✉ CRUISE SECURITY PIN EMAIL (y = 1380) ──
   {
     id: "node-cruise-verify-pin-filled",
     type: "sitemapCard",
-    position: { x: 1520, y: 1380 },
+    position: { x: 8999, y: 920 },
     data: {
       header: "✉ CRUISE SECURITY PIN EMAIL",
       title: "Email Dispatched with PIN 582901",
@@ -591,11 +492,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Automated Resend email sent to cruise registrant containing the 6-digit security PIN 582901.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 5 — CRUISE PIN VERIFICATION MODULE (PIN FILLED IN) (y = 1720) ──
   {
     id: "node-cruise-pin-filled",
     type: "sitemapCard",
-    position: { x: 1520, y: 1720 },
+    position: { x: 8999, y: 1150 },
     data: {
       header: "CRUISE PIN VERIFICATION MODULE",
       title: "Enter PIN into Module on Cruise Page",
@@ -605,11 +505,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Registrant inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module to complete reservation.",
     },
   },
-  // ── CRUISE VERTICAL FLOW: STEP 6 — CRUISE MEMBER DASHBOARD (y = 2060) ──
   {
     id: "node-cruise-dashboard-unlocked",
     type: "sitemapCard",
-    position: { x: 1520, y: 2060 },
+    position: { x: 8974, y: 1380 },
     data: {
       header: "CRUISE MEMBER DASHBOARD",
       title: "Access Cruise Member Dashboard",
@@ -622,7 +521,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-merch-pickup",
     type: "sitemapCard",
-    position: { x: 0, y: 1380 },
+    position: { x: 0, y: 460 },
     data: {
       header: "✉ Merch Pickup Email",
       title: "Flash Order Pickup Receipt",
@@ -635,7 +534,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-fan-pin-security",
     type: "sitemapCard",
-    position: { x: 760, y: 1380 },
+    position: { x: 833, y: 1150 },
     data: {
       header: "✉ FAN SECURITY PIN EMAIL",
       title: "Email Dispatched with PIN 582901",
@@ -648,7 +547,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-fan-verify-pin-filled",
     type: "sitemapCard",
-    position: { x: 760, y: 1720 },
+    position: { x: 833, y: 1380 },
     data: {
       header: "FAN PIN VERIFICATION MODULE",
       title: "Enter PIN into Module on Fan Page",
@@ -661,7 +560,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-fan-dashboard-unlocked",
     type: "sitemapCard",
-    position: { x: 760, y: 2060 },
+    position: { x: 808, y: 1610 },
     data: {
       header: "FAN DASHBOARD",
       title: "Access Fan Account Dashboard",
@@ -671,12 +570,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Fan successfully verifies PIN security code and accesses their personalized Member Hub, backstage passes, and fan photo wall.",
     },
   },
-
-  // ── ROW 5: PLANNER DASHBOARD UNLOCKED (y = 1720) ──
   {
     id: "node-planner-unlocked",
     type: "sitemapCard",
-    position: { x: 1900, y: 1720 },
+    position: { x: 10279, y: 1150 },
     data: {
       header: "5. PLANNER DASHBOARD",
       title: "5. Access Planner Dashboard",
@@ -689,22 +586,22 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew-abbie",
     type: "sitemapCard",
-    position: { x: 0, y: 2740 },
+    position: { x: 4226, y: 690 },
     data: {
-      header: "CREW MEMBER \u2014 ABBIE",
+      header: "CREW MEMBER — ABBIE",
       title: "Abbie's Crew Portal",
       path: "/crew-abbie",
       imgUrl: "/sitemap-thumbs/crew.jpg",
       badgeType: "PORTAL",
-      description: "Individual crew-member login portal for Abbie \u2014 same broadcast/schedule tools as the shared Crew Broadcast Hub, scoped to her account.",
+      description: "Individual crew-member login portal for Abbie — same broadcast/schedule tools as the shared Crew Broadcast Hub, scoped to her account.",
     },
   },
   {
     id: "node-crew-michael2",
     type: "sitemapCard",
-    position: { x: 380, y: 2740 },
+    position: { x: 4512, y: 690 },
     data: {
-      header: "CREW MEMBER \u2014 MICHAEL",
+      header: "CREW MEMBER — MICHAEL",
       title: "Michael's Crew Portal",
       path: "/crew-michael",
       imgUrl: "/sitemap-thumbs/crew-dashboard-v2.jpg",
@@ -715,9 +612,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew-ryan",
     type: "sitemapCard",
-    position: { x: 760, y: 2740 },
+    position: { x: 4798, y: 690 },
     data: {
-      header: "CREW MEMBER \u2014 RYAN",
+      header: "CREW MEMBER — RYAN",
       title: "Ryan's Crew Portal",
       path: "/crew-ryan",
       imgUrl: "/sitemap-thumbs/crew.jpg",
@@ -728,9 +625,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew-sam",
     type: "sitemapCard",
-    position: { x: 1140, y: 2740 },
+    position: { x: 5084, y: 690 },
     data: {
-      header: "CREW MEMBER \u2014 SAM",
+      header: "CREW MEMBER — SAM",
       title: "Sam's Crew Portal",
       path: "/crew-sam",
       imgUrl: "/sitemap-thumbs/crew.jpg",
@@ -741,9 +638,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew-tony",
     type: "sitemapCard",
-    position: { x: 1520, y: 2740 },
+    position: { x: 5370, y: 690 },
     data: {
-      header: "CREW MEMBER \u2014 TONY",
+      header: "CREW MEMBER — TONY",
       title: "Tony's Crew Portal",
       path: "/crew-tony",
       imgUrl: "/sitemap-thumbs/crew.jpg",
@@ -754,9 +651,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-ryan",
     type: "sitemapCard",
-    position: { x: 1900, y: 2740 },
+    position: { x: 7830, y: 460 },
     data: {
-      header: "LIVE ROOM \u2014 RYAN",
+      header: "LIVE ROOM — RYAN",
       title: "Ryan's Broadcast Room",
       path: "/live/live_ryan",
       imgUrl: "/sitemap-thumbs/live-michael-dark.png",
@@ -767,9 +664,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-sammy",
     type: "sitemapCard",
-    position: { x: 2280, y: 2740 },
+    position: { x: 8116, y: 460 },
     data: {
-      header: "LIVE ROOM \u2014 SAMMY",
+      header: "LIVE ROOM — SAMMY",
       title: "Sammy's Broadcast Room",
       path: "/live/live_sammy",
       imgUrl: "/sitemap-thumbs/live-michael-dark.png",
@@ -780,9 +677,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-tony",
     type: "sitemapCard",
-    position: { x: 2660, y: 2740 },
+    position: { x: 8402, y: 460 },
     data: {
-      header: "LIVE ROOM \u2014 TONY",
+      header: "LIVE ROOM — TONY",
       title: "Tony's Broadcast Room",
       path: "/live/live_tony",
       imgUrl: "/sitemap-thumbs/live-michael-dark.png",
@@ -793,20 +690,20 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-live-michael-static",
     type: "sitemapCard",
-    position: { x: 3040, y: 2740 },
+    position: { x: 8688, y: 460 },
     data: {
-      header: "LIVE ROOM \u2014 MICHAEL (STATIC)",
+      header: "LIVE ROOM — MICHAEL (STATIC)",
       title: "Michael's Static Broadcast Room",
       path: "/live/live_michael",
       imgUrl: "/sitemap-thumbs/live-michael-dark.png",
       badgeType: "PORTAL",
-      description: "Static per-member broadcast route for Michael \u2014 distinct from the dynamic /live/[room] fan-facing room.",
+      description: "Static per-member broadcast route for Michael — distinct from the dynamic /live/[room] fan-facing room.",
     },
   },
   {
     id: "node-verify-planner",
     type: "sitemapCard",
-    position: { x: 3420, y: 2740 },
+    position: { x: 11062, y: 920 },
     data: {
       header: "PLANNER VERIFY LINK",
       title: "Planner Verify Landing Page",
@@ -819,7 +716,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-verify-cruise",
     type: "sitemapCard",
-    position: { x: 3800, y: 2740 },
+    position: { x: 9260, y: 920 },
     data: {
       header: "CRUISE VERIFY LINK",
       title: "Cruise Verify Landing Page",
@@ -832,7 +729,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-verify-crew",
     type: "sitemapCard",
-    position: { x: 4180, y: 2740 },
+    position: { x: 5656, y: 690 },
     data: {
       header: "CREW VERIFY LINK",
       title: "Crew Verify Landing Page",
@@ -845,7 +742,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-book-success",
     type: "sitemapCard",
-    position: { x: 0, y: 3080 },
+    position: { x: 10776, y: 1150 },
     data: {
       header: "BOOKING SUCCESS PAGE",
       title: "Booking Request Submitted",
@@ -858,7 +755,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-book-cancel",
     type: "sitemapCard",
-    position: { x: 380, y: 3080 },
+    position: { x: 11298, y: 460 },
     data: {
       header: "BOOKING CANCEL PAGE",
       title: "Booking Cancelled Page",
@@ -871,7 +768,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-cruise-cancel",
     type: "sitemapCard",
-    position: { x: 760, y: 3080 },
+    position: { x: 9496, y: 460 },
     data: {
       header: "CRUISE CANCEL PAGE",
       title: "Cruise Signup Cancelled Page",
@@ -884,7 +781,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-cruise-preview",
     type: "sitemapCard",
-    position: { x: 1140, y: 3080 },
+    position: { x: 9782, y: 460 },
     data: {
       header: "CRUISE PREVIEW PAGE",
       title: "Cruise Preview (Admin Test View)",
@@ -897,7 +794,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-claim-pin",
     type: "sitemapCard",
-    position: { x: 1520, y: 3080 },
+    position: { x: 12964, y: 230 },
     data: {
       header: "RAFFLE CLAIM PAGE",
       title: "Raffle Prize Claim Page",
@@ -910,7 +807,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-qr-merch",
     type: "sitemapCard",
-    position: { x: 1900, y: 3080 },
+    position: { x: 236, y: 460 },
     data: {
       header: "QR MERCH REDEMPTION",
       title: "QR Merch Redemption Page",
@@ -923,9 +820,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin-emailmap",
     type: "sitemapCard",
-    position: { x: 2280, y: 3080 },
+    position: { x: 1616, y: 690 },
     data: {
-      header: "ADMIN \u2014 EMAIL MAP",
+      header: "ADMIN — EMAIL MAP",
       title: "Admin Email Map",
       path: "/admin/email-map",
       imgUrl: "/sitemap-thumbs/admin-emailmap.jpg",
@@ -936,9 +833,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin-emails",
     type: "sitemapCard",
-    position: { x: 2660, y: 3080 },
+    position: { x: 1902, y: 690 },
     data: {
-      header: "ADMIN \u2014 ALL EMAILS",
+      header: "ADMIN — ALL EMAILS",
       title: "Admin Email Template Directory",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/admin-emails.jpg",
@@ -949,9 +846,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin-legal",
     type: "sitemapCard",
-    position: { x: 3040, y: 3080 },
+    position: { x: 2188, y: 690 },
     data: {
-      header: "ADMIN \u2014 LEGAL DOCS",
+      header: "ADMIN — LEGAL DOCS",
       title: "Admin Legal Document Manager",
       path: "/admin/legal",
       imgUrl: "/sitemap-thumbs/admin-legal.jpg",
@@ -962,9 +859,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin-inventory",
     type: "sitemapCard",
-    position: { x: 3420, y: 3080 },
+    position: { x: 2474, y: 690 },
     data: {
-      header: "ADMIN \u2014 SHOP INVENTORY",
+      header: "ADMIN — SHOP INVENTORY",
       title: "Admin Shop Inventory Manager",
       path: "/admin/shop-inventory",
       imgUrl: "/sitemap-thumbs/admin-inventory.jpg",
@@ -975,9 +872,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin-username",
     type: "sitemapCard",
-    position: { x: 3800, y: 3080 },
+    position: { x: 2760, y: 690 },
     data: {
-      header: "ADMIN \u2014 MEMBER DETAIL",
+      header: "ADMIN — MEMBER DETAIL",
       title: "Admin Member Detail View",
       path: "/admin/planner-demo",
       imgUrl: "/sitemap-thumbs/admin.jpg",
@@ -988,7 +885,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-notifications",
     type: "sitemapCard",
-    position: { x: 4180, y: 3080 },
+    position: { x: 13200, y: 230 },
     data: {
       header: "SHOW ALERT SIGNUP",
       title: "Proximity & Show Alert Filters",
@@ -1001,7 +898,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-privacy",
     type: "sitemapCard",
-    position: { x: 0, y: 3420 },
+    position: { x: 12678, y: 230 },
     data: {
       header: "PRIVACY POLICY",
       title: "Privacy Policy",
@@ -1014,7 +911,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-terms",
     type: "sitemapCard",
-    position: { x: 380, y: 3420 },
+    position: { x: 13486, y: 230 },
     data: {
       header: "TERMS OF SERVICE",
       title: "Terms of Service",
@@ -1027,7 +924,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-returns",
     type: "sitemapCard",
-    position: { x: 760, y: 3420 },
+    position: { x: 13772, y: 230 },
     data: {
       header: "RETURNS & REFUNDS",
       title: "Returns & Refunds Policy",
@@ -1040,7 +937,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-features",
     type: "sitemapCard",
-    position: { x: 1140, y: 3420 },
+    position: { x: 14058, y: 230 },
     data: {
       header: "FEATURES",
       title: "Features Overview",
@@ -1053,7 +950,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "footer-styleguide",
     type: "sitemapCard",
-    position: { x: 1520, y: 3420 },
+    position: { x: 14344, y: 230 },
     data: {
       header: "STYLE GUIDE",
       title: "Design Style Guide",
@@ -1066,9 +963,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-welcome-fan-signup",
     type: "sitemapCard",
-    position: { x: 0, y: 3760 },
+    position: { x: 833, y: 1840 },
     data: {
-      header: "\u2709 FAN WELCOME EMAIL",
+      header: "✉ FAN WELCOME EMAIL",
       title: "Fan Welcome Email",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-welcome-fan.jpg",
@@ -1079,22 +976,22 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-welcome-crew",
     type: "sitemapCard",
-    position: { x: 380, y: 3760 },
+    position: { x: 5892, y: 690 },
     data: {
-      header: "\u2709 CREW WELCOME EMAIL",
+      header: "✉ CREW WELCOME EMAIL",
       title: "\"Welcome to the 7th Heaven Crew\"",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-welcome-crew.jpg",
       badgeType: "EMAIL",
-      description: "Sent when a new crew account is created: subject '\ud83d\udee1\ufe0f Welcome to the 7th Heaven Crew'.",
+      description: "Sent when a new crew account is created: subject '🛡️ Welcome to the 7th Heaven Crew'.",
     },
   },
   {
     id: "email-welcome-planner",
     type: "sitemapCard",
-    position: { x: 760, y: 3760 },
+    position: { x: 10068, y: 1380 },
     data: {
-      header: "\u2709 PLANNER WELCOME EMAIL",
+      header: "✉ PLANNER WELCOME EMAIL",
       title: "Planner Welcome Email",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-welcome-planner.jpg",
@@ -1105,48 +1002,48 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-new-account-alert",
     type: "sitemapCard",
-    position: { x: 1140, y: 3760 },
+    position: { x: 14630, y: 230 },
     data: {
-      header: "\u2709 NEW ACCOUNT ADMIN ALERT",
+      header: "✉ NEW ACCOUNT ADMIN ALERT",
       title: "New Account Admin Alert",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-new-account-admin-alert.jpg",
       badgeType: "EMAIL",
-      description: "Internal notification sent to admins whenever any fan, crew, or planner account is created: subject '\ud83d\udd14 New {role} Account: {name}'.",
+      description: "Internal notification sent to admins whenever any fan, crew, or planner account is created: subject '🔔 New {role} Account: {name}'.",
     },
   },
   {
     id: "email-fan-invite",
     type: "sitemapCard",
-    position: { x: 1520, y: 3760 },
+    position: { x: 3046, y: 690 },
     data: {
-      header: "\u2709 FAN CLUB INVITE EMAIL",
+      header: "✉ FAN CLUB INVITE EMAIL",
       title: "Fan Club Invitation Email",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-fan-invitation.jpg",
       badgeType: "EMAIL",
-      description: "Sent via the admin's CSV bulk-invite tool: subject '\ud83c\udfb8 You're Invited to the 7th Heaven Fan Club!'.",
+      description: "Sent via the admin's CSV bulk-invite tool: subject '🎸 You're Invited to the 7th Heaven Fan Club!'.",
     },
   },
   {
     id: "email-booking-admin",
     type: "sitemapCard",
-    position: { x: 1900, y: 3760 },
+    position: { x: 1380, y: 690 },
     data: {
-      header: "\u2709 NEW BOOKING ADMIN ALERT",
+      header: "✉ NEW BOOKING ADMIN ALERT",
       title: "New Booking Request (Admin Alert)",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
-      description: "Internal alert sent to admins the moment a planner submits a booking request: subject '\u26a1 New Booking Request \u2014 {id} from {name}'.",
+      description: "Internal alert sent to admins the moment a planner submits a booking request: subject '⚡ New Booking Request — {id} from {name}'.",
     },
   },
   {
     id: "email-booking-confirm",
     type: "sitemapCard",
-    position: { x: 2280, y: 3760 },
+    position: { x: 11584, y: 460 },
     data: {
-      header: "\u2709 BOOKING RECEIVED EMAIL",
+      header: "✉ BOOKING RECEIVED EMAIL",
       title: "Booking Request Received",
       path: "/book",
       imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
@@ -1157,9 +1054,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-booking-status",
     type: "sitemapCard",
-    position: { x: 2660, y: 3760 },
+    position: { x: 10304, y: 1380 },
     data: {
-      header: "\u2709 BOOKING STATUS UPDATE",
+      header: "✉ BOOKING STATUS UPDATE",
       title: "Booking Status Update Email",
       path: "/planner",
       imgUrl: "/sitemap-thumbs/email-booking-status.jpg",
@@ -1170,48 +1067,48 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-booking-cancelled",
     type: "sitemapCard",
-    position: { x: 3040, y: 3760 },
+    position: { x: 11323, y: 690 },
     data: {
-      header: "\u2709 BOOKING CANCELLED EMAIL",
+      header: "✉ BOOKING CANCELLED EMAIL",
       title: "Booking Cancelled Email",
       path: "/book/cancel",
       imgUrl: "/sitemap-thumbs/email-booking-cancelled-admin.jpg",
       badgeType: "EMAIL",
-      description: "Sent to planner and admin when a booking is cancelled: subject '\ud83d\udea8 Booking Cancelled: {bookingId}'.",
+      description: "Sent to planner and admin when a booking is cancelled: subject '🚨 Booking Cancelled: {bookingId}'.",
     },
   },
   {
     id: "email-booking-refund",
     type: "sitemapCard",
-    position: { x: 3420, y: 3760 },
+    position: { x: 3282, y: 690 },
     data: {
-      header: "\u2709 DEPOSIT REFUNDED EMAIL",
+      header: "✉ DEPOSIT REFUNDED EMAIL",
       title: "Deposit Refunded Email",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-booking-status.jpg",
       badgeType: "EMAIL",
-      description: "Sent when admin processes a booking deposit refund: subject '\ud83d\udcb8 Deposit Refunded \u2014 {bookingId}'.",
+      description: "Sent when admin processes a booking deposit refund: subject '💸 Deposit Refunded — {bookingId}'.",
     },
   },
   {
     id: "email-loadin-confirmed",
     type: "sitemapCard",
-    position: { x: 3800, y: 3760 },
+    position: { x: 10540, y: 1380 },
     data: {
-      header: "\u2709 LOAD-IN TIME CONFIRMED",
+      header: "✉ LOAD-IN TIME CONFIRMED",
       title: "Load-In Setup Time Confirmed",
       path: "/planner",
       imgUrl: "/sitemap-thumbs/email-booking-status.jpg",
       badgeType: "EMAIL",
-      description: "Sent to the planner once the crew load-in setup time is locked in: subject '\u23f0 Load-In Setup Time Confirmed'.",
+      description: "Sent to the planner once the crew load-in setup time is locked in: subject '⏰ Load-In Setup Time Confirmed'.",
     },
   },
   {
     id: "email-cruise-admin-notify",
     type: "sitemapCard",
-    position: { x: 0, y: 4100 },
+    position: { x: 3518, y: 690 },
     data: {
-      header: "\u2709 CRUISE ADMIN NOTIFY",
+      header: "✉ CRUISE ADMIN NOTIFY",
       title: "Cruise Signup Admin Notification",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-cruise-admin-notify.jpg",
@@ -1222,9 +1119,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-cruise-blast",
     type: "sitemapCard",
-    position: { x: 380, y: 4100 },
+    position: { x: 3754, y: 690 },
     data: {
-      header: "\u2709 CRUISE & NEWSLETTER BLASTS",
+      header: "✉ CRUISE & NEWSLETTER BLASTS",
       title: "Cruise & Newsletter Announcement Blasts",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/email-cruise-blast.jpg",
@@ -1235,22 +1132,22 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-cruise-welcome",
     type: "sitemapCard",
-    position: { x: 760, y: 4100 },
+    position: { x: 8999, y: 1610 },
     data: {
-      header: "\u2709 CRUISE HUB WELCOME",
+      header: "✉ CRUISE HUB WELCOME",
       title: "\"Welcome to the Cruise Hub\"",
       path: "/cruise/dashboard",
       imgUrl: "/sitemap-thumbs/email-cruise-welcome.jpg",
       badgeType: "EMAIL",
-      description: "Sent once cruise PIN verification completes: subject '\ud83d\udea2 You're Confirmed \u2014 Welcome to the 7th Heaven Cruise Hub!'.",
+      description: "Sent once cruise PIN verification completes: subject '🚢 You're Confirmed — Welcome to the 7th Heaven Cruise Hub!'.",
     },
   },
   {
     id: "email-cruise-cancel-notice",
     type: "sitemapCard",
-    position: { x: 1140, y: 4100 },
+    position: { x: 9521, y: 690 },
     data: {
-      header: "\u2709 CRUISE CANCELLED EMAIL",
+      header: "✉ CRUISE CANCELLED EMAIL",
       title: "Cruise Signup Cancelled Email",
       path: "/cruise/cancel",
       imgUrl: "/sitemap-thumbs/email-cruise-cancel.jpg",
@@ -1261,22 +1158,22 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-crew-alert-blast",
     type: "sitemapCard",
-    position: { x: 1520, y: 4100 },
+    position: { x: 6128, y: 690 },
     data: {
-      header: "\u2709 CREW ALERT BLAST",
+      header: "✉ CREW ALERT BLAST",
       title: "Crew Alert Blast (SMS/Email)",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/crew-sms-roles.jpg",
       badgeType: "EMAIL",
-      description: "Admin-triggered alert to all crew for a show update: subject '\ud83d\udee1\ufe0f Crew Alert: {venue}'.",
+      description: "Admin-triggered alert to all crew for a show update: subject '🛡️ Crew Alert: {venue}'.",
     },
   },
   {
     id: "email-crew-shift",
     type: "sitemapCard",
-    position: { x: 1900, y: 4100 },
+    position: { x: 6364, y: 690 },
     data: {
-      header: "\u2709 SHIFT COVERAGE EMAILS",
+      header: "✉ SHIFT COVERAGE EMAILS",
       title: "Shift Coverage Requested & Confirmed",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/email-shift-coverage-request.jpg",
@@ -1287,9 +1184,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-crew-hours-summary",
     type: "sitemapCard",
-    position: { x: 2280, y: 4100 },
+    position: { x: 6600, y: 690 },
     data: {
-      header: "\u2709 CREW HOURS SUMMARY",
+      header: "✉ CREW HOURS SUMMARY",
       title: "Crew Hours Summary Email",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/email-crew-hours-summary.jpg",
@@ -1300,9 +1197,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-crew-sms-alerts",
     type: "sitemapCard",
-    position: { x: 2660, y: 4100 },
+    position: { x: 6836, y: 690 },
     data: {
-      header: "\u2709 CREW SMS ALERTS",
+      header: "✉ CREW SMS ALERTS",
       title: "Crew SMS Alert Received/Dispatched",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/email-crew-sms-dispatched-alert.jpg",
@@ -1313,9 +1210,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-schedule-change",
     type: "sitemapCard",
-    position: { x: 3040, y: 4100 },
+    position: { x: 7072, y: 690 },
     data: {
-      header: "\u2709 SCHEDULE CHANGE ALERT",
+      header: "✉ SCHEDULE CHANGE ALERT",
       title: "Schedule Change Alert Email",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/email-schedule-change-alert.jpg",
@@ -1326,35 +1223,35 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-raffle-entry",
     type: "sitemapCard",
-    position: { x: 3420, y: 4100 },
+    position: { x: 7308, y: 690 },
     data: {
-      header: "\u2709 RAFFLE ENTRY EMAIL",
+      header: "✉ RAFFLE ENTRY EMAIL",
       title: "\"You're Entered!\" Raffle Email",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/raffle-entry-preview.jpg",
       badgeType: "EMAIL",
-      description: "Sent when a fan enters a live-stream raffle: subject '\ud83c\udf9f\ufe0f You are entered into the 7th Heaven Raffle!'.",
+      description: "Sent when a fan enters a live-stream raffle: subject '🎟️ You are entered into the 7th Heaven Raffle!'.",
     },
   },
   {
     id: "email-raffle-win",
     type: "sitemapCard",
-    position: { x: 3800, y: 4100 },
+    position: { x: 7308, y: 920 },
     data: {
-      header: "\u2709 RAFFLE WIN EMAIL",
+      header: "✉ RAFFLE WIN EMAIL",
       title: "\"You Won!\" Raffle Email",
       path: "/claim/582901",
       imgUrl: "/sitemap-thumbs/raffle-win-preview.jpg",
       badgeType: "EMAIL",
-      description: "Sent to the winner of a live-stream raffle: subject '\ud83c\udfc6 You Won the 7th Heaven Raffle!'.",
+      description: "Sent to the winner of a live-stream raffle: subject '🏆 You Won the 7th Heaven Raffle!'.",
     },
   },
   {
     id: "email-account-terminated",
     type: "sitemapCard",
-    position: { x: 4180, y: 4100 },
+    position: { x: 3990, y: 690 },
     data: {
-      header: "\u2709 ACCOUNT TERMINATED",
+      header: "✉ ACCOUNT TERMINATED",
       title: "Account Terminated (Moderation) Email",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/forgot-password.jpg",
@@ -1376,32 +1273,27 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-shows", source: "root", target: "footer-shows", type: "smoothstep" },
   { id: "e-root-footer-faq", source: "root", target: "footer-faq", type: "smoothstep" },
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
-
-  // DIRECT VERTICAL FLOW: FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> ENTER PIN INTO MODULE ON BOOKER PAGE -> PLANNER DASHBOARD
-  { id: "flow-book-to-modal-open", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
-  { id: "flow-modal-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep", animated: true },
-  { id: "flow-pin-email-to-verify-module", source: "email-book-pin-email", target: "node-book-verify-pin", type: "smoothstep", animated: true },
-  { id: "flow-verify-module-to-dashboard", source: "node-book-verify-pin", target: "node-planner-unlocked", type: "smoothstep", animated: true },
-
-  // Other section connections
-  { id: "e-fanwall-signup", source: "nav-fanwall", target: "node-fan-signup-module", type: "smoothstep", animated: true },
-  { id: "flow-fan-signup-to-pin-module", source: "node-fan-signup-module", target: "node-fan-pin-verification", type: "smoothstep", animated: true },
-  { id: "flow-pin-module-to-security-email", source: "node-fan-pin-verification", target: "email-fan-pin-security", type: "smoothstep", animated: true },
-  { id: "flow-security-email-to-filled-module", source: "email-fan-pin-security", target: "node-fan-verify-pin-filled", type: "smoothstep", animated: true },
-  { id: "flow-filled-module-to-fan-dashboard", source: "node-fan-verify-pin-filled", target: "node-fan-dashboard-unlocked", type: "smoothstep", animated: true },
+  { id: "flow-book-to-modal-open", source: "nav-book", target: "node-book-pin-module", type: "smoothstep" },
+  { id: "flow-modal-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep" },
+  { id: "flow-pin-email-to-verify-module", source: "email-book-pin-email", target: "node-book-verify-pin", type: "smoothstep" },
+  { id: "flow-verify-module-to-dashboard", source: "node-book-verify-pin", target: "node-planner-unlocked", type: "smoothstep" },
+  { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
+  { id: "flow-fan-signup-to-pin-module", source: "node-fan-signup-module", target: "node-fan-pin-verification", type: "smoothstep" },
+  { id: "flow-pin-module-to-security-email", source: "node-fan-pin-verification", target: "email-fan-pin-security", type: "smoothstep" },
+  { id: "flow-security-email-to-filled-module", source: "email-fan-pin-security", target: "node-fan-verify-pin-filled", type: "smoothstep" },
+  { id: "flow-filled-module-to-fan-dashboard", source: "node-fan-verify-pin-filled", target: "node-fan-dashboard-unlocked", type: "smoothstep" },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
   { id: "e-live-crew", source: "nav-live", target: "node-crew", type: "smoothstep" },
-  { id: "flow-live-to-michael", source: "nav-live", target: "node-live-michael", type: "smoothstep", animated: true },
-  { id: "flow-michael-to-modal", source: "node-live-michael", target: "node-live-push-modal", type: "smoothstep", animated: true },
-  { id: "flow-modal-to-subscribed-email", source: "node-live-push-modal", target: "email-live-subscribed", type: "smoothstep", animated: true },
-  { id: "flow-subscribed-to-unsubscribed-email", source: "email-live-subscribed", target: "email-live-unsubscribed", type: "smoothstep", animated: true },
-  // CRUISE VERTICAL FLOW: CRUISE 2026 -> SIGNUP -> PIN MODULE -> PIN EMAIL -> PIN FILLED -> CRUISE DASHBOARD
-  { id: "flow-cruise-to-pin-module", source: "nav-cruise", target: "node-cruise-pin-module", type: "smoothstep", animated: true },
-  { id: "flow-cruise-pin-to-email", source: "node-cruise-pin-module", target: "email-cruise-pin-email", type: "smoothstep", animated: true },
-  { id: "flow-cruise-email-to-filled", source: "email-cruise-pin-email", target: "node-cruise-verify-pin-filled", type: "smoothstep", animated: true },
-  { id: "flow-cruise-filled-to-pin-filled", source: "node-cruise-verify-pin-filled", target: "node-cruise-pin-filled", type: "smoothstep", animated: true },
-  { id: "flow-cruise-pin-filled-to-dashboard", source: "node-cruise-pin-filled", target: "node-cruise-dashboard-unlocked", type: "smoothstep", animated: true },
+  { id: "flow-live-to-michael", source: "nav-live", target: "node-live-michael", type: "smoothstep" },
+  { id: "flow-michael-to-modal", source: "node-live-michael", target: "node-live-push-modal", type: "smoothstep" },
+  { id: "flow-modal-to-subscribed-email", source: "node-live-push-modal", target: "email-live-subscribed", type: "smoothstep" },
+  { id: "flow-subscribed-to-unsubscribed-email", source: "email-live-subscribed", target: "email-live-unsubscribed", type: "smoothstep" },
+  { id: "flow-cruise-to-pin-module", source: "nav-cruise", target: "node-cruise-pin-module", type: "smoothstep" },
+  { id: "flow-cruise-pin-to-email", source: "node-cruise-pin-module", target: "email-cruise-pin-email", type: "smoothstep" },
+  { id: "flow-cruise-email-to-filled", source: "email-cruise-pin-email", target: "node-cruise-verify-pin-filled", type: "smoothstep" },
+  { id: "flow-cruise-filled-to-pin-filled", source: "node-cruise-verify-pin-filled", target: "node-cruise-pin-filled", type: "smoothstep" },
+  { id: "flow-cruise-pin-filled-to-dashboard", source: "node-cruise-pin-filled", target: "node-cruise-dashboard-unlocked", type: "smoothstep" },
   { id: "flow-merch-pickup", source: "nav-merch", target: "email-merch-pickup", type: "smoothstep" },
   { id: "flow-admin-alert", source: "node-admin", target: "email-booking-admin", type: "smoothstep" },
   { id: "e-crew-abbie", source: "node-crew", target: "node-crew-abbie", type: "smoothstep" },
@@ -1428,7 +1320,6 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-admin-inventory", source: "node-admin", target: "node-admin-inventory", type: "smoothstep" },
   { id: "e-admin-username", source: "node-admin", target: "node-admin-username", type: "smoothstep" },
   { id: "e-root-notifications", source: "root", target: "footer-notifications", type: "smoothstep" },
-  { id: "e-root-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-terms", source: "root", target: "footer-terms", type: "smoothstep" },
   { id: "e-root-returns", source: "root", target: "footer-returns", type: "smoothstep" },
   { id: "e-root-features", source: "root", target: "footer-features", type: "smoothstep" },
@@ -1455,7 +1346,9 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-email-raffle-entry", source: "node-crew", target: "email-raffle-entry", type: "smoothstep" },
   { id: "e-email-raffle-win", source: "email-raffle-entry", target: "email-raffle-win", type: "smoothstep" },
   { id: "e-email-account-terminated", source: "node-admin", target: "email-account-terminated", type: "smoothstep" },
+  { id: "e-fans-signup", source: "node-fans", target: "node-fan-signup-module", type: "smoothstep" },
 ];
+
 
 // --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW (FORM -> PLANNER PIN VERIFICATION MODULE -> PLANNER SECURITY PIN EMAIL -> PLANNER PIN VERIFICATION MODULE (ENTER PIN) -> PLANNER DASHBOARD) ---
 const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
@@ -1715,8 +1608,8 @@ export default function VisualSitemapClient() {
         .react-flow__edge path,
         .react-flow svg path {
           fill: none !important;
-          stroke: #a855f7 !important;
-          stroke-width: 2.5px !important;
+          stroke: #52525b !important;
+          stroke-width: 1.5px !important;
         }
       `}</style>
 
@@ -1807,7 +1700,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[950px] rounded-lg  border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[calc(100vh-180px)] min-h-[650px] rounded-lg border border-white/10 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           key={activeTab}
           nodes={nodes}
@@ -1815,15 +1708,17 @@ export default function VisualSitemapClient() {
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
-          fitViewOptions={{ padding: 0.12 }}
+          fitViewOptions={{ padding: 0.15 }}
+          minZoom={0.03}
+          maxZoom={1.5}
           colorMode="dark"
         >
-          <Background color="#1e1b4b" gap={24} size={1} />
+          <Background color="#1e1b2e" gap={24} size={1} />
           <Controls className="!bg-black/90 !border-white/15 !text-white !rounded-xl overflow-hidden !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
-            nodeColor="#a855f7"
+            nodeColor="#71717a"
             className="!bg-black/90 !border-white/15 !rounded-xl !shadow-2xl"
           />
         </ReactFlow>
