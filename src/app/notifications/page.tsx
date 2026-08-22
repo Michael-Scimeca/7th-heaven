@@ -280,7 +280,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
+    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-36 relative overflow-hidden text-[var(--text-color)] z-20">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
@@ -506,7 +506,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* 📱 FREE PUSH & CUSTOM NOTIFICATION LIST DISPATCHER */}
-      <div className="max-w-3xl mx-auto mt-8 overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-b from-[#1c0b24]/90 to-[#0c0512]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
+      <div className="max-w-3xl mx-auto mt-8 mb-20 overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-b from-[#1c0b24]/95 to-[#0c0512]/98 p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative z-30">
         <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/20 text-pink-300 border border-pink-500/40">
             <span className="text-lg">📱</span>

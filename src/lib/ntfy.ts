@@ -21,7 +21,7 @@
 
 export type NtfyGroup = "fans" | "crew" | "admins" | "cruise";
 
-export type NtfyPriority = "min" | "low" | "default" | "high" | "urgent";
+export type NtfyPriority = "min" | "low" | "default" | "high" | "urgent" | "max";
 
 export interface PublishNtfyOptions {
   title?: string;
@@ -73,6 +73,7 @@ const PRIORITY_TO_NUMBER: Record<NtfyPriority, number> = {
   default: 3,
   high: 4,
   urgent: 5,
+  max: 5,
 };
 
 export async function publishNtfy(topic: string, opts: PublishNtfyOptions): Promise<NtfyResult> {
