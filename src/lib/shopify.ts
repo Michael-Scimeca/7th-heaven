@@ -17,6 +17,10 @@ const domain = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.
 const storefrontAccessToken = (process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'] || '').replace(/"/g, '');
 
 async function shopifyFetch<T>({ query, variables }: { query: string; variables?: any }): Promise<{ status: number; body: T }> {
+  if (!storefrontAccessToken || process.env.NEXT_PUBLIC_DISABLE_SHOPIFY === 'true') {
+    return { status: 200, body: {} as T };
+  }
+
   const endpoint = `https://${domain}/api/2025-01/graphql.json`;
 
   try {
@@ -33,8 +37,8 @@ async function shopifyFetch<T>({ query, variables }: { query: string; variables?
 
     const body = result.ok ? await result.json() : await result.json().catch(() => ({} as T));
     return { status: result.status, body };
-  } catch (error) {
-    console.warn('Error fetching from Shopify:', error);
+  } catch {
+    // Silently return fallback without flooding browser error console
     return { status: 500, body: {} as T };
   }
 }
@@ -89,8 +93,7 @@ export async function getProducts() {
       ...e.node,
       quantityAvailable: e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
     })) || [];
-  } catch (err) {
-    console.warn('Error fetching Shopify products:', err);
+  } catch {
     return [];
   }
 }
