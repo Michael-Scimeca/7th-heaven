@@ -156,14 +156,12 @@ export default function StickyNotesOverlay() {
 
   // Instant Add Sticky Note right in front of user in current viewport
   const handleAddInstantNote = () => {
-    const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
-    const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
     const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
     const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
 
-    // Direct visible screen placement center-left
-    const initialX = Math.round(scrollX + Math.max(30, viewportWidth / 2 - 144));
-    const initialY = Math.round(scrollY + Math.max(120, viewportHeight / 3));
+    // Direct visible screen placement center-left (Viewport Fixed Coordinates)
+    const initialX = Math.round(Math.max(30, viewportWidth / 2 - 144));
+    const initialY = 180;
 
     let elementSelector = "body";
     let elementTag = "BODY";
@@ -263,8 +261,8 @@ export default function StickyNotesOverlay() {
         author_role: "client",
         x_offset_pct: Number.isNaN(xPct) ? 50 : Math.max(0, Math.min(100, xPct)),
         y_offset_pct: Number.isNaN(yPct) ? 50 : Math.max(0, Math.min(100, yPct)),
-        custom_x: Math.round(e.clientX + window.scrollX - 144),
-        custom_y: Math.round(e.clientY + window.scrollY - 30),
+        custom_x: Math.round(e.clientX - 144),
+        custom_y: Math.round(e.clientY - 30),
         status: "draft",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -548,7 +546,7 @@ function SingleStickyCard({
     return note.created_at ? note.created_at.substring(11, 16) : "";
   }, [note.created_at]);
 
-  // Recalculate position relative to target DOM element
+  // Recalculate position relative to target DOM element (Viewport Fixed Coordinates)
   const updatePosition = useCallback(() => {
     if (typeof window === "undefined" || isDragging) return;
 
@@ -556,22 +554,23 @@ function SingleStickyCard({
       const targetEl = safeQuerySelector(note.element_selector);
       if (targetEl && targetEl !== document.body) {
         const rect = targetEl.getBoundingClientRect();
-        const pageLeft = rect.left + window.scrollX;
-        const pageTop = rect.top + window.scrollY;
 
-        const anchorX = pageLeft + (rect.width * note.x_offset_pct) / 100;
-        const anchorY = pageTop + (rect.height * note.y_offset_pct) / 100;
+        const viewportLeft = Math.round(rect.left + (rect.width * note.x_offset_pct) / 100);
+        const viewportTop = Math.round(rect.top + (rect.height * note.y_offset_pct) / 100);
 
-        setPos({ left: anchorX, top: anchorY });
+        setPos({ left: viewportLeft, top: viewportTop });
         return;
       }
     } catch {
       // Element not on this page
     }
 
-    // Fallback position
+    // Fallback position directly in viewport center
     if (note.custom_x !== undefined && note.custom_y !== undefined) {
       setPos({ left: note.custom_x, top: note.custom_y });
+    } else {
+      const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
+      setPos({ left: Math.round(vw / 2 - 144), top: 180 });
     }
   }, [note.element_selector, note.x_offset_pct, note.y_offset_pct, note.custom_x, note.custom_y, isDragging]);
 
@@ -702,7 +701,7 @@ function SingleStickyCard({
 
   return (
     <div
-      className={`sticky-note-card absolute z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 ${
+      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 ${
         isHighlighted
           ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105"
           : note.status === "submitted"
