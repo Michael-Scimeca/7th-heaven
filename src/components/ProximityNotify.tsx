@@ -451,50 +451,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                   </div>
 
-                  {/* Checkbox Preferences */}
-                  <div className="pt-2 border-t border-white/10 space-y-2">
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
-                        <SquishyToggle
-                          id="notify-area-shows"
-                          label="Notify me about area shows"
-                          checked={notifyAreaShows}
-                          onChange={setNotifyAreaShows}
-                        />
-                        <div className="flex flex-col justify-center leading-none">
-                          <p className="text-xs font-bold text-white/90 leading-none">Area Shows</p>
-                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Within {radius === "all" ? "All" : `${radius}mi`}</p>
-                        </div>
-                      </label>
-
-                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
-                        <SquishyToggle
-                          id="notify-next-show"
-                          label="Notify me about the next show"
-                          checked={notifyNextShow}
-                          onChange={setNotifyNextShow}
-                        />
-                        <div className="flex flex-col justify-center leading-none">
-                          <p className="text-xs font-bold text-white/90 leading-none">Next Show</p>
-                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Band alerts</p>
-                        </div>
-                      </label>
-
-                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
-                        <SquishyToggle
-                          id="notify-browser"
-                          label="Enable browser popup notifications"
-                          checked={notifyBrowser}
-                          onChange={handleBrowserNotifyToggle}
-                        />
-                        <div className="flex flex-col justify-center leading-none">
-                          <p className="text-xs font-bold text-white/90 leading-none">Browser Popups</p>
-                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Alerts</p>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-
                   {/* Agreements */}
                   <div className="pt-2 space-y-2">
                     <div className="flex items-start gap-2.5 cursor-pointer text-left w-full" onClick={() => setAgreeNotify(!agreeNotify)}>
