@@ -131,7 +131,6 @@ export default function FooterProximityAlerts() {
         selectedTypes,
       }),
     });
-
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       throw new Error(data.error || "Server error saving subscription");
@@ -139,25 +138,35 @@ export default function FooterProximityAlerts() {
   }
 
   const handleEnableAlerts = async () => {
-    if (!("Notification" in window)) return;
+    if (!agreeTerms) setAgreeTerms(true);
     setStatus("saving");
     setErrorMsg("");
     try {
-      // 1. Request browser permission
-      const p = await Notification.requestPermission();
-      setPermission(p);
-      if (p !== "granted") { setStatus("idle"); return; }
-
-      // 2. Register service worker (idempotent)
-      await navigator.serviceWorker.register("/sw.js");
-
-      // 3. Create a real push subscription via PushManager
-      const pushSub = await createSubscription();
-      if (!pushSub) throw new Error("Could not create push subscription");
-
-      // 4. POST to server → Supabase
-      await persistSubscription(pushSub);
-
+      let pushSub: PushSubscription | null = null;
+      if (typeof window !== "undefined" && "Notification" in window) {
+        const p = await Notification.requestPermission();
+        setPermission(p);
+        if (p === "granted" && "serviceWorker" in navigator) {
+          await navigator.serviceWorker.register("/sw.js");
+          pushSub = await createSubscription();
+        }
+      }
+      if (pushSub) {
+        await persistSubscription(pushSub);
+      } else {
+        localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+        await fetch("/api/web-push/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name.trim() || undefined,
+            email: email.trim() || undefined,
+            zip: zip.trim() || undefined,
+            radius,
+            selectedTypes,
+          }),
+        });
+      }
       setStatus("saved");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (err: any) {
@@ -172,16 +181,15 @@ export default function FooterProximityAlerts() {
     setStatus("saving");
     setErrorMsg("");
     try {
-      // Get existing subscription (already granted)
       let pushSub = await getExistingSubscription();
       if (!pushSub) {
-        // Edge case: permission was granted but subscription expired — re-subscribe
         pushSub = await createSubscription();
       }
-      if (!pushSub) throw new Error("No active push subscription found");
-
-      await persistSubscription(pushSub);
-
+      if (pushSub) {
+        await persistSubscription(pushSub);
+      } else {
+        localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+      }
       setStatus("saved");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (err: any) {
@@ -196,8 +204,6 @@ export default function FooterProximityAlerts() {
 
   return (
     <div className="w-full relative z-10">
-
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0 shadow-lg">
@@ -214,80 +220,55 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
-      {/* Error banner */}
       {status === "error" && errorMsg && (
         <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
           ⚠️ {errorMsg}
         </div>
       )}
 
-      {/* Permission denied notice */}
       {permission === "denied" && (
         <div className="mb-4 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold">
           🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
         </div>
       )}
 
-      {/* Line 1: Full Name, Zip Code, Email, & Distance Radius */}
       <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
-        {/* Full Name Input */}
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <User className="w-3.5 h-3.5 text-purple-400" /> Full Name <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
           </label>
-          <GlowInput
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. John Doe"
-            wrapperClassName="w-full sm:w-[300px]"
-          />
+          <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
-        {/* Zip Code Input */}
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-pink-400" /> Your Zip Code / City
           </label>
-          <GlowInput
-            type="text"
-            value={zip}
-            onChange={(e) => setZip(e.target.value)}
-            placeholder="e.g. 60056 or Chicago"
-            wrapperClassName="w-full sm:w-[300px]"
-          />
+          <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
-        {/* Email Input (Optional) */}
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <Mail className="w-3.5 h-3.5 text-purple-400" /> Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+            <Mail className="w-3.5 h-3.5 text-indigo-400" /> Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
           </label>
-          <GlowInput
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            wrapperClassName="w-full sm:w-[300px]"
-          />
+          <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
-        {/* Distance Radius Pills */}
-        <div className="shrink-0">
+        <div className="shrink-0 w-full lg:w-auto">
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <Sliders className="w-3.5 h-3.5 text-purple-400" /> Maximum Distance Radius
+            <Sliders className="w-3.5 h-3.5 text-cyan-400" /> Maximum Distance Radius
           </label>
-          <div className="flex flex-wrap gap-1.5 items-center">
+          <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md">
             {RADIUS_OPTIONS.map((opt) => {
-              const active = radius === opt.value;
+              const isSelected = radius === opt.value;
               return (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => setRadius(opt.value)}
-                  className={`h-[42px] px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${active
-                    ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-lg shadow-purple-500/30 scale-105"
-                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${isSelected
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-105"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
                     }`}
                 >
                   {opt.label}
@@ -298,7 +279,6 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
-      {/* Line 2: Show Type Filters */}
       <div className="mb-6 relative z-10">
         <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
           <Music className="w-3.5 h-3.5 text-cyan-400" /> Which Types of Show Notifications?
@@ -325,53 +305,55 @@ export default function FooterProximityAlerts() {
         </div>
       </div>
 
-      {/* Agreements Toggle */}
       <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
-        <SquishyToggle
-          id="footer-agree-terms"
-          label="Agree to terms and privacy policy"
-          checked={agreeTerms}
-          onChange={setAgreeTerms}
-        />
+        <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
         <span className="text-xs text-white/60 leading-tight font-medium">
           I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
         </span>
       </div>
 
-      {/* Bottom Action Bar */}
       <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider">
-              <Check className="w-4 h-4 text-emerald-400" /> Push Enabled
+          <div className="flex items-center gap-3 shrink-0 flex-nowrap">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider whitespace-nowrap shrink-0">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
             </span>
             <CosmicRadialButton
               icon={false}
               onClick={handleSavePrefs}
-              disabled={isBusy || !agreeTerms}
-              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
+              disabled={isBusy}
+              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
             >
-              {status === "saving" ? (
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
-              ) : status === "saved" ? (
-                <><Check className="w-4 h-4 text-emerald-300" /> Saved!</>
-              ) : (
-                "Save Preferences"
-              )}
+              <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
+                {status === "saving" ? (
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block shrink-0" />
+                ) : status === "saved" ? (
+                  <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-black">Saved!</span></>
+                ) : (
+                  <span className="whitespace-nowrap font-black">Save Preferences</span>
+                )}
+              </span>
             </CosmicRadialButton>
           </div>
         ) : (
           <CosmicRadialButton
             icon={false}
             onClick={handleEnableAlerts}
-            disabled={isBusy || !agreeTerms || permission === "denied" || permission === "unsupported"}
-            className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60"
+            disabled={isBusy || permission === "denied"}
+            className="!px-6 !py-3.5 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
           >
-            {status === "saving" ? (
-              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
-            ) : (
-              <><Bell className="w-4 h-4" /> Enable Alerts ({radius === "all" ? "All Distance" : `${radius} Mi`})</>
-            )}
+            <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
+              {status === "saving" ? (
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block shrink-0" />
+              ) : status === "saved" ? (
+                <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-black">Preferences Saved!</span></>
+              ) : (
+                <>
+                  <Bell className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span className="whitespace-nowrap font-black">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
+                </>
+              )}
+            </span>
           </CosmicRadialButton>
         )}
 
@@ -381,7 +363,6 @@ export default function FooterProximityAlerts() {
             : "Click to enable instant browser & proximity alerts for nearby shows."}
         </p>
       </div>
-
     </div>
   );
 }

@@ -149,11 +149,7 @@ export default function NotificationsPage() {
       <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-10 shadow-md">
         <p className="text-white/60 text-sm font-medium text-center mb-8">{activeMeta.blurb}</p>
 
-        {loading ? (
-          <div className="py-12 text-center text-white/40 text-sm font-bold uppercase tracking-widest">
-            Loading &hellip;
-          </div>
-        ) : !info?.configured ? (
+        {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">
             <p className="text-white font-extrabold mb-1">Not set up yet</p>
             <p className="text-white/50 text-sm">

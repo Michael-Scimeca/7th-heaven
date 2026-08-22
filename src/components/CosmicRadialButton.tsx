@@ -348,12 +348,13 @@ export const CosmicRadialButton = React.forwardRef<
         ref={ref}
         type="button"
         onMouseEnter={handleMouseEnter}
+        onTouchStart={() => randomizePositions()}
         style={propertyStyle}
-        className={`btn-cosmic-radial-property relative px-2 py-2 rounded-2xl text-white font-black text-xs uppercase tracking-[0.2em] cursor-pointer flex items-center justify-center gap-3 group overflow-hidden hover:scale-105 hover:brightness-115 active:scale-95 transition-all duration-300 shadow-[0_0_25px_rgba(147,51,234,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.75)] ${className}`}
+        className={`btn-cosmic-radial-property relative px-6 py-3 rounded-2xl text-white font-black text-xs uppercase tracking-[0.15em] cursor-pointer flex items-center justify-center gap-2.5 group overflow-hidden hover:scale-105 hover:brightness-115 active:scale-95 transition-all duration-300 shadow-[0_0_25px_rgba(147,51,234,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.75)] whitespace-nowrap flex-nowrap shrink-0 select-none ${className}`}
         {...restProps}
       >
         {renderIcon()}
-        <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">{children}</span>
+        <span className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] whitespace-nowrap shrink-0 flex items-center gap-2">{children}</span>
       </button>
     );
   }
