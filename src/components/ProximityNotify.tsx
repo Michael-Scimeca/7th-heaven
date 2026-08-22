@@ -375,7 +375,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 className={`h-[42px] px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${active
-                                  ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-pink-400 shadow-md scale-105"
+                                  ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
                                   : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
                                   }`}
                               >
@@ -407,7 +407,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               setSelectedShowTypes(next.length === 0 ? ["all"] : next);
                             }}
                             className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${isSelected
-                              ? "bg-purple-600/80 text-white border-purple-400 shadow-md scale-105"
+                              ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
                               : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
                               }`}
                           >
