@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { publishToGroup, type NtfyGroup } from "@/lib/ntfy";
 import { sanitizeInput } from "@/lib/security";
+import { sendWebPushNotification } from "@/lib/push-subscriptions";
 
 export async function POST(req: Request) {
   try {
@@ -26,7 +27,10 @@ export async function POST(req: Request) {
       tags: ["bell", "rocket", "guitar"],
     });
 
-    return NextResponse.json({ ok: true, group, result });
+    // Also dispatch native Web Push to registered browser service workers
+    const webPushResult = await sendWebPushNotification(cleanTitle, cleanMessage);
+
+    return NextResponse.json({ ok: true, group, result, webPushResult });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || "Failed to trigger test push" }, { status: 500 });
   }

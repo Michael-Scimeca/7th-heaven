@@ -87,16 +87,48 @@ export default function NotificationsPage() {
     }
   }, []);
 
+  function urlBase64ToUint8Array(base64String: string) {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
   const requestNotificationPermission = async () => {
     if (typeof window !== "undefined") {
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isIOS && browserUrl) {
-        window.open(browserUrl, "_blank");
+        window.open(browserUrl, "_blank", "noopener,noreferrer");
         return;
       }
-      if ("Notification" in window) {
+      if ("Notification" in window && "serviceWorker" in navigator) {
         const p = await Notification.requestPermission();
         setPermission(p);
+
+        if (p === "granted") {
+          try {
+            const reg = await navigator.serviceWorker.register("/sw.js");
+            const vapidKey =
+              process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
+              "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
+            const sub = await reg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlBase64ToUint8Array(vapidKey),
+            });
+
+            await fetch("/api/web-push/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(sub),
+            });
+          } catch (err) {
+            console.warn("Service Worker / Web Push setup warning:", err);
+          }
+        }
       }
     }
   };
