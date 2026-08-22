@@ -16,7 +16,8 @@
     "check-all": "npm run typecheck && npm run doctor && npm run test",
     "sitemap": "node scripts/generate-sitemap.js",
     "optimize-images": "node scripts/optimize_images.js",
-    "doctor": "npx react-doctor@latest",
+    "doctor": "npx react-doctor@latest --verbose",
+    "doctor:staged": "npx react-doctor@latest --staged --blocking warning",
     "check-deploy": "node scripts/check-function-size.js",
     "predeploy": "netlify build"
   },
