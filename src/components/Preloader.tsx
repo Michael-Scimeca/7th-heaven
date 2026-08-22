@@ -187,7 +187,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
 
   return (
     <div
-      className={`preloader${leaving ? " is-leaving" : ""}`}
+      className={`preloader preloader-cosmic-bg${leaving ? " is-leaving" : ""}`}
       role="status"
       aria-label="Loading"
       aria-live="polite"

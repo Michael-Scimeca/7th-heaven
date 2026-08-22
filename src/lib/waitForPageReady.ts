@@ -60,43 +60,7 @@ export async function waitForPageReady(): Promise<void> {
     }
   }
 
-  // 2.5. If video elements (such as hero video background) exist, wait for them to load first frame & start playing
-  if (typeof document !== "undefined") {
-    const videos = Array.from(document.querySelectorAll<HTMLVideoElement>("video"));
-    const pendingVideos = videos.filter((v) => {
-      if (v.readyState >= 2 || v.currentTime > 0 || v.ended) return false;
-      const r = v.getBoundingClientRect();
-      return r.top < (window.innerHeight || 1000) && r.bottom > 0;
-    });
 
-    if (pendingVideos.length > 0) {
-      await new Promise<void>((resolve) => {
-        let remaining = pendingVideos.length;
-        const videoTimeout = setTimeout(resolve, 1800); // Safety fallback
-
-        const vDone = () => {
-          remaining--;
-          if (remaining <= 0) {
-            clearTimeout(videoTimeout);
-            resolve();
-          }
-        };
-
-        pendingVideos.forEach((v) => {
-          if (v.readyState >= 2 || v.currentTime > 0) {
-            vDone();
-          } else {
-            const events = ["canplay", "loadeddata", "playing", "timeupdate", "error"];
-            events.forEach((evt) => v.addEventListener(evt, vDone, { once: true }));
-            try {
-              v.load();
-              v.play().catch(() => {});
-            } catch {}
-          }
-        });
-      });
-    }
-  }
 
   // 3. Ensure text content is rendered in DOM and images/paint passes complete
   return new Promise<void>((resolve) => {

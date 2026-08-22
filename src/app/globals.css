@@ -4250,9 +4250,13 @@ html.is-preloading [aria-label="Open Pages Directory"] {
  * origin resolve exactly as they do for the snapshot. Reverts when the classes
  * come off; a fresh load is always at scroll 0, so nothing jumps. */
 html.is-preloading.is-revealing #page-content-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
   opacity: 1 !important;
   pointer-events: auto !important;
-  transition: opacity 150ms ease-out;
+  transform-origin: 50% 50%;
+  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4291,13 +4295,16 @@ html.is-preloading.is-revealing #page-content-wrapper {
   --preloader-mark-exit-extra: 60vh;
 }
 
-.preloader,
-.preloader-cosmic-bg {
+.preloader {
   position: fixed;
   inset: 0;
   z-index: 100005;
   display: grid;
   place-items: center;
+  pointer-events: none;
+}
+
+.preloader-cosmic-bg {
   background-color: #030006 !important;
   background-image:
     radial-gradient(45% 55% at var(--r1-x, 18%) var(--r1-y, 71%), rgba(192, 38, 211, 0.5) 0%, transparent 100%),
@@ -4308,7 +4315,6 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(70% 80% at var(--r6-x, 67%) var(--r6-y, 38%), rgba(217, 70, 239, 0.5) 0%, transparent 100%),
     linear-gradient(135deg, #090314 0%, #000000 100%) !important;
   animation: cosmic-radial-property-drift 7s ease-in-out infinite alternate !important;
-  pointer-events: none;
 }
 
 /* Curtain wipe off screen — clip-path, not translateY, and NOT a flat edge.

@@ -109,7 +109,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--muted-text)] mb-3">
           <Link href="/" className="hover: text-[var(--color-accent)] transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/shows" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
+          <Link href="/#tour" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
           <span>/</span>
           <span className=" text-[var(--color-accent)]">Past Shows Archive</span>
         </div>
