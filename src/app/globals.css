@@ -517,7 +517,7 @@ header,
 #tour-sort-bar.is-stuck {
   position: sticky !important;
   z-index: 90 !important;
-  padding: 12px 0 16px 0 !important;
+  padding: 12px 0 20px 0 !important;
 }
 
 /* =============================================
