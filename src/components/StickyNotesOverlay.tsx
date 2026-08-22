@@ -588,8 +588,10 @@ function SingleStickyCard({
     };
   }, [updatePosition]);
 
-  // Drag handler & live element detection
+  // Drag handler & live element detection on entire card
   const handlePointerDown = (e: React.PointerEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("textarea") || target.closest("button") || target.closest("a")) return;
     e.preventDefault();
     setIsDragging(true);
     dragRef.current = {
@@ -701,7 +703,8 @@ function SingleStickyCard({
 
   return (
     <div
-      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 ${
+      onPointerDown={handlePointerDown}
+      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${
         isHighlighted
           ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105"
           : note.status === "submitted"
@@ -715,8 +718,7 @@ function SingleStickyCard({
     >
       {/* Note Header / Drag handle */}
       <div
-        onPointerDown={handlePointerDown}
-        className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 cursor-grab active:cursor-grabbing select-none"
+        className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 select-none"
       >
         <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
           <Move className="w-3.5 h-3.5 text-amber-400" />
