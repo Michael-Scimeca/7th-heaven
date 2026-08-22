@@ -1284,30 +1284,54 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             </div>
           </div>
 
-          {/* Right — crew member link + notify fans button + crew side button + demo badge */}
+          {/* Right — crew member link + notify me push button + crew side button + demo badge */}
           <div className="shrink-0 flex items-center gap-2">
-            {/* Live Stream Push Alert Trigger Button */}
+            {/* Live Stream Push Alert Button */}
             <button
               type="button"
               onClick={async () => {
+                const isCrewAdmin = contextMember?.role === 'crew' || contextMember?.role === 'admin';
                 setNotifyingFans(true);
-                try {
-                  await fetch('/api/ntfy/push-live', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      crewName: activeFeedCrew.name,
-                      title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
-                      message: `${activeFeedCrew.name} (${activeFeedCrew.cameraLabel}) just started streaming! Join live stream now.`,
-                      url: window.location.href,
-                    }),
-                  });
-                  setNotifySuccess(true);
-                  setTimeout(() => setNotifySuccess(false), 4500);
-                } catch (err) {
-                  console.error('Failed to notify fans:', err);
-                } finally {
-                  setNotifyingFans(false);
+
+                if (isCrewAdmin) {
+                  // Crew / Admin mode: Broadcast push alert to fans
+                  try {
+                    await fetch('/api/ntfy/push-live', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        crewName: activeFeedCrew.name,
+                        title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
+                        message: `${activeFeedCrew.name} (${activeFeedCrew.cameraLabel}) just started streaming! Join live stream now.`,
+                        url: window.location.href,
+                      }),
+                    });
+                    setNotifySuccess(true);
+                    setTimeout(() => setNotifySuccess(false), 4500);
+                  } catch (err) {
+                    console.error('Failed to notify fans:', err);
+                  } finally {
+                    setNotifyingFans(false);
+                  }
+                } else {
+                  // Fan / Viewer mode: Subscribe to Live Stream Push Alerts
+                  try {
+                    if (typeof window !== 'undefined' && 'Notification' in window) {
+                      await Notification.requestPermission();
+                    }
+                    const res = await fetch('/api/ntfy/topic?group=fans');
+                    const data = await res.json();
+                    if (data?.topic) {
+                      const topicUrl = `${data.server || 'https://ntfy.sh'}/${data.topic}`;
+                      window.open(topicUrl, '_blank');
+                    }
+                    setNotifySuccess(true);
+                    setTimeout(() => setNotifySuccess(false), 5000);
+                  } catch (err) {
+                    console.error('Failed to subscribe:', err);
+                  } finally {
+                    setNotifyingFans(false);
+                  }
                 }
               }}
               className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${
@@ -1315,10 +1339,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   ? 'bg-emerald-600 text-white border-emerald-400'
                   : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white border-pink-400/40 hover:scale-105'
               }`}
-              title="Send instant push notification alert to all subscribed fans that this live stream is active"
+              title="Subscribe to get instant free push alerts on your phone or browser whenever a crew member goes live"
             >
               <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
-              <span>{notifySuccess ? "✓ Push Sent to Fans! 🔔" : notifyingFans ? "Notifying..." : "Notify Fans We Are Live 🔔"}</span>
+              <span>
+                {notifySuccess
+                  ? (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "✓ Push Sent to Fans! 🔔" : "✓ Live Alerts Enabled! 🔔")
+                  : notifyingFans
+                  ? "Connecting..."
+                  : (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "Broadcasting Push Alert 🔔" : "NOTIFY ME WHEN CREW GOES LIVE 🔔")}
+              </span>
             </button>
 
             <Link
