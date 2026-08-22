@@ -109,27 +109,27 @@ export default function LiveStreamInlineSubscribe() {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div className="relative group">
-            <User className="absolute left-3 top-3 w-4 h-4 text-white/40 group-focus-within:text-purple-300 transition-colors" />
+          <div className="relative input-glow-border rounded-xl w-full">
+            <User className="absolute left-3 top-3 w-4 h-4 text-white/40 pointer-events-none z-10" />
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your Full Name"
-              className="w-full bg-white/5 border border-white/20 py-2.5 !pl-9 pr-3 text-white placeholder:text-white/30 text-xs rounded-xl transition-all duration-300 focus:outline-none focus:border-purple-400 focus:bg-purple-950/40 focus:ring-2 focus:ring-purple-500/50 shadow-inner focus:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+              className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
             />
           </div>
 
-          <div className="relative group">
-            <Mail className="absolute left-3 top-3 w-4 h-4 text-white/40 group-focus-within:text-purple-300 transition-colors" />
+          <div className="relative input-glow-border rounded-xl w-full">
+            <Mail className="absolute left-3 top-3 w-4 h-4 text-white/40 pointer-events-none z-10" />
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your Email Address"
-              className="w-full bg-white/5 border border-white/20 py-2.5 !pl-9 pr-3 text-white placeholder:text-white/30 text-xs rounded-xl transition-all duration-300 focus:outline-none focus:border-purple-400 focus:bg-purple-950/40 focus:ring-2 focus:ring-purple-500/50 shadow-inner focus:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+              className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-9 pr-3 py-2.5 text-xs outline-none transition-all"
             />
           </div>
         </div>

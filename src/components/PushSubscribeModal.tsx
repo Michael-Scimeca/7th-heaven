@@ -126,15 +126,15 @@ export default function PushSubscribeModal({
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
-                <div className="relative group">
-                  <User className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 group-focus-within:text-purple-300 transition-colors" />
+                <div className="relative input-glow-border rounded-xl w-full">
+                  <User className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 pointer-events-none z-10" />
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Michael Scimeca"
-                    className="w-full bg-white/5 border border-white/20 py-3 !pl-10 pr-4 text-white placeholder:text-white/30 text-sm rounded-xl transition-all duration-300 focus:outline-none focus:border-purple-400 focus:bg-purple-950/40 focus:ring-2 focus:ring-purple-500/50 shadow-inner focus:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                    className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
                   />
                 </div>
               </div>
@@ -143,15 +143,15 @@ export default function PushSubscribeModal({
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
-                <div className="relative group">
-                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 group-focus-within:text-purple-300 transition-colors" />
+                <div className="relative input-glow-border rounded-xl w-full">
+                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-white/40 pointer-events-none z-10" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="michael@example.com"
-                    className="w-full bg-white/5 border border-white/20 py-3 !pl-10 pr-4 text-white placeholder:text-white/30 text-sm rounded-xl transition-all duration-300 focus:outline-none focus:border-purple-400 focus:bg-purple-950/40 focus:ring-2 focus:ring-purple-500/50 shadow-inner focus:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                    className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
                   />
                 </div>
               </div>
