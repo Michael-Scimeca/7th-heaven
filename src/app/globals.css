@@ -2220,7 +2220,7 @@ html.tour-sort-stuck #tour-sort-bar {
   transition: color 0.2s ease-in-out;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1024px) {
   #header-logo {
     top: 50% !important;
     left: 50% !important;
@@ -2387,74 +2387,251 @@ textarea,
 
 /* Mobile Range (320px -> 678px) */
 @media (max-width: 677px) {
-  :root { --text-6xl: clamp(1.125rem, 0.1149rem + 5.0503vw, 2.255rem); }
-  .text-6xl { font-size: clamp(1.125rem, 0.1149rem + 5.0503vw, 2.255rem) !important; }
-  :root { --text-5xl: clamp(1.065rem, 0.2248rem + 4.2011vw, 2.005rem); }
-  .text-5xl { font-size: clamp(1.065rem, 0.2248rem + 4.2011vw, 2.005rem) !important; }
-  :root { --text-4xl: clamp(1.005rem, 0.3346rem + 3.3520vw, 1.755rem); }
-  .text-4xl { font-size: clamp(1.005rem, 0.3346rem + 3.3520vw, 1.755rem) !important; }
-  :root { --text-3xl: clamp(0.875rem, 0.7588rem + 0.5810vw, 1.005rem); }
-  .text-3xl { font-size: clamp(0.875rem, 0.7588rem + 0.5810vw, 1.005rem) !important; }
-  :root { --text-2xl: clamp(0.815rem, 0.7077rem + 0.5363vw, 0.935rem); }
-  .text-2xl { font-size: clamp(0.815rem, 0.7077rem + 0.5363vw, 0.935rem) !important; }
-  :root { --text-xl: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem); }
-  .text-xl { font-size: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem) !important; }
-  :root { --text-lg: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem); }
-  .text-lg { font-size: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem) !important; }
-  :root { --text-base: clamp(0.755rem, 0.7014rem + 0.2682vw, 0.815rem); }
-  .text-base { font-size: clamp(0.755rem, 0.7014rem + 0.2682vw, 0.815rem) !important; }
-  :root { --text-sm: clamp(0.685rem, 0.6224rem + 0.3128vw, 0.755rem); }
-  .text-sm { font-size: clamp(0.685rem, 0.6224rem + 0.3128vw, 0.755rem) !important; }
-  :root { --text-xs: clamp(0.625rem, 0.5714rem + 0.2682vw, 0.685rem); }
-  .text-xs { font-size: clamp(0.625rem, 0.5714rem + 0.2682vw, 0.685rem) !important; }
+  :root {
+    --text-6xl: clamp(1.125rem, 0.1149rem + 5.0503vw, 2.255rem);
+  }
+
+  .text-6xl {
+    font-size: clamp(1.125rem, 0.1149rem + 5.0503vw, 2.255rem) !important;
+  }
+
+  :root {
+    --text-5xl: clamp(1.065rem, 0.2248rem + 4.2011vw, 2.005rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(1.065rem, 0.2248rem + 4.2011vw, 2.005rem) !important;
+  }
+
+  :root {
+    --text-4xl: clamp(1.005rem, 0.3346rem + 3.3520vw, 1.755rem);
+  }
+
+  .text-4xl {
+    font-size: clamp(1.005rem, 0.3346rem + 3.3520vw, 1.755rem) !important;
+  }
+
+  :root {
+    --text-3xl: clamp(0.875rem, 0.7588rem + 0.5810vw, 1.005rem);
+  }
+
+  .text-3xl {
+    font-size: clamp(0.875rem, 0.7588rem + 0.5810vw, 1.005rem) !important;
+  }
+
+  :root {
+    --text-2xl: clamp(0.815rem, 0.7077rem + 0.5363vw, 0.935rem);
+  }
+
+  .text-2xl {
+    font-size: clamp(0.815rem, 0.7077rem + 0.5363vw, 0.935rem) !important;
+  }
+
+  :root {
+    --text-xl: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem);
+  }
+
+  .text-xl {
+    font-size: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem) !important;
+  }
+
+  :root {
+    --text-lg: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem);
+  }
+
+  .text-lg {
+    font-size: clamp(0.815rem, 0.7614rem + 0.2682vw, 0.875rem) !important;
+  }
+
+  :root {
+    --text-base: clamp(0.755rem, 0.7014rem + 0.2682vw, 0.815rem);
+  }
+
+  .text-base {
+    font-size: clamp(0.755rem, 0.7014rem + 0.2682vw, 0.815rem) !important;
+  }
+
+  :root {
+    --text-sm: clamp(0.685rem, 0.6224rem + 0.3128vw, 0.755rem);
+  }
+
+  .text-sm {
+    font-size: clamp(0.685rem, 0.6224rem + 0.3128vw, 0.755rem) !important;
+  }
+
+  :root {
+    --text-xs: clamp(0.625rem, 0.5714rem + 0.2682vw, 0.685rem);
+  }
+
+  .text-xs {
+    font-size: clamp(0.625rem, 0.5714rem + 0.2682vw, 0.685rem) !important;
+  }
 }
 
 /* Tablet Range (678px -> 1024px) */
 @media (min-width: 678px) and (max-width: 1024px) {
-  :root { --text-6xl: clamp(2.255rem, -0.1944rem + 5.7803vw, 3.505rem); }
-  .text-6xl { font-size: clamp(2.255rem, -0.1944rem + 5.7803vw, 3.505rem) !important; }
-  :root { --text-5xl: clamp(2.005rem, 0.0455rem + 4.6243vw, 3.005rem); }
-  .text-5xl { font-size: clamp(2.005rem, 0.0455rem + 4.6243vw, 3.005rem) !important; }
-  :root { --text-4xl: clamp(1.755rem, 0.2853rem + 3.4682vw, 2.505rem); }
-  .text-4xl { font-size: clamp(1.755rem, 0.2853rem + 3.4682vw, 2.505rem) !important; }
-  :root { --text-3xl: clamp(1.005rem, 0.5151rem + 1.1561vw, 1.255rem); }
-  .text-3xl { font-size: clamp(1.005rem, 0.5151rem + 1.1561vw, 1.255rem) !important; }
-  :root { --text-2xl: clamp(0.935rem, 0.5627rem + 0.8786vw, 1.125rem); }
-  .text-2xl { font-size: clamp(0.935rem, 0.5627rem + 0.8786vw, 1.125rem) !important; }
-  :root { --text-xl: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem); }
-  .text-xl { font-size: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem) !important; }
-  :root { --text-lg: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem); }
-  .text-lg { font-size: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem) !important; }
-  :root { --text-base: clamp(0.815rem, 0.6974rem + 0.2775vw, 0.875rem); }
-  .text-base { font-size: clamp(0.815rem, 0.6974rem + 0.2775vw, 0.875rem) !important; }
-  :root { --text-sm: clamp(0.755rem, 0.6374rem + 0.2775vw, 0.815rem); }
-  .text-sm { font-size: clamp(0.755rem, 0.6374rem + 0.2775vw, 0.815rem) !important; }
-  :root { --text-xs: clamp(0.685rem, 0.5478rem + 0.3237vw, 0.755rem); }
-  .text-xs { font-size: clamp(0.685rem, 0.5478rem + 0.3237vw, 0.755rem) !important; }
+  :root {
+    --text-6xl: clamp(2.255rem, -0.1944rem + 5.7803vw, 3.505rem);
+  }
+
+  .text-6xl {
+    font-size: clamp(2.255rem, -0.1944rem + 5.7803vw, 3.505rem) !important;
+  }
+
+  :root {
+    --text-5xl: clamp(2.005rem, 0.0455rem + 4.6243vw, 3.005rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(2.005rem, 0.0455rem + 4.6243vw, 3.005rem) !important;
+  }
+
+  :root {
+    --text-4xl: clamp(1.755rem, 0.2853rem + 3.4682vw, 2.505rem);
+  }
+
+  .text-4xl {
+    font-size: clamp(1.755rem, 0.2853rem + 3.4682vw, 2.505rem) !important;
+  }
+
+  :root {
+    --text-3xl: clamp(1.005rem, 0.5151rem + 1.1561vw, 1.255rem);
+  }
+
+  .text-3xl {
+    font-size: clamp(1.005rem, 0.5151rem + 1.1561vw, 1.255rem) !important;
+  }
+
+  :root {
+    --text-2xl: clamp(0.935rem, 0.5627rem + 0.8786vw, 1.125rem);
+  }
+
+  .text-2xl {
+    font-size: clamp(0.935rem, 0.5627rem + 0.8786vw, 1.125rem) !important;
+  }
+
+  :root {
+    --text-xl: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem);
+  }
+
+  .text-xl {
+    font-size: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem) !important;
+  }
+
+  :root {
+    --text-lg: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem);
+  }
+
+  .text-lg {
+    font-size: clamp(0.875rem, 0.6203rem + 0.6012vw, 1.005rem) !important;
+  }
+
+  :root {
+    --text-base: clamp(0.815rem, 0.6974rem + 0.2775vw, 0.875rem);
+  }
+
+  .text-base {
+    font-size: clamp(0.815rem, 0.6974rem + 0.2775vw, 0.875rem) !important;
+  }
+
+  :root {
+    --text-sm: clamp(0.755rem, 0.6374rem + 0.2775vw, 0.815rem);
+  }
+
+  .text-sm {
+    font-size: clamp(0.755rem, 0.6374rem + 0.2775vw, 0.815rem) !important;
+  }
+
+  :root {
+    --text-xs: clamp(0.685rem, 0.5478rem + 0.3237vw, 0.755rem);
+  }
+
+  .text-xs {
+    font-size: clamp(0.685rem, 0.5478rem + 0.3237vw, 0.755rem) !important;
+  }
 }
 
 /* Desktop Range (1025px -> 1560px+) */
 @media (min-width: 1025px) {
-  :root { --text-6xl: 3.505rem; }
-  .text-6xl { font-size: 3.505rem !important; }
-  :root { --text-5xl: clamp(2.945rem, 3.1200rem + -0.1794vw, 3.005rem); }
-  .text-5xl { font-size: clamp(2.945rem, 3.1200rem + -0.1794vw, 3.005rem) !important; }
-  :root { --text-4xl: clamp(2.505rem, -0.3497rem + 4.4561vw, 3.995rem); }
-  .text-4xl { font-size: clamp(2.505rem, -0.3497rem + 4.4561vw, 3.995rem) !important; }
-  :root { --text-3xl: clamp(1.255rem, 0.2971rem + 1.4953vw, 1.755rem); }
-  .text-3xl { font-size: clamp(1.255rem, 0.2971rem + 1.4953vw, 1.755rem) !important; }
-  :root { --text-2xl: clamp(1.125rem, 0.3970rem + 1.1364vw, 1.505rem); }
-  .text-2xl { font-size: clamp(1.125rem, 0.3970rem + 1.1364vw, 1.505rem) !important; }
-  :root { --text-xl: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem); }
-  .text-xl { font-size: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem) !important; }
-  :root { --text-lg: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem); }
-  .text-lg { font-size: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem) !important; }
-  :root { --text-base: clamp(0.875rem, 0.6259rem + 0.3888vw, 1.005rem); }
-  .text-base { font-size: clamp(0.875rem, 0.6259rem + 0.3888vw, 1.005rem) !important; }
-  :root { --text-sm: clamp(0.815rem, 0.7000rem + 0.1794vw, 0.875rem); }
-  .text-sm { font-size: clamp(0.815rem, 0.7000rem + 0.1794vw, 0.875rem) !important; }
-  :root { --text-xs: 0.755rem; }
-  .text-xs { font-size: 0.755rem !important; }
+  :root {
+    --text-6xl: 3.505rem;
+  }
+
+  .text-6xl {
+    font-size: 3.505rem !important;
+  }
+
+  :root {
+    --text-5xl: clamp(2.945rem, 3.1200rem + -0.1794vw, 3.005rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(2.945rem, 3.1200rem + -0.1794vw, 3.005rem) !important;
+  }
+
+  :root {
+    --text-4xl: clamp(2.505rem, -0.3497rem + 4.4561vw, 3.995rem);
+  }
+
+  .text-4xl {
+    font-size: clamp(2.505rem, -0.3497rem + 4.4561vw, 3.995rem) !important;
+  }
+
+  :root {
+    --text-3xl: clamp(1.255rem, 0.2971rem + 1.4953vw, 1.755rem);
+  }
+
+  .text-3xl {
+    font-size: clamp(1.255rem, 0.2971rem + 1.4953vw, 1.755rem) !important;
+  }
+
+  :root {
+    --text-2xl: clamp(1.125rem, 0.3970rem + 1.1364vw, 1.505rem);
+  }
+
+  .text-2xl {
+    font-size: clamp(1.125rem, 0.3970rem + 1.1364vw, 1.505rem) !important;
+  }
+
+  :root {
+    --text-xl: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem);
+  }
+
+  .text-xl {
+    font-size: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem) !important;
+  }
+
+  :root {
+    --text-lg: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem);
+  }
+
+  .text-lg {
+    font-size: clamp(1.005rem, 0.5260rem + 0.7477vw, 1.255rem) !important;
+  }
+
+  :root {
+    --text-base: clamp(0.875rem, 0.6259rem + 0.3888vw, 1.005rem);
+  }
+
+  .text-base {
+    font-size: clamp(0.875rem, 0.6259rem + 0.3888vw, 1.005rem) !important;
+  }
+
+  :root {
+    --text-sm: clamp(0.815rem, 0.7000rem + 0.1794vw, 0.875rem);
+  }
+
+  .text-sm {
+    font-size: clamp(0.815rem, 0.7000rem + 0.1794vw, 0.875rem) !important;
+  }
+
+  :root {
+    --text-xs: 0.755rem;
+  }
+
+  .text-xs {
+    font-size: 0.755rem !important;
+  }
 }
 
 /* =============================================
@@ -5119,106 +5296,187 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
 @keyframes cosmic-radial-property-drift {
   0% {
-    --r1-x: 18%; --r1-y: 71%;
-    --r2-x: 36%; --r2-y: 76%;
-    --r3-x: 7%;  --r3-y: 98%;
-    --r4-x: 72%; --r4-y: 23%;
-    --r5-x: 91%; --r5-y: 74%;
-    --r6-x: 67%; --r6-y: 38%;
+    --r1-x: 18%;
+    --r1-y: 71%;
+    --r2-x: 36%;
+    --r2-y: 76%;
+    --r3-x: 7%;
+    --r3-y: 98%;
+    --r4-x: 72%;
+    --r4-y: 23%;
+    --r5-x: 91%;
+    --r5-y: 74%;
+    --r6-x: 67%;
+    --r6-y: 38%;
   }
+
   33% {
-    --r1-x: 38%; --r1-y: 51%;
-    --r2-x: 20%; --r2-y: 90%;
-    --r3-x: 25%; --r3-y: 75%;
-    --r4-x: 55%; --r4-y: 45%;
-    --r5-x: 75%; --r5-y: 50%;
-    --r6-x: 85%; --r6-y: 20%;
+    --r1-x: 38%;
+    --r1-y: 51%;
+    --r2-x: 20%;
+    --r2-y: 90%;
+    --r3-x: 25%;
+    --r3-y: 75%;
+    --r4-x: 55%;
+    --r4-y: 45%;
+    --r5-x: 75%;
+    --r5-y: 50%;
+    --r6-x: 85%;
+    --r6-y: 20%;
   }
+
   66% {
-    --r1-x: 5%;  --r1-y: 85%;
-    --r2-x: 55%; --r2-y: 60%;
-    --r3-x: 0%;  --r3-y: 80%;
-    --r4-x: 85%; --r4-y: 10%;
-    --r5-x: 98%; --r5-y: 85%;
-    --r6-x: 50%; --r6-y: 55%;
+    --r1-x: 5%;
+    --r1-y: 85%;
+    --r2-x: 55%;
+    --r2-y: 60%;
+    --r3-x: 0%;
+    --r3-y: 80%;
+    --r4-x: 85%;
+    --r4-y: 10%;
+    --r5-x: 98%;
+    --r5-y: 85%;
+    --r6-x: 50%;
+    --r6-y: 55%;
   }
+
   100% {
-    --r1-x: 18%; --r1-y: 71%;
-    --r2-x: 36%; --r2-y: 76%;
-    --r3-x: 7%;  --r3-y: 98%;
-    --r4-x: 72%; --r4-y: 23%;
-    --r5-x: 91%; --r5-y: 74%;
-    --r6-x: 67%; --r6-y: 38%;
+    --r1-x: 18%;
+    --r1-y: 71%;
+    --r2-x: 36%;
+    --r2-y: 76%;
+    --r3-x: 7%;
+    --r3-y: 98%;
+    --r4-x: 72%;
+    --r4-y: 23%;
+    --r5-x: 91%;
+    --r5-y: 74%;
+    --r6-x: 67%;
+    --r6-y: 38%;
   }
 }
 
 @keyframes cosmic-radial-property-drift-reverse {
   0% {
-    --r1-x: 85%; --r1-y: 15%;
-    --r2-x: 70%; --r2-y: 25%;
-    --r3-x: 90%; --r3-y: 10%;
-    --r4-x: 15%; --r4-y: 85%;
-    --r5-x: 10%; --r5-y: 90%;
-    --r6-x: 20%; --r6-y: 80%;
+    --r1-x: 85%;
+    --r1-y: 15%;
+    --r2-x: 70%;
+    --r2-y: 25%;
+    --r3-x: 90%;
+    --r3-y: 10%;
+    --r4-x: 15%;
+    --r4-y: 85%;
+    --r5-x: 10%;
+    --r5-y: 90%;
+    --r6-x: 20%;
+    --r6-y: 80%;
   }
+
   50% {
-    --r1-x: 15%; --r1-y: 85%;
-    --r2-x: 25%; --r2-y: 75%;
-    --r3-x: 10%; --r3-y: 90%;
-    --r4-x: 85%; --r4-y: 15%;
-    --r5-x: 90%; --r5-y: 10%;
-    --r6-x: 80%; --r6-y: 20%;
+    --r1-x: 15%;
+    --r1-y: 85%;
+    --r2-x: 25%;
+    --r2-y: 75%;
+    --r3-x: 10%;
+    --r3-y: 90%;
+    --r4-x: 85%;
+    --r4-y: 15%;
+    --r5-x: 90%;
+    --r5-y: 10%;
+    --r6-x: 80%;
+    --r6-y: 20%;
   }
+
   100% {
-    --r1-x: 85%; --r1-y: 15%;
-    --r2-x: 70%; --r2-y: 25%;
-    --r3-x: 90%; --r3-y: 10%;
-    --r4-x: 15%; --r4-y: 85%;
-    --r5-x: 10%; --r5-y: 90%;
-    --r6-x: 20%; --r6-y: 80%;
+    --r1-x: 85%;
+    --r1-y: 15%;
+    --r2-x: 70%;
+    --r2-y: 25%;
+    --r3-x: 90%;
+    --r3-y: 10%;
+    --r4-x: 15%;
+    --r4-y: 85%;
+    --r5-x: 10%;
+    --r5-y: 90%;
+    --r6-x: 20%;
+    --r6-y: 80%;
   }
 }
 
 @keyframes cosmic-radial-property-drift-spiral {
   0% {
-    --r1-x: 50%; --r1-y: 10%;
-    --r2-x: 90%; --r2-y: 50%;
-    --r3-x: 50%; --r3-y: 90%;
-    --r4-x: 10%; --r4-y: 50%;
-    --r5-x: 50%; --r5-y: 50%;
-    --r6-x: 30%; --r6-y: 30%;
+    --r1-x: 50%;
+    --r1-y: 10%;
+    --r2-x: 90%;
+    --r2-y: 50%;
+    --r3-x: 50%;
+    --r3-y: 90%;
+    --r4-x: 10%;
+    --r4-y: 50%;
+    --r5-x: 50%;
+    --r5-y: 50%;
+    --r6-x: 30%;
+    --r6-y: 30%;
   }
+
   25% {
-    --r1-x: 90%; --r1-y: 50%;
-    --r2-x: 50%; --r2-y: 90%;
-    --r3-x: 10%; --r3-y: 50%;
-    --r4-x: 50%; --r4-y: 10%;
-    --r5-x: 70%; --r5-y: 30%;
-    --r6-x: 70%; --r6-y: 70%;
+    --r1-x: 90%;
+    --r1-y: 50%;
+    --r2-x: 50%;
+    --r2-y: 90%;
+    --r3-x: 10%;
+    --r3-y: 50%;
+    --r4-x: 50%;
+    --r4-y: 10%;
+    --r5-x: 70%;
+    --r5-y: 30%;
+    --r6-x: 70%;
+    --r6-y: 70%;
   }
+
   50% {
-    --r1-x: 50%; --r1-y: 90%;
-    --r2-x: 10%; --r2-y: 50%;
-    --r3-x: 50%; --r3-y: 10%;
-    --r4-x: 90%; --r4-y: 50%;
-    --r5-x: 30%; --r5-y: 70%;
-    --r6-x: 30%; --r6-y: 30%;
+    --r1-x: 50%;
+    --r1-y: 90%;
+    --r2-x: 10%;
+    --r2-y: 50%;
+    --r3-x: 50%;
+    --r3-y: 10%;
+    --r4-x: 90%;
+    --r4-y: 50%;
+    --r5-x: 30%;
+    --r5-y: 70%;
+    --r6-x: 30%;
+    --r6-y: 30%;
   }
+
   75% {
-    --r1-x: 10%; --r1-y: 50%;
-    --r2-x: 50%; --r2-y: 10%;
-    --r3-x: 90%; --r3-y: 50%;
-    --r4-x: 50%; --r4-y: 90%;
-    --r5-x: 30%; --r5-y: 30%;
-    --r6-x: 70%; --r6-y: 30%;
+    --r1-x: 10%;
+    --r1-y: 50%;
+    --r2-x: 50%;
+    --r2-y: 10%;
+    --r3-x: 90%;
+    --r3-y: 50%;
+    --r4-x: 50%;
+    --r4-y: 90%;
+    --r5-x: 30%;
+    --r5-y: 30%;
+    --r6-x: 70%;
+    --r6-y: 30%;
   }
+
   100% {
-    --r1-x: 50%; --r1-y: 10%;
-    --r2-x: 90%; --r2-y: 50%;
-    --r3-x: 50%; --r3-y: 90%;
-    --r4-x: 10%; --r4-y: 50%;
-    --r5-x: 50%; --r5-y: 50%;
-    --r6-x: 30%; --r6-y: 30%;
+    --r1-x: 50%;
+    --r1-y: 10%;
+    --r2-x: 90%;
+    --r2-y: 50%;
+    --r3-x: 50%;
+    --r3-y: 90%;
+    --r4-x: 10%;
+    --r4-y: 50%;
+    --r5-x: 50%;
+    --r5-y: 50%;
+    --r6-x: 30%;
+    --r6-y: 30%;
   }
 }
 
