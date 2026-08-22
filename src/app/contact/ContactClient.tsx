@@ -142,6 +142,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           height: "100vh",
           width: "88vw",
           right: -78,
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
+          maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
         }}
       >
         <div className="relative w-full h-full flex items-end justify-end">
@@ -167,6 +169,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               </div>
             );
           })}
+          {/* Bottom Gradient Fade Mask */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#06000c] via-[#06000c]/80 to-transparent pointer-events-none z-10" />
         </div>
       </div>
     </section>
