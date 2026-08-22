@@ -69,7 +69,9 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
   // a visible flash of the real page before React ever mounted.
   const [active, setActive] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [fillPercent, setFillPercent] = useState(0);
   const doneRef = useRef(false);
+  const pageReadyRef = useRef(false);
 
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
@@ -112,23 +114,21 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
 
     setActive(true);
     const startedAt = performance.now();
+    let rafId: number;
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     const finish = () => {
       if (doneRef.current) return;
       doneRef.current = true;
+      setFillPercent(100);
 
       // Both layers start in the SAME frame, exactly as a route change does:
-      // the overlay leaves on page-push-out while the page arrives on
-      // page-push-in.
+      // the overlay leaves on page-push-out while the page arrives on page-push-in.
       setLeaving(true);
       root.classList.add("is-revealing");
 
       timers.push(
         setTimeout(() => {
-          // The overlay stays mounted for the whole reveal so it can travel
-          // off screen. Unmounting it when the reveal starts (as an earlier
-          // version did) made it vanish on the first frame instead of leaving.
           setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
           unlockScroll();
@@ -137,17 +137,50 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       );
     };
 
+    // Smoothly animate logo fill percentage to match actual load progress
+    const animateFill = () => {
+      if (doneRef.current) return;
+      const elapsed = performance.now() - startedAt;
+
+      let target: number;
+      if (pageReadyRef.current) {
+        // Page is ready: fill swiftly to 100% and finish
+        target = 100;
+      } else {
+        // Page still loading: progress smoothly up to 90% over 2.2s while waiting
+        target = Math.min(90, (elapsed / 2200) * 90);
+      }
+
+      setFillPercent((prev) => {
+        const delta = target - prev;
+        const speed = pageReadyRef.current ? 0.25 : 0.12;
+        const next = prev + delta * speed;
+        if (pageReadyRef.current && next >= 98) {
+          finish();
+          return 100;
+        }
+        return next;
+      });
+
+      rafId = requestAnimationFrame(animateFill);
+    };
+
+    rafId = requestAnimationFrame(animateFill);
+
     waitForPageReady().then(() => {
-      const waited = performance.now() - startedAt;
-      timers.push(setTimeout(finish, Math.max(0, minVisibleMs() - waited)));
+      pageReadyRef.current = true;
     });
 
-    // Hard backstop: never strand a visitor on a black screen because one font
-    // or image never resolved. waitForPageReady has its own deadline, but this
-    // covers it throwing or never settling at all.
-    timers.push(setTimeout(finish, 6000));
+    // Hard backstop timeout: ensure finish() is triggered even if an asset stalls
+    timers.push(setTimeout(() => {
+      pageReadyRef.current = true;
+      finish();
+    }, 5000));
 
-    return () => timers.forEach(clearTimeout);
+    return () => {
+      cancelAnimationFrame(rafId);
+      timers.forEach(clearTimeout);
+    };
   }, [forceShow, onComplete]);
 
   if (!active) return null;
@@ -160,15 +193,14 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       aria-live="polite"
     >
       <div className={`preloader-mark${leaving ? " is-leaving" : ""}`}>
-        {/* Dim copy underneath, full-brightness copy clipped over it and
-            revealed from the bottom edge upward. On leave, this whole mark
-            shrinks + fades in place (preloader-mark-shrink in globals.css)
-            at the same time the backdrop curtain lifts — matching
-            exoape.com's actual leave behavior, where the icon/fill group is
-            animated independently rather than just riding along with the
-            backdrop. */}
         <Logo className="preloader-logo preloader-logo-base" />
-        <Logo className="preloader-logo preloader-logo-fill" />
+        <Logo
+          className="preloader-logo preloader-logo-fill"
+          style={{
+            clipPath: `inset(${Math.max(0, 100 - fillPercent).toFixed(2)}% 0 0 0)`,
+            animation: "none",
+          }}
+        />
       </div>
     </div>
   );
