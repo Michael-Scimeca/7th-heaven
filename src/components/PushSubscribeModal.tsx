@@ -21,6 +21,7 @@ export default function PushSubscribeModal({
   const { member } = useMember();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [subscribed, setSubscribed] = useState(false);
@@ -44,6 +45,10 @@ export default function PushSubscribeModal({
       setError("Please enter your name.");
       return;
     }
+    if (!agreedToTerms) {
+      setError("You must agree to the Terms of Service & Privacy Policy to subscribe.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -59,6 +64,7 @@ export default function PushSubscribeModal({
           email: email.trim().toLowerCase(),
           group,
           source: "live-stream",
+          agreedToTerms: true,
         }),
       });
 
@@ -147,6 +153,29 @@ export default function PushSubscribeModal({
                     className="w-full bg-white/5 border border-white/15 py-3 !pl-10 pr-4 text-white placeholder:text-white/30 text-sm rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
                   />
                 </div>
+              </div>
+
+              {/* Legal Terms of Service & Privacy Policy Checkbox */}
+              <div className="flex items-start gap-2.5 pt-1 pb-1">
+                <input
+                  type="checkbox"
+                  id="terms-checkbox"
+                  required
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-purple-500 cursor-pointer shrink-0"
+                />
+                <label htmlFor="terms-checkbox" className="text-xs text-gray-300/90 leading-normal cursor-pointer select-none">
+                  I agree to the{" "}
+                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+                    Privacy Policy
+                  </a>{" "}
+                  to receive live stream push & email notifications.
+                </label>
               </div>
 
               <div className="pt-2">

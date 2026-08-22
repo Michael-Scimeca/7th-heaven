@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText, AlertTriangle, Smartphone, Bell, MessageSquare, Sparkles } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import PushAlertsCard from "@/components/PushAlertsCard";
+import PushSubscribeModal from "@/components/PushSubscribeModal";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -203,6 +204,7 @@ export default function LiveHubPage() {
   const [modLog, setModLog] = useState<{ id: string; action: string; user: string; time: number }[]>([]);
   const [liveAlertsEnabled, setLiveAlertsEnabled] = useState(true);
   const [flaggedCount, setFlaggedCount] = useState(0);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
   // Fluctuate viewer counts
   useEffect(() => {
@@ -281,9 +283,7 @@ export default function LiveHubPage() {
               </div>
               <CosmicRadialButton
                 icon={false}
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
-                }}
+                onClick={() => setShowSubscribeModal(true)}
                 className="ml-auto px-4 py-2 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
               >
                 Sign Up
@@ -611,6 +611,12 @@ export default function LiveHubPage() {
           </div>
         )}
 
+        {/* Live Stream Push Alert & Fan Signup Modal */}
+        <PushSubscribeModal
+          isOpen={showSubscribeModal}
+          onClose={() => setShowSubscribeModal(false)}
+          group="fans"
+        />
       </div>
     </section>
   );
