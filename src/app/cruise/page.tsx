@@ -1010,7 +1010,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* NTD Vacations Official Cruise Support Team Banner */}
-              <div className="mb-16 p-6 md:p-8 bg-white/5 rounded-2xl border border-white/10 shadow-2xl text-center">
+              <div className="mb-12 text-center">
                 <p className="text-xs font-mono uppercase tracking-[0.25em] text-purple-300 font-extrabold mb-1">
                   Official Cruise Concierge &amp; Booking Team
                 </p>
@@ -1082,7 +1082,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </a>
                     <p className="text-xs text-white/70 font-semibold mt-1">CEO / Booking / Bands</p>
                     <p className="text-xs text-white/50 font-medium">Marketing / Media</p>
-                    <a href="tel:8475515363" className="mt-2 text-xs font-bold text-amber-300 hover:text-white transition-colors bg-white/5 px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1">
+                    <a href="tel:8475515363" className="mt-2 text-xs font-bold text-purple-300 hover:text-white transition-colors bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/40 hover:border-purple-400 flex items-center gap-1">
                       <span>📞 (847) 551-5363</span>
                     </a>
                   </div>
@@ -1103,7 +1103,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </a>
                     <p className="text-xs text-white/70 font-semibold mt-1">Group Excursions / Group Hotels</p>
                     <p className="text-xs text-white/50 font-medium">Group Air / Charters / Shuttles</p>
-                    <a href="tel:8776839753" className="mt-2 text-xs font-bold text-amber-300 hover:text-white transition-colors bg-white/5 px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1">
+                    <a href="tel:8776839753" className="mt-2 text-xs font-bold text-purple-300 hover:text-white transition-colors bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/40 hover:border-purple-400 flex items-center gap-1">
                       <span>📞 (877) 683-9753 Ext 5</span>
                     </a>
                   </div>
@@ -1124,7 +1124,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </a>
                     <p className="text-xs text-white/70 font-semibold mt-1">Schedule</p>
                     <p className="text-xs text-white/50 font-medium">Activities / Logistics</p>
-                    <a href="tel:6308429129" className="mt-2 text-xs font-bold text-amber-300 hover:text-white transition-colors bg-white/5 px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1">
+                    <a href="tel:6308429129" className="mt-2 text-xs font-bold text-purple-300 hover:text-white transition-colors bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/40 hover:border-purple-400 flex items-center gap-1">
                       <span>📞 (630) 842-9129</span>
                     </a>
                   </div>
