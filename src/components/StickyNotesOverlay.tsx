@@ -8,11 +8,11 @@ import {
   Plus,
   Eye,
   EyeOff,
+  Minus,
   Trash2,
   Send,
   X,
   List,
-  Target,
   Move,
   CornerDownRight,
 } from "lucide-react";
@@ -39,9 +39,26 @@ export default function StickyNotesOverlay() {
   const pathname = usePathname();
   const [notes, setNotes] = useState<ClientNoteItem[]>([]);
   const [visible, setVisible] = useState<boolean>(true);
+  const [hiddenNoteIds, setHiddenNoteIds] = useState<string[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState<"all" | "open" | "resolved">("open");
   const [highlightedNoteId, setHighlightedNoteId] = useState<string | null>(null);
+
+  // Load saved visibility preferences post-hydration (React Doctor safe)
+  useEffect(() => {
+    try {
+      const savedVisible = localStorage.getItem("7th_heaven_sticky_notes_visible_v1");
+      if (savedVisible !== null) {
+        setVisible(savedVisible === "true");
+      }
+      const savedHiddenIds = localStorage.getItem("7th_heaven_hidden_note_ids_v1");
+      if (savedHiddenIds) {
+        setHiddenNoteIds(JSON.parse(savedHiddenIds));
+      }
+    } catch {
+      // LocalStorage fallback
+    }
+  }, []);
 
   // Fetch active notes for current route & set up real-time listener
   const fetchNotes = useCallback(async () => {
@@ -49,13 +66,8 @@ export default function StickyNotesOverlay() {
       const res = await fetch(`/api/client-notes?pagePath=${encodeURIComponent(pathname)}`);
       if (res.ok) {
         const data = await res.json();
-        if (data.notes && data.notes.length > 0) {
-          setNotes((prev) => {
-            const map = new Map<string, ClientNoteItem>();
-            prev.forEach((n) => map.set(n.id, n));
-            data.notes.forEach((n: ClientNoteItem) => map.set(n.id, n));
-            return Array.from(map.values());
-          });
+        if (data.notes) {
+          setNotes(data.notes.filter((n: ClientNoteItem) => n.page_path === pathname));
         }
       }
     } catch {
@@ -83,6 +95,34 @@ export default function StickyNotesOverlay() {
     }
   }, [fetchNotes]);
 
+  const handleToggleGlobalVisibility = () => {
+    const next = !visible;
+    setVisible(next);
+    try {
+      localStorage.setItem("7th_heaven_sticky_notes_visible_v1", String(next));
+    } catch {
+      // Fallback
+    }
+  };
+
+  const hiddenNoteSet = React.useMemo(() => new Set(hiddenNoteIds), [hiddenNoteIds]);
+
+  // Save hidden IDs to localStorage when changed
+  useEffect(() => {
+    try {
+      localStorage.setItem("7th_heaven_hidden_note_ids_v1", JSON.stringify(hiddenNoteIds));
+    } catch {
+      // LocalStorage fallback
+    }
+  }, [hiddenNoteIds]);
+
+  const handleToggleHideNote = useCallback((id: string) => {
+    setHiddenNoteIds((prev) => {
+      const isCurrentlyHidden = prev.includes(id);
+      return isCurrentlyHidden ? prev.filter((i) => i !== id) : [...prev, id];
+    });
+  }, []);
+
   const handleUpdateNote = async (updatedNote: ClientNoteItem) => {
     setNotes((prev) => prev.map((n) => (n.id === updatedNote.id ? updatedNote : n)));
 
@@ -97,7 +137,7 @@ export default function StickyNotesOverlay() {
     }
   };
 
-  // Create a new sticky note directly in viewport center
+  // Create a new sticky note directly in viewport center for current page
   const handleAddInstantNote = () => {
     const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
     const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
@@ -125,12 +165,15 @@ export default function StickyNotesOverlay() {
     };
 
     setNotes((prev) => [...prev, newNote]);
-    setVisible(true);
+    if (!visible) {
+      handleToggleGlobalVisibility();
+    }
     handleUpdateNote(newNote);
   };
 
   const handleDeleteNote = async (id: string) => {
     setNotes((prev) => prev.filter((n) => n.id !== id));
+    setHiddenNoteIds((prev) => prev.filter((i) => i !== id));
     try {
       await fetch(`/api/client-notes?id=${encodeURIComponent(id)}`, { method: "DELETE" });
     } catch {
@@ -139,6 +182,10 @@ export default function StickyNotesOverlay() {
   };
 
   const handleScrollToNote = (noteId: string) => {
+    // Make sure note is unhidden if navigating to it
+    if (hiddenNoteSet.has(noteId)) {
+      handleToggleHideNote(noteId);
+    }
     setHighlightedNoteId(noteId);
     const note = notes.find((n) => n.id === noteId);
     if (note && note.custom_y !== undefined) {
@@ -149,17 +196,22 @@ export default function StickyNotesOverlay() {
 
   return (
     <div id="sticky-notes-root" className="relative">
-      {/* Render Active Sticky Note Cards */}
+      {/* Render Active Sticky Note Cards (Strictly filtered by current page_path & hidden state) */}
       {visible &&
-        notes.map((note) => (
-          <SingleStickyCard
-            key={note.id}
-            note={note}
-            isHighlighted={highlightedNoteId === note.id}
-            onUpdate={handleUpdateNote}
-            onDelete={handleDeleteNote}
-          />
-        ))}
+        notes.map((note) => {
+          if (note.page_path !== pathname) return null;
+          if (hiddenNoteSet.has(note.id)) return null;
+          return (
+            <SingleStickyCard
+              key={note.id}
+              note={note}
+              isHighlighted={highlightedNoteId === note.id}
+              onUpdate={handleUpdateNote}
+              onDelete={handleDeleteNote}
+              onHideNote={handleToggleHideNote}
+            />
+          );
+        })}
 
       {/* Bottom Right Floating Control Widget */}
       <div className="fixed bottom-5 right-5 z-[99999] flex items-center gap-2 bg-black/90 backdrop-blur-xl border border-white/20 p-2 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
@@ -174,8 +226,8 @@ export default function StickyNotesOverlay() {
 
         <button
           type="button"
-          onClick={() => setVisible(!visible)}
-          title={visible ? "Hide Sticky Notes" : "Show Sticky Notes"}
+          onClick={handleToggleGlobalVisibility}
+          title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
           className={`p-2 rounded-xl border text-xs font-bold transition cursor-pointer ${
             visible ? "bg-white/10 border-white/20 text-white hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"
           }`}
@@ -236,29 +288,49 @@ export default function StickyNotesOverlay() {
                 if (activeFilter === "open" && n.status === "resolved") return acc;
                 if (activeFilter === "resolved" && n.status !== "resolved") return acc;
 
+                const isNoteHidden = hiddenNoteSet.has(n.id);
+
                 acc.push(
                   <div
                     key={n.id}
                     className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-400/40 transition"
                   >
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-mono text-amber-400 font-bold">Sticky Note #{n.id.slice(-4)}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-amber-400 font-bold">Sticky Note #{n.id.slice(-4)}</span>
+                        {isNoteHidden && (
+                          <span className="text-[9px] font-black text-rose-400 uppercase tracking-wider bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
+                            Hidden
+                          </span>
+                        )}
+                      </div>
                       <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
                     </div>
 
                     <p className="text-xs text-white/90 font-sans italic">{n.note_text || "(No text written yet)"}</p>
 
                     <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsDrawerOpen(false);
-                          handleScrollToNote(n.id);
-                        }}
-                        className="text-[10px] font-bold uppercase tracking-wider text-amber-300 hover:underline flex items-center gap-1 cursor-pointer"
-                      >
-                        <CornerDownRight className="w-3 h-3" /> Go To Note
-                      </button>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsDrawerOpen(false);
+                            handleScrollToNote(n.id);
+                          }}
+                          className="text-[10px] font-bold uppercase tracking-wider text-amber-300 hover:underline flex items-center gap-1 cursor-pointer"
+                        >
+                          <CornerDownRight className="w-3 h-3" /> Go To Note
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleToggleHideNote(n.id)}
+                          className="text-[10px] font-bold uppercase tracking-wider text-white/60 hover:text-white flex items-center gap-1 cursor-pointer"
+                        >
+                          {isNoteHidden ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
+                          <span>{isNoteHidden ? "Unhide" : "Hide"}</span>
+                        </button>
+                      </div>
 
                       <button
                         type="button"
@@ -292,11 +364,13 @@ function SingleStickyCard({
   isHighlighted,
   onUpdate,
   onDelete,
+  onHideNote,
 }: {
   note: ClientNoteItem;
   isHighlighted: boolean;
   onUpdate: (n: ClientNoteItem) => void;
   onDelete: (id: string) => void;
+  onHideNote: (id: string) => void;
 }) {
   const [text, setText] = useState<string>("");
   const defaultViewportPos = React.useMemo(() => {
@@ -460,7 +534,17 @@ function SingleStickyCard({
 
           <button
             type="button"
+            onClick={() => onHideNote(note.id)}
+            title="Hide Note"
+            className="text-white/40 hover:text-amber-400 p-0.5 transition cursor-pointer"
+          >
+            <Minus className="w-3.5 h-3.5" />
+          </button>
+
+          <button
+            type="button"
             onClick={() => onDelete(note.id)}
+            title="Delete Note"
             className="text-white/40 hover:text-red-400 p-0.5 transition cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
