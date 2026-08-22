@@ -901,7 +901,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "RAFFLE CLAIM PAGE",
       title: "Raffle Prize Claim Page",
-      path: "/claim/[pin]",
+      path: "/claim/582901",
       imgUrl: "/sitemap-thumbs/raffle-win-preview.jpg",
       badgeType: "MODULE",
       description: "Page a raffle winner reaches via a PIN-coded link to claim their prize.",
@@ -979,7 +979,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "ADMIN \u2014 MEMBER DETAIL",
       title: "Admin Member Detail View",
-      path: "/admin/[username]",
+      path: "/admin/planner-demo",
       imgUrl: "/sitemap-thumbs/admin.jpg",
       badgeType: "PORTAL",
       description: "Per-planner/per-member detail and management view inside the admin dashboard.",
@@ -1343,7 +1343,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "\u2709 RAFFLE WIN EMAIL",
       title: "\"You Won!\" Raffle Email",
-      path: "/claim/[pin]",
+      path: "/claim/582901",
       imgUrl: "/sitemap-thumbs/raffle-win-preview.jpg",
       badgeType: "EMAIL",
       description: "Sent to the winner of a live-stream raffle: subject '\ud83c\udfc6 You Won the 7th Heaven Raffle!'.",
