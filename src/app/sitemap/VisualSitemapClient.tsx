@@ -474,12 +474,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 1040 },
     data: {
-      header: "Crew HQ",
-      title: "Road Crew & Staff Portal",
+      header: "CREW BROADCAST HUB",
+      title: "Crew Member Broadcast & Control Portal",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/crew-dashboard.jpg",
       badgeType: "PORTAL",
-      description: "Tour staff schedule, stage setup checklists, and shift alerts.",
+      description: "Live camera switching, stream feeds, chat moderation, merch drops, and fan push alerts for crew members (/crew).",
     },
   },
   {
