@@ -312,6 +312,19 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
+    id: "node-live-michael",
+    type: "sitemapCard",
+    position: { x: 1140, y: 700 },
+    data: {
+      header: "MICHAEL LIVE STREAM",
+      title: "Michael's Live Broadcast Room",
+      path: "/live/michael",
+      imgUrl: "/sitemap-thumbs/live.jpg",
+      badgeType: "PORTAL",
+      description: "Dedicated member live stream broadcast & interactive feed room for Michael (/live/michael).",
+    },
+  },
+  {
     id: "nav-cruise",
     type: "sitemapCard",
     position: { x: 1520, y: 360 },
@@ -663,6 +676,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-filled-module-to-fan-dashboard", source: "node-fan-verify-pin-filled", target: "node-fan-dashboard-unlocked", type: "smoothstep", animated: true },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
+  { id: "flow-live-to-michael", source: "nav-live", target: "node-live-michael", type: "smoothstep", animated: true },
   // CRUISE VERTICAL FLOW: CRUISE 2026 -> SIGNUP -> PIN MODULE -> PIN EMAIL -> PIN FILLED -> CRUISE DASHBOARD
   { id: "flow-cruise-to-pin-module", source: "nav-cruise", target: "node-cruise-pin-module", type: "smoothstep", animated: true },
   { id: "flow-cruise-pin-to-email", source: "node-cruise-pin-module", target: "email-cruise-pin-email", type: "smoothstep", animated: true },
