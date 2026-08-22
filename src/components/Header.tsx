@@ -16,7 +16,7 @@ import CosmicRadialButton from "@/components/CosmicRadialButton";
 const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
-  { href: "/merch", label: "MERCH" },
+  { href: "/payment-test", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
   { href: "/sitemap", label: "SITEMAP" },
@@ -609,23 +609,9 @@ export function Header() {
               CONTACT
             </TransitionLink>
 
-            {/* Test Shop link — temporary, for testing the North (EPX)
-                Browser Post shopping cart integration. Remove once that
-                flow is either promoted to a real page or dropped. */}
-            <TransitionLink
-              href="/payment-test"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/payment-test")
-                ? "!text-[#9333ea] font-extrabold active"
-                : "!text-white/90 hover:!text-white"
-                }`}
-              title="Test Shop — North (EPX) checkout demo"
-            >
-              TEST SHOP
-            </TransitionLink>
-
             {/* Cart Icon — always visible */}
             <TransitionLink
-              href="/merch"
+              href="/payment-test"
               className="!text-white/80 hover:!text-white transition-colors p-0.5 mx-0.5 shrink-0"
               title="Cart / Merch"
             >
@@ -827,7 +813,7 @@ export function Header() {
 
                   <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:var(--font-barlow-condensed)]">
                     {[
-                      { href: "/merch", label: "MERCH" },
+                      { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
                       { href: "/sitemap", label: "SITEMAP" },
