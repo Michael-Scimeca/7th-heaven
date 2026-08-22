@@ -123,14 +123,12 @@ export async function POST(request: Request) {
       const raw = typeof body.recipients === "string"
         ? body.recipients.split(/[\n,;]+/)
         : Array.isArray(body.recipients) ? body.recipients : [];
-      customPhoneList = Array.from(new Set(raw
-        .map((r: any) => {
-          const digits = String(r).replace(/\D/g, "");
-          if (digits.length === 10) return `+1${digits}`;
-          if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
-          return digits ? `+${digits}` : "";
-        })
-        .filter(Boolean)));
+      customPhoneList = Array.from(new Set(raw.flatMap((r: any) => {
+        const digits = String(r).replace(/\D/g, "");
+        if (digits.length === 10) return [`+1${digits}`];
+        if (digits.length === 11 && digits.startsWith("1")) return [`+${digits}`];
+        return digits ? [`+${digits}`] : [];
+      })));
     }
 
     let nearbySubscribers: { phone: string }[] = [];

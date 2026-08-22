@@ -43,6 +43,21 @@ const CheckIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
 );
 
+const getTopicInfo = (group: Group): TopicResponse => {
+  const topicMap: Record<Group, string> = {
+    fans: process.env.NEXT_PUBLIC_NTFY_TOPIC_FANS || "7thheaven_fans",
+    crew: process.env.NEXT_PUBLIC_NTFY_TOPIC_CREW || "7thheaven_crew",
+    cruise: process.env.NEXT_PUBLIC_NTFY_TOPIC_CRUISE || "7thheaven_cruise",
+  };
+  return {
+    ok: true,
+    configured: true,
+    group,
+    topic: topicMap[group],
+    server: "https://ntfy.sh",
+  };
+};
+
 export default function NotificationsPage() {
   const { member } = useMember();
 
@@ -58,35 +73,7 @@ export default function NotificationsPage() {
   });
   const [copied, setCopied] = useState(false);
 
-  // Keyed by the tab it was fetched for, so `loading`/`info` can be derived
-  // during render instead of toggled with a leading setState() call at the
-  // top of the effect (avoids react-hooks/set-state-in-effect — the setState
-  // calls below only ever happen inside the fetch's own callbacks, which is
-  // the standard data-fetching escape hatch for that rule).
-  const [fetchState, setFetchState] = useState<{ tab: Group; info: TopicResponse | null }>({
-    tab: activeTab,
-    info: null,
-  });
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`/api/ntfy/topic?group=${activeTab}`)
-      .then((res) => res.json())
-      .then((data: TopicResponse) => {
-        if (!cancelled) setFetchState({ tab: activeTab, info: data });
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setFetchState({ tab: activeTab, info: { ok: false, configured: false, group: activeTab } });
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab]);
-
-  const loading = fetchState.tab !== activeTab;
-  const info = loading ? null : fetchState.info;
+  const info = getTopicInfo(activeTab);
 
   const server = info?.server || "https://ntfy.sh";
   const serverHost = server.replace(/^https?:\/\//, "");
@@ -128,10 +115,10 @@ export default function NotificationsPage() {
             ntfy
           </a>
           , a free, open push network, so there&apos;s no cost to you and none to us.
-          Prefer old-fashioned texts? There&apos;s a paid SMS option{" "}
-          <a href="#text-alerts-footer" className="underline hover:text-white transition-colors">
-            in the footer
-          </a>{" "}
+          Prefer old-fashioned alerts? Check out our live stream alerts on{" "}
+          <Link href="/live" className="underline hover:text-white transition-colors">
+            the live page
+          </Link>{" "}
           too.
         </p>
       </div>

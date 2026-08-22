@@ -492,15 +492,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       venueNextShowMap.set(`${normStr(v.venue)}|${normStr(v.city)}`, minTime);
     });
 
+    const isMatch = (str: string, target: string) => str === target || str.startsWith(target) || target.startsWith(str);
     const activeVenue = filteredVenues.find(v => {
-      const key = `${normStr(v.venue)}|${normStr(v.city)}`;
       const vName = normStr(v.venue);
       const vCity = normStr(v.city);
-      if (targetVenueName && (vName === targetVenueName || vName.includes(targetVenueName) || targetVenueName.includes(vName))) {
-        if (!targetCityName || vCity === targetCityName || vCity.includes(targetCityName)) {
+      if (targetVenueName && isMatch(vName, targetVenueName)) {
+        if (!targetCityName || isMatch(vCity, targetCityName)) {
           return true;
         }
       }
+      const key = `${vName}|${vCity}`;
       return (venueNextShowMap.get(key) ?? Infinity) !== Infinity;
     }) || filteredVenues[0];
 

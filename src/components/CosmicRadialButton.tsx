@@ -51,6 +51,19 @@ export interface CosmicRadialButtonProps
   className?: string;
 }
 
+const PALETTES = [
+  // Electric Cyan & Magenta
+  ["rgba(0, 240, 255, 0.85)", "rgba(255, 0, 214, 0.9)", "rgba(0, 0, 0, 0.7)", "rgba(157, 0, 255, 0.85)", "rgba(236, 72, 153, 0.8)", "rgba(124, 58, 237, 0.95)"],
+  // Neon Amber & Crimson
+  ["rgba(255, 107, 0, 0.85)", "rgba(255, 0, 102, 0.9)", "rgba(15, 0, 30, 0.7)", "rgba(245, 158, 11, 0.85)", "rgba(239, 68, 68, 0.8)", "rgba(147, 51, 234, 0.95)"],
+  // Cyber Emerald & Electric Blue
+  ["rgba(16, 185, 129, 0.85)", "rgba(6, 182, 212, 0.9)", "rgba(5, 15, 30, 0.7)", "rgba(59, 130, 246, 0.85)", "rgba(168, 85, 247, 0.8)", "rgba(16, 185, 129, 0.95)"],
+  // Royal Sunset & Gold
+  ["rgba(236, 72, 153, 0.85)", "rgba(168, 85, 247, 0.9)", "rgba(20, 0, 40, 0.7)", "rgba(251, 146, 60, 0.85)", "rgba(244, 63, 94, 0.8)", "rgba(99, 102, 241, 0.95)"],
+  // Deep Purple Hyperglow
+  ["rgba(192, 38, 211, 0.85)", "rgba(124, 58, 237, 0.9)", "rgba(10, 0, 25, 0.7)", "rgba(232, 121, 249, 0.85)", "rgba(99, 102, 241, 0.8)", "rgba(217, 70, 239, 0.95)"],
+];
+
 const COSMIC_BASE_CENTERS = [
   { x: 18, y: 71 },
   { x: 36, y: 76 },
@@ -96,19 +109,6 @@ export const CosmicRadialButton = React.forwardRef<
     const [rafCenters, setRafCenters] = useState(() =>
       COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
     );
-
-const PALETTES = [
-  // Electric Cyan & Magenta
-  ["rgba(0, 240, 255, 0.85)", "rgba(255, 0, 214, 0.9)", "rgba(0, 0, 0, 0.7)", "rgba(157, 0, 255, 0.85)", "rgba(236, 72, 153, 0.8)", "rgba(124, 58, 237, 0.95)"],
-  // Neon Amber & Crimson
-  ["rgba(255, 107, 0, 0.85)", "rgba(255, 0, 102, 0.9)", "rgba(15, 0, 30, 0.7)", "rgba(245, 158, 11, 0.85)", "rgba(239, 68, 68, 0.8)", "rgba(147, 51, 234, 0.95)"],
-  // Cyber Emerald & Electric Blue
-  ["rgba(16, 185, 129, 0.85)", "rgba(6, 182, 212, 0.9)", "rgba(5, 15, 30, 0.7)", "rgba(59, 130, 246, 0.85)", "rgba(168, 85, 247, 0.8)", "rgba(16, 185, 129, 0.95)"],
-  // Royal Sunset & Gold
-  ["rgba(236, 72, 153, 0.85)", "rgba(168, 85, 247, 0.9)", "rgba(20, 0, 40, 0.7)", "rgba(251, 146, 60, 0.85)", "rgba(244, 63, 94, 0.8)", "rgba(99, 102, 241, 0.95)"],
-  // Deep Purple Hyperglow
-  ["rgba(192, 38, 211, 0.85)", "rgba(124, 58, 237, 0.9)", "rgba(10, 0, 25, 0.7)", "rgba(232, 121, 249, 0.85)", "rgba(99, 102, 241, 0.8)", "rgba(217, 70, 239, 0.95)"],
-];
 
     // Unique desynchronized random motion, direction & color palette per button instance (or synced if syncId provided)
     const [randomAnimProps, setRandomAnimProps] = useState<{

@@ -47,6 +47,7 @@ export default function ProximitySubscriberAdminPanel() {
     try {
       setLoading(true);
       const res = await fetch("/api/admin/push-subscribers");
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
       if (data.ok && Array.isArray(data.subscribers)) {
         setSubscribers(data.subscribers);
@@ -82,6 +83,7 @@ export default function ProximitySubscriberAdminPanel() {
           fanName: editName,
         }),
       });
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
       if (data.ok) {
         setActionStatus(`Updated preferences for subscriber ${id.substring(0, 8)}`);
@@ -102,6 +104,7 @@ export default function ProximitySubscriberAdminPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "delete", id }),
       });
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
       if (data.ok) {
         setActionStatus("Subscriber removed successfully");
@@ -126,6 +129,7 @@ export default function ProximitySubscriberAdminPanel() {
           message: testMessage,
         }),
       });
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
       if (data.ok) {
         setActionStatus("Targeted push notification sent!");

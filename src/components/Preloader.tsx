@@ -138,31 +138,31 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     };
 
     // Smoothly animate logo fill percentage to match actual load progress
+    const currentFillRef = { current: 0 };
     const animateFill = () => {
       if (doneRef.current) return;
       const elapsed = performance.now() - startedAt;
 
       let target: number;
       if (pageReadyRef.current) {
-        // Page is ready: fill swiftly to 100% and finish
         target = 100;
       } else {
-        // Page still loading: progress smoothly up to 90% over 2.2s while waiting
         target = Math.min(90, (elapsed / 2200) * 90);
       }
 
-      setFillPercent((prev) => {
-        const delta = target - prev;
-        const speed = pageReadyRef.current ? 0.25 : 0.12;
-        const next = prev + delta * speed;
-        if (pageReadyRef.current && next >= 98) {
-          finish();
-          return 100;
-        }
-        return next;
-      });
+      const prev = currentFillRef.current;
+      const delta = target - prev;
+      const speed = pageReadyRef.current ? 0.25 : 0.12;
+      const nextVal = prev + delta * speed;
+      const finalVal = (pageReadyRef.current && nextVal >= 98) ? 100 : nextVal;
+      currentFillRef.current = finalVal;
+      setFillPercent(finalVal);
 
-      rafId = requestAnimationFrame(animateFill);
+      if (pageReadyRef.current && finalVal >= 98) {
+        finish();
+      } else {
+        rafId = requestAnimationFrame(animateFill);
+      }
     };
 
     rafId = requestAnimationFrame(animateFill);

@@ -41,6 +41,32 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
   return outputArray;
 }
 
+/** Get the current push subscription from the active service worker */
+async function getExistingSubscription(): Promise<PushSubscription | null> {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return null;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    return await reg.pushManager.getSubscription();
+  } catch {
+    return null;
+  }
+}
+
+/** Create a new push subscription */
+async function createSubscription(): Promise<PushSubscription | null> {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return null;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    return await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as unknown as ArrayBuffer,
+    });
+  } catch (e) {
+    console.warn("[push] subscribe failed:", e);
+    return null;
+  }
+}
+
 export default function FooterProximityAlerts() {
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -63,7 +89,7 @@ export default function FooterProximityAlerts() {
     }
     // Restore saved prefs
     try {
-      const saved = localStorage.getItem("7h_alert_prefs");
+      const saved = localStorage.getItem("7h_alert_prefs_v1") || localStorage.getItem("7h_alert_prefs");
       if (saved) {
         const prefs = JSON.parse(saved);
         if (prefs.name) setName(prefs.name);
@@ -82,36 +108,10 @@ export default function FooterProximityAlerts() {
     setSelectedTypes(next.length === 0 ? ["all"] : next);
   };
 
-  /** Get the current push subscription from the active service worker */
-  async function getExistingSubscription(): Promise<PushSubscription | null> {
-    if (!("serviceWorker" in navigator)) return null;
-    try {
-      const reg = await navigator.serviceWorker.ready;
-      return await reg.pushManager.getSubscription();
-    } catch {
-      return null;
-    }
-  }
-
-  /** Create a new push subscription */
-  async function createSubscription(): Promise<PushSubscription | null> {
-    if (!("serviceWorker" in navigator)) return null;
-    try {
-      const reg = await navigator.serviceWorker.ready;
-      return await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as unknown as ArrayBuffer,
-      });
-    } catch (e) {
-      console.warn("[push] subscribe failed:", e);
-      return null;
-    }
-  }
-
   /** Save prefs locally and POST the subscription to the server */
   async function persistSubscription(pushSub: PushSubscription) {
     // Save locally
-    localStorage.setItem("7h_alert_prefs", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+    localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
 
     // Convert PushSubscription to plain object
     const subJson = pushSub.toJSON();
