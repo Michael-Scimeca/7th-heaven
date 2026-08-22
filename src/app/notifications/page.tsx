@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import ProximityNotify from "@/components/ProximityNotify";
 
 type Group = "fans" | "crew" | "cruise";
 
@@ -330,9 +331,10 @@ export default function NotificationsPage() {
         })}
       </div>
 
-
-
-      {/* ⚡ REAL-TIME LIVE PUSH TESTER */}
+      {/* 📍 Proximity & Area Distance Alert Setup */}
+      <div className="max-w-3xl mx-auto mb-10">
+        <ProximityNotify />
+      </div>
       <div className="max-w-3xl mx-auto mt-12 overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-b from-[#160b2d]/90 to-[#0a0518]/95 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
         <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40">
