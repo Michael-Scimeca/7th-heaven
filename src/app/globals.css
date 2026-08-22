@@ -2552,7 +2552,7 @@ textarea,
 }
 
 /* Desktop Range (1025px -> 1560px+) */
-@media (min-width: 1025px) {
+@media (min-width: 1024px) {
   :root {
     --text-6xl: 3.505rem;
   }
