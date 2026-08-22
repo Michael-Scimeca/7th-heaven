@@ -118,7 +118,7 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative text-[var(--text-color)] pt-12 pb-8 overflow-hidden   ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+      className={`relative text-[var(--text-color)]  pb-8 overflow-hidden   ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
         }`}
       id="footer"
       suppressHydrationWarning

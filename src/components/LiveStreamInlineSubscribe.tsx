@@ -83,15 +83,15 @@ export default function LiveStreamInlineSubscribe({
 
   if (subscribed) {
     return (
-      <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-emerald-500/40 bg-gradient-to-b from-emerald-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
+      <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center shrink-0 shadow-lg">
-            <Check className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
+            <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-base font-black text-white">Live Push & Email Alerts Activated! 🔔</h4>
+            <h4 className="text-base font-black text-white">Verification Email Sent to {email}! ✉️</h4>
             <p className="text-xs text-gray-300 mt-0.5">
-              Instant alerts will pop up on your device & welcome email was sent to <strong className="text-white font-mono">{email}</strong> whenever 7th Heaven or a crew member goes live.
+              To prevent unauthorized signups, we sent a verification link to <strong className="text-white font-mono">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
           </div>
         </div>
