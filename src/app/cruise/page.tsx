@@ -195,7 +195,7 @@ export default function CruisePage() {
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail) {
-        setHeroMaskSettings(prev => ({ ...prev, ...customEvent.detail }));
+        setHeroMaskSettings((prev: Record<string, any>) => ({ ...prev, ...customEvent.detail }));
       }
     };
     window.addEventListener('hero-mask-update', handleUpdate);
