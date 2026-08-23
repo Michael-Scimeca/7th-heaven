@@ -5542,8 +5542,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none">
                               <div
                                 className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked
-                                  ? 'bg-purple-500/10 text-white'
-                                  : 'hover:bg-white/[0.04]'
+                                  ? 'text-white'
+                                  : ''
                                   }`}
                                 title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                               >
@@ -5660,7 +5660,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Right Column: Group Setup & Message Sending */}
               <div className="space-y-5">
                 {/* Group dropdown & save selection */}
-                <div className="py-4 pl-4 pr-0 space-y-4">
+                <div className="py-4 pr-0 space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
@@ -6478,7 +6478,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Right Column: Alert Broadcast Form */}
               <div className="space-y-5">
-                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 py-4 px-4 space-y-4">
+                <div className="space-y-4">
                   <div>
                     <label htmlFor="admin-band-sms-show-select" className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
                     <Dropdown
@@ -6586,7 +6586,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         placeholder="Write message to send..."
                         rows={5}
                         style={{ backgroundColor: '#181924', color: '#ffffff' }}
-                        className="w-full bg-[#181924]! text-white! border border-white/10 rounded-lg px-3.5 py-2.5 text-xs placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none leading-relaxed transition-colors"
+                        className="w-full  text-white! border border-white/10 rounded-lg px-3.5 py-2.5 text-xs placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none leading-relaxed transition-colors"
                       />
                     </div>
                   </div>
@@ -9521,7 +9521,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29 px-2.5 py-1 rounded border border-white/30">Roster Schedule</span>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29 px-2.5 py-1 rounded-lg border border-white/30">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
@@ -9677,7 +9677,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
 
-          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[750px] max-h-[85vh] flex flex-col min-h-0">
+          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[850px] max-h-[90vh] flex flex-col min-h-0">
 
             {/* Header controls (Date range, prev/next, today, action icons) */}
             <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
