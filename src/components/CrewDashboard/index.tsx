@@ -3637,43 +3637,47 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
           {!isSetlistCollapsed && (
-            <div className="pb-4flex-1 flex flex-col justify-between gap-4">
+            <div className="pb-4 flex-1 flex flex-col justify-between gap-4">
 
-              {/* Song rows */}
-              <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto">
-                {setlist.map((song, idx) => (
-                  <div
-                    key={song.id}
-                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
-                      ? ''
-                      : ''
-                      } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
+              {/* Song rows with top & bottom gradient blur overlay */}
+              <div className="relative">
+                {/* Top gradient blur overlay */}
+                <div className="pointer-events-none absolute top-0 left-0 right-0 h-8 z-10 bg-gradient-to-b from-[#0a0518]/90 via-[#0a0518]/50 to-transparent backdrop-blur-[3px]" />
+                {/* Bottom gradient blur overlay */}
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 z-10 bg-gradient-to-t from-[#0a0518]/90 via-[#0a0518]/50 to-transparent backdrop-blur-[3px]" />
 
-                      <div className="min-w-0">
-                        <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
-                          {song.title}
-                        </p>
-                        <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
-                          <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
-                        </p>
+                <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto py-2">
+                  {setlist.map((song, idx) => (
+                    <div
+                      key={song.id}
+                      className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
+                        ? ''
+                        : ''
+                        } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="min-w-0">
+                          <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
+                            {song.title}
+                          </p>
+                          <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
+                            <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={() => deleteSongFromSetlist(song.id)}
+                          className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
+                          title="Delete Song"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-1.5 shrink-0">
-
-
-                      <button
-                        onClick={() => deleteSongFromSetlist(song.id)}
-                        className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
-                        title="Delete Song"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               {/* Add Song form */}
