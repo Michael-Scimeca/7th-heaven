@@ -167,8 +167,7 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-                <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -240,18 +239,16 @@ export default function FansPage() {
         {isModerator && pendingPhotos.length > 0 && (
           <div className=" mx-auto mb-14 p-6">
             <div className="flex items-center gap-3 mb-6">
-              <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm text-purple-300">
-                <Shield className="w-4 h-4" />
-              </span>
+
               <div>
                 <h3 className="text-lg font-bold text-white">
                   Pending Review Queue
                 </h3>
-                <p className="text-[var(--font-size-2xs)] text-white/60 uppercase tracking-widest font-bold">
+                <p className="text-[var(--font-size-2xs)] text-white uppercase tracking-widest font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs px-3 py-1 font-mono rounded-full font-black">
+              <span className="ml-auto bg-[#e1e6ff29] text-white text-xs px-3 py-1 font-mono rounded-full font-black">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -294,12 +291,12 @@ export default function FansPage() {
                         {photo.name}
                       </div>
                       {photo.venue && (
-                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-white/60 truncate flex items-center gap-1">
+                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-white truncate flex items-center gap-1">
                           <MapPin className="w-3 h-3 text-purple-400 shrink-0" /> {photo.venue}
                         </p>
                       )}
                       {photo.caption && (
-                        <p className="text-sm text-white/80 italic border-l-2 border-purple-500/30 pl-3 mt-2">
+                        <p className="text-sm text-white italic border-l-2 border-purple-500/30 pl-3 mt-2">
                           "{photo.caption}"
                         </p>
                       )}
@@ -352,13 +349,13 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
-                <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 block">
+                <span className="text-xs font-black uppercase tracking-[0.2em]  text-white mb-2 block">
                   Featured Moment
                 </span>
                 <p className="text-2xl md:text-3xl font-black text-white">
                   {approvedPhotos[0].name}
                 </p>
-                <div className="flex items-center gap-3 text-sm text-white/40 mt-2">
+                <div className="flex items-center gap-3 text-sm text-white mt-2">
                   {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
                   {approvedPhotos[0].venue && approvedPhotos[0].date && (
                     <span>·</span>
@@ -366,7 +363,7 @@ export default function FansPage() {
                   {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
                 </div>
                 {approvedPhotos[0].caption && (
-                  <p className="text-white/50 text-base mt-3 max-w-xl">
+                  <p className="text-white text-base mt-3 max-w-xl">
                     &ldquo;{approvedPhotos[0].caption}&rdquo;
                   </p>
                 )}
@@ -377,7 +374,7 @@ export default function FansPage() {
 
         {/* Photo Feed Grid - Full Bleed 0 Gap */}
         {approvedPhotos.length > 1 ? (
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-3 gap-0 space-y-0 w-full border-t border-black/10">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-3 gap-0 space-y-0 w-full border-t border-white/10">
             {approvedPhotos.slice(1).map((photo) => {
               const isVideo =
                 photo.type === "video" ||
@@ -386,11 +383,11 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white/[0.04] transition-colors duration-300"
+                  className="break-inside-avoid flex flex-col bg-[#0b041a]/90 border-b border-r border-white/10 overflow-hidden hover:bg-purple-900/30 transition-colors duration-300"
                 >
-                  <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-black/5 bg-black/[0.02]">
+                  <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center font-bold text-xs  text-[var(--color-accent)] tracking-widest">
+                      <div className="w-8 h-8 rounded-full bg-white/15 border border-white/30 flex items-center justify-center font-bold text-xs  text-white tracking-widest">
                         {photo.name
                           ? photo.name
                             .split(" ")
@@ -402,11 +399,11 @@ export default function FansPage() {
                           : "FP"}
                       </div>
                       <div>
-                        <p className="text-black text-sm font-bold leading-tight">
+                        <p className="text-white text-sm font-bold leading-tight">
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className=" text-[var(--color-accent)] text-[var(--font-size-2xs)] uppercase tracking-widest font-extrabold mt-0.5">
+                          <p className=" text-white text-[var(--font-size-2xs)] uppercase tracking-widest font-extrabold mt-0.5">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -415,11 +412,11 @@ export default function FansPage() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
-                      <span className="text-black/50 text-[0.65rem] uppercase tracking-widest font-bold">
+                      <span className="text-white text-[0.65rem] uppercase tracking-widest font-bold">
                         {isVideo ? "Video" : "Photo"}
                       </span>
                       {photo.date && (
-                        <span className="text-black/50 text-[0.65rem] font-medium">{photo.date}</span>
+                        <span className="text-white text-[0.65rem] font-medium">{photo.date}</span>
                       )}
                     </div>
                   </div>
@@ -452,8 +449,8 @@ export default function FansPage() {
                     </div>
                   </button>
                   {photo.caption && (
-                    <div className="pl-8 pr-4 py-4 bg-black/[0.02] border-t border-black/5">
-                      <p className="text-black/80 text-sm leading-relaxed font-medium">
+                    <div className="pl-8 pr-4 py-4 bg-black/[0.02] border-t border-white/5">
+                      <p className="text-white text-sm leading-relaxed font-medium">
                         &ldquo;{photo.caption}&rdquo;
                       </p>
                     </div>

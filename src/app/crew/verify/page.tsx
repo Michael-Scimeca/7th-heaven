@@ -188,9 +188,7 @@ export default function VerifyPage() {
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
-            <ShieldAlert className="w-8 h-8" />
-          </div>
+
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="text-white/40 text-sm mb-5">This page is for 7th Heaven crew members only.</p>
           <button aria-label="Action button"

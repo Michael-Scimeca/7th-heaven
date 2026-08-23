@@ -3390,7 +3390,7 @@ ${deskRules.join("\n")}
         <section id="borders" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6" /> 9. Border & Glass Standard
+              9. Border & Glass Standard
             </h2>
             <p className="text-white/60 text-xs mt-1">
               Confirming all dividers and component boundaries use our standardized global border color: <code className="text-cyan-300 font-mono">rgba(255, 255, 255, 0.08)</code>.
