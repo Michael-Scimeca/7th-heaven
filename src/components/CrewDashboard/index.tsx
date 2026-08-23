@@ -190,12 +190,13 @@ function AvailabilityCardForm({
                 <option value="Other" className=" text-white">Other</option>
               </select>
             </div>
-            <button
+            <CosmicRadialButton
               type="submit"
-              className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+              icon={false}
+              className="px-5 h-[36px] text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
             >
               Save
-            </button>
+            </CosmicRadialButton>
           </div>
         </form>
 
@@ -262,12 +263,13 @@ function TimeOffCardForm({
                 <option value="Other" className=" text-white">Other</option>
               </select>
             </div>
-            <button
+            <CosmicRadialButton
               type="submit"
-              className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+              icon={false}
+              className="px-5 h-[36px] text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
             >
               Submit Request
-            </button>
+            </CosmicRadialButton>
           </div>
         </form>
 
@@ -2870,14 +2872,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   {/* Go Live CTA — bottom of video, above A/V controls */}
                   {!isLive && (
                     <div className="absolute inset-x-0 bottom-16 z-20 flex items-center justify-center">
-                      <button
+                      <CosmicRadialButton
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-colors disabled:opacity-50 bg-purple-600 text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(147,51,234,0.7)] flex items-center gap-3"
+                        icon={false}
+                        className="px-10 py-4 text-sm font-black uppercase tracking-widest disabled:opacity-50 flex items-center gap-3 cursor-pointer"
                       >
                         <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '12px', height: '12px', borderRadius: '50%', display: 'inline-block' }} />
                         {toggling ? 'Starting...' : 'Go Live'}
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                   )}
                 </div>
@@ -3641,8 +3644,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div
                     key={song.id}
                     className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
-                      ? 'bg-[var(--color-accent)]/10 shadow-[0_0_10px_rgba(255,10,61,0.12)]'
-                      : 'hover:bg-white/[0.03]'
+                      ? ''
+                      : ''
                       } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
