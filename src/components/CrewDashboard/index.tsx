@@ -15,6 +15,7 @@ import { getShowDateTime } from '@/lib/date-utils';
 import ChatInputBar from '@/components/ChatInputBar';
 import SquishyToggle from '@/components/SquishyToggle';
 import PushAlertsCard from '@/components/PushAlertsCard';
+import CosmicRadialButton from '@/components/CosmicRadialButton';
 import { useTransition } from '@/context/TransitionContext';
 
 // ── Constants & types extracted from this file ──
@@ -3320,7 +3321,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className={`w-full bg-[#e1e6ff29]   !border-0 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
+                                    className={`w-full bg-[#e1e6ff29] border border-white/30 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
                                   />
                                 </div>
                               </div>
@@ -3336,12 +3337,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.min || ''}
                                     onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29]   !border-0 !rounded-none px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#e1e6ff29] border border-white/30 px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
                                   />
                                 </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/30  whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                     {raffleEntrants.length} / {item.min} Entries
                                   </div>
                                 )}
@@ -3349,7 +3350,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 3: Prize Qty */}
                               <div className="w-14 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)]  font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3358,7 +3359,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.qty || ''}
                                     onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29]   !border-0 px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#e1e6ff29] border border-white/30  px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
                                   />
                                 </div>
                               </div>
@@ -3370,7 +3371,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
                                   disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-[44px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                                  className={`h-[39px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
@@ -3385,7 +3386,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Remove raffle item"
                                   onClick={() => removeQueueItem(idx)}
                                   disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
-                                  className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-0 text-xs"
+                                  className="h-[40px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-0 text-xs"
                                 >
                                   ✕
                                 </button>
@@ -3428,14 +3429,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {/* Draw Action */}
                     <div className="mt-auto">
                       {raffleStatus !== 'complete' ? (
-                        <button
+                        <CosmicRadialButton
                           type="button"
                           onClick={drawWinner}
                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                          className="w-full rounded-lg py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
+                          icon={false}
+                          className="w-full py-4 text-sm font-black italic tracking-widest uppercase disabled:opacity-30 disabled:grayscale cursor-pointer"
                         >
                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
-                        </button>
+                        </CosmicRadialButton>
                       ) : (
                         <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
                           <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
