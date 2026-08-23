@@ -268,6 +268,7 @@ interface DutyRoleEditorPopoverProps {
   setEditingDutyMemberId: (id: string | null) => void;
   presetRoles: string[];
   memberId: string;
+  position?: 'top' | 'bottom';
 }
 
 function DutyRoleEditorPopover({
@@ -280,10 +281,13 @@ function DutyRoleEditorPopover({
   setEditingDutyMemberId,
   presetRoles,
   memberId,
+  position = 'bottom',
 }: DutyRoleEditorPopoverProps) {
+  const positionClasses = position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2';
+
   return (
     <div
-      className="absolute right-0 top-full mt-2 p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/20 rounded-lg  shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] text-white z-50 animate-[scaleIn_0.15s_ease-out]"
+      className={`absolute right-0 ${positionClasses} p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/20 rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] max-h-[85vh] overflow-y-auto custom-scrollbar text-white z-50 animate-[scaleIn_0.15s_ease-out]`}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
@@ -4557,11 +4561,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
+                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white hover:text-white transition-colors">
                       Email
                     </a>
                     {planner.phone ? (
-                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
+                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
                         Text
                       </a>
                     ) : (
@@ -5477,7 +5481,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     });
 
     return (
-      <section id="section-crewsms" className="overflow-hidden">
+      <section id="section-crewsms" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
           <div className="flex items-center">
 
@@ -5529,7 +5533,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           if (!aChecked && bChecked) return 1;
                           return a.name.localeCompare(b.name);
                         })
-                        .map((r) => {
+                        .map((r, rIndex, rArr) => {
                           const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
                           const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
                           const editKey = `main:${r.id}`;
@@ -5571,12 +5575,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         }}
                                       />
                                     ) : (
-                                       <div
-                                         className={`w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
-                                         style={{ backgroundColor: getAvatarColor(r.name) }}
-                                       >
-                                         {getFirstAndLastInitials(r.name)}
-                                       </div>
+                                      <div
+                                        className={`w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20  shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
+
+                                      >
+                                        {getFirstAndLastInitials(r.name)}
+                                      </div>
                                     );
                                   })()}
 
@@ -5640,6 +5644,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setEditingDutyMemberId={setEditingDutyMemberId}
                                       presetRoles={presetRoles}
                                       memberId={r.id}
+                                      position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                     />
                                   )}
                                 </div>
@@ -5798,7 +5803,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
                             {(() => {
                               const selectedCrewPhonesSet = new Set(selectedCrewPhones);
-                              return allCrewCombined.map(r => {
+                              return allCrewCombined.map((r, rIndex, rArr) => {
                                 const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
                                 const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
                                 const editKey = `group:${r.id}`;
@@ -5865,6 +5870,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             setEditingDutyMemberId={setEditingDutyMemberId}
                                             presetRoles={presetRoles}
                                             memberId={r.id}
+                                            position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                           />
                                         )}
                                       </button>
@@ -6326,7 +6332,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     });
 
     return (
-      <section id="section-bandsms" className="overflow-hidden">
+      <section id="section-bandsms" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
           <div className="flex items-center">
 
@@ -6444,11 +6450,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     />
                                   ) : (
                                     <div
-                                       className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans"
-                                       style={{ backgroundColor: getAvatarColor(r.name) }}
-                                     >
-                                       {getFirstAndLastInitials(r.name)}
-                                     </div>
+                                      className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans"
+                                      style={{ backgroundColor: getAvatarColor(r.name) }}
+                                    >
+                                      {getFirstAndLastInitials(r.name)}
+                                    </div>
                                   );
                                 })()}
 
