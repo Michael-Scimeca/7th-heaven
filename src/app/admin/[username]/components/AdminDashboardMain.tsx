@@ -3200,7 +3200,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('emergencybroadcast', 'Emergency Show & Fan Alert Dispatcher', 'Dispatch urgent show cancellations, time changes, or venue updates across Twilio SMS, Email, and Fan Dashboard banners with live cost estimations.')}
         <div style={{ display: isSectionOpen('emergencybroadcast') ? undefined : 'none' }}>
+          {isSectionOpen('emergencybroadcast') && (<>
           <EmergencyBroadcastCenter tourDates={tourDates} />
+          </>)}
         </div>
       </section>
 
@@ -3223,7 +3225,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('emaildirectory', 'Role-Based Email Lists & Subscriber Directory', 'Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins. Copy bulk BCC lists or export CSV files.')}
         <div style={{ display: isSectionOpen('emaildirectory') ? undefined : 'none' }}>
+          {isSectionOpen('emaildirectory') && (<>
           <RoleEmailDirectory dynamicUsers={users} />
+          </>)}
         </div>
       </section>
 
@@ -3246,7 +3250,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('pushsubscribers', 'Proximity & Web Push Alert Subscribers', 'View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.')}
         <div style={{ display: isSectionOpen('pushsubscribers') ? undefined : 'none' }}>
+          {isSectionOpen('pushsubscribers') && (<>
           <ProximitySubscriberAdminPanel />
+          </>)}
         </div>
       </section>
       <section id="admin-sec-announcements" className="overflow-hidden">
@@ -3266,6 +3272,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
         <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
+          {isSectionOpen('announcements') && (<>
           {/* Global Announcement Banner Control */}
           <div className="relative z-10 bg-transparent flex flex-col group">
             <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
@@ -3308,6 +3315,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* Collapsible Content */}
             <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
+              {isSectionOpen('globalalert') && (<>
               {/* Save status toast */}
               {bannerSaveStatus && (
                 <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${bannerSaveStatus === 'saved'
@@ -3389,8 +3397,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 )}
               </div>
+              </>)}
             </div>
           </div>
+          </>)}
         </div>
       </section>
     </div>
@@ -3418,6 +3428,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, acquisition channels, and visitor geo-traffic with Google Analytics integration.')}
       <div style={{ display: isSectionOpen('analytics') ? undefined : 'none' }}>
+        {isSectionOpen('analytics') && (<>
         <div className="py-6 pr-0 pl-0 space-y-6 bg-transparent text-[var(--text-color)]">
 
           {/* 1. Executive Top Metrics Grid */}
@@ -3531,19 +3542,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </h4>
 
                 <div className="grid grid-cols-3 gap-2 text-center mb-5">
-                  <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
+                  <div className="">
                     <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">68%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
                   </div>
 
-                  <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
+                  <div className="">
                     <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">27%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
                   </div>
 
-                  <div className="p-3 bg-black/30 border border-[var(--border-color)] rounded-lg">
+                  <div className="">
                     <span className="text-lg block"></span>
                     <span className="text-xs font-black text-[var(--text-color)] block mt-1">5%</span>
                     <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
@@ -3551,19 +3562,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
                     <span> Mobile Safari (iPhone)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">52.4%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
                     <span> Chrome Mobile (Android)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">28.1%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
                     <span> Chrome Desktop</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">13.8%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
                     <span> Safari Desktop (Mac)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">5.7%</span>
                   </div>
@@ -3701,6 +3712,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
         </div>
+        </>)}
       </div>
     </section>
   );
@@ -3781,6 +3793,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
       <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
+        {isSectionOpen('shopify') && (<>
         {shopifyTab === 'shopify' ? (
           shopifyLoading ? (
             <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
@@ -4239,6 +4252,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         )}
+        </>)}
       </div>
     </section>
   );
@@ -4263,6 +4277,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
       <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
+        {isSectionOpen('bookings') && (<>
         <div className="p-0">
           {bookings.length === 0 ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
@@ -4521,6 +4536,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -4547,6 +4563,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
       <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
+        {isSectionOpen('planners') && (<>
         <div className="p-0" data-lenis-prevent="true">
           {bookings.length === 0 ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
@@ -4603,6 +4620,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -4625,6 +4643,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
       <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
+        {isSectionOpen('photomod') && (<>
         <div className="p-0">
           {moderationQueue.length === 0 ? (
             <div className="p-16 text-center text-white/30 text-sm">
@@ -4662,6 +4681,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -4689,6 +4709,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
       <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="py-6 pl-0" >
+        {isSectionOpen('memorymod') && (<>
         {
           memoryQueue.length === 0 ? (
             <div className="p-10 text-center text-white/30 text-sm">
@@ -4733,6 +4754,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )
         }
+        </>)}
       </div>
     </section >
   );
@@ -4759,6 +4781,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('livealerts', 'Active Live Streams', 'Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls.')}
       <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
+        {isSectionOpen('livealerts') && (<>
         <div className="p-0">
           {isLoading ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
@@ -4819,6 +4842,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </table>
           )}
         </div>
+        </>)}
       </div>
     </section>
   );
@@ -4879,6 +4903,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
       <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
+        {isSectionOpen('smsblast') && (<>
         {/* Auto-blast info bar */}
         <div className="py-3 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
           <div className="flex items-center gap-2">
@@ -5301,6 +5326,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         </div>
+        </>)}
       </div>
     </section>
   );
@@ -5522,6 +5548,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('crewsms', 'Crew SMS Alert & Group Setup', 'Select target crew members or saved groups to broadcast emergency text messages or load-in notices.')}
         <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
+          {isSectionOpen('crewsms') && (<>
           <div className="py-6 pl-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Member List (Choose Recipients) */}
@@ -6322,6 +6349,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             )}
           </div>
+          </>)}
         </div>
       </section >
     );
@@ -6375,6 +6403,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('bandsms', 'Band Member SMS Text', 'Broadcast instant SMS alerts or show notices directly to the band members.')}
 
         <div style={{ display: isSectionOpen('bandsms') ? undefined : 'none' }}>
+          {isSectionOpen('bandsms') && (<>
           <div className="py-6 pr-0 pl-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Band List (Choose Recipients) */}
@@ -6759,6 +6788,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             </div>
           </div>
+          </>)}
         </div>
       </section >
     );
@@ -6783,6 +6813,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
       <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
+        {isSectionOpen('newsletter') && (<>
         <div className="py-6 pl-0">
           <div className="space-y-4">
             <div>
@@ -6856,6 +6887,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -6882,6 +6914,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('emailflow', 'Email Template Flows', 'Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard.')}
 
       <div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
+        {isSectionOpen('emailflow') && (<>
         <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Booking Flows */}
@@ -7002,6 +7035,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           </div>
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -7035,6 +7069,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
       <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
+        {isSectionOpen('registry') && (<>
         <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
           {isLoading ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
@@ -7154,6 +7189,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </table>
           )}
         </div>
+        </>)}
       </div>
     </section>
   );
@@ -7178,6 +7214,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
       <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
+        {isSectionOpen('crewcreation') && (<>
         <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
             <div>
@@ -7308,6 +7345,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -7355,6 +7393,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('admincreation', 'Create Admin Account', 'Register new band administrator or planner accounts with full database access and management permissions.')}
       <div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
+        {isSectionOpen('admincreation') && (<>
         <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div>
@@ -7509,6 +7548,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -7534,9 +7574,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('bulkinvites', 'Bulk Invites', 'Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory.')}
       <div style={{ display: isSectionOpen('bulkinvites') ? undefined : 'none' }}>
+        {isSectionOpen('bulkinvites') && (<>
         <div className="py-6 pl-0">
           <BulkInvitePanel />
         </div>
+        </>)}
       </div>
     </section >
   );
@@ -7636,6 +7678,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
         <div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
+          {isSectionOpen('cruisesignups') && (<>
           <div className="py-6 pl-0">
             {/* Summary stats bar */}
             <div className="grid grid-cols-4 gap-3 mb-6">
@@ -7826,6 +7869,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </button>
             </div>
           </div>
+          </>)}
         </div>
       </section >
     );
@@ -9544,7 +9588,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29 px-2.5 py-1 rounded-lg border border-white/30">Roster Schedule</span>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29] px-2.5 py-1 rounded-lg border border-white/30">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
@@ -9553,6 +9597,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('calendar', 'Crew Work Schedule Calendar', 'Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps in a weekly/monthly timeline.')}
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
+          {isSectionOpen('calendar') && (<>
           {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
           <div className="border-b border-[var(--color-accent)]/30  py-2.5 flex items-center justify-between gap-4 select-none">
             <div className="flex items-center gap-3 flex-wrap text-xs">
@@ -11498,6 +11543,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               );
             })()}
           </div>
+          </>)}
         </div>
       </section>
     );

@@ -3,6 +3,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useRef } from "react";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 interface ParsedInvite {
   email: string;
@@ -234,9 +235,16 @@ export default function BulkInvitePanel() {
             <p className="text-black/60 text-[var(--font-size-2xs)] mt-1.5 leading-relaxed max-w-xs font-semibold">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
-            <span className="mt-4 px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg border border-[var(--color-accent)] shadow-xs">
+            <CosmicRadialButton
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                fileInputRef.current?.click();
+              }}
+              className="mt-4 !py-2 !px-5 text-xs font-black uppercase tracking-wider text-white shadow-lg"
+            >
               Browse Files
-            </span>
+            </CosmicRadialButton>
           </button>
 
           {/* Direct Copy-Paste Text Area */}
@@ -250,13 +258,14 @@ export default function BulkInvitePanel() {
               rows={5}
               className="w-full bg-white border border-black/15 text-black text-xs px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] font-mono resize-none placeholder:text-black/30 font-semibold"
             />
-            <button aria-label="Action button"
+            <CosmicRadialButton
+              type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-colors border border-[var(--color-accent)] cursor-pointer disabled:opacity-30  "
+              className="w-full justify-center !py-3 !px-5 text-xs font-black uppercase tracking-wider text-white shadow-lg disabled:opacity-30"
             >
-              Parse & Import list
-            </button>
+              Parse & Import List
+            </CosmicRadialButton>
           </div>
         </div>
       ) : (
@@ -281,14 +290,14 @@ export default function BulkInvitePanel() {
               >
                 Clear List
               </button>
-              <button aria-label="Action button"
+              <CosmicRadialButton
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-md transition-colors border border-[var(--color-accent)] disabled:opacity-40 cursor-pointer"
+                className="!py-3 !px-6 text-xs font-black uppercase tracking-widest !text-white shadow-md disabled:opacity-40"
               >
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
-              </button>
+              </CosmicRadialButton>
             </div>
           </div>
 
