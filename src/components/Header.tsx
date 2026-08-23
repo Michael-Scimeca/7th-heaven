@@ -626,17 +626,17 @@ export function Header() {
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {showUserAuth ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
-                <div className="relative shrink-0 flex items-center justify-center">
+                <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11"
-                    style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
+                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
-                      <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
+                      <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}

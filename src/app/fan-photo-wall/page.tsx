@@ -387,7 +387,7 @@ export default function FansPage() {
                 >
                   <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-white/15 border border-white/30 flex items-center justify-center font-bold text-xs  text-white tracking-widest">
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-white/15 border border-white/30 flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
                         {photo.name
                           ? photo.name
                             .split(" ")

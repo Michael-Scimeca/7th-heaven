@@ -492,7 +492,7 @@ export default function LiveHubPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                   {/* LIVE badge */}
-                  <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5  rounded-lg " style={{ background: "#dc2626", boxShadow: "0 0 16px rgba(220,38,38,0.5)" }}>
+                  <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] flex items-center gap-1.5 px-3 py-1.5  rounded-lg " style={{ background: "#e1e6ff29" }}>
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                     <span className="text-white text-xs font-bold uppercase tracking-widest">LIVE NOW</span>
                   </div>
