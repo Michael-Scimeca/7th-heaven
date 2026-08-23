@@ -208,7 +208,7 @@ export default function DevRouteList() {
                     className="group relative p-3.5 rounded-lg  bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
-                      <div className="flex items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComponent className="w-4 h-4 text-purple-400 shrink-0" />
                           <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300/80">

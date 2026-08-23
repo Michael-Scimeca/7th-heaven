@@ -167,7 +167,7 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>

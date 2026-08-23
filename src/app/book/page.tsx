@@ -992,7 +992,7 @@ function BookPageContent() {
 
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-white text-xs font-black uppercase tracking-[0.2em] mb-4">
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>

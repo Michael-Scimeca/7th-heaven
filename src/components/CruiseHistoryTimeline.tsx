@@ -582,7 +582,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             onClick={() => setShowSettings(!showSettings)}
             className="px-4 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
           >
-            ⚙️ Timeline Path & Physics Tuning
+            Timeline Path & Physics Tuning
           </button>
         </div>
       </div>
@@ -767,7 +767,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             data-year-badge
-                            className={`inline-block  z-40 transition-colors duration-300 ${isReached
+                            className={`inline-blockn rounded-lg  z-40 transition-colors duration-300 ${isReached
                               ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
                               : 'bg-[#06060c] border border-white/10'
                               }`}
@@ -832,9 +832,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                               }`}
                             style={{ padding: '0.5rem 0' }}
                           >
-                            <div className="flex items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                               <span
-                                className={`font-black uppercase tracking-widest font-mono rounded transition-colors ${isReached
+                                className={`font-black uppercase tracking-widest font-mono rounded-lg transition-colors ${isReached
                                   ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
                                   : 'text-white/40 bg-[#e1e6ff29]   border border-white/10'
                                   }`}

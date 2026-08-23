@@ -2527,17 +2527,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* FAQs List */}
               <div className="space-y-3 mb-0 text-left max-w-4xl">
                 {FAQS_EXTENDED.map((faq, i) => (
-                  <div key={faq.q} className="bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  rounded-lg overflow-hidden shadow-xs">
+                  <div key={faq.q} className="bg-[#59595929] border border-white/30 backdrop-blur-[16px]  rounded-lg overflow-hidden shadow-xs">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                      className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer border-none bg-transparent"
+                      className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer rounded-none border-none bg-transparent"
                     >
                       <span className="font-extrabold text-xs md:text-sm text-white pr-4">{faq.q}</span>
                       <span className={`text-white/70 text-sm transition-transform font-black shrink-0 ${openFaq === i ? 'rotate-45 text-rose-400' : ''}`}>+</span>
                     </button>
                     {openFaq === i && (
-                      <div className="px-5 py-4 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]">
+                      <div className="px-5 py-4 bg-[#59595929] border border-white/30 backdrop-blur-[16px]">
                         <p className="text-xs md:text-sm text-white/80 font-medium leading-relaxed">{faq.a}</p>
                       </div>
                     )}

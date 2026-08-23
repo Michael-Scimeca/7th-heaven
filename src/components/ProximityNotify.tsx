@@ -366,7 +366,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-1 flex items-center gap-1">
                           <Sliders className="w-3 h-3 text-purple-400" /> Distance Radius
                         </label>
-                        <div className="flex flex-wrap gap-1 items-center">
+                        <div className="inline-flex flex-wrap gap-1 items-center w-fit max-w-full">
                           {RADIUS_OPTIONS.map((opt) => {
                             const active = radius === opt.value;
                             return (
