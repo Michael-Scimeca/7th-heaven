@@ -1048,6 +1048,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const [activeDropDay, setActiveDropDay] = useState<string | null>(null);
   const [selectedShowCrewDate, setSelectedShowCrewDate] = useState<string | null>(null);
 
+  const activeDayShiftsByCrew = useMemo(() => {
+    if (!activeDropDay) return {};
+    const map: Record<string, typeof schedules> = {};
+    for (let i = 0; i < schedules.length; i++) {
+      const s = schedules[i];
+      if (s.date === activeDropDay && !s.isTimeOff) {
+        if (!map[s.crewId]) map[s.crewId] = [];
+        map[s.crewId].push(s);
+      }
+    }
+    return map;
+  }, [schedules, activeDropDay]);
+
   // Group scheduling and capacity states
   const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);
   const [cellGroupPopoverPos, setCellGroupPopoverPos] = useState<{ top: number; left: number } | null>(null);
@@ -1455,6 +1468,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return [...processedStatic, ...dynamicCrew.filter(dc => !processedStatic.some(sc => sc.id === dc.id || sc.name.toLowerCase().trim() === dc.name.toLowerCase().trim()))];
   }, [users]);
+
+  const uniqueCrewList = useMemo(() => {
+    const seenKeys = new Set<string>();
+    return crewMembers.filter(m => {
+      const normKey = m.name.toLowerCase().trim();
+      if (m.id === 'openshifts' || seenKeys.has(m.id) || seenKeys.has(normKey)) return false;
+      seenKeys.add(m.id);
+      seenKeys.add(normKey);
+      return true;
+    });
+  }, [crewMembers]);
 
   const next7Days = useMemo(() => {
     const days = [];
@@ -7957,9 +7981,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const getOverlappingShifts = (crewId: string, date: string, startHour: number, endHour: number, excludeShiftId?: string) => {
     if (crewId === 'openshifts') return [];
-    return schedules.filter(s =>
-      s.crewId === crewId &&
-      s.date === date &&
+    const dayShifts = activeDayShiftsByCrew[crewId] || (date === activeDropDay ? [] : schedules.filter(s => s.crewId === crewId && s.date === date && !s.isTimeOff));
+    return dayShifts.filter(s =>
       s.id !== excludeShiftId &&
       s.startHour < endHour &&
       s.endHour > startHour
@@ -10518,15 +10541,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
                             {(() => {
-                              const seenKeys = new Set<string>();
-                              const uniqueCrew = crewMembers.filter(m => {
-                                const normKey = m.name.toLowerCase().trim();
-                                if (m.id === 'openshifts' || seenKeys.has(m.id) || seenKeys.has(normKey)) return false;
-                                seenKeys.add(m.id);
-                                seenKeys.add(normKey);
-                                return true;
-                              });
-                              return uniqueCrew
+                              return uniqueCrewList
                                 .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
                                 .sort((a, b) => {
                                   const aActive = !!selectedCrewAssignments[a.id]?.active;
@@ -10550,8 +10565,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   return (
                                     <div
                                       key={member.id}
-                                      className={`p-3.5  rounded-lg transition-all duration-200 ${assignment.active
-                                        ? 'bg-transparent border border-purple-500/40   shadow-purple-900/20'
+                                      className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
+                                        ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
                                         : 'border border-transparent'
                                         }`}
                                     >
@@ -10577,7 +10592,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           />
                                           <div className="flex items-center gap-2 flex-1">
                                             <div
-                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans  "
+                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans"
                                               style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
                                             >
                                               {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
@@ -10595,7 +10610,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 {member.phone || 'No phone'} |  {member.email || 'No email'}
                                               </span>
                                               {(() => {
-                                                const memberShifts = schedules.filter(s => s.date === activeDropDay && s.crewId === member.id && s.id !== editingShiftId && !s.isTimeOff);
+                                                const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter(s => s.id !== editingShiftId);
                                                 if (memberShifts.length === 0) return null;
                                                 return (
                                                   <div className="mt-1.5 flex flex-wrap gap-1">
