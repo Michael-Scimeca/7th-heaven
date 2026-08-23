@@ -264,12 +264,6 @@ export default function CruiseVideoGallery() {
                 <span className="absolute top-3 left-3 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg ">
                   {vid.category}
                 </span>
-
-                {vid.featured && (
-                  <span className="absolute top-3 right-3 bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-widest px-2.5 py-0.5 rounded">
-                    ⭐ Featured
-                  </span>
-                )}
               </div>
 
               {/* Title & Info */}
