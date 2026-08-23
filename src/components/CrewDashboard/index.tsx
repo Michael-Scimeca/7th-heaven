@@ -3490,12 +3490,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             className="w-full bg-[#e1e6ff29]   border border-white/15 px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
-                        <button
+                        <CosmicRadialButton
                           type="submit"
-                          className="px-5 py-2.5 bg-purple-600 rounded-lg hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                          icon={false}
+                          className="px-5 py-2.5 text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer"
                         >
                           Add Keyword
-                        </button>
+                        </CosmicRadialButton>
                       </form>
                     </div>
 
@@ -3690,12 +3691,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       >
                         Cancel
                       </button>
-                      <button
+                      <CosmicRadialButton
+                        type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
-                        className="px-4 py-2 bg-[var(--color-accent)] hover:brightness-110 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                        icon={false}
+                        className="px-4 py-2 text-xs font-black uppercase tracking-widest cursor-pointer"
                       >
                         Import Playlist
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                   </div>
                 ) : (
@@ -3710,12 +3713,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
                         className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                       />
-                      <button
+                      <CosmicRadialButton
+                        type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
-                        className="px-4 py-2 bg-[var(--color-accent)] hover:brightness-110 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                        icon={false}
+                        className="px-4 py-2 text-xs font-black uppercase tracking-widest cursor-pointer"
                       >
                         Add
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                     <div className="flex justify-start">
                       <button
