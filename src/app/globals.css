@@ -4285,31 +4285,17 @@ html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
   transform-origin: 50% 50%;
-  animation: page-slide-up-in var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards !important;
-}
-
-@keyframes page-slide-up-in {
-  0% {
-    transform: translateY(100%);
-  }
-
-  100% {
-    transform: translateY(0%);
-  }
+  animation: page-push-in var(--preloader-reveal-duration) linear forwards !important;
 }
 
 .preloader.is-leaving {
-  animation: preloader-slide-up var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards !important;
-}
-
-@keyframes preloader-slide-up {
-  0% {
-    transform: translateY(0%);
-  }
-
-  100% {
-    transform: translateY(-100%);
-  }
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  transform-origin: 50% 50%;
+  pointer-events: none !important;
+  animation: page-push-out var(--preloader-reveal-duration) linear forwards,
+    page-push-out-filter var(--preloader-reveal-duration) linear forwards !important;
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4413,10 +4399,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * `window.$nuxt.$root.easeInOut` is a compiled GSAP CustomEase, sampled
  * directly (41 points, evenly spaced) by calling that function at
  * p = 0, 0.025, 0.05, ... 1. Each stop's polygon below is
- * leftY = 100% * (1 - sample), rightY = 110% * (1 - sample). */
-.preloader.is-leaving {
-  animation: preloader-curtain-up var(--preloader-reveal-duration) linear forwards;
-}
+/* .preloader.is-leaving uses page-push-out + page-push-out-filter above to match page-to-page route transition */
 
 @keyframes preloader-curtain-up {
   0% {
