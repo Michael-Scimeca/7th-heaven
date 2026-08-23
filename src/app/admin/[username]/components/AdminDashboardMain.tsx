@@ -481,6 +481,17 @@ const formatPhoneForDisplay = (phone: string | null | undefined) => {
   return phone;
 };
 
+const getFirstAndLastInitials = (name: string): string => {
+  const parts = (name || '').trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '??';
+  if (parts.length === 1) {
+    const word = parts[0];
+    if (word.length === 1) return word.toUpperCase();
+    return (word[0] + word[word.length - 1]).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
 const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
   const lower = (name || '').toLowerCase();
 
@@ -4546,15 +4557,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
+                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: '' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] !text-white backdrop-blur-[16px]  rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white">
                       Email
                     </a>
                     {planner.phone ? (
-                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
+                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center !text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
                         Text
                       </a>
                     ) : (
-                      <button disabled className="px-4 py-2 text-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
+                      <button disabled className="px-4 py-2 text-center !text-white bg-[#e1e6ff29] border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
                         No Phone
                       </button>
                     )}
@@ -5560,7 +5571,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         }}
                                       />
                                     ) : (
-                                      <div className={`w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md shrink-0 ${!r.phone ? 'opacity-40' : ''}`} />
+                                       <div
+                                         className={`w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
+                                         style={{ backgroundColor: getAvatarColor(r.name) }}
+                                       >
+                                         {getFirstAndLastInitials(r.name)}
+                                       </div>
                                     );
                                   })()}
 
@@ -5806,12 +5822,23 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         checked={isChecked}
                                         onChange={() => handleToggleMember(r)}
                                       />
-                                      <div
-                                        className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans border border-purple-400/40"
-                                        style={{ backgroundColor: getAvatarColor(r.name) }}
-                                      >
-                                        {(r as any).initials || (r.name || 'Member').split(' ').filter(Boolean).map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                      </div>
+                                      {(() => {
+                                        const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                        return avatarSrc ? (
+                                          <img
+                                            src={avatarSrc}
+                                            alt={r.name}
+                                            className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
+                                          />
+                                        ) : (
+                                          <div
+                                            className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px] font-black text-white uppercase font-sans"
+                                            style={{ backgroundColor: getAvatarColor(r.name) }}
+                                          >
+                                            {getFirstAndLastInitials(r.name)}
+                                          </div>
+                                        );
+                                      })()}
                                       <span className="font-semibold text-white">{r.name}</span>
                                     </div>
 
@@ -5856,14 +5883,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         )}
 
                         <div className="flex items-center gap-2 mt-1">
-                          <CosmicRadialButton
+                          <button
                             type="button"
                             onClick={handleSaveSmsGroup}
-                            icon={false}
-                            className="px-4 py-2 text-xs font-black uppercase tracking-wider cursor-pointer flex-1"
+                            className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer border-none flex-1"
                           >
                             Save Group
-                          </CosmicRadialButton>
+                          </button>
                           <button
                             type="button"
                             onClick={() => {
@@ -5877,17 +5903,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       </div>
                     ) : (
-                      <CosmicRadialButton
+                      <button
                         type="button"
                         onClick={() => {
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        icon={false}
-                        className="w-full py-3 text-xs font-black uppercase tracking-wider cursor-pointer"
+                        className="w-full px-3 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5"
                       >
                         CREATE NEW GROUP FROM SELECTION
-                      </CosmicRadialButton>
+                      </button>
                     )}
                   </div>
                 </div>
@@ -6416,7 +6441,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       }}
                                     />
                                   ) : (
-                                    <div className="w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md shrink-0" />
+                                    <div
+                                      className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans"
+                                      style={{ backgroundColor: getAvatarColor(r.name) }}
+                                    >
+                                      {getFirstAndLastInitials(r.name)}
+                                    </div>
                                   );
                                 })()}
 
