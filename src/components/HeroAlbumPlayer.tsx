@@ -129,7 +129,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           <div className="absolute inset-0 bg-black/40 group-hover/art:bg-black/20 flex items-center justify-center transition-colors">
             <CosmicRadialButton
               icon={false}
-              className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center shadow-xl group-hover/art:scale-110 border border-purple-300/40"
+              className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center   group-hover/art:scale-110 border border-purple-300/40"
             >
               {isPlaying ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>

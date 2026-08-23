@@ -529,7 +529,7 @@ export default function PlannerDashboard() {
 
         {/* BOOKING CARDS */}
         <div className="grid grid-cols-1 gap-6">
-          <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
+          <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl   flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
             <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
             <div className="flex-1">

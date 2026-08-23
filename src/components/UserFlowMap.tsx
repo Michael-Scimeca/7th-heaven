@@ -195,7 +195,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-lg  border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none shadow-xl`}>
+    <div className={`group relative rounded-lg  border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none   `}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">

@@ -527,7 +527,7 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg md:rounded-none min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
+                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg md:rounded-none min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent   md:shadow-none"
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">

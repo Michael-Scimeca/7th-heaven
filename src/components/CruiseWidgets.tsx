@@ -1024,7 +1024,7 @@ export function CaptainsLog() {
   }, [progress, isPlaying]);
 
   return (
-    <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 shadow-xl relative">
+    <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6   relative">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-4">Captain's Log</h2>
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">

@@ -274,9 +274,8 @@ export default function FallingPicks() {
       const pickH = (pickW * 524.5) / 429.5;
       for (const p of picksRef.current) {
         const { x, y } = p.body.position;
-        p.el.style.transform = `translate(${x - pickW / 2}px, ${
-          y - pickH / 2
-        }px) rotate(${p.body.angle}rad)`;
+        p.el.style.transform = `translate(${x - pickW / 2}px, ${y - pickH / 2
+          }px) rotate(${p.body.angle}rad)`;
       }
       frameId = requestAnimationFrame(loop);
     }
@@ -326,7 +325,7 @@ export default function FallingPicks() {
         </button>
 
         {panelOpen && (
-          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto rounded-xl border border-white/10 bg-black/70 p-4 pr-3 shadow-xl backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]:bg-white/5">
+          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto rounded-xl border border-white/10 bg-black/70 p-4 pr-3   backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]:bg-white/5">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-white/40">
               Spawning
             </p>

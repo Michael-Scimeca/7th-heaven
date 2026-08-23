@@ -356,7 +356,7 @@ export default function AdminLegalPage() {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
             {/* Pass Rate Gauge Box */}
-            <div className="bg-[#141422] border border-purple-500/30 rounded-lg  p-4 flex items-center gap-4 shadow-xl">
+            <div className="bg-[#141422] border border-purple-500/30 rounded-lg  p-4 flex items-center gap-4   ">
               <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-400/40 flex items-center justify-center font-black text-purple-300 text-lg">
                 {passPercentage}%
               </div>

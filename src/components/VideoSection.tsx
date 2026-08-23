@@ -59,7 +59,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
             />
             {/* YouTube-style hover overlay */}
             <div className="absolute inset-0 z-[2]  group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300 shadow-xl">
+              <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300   ">
                 <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function VideoSection() {
           setActiveFilter((prev) => (!prev || prev === FALLBACK_VIDEOS[0]?.category ? m.default[0]?.category || "" : prev));
         }
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => { active = false; };
   }, []);
 

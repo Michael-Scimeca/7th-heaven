@@ -4594,10 +4594,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pl-0">
               {moderationQueue.map((photo) => (
-                <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
+                <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden   hover:border-[var(--color-accent)]/50 transition-colors">
                   <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
                     <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
-                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
+                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest   ">
                       {new Date(photo.submittedAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -8627,7 +8627,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const member = crewMembers.find(c => c.id === shift.crewId);
                 const displayName = member?.name || shift.crewName || shift.crewId || '?';
                 return (
-                  <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg shadow-xl text-left border border-slate-700/50 w-52 leading-relaxed font-sans text-xs">
+                  <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg   text-left border border-slate-700/50 w-52 leading-relaxed font-sans text-xs">
                     <div className="font-bold text-slate-200 text-xs mb-0.5">{displayName}</div>
                     <div className="text-purple-300 font-extrabold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
                       Role: {member?.role || shift.role || 'Crew Member'}
@@ -8980,7 +8980,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
                             </div>
 
-                            <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg shadow-xl text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
+                            <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg   text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
                               <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
                               <div className=" text-[var(--color-accent)] font-extrabold text-[9px] uppercase tracking-wider mb-2">
                                 Role: {member.role || 'Crew Member'}
@@ -12224,7 +12224,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
               {/* Column 1: Cruise Information & Guidelines Editor */}
-              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
+              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8   ">
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10    border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
@@ -12433,7 +12433,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
-                    <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
+                    <div className="p-4 md:p-5 bg-black/40 border border-white/10   font-sans h-full flex flex-col">
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-base"></span>

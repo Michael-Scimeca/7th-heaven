@@ -740,11 +740,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg=[#e1e6ff29] backdrop-blur-[10px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
-              <Ship className="w-4 h-4 text-cyan-300" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg=[#e1e6ff29] backdrop-blur-[16px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
-            <span className="text-xs font-black uppercase tracking-widest text-amber-300 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/40 shadow-md">
+            <span className="text-xs font-black uppercase tracking-widest bg=[#e1e6ff29] backdrop-blur-[16px] px-3.5 py-1.5 rounded-full">
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
 
@@ -757,11 +756,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Cruise Ship Names Subtitle */}
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-widest text-white">
-            <span className="bg-black/60 px-5 py-2.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
-              <Ship className="w-5 h-5 text-purple-400" /> STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2027</span>
+            <span className="bg=[#e1e6ff29] px-5 py-2.5 rounded-lg text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+              STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2027</span>
             </span>
-            <span className="bg-black/60 px-5 py-2.5 rounded-lg border border-white/30 text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
-              <Ship className="w-5 h-5 text-purple-400" /> LEGEND OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2028</span>
+            <span className="bg=[#e1e6ff29] px-5 py-2.5 rounded-lg text-white font-black backdrop-blur-md flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+              LEGEND OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg text-xs font-black border border-purple-400/40">2028</span>
             </span>
           </div>
         </div>
@@ -810,7 +809,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Cancellation & Policy Guidelines — 4-Column Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left border-b border-white/10 pb-12">
                 {/* Column 1: Ship & Cruise Resource Links (from ship.html) */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl flex flex-col justify-between">
+                <div className="relative text-left rounded-2xl flex flex-col justify-between px-4 sm:px-6 py-2">
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <Ship className="w-6 h-6 text-purple-400 shrink-0" />
@@ -898,7 +897,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Column 2: Booking Policy & Best Rate Guarantee */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                <div className="relative text-left rounded-2xl px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                     <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy</h3>
@@ -948,7 +947,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Column 3: Passport Requirements */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                <div className="relative text-left rounded-2xl px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Guidelines</h3>
@@ -970,7 +969,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Column 4: Cancellation Policy */}
-                <div className="p-6 relative text-left bg-white/5 rounded-2xl border border-white/10 shadow-xl">
+                <div className="relative text-left px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
@@ -2308,7 +2307,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     { title: "Dueling Pianos Music Hall", img: "/images/cruise/ship/duelingpianos.jpg", category: "Live Nightlife" },
                     { title: "Ultimate Family Townhouse", img: "/images/cruise/ship/family-townhouse.jpg", category: "Suite Luxury" },
                   ].map((item) => (
-                    <div key={item.title} className="relative rounded-2xl overflow-hidden group border border-white/10 h-52 sm:h-60 shadow-xl">
+                    <div key={item.title} className="relative rounded-2xl overflow-hidden group border border-white/10 h-52 sm:h-60   ">
                       <Image
                         width={400}
                         height={300}

@@ -219,21 +219,21 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   {/* Floating Live Reaction Bubbles (CSS Animated) */}
                   <div className="absolute right-6 bottom-14 z-20 w-20 h-80 pointer-events-none flex flex-col items-center justify-end overflow-visible">
                     {/* Floating Bubble 1 - Heart */}
-                    <div className="absolute bottom-0 p-3.5 rounded-full bg-amber-100/90 text-amber-950 shadow-xl animate-float-up-1">
+                    <div className="absolute bottom-0 p-3.5 rounded-full bg-amber-100/90 text-amber-950   animate-float-up-1">
                       <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                       </svg>
                     </div>
 
                     {/* Floating Bubble 2 - Thumbs Up */}
-                    <div className="absolute bottom-3 p-3.5 rounded-full bg-white/95 text-zinc-900 shadow-xl animate-float-up-2">
+                    <div className="absolute bottom-3 p-3.5 rounded-full bg-white/95 text-zinc-900   animate-float-up-2">
                       <svg className="w-6 h-6 fill-zinc-900" viewBox="0 0 24 24">
                         <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
                       </svg>
                     </div>
 
                     {/* Floating Bubble 3 - Heart Pill */}
-                    <div className="absolute bottom-6 p-3.5 rounded-full bg-amber-200/90 text-amber-950 shadow-xl animate-float-up-3">
+                    <div className="absolute bottom-6 p-3.5 rounded-full bg-amber-200/90 text-amber-950   animate-float-up-3">
                       <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                       </svg>

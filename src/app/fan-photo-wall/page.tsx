@@ -262,7 +262,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative  rounded-lg  overflow-hidden shadow-xl transition-colors"
+                    className="group relative  rounded-lg  overflow-hidden   transition-colors"
                   >
                     <div className="aspect-[4/3] bg-black/20 relative overflow-hidden">
                       {isVideo ? (
@@ -281,7 +281,7 @@ export default function FansPage() {
                           className="w-full h-full object-cover"
                         />
                       )}
-                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
+                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest   ">
                         {photo.date || "Pending"}
                       </div>
                     </div>

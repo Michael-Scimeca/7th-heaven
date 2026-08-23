@@ -688,7 +688,7 @@ lerpSpeed: ${lerpSpeed}`;
                 >
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="sm: overflow-hidden relative transition-colors duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300   shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -749,7 +749,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="sm: overflow-hidden relative transition-colors duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300   shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,

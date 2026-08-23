@@ -512,7 +512,7 @@ export default function CruiseDashboard() {
             <p className="text-xs text-cyan-600 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
           </div>
 
-          <div className="bg-white border border-black/10 overflow-hidden shadow-xl">
+          <div className="bg-white border border-black/10 overflow-hidden   ">
             {verifyingPin ? (
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">

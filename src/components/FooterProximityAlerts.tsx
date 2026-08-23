@@ -320,7 +320,7 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleSavePrefs}
               disabled={isBusy}
-              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
             >
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
@@ -338,7 +338,7 @@ export default function FooterProximityAlerts() {
             icon={false}
             onClick={handleEnableAlerts}
             disabled={isBusy || permission === "denied"}
-            className="!px-6 !py-3.5 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer shadow-xl hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+            className="!px-6 !py-3.5 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
           >
             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
               {status === "saving" ? (
