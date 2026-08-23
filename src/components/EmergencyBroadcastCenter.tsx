@@ -396,7 +396,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
 
       {/* Dispatch CTA Button */}
       <div className="pt-1.5 flex items-center justify-between gap-3 flex-wrap">
-        <div className="text-[10px] text-white/60 font-mono font-bold">
+        <div className="text-[10px]  text-white  font-mono font-bold">
           Ready to dispatch across <strong className="text-white font-black">{[sendSms && "SMS", sendEmail && "Email", sendPush && "Push", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="text-white font-black">{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 

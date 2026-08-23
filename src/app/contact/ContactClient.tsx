@@ -65,7 +65,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
         </h1>
-        <p className="text-white/60 text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
+        <p className=" text-white  text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
         </p>
       </div>

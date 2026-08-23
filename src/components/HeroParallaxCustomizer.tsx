@@ -56,7 +56,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+          className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
           title="Open Parallax Customizer"
         >
           <svg
@@ -110,7 +110,7 @@ export default function HeroParallaxCustomizer({
                   onClick={() => updatePxRange(preset.range)}
                   className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
                     ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
-                    : "bg-[#e1e6ff29]   border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
+                    : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
                 >
                   {preset.name}
@@ -161,7 +161,7 @@ export default function HeroParallaxCustomizer({
             onClick={() => updatePxForeground(!pxForeground)}
             className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground
               ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
-              : "bg-[#e1e6ff29]   border-white/5 text-white/60 hover:bg-white/10"
+              : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10"
               }`}
           >
             <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider">Foreground Counter-Drift</span>

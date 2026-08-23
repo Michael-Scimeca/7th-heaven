@@ -153,7 +153,7 @@ export default function ProximitySubscriberAdminPanel() {
   });
 
   return (
-    <div className="w-full bg-gradient-to-b from-[#180b27] via-[#10051e] to-[#090312] border border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative my-8">
+    <div className="w-full bg-gradient-to-b from-[#180b27] via-[#10051e] to-[#090312] border border-purple-500/30  rounded-lg p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative my-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
         <div className="flex items-center gap-3">
@@ -202,7 +202,7 @@ export default function ProximitySubscriberAdminPanel() {
         </div>
 
         <div className="sm:col-span-5 flex items-center gap-2">
-          <label className="text-xs font-bold text-white/60 uppercase tracking-wider shrink-0 flex items-center gap-1">
+          <label className="text-xs font-bold  text-white  uppercase tracking-wider shrink-0 flex items-center gap-1">
             <Sliders className="w-3.5 h-3.5 text-purple-400" /> Radius:
           </label>
           <select

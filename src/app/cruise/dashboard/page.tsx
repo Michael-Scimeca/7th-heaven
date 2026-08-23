@@ -174,7 +174,7 @@ export default function CruiseDashboardGate() {
               <div className="text-center mb-6">
                 <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
                 <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className=" text-white  text-sm leading-relaxed">
                   We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function CruiseDashboardGate() {
                 </button>
 
                 <div className="text-center mt-4">
-                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover: text-white  text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer">
                     ← Cancel and Back
                   </button>
                 </div>
@@ -211,7 +211,7 @@ export default function CruiseDashboardGate() {
             <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
               <span className="text-4xl block mb-4">📧</span>
               <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
+              <p className=" text-white  text-sm leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
               <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-[#e1e6ff29]   border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer">
@@ -282,7 +282,7 @@ export default function CruiseDashboardGate() {
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/cruise" className="text-white/40 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">
+          <Link href="/cruise" className="text-white/40 hover: text-white  text-xs font-bold uppercase tracking-widest transition-colors">
             ← Back to Cruise Information
           </Link>
         </div>

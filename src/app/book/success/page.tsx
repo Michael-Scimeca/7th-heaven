@@ -87,7 +87,7 @@ function SuccessContent() {
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold uppercase tracking-wider text-base py-3 px-8 transition-colors"
+              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08]  text-white  font-bold uppercase tracking-wider text-base py-3 px-8 transition-colors"
             >
               Return to Homepage
             </Link>

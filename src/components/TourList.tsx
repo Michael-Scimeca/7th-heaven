@@ -4,7 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
-import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare } from "lucide-react";
+import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare, Search } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
 import dynamic from "next/dynamic";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
@@ -14,6 +14,7 @@ import { useMember } from "@/context/MemberContext";
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
 import { SquishyToggle } from "@/components/SquishyToggle";
 import LazySection from "@/components/LazySection";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
@@ -786,12 +787,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
+      const headerEl = typeof document !== "undefined" ? document.querySelector("header") : null;
+      const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 80;
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const stickyThreshold = typeof window !== "undefined" && window.innerWidth >= 640 ? 80 : 72;
-      const isAboveSentinel = sentinelTop <= stickyThreshold;
+      const isAboveSentinel = sentinelTop <= (headerBottom + 0.5);
 
       if (isStuckRef.current !== isAboveSentinel) {
         isStuckRef.current = isAboveSentinel;
+        sortBar.classList.toggle("is-stuck", isAboveSentinel);
         setIsSortBarStuck(isAboveSentinel);
       }
 
@@ -1180,9 +1183,9 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[72px] sm:top-[60px] z-[90] flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-all duration-300 ease-out`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[80px] z-[90] flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-opacity duration-300 ease-out`}>
             <div
-              className={`absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screenbackdrop-blur-[18px]  shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
               style={{
                 maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
@@ -1192,10 +1195,8 @@ ${filterLine}
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
             <div className="input-glow-border  rounded-lg w-full max-w-[300px] shrink-0">
               <div className="relative flex items-center w-full">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0  rounded-lg pl-11 pr-7 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0  rounded-lg no-bg-icon pr-5 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1274,7 +1275,7 @@ ${filterLine}
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
-                          {show.doorsTime && <span className="text-white/60 text-xs font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.doorsTime && <span className=" text-white  text-xs font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
                           {show.playTime && <span className="text-rose-400 font-extrabold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
                           {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-xs font-medium whitespace-nowrap">Event: {show.time}</span>}
                           {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
@@ -1312,19 +1313,27 @@ ${filterLine}
                             {(() => {
                               const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
                               const rawMapUrl = show.mapUrl || show.directionsLink;
-                              const gUrl = rawMapUrl
-                                ? (rawMapUrl.includes('maps.apple.com')
-                                  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
-                                  : rawMapUrl)
-                                : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                               const showType = getShowType(show.info || '');
                               const cfg = typeConfig[showType] || typeConfig.full;
+                              if (!hasExplicitMap) {
+                                return (
+                                  <span
+                                    title="No Directions Link"
+                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none"
+                                  >
+                                    <MapPin className="w-5.5 h-5.5" />
+                                  </span>
+                                );
+                              }
+                              const gUrl = rawMapUrl!.includes('maps.apple.com')
+                                ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
+                                : rawMapUrl!;
                               return (
                                 <a
                                   href={gUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  title={hasExplicitMap ? "Get Directions" : "Search Directions"}
+                                  title="Get Directions"
                                   style={{ color: cfg.color }}
                                   className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
                                 >
@@ -1336,19 +1345,25 @@ ${filterLine}
                           <div className="w-7 h-7 flex items-center justify-center shrink-0">
                             {(() => {
                               const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
-                              const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                               const showType = getShowType(show.info || '');
                               const cfg = typeConfig[showType] || typeConfig.full;
+                              if (!hasExplicitParking) {
+                                return (
+                                  <span
+                                    title="No Parking Link"
+                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none"
+                                  >
+                                    <Car className="w-5.5 h-5.5" />
+                                  </span>
+                                );
+                              }
+                              const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                               return (
                                 <a
                                   href={pUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  title={
-                                    hasExplicitParking
-                                      ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
-                                      : "Search Parking"
-                                  }
+                                  title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
                                   style={{ color: cfg.color }}
                                   className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
                                 >
@@ -1436,7 +1451,7 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white/60 text-[11px] font-medium px-2 py-0.5 bg-[#e1e6ff29]   border border-white/10 rounded0lg whitespace-nowrap">
+                              <span className=" text-white  text-[11px] font-medium px-2 py-0.5 bg-[#e1e6ff29]   border border-white/10 rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
@@ -1499,39 +1514,53 @@ ${filterLine}
                         {(() => {
                           const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
                           const rawMapUrl = show.mapUrl || show.directionsLink;
-                          const gUrl = rawMapUrl
-                            ? (rawMapUrl.includes('maps.apple.com')
-                              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
-                              : rawMapUrl)
-                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
+                          if (!hasExplicitMap) {
+                            return (
+                              <span
+                                title="No Directions Link"
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/5 text-white/20 font-bold text-xs opacity-25 cursor-not-allowed pointer-events-none select-none"
+                              >
+                                <MapPin className="w-3.5 h-3.5 text-white/20" />
+                                <span>Map</span>
+                              </span>
+                            );
+                          }
+                          const gUrl = rawMapUrl!.includes('maps.apple.com')
+                            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
+                            : rawMapUrl!;
                           return (
-                            <a
-                              href={gUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title={hasExplicitMap ? "Get Directions" : "Search Directions"}
-                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white font-bold text-xs transition-all hover:bg-purple-600/60 active:scale-95"
+                            <CosmicRadialButton
+                              onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
+                              icon={<MapPin className="w-3.5 h-3.5 text-white" />}
+                              className="flex-1 !py-2 !px-3 !text-xs !font-bold"
+                              title="Get Directions"
                             >
-                              <MapPin className="w-3.5 h-3.5 text-purple-300" />
-                              <span>Map</span>
-                            </a>
+                              Map
+                            </CosmicRadialButton>
                           );
                         })()}
 
                         {/* Parking Directions */}
                         {(() => {
                           const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
+                          if (!hasExplicitParking) {
+                            return (
+                              <span
+                                title="No Parking Link"
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/5 text-white/20 font-bold text-xs opacity-25 cursor-not-allowed pointer-events-none select-none"
+                              >
+                                <Car className="w-3.5 h-3.5 text-white/20" />
+                                <span>Ride / Park</span>
+                              </span>
+                            );
+                          }
                           const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                           return (
                             <a
                               href={pUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              title={
-                                hasExplicitParking
-                                  ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
-                                  : "Search Parking"
-                              }
+                              title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
                               className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white font-bold text-xs transition-all hover:bg-purple-600/60 active:scale-95"
                             >
                               <Car className="w-3.5 h-3.5 text-purple-300" />
@@ -1562,7 +1591,7 @@ ${filterLine}
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2   border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
+                              <div className="absolute left-0 mt-2   border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px]  backdrop-blur-[45px] font-sans">
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
@@ -1622,7 +1651,7 @@ ${filterLine}
               <button
                 type="button"
                 onClick={() => setDisplayLimit(null)}
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600/30 via-black to-purple-600/30 hover:from-purple-600/50 hover:to-purple-600/50 text-white font-black uppercase tracking-widest text-xs sm:text-sm border border-purple-400/40 backdrop-blur-md shadow-[0_0_25px_rgba(168,85,247,0.3)] transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600/30 via-black to-purple-600/30 hover:from-purple-600/50 hover:to-purple-600/50 text-white font-black uppercase tracking-widest text-xs sm:text-sm border border-purple-400/40  backdrop-blur-[45px] shadow-[0_0_25px_rgba(168,85,247,0.3)] transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
               >
                 <span>Show All Tour Dates ({filtered.length - displayLimit} More Shows)</span>
               </button>
@@ -1643,7 +1672,7 @@ ${filterLine}
       {/* Show Edit/Add Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10  rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
             <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
             <div className="p-6 md:p-8 text-left">
               <div className="flex items-center justify-between mb-6">
@@ -1854,7 +1883,7 @@ ${filterLine}
 
               {/* Show info */}
               <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
-                <p className="text-xs text-white/60 font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+                <p className="text-xs  text-white  font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
                 <p className="text-[var(--font-size-3xs)] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
               </div>
 
@@ -1932,7 +1961,7 @@ ${filterLine}
               <div className="flex gap-2 mt-4">
                 <button aria-label="Action button"
                   onClick={() => setNotifyPopupShow(null)}
-                  className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                  className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10  text-white  font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -2223,7 +2252,7 @@ ${filterLine}
             </div>
 
             {/* Code telemetry */}
-            <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[var(--font-size-4xs)] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
+            <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[var(--font-size-4xs)]  text-white  select-all leading-relaxed whitespace-pre-wrap">
               {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
             </div>
 

@@ -35,7 +35,7 @@ export default function DevGuideLine() {
         <div className="w-full h-[2px] bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
 
         {/* Developer badge indicator */}
-        <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-cyan-400/60 text-cyan-300 px-3 py-1 text-[11px] font-mono font-bold rounded-full shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-md select-none z-[9999999]">
+        <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-cyan-400/60 text-cyan-300 px-3 py-1 text-[11px] font-mono font-bold rounded-full shadow-[0_0_20px_rgba(34,211,238,0.3)]  backdrop-blur-[45px] select-none z-[9999999]">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           <span>DEV GUIDE: {topPos}PX</span>
           <button aria-label="Previous"

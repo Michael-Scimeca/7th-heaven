@@ -154,7 +154,7 @@ export default function PagesPillDrawer() {
           />
 
           {/* Modal Container */}
-          <div className="relative w-full max-w-5xl max-h-[85vh] rounded-3xl bg-[rgba(18,18,26,0.95)] border border-purple-500/30 p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col z-10 overflow-hidden">
+          <div className="relative w-full max-w-5xl max-h-[85vh]  rounded-lg bg-[rgba(18,18,26,0.95)] border border-purple-500/30 p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col z-10 overflow-hidden">
 
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
@@ -196,7 +196,7 @@ export default function PagesPillDrawer() {
                       onClick={() => setActiveCategory(cat)}
                       className={`px-3 py-1.5  rounded-lg text-xs font-bold transition-all ${activeCategory === cat
                         ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
-                        : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   hover:bg-white/10  text-white  hover:text-white"
                         }`}
                     >
                       {cat}

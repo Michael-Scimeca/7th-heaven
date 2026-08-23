@@ -184,7 +184,7 @@ export default function VideoSection() {
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-xs font-black text-white">7H</div>
                     <div className="flex flex-col">
-                      <span className="text-sm text-white/60 font-bold uppercase tracking-wide">7th Heaven Official</span>
+                      <span className="text-sm  text-white  font-bold uppercase tracking-wide">7th Heaven Official</span>
                       <div className="flex items-center gap-2 text-sm text-white/40">
                         {latest.viewCount && <span>{latest.viewCount} views</span>}
                         <span className="text-white/10">•</span>
@@ -242,7 +242,7 @@ export default function VideoSection() {
                 }}
                 className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-full transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
                   ? "bg-white text-black"
-                  : "bg-white/[0.05] text-white/60 hover:bg-white/10 hover:text-white"
+                  : "bg-white/[0.05]  text-white  hover:bg-white/10 hover:text-white"
                   }`}
               >
                 {cat.category}

@@ -1236,14 +1236,14 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
       {/* Fullscreen Modal */}
       {expanded && (
         <div
-          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+          className="fixed inset-0 z-[9999] bg-black/90  backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8"
           onClick={() => setExpanded(false)}
         >
           <div className="relative max-w-6xl w-full">
             {/* Close Button */}
             <button aria-label="Action button"
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 text-white/60 hover:text-white text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-colors cursor-pointer"
+              className="absolute -top-12 right-0  text-white  hover:text-white text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-colors cursor-pointer"
             >
               Close <span className="text-lg">✕</span>
             </button>
@@ -1301,7 +1301,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {f.demo && <DemoPreview src={f.demo} title={f.title} isPurple={isPurple} />}
 
         {/* Description */}
-        <p className="text-white/60 text-lg leading-relaxed">{f.description}</p>
+        <p className=" text-white  text-lg leading-relaxed">{f.description}</p>
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base leading-relaxed ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
@@ -1314,7 +1314,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
           <p className="text-sm font-black uppercase tracking-widest text-white/30 mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
-              <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg text-white/60">
+              <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg  text-white ">
                 <span className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
                 {b}
               </li>
@@ -1488,8 +1488,8 @@ export default function FeaturesPage() {
                       <span className="text-white font-black text-sm">Michael — 7th Heaven</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-white/60 text-xs">👁 1,247 watching</span>
-                      <span className="text-white/60 text-xs">⏱ 1:23:47</span>
+                      <span className=" text-white  text-xs">👁 1,247 watching</span>
+                      <span className=" text-white  text-xs">⏱ 1:23:47</span>
                     </div>
                   </div>
 
@@ -1509,7 +1509,7 @@ export default function FeaturesPage() {
                   {/* Hype meter */}
                   <div className="absolute bottom-6 left-4 right-4">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-white/60 text-xs font-bold uppercase tracking-widest">Hype Meter</span>
+                      <span className=" text-white  text-xs font-bold uppercase tracking-widest">Hype Meter</span>
                       <span className="text-[#c084fc] text-xs font-black">87%</span>
                     </div>
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -1538,7 +1538,7 @@ export default function FeaturesPage() {
                 <div className="w-72 flex flex-col border-l border-white/[0.07] bg-[#0d0d0d]">
                   {/* Chat header */}
                   <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
-                    <span className="text-white/60 text-sm font-bold uppercase tracking-widest">Live Chat</span>
+                    <span className=" text-white  text-sm font-bold uppercase tracking-widest">Live Chat</span>
                     <span className="text-white/30 text-xs">1,247 online</span>
                   </div>
 
@@ -1556,7 +1556,7 @@ export default function FeaturesPage() {
                     ], (m, i) => ({ m, i })).map(({ m, i }) => (
                       <div key={i} className="flex items-start gap-1.5 animate-none">
                         <span className="text-xs font-black shrink-0" style={{ color: m.color }}>{m.user}</span>
-                        <span className="text-xs text-white/60 leading-tight">{m.msg}</span>
+                        <span className="text-xs  text-white  leading-tight">{m.msg}</span>
                       </div>
                     ))}
                   </div>
@@ -1639,10 +1639,10 @@ export default function FeaturesPage() {
 
                   {/* A/V controls */}
                   <div className="flex gap-2">
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg  text-white  text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       🎤 Mic On
                     </button>
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg  text-white  text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       📹 Cam On
                     </button>
                   </div>
@@ -1654,7 +1654,7 @@ export default function FeaturesPage() {
                 {/* Col 2: Chat moderation */}
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-white/60 text-sm font-black uppercase tracking-widest">Fan Chat</h3>
+                    <h3 className=" text-white  text-sm font-black uppercase tracking-widest">Fan Chat</h3>
                     <span className="text-emerald-400 text-xs">Live · 1,247 online</span>
                   </div>
 
@@ -1688,7 +1688,7 @@ export default function FeaturesPage() {
                   <div>
                     <div className="text-white/30 text-xs mb-1.5 font-bold uppercase tracking-widest">📌 Pin Announcement</div>
                     <div className="flex gap-2">
-                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
+                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
                       <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white text-xs font-black cursor-pointer">Pin</button>
                     </div>
                   </div>
@@ -1744,12 +1744,12 @@ export default function FeaturesPage() {
                       <span className="text-white font-black text-sm uppercase tracking-wide">Merch Flash Drop</span>
                     </div>
                     <div className="space-y-2 mb-3">
-                      <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
+                      <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
                       <div className="grid grid-cols-2 gap-2">
-                        <input aria-label="Input field" readOnly value="$35.00" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
-                        <input aria-label="Input field" readOnly value="Stock: 50" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
+                        <input aria-label="Input field" readOnly value="$35.00" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
+                        <input aria-label="Input field" readOnly value="Stock: 50" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
                       </div>
-                      <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
+                      <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
                     </div>
                     <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
@@ -1925,7 +1925,7 @@ export default function FeaturesPage() {
                               </div>
                             </div>
                             <div className="absolute bottom-0 left-0 right-0 px-1 py-0.5 bg-black/70">
-                              <div className="text-white/60 text-[var(--font-size-4xs)] font-bold truncate">{p.label}</div>
+                              <div className=" text-white  text-[var(--font-size-4xs)] font-bold truncate">{p.label}</div>
                             </div>
                             {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] text-white font-black">!</div>}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
@@ -1951,7 +1951,7 @@ export default function FeaturesPage() {
                           ].map((f, i) => (
                             <div key={f.name} className="flex items-center gap-2">
                               <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
-                              <span className="text-white/60 text-xs flex-1 font-bold">{f.name}</span>
+                              <span className=" text-white  text-xs flex-1 font-bold">{f.name}</span>
                               <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: `${f.color}15`, color: f.color, border: `1px solid ${f.color}30` }}>{f.tier}</span>
                               <span className="text-white/20 text-xs">{f.time}</span>
                             </div>
@@ -2511,7 +2511,7 @@ export default function FeaturesPage() {
                       <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />
 
                       {/* path */}
-                      <code className="text-sm font-mono text-white/60 group-hover:text-white transition-colors min-w-[200px] shrink-0">
+                      <code className="text-sm font-mono  text-white  group-hover:text-white transition-colors min-w-[200px] shrink-0">
                         {page.path}
                       </code>
 
@@ -2532,7 +2532,7 @@ export default function FeaturesPage() {
 
                       {/* arrow */}
                       {!page.path.includes("[") && (
-                        <span className="text-white/20 group-hover:text-white/60 transition-colors shrink-0 text-sm">↗</span>
+                        <span className="text-white/20 group-hover: text-white  transition-colors shrink-0 text-sm">↗</span>
                       )}
                     </Link>
                   ))}

@@ -14,10 +14,7 @@ import CosmicRadialButton from "@/components/CosmicRadialButton";
 import dynamic from "next/dynamic";
 import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 
-// Decorative physics scene (matter-js) — not needed for SSR/SEO, and it
-// renders on every page via the global Footer, so keep it out of the
-// shared initial bundle.
-const FooterPicks = dynamic(() => import("@/components/FooterPicks"), { ssr: false });
+
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
@@ -123,7 +120,6 @@ export function Footer() {
       id="footer"
       suppressHydrationWarning
     >
-      <FooterPicks />
 
       <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}

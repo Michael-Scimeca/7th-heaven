@@ -394,7 +394,7 @@ export default function PlannerDashboard() {
       {/* Cancel Confirmation Modal */}
       {showCancelConfirm && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
-          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8  rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
             <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
               <History className="w-5 h-5 text-rose-500" />
             </div>
@@ -421,8 +421,8 @@ export default function PlannerDashboard() {
 
       {/* Band Event Contacts Modal */}
       {showContactModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
-          <div className="bg-[#0b0c10] border border-[var(--color-accent)]/30 p-6 md:p-8 rounded-3xl shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/80  backdrop-blur-[45px] z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
+          <div className="bg-[#0b0c10] border border-[var(--color-accent)]/30 p-6 md:p-8  rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
@@ -435,7 +435,7 @@ export default function PlannerDashboard() {
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="w-8 h-8 rounded-full bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                className="w-8 h-8 rounded-full bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
               >
                 ✕
               </button>
@@ -529,7 +529,7 @@ export default function PlannerDashboard() {
 
       {/* BOOKING CARDS */}
       <div className="grid grid-cols-1 gap-6">
-        <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-3xl   flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
+        <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8  rounded-lg   flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
           <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
           <div className="flex-1">
@@ -621,7 +621,7 @@ export default function PlannerDashboard() {
                       Save Changes
                     </button>
                     <button aria-label="Action button" onClick={handleEditCancel}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08]  text-white  font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
             <button
               type="button"
               onClick={() => setShowContactModal(true)}
-              className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-[#e1e6ff29]   hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
+              className="w-full py-3 flex items-center justify-center gap-2  text-white  hover:text-white font-bold text-sm uppercase tracking-wider bg-[#e1e6ff29]   hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
             >
               <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
               Contact 7th Heaven
@@ -692,7 +692,7 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8 rounded-3xl shadow-lg">
+      <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8  rounded-lg shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
 
@@ -720,7 +720,7 @@ export default function PlannerDashboard() {
               <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 551-5363
               </a>
-              <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+              <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
               </a>
             </div>
@@ -736,7 +736,7 @@ export default function PlannerDashboard() {
               <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 772-5333
               </a>
-              <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+              <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
               </a>
             </div>
@@ -752,7 +752,7 @@ export default function PlannerDashboard() {
               <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (630) 842-9129
               </a>
-              <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+              <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
               </a>
             </div>
@@ -768,7 +768,7 @@ export default function PlannerDashboard() {
               <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 269-6200
               </a>
-              <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white/60 hover:text-white truncate">
+              <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
               </a>
             </div>

@@ -102,7 +102,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
   };
 
   return (
-    <div className="py-8 font-[family-name:'Switzer', var(--font-barlow)]">
+    <div>
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
@@ -116,7 +116,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[var(--text-color)] leading-none mb-3">
+            <h1 className="text-[clamp(2rem,4vw,3rem)] font-black uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
               Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
             </h1>
             <p className="text-base sm:text-lg text-[var(--muted-text)] max-w-2xl font-medium">
@@ -201,7 +201,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-12 text-center my-8">
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-12 text-center my-8">
           <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
           <p className="text-sm text-[var(--muted-text)] max-w-md mx-auto mb-6">

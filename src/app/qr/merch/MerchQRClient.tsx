@@ -290,7 +290,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             7th Heaven <span className="text-cyan-400">Merch Express</span>
           </h1>
 
-          <p className="text-white/60 text-sm max-w-xl mx-auto">
+          <p className=" text-white  text-sm max-w-xl mx-auto">
             Order directly from your phone! Pick up your merch at the band table tonight or ship straight to your doorstep.
           </p>
 
@@ -360,7 +360,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
                 <div className="bg-black/40 border border-white/10 p-3">
                   <span className="text-cyan-400 font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 1: Environment Variables</span>
-                  <p className="text-[var(--font-size-2xs)] text-white/60">Add these 2 variables to your <code className="text-white font-mono">.env.local</code> file:</p>
+                  <p className="text-[var(--font-size-2xs)]  text-white ">Add these 2 variables to your <code className="text-white font-mono">.env.local</code> file:</p>
                   <pre className="  p-2 rounded text-[var(--font-size-3xs)] font-mono text-cyan-300 mt-2 overflow-x-auto">
                     NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="7th-heaven-store.myshopify.com"{"\n"}
                     {'NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'}="your_token_here"
@@ -369,14 +369,14 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
                 <div className="bg-black/40 border border-white/10 p-3">
                   <span className=" text-[var(--color-accent)] font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 2: GraphQL Query Fetch</span>
-                  <p className="text-[var(--font-size-2xs)] text-white/60">
+                  <p className="text-[var(--font-size-2xs)]  text-white ">
                     The server page calls <code className="text-white font-mono">getProducts()</code> in <code className="text-white font-mono">src/lib/shopify.ts</code> to fetch live products, tags, and stock counts.
                   </p>
                 </div>
 
                 <div className="bg-black/40 border border-white/10 p-3">
                   <span className="text-emerald-400 font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 3: Table Pickup & QR PIN Sync</span>
-                  <p className="text-[var(--font-size-2xs)] text-white/60">
+                  <p className="text-[var(--font-size-2xs)]  text-white ">
                     Orders with Merch Table Pick-Up generate a instant 4-digit PIN (<code className="text-white font-mono">PU-XXXX</code>) that automatically syncs to the band's <code className="text-white font-mono">/merch</code> desk scanner dashboard.
                   </p>
                 </div>
@@ -455,7 +455,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2.5  font-black text-xs uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat
                 ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
-                : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white hover:bg-white/10"
+                : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white hover:bg-white/10"
                 }`}
             >
               {cat === "All" && "🛒 All Merch"}
@@ -485,7 +485,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 text-[var(--font-size-3xs)] font-black uppercase tracking-widest bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+                  <span className="absolute top-3 left-3 text-[var(--font-size-3xs)] font-black uppercase tracking-widest bg-black/70  backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
                     {product.category}
                   </span>
 
@@ -530,8 +530,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
       {/* ── CHECKOUT MODAL (Pick Up vs Ship Selection) ── */}
       {showCheckout && selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0e0e18] border border-cyan-500/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
+          <div className="bg-[#0e0e18] border border-cyan-500/40  rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] max-h-[90vh] overflow-y-auto">
 
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -564,7 +564,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         onClick={() => setSelectedSize(size)}
                         className={`w-12 h-10  font-black text-xs transition-colors cursor-pointer ${selectedSize === size
                           ? "bg-cyan-500 text-black border border-cyan-400 font-black shadow-[0_0_12px_rgba(6,182,212,0.4)]"
-                          : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
+                          : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"
                           }`}
                       >
                         {size}
@@ -699,8 +699,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
       {/* ── MISSED PICKUP TO SHIPPING CONVERSION MODAL ── */}
       {showSwitchToShippingModal && switchOrderTarget && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0e0e18] border border-purple-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-[0_0_40px_rgba(234,179,8,0.25)]">
+        <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
+          <div className="bg-[#0e0e18] border border-purple-500/40  rounded-lg max-w-md w-full p-6 sm:p-8 space-y-5 shadow-[0_0_40px_rgba(234,179,8,0.25)]">
 
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
@@ -768,8 +768,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
       {/* ── PRINTABLE QR VENUE SIGN MODAL ── */}
       {showQRSignModal && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[var(--color-bg-surface)] border border-cyan-500/50 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)]">
+        <div className="fixed inset-0 z-50 bg-black/90  backdrop-blur-[45px] flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[var(--color-bg-surface)] border border-cyan-500/50  rounded-lg max-w-md w-full p-6 sm:p-8 space-y-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)]">
 
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span className="text-xs font-black uppercase tracking-widest text-cyan-400">Venue Printable QR Sign</span>

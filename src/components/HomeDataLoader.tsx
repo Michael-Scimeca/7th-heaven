@@ -125,19 +125,19 @@ export default function HomeDataLoader() {
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <section id="tour" className="bg-transparent py-0 pb-12 relative z-10">
+      <section id="tour" className="bg-transparent pb-section-fluid relative z-10">
         <TourList initialShows={shows} />
       </section>
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-x-clip pt-28 sm:pt-44 pb-8 mt-16 sm:mt-24 mb-16 sm:mb-24">
+      <section id="band" className="relative w-full bg-transparent overflow-hidden sm:mb-16">
         <BioParallaxSlider />
       </section>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
-      <div className="mt-8">
-        <ProximityNotify nextShow={nextShow} />
-      </div>
+
+      <ProximityNotify nextShow={nextShow} />
+
     </>
   );
 }

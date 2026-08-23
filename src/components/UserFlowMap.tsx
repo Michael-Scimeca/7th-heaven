@@ -168,7 +168,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "pink"];
 
   return (
-    <div className={`relative rounded-3xl border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-black shadow-2xl backdrop-blur-2xl cursor-pointer hover:scale-105 transition duration-300`}>
+    <div className={`relative  rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-black shadow-2xlbackdrop-blur-[18px]  cursor-pointer hover:scale-105 transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b border-white/20 pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-full bg-black/40 text-cyan-300 font-mono text-[9px] font-bold">
           ROOT 0.0
@@ -491,10 +491,10 @@ export default function UserFlowMap() {
   }, []);
 
   return (
-    <div className="relative w-full h-[850px] rounded-3xl border border-purple-500/30 bg-[#050505] overflow-hidden shadow-2xl backdrop-blur-2xl">
+    <div className="relative w-full h-[850px]  rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden shadow-2xl  backdrop-blur-[45px] ">
 
       {/* Header Info Bar */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-md border-b border-white/10 px-4 py-2.5 flex items-center justify-between text-xs pointer-events-none select-none">
+      <div className="absolute top-0 left-0 right-0 z-10 bg-black/90  backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between text-xs pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
           <span className="font-black uppercase tracking-widest text-white">
@@ -561,7 +561,7 @@ export default function UserFlowMap() {
 
       {/* Slide-out Inspector Detail Drawer */}
       {selectedNode && (
-        <div className="absolute top-14 right-4 bottom-4 w-96 bg-black/95 border border-purple-500/40 rounded-lg  p-6 shadow-2xl backdrop-blur-2xl z-30 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right-8 duration-200">
+        <div className="absolute top-14 right-4 bottom-4 w-96 bg-black/95 border border-purple-500/40 rounded-lg  p-6 shadow-2xlbackdrop-blur-[18px]  z-30 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right-8 duration-200">
           <div className="space-y-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
@@ -578,7 +578,7 @@ export default function UserFlowMap() {
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition"
+                className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center  text-white  hover:text-white hover:bg-white/20 transition"
               >
                 <X className="w-4 h-4" />
               </button>

@@ -409,8 +409,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <section className="site-container pt-[88px] min-h-screen text-[var(--text-color)] border-t border-[var(--border-color)]">
-      <div className="pt-[25px]">
+    <section className="site-container pt-[88px] min-h-screen text-[var(--text-color)]]">
+      <div className="">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
           <div className="mb-8 flex items-start gap-3 px-5 py-3 bg-purple-600/10 border border-purple-500/30">
@@ -422,7 +422,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
         {/* Account Identity Header */}
-        <div className="flex items-center justify-between mb-10 pb-6 border-b border-[var(--border-color)]">
+        <div className="flex items-center justify-between mb-10 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black  text-[var(--color-accent)] overflow-hidden shrink-0">
               {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
@@ -523,7 +523,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
         {/* Cruise Hub Toggle */}
         {isCruiser && (
-          <div className="flex justify-center mb-8 -mt-2">
+          <div className="flex justify-center mb-10 -mt-2">
             <div className="bg-[#e1e6ff29]   border border-white/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button aria-label="Action button"
                 onClick={() => setDashboardView('fan')}
@@ -664,7 +664,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         ) : (
           <>
             {/* Backstage Feed — always visible */}
-            <div className="mb-6">
+            <div className="mb-10">
               {isLive && liveFeeds.length > 0 ? (
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
@@ -740,7 +740,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             <h3 className="text-2xl font-black text-white italic tracking-tight mb-2">
                               {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
                             </h3>
-                            <p className="text-white/60 text-sm max-w-[280px] leading-relaxed mb-6">
+                            <p className=" text-white  text-sm max-w-[280px] leading-relaxed mb-6">
                               {win.desc.split('. Your PIN')[0]}
                             </p>
                           </div>
@@ -784,8 +784,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               const isHappeningNow = nextShow && countdown.status === 'live';
               const isEnded = nextShow && countdown.status === 'ended';
               return (
-                <div className="mb-8 py-2 relative text-white">
-                  <div className={`absolute -right-16 -top-16 w-48 h-48 ${isHappeningNow ? 'bg-emerald-500/8' : 'bg-[var(--color-accent)]/5'} blur-[80px] rounded-full`} />
+                <div className="relative text-white mb-10">
                   <div className="relative z-10">
                     {isHappeningNow ? (
                       <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30">
@@ -793,9 +792,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         Happening Now
                       </span>
                     ) : isEnded ? (
-                      <span className="text-xs font-black uppercase tracking-[0.2em] text-white/40 bg-[#e1e6ff29]   px-3 py-1 rounded-full border border-white/10">Show Completed</span>
+                      <span className="text-xs font-black text-white uppercase tracking-[0.2em] bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-3 py-1 rounded-full">Show Completed</span>
                     ) : (
-                      <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Next Show</span>
+                      <span className="text-xs font-black uppercase tracking-[0.2em] text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Next Show</span>
                     )}
                     {nextShow ? (() => {
                       return (
@@ -803,7 +802,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border  border-[var(--color-accent)]/30 bg-emerald-500/[0.03]  p-4 -mx-1' : ''}`}>
                             <div>
                               <h3 className="text-2xl font-black text-white mb-1">{nextShow.venue}</h3>
-                              <p className="text-white/60 text-sm">
+                              <p className=" text-white  text-sm">
                                 {nextShow.city ? `${nextShow.city}${nextShow.state ? `, ${nextShow.state}` : ''} · ` : nextShow.state ? `${nextShow.state} · ` : ''}
                                 {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}
                                 {nextShow.time ? ` · ${nextShow.time}` : ''}
@@ -818,7 +817,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 <span className="text-emerald-400 text-sm font-black uppercase tracking-widest">Happening Now</span>
                               </div>
                             ) : isEnded ? (
-                              <div className="flex items-center gap-3 px-5 py-3 bg-[#e1e6ff29]   border border-white/10">
+                              <div className="flex items-center gap-3 px-5 py-3 bg-[#e1e6ff29] rounded-lg  border border-white/10">
                                 <span className="text-white/40 text-sm font-black uppercase tracking-widest">Thanks for coming!</span>
                               </div>
                             ) : (
@@ -837,7 +836,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       );
                     })() : (
                       <div className="mt-4 py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#e1e6ff29]   border-dashed">
-                        <p className="text-sm text-white/60 font-bold">No upcoming shows scheduled yet.</p>
+                        <p className="text-sm  text-white  font-bold">No upcoming shows scheduled yet.</p>
                         <p className="text-xs text-white/40 mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3 text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
                       </div>
@@ -848,7 +847,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             })()}
 
             {/* Upcoming Shows */}
-            <div className="mb-8 text-white">
+            <div className="mb-10 text-white">
               <div className="flex items-center justify-between mb-4">
                 <span className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Upcoming Shows</span>
                 <Link href="/#tour" className="text-xs text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
@@ -864,7 +863,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-white truncate">{show.venue}</p>
                         {(show.city || show.state) && (
-                          <p className="text-xs text-white/60">
+                          <p className="text-xs  text-white ">
                             {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
                           </p>
                         )}
@@ -889,7 +888,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([show.venue, show.city, show.state].filter(Boolean).join(' '))}`;
                               return (
                                 <a href={mapsHref} target="_blank" rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-[0.6rem] rounded-lg font-black uppercase tracking-wider text-white/60 bg-[#e1e6ff29]   border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
+                                  className="inline-flex items-center gap-1 text-[0.6rem] text-white rounded-lg font-black uppercase tracking-wider !text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                                   Directions
                                 </a>
@@ -897,7 +896,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             })()}
                             {/* Parking — smart button: link-only / note-only / both */}
                             {(show.directionsLink || show.notes) && (() => {
-                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] rounded-lg font-black uppercase tracking-wider text-white/60 bg-[#e1e6ff29]   border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
+                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] rounded-lg font-black uppercase tracking-wider !text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
                               if (show.directionsLink && !show.notes) {
                                 return (
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
@@ -961,14 +960,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 </div>
               ) : (
                 <div className="py-6 flex flex-col items-center">
-                  <p className="text-sm text-white/60 font-bold">No shows on the horizon yet.</p>
+                  <p className="text-sm  text-white  font-bold">No shows on the horizon yet.</p>
                   <p className="text-xs text-white/40 mt-1">Follow us for announcements on new dates!</p>
                 </div>
               )}
             </div>
 
             {/* Proximity Alerts & Show Alerts — 50/50 Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
               <div>
                 <ProximityPanel />
               </div>
@@ -992,7 +991,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-center gap-4 min-w-0">
                           <div className="min-w-0">
                             <p className="text-sm font-bold text-white truncate">{sub.venueName}</p>
-                            <p className="text-xs text-white/60">
+                            <p className="text-xs  text-white ">
                               {sub.showDate ? sub.showDate : "Upcoming Date"}{sub.city ? ` · ${sub.city}, ${sub.state}` : ""}
                             </p>
                           </div>
@@ -1008,7 +1007,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
                 ) : (
                   <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#e1e6ff29]   border-dashed">
-                    <p className="text-sm text-white/60 font-bold">You aren&apos;t tracking any specific shows yet.</p>
+                    <p className="text-sm  text-white  font-bold">You aren&apos;t tracking any specific shows yet.</p>
                     <p className="text-xs text-white/40 mt-1">Click the bell icon on the tour page to get date alerts.</p>
                     <Link href="/#tour" className="mt-3 text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
                   </div>
@@ -1017,7 +1016,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             </div>
 
             {!isCruiser && isCruiseBannerActive && (
-              <Link href="/cruise" className="block mb-8 group">
+              <Link href="/cruise" className="block mb-10 group">
                 <div className="relative overflow-hidden border border-cyan-500/20 p-6 md:p-8 hover:border-cyan-500/40 transition-colors text-white">
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="flex items-start gap-4">
@@ -1026,7 +1025,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <span className="text-xs font-black uppercase tracking-[0.2em] text-purple-400   px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
                         </div>
                         <h3 className="text-lg font-black text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
-                        <p className="text-white/60 text-sm max-w-lg leading-relaxed">
+                        <p className=" text-white  text-sm max-w-lg leading-relaxed">
                           7 nights, 3 islands, 6 live shows. Sign up for the cruise and unlock your <span className="text-cyan-400 font-bold">Cruise Hub</span> right here on your dashboard.
                         </p>
                       </div>
@@ -1044,16 +1043,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 relative text-white">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">Live Stream Alerts</span>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-white px-3 py-1 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]">Live Stream Alerts</span>
                   </div>
                   <h3 className="text-xl font-black text-white mb-1">Never Miss a Live Feed</h3>
-                  <p className="text-white/60 text-sm mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
+                  <p className=" text-white  text-sm mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
                   {liveAlertSubscribed ? (
                     <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-[var(--color-accent)]/30 w-full">
                       <div>
                         <p className="text-sm font-bold text-[var(--color-accent)]">Live Alerts Active</p>
-                        <p className="text-sm text-white/60">We&apos;ll text <span className="text-white font-mono">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
+                        <p className="text-sm  text-white ">We&apos;ll text <span className="text-white font-mono">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
                       </div>
                       <button aria-label="Action button"
                         onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
@@ -1198,7 +1197,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                           <div>
                             <p className={`text-sm font-bold text-white transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
-                            <p className="text-sm text-white/60 leading-relaxed mt-1">{msg.desc}</p>
+                            <p className="text-sm  text-white  leading-relaxed mt-1">{msg.desc}</p>
                             <p className={`text-xs font-bold tracking-widest uppercase mt-2 ${msg.isNew ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>{msg.time}</p>
                           </div>
                         </div>
@@ -1211,7 +1210,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-white/20 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <p className="text-white/60 text-sm font-bold">No messages yet.</p>
+                        <p className=" text-white  text-sm font-bold">No messages yet.</p>
                         <p className="text-white/40 text-xs mt-1">Raffle wins, alerts & updates will appear here.</p>
                       </div>
                     )}

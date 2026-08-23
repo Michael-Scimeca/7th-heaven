@@ -545,11 +545,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   return (
     <div
-      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] pt-20 text-left overflow-x-clip transition-all duration-150"
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-section-fluid text-left overflow-x-clip transition-all duration-150"
       style={{
         backgroundImage: 'linear-gradient(180deg, transparent 0%, #060b18 220px, #0a142c 50%, #060b18 calc(100% - 160px), transparent 100%)',
-        maskImage: 'linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0px, black 80px, black calc(100% - 140px), transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 80px, black calc(100% - 140px), transparent 100%)',
       }}
     >
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
@@ -845,7 +845,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             </div>
 
                             <h4
-                              className={`font-black uppercase leading-snug transition-colors ${isReached ? 'text-white' : 'text-white/60'
+                              className={`font-black uppercase leading-snug transition-colors ${isReached ? 'text-white' : ' text-white '
                                 }`}
                               style={{ fontSize: 'clamp(0.75rem, 1.1vw, 1rem)' }}
                             >
@@ -945,7 +945,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </div>
               <button aria-label="Action button"
                 onClick={() => setShowSettings(false)}
-                className="text-white/60 hover:text-white text-lg font-bold px-2 py-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                className=" text-white  hover:text-white text-lg font-bold px-2 py-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               >
                 ✕
               </button>

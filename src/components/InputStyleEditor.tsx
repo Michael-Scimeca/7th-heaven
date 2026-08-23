@@ -290,7 +290,7 @@ a:hover {
       {/* Editor Drawer Modal — Pinned to Far Right, No Background Blur/Tint Overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-end p-4 md:p-6 pointer-events-none">
-          <div className="bg-[#0c0817]/95 backdrop-blur-2xl border border-cyan-500/30 rounded-3xl w-full max-w-xl max-h-[88vh] flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.2)] text-white overflow-hidden pointer-events-auto shadow-2xl">
+          <div className="bg-[#0c0817]/95backdrop-blur-[18px]  border border-cyan-500/30  rounded-lg w-full max-w-xl max-h-[88vh] flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.2)] text-white overflow-hidden pointer-events-auto shadow-2xl">
 
             {/* Modal Header */}
             <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
@@ -875,18 +875,18 @@ a:hover {
                   <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300">Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Full Name</label>
+                      <label className="text-xs font-bold uppercase tracking-wider  text-white  block mb-1">Full Name</label>
                       <input type="text" aria-label="Full Name" placeholder="John Smith..." className="form-input w-full" />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Select Event Type</label>
+                      <label className="text-xs font-bold uppercase tracking-wider  text-white  block mb-1">Select Event Type</label>
                       <select aria-label="Select Event Type" className="form-input w-full cursor-pointer">
                         <option value="1" className="bg-[#0c0817] text-white">Full Band Concert</option>
                         <option value="2" className="bg-[#0c0817] text-white">Unplugged Acoustic</option>
                       </select>
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Special Requests</label>
+                      <label className="text-xs font-bold uppercase tracking-wider  text-white  block mb-1">Special Requests</label>
                       <textarea rows={2} aria-label="Special Requests" placeholder="Add notes here..." className="form-input w-full" />
                     </div>
                     <div className="pt-2 border-t border-white/10">

@@ -675,7 +675,7 @@ export default function CruiseDashboard() {
         <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl group">
+          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">

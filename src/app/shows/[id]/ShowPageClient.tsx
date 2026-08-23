@@ -286,7 +286,7 @@ export default function ShowPageClient({
           }`}
       >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10 text-white/60"} bg-white/[0.04]`}>
+        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-full" />
           ) : isAnon ? "👤" : initials}
@@ -348,7 +348,7 @@ export default function ShowPageClient({
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/5 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/#tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover:text-white/60 transition-colors mb-8 font-bold">
+          <Link href="/#tour" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/30 hover: text-white  transition-colors mb-8 font-bold">
             ← All Shows
           </Link>
 
@@ -374,12 +374,12 @@ export default function ShowPageClient({
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
                 {show.doors_time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest  text-white ">
                     🚪 Doors {show.doors_time}
                   </span>
                 )}
                 {show.time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest  text-white ">
                     🎸 Show {show.time}
                   </span>
                 )}
@@ -389,7 +389,7 @@ export default function ShowPageClient({
                   </span>
                 )}
                 {show.cover && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest text-white/60">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-bold uppercase tracking-widest  text-white ">
                     💵 Cover: {show.cover}
                   </span>
                 )}
@@ -434,10 +434,10 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -461,7 +461,7 @@ export default function ShowPageClient({
                   </span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
                   <p className="text-white/40 text-sm leading-relaxed mb-6">
-                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className="text-white/60">{show.venue_name}</strong>.
+                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
                   </p>
                 </div>
                 <div>
@@ -568,7 +568,7 @@ export default function ShowPageClient({
                     <button aria-label="Action button"
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
+                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover: text-white "
                         }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}

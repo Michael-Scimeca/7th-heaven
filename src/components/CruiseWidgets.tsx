@@ -456,7 +456,7 @@ export function BookingManager({ email }: { email?: string }) {
         <span className="text-8xl">🚢</span>
       </div>
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
-      <p className="text-white/60 text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
+      <p className=" text-white  text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
 
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10  p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -615,7 +615,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       {/* Cruising Power Travel Agent Portal Hook */}
-      <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">
+      <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10  text-white  text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="text-sm">🚢</span>
           <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
@@ -752,7 +752,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
               ✓
             </div>
             <h3 className="text-lg font-black uppercase tracking-widest text-white">Payment Successful</h3>
-            <p className="text-white/60 text-xs leading-relaxed">
+            <p className=" text-white  text-xs leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
@@ -919,7 +919,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl text-white relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 p-6 md:p-8  rounded-lg shadow-2xl text-white relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>

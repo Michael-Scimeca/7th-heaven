@@ -506,7 +506,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -617,7 +617,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode
                         ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-black"
-                        : "bg-[#e1e6ff29]   border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
+                        : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                         }`}
                     >
                       {mode}

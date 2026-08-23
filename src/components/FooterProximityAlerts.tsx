@@ -266,7 +266,7 @@ export default function FooterProximityAlerts() {
                   onClick={() => setRadius(opt.value)}
                   className={`px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer ${isSelected
                     ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                    : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
+                    : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
                     }`}
                 >
                   {opt.label}
@@ -291,7 +291,7 @@ export default function FooterProximityAlerts() {
                 onClick={() => toggleType(type.id)}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer ${isSelected
                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                  : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                  : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white"
                   }`}
               >
                 <span>{type.icon}</span>
@@ -305,7 +305,7 @@ export default function FooterProximityAlerts() {
 
       <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
         <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-        <span className="text-xs text-white/60 leading-tight font-medium">
+        <span className="text-xs  text-white  leading-tight font-medium">
           I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
         </span>
       </div>

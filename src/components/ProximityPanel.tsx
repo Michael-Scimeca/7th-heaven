@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import { GlowInput, GlowSelect } from "@/components/GlowInput";
 import { useMember } from "@/context/MemberContext";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 interface NearbyShow {
   id: string;
@@ -159,12 +160,12 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+          <span className="text-xs font-black uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
         <h3 className="text-xl font-black text-white mb-1">Shows Near You</h3>
-        <p className="text-white/60 text-sm mb-6 max-w-md">
+        <p className=" text-white  text-sm mb-6 max-w-md">
           Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
         </p>
 
@@ -185,7 +186,7 @@ export default function ProximityPanel() {
         {/* Zip + Radius */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label htmlFor="proximity-zip-input" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
+            <label htmlFor="proximity-zip-input" className="text-xs uppercase tracking-widest font-bold  text-white  mb-2 block">Your Zip Code</label>
             <GlowInput
               id="proximity-zip-input"
               aria-label="Your zip code"
@@ -198,7 +199,7 @@ export default function ProximityPanel() {
             />
           </div>
           <div>
-            <label htmlFor="proximity-radius-select" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
+            <label htmlFor="proximity-radius-select" className="text-xs uppercase tracking-widest font-bold  text-white  mb-2 block">Radius</label>
             <GlowSelect
               id="proximity-radius-select"
               aria-label="Radius"
@@ -212,13 +213,14 @@ export default function ProximityPanel() {
           </div>
         </div>
 
-        <button aria-label="Action button"
+        <CosmicRadialButton
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
-          className="w-full px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+          icon={false}
+          className="w-full py-3 text-xs font-black uppercase tracking-widest text-white cursor-pointer"
         >
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
-        </button>
+        </CosmicRadialButton>
       </div>
 
       {/* Nearby Shows */}
@@ -242,7 +244,7 @@ export default function ProximityPanel() {
             </div>
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#e1e6ff29]   border-dashed">
-              <p className="text-sm text-white/60 font-bold">No shows in your area yet.</p>
+              <p className="text-sm  text-white  font-bold">No shows in your area yet.</p>
               <p className="text-xs text-white/40 mt-1">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (

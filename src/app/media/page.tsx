@@ -362,13 +362,13 @@ export default function MediaPage() {
   };
 
   return (
-    <div id="media-page" className="min-h-screen">
+    <div className="min-h-screen">
 
       {/* ── FEATURED HERO (100vh Full Screen) ── */}
       {featuredVideo && (
         <section
           id="media-hero"
-          className="relative overflow-hidden h-screen w-full mb-12"
+          className="relative overflow-hidden h-screen w-full py-section-flu"
           style={{
             marginLeft: "calc(-1 * var(--page-padding-x))",
             marginRight: "calc(-1 * var(--page-padding-x))",
@@ -399,17 +399,16 @@ export default function MediaPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent pointer-events-none" />
-                <button onClick={() => setHeroPlaying(true)}
-                  className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
-                  aria-label="Play featured video"
-                >
+                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none group/play">
                   <CosmicRadialButton
+                    onClick={() => setHeroPlaying(true)}
+                    aria-label="Play featured video"
                     icon={false}
-                    className="w-24 h-24 !rounded-full !p-0 flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300 shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-300/40"
+                    className="w-24 h-24 !rounded-full !p-0 flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300 shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-300/40 pointer-events-auto cursor-pointer"
                   >
                     <Play className="w-9 h-9 text-white fill-white ml-1.5" />
                   </CosmicRadialButton>
-                </button>
+                </div>
               </>
             )}
           </div>
@@ -419,7 +418,7 @@ export default function MediaPage() {
               <HeroParallaxCustomizer {...heroParallax} />
               <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
                 <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                     <span>FEATURED MEDIA</span>
                   </div>
                   <h1
@@ -431,7 +430,7 @@ export default function MediaPage() {
                     </span>
                   </h1>
                   {featuredVideo.description && (
-                    <p className="text-white/60 text-sm mb-4 leading-relaxed max-w-md">{featuredVideo.description}</p>
+                    <p className=" text-white  text-sm mb-4 leading-relaxed max-w-md">{featuredVideo.description}</p>
                   )}
                   <div className="flex items-center gap-3 text-xs text-white/40 font-bold uppercase tracking-widest mb-6">
                     <span>{featuredVideo.year}</span>
@@ -472,7 +471,7 @@ export default function MediaPage() {
                     }}
                     className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                       ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-                      : "bg-[#e1e6ff29]   text-white/60 hover:text-white hover:bg-white/10"
+                      : "bg-[#e1e6ff29]    text-white  hover:text-white hover:bg-white/10"
                       }`}
                   >
                     <span>{cat.category}</span>
@@ -538,7 +537,7 @@ export default function MediaPage() {
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
                   <div className="relative z-20">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
+                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
                         {video.year}
                       </span>
                     </div>
@@ -587,7 +586,7 @@ export default function MediaPage() {
 
             {filteredVideos.length === 0 && (
               <div className="py-16 text-center bg-[#e1e6ff29]   rounded-lg  border border-white/5">
-                <p className="text-white/60 text-sm font-semibold">No videos found matching &quot;{searchQuery}&quot;</p>
+                <p className=" text-white  text-sm font-semibold">No videos found matching &quot;{searchQuery}&quot;</p>
                 <button
                   onClick={() => setSearchQuery("")}
                   className="mt-3 text-xs font-bold uppercase text-[var(--color-accent)] hover:underline cursor-pointer"
@@ -616,8 +615,11 @@ export default function MediaPage() {
                     {isPlaying ? (
                       <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                     ) : (
-                      <button
+                      <div
                         onClick={() => setPlayingId(video.id)}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setPlayingId(video.id); }}
+                        role="button"
+                        tabIndex={0}
                         className="relative w-full h-full cursor-pointer group/card block text-left"
                         aria-label={`Play ${video.title}`}
                       >
@@ -636,14 +638,14 @@ export default function MediaPage() {
 
                         {/* Caption Overlay */}
                         <div className="absolute bottom-4 left-4 right-4 z-20">
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/70 backdrop-blur-md px-2 py-0.5 rounded border border-white/10">
+                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/70  backdrop-blur-[45px] px-2 py-0.5 rounded border border-white/10">
                             {selectedCategory?.category}
                           </span>
                           <h4 className="text-lg font-black uppercase tracking-tight text-white mt-1 drop-shadow-md truncate">
                             {video.title}
                           </h4>
                         </div>
-                      </button>
+                      </div>
                     )}
                   </div>
                 );
@@ -663,7 +665,7 @@ export default function MediaPage() {
 
       {/* ── ADD YOUTUBE VIDEO MODAL (Sanity CMS + Media Vault) ── */}
       {isAdmin && isAddModalOpen && (
-        <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
+        <div className="fixed inset-0 z-[999999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
           <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(147,51,234,0.3)] p-6 relative">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <div className="flex items-center gap-2.5">
@@ -796,7 +798,7 @@ export default function MediaPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+                  className="px-4 py-2 text-xs font-bold  text-white  hover:text-white transition-colors"
                 >
                   Cancel
                 </button>

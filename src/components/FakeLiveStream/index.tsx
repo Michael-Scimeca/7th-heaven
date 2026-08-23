@@ -1288,15 +1288,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
           {/* Right — crew member link + notify me push button + crew side button + demo badge */}
           <div className="shrink-0 flex items-center gap-2">
-            {/* Live Stream Push Alert Button */}
-            <button
-              type="button"
-              onClick={async () => {
-                const isCrewAdmin = contextMember?.role === 'crew' || contextMember?.role === 'admin';
-                setNotifyingFans(true);
-
-                if (isCrewAdmin) {
-                  // Crew / Admin mode: Broadcast push alert to fans
+            {/* Live Stream Push Alert Button — Restricted to Admin & Crew */}
+            {(contextMember?.role === 'crew' || contextMember?.role === 'admin') && (
+              <button
+                type="button"
+                onClick={async () => {
+                  setNotifyingFans(true);
                   try {
                     await fetch('/api/ntfy/push-live', {
                       method: 'POST',
@@ -1315,27 +1312,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   } finally {
                     setNotifyingFans(false);
                   }
-                } else {
-                  // Fan / Viewer mode: Open PushSubscribeModal to collect Name, Email, and enable live alerts
-                  setShowSubscribeModal(true);
-                  setNotifyingFans(false);
-                }
-              }}
-              className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess
-                ? 'bg-emerald-600 text-white border-emerald-400'
-                : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white border-pink-400/40 hover:scale-105'
-                }`}
-              title="Subscribe to get instant free push alerts on your phone or browser whenever a crew member goes live"
-            >
-              <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
-              <span>
-                {notifySuccess
-                  ? (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "✓ Push Sent to Fans! 🔔" : "✓ Live Alerts Enabled! 🔔")
-                  : notifyingFans
-                    ? "Connecting..."
-                    : (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "Broadcasting Push Alert 🔔" : "NOTIFY ME WHEN CREW GOES LIVE 🔔")}
-              </span>
-            </button>
+                }}
+                className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess
+                  ? 'bg-emerald-600 text-white border-emerald-400'
+                  : 'bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white border-white/25 shadow-[0_0_20px_rgba(217,70,239,0.5)] hover:scale-105'
+                  }`}
+                title="Broadcast push alert to all subscribed fans"
+              >
+                <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+                <span>
+                  {notifySuccess
+                    ? "✓ Push Sent to Fans! 🔔"
+                    : notifyingFans
+                      ? "Connecting..."
+                      : "BROADCASTING PUSH ALERT 🔔"}
+                </span>
+              </button>
+            )}
 
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
@@ -1455,7 +1448,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </>
                 ) : (
                   <span
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-black/50 text-xs font-bold uppercase tracking-wider"
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-bold uppercase tracking-wider"
                     style={{ background: 'rgba(255,255,255,0.1)' }}
                   >
                     OFFLINE
@@ -2499,7 +2492,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <h3 className="text-xl font-black text-white uppercase tracking-tight">
                       Join the Live Chat
                     </h3>
-                    <p className="text-xs text-white/60 leading-relaxed font-medium">
+                    <p className="text-xs  text-white  leading-relaxed font-medium">
                       Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
                     </p>
                   </div>
@@ -2510,7 +2503,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
                       }}
-                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+                      className="btn-cosmic-radial-property w-full py-3 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white font-black text-xs sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
                     >
                       <span>Sign Up as a Fan</span>
                     </button>
@@ -2534,14 +2527,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div className="flex gap-1.5">
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover:text-white/60'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
                           }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover:text-white/60 border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white  border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -2594,7 +2587,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >
-                                <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'text-red-500 fill-current' : 'text-white/60'}`} />
+                                <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'text-red-500 fill-current' : ' text-white '}`} />
                               </button>
                             </div>
                           </div>

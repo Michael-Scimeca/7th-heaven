@@ -113,14 +113,14 @@ export function CalendarPicker({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className="text-white/60 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
+          <p className=" text-white  text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
 
       {/* Legend */}
       {blockedDates.length > 0 && (
         <div className="flex items-center gap-5 mb-4 text-xs uppercase tracking-widest font-bold">
-          <span className="flex items-center gap-1.5 text-white/60"><span className="w-3 h-3 rounded bg-white/10 border border-white/20 inline-block" /> Available</span>
+          <span className="flex items-center gap-1.5  text-white "><span className="w-3 h-3 rounded bg-white/10 border border-white/20 inline-block" /> Available</span>
           <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
         </div>
       )}
@@ -251,7 +251,7 @@ export function CalendarPicker({
           <div className="flex flex-col gap-4">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the show start?</label>
+              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider  text-white  block mb-1">When does the show start?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Start Time"
@@ -264,7 +264,7 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the show finish?</label>
+              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider  text-white  block mb-1">When does the show finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Finish Time"
@@ -279,7 +279,7 @@ export function CalendarPicker({
 
             {/* Band Start Time */}
             <div>
-              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the band go on?</label>
+              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider  text-white  block mb-1">When does the band go on?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Start Time"
@@ -292,7 +292,7 @@ export function CalendarPicker({
 
             {/* Band Finish Time */}
             <div>
-              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the band finish?</label>
+              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider  text-white  block mb-1">When does the band finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Finish Time"
@@ -335,7 +335,7 @@ export function CalendarPicker({
                     </div>
                     <div>
                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-black" : "text-white"}`}>{type.label}</span>
-                      <span className="text-xs text-white/60 block leading-tight">{type.desc}</span>
+                      <span className="text-xs  text-white  block leading-tight">{type.desc}</span>
                     </div>
                   </button>
                   {type.id === "custom" && isSelected && (
@@ -346,7 +346,7 @@ export function CalendarPicker({
                         value={customDetails || ""}
                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                         autoFocus
-                        className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/20 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
+                        className="w-full bg-[#0c0817]/80  backdrop-blur-[45px] border border-white/20 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
                       />
                     </div>
                   )}

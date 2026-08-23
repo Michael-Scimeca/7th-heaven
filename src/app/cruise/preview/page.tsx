@@ -22,7 +22,7 @@ function VersionA() {
           <button aria-label="Action button" key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer ${activeTab === i
               ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-              : "bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/60"
+              : "bg-white/[0.04] border border-white/10 text-white/40 hover: text-white "
               }`}>
             <span className="w-5 h-5 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
               {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}

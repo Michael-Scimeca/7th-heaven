@@ -60,7 +60,7 @@ export default function Home() {
       <SlideupSection />
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <section id="logos" className="relative w-full py-4">
+      <section id="logos" className="relative w-full py-section-fluid">
         <LogoTicker items={ARTIST_LOGOS} direction="left" />
         <LogoTicker items={PRESS_LOGOS} direction="right" />
       </section>
@@ -72,7 +72,7 @@ export default function Home() {
       <HomeMerch />
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <section id="music" className="relative w-full min-h-[600px] mt-0 mb-16 overflow-visible">
+      <section id="music" className="relative w-full min-h-[600px] py-section-fluid overflow-visible">
         <AudioPlayerSection />
       </section>
     </div>

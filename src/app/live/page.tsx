@@ -260,14 +260,14 @@ export default function LiveHubPage() {
         {/* ── HERO HEADER ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
           <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40  backdrop-blur-[45px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
               <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
               <span>OFFICIAL BAND LIVE BROADCAST</span>
             </div>
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               LIVE <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">STREAM HUB</span>
             </h1>
-            <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+            <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
               {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
             </p>
           </div>
@@ -457,7 +457,7 @@ export default function LiveHubPage() {
                       </div>
                     ))}
                     <div className="mt-2 p-3" style={{ background: "rgba(255,10,61,0.08)", border: "1px solid rgba(255,10,61,0.2)" }}>
-                      <p className="text-xs font-black text-white/60 mb-1">✅ Keep It Positive</p>
+                      <p className="text-xs font-black  text-white  mb-1">✅ Keep It Positive</p>
                       <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>This is a fan space for music lovers — keep the energy high! 🎸</p>
                     </div>
                   </div>
@@ -518,7 +518,7 @@ export default function LiveHubPage() {
               </Link>
 
               {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-md border-b border-white/10 text-white">
+              <div className="p-6 flex items-center justify-between relative bg-black/40  backdrop-blur-[45px] border-b border-white/10 text-white">
                 {/* Avatar badge */}
                 <div
                   className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white/20 shadow-md"
@@ -529,7 +529,7 @@ export default function LiveHubPage() {
 
                 <div>
                   <h3 className="text-lg font-black text-white mb-1">{room.title}</h3>
-                  <p className="text-sm text-white/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                  <p className="text-sm  text-white  font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 
                 <button aria-label="Action button"

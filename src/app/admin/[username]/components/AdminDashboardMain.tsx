@@ -1,6 +1,6 @@
 "use client";
-/* eslint-disable react-doctor/no-giant-component */
-/* oxlint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations */
+/* oxlint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations */
 /* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
 /* eslint-disable react-doctor/nextjs-no-client-side-redirect */
 
@@ -16,6 +16,7 @@ import { useMember } from "@/context/MemberContext";
 import Dropdown from "@/components/Dropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import GooeyDropdown from "@/components/GooeyDropdown";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
@@ -168,8 +169,8 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
 
   return (
     <div
-      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs shrink-0   text-white select-none border border-white/10"
-      style={{ backgroundColor: color, color: '#ffffff' }}
+      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-black text-xs shrink-0   text-white select-none border border-white/10"
+      style={{ color: '#ffffff' }}
     >
       {initials}
     </div>
@@ -195,9 +196,9 @@ const SidebarDateButton = React.memo(({
       type="button"
       onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${isSelected
-        ? 'bg-purple-500/15 ring-1 ring-amber-500/30  rounded-lg  border-b-transparent'
+        ? 'bg-[#e1e6ff29] !rounded-none'
         : isActiveWeek
-          ? 'bg-white/[0.04]'
+          ? 'bg-[#e1e6ff29]'
           : 'bg-transparent'
         }`}
     >
@@ -357,7 +358,7 @@ function DutyRoleEditorPopover({
       {/* Custom role input */}
       <div className="pt-2 border-t border-white/10 space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-white/60">Custom / Edit Text:</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-wider  text-white ">Custom / Edit Text:</span>
           {editingDutyValue && (
             <button
               type="button"
@@ -3201,7 +3202,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('emergencybroadcast', 'Emergency Show & Fan Alert Dispatcher', 'Dispatch urgent show cancellations, time changes, or venue updates across Twilio SMS, Email, and Fan Dashboard banners with live cost estimations.')}
         <div style={{ display: isSectionOpen('emergencybroadcast') ? undefined : 'none' }}>
           {isSectionOpen('emergencybroadcast') && (<>
-          <EmergencyBroadcastCenter tourDates={tourDates} />
+            <EmergencyBroadcastCenter tourDates={tourDates} />
           </>)}
         </div>
       </section>
@@ -3226,7 +3227,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('emaildirectory', 'Role-Based Email Lists & Subscriber Directory', 'Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins. Copy bulk BCC lists or export CSV files.')}
         <div style={{ display: isSectionOpen('emaildirectory') ? undefined : 'none' }}>
           {isSectionOpen('emaildirectory') && (<>
-          <RoleEmailDirectory dynamicUsers={users} />
+            <RoleEmailDirectory dynamicUsers={users} />
           </>)}
         </div>
       </section>
@@ -3251,7 +3252,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('pushsubscribers', 'Proximity & Web Push Alert Subscribers', 'View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.')}
         <div style={{ display: isSectionOpen('pushsubscribers') ? undefined : 'none' }}>
           {isSectionOpen('pushsubscribers') && (<>
-          <ProximitySubscriberAdminPanel />
+            <ProximitySubscriberAdminPanel />
           </>)}
         </div>
       </section>
@@ -3273,133 +3274,133 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
         <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
           {isSectionOpen('announcements') && (<>
-          {/* Global Announcement Banner Control */}
-          <div className="relative z-10 bg-transparent flex flex-col group">
-            <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
-              <div className="flex flex-col">
-                <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
-                  Global Alert Banner
-                </h3>
-                <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Pin a band announcement or urgent notice sitewide</p>
+            {/* Global Announcement Banner Control */}
+            <div className="relative z-10 bg-transparent flex flex-col group">
+              <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+                <div className="flex flex-col">
+                  <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+                    Global Alert Banner
+                  </h3>
+                  <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Pin a band announcement or urgent notice sitewide</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  {/* Main toggle — auto-saves */}
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={async () => {
+                        const newActive = !bannerActive;
+                        setBannerActive(newActive);
+                        await updateGlobalBanner({ isActive: newActive });
+                      }}
+                      disabled={bannerUpdating}
+                      className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive
+                        ? 'bg-purple-600 text-white border-purple-500  '
+                        : 'bg-[#e1e6ff29]   text-white/50 border-white/10 hover:border-white/20'
+                        } disabled:opacity-50`}
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
+                        {bannerActive ? 'LIVE ON SITE' : 'OFF'}
+                      </span>
+                      {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
+                    </button>
+                  </div>
+
+                  {/* Arrow chevron on far right side */}
+                  <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                {/* Main toggle — auto-saves */}
-                <div onClick={(e) => e.stopPropagation()}>
-                  <button
-                    onClick={async () => {
-                      const newActive = !bannerActive;
-                      setBannerActive(newActive);
-                      await updateGlobalBanner({ isActive: newActive });
-                    }}
-                    disabled={bannerUpdating}
-                    className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive
-                      ? 'bg-purple-600 text-white border-purple-500  '
-                      : 'bg-[#e1e6ff29]   text-white/50 border-white/10 hover:border-white/20'
-                      } disabled:opacity-50`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
-                      {bannerActive ? 'LIVE ON SITE' : 'OFF'}
-                    </span>
-                    {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
-                  </button>
-                </div>
 
-                {/* Arrow chevron on far right side */}
-                <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                </div>
-              </div>
-            </div>
+              {/* Collapsible Content */}
+              <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
+                {isSectionOpen('globalalert') && (<>
+                  {/* Save status toast */}
+                  {bannerSaveStatus && (
+                    <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out]  backdrop-blur-[45px] ${bannerSaveStatus === 'saved'
+                      ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                      }`}>
+                      {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
+                    </div>
+                  )}
 
-            {/* Collapsible Content */}
-            <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
-              {isSectionOpen('globalalert') && (<>
-              {/* Save status toast */}
-              {bannerSaveStatus && (
-                <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${bannerSaveStatus === 'saved'
-                  ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
-                  : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                  }`}>
-                  {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
-                </div>
-              )}
+                  {/* Message input */}
+                  <div className="flex flex-col gap-3 mt-auto">
+                    <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
+                      <ReactQuill
+                        theme="snow"
+                        value={bannerText}
+                        onChange={setBannerText}
+                        placeholder="Alert message (e.g. Weather delay tonight)"
+                        className="overflow-hidden"
+                      />
+                    </div>
 
-              {/* Message input */}
-              <div className="flex flex-col gap-3 mt-auto">
-                <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
-                  <ReactQuill
-                    theme="snow"
-                    value={bannerText}
-                    onChange={setBannerText}
-                    placeholder="Alert message (e.g. Weather delay tonight)"
-                    className="overflow-hidden"
-                  />
-                </div>
+                    {/* Controls row */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 bg-transparent py-2 pr-2 pl-0 border-b border-white/5">
+                      <button
+                        onClick={() => updateGlobalBanner()}
+                        disabled={bannerUpdating}
+                        className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                      >
+                        {bannerUpdating ? 'Saving...' : 'Dispatch'}
+                      </button>
 
-                {/* Controls row */}
-                <div className="flex flex-wrap items-center justify-between gap-4 bg-transparent py-2 pr-2 pl-0 border-b border-white/5">
-                  <button
-                    onClick={() => updateGlobalBanner()}
-                    disabled={bannerUpdating}
-                    className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
-                  >
-                    {bannerUpdating ? 'Saving...' : 'Dispatch'}
-                  </button>
-
-                  {/* Auto-expire buttons */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                    <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
-                    {[
-                      { label: '1h', hours: 1 },
-                      { label: '3h', hours: 3 },
-                      { label: '12h', hours: 12 },
-                      { label: '24h', hours: 24 },
-                    ].map(({ label, hours }) => {
-                      const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
-                      return (
+                      {/* Auto-expire buttons */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                        <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
+                        {[
+                          { label: '1h', hours: 1 },
+                          { label: '3h', hours: 3 },
+                          { label: '12h', hours: 12 },
+                          { label: '24h', hours: 24 },
+                        ].map(({ label, hours }) => {
+                          const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
+                          return (
+                            <button
+                              key={label}
+                              type="button"
+                              onClick={async () => {
+                                const expiry = new Date(Date.now() + hours * 3600000).toISOString();
+                                setBannerExpiresAt(expiry);
+                                await updateGlobalBanner({ expiresAt: expiry });
+                              }}
+                              className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
+                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
+                                : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
+                                }`}
+                            >{label}</button>
+                          );
+                        })}
                         <button
-                          key={label}
                           type="button"
                           onClick={async () => {
-                            const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                            setBannerExpiresAt(expiry);
-                            await updateGlobalBanner({ expiresAt: expiry });
+                            setBannerExpiresAt(null);
+                            await updateGlobalBanner({ expiresAt: null });
                           }}
-                          className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
-                            ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
-                            : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
+                          className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
                             }`}
-                        >{label}</button>
-                      );
-                    })}
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        setBannerExpiresAt(null);
-                        await updateGlobalBanner({ expiresAt: null });
-                      }}
-                      className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
-                        }`}
-                    >Off</button>
-                  </div>
-                </div>
+                        >Off</button>
+                      </div>
+                    </div>
 
-                {/* Expiry info */}
-                {bannerExpiresAt && (
-                  <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded-lg bg-black/30 border border-white/5 w-fit">
-                    <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
-                    <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
-                    {new Date(bannerExpiresAt) < new Date() && (
-                      <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                    {/* Expiry info */}
+                    {bannerExpiresAt && (
+                      <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded-lg bg-black/30 border border-white/5 w-fit">
+                        <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
+                        <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                        {new Date(bannerExpiresAt) < new Date() && (
+                          <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
+                </>)}
               </div>
-              </>)}
             </div>
-          </div>
           </>)}
         </div>
       </section>
@@ -3429,289 +3430,289 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, acquisition channels, and visitor geo-traffic with Google Analytics integration.')}
       <div style={{ display: isSectionOpen('analytics') ? undefined : 'none' }}>
         {isSectionOpen('analytics') && (<>
-        <div className="py-6 pr-0 pl-0 space-y-6 bg-transparent text-[var(--text-color)]">
+          <div className="py-6 pr-0 pl-0 space-y-6 bg-transparent text-[var(--text-color)]">
 
-          {/* 1. Executive Top Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-[var(--card-bg)] shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Active Users</span>
-              <span className="text-2xl font-black text-[#c27aff] block">{gaData.activeUsers}</span>
-              <span className="text-[0.55rem] font-bold text-[#c27aff] uppercase tracking-widest mt-1 block"> Live Right Now</span>
-            </div>
+            {/* 1. Executive Top Metrics Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="bg-[var(--card-bg)] shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Active Users</span>
+                <span className="text-2xl font-black text-[#c27aff] block">{gaData.activeUsers}</span>
+                <span className="text-[0.55rem] font-bold text-[#c27aff] uppercase tracking-widest mt-1 block"> Live Right Now</span>
+              </div>
 
-            <div className="bg-[var(--card-bg)] shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Total Sessions</span>
-              <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.sessions.toLocaleString()}</span>
-              <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Last 30 Days</span>
-            </div>
+              <div className="bg-[var(--card-bg)] shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Total Sessions</span>
+                <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.sessions.toLocaleString()}</span>
+                <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Last 30 Days</span>
+              </div>
 
-            <div className="bg-[var(--card-bg)] shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Page Views</span>
-              <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.pageViews.toLocaleString()}</span>
-              <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
-            </div>
+              <div className="bg-[var(--card-bg)] shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Page Views</span>
+                <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.pageViews.toLocaleString()}</span>
+                <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
+              </div>
 
-            <div className="bg-[var(--card-bg)] shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
-              <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.conversionRate}</span>
-              <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
-            </div>
+              <div className="bg-[var(--card-bg)] shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
+                <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.conversionRate}</span>
+                <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
+              </div>
 
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Rev / Session</span>
-              <span className="text-2xl font-black  text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
-              <span className="text-[0.55rem] font-bold  text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
-            </div>
+              <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Rev / Session</span>
+                <span className="text-2xl font-black  text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
+                <span className="text-[0.55rem] font-bold  text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
+              </div>
 
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
-              <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Bounce Rate</span>
-              <span className="text-2xl font-black text-purple-300 block">{gaData.bounceRate}</span>
-              <span className="text-[0.55rem] font-bold text-purple-300 uppercase tracking-widest mt-1 block">High Engagement</span>
-            </div>
-          </div>
-
-          {/* 2. Traffic Acquisition Channels & Device Ratio */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-            {/* Acquisition Channels */}
-            <div className="bg-[var(--card-bg)] pt-5 pb-5  shadow-xs">
-              <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-                <span> Traffic Acquisition Channels</span>
-                <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
-              </h4>
-
-              <div className="space-y-3.5">
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]"> Organic Search (Google/Bing)</span>
-                    <span className="text-[var(--muted-text)] font-mono">42.5% (3,580)</span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '42.5%' }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]"> Direct (Typed URL & Bookmarks)</span>
-                    <span className="text-[var(--muted-text)] font-mono">28.1% (2,368)</span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-purple-500 h-full rounded-full" style={{ width: '28.1%' }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]"> Social Media (Instagram / Facebook / TikTok)</span>
-                    <span className="text-[var(--muted-text)] font-mono">19.4% (1,635)</span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-rose-500 h-full rounded-full" style={{ width: '19.4%' }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]"> SMS Alerts & Email Broadcasts</span>
-                    <span className="text-[var(--muted-text)] font-mono">7.2% (607)</span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-purple-600 h-full rounded-full" style={{ width: '7.2%' }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold mb-1">
-                    <span className="text-[var(--text-color)]"> Referrals (Venue Sites & Press)</span>
-                    <span className="text-[var(--muted-text)] font-mono">2.8% (240)</span>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '2.8%' }} />
-                  </div>
-                </div>
+              <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+                <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Bounce Rate</span>
+                <span className="text-2xl font-black text-purple-300 block">{gaData.bounceRate}</span>
+                <span className="text-[0.55rem] font-bold text-purple-300 uppercase tracking-widest mt-1 block">High Engagement</span>
               </div>
             </div>
 
-            {/* Device & Browser Hardware */}
-            <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs flex flex-col justify-between">
-              <div>
+            {/* 2. Traffic Acquisition Channels & Device Ratio */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              {/* Acquisition Channels */}
+              <div className="bg-[var(--card-bg)] pt-5 pb-5  shadow-xs">
                 <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-                  <span> User Devices & Browsers</span>
-                  <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Device Category</span>
+                  <span> Traffic Acquisition Channels</span>
+                  <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
                 </h4>
 
-                <div className="grid grid-cols-3 gap-2 text-center mb-5">
-                  <div className="">
-                    <span className="text-lg block"></span>
-                    <span className="text-xs font-black text-[var(--text-color)] block mt-1">68%</span>
-                    <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
-                  </div>
-
-                  <div className="">
-                    <span className="text-lg block"></span>
-                    <span className="text-xs font-black text-[var(--text-color)] block mt-1">27%</span>
-                    <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
-                  </div>
-
-                  <div className="">
-                    <span className="text-lg block"></span>
-                    <span className="text-xs font-black text-[var(--text-color)] block mt-1">5%</span>
-                    <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2 text-xs">
-                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
-                    <span> Mobile Safari (iPhone)</span>
-                    <span className="font-mono font-bold text-[var(--text-color)]">52.4%</span>
-                  </div>
-                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
-                    <span> Chrome Mobile (Android)</span>
-                    <span className="font-mono font-bold text-[var(--text-color)]">28.1%</span>
-                  </div>
-                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
-                    <span> Chrome Desktop</span>
-                    <span className="font-mono font-bold text-[var(--text-color)]">13.8%</span>
-                  </div>
-                  <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
-                    <span> Safari Desktop (Mac)</span>
-                    <span className="font-mono font-bold text-[var(--text-color)]">5.7%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 3. Top Performing Sitewide Pages Table */}
-          <div className="bg-[var(--card-bg)] shadow-xs">
-            <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-              <span> Top Performing Site Pages (Screen Views)</span>
-              <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
-            </h4>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="text-[var(--muted-text)] font-black uppercase tracking-wider border-b border-[var(--border-color)]">
-                    <th className="pt-3 pb-3">Page Path</th>
-                    <th className="p-3">Views</th>
-                    <th className="p-3">Users</th>
-                    <th className="p-3">Avg Time</th>
-                    <th className="p-3">Bounce</th>
-                    <th className="pt-3 pb-3 text-right">Key Event</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-color)]">
-                  <tr className="">
-                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
-                    <td className="p-3 font-mono">3,840</td>
-                    <td className="p-3 font-mono">2,910</td>
-                    <td className="p-3 font-mono">1m 42s</td>
-                    <td className="p-3 font-mono text-[var(--color-accent)]">24%</td>
-                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">842 Ticket Clicks</td>
-                  </tr>
-
-                  <tr className="">
-                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
-                    <td className="p-3 font-mono">2,120</td>
-                    <td className="p-3 font-mono">1,640</td>
-                    <td className="p-3 font-mono">2m 15s</td>
-                    <td className="p-3 font-mono text-[var(--color-accent)]">19%</td>
-                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">148 Pre-Bookings</td>
-                  </tr>
-
-                  <tr className="">
-                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
-                    <td className="p-3 font-mono">1,650</td>
-                    <td className="p-3 font-mono">1,410</td>
-                    <td className="p-3 font-mono">1m 05s</td>
-                    <td className="p-3 font-mono text-purple-300">38%</td>
-                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">410 Banner Clicks</td>
-                  </tr>
-
-                  <tr className="">
-                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
-                    <td className="p-3 font-mono">640</td>
-                    <td className="p-3 font-mono">510</td>
-                    <td className="p-3 font-mono">3m 10s</td>
-                    <td className="p-3 font-mono text-[var(--color-accent)]">15%</td>
-                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
-                  </tr>
-
-                  <tr className="">
-                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
-                    <td className="p-3 font-mono">180</td>
-                    <td className="p-3 font-mono">145</td>
-                    <td className="p-3 font-mono">0m 52s</td>
-                    <td className="p-3 font-mono text-purple-300">45%</td>
-                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">120 Video Plays</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
-          <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
-            <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
-              <span> Visitor Geo Demographics & Fan Density</span>
-              <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Top Cities</span>
-            </h4>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-              <div className="space-y-3">
-                {gaData.locations && gaData.locations.map((loc: any) => (
-                  <div key={loc.id || loc.city || loc.name || 'loc'} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                <div className="space-y-3.5">
+                  <div>
                     <div className="flex items-center justify-between text-xs font-bold mb-1">
-                      <span className="text-[var(--text-color)]"> {loc.city}</span>
-                      <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
+                      <span className="text-[var(--text-color)]"> Organic Search (Google/Bing)</span>
+                      <span className="text-[var(--muted-text)] font-mono">42.5% (3,580)</span>
                     </div>
                     <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-purple-600 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
+                      <div className="bg-blue-500 h-full rounded-full" style={{ width: '42.5%' }} />
                     </div>
                   </div>
-                ))}
-              </div>
 
-              {/* Map Preview Box */}
-              <div className="bg-black/30 border border-[var(--border-color)] p-4   text-center space-y-2">
-                <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
-                  <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1">
+                      <span className="text-[var(--text-color)]"> Direct (Typed URL & Bookmarks)</span>
+                      <span className="text-[var(--muted-text)] font-mono">28.1% (2,368)</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-purple-500 h-full rounded-full" style={{ width: '28.1%' }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1">
+                      <span className="text-[var(--text-color)]"> Social Media (Instagram / Facebook / TikTok)</span>
+                      <span className="text-[var(--muted-text)] font-mono">19.4% (1,635)</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-rose-500 h-full rounded-full" style={{ width: '19.4%' }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1">
+                      <span className="text-[var(--text-color)]"> SMS Alerts & Email Broadcasts</span>
+                      <span className="text-[var(--muted-text)] font-mono">7.2% (607)</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-purple-600 h-full rounded-full" style={{ width: '7.2%' }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1">
+                      <span className="text-[var(--text-color)]"> Referrals (Venue Sites & Press)</span>
+                      <span className="text-[var(--muted-text)] font-mono">2.8% (240)</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-emerald-500 h-full rounded-full" style={{ width: '2.8%' }} />
+                    </div>
+                  </div>
                 </div>
-                <p className="text-[var(--font-size-3xs)] text-[var(--muted-text)] font-bold uppercase tracking-wider">
-                  Real-time geographic fan heatmaps for tour routing optimization.
-                </p>
               </div>
-            </div>
-          </div>
 
-          {/* 5. GA4 Tracking Connection & Shopify Notice */}
-          <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4 text-[var(--text-color)]">
-            <div className="flex items-start gap-3">
-              <span className="text-xl mt-1 sm:mt-0"></span>
-              <div>
-                <p className="text-xs font-black text-[var(--text-color)]">Google Analytics GA4 Active</p>
-                <p className="text-[0.6rem] text-[var(--muted-text)] font-mono font-bold uppercase tracking-widest">
-                  Tracking Live Tag: <span className="text-emerald-400 font-bold">G-HS8X0ZD66V</span>
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
-              <div className="flex items-start gap-2">
-                <span className="text-purple-300 text-sm"></span>
+              {/* Device & Browser Hardware */}
+              <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs flex flex-col justify-between">
                 <div>
-                  <p className="text-[0.65rem] font-black text-purple-300 uppercase tracking-widest">Shopify E-Commerce Link</p>
-                  <p className="text-[0.6rem] text-[var(--muted-text)] font-semibold leading-snug mt-1 max-w-[320px]">
-                    To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong className="text-[var(--text-color)] font-black">G-HS8X0ZD66V</strong>.
+                  <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+                    <span> User Devices & Browsers</span>
+                    <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Device Category</span>
+                  </h4>
+
+                  <div className="grid grid-cols-3 gap-2 text-center mb-5">
+                    <div className="">
+                      <span className="text-lg block"></span>
+                      <span className="text-xs font-black text-[var(--text-color)] block mt-1">68%</span>
+                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
+                    </div>
+
+                    <div className="">
+                      <span className="text-lg block"></span>
+                      <span className="text-xs font-black text-[var(--text-color)] block mt-1">27%</span>
+                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
+                    </div>
+
+                    <div className="">
+                      <span className="text-lg block"></span>
+                      <span className="text-xs font-black text-[var(--text-color)] block mt-1">5%</span>
+                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
+                      <span> Mobile Safari (iPhone)</span>
+                      <span className="font-mono font-bold text-[var(--text-color)]">52.4%</span>
+                    </div>
+                    <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
+                      <span> Chrome Mobile (Android)</span>
+                      <span className="font-mono font-bold text-[var(--text-color)]">28.1%</span>
+                    </div>
+                    <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
+                      <span> Chrome Desktop</span>
+                      <span className="font-mono font-bold text-[var(--text-color)]">13.8%</span>
+                    </div>
+                    <div className="flex items-center justify-between font-semibold text-[var(--text-color)]">
+                      <span> Safari Desktop (Mac)</span>
+                      <span className="font-mono font-bold text-[var(--text-color)]">5.7%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Top Performing Sitewide Pages Table */}
+            <div className="bg-[var(--card-bg)] shadow-xs">
+              <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+                <span> Top Performing Site Pages (Screen Views)</span>
+                <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
+              </h4>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="text-[var(--muted-text)] font-black uppercase tracking-wider border-b border-[var(--border-color)]">
+                      <th className="pt-3 pb-3">Page Path</th>
+                      <th className="p-3">Views</th>
+                      <th className="p-3">Users</th>
+                      <th className="p-3">Avg Time</th>
+                      <th className="p-3">Bounce</th>
+                      <th className="pt-3 pb-3 text-right">Key Event</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-color)]">
+                    <tr className="">
+                      <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
+                      <td className="p-3 font-mono">3,840</td>
+                      <td className="p-3 font-mono">2,910</td>
+                      <td className="p-3 font-mono">1m 42s</td>
+                      <td className="p-3 font-mono text-[var(--color-accent)]">24%</td>
+                      <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">842 Ticket Clicks</td>
+                    </tr>
+
+                    <tr className="">
+                      <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
+                      <td className="p-3 font-mono">2,120</td>
+                      <td className="p-3 font-mono">1,640</td>
+                      <td className="p-3 font-mono">2m 15s</td>
+                      <td className="p-3 font-mono text-[var(--color-accent)]">19%</td>
+                      <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">148 Pre-Bookings</td>
+                    </tr>
+
+                    <tr className="">
+                      <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
+                      <td className="p-3 font-mono">1,650</td>
+                      <td className="p-3 font-mono">1,410</td>
+                      <td className="p-3 font-mono">1m 05s</td>
+                      <td className="p-3 font-mono text-purple-300">38%</td>
+                      <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">410 Banner Clicks</td>
+                    </tr>
+
+                    <tr className="">
+                      <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
+                      <td className="p-3 font-mono">640</td>
+                      <td className="p-3 font-mono">510</td>
+                      <td className="p-3 font-mono">3m 10s</td>
+                      <td className="p-3 font-mono text-[var(--color-accent)]">15%</td>
+                      <td className="pt-3 pb-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
+                    </tr>
+
+                    <tr className="">
+                      <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
+                      <td className="p-3 font-mono">180</td>
+                      <td className="p-3 font-mono">145</td>
+                      <td className="p-3 font-mono">0m 52s</td>
+                      <td className="p-3 font-mono text-purple-300">45%</td>
+                      <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">120 Video Plays</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
+            <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
+              <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+                <span> Visitor Geo Demographics & Fan Density</span>
+                <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Top Cities</span>
+              </h4>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="space-y-3">
+                  {gaData.locations && gaData.locations.map((loc: any) => (
+                    <div key={loc.id || loc.city || loc.name || 'loc'} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                      <div className="flex items-center justify-between text-xs font-bold mb-1">
+                        <span className="text-[var(--text-color)]"> {loc.city}</span>
+                        <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                        <div className="bg-purple-600 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Map Preview Box */}
+                <div className="bg-black/30 border border-[var(--border-color)] p-4   text-center space-y-2">
+                  <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
+                    <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
+                  </div>
+                  <p className="text-[var(--font-size-3xs)] text-[var(--muted-text)] font-bold uppercase tracking-wider">
+                    Real-time geographic fan heatmaps for tour routing optimization.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
+            {/* 5. GA4 Tracking Connection & Shopify Notice */}
+            <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4 text-[var(--text-color)]">
+              <div className="flex items-start gap-3">
+                <span className="text-xl mt-1 sm:mt-0"></span>
+                <div>
+                  <p className="text-xs font-black text-[var(--text-color)]">Google Analytics GA4 Active</p>
+                  <p className="text-[0.6rem] text-[var(--muted-text)] font-mono font-bold uppercase tracking-widest">
+                    Tracking Live Tag: <span className="text-emerald-400 font-bold">G-HS8X0ZD66V</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
+                <div className="flex items-start gap-2">
+                  <span className="text-purple-300 text-sm"></span>
+                  <div>
+                    <p className="text-[0.65rem] font-black text-purple-300 uppercase tracking-widest">Shopify E-Commerce Link</p>
+                    <p className="text-[0.6rem] text-[var(--muted-text)] font-semibold leading-snug mt-1 max-w-[320px]">
+                      To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong className="text-[var(--text-color)] font-black">G-HS8X0ZD66V</strong>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </>)}
       </div>
     </section>
@@ -3794,158 +3795,261 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
       <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
         {isSectionOpen('shopify') && (<>
-        {shopifyTab === 'shopify' ? (
-          shopifyLoading ? (
-            <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
-          ) : shopifyError ? (
-            <div className="p-16 text-center">
-              <span className="text-4xl opacity-20 block mb-4"></span>
-              <p className="text-white/40 text-sm">{shopifyError}</p>
-              <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
-            </div>
-          ) : shopifyData?.mode === 'inventory' ? (
-            <div className="py-6 pl-0">
-              {shopifyData.needsOrderScope && (
-                <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
-                  <span className="text-purple-300 text-lg"></span>
-                  <div>
-                    <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
-                    <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
+          {shopifyTab === 'shopify' ? (
+            shopifyLoading ? (
+              <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
+            ) : shopifyError ? (
+              <div className="p-16 text-center">
+                <span className="text-4xl opacity-20 block mb-4"></span>
+                <p className="text-white/40 text-sm">{shopifyError}</p>
+                <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
+              </div>
+            ) : shopifyData?.mode === 'inventory' ? (
+              <div className="py-6 pl-0">
+                {shopifyData.needsOrderScope && (
+                  <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
+                    <span className="text-purple-300 text-lg"></span>
+                    <div>
+                      <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
+                      <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
+                    </div>
+                  </div>
+                )}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  <div className="bg-black/30 border border-[#96bf48]/20 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
+                    <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
+                    <p className="text-2xl font-black text-white">{shopifyData.summary.totalProducts}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
+                    <p className="text-2xl font-black text-white">{shopifyData.summary.totalInventory}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
+                    <p className="text-2xl font-black text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
                   </div>
                 </div>
-              )}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
-                  <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
-                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalProducts}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
-                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalInventory}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
-                  <p className="text-2xl font-black text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
-                </div>
-              </div>
-              <div className="bg-black/20 border border-white/5 overflow-hidden">
-                <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4></div>
-                <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                  <table className="w-full text-left">
-                    <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                      <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
-                    </tr></thead>
-                    <tbody>
-                      {shopifyData.products.map((p: any) => (
-                        <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
-                              <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <button
-                              type="button"
-                              onClick={() => openQrModal(p)}
-                              className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
-                              title="View & Print QR Code"
-                            >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
-                            </button>
-                          </td>
-                          <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
-                          <td className="px-4 py-3 text-right">
-                            <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
-                          </td>
-                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          ) : shopifyData ? (
-            <div className="py-6 pl-0">
-              {/* Revenue Metrics Row */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
-                  <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
-                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalOrders}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
-                    {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
-                  </p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
-                  <p className="text-2xl font-black text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
-                </div>
-                <div className="bg-black/30 border border-white/10 p-5">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
-                  <p className="text-2xl font-black text-[var(--color-accent)]">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                  {shopifyData.summary.totalRefunded > 0 && (
-                    <p className="text-[0.55rem] text-rose-400 mt-1 uppercase tracking-widest">
-                      -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Two Column: Top Products + Revenue Chart */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {/* Top Products */}
                 <div className="bg-black/20 border border-white/5 overflow-hidden">
-                  <div className="p-4 border-b border-white/5">
-                    <h4 className="text-sm font-bold flex items-center gap-2">
-                      Top Products
-                    </h4>
+                  <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4></div>
+                  <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                    <table className="w-full text-left">
+                      <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                        <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
+                      </tr></thead>
+                      <tbody>
+                        {shopifyData.products.map((p: any) => (
+                          <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-3">
+                                {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                                <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <button
+                                type="button"
+                                onClick={() => openQrModal(p)}
+                                className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                                title="View & Print QR Code"
+                              >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className=" text-white  group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                              </button>
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-sm  text-white ">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                            <td className="px-4 py-3 text-right">
+                              <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                  <div className="p-0">
-                    {shopifyData.topProducts.length === 0 ? (
-                      <div className="p-8 text-center text-white/30 text-xs">No product data</div>
+                </div>
+              </div>
+            ) : shopifyData ? (
+              <div className="py-6 pl-0">
+                {/* Revenue Metrics Row */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  <div className="bg-black/30 border border-[#96bf48]/20 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
+                    <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
+                    <p className="text-2xl font-black text-white">{shopifyData.summary.totalOrders}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
+                      {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
+                    </p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
+                    <p className="text-2xl font-black text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
+                  </div>
+                  <div className="bg-black/30 border border-white/10 p-5">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
+                    <p className="text-2xl font-black text-[var(--color-accent)]">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    {shopifyData.summary.totalRefunded > 0 && (
+                      <p className="text-[0.55rem] text-rose-400 mt-1 uppercase tracking-widest">
+                        -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Two Column: Top Products + Revenue Chart */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                  {/* Top Products */}
+                  <div className="bg-black/20 border border-white/5 overflow-hidden">
+                    <div className="p-4 border-b border-white/5">
+                      <h4 className="text-sm font-bold flex items-center gap-2">
+                        Top Products
+                      </h4>
+                    </div>
+                    <div className="p-0">
+                      {shopifyData.topProducts.length === 0 ? (
+                        <div className="p-8 text-center text-white/30 text-xs">No product data</div>
+                      ) : (
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                              <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                              <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Qty</th>
+                              <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Revenue</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {shopifyData.topProducts.map((p: any, i: number) => (
+                              <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                <td className="px-4 py-3">
+                                  <div className="flex items-center gap-3">
+                                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
+                                      i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
+                                        i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
+                                          'bg-[#e1e6ff29]   text-white/30 border border-white/10'
+                                      }`}>{i + 1}</span>
+                                    <span className="text-sm font-bold truncate max-w-[180px]">{p.title}</span>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3 text-right font-mono text-sm  text-white ">{p.qty}</td>
+                                <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${p.revenue.toFixed(2)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Daily Revenue Mini-Chart */}
+                  <div className="bg-black/20 border border-white/5 overflow-hidden">
+                    <div className="p-4 border-b border-white/5">
+                      <h4 className="text-sm font-bold flex items-center gap-2">
+                        Daily Revenue
+                      </h4>
+                    </div>
+                    <div className="p-4">
+                      {Object.keys(shopifyData.dailyRevenue).length === 0 ? (
+                        <div className="p-8 text-center text-white/30 text-xs">No data in this period</div>
+                      ) : (
+                        <div className="space-y-2">
+                          {Object.entries(shopifyData.dailyRevenue)
+                            .sort(([a], [b]) => a.localeCompare(b))
+                            .slice(-14)
+                            .map(([date, amount]: [string, any], idx: number) => {
+                              const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
+                              const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
+                              return (
+                                <div key={`daily-rev-${date}`} className="flex items-center gap-3">
+                                  <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
+                                    {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                  </span>
+                                  <div className="flex-1 h-5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-colors duration-500"
+                                      style={{ width: `${Math.max(pct, 2)}%` }}
+                                    />
+                                  </div>
+                                  <span className="text-[0.65rem] font-mono font-bold  text-white  w-16 text-right">${Number(amount).toFixed(0)}</span>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recent Orders */}
+                <div className="bg-black/20 border border-white/5 overflow-hidden">
+                  <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                    <h4 className="text-sm font-bold flex items-center gap-2">
+                      Recent Orders
+                    </h4>
+                    <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
+                  </div>
+                  <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                    {shopifyData.orders.length === 0 ? (
+                      <div className="p-8 text-center text-white/30 text-xs">No orders in this period</div>
                     ) : (
                       <table className="w-full text-left">
-                        <thead>
-                          <tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                            <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                            <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Qty</th>
-                            <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Revenue</th>
+                        <thead className="sticky top-0 z-10">
+                          <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25">
+                            <th className="px-4 py-3 font-bold border-b border-white/5">Order</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5">Customer</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5">Items</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5">Status</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Total</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {shopifyData.topProducts.map((p: any, i: number) => (
-                            <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          {shopifyData.orders.map((order: any) => (
+                            <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                               <td className="px-4 py-3">
-                                <div className="flex items-center gap-3">
-                                  <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
-                                    i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
-                                      i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
-                                        'bg-[#e1e6ff29]   text-white/30 border border-white/10'
-                                    }`}>{i + 1}</span>
-                                  <span className="text-sm font-bold truncate max-w-[180px]">{p.title}</span>
+                                <div className="font-mono text-sm font-bold text-[#96bf48]">{order.name}</div>
+                                <div className="text-[0.55rem] text-white/30">
+                                  {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                 </div>
                               </td>
-                              <td className="px-4 py-3 text-right font-mono text-sm text-white/60">{p.qty}</td>
-                              <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${p.revenue.toFixed(2)}</td>
+                              <td className="px-4 py-3">
+                                <div className="text-sm font-bold truncate max-w-[120px]">{order.customer.name}</div>
+                                {order.customer.ordersCount > 1 && (
+                                  <span className="text-[0.5rem]  text-[var(--color-accent)] font-bold uppercase tracking-widest">Repeat ({order.customer.ordersCount}×)</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className="text-sm  text-white ">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex flex-col gap-1">
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                    : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                    }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
+                                  {order.fulfillmentStatus && (
+                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                      : 'bg-[#e1e6ff29]   text-white/30 border border-white/10'
+                                      }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                <span className="font-mono text-sm font-bold">${order.total.toFixed(2)}</span>
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -3954,100 +4058,191 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 </div>
 
-                {/* Daily Revenue Mini-Chart */}
-                <div className="bg-black/20 border border-white/5 overflow-hidden">
-                  <div className="p-4 border-b border-white/5">
-                    <h4 className="text-sm font-bold flex items-center gap-2">
-                      Daily Revenue
-                    </h4>
-                  </div>
-                  <div className="p-4">
-                    {Object.keys(shopifyData.dailyRevenue).length === 0 ? (
-                      <div className="p-8 text-center text-white/30 text-xs">No data in this period</div>
-                    ) : (
-                      <div className="space-y-2">
-                        {Object.entries(shopifyData.dailyRevenue)
-                          .sort(([a], [b]) => a.localeCompare(b))
-                          .slice(-14)
-                          .map(([date, amount]: [string, any], idx: number) => {
-                            const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
-                            const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
-                            return (
-                              <div key={`daily-rev-${date}`} className="flex items-center gap-3">
-                                <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
-                                  {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                </span>
-                                <div className="flex-1 h-5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
-                                  <div
-                                    className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-colors duration-500"
-                                    style={{ width: `${Math.max(pct, 2)}%` }}
-                                  />
-                                </div>
-                                <span className="text-[0.65rem] font-mono font-bold text-white/60 w-16 text-right">${Number(amount).toFixed(0)}</span>
+                {/* Product Inventory (always shown in orders mode too) */}
+                {shopifyData.products && shopifyData.products.length > 0 && (
+                  <div className="bg-black/20 border border-white/5 overflow-hidden mt-8">
+                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                      <h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4>
+                      {shopifyData.inventory && (
+                        <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">
+                          {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
+                        </span>
+                      )}
+                    </div>
+                    <table className="w-full text-left">
+                      <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                        <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
+                        <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
+                      </tr></thead>
+                      <tbody>
+                        {shopifyData.products.map((p: any) => (
+                          <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-3">
+                                {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                                <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
                               </div>
-                            );
-                          })}
-                      </div>
-                    )}
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <button
+                                type="button"
+                                onClick={() => openQrModal(p)}
+                                className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                                title="View & Print QR Code"
+                              >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className=" text-white  group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                              </button>
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-sm  text-white ">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                            <td className="px-4 py-3 text-right">
+                              <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
+                )}
+              </div>
+            ) : null) : (
+            <div className="py-6 pl-0 transition-opacity duration-300 ease-out">
+              {/* Simulated Metrics Grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-colors">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] mb-2">Simulated Revenue</p>
+                  <p className="text-2xl font-black text-white font-mono">
+                    ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                  </p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
+                  <p className="text-2xl font-black text-white font-mono">
+                    {simulatedOrders.filter(o => o.source === 'Store').length}
+                  </p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
+                  <p className="text-2xl font-black text-white font-mono">
+                    {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
+                  </p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
+                  <p className="text-2xl font-black text-white font-mono">
+                    {simulatedOrders.filter(o => o.source === 'Raffle').length}
+                  </p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
                 </div>
               </div>
 
-              {/* Recent Orders */}
+              {/* Fulfillment & Pack Tracking Table */}
               <div className="bg-black/20 border border-white/5 overflow-hidden">
-                <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
                   <h4 className="text-sm font-bold flex items-center gap-2">
-                    Recent Orders
+                    Simulated Order Fulfillment & Package Tracking Queue
                   </h4>
-                  <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
+                  <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
                 </div>
-                <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                  {shopifyData.orders.length === 0 ? (
-                    <div className="p-8 text-center text-white/30 text-xs">No orders in this period</div>
+                <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                  {simulatedOrders.length === 0 ? (
+                    <div className="p-8 text-center text-white/30 text-xs">No simulated orders yet. Go to store page and purchase items!</div>
                   ) : (
                     <table className="w-full text-left">
-                      <thead className="sticky top-0 z-10">
-                        <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25">
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Order</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Customer</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Items</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Status</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Total</th>
+                      <thead>
+                        <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
+                          <th className="px-4 py-3 font-bold">Order ID</th>
+                          <th className="px-4 py-3 font-bold">Customer</th>
+                          <th className="px-4 py-3 font-bold">Item Details</th>
+                          <th className="px-4 py-3 font-bold">Source</th>
+                          <th className="px-4 py-3 font-bold">Fulfillment Status</th>
+                          <th className="px-4 py-3 font-bold">Actions</th>
+                          <th className="px-4 py-3 font-bold text-right">Price</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {shopifyData.orders.map((order: any) => (
+                        {simulatedOrders.map((order) => (
                           <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                             <td className="px-4 py-3">
-                              <div className="font-mono text-sm font-bold text-[#96bf48]">{order.name}</div>
-                              <div className="text-[0.55rem] text-white/30">
-                                {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                              <div className="font-mono text-xs font-bold  text-[var(--color-accent)]">#SIM-{order.id.toString().slice(-6)}</div>
+                              <div className="text-[0.55rem] text-white/30 mt-0.5">
+                                {new Date(order.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                               </div>
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-sm font-bold truncate max-w-[120px]">{order.customer.name}</div>
-                              {order.customer.ordersCount > 1 && (
-                                <span className="text-[0.5rem]  text-[var(--color-accent)] font-bold uppercase tracking-widest">Repeat ({order.customer.ordersCount}×)</span>
+                              <div className="text-sm font-bold text-white/90">{order.customer}</div>
+                              <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
+                              {order.address && (
+                                <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
+                                  {order.address}, {order.city}
+                                </div>
                               )}
                             </td>
                             <td className="px-4 py-3">
-                              <span className="text-sm text-white/60">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
+                              <div className="text-sm text-white/80 font-bold">{order.item}</div>
+                              {(order.size || order.color) && (
+                                <div className="text-[0.6rem] text-white/40 mt-0.5">
+                                  {order.size && <span>Size: {order.size}</span>}
+                                  {order.size && order.color && <span> · </span>}
+                                  {order.color && <span>Color: {order.color}</span>}
+                                </div>
+                              )}
+                              {order.method && (
+                                <div className="text-[0.55rem]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider mt-0.5">
+                                  {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
+                                : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                  : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                }`}>{order.source}</span>
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex flex-col gap-1">
-                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
-                                  : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                                    : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                  }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
-                                {order.fulfillmentStatus && (
-                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                    : 'bg-[#e1e6ff29]   text-white/30 border border-white/10'
-                                    }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
+                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                  : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                    : 'bg-[#e1e6ff29]   text-white/40 border border-white/10'
+                                  }`}>{order.status}</span>
+                                {order.trackingNumber && (
+                                  <div className="text-[0.55rem] font-mono text-[var(--color-accent)]/80 mt-0.5">
+                                    {order.trackingNumber}
+                                  </div>
                                 )}
                               </div>
                             </td>
-                            <td className="px-4 py-3 text-right">
-                              <span className="font-mono text-sm font-bold">${order.total.toFixed(2)}</span>
+                            <td className="px-4 py-3">
+                              {order.status === 'Pending' && order.method === 'shipping' && (
+                                <button
+                                  onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
+                                  className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
+                                >
+                                  Ship Package
+                                </button>
+                              )}
+                              {order.status === 'Ready for Pickup' && (
+                                <button
+                                  onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
+                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
+                                >
+                                  Claim Merch
+                                </button>
+                              )}
+                              {(order.status === 'Shipped' || order.status === 'Claimed') && (
+                                <span className="text-[0.55rem] text-[var(--color-accent)]/60 font-bold uppercase tracking-wider">
+                                  Complete
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">
+                              {order.price || '$0.00'}
                             </td>
                           </tr>
                         ))}
@@ -4056,202 +4251,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   )}
                 </div>
               </div>
-
-              {/* Product Inventory (always shown in orders mode too) */}
-              {shopifyData.products && shopifyData.products.length > 0 && (
-                <div className="bg-black/20 border border-white/5 overflow-hidden mt-8">
-                  <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                    <h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4>
-                    {shopifyData.inventory && (
-                      <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">
-                        {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
-                      </span>
-                    )}
-                  </div>
-                  <table className="w-full text-left">
-                    <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                      <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
-                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
-                    </tr></thead>
-                    <tbody>
-                      {shopifyData.products.map((p: any) => (
-                        <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
-                              <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <button
-                              type="button"
-                              onClick={() => openQrModal(p)}
-                              className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
-                              title="View & Print QR Code"
-                            >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
-                            </button>
-                          </td>
-                          <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
-                          <td className="px-4 py-3 text-right">
-                            <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
-                          </td>
-                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
             </div>
-          ) : null) : (
-          <div className="py-6 pl-0 transition-opacity duration-300 ease-out">
-            {/* Simulated Metrics Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-colors">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] mb-2">Simulated Revenue</p>
-                <p className="text-2xl font-black text-white font-mono">
-                  ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                </p>
-                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
-              </div>
-              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
-                <p className="text-2xl font-black text-white font-mono">
-                  {simulatedOrders.filter(o => o.source === 'Store').length}
-                </p>
-                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
-              </div>
-              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
-                <p className="text-2xl font-black text-white font-mono">
-                  {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
-                </p>
-                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
-              </div>
-              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
-                <p className="text-2xl font-black text-white font-mono">
-                  {simulatedOrders.filter(o => o.source === 'Raffle').length}
-                </p>
-                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
-              </div>
-            </div>
-
-            {/* Fulfillment & Pack Tracking Table */}
-            <div className="bg-black/20 border border-white/5 overflow-hidden">
-              <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
-                <h4 className="text-sm font-bold flex items-center gap-2">
-                  Simulated Order Fulfillment & Package Tracking Queue
-                </h4>
-                <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
-              </div>
-              <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                {simulatedOrders.length === 0 ? (
-                  <div className="p-8 text-center text-white/30 text-xs">No simulated orders yet. Go to store page and purchase items!</div>
-                ) : (
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
-                        <th className="px-4 py-3 font-bold">Order ID</th>
-                        <th className="px-4 py-3 font-bold">Customer</th>
-                        <th className="px-4 py-3 font-bold">Item Details</th>
-                        <th className="px-4 py-3 font-bold">Source</th>
-                        <th className="px-4 py-3 font-bold">Fulfillment Status</th>
-                        <th className="px-4 py-3 font-bold">Actions</th>
-                        <th className="px-4 py-3 font-bold text-right">Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {simulatedOrders.map((order) => (
-                        <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="px-4 py-3">
-                            <div className="font-mono text-xs font-bold  text-[var(--color-accent)]">#SIM-{order.id.toString().slice(-6)}</div>
-                            <div className="text-[0.55rem] text-white/30 mt-0.5">
-                              {new Date(order.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="text-sm font-bold text-white/90">{order.customer}</div>
-                            <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
-                            {order.address && (
-                              <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
-                                {order.address}, {order.city}
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="text-sm text-white/80 font-bold">{order.item}</div>
-                            {(order.size || order.color) && (
-                              <div className="text-[0.6rem] text-white/40 mt-0.5">
-                                {order.size && <span>Size: {order.size}</span>}
-                                {order.size && order.color && <span> · </span>}
-                                {order.color && <span>Color: {order.color}</span>}
-                              </div>
-                            )}
-                            {order.method && (
-                              <div className="text-[0.55rem]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider mt-0.5">
-                                {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-4 py-3">
-                            <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
-                              : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                              }`}>{order.source}</span>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                              <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
-                                : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                  : 'bg-[#e1e6ff29]   text-white/40 border border-white/10'
-                                }`}>{order.status}</span>
-                              {order.trackingNumber && (
-                                <div className="text-[0.55rem] font-mono text-[var(--color-accent)]/80 mt-0.5">
-                                  {order.trackingNumber}
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            {order.status === 'Pending' && order.method === 'shipping' && (
-                              <button
-                                onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
-                                className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
-                              >
-                                Ship Package
-                              </button>
-                            )}
-                            {order.status === 'Ready for Pickup' && (
-                              <button
-                                onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
-                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
-                              >
-                                Claim Merch
-                              </button>
-                            )}
-                            {(order.status === 'Shipped' || order.status === 'Claimed') && (
-                              <span className="text-[0.55rem] text-[var(--color-accent)]/60 font-bold uppercase tracking-wider">
-                                Complete
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">
-                            {order.price || '$0.00'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+          )}
         </>)}
       </div>
     </section>
@@ -4278,264 +4279,264 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
       <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
         {isSectionOpen('bookings') && (<>
-        <div className="p-0">
-          {bookings.length === 0 ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
-          ) : (
-            <div className="w-full overflow-x-auto">
-              <table className="w-full text-left border-collapse min-w-full">
-                <thead>
-                  <tr className="border-b border-[#ffffff1f] text-left text-xs uppercase text-[var(--muted-text)] font-extrabold tracking-wider">
-                    <th className="pr-4 pt-4 pb-4 font-black border-b border-[#ffffff1f] pl-0">ID</th>
-                    <th className="p-4 font-black border-b border-[#ffffff1f]">Client</th>
-                    <th className="p-4 font-black border-b border-[#ffffff1f]">Event Type</th>
-                    <th className="p-4 font-black border-b border-[#ffffff1f]">Date</th>
-                    <th className="p-4 font-black border-b border-[#ffffff1f]">Venue</th>
-                    <th className="pt-4 pb-4 pl-4 pr-0 font-black border-b border-[#ffffff1f] text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.slice().reverse().map((b: any) => (
-                    <React.Fragment key={b.bookingId}>
-                      <tr className="border-b border-[#ffffff1f]">
-                        <td
-                          role="button"
-                          tabIndex={0}
-                          className="pr-4 pt-4 pb-4 border-b border-[#ffffff1f] font-mono text-[0.75rem] text-purple-400font-black cursor-pointer hover:underline pl-0"
-                          onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId);
-                            }
-                          }}
-                        >
-                          {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
-                        </td>
-                        <td className="p-4 border-b border-[#ffffff1f] relative">
-                          <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
-                          <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+          <div className="p-0">
+            {bookings.length === 0 ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
+            ) : (
+              <div className="w-full overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-full">
+                  <thead>
+                    <tr className="border-b border-[#ffffff1f] text-left text-xs uppercase text-[var(--muted-text)] font-extrabold tracking-wider">
+                      <th className="pr-4 pt-4 pb-4 font-black border-b border-[#ffffff1f] pl-0">ID</th>
+                      <th className="p-4 font-black border-b border-[#ffffff1f]">Client</th>
+                      <th className="p-4 font-black border-b border-[#ffffff1f]">Event Type</th>
+                      <th className="p-4 font-black border-b border-[#ffffff1f]">Date</th>
+                      <th className="p-4 font-black border-b border-[#ffffff1f]">Venue</th>
+                      <th className="pt-4 pb-4 pl-4 pr-0 font-black border-b border-[#ffffff1f] text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bookings.slice().reverse().map((b: any) => (
+                      <React.Fragment key={b.bookingId}>
+                        <tr className="border-b border-[#ffffff1f]">
+                          <td
+                            role="button"
+                            tabIndex={0}
+                            className="pr-4 pt-4 pb-4 border-b border-[#ffffff1f] font-mono text-[0.75rem] text-purple-400font-black cursor-pointer hover:underline pl-0"
+                            onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId);
+                              }
+                            }}
+                          >
+                            {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
+                          </td>
+                          <td className="p-4 border-b border-[#ffffff1f] relative">
+                            <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
+                            <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
 
-                          {editingInlineLoadInId === b.bookingId ? (
-                            <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
-                              <p className="text-[10px] font-black text-purple-300 uppercase tracking-wider">Set Official Load-In / Out Time:</p>
-                              <div className="input-glow-border rounded-lg w-full">
-                                <input
-                                  type="text"
-                                  autoFocus
-                                  value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
-                                  onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
-                                  onKeyDown={async (e) => {
-                                    if (e.key === "Enter") {
-                                      e.preventDefault();
-                                      await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
-                                      setEditingInlineLoadInId(null);
-                                    } else if (e.key === "Escape") {
-                                      setEditingInlineLoadInId(null);
-                                    }
-                                  }}
-                                  placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                  className="w-full bg-transparent border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none placeholder:text-white/40"
-                                />
-                              </div>
-                              <div className="flex items-center justify-between gap-1.5 pt-0.5">
-                                <button
-                                  type="button"
-                                  onClick={() => setEditingInlineLoadInId(null)}
-                                  className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  disabled={loadInSaving[b.bookingId]}
-                                  onClick={async () => {
-                                    await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
-                                    setEditingInlineLoadInId(null);
-                                  }}
-                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black text-[9px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
-                                >
-                                  {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setEditingInlineLoadInId(b.bookingId)}
-                              title="Click to set official load-in/out time and email planner"
-                              className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-black uppercase tracking-wider px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
-                                ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
-                                : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
-                                }`}
-                            >
-                              {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
-                                <>⚡ Load-In Unsure (Click to Set) ✍️</>
-                              ) : (
-                                <>🕒 {b.loadInTime || b.load_in_time} (Edit) ✍️</>
-                              )}
-                            </button>
-                          )}
-                        </td>
-                        <td className="p-4 border-b border-[#ffffff1f] text-sm text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
-                        <td className="p-4 border-b border-[#ffffff1f] text-sm text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
-                        <td className="p-4 border-b border-[#ffffff1f]">
-                          <div className="text-sm text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
-                          <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
-                        </td>
-                        <td className="pt-4 pb-4 pl-4 pr-0 border-b border-[#ffffff1f] text-right">
-                          <div className="flex items-center justify-end gap-2 flex-wrap">
-                            <span className={`px-2.5 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-widest ${b.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                              : b.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                              }`}>{b.status}</span>
-                            {b.status === 'pending' && (
-                              <div className="flex items-center gap-1.5 ml-1">
-                                <button
-                                  aria-label="Approve booking"
-                                  disabled={updatingBookingId === b.bookingId}
-                                  onClick={async () => {
-                                    if (bookingUpdatingRef.current) return;
-                                    if (!confirm(`Approve booking ${b.bookingId}?`)) return;
-                                    bookingUpdatingRef.current = true;
-                                    setUpdatingBookingId(b.bookingId);
-                                    try {
-                                      const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
-                                      if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
-                                    } finally {
-                                      bookingUpdatingRef.current = false;
-                                      setUpdatingBookingId(null);
-                                    }
-                                  }}
-                                  className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
-                                >
-                                  {updatingBookingId === b.bookingId ? '...' : 'Approve'}
-                                </button>
-                                <button
-                                  aria-label="Reject booking"
-                                  disabled={updatingBookingId === b.bookingId}
-                                  onClick={async () => {
-                                    if (bookingUpdatingRef.current) return;
-                                    if (!confirm(`Reject booking ${b.bookingId}?`)) return;
-                                    bookingUpdatingRef.current = true;
-                                    setUpdatingBookingId(b.bookingId);
-                                    try {
-                                      const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
-                                      if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
-                                    } finally {
-                                      bookingUpdatingRef.current = false;
-                                      setUpdatingBookingId(null);
-                                    }
-                                  }}
-                                  className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
-                                >
-                                  {updatingBookingId === b.bookingId ? '...' : 'Reject'}
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                      {expandedBooking === b.bookingId && (
-                        <tr>
-                          <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
-                              <div>
-                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
-                                <p className="text-sm font-semibold text-black dark:text-white">
-                                  {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
-                                <p className="text-sm font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
-                              </div>
-                              <div>
-                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
-                                <p className="text-sm font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
-                              </div>
-                              <div>
-                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
-                                <p className="text-sm font-semibold text-cyan-400">
-                                  {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
-                                {b.ticketLink ? (
-                                  <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
-                                    {b.ticketLink}
-                                  </a>
-                                ) : (
-                                  <p className="text-sm text-black/30 dark:text-white/20">—</p>
-                                )}
-                              </div>
-                              {b.details && (
-                                <div className="col-span-2 sm:col-span-4 mt-2">
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
-                                  <p className="text-xs text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
-                                </div>
-                              )}
-                              {b.plannerNotes && (
-                                <div className="col-span-2 sm:col-span-4 mt-2">
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
-                                  <p className="text-xs text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
-                                </div>
-                              )}
-
-                              {/* Official Load-In Setup Manager Widget */}
-                              <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30  rounded-lg space-y-3">
-                                <div className="flex items-center justify-between gap-2 flex-wrap">
-                                  <p className="text-xs uppercase tracking-widest text-purple-300 font-extrabold flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
-                                  </p>
-                                  {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
-                                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                                      ⚡ Planner Unsure — Pending Admin Confirmation
-                                    </span>
-                                  )}
-                                </div>
-
-                                <p className="text-xs text-white/70">
-                                  Set or update the official load-in setup time below. Clicking <strong>"Save & Email Planner"</strong> updates the record and sends an email confirmation directly to <strong>{b.plannerEmail || b.email}</strong>.
-                                </p>
-
-                                <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
+                            {editingInlineLoadInId === b.bookingId ? (
+                              <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
+                                <p className="text-[10px] font-black text-purple-300 uppercase tracking-wider">Set Official Load-In / Out Time:</p>
+                                <div className="input-glow-border rounded-lg w-full">
                                   <input
                                     type="text"
+                                    autoFocus
                                     value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
                                     onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
-                                    placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    className="flex-1 bg-[#e1e6ff29]   border border-white/15 rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
+                                    onKeyDown={async (e) => {
+                                      if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
+                                        setEditingInlineLoadInId(null);
+                                      } else if (e.key === "Escape") {
+                                        setEditingInlineLoadInId(null);
+                                      }
+                                    }}
+                                    placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
+                                    className="w-full bg-transparent border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none placeholder:text-white/40"
                                   />
+                                </div>
+                                <div className="flex items-center justify-between gap-1.5 pt-0.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => setEditingInlineLoadInId(null)}
+                                    className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
+                                  >
+                                    Cancel
+                                  </button>
                                   <button
                                     type="button"
                                     disabled={loadInSaving[b.bookingId]}
-                                    onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
-                                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                                    onClick={async () => {
+                                      await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
+                                      setEditingInlineLoadInId(null);
+                                    }}
+                                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black text-[9px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
                                   >
-                                    {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
+                                    {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
                                   </button>
                                 </div>
-
-                                {loadInNotice[b.bookingId] && (
-                                  <div className="p-2.5 bg-emerald-950/60 border border-emerald-400/40 rounded-lg text-xs font-bold text-emerald-300 flex items-center gap-2 animate-[fade-in_0.15s_ease-out]">
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                                    <span>{loadInNotice[b.bookingId]}</span>
-                                  </div>
-                                )}
                               </div>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => setEditingInlineLoadInId(b.bookingId)}
+                                title="Click to set official load-in/out time and email planner"
+                                className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-black uppercase tracking-wider px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
+                                  ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
+                                  : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
+                                  }`}
+                              >
+                                {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
+                                  <>⚡ Load-In Unsure (Click to Set) ✍️</>
+                                ) : (
+                                  <>🕒 {b.loadInTime || b.load_in_time} (Edit) ✍️</>
+                                )}
+                              </button>
+                            )}
+                          </td>
+                          <td className="p-4 border-b border-[#ffffff1f] text-sm text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
+                          <td className="p-4 border-b border-[#ffffff1f] text-sm text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
+                          <td className="p-4 border-b border-[#ffffff1f]">
+                            <div className="text-sm text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
+                            <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
+                          </td>
+                          <td className="pt-4 pb-4 pl-4 pr-0 border-b border-[#ffffff1f] text-right">
+                            <div className="flex items-center justify-end gap-2 flex-wrap">
+                              <span className={`px-2.5 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-widest ${b.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                                : b.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                  : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                                }`}>{b.status}</span>
+                              {b.status === 'pending' && (
+                                <div className="flex items-center gap-1.5 ml-1">
+                                  <button
+                                    aria-label="Approve booking"
+                                    disabled={updatingBookingId === b.bookingId}
+                                    onClick={async () => {
+                                      if (bookingUpdatingRef.current) return;
+                                      if (!confirm(`Approve booking ${b.bookingId}?`)) return;
+                                      bookingUpdatingRef.current = true;
+                                      setUpdatingBookingId(b.bookingId);
+                                      try {
+                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
+                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
+                                      } finally {
+                                        bookingUpdatingRef.current = false;
+                                        setUpdatingBookingId(null);
+                                      }
+                                    }}
+                                    className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
+                                  >
+                                    {updatingBookingId === b.bookingId ? '...' : 'Approve'}
+                                  </button>
+                                  <button
+                                    aria-label="Reject booking"
+                                    disabled={updatingBookingId === b.bookingId}
+                                    onClick={async () => {
+                                      if (bookingUpdatingRef.current) return;
+                                      if (!confirm(`Reject booking ${b.bookingId}?`)) return;
+                                      bookingUpdatingRef.current = true;
+                                      setUpdatingBookingId(b.bookingId);
+                                      try {
+                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
+                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
+                                      } finally {
+                                        bookingUpdatingRef.current = false;
+                                        setUpdatingBookingId(null);
+                                      }
+                                    }}
+                                    className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
+                                  >
+                                    {updatingBookingId === b.bookingId ? '...' : 'Reject'}
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           </td>
                         </tr>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+                        {expandedBooking === b.bookingId && (
+                          <tr>
+                            <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
+                                <div>
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
+                                  <p className="text-sm font-semibold text-black dark:text-white">
+                                    {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
+                                  <p className="text-sm font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
+                                  <p className="text-sm font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
+                                  <p className="text-sm font-semibold text-cyan-400">
+                                    {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
+                                  {b.ticketLink ? (
+                                    <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                                      {b.ticketLink}
+                                    </a>
+                                  ) : (
+                                    <p className="text-sm text-black/30 dark:text-white/20">—</p>
+                                  )}
+                                </div>
+                                {b.details && (
+                                  <div className="col-span-2 sm:col-span-4 mt-2">
+                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
+                                    <p className="text-xs text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
+                                  </div>
+                                )}
+                                {b.plannerNotes && (
+                                  <div className="col-span-2 sm:col-span-4 mt-2">
+                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
+                                    <p className="text-xs text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
+                                  </div>
+                                )}
+
+                                {/* Official Load-In Setup Manager Widget */}
+                                <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30  rounded-lg space-y-3">
+                                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                                    <p className="text-xs uppercase tracking-widest text-purple-300 font-extrabold flex items-center gap-2">
+                                      <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
+                                    </p>
+                                    {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
+                                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                                        ⚡ Planner Unsure — Pending Admin Confirmation
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  <p className="text-xs text-white/70">
+                                    Set or update the official load-in setup time below. Clicking <strong>"Save & Email Planner"</strong> updates the record and sends an email confirmation directly to <strong>{b.plannerEmail || b.email}</strong>.
+                                  </p>
+
+                                  <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
+                                    <input
+                                      type="text"
+                                      value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
+                                      onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
+                                      placeholder="e.g. 5:00 PM (2 hours before show)"
+                                      className="flex-1 bg-[#e1e6ff29]   border border-white/15 rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
+                                    />
+                                    <button
+                                      type="button"
+                                      disabled={loadInSaving[b.bookingId]}
+                                      onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
+                                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                                    >
+                                      {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
+                                    </button>
+                                  </div>
+
+                                  {loadInNotice[b.bookingId] && (
+                                    <div className="p-2.5 bg-emerald-950/60 border border-emerald-400/40 rounded-lg text-xs font-bold text-emerald-300 flex items-center gap-2 animate-[fade-in_0.15s_ease-out]">
+                                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                                      <span>{loadInNotice[b.bookingId]}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </>)}
       </div>
     </section >
@@ -4564,62 +4565,62 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
       <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
         {isSectionOpen('planners') && (<>
-        <div className="p-0" data-lenis-prevent="true">
-          {bookings.length === 0 ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
-          ) : (
-            <div className="py-2 pl-0">
-              {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
-                <div key={planner.email} className="border-b border-white/20 py-4 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 min-w-[240px]">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black  text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
-                      {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
+          <div className="p-0" data-lenis-prevent="true">
+            {bookings.length === 0 ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
+            ) : (
+              <div className="py-2 pl-0">
+                {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
+                  <div key={planner.email} className="border-b border-white/20 py-4 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 min-w-[240px]">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black  text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
+                        {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
+                      </div>
+                      <div className="overflow-hidden">
+                        <h4 className="font-bold text-white text-sm truncate">{planner.name || 'Unknown Planner'}</h4>
+                        <p className="text-[0.65rem] text-white/40 truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+                      </div>
                     </div>
-                    <div className="overflow-hidden">
-                      <h4 className="font-bold text-white text-sm truncate">{planner.name || 'Unknown Planner'}</h4>
-                      <p className="text-[0.65rem] text-white/40 truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-white/70">
+                      {planner.email && (
+                        <div className="flex items-center gap-1.5">
+                          <span className=" text-[var(--color-accent)]"></span>
+                          <span className="truncate">{planner.email}</span>
+                        </div>
+                      )}
+                      {planner.phone ? (
+                        <div className="flex items-center gap-1.5">
+                          <span className=" text-[var(--color-accent)]"></span>
+                          <span>{planner.phone}</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5 text-white/30 italic">
+                          <span className="text-white/20"></span>
+                          <span>No phone</span>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-white/70">
-                    {planner.email && (
-                      <div className="flex items-center gap-1.5">
-                        <span className=" text-[var(--color-accent)]"></span>
-                        <span className="truncate">{planner.email}</span>
-                      </div>
-                    )}
-                    {planner.phone ? (
-                      <div className="flex items-center gap-1.5">
-                        <span className=" text-[var(--color-accent)]"></span>
-                        <span>{planner.phone}</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1.5 text-white/30 italic">
-                        <span className="text-white/20"></span>
-                        <span>No phone</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white hover:text-white transition-colors">
-                      Email
-                    </a>
-                    {planner.phone ? (
-                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
-                        Text
+                    <div className="flex items-center gap-2 shrink-0 md:ml-auto">
+                      <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white hover:text-white transition-colors">
+                        Email
                       </a>
-                    ) : (
-                      <button disabled className="px-4 py-2 text-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
-                        No Phone
-                      </button>
-                    )}
+                      {planner.phone ? (
+                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg text-[0.6rem] font-bold uppercase tracking-widest !text-white  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
+                          Text
+                        </a>
+                      ) : (
+                        <button disabled className="px-4 py-2 text-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
+                          No Phone
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
         </>)}
       </div>
     </section >
@@ -4644,43 +4645,43 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
       <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
         {isSectionOpen('photomod') && (<>
-        <div className="p-0">
-          {moderationQueue.length === 0 ? (
-            <div className="p-16 text-center text-white/30 text-sm">
-              <span className="text-4xl opacity-20 block mb-4"></span>
-              Queue is entirely empty. All fan content is categorized.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pl-0">
-              {moderationQueue.map((photo) => (
-                <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden   hover:border-[var(--color-accent)]/50 transition-colors">
-                  <div className="aspect-[4/3] bg-[#e1e6ff29]   relative overflow-hidden">
-                    <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
-                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest   ">
-                      {new Date(photo.submittedAt).toLocaleDateString()}
+          <div className="p-0">
+            {moderationQueue.length === 0 ? (
+              <div className="p-16 text-center text-white/30 text-sm">
+                <span className="text-4xl opacity-20 block mb-4"></span>
+                Queue is entirely empty. All fan content is categorized.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pl-0">
+                {moderationQueue.map((photo) => (
+                  <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden   hover:border-[var(--color-accent)]/50 transition-colors">
+                    <div className="aspect-[4/3] bg-[#e1e6ff29]   relative overflow-hidden">
+                      <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
+                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70  backdrop-blur-[45px] rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest   ">
+                        {new Date(photo.submittedAt).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div className="p-4 flex flex-col gap-1.5">
+                      <div className="flex items-center gap-2 text-sm font-bold truncate">
+                        <span className=" text-[var(--color-accent)]">@</span>
+                        {photo.name}
+                      </div>
+                      {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
+                      {photo.caption && <p className="text-sm text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">"{photo.caption}"</p>}
+                    </div>
+                    <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
+                      <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-red-600 hover:bg-red-500 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
+                        Reject & Delete
+                      </button>
+                      <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                        Safe & Approve
+                      </button>
                     </div>
                   </div>
-                  <div className="p-4 flex flex-col gap-1.5">
-                    <div className="flex items-center gap-2 text-sm font-bold truncate">
-                      <span className=" text-[var(--color-accent)]">@</span>
-                      {photo.name}
-                    </div>
-                    {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
-                    {photo.caption && <p className="text-sm text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">"{photo.caption}"</p>}
-                  </div>
-                  <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
-                    <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-red-600 hover:bg-red-500 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
-                      Reject & Delete
-                    </button>
-                    <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
-                      Safe & Approve
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
         </>)}
       </div>
     </section >
@@ -4710,50 +4711,50 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
       <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="py-6 pl-0" >
         {isSectionOpen('memorymod') && (<>
-        {
-          memoryQueue.length === 0 ? (
-            <div className="p-10 text-center text-white/30 text-sm">
-              <span className="text-4xl opacity-20 block mb-4"></span>
-              Queue is entirely empty. All fan content is categorized.
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {memoryQueue.map((mem) => (
-                <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4 border-b border-white/20 bg-transparent">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
-                      <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
-                    </div>
-                    <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
-                    {mem.show_id && (
-                      <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
-                    )}
-                    {mem.photo_url && (
-                      <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
-                        <img src={mem.photo_url} alt="7th Heaven Media" className="w-full h-full object-cover" />
+          {
+            memoryQueue.length === 0 ? (
+              <div className="p-10 text-center text-white/30 text-sm">
+                <span className="text-4xl opacity-20 block mb-4"></span>
+                Queue is entirely empty. All fan content is categorized.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {memoryQueue.map((mem) => (
+                  <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4 border-b border-white/20 bg-transparent">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
+                        <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
                       </div>
-                    )}
+                      <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
+                      {mem.show_id && (
+                        <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
+                      )}
+                      {mem.photo_url && (
+                        <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
+                          <img src={mem.photo_url} alt="7th Heaven Media" className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex gap-2 shrink-0">
+                      <button
+                        onClick={() => moderateMemory(mem.id, 'reject')}
+                        className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white bg-red-600 hover:bg-red-500 transition-colors rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer"
+                      >
+                        Reject
+                      </button>
+                      <button
+                        onClick={() => moderateMemory(mem.id, 'approve')}
+                        className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                      >
+                        Approve
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex gap-2 shrink-0">
-                    <button
-                      onClick={() => moderateMemory(mem.id, 'reject')}
-                      className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white bg-red-600 hover:bg-red-500 transition-colors rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer"
-                    >
-                      Reject
-                    </button>
-                    <button
-                      onClick={() => moderateMemory(mem.id, 'approve')}
-                      className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                    >
-                      Approve
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )
-        }
+                ))}
+              </div>
+            )
+          }
         </>)}
       </div>
     </section >
@@ -4782,66 +4783,66 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('livealerts', 'Active Live Streams', 'Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls.')}
       <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
         {isSectionOpen('livealerts') && (<>
-        <div className="p-0">
-          {isLoading ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
-          ) : feeds.length === 0 ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
-          ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
-                  <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
-                  <th className="p-4 font-bold border-b border-white/5">Host</th>
-                  <th className="p-4 font-bold border-b border-white/5">Viewers</th>
-                  <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
-                  <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {feeds.map((feed) => (
-                  <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td className="p-4">
-                      <div className="font-bold flex items-center gap-2 text-sm">
-                        <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
-                        {feed.isSimulated && feed.route ? (
-                          <Link href={feed.route} className="truncate block hover: text-[var(--color-accent)] transition-colors">{feed.name}</Link>
-                        ) : (
-                          <span className="truncate block">{feed.name}</span>
-                        )}
-                        {feed.isSimulated && (
-                          <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-[var(--color-accent)] shrink-0">Demo</span>
-                        )}
-                      </div>
-                      <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
-                    </td>
-                    <td className="p-4 text-sm text-white/70">{feed.host}</td>
-                    <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
-                    <td className="p-4 font-mono text-sm font-bold text-[var(--color-accent)]">
-                      {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
-                    </td>
-                    <td className="p-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                          className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors inline-block"
-                        >
-                          View
-                        </Link>
-                        <button
-                          onClick={() => killStream(feed)}
-                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors"
-                        >
-                          Shut Down
-                        </button>
-                      </div>
-                    </td>
+          <div className="p-0">
+            {isLoading ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
+            ) : feeds.length === 0 ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
+            ) : (
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
+                    <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
+                    <th className="p-4 font-bold border-b border-white/5">Host</th>
+                    <th className="p-4 font-bold border-b border-white/5">Viewers</th>
+                    <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
+                    <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                </thead>
+                <tbody>
+                  {feeds.map((feed) => (
+                    <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <td className="p-4">
+                        <div className="font-bold flex items-center gap-2 text-sm">
+                          <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
+                          {feed.isSimulated && feed.route ? (
+                            <Link href={feed.route} className="truncate block hover: text-[var(--color-accent)] transition-colors">{feed.name}</Link>
+                          ) : (
+                            <span className="truncate block">{feed.name}</span>
+                          )}
+                          {feed.isSimulated && (
+                            <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-[var(--color-accent)] shrink-0">Demo</span>
+                          )}
+                        </div>
+                        <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
+                      </td>
+                      <td className="p-4 text-sm text-white/70">{feed.host}</td>
+                      <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
+                      <td className="p-4 font-mono text-sm font-bold text-[var(--color-accent)]">
+                        {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
+                            className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10  text-white  hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors inline-block"
+                          >
+                            View
+                          </Link>
+                          <button
+                            onClick={() => killStream(feed)}
+                            className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors"
+                          >
+                            Shut Down
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </>)}
       </div>
     </section>
@@ -4904,428 +4905,428 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
       <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
         {isSectionOpen('smsblast') && (<>
-        {/* Auto-blast info bar */}
-        <div className="py-3 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
-          <div className="flex items-center gap-2">
-            <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-purple-500 animate-pulse' : 'bg-white/10'}`} />
-            <span className="text-[0.65rem] text-white/40">
-              {smsAutoBlast
-                ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? 's' : ''} before each public show`
-                : 'Auto-blast disabled — manual sends only'}
-            </span>
-          </div>
-          {smsAutoBlast && (
+          {/* Auto-blast info bar */}
+          <div className="py-3 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
             <div className="flex items-center gap-2">
-              <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
-              <GooeyDropdown
-                label={String(smsAutoBlastDays)}
-                accentColor="#9333ea"
-                showChevron={true}
-                chevronColor="#ffffff"
-                textColor="#ffffff"
-                panelTextColor="#ffffff"
-                transparent={false}
-                glassOpacity={1.0}
-                items={[1, 2, 3, 5, 7].map(d => ({
-                  label: String(d),
-                  onClick: async () => {
-                    setSmsAutoBlastDays(d);
-                    try {
-                      await fetch('/api/admin/settings', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(d) }),
-                      });
-                    } catch { }
-                  }
-                }))}
-              />
+              <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-purple-500 animate-pulse' : 'bg-white/10'}`} />
+              <span className="text-[0.65rem] text-white/40">
+                {smsAutoBlast
+                  ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? 's' : ''} before each public show`
+                  : 'Auto-blast disabled — manual sends only'}
+              </span>
             </div>
-          )}
-        </div>
-
-        <div className="py-6 pl-0">
-          <p className="text-[0.7rem] text-white/40 mb-5">
-            {smsAutoBlast
-              ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
-              : 'Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it.'}
-          </p>
-
-          {/* Show Picker */}
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="sms-selected-show-select" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
-              <Dropdown
-                id="sms-selected-show-select"
-                fullWidth={false}
-                placeholder="Select an upcoming show"
-                selected={smsSelectedShow}
-                options={[
-                  { label: "Select an upcoming show", value: "" },
-                  ...smsShows.map((show: any) => {
-                    const dateStr = (() => {
+            {smsAutoBlast && (
+              <div className="flex items-center gap-2">
+                <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
+                <GooeyDropdown
+                  label={String(smsAutoBlastDays)}
+                  accentColor="#9333ea"
+                  showChevron={true}
+                  chevronColor="#ffffff"
+                  textColor="#ffffff"
+                  panelTextColor="#ffffff"
+                  transparent={false}
+                  glassOpacity={1.0}
+                  items={[1, 2, 3, 5, 7].map(d => ({
+                    label: String(d),
+                    onClick: async () => {
+                      setSmsAutoBlastDays(d);
                       try {
-                        const d = new Date(show.date + 'T12:00:00');
-                        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                      } catch { return show.date; }
-                    })();
-                    const loc = show.state ? `${show.city}, ${show.state}` : show.city;
-                    return {
-                      label: `${dateStr} — ${show.venue} (${loc}) ${show.time ? `@ ${show.time}` : ''}`,
-                      value: show._id || show.date,
-                    };
-                  }),
-                ]}
-                onChange={(val) => {
-                  setSmsSelectedShow(val);
-                  setSmsResult(null);
-                  const show = smsShows.find((s: any) => (s._id === val || s.date === val));
-                  if (show) {
-                    const location = show.state ? `${show.city}, ${show.state}` : show.city;
-                    const dateStr = (() => {
-                      try {
-                        const d = new Date(show.date + 'T12:00:00');
-                        return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                      } catch { return show.date; }
-                    })();
-                    const lines: string[] = [
-                      ` 7th Heaven is playing in your area!`,
-                      ``,
-                      ` ${show.venue} — ${location}`,
-                    ];
-                    if (dateStr) lines.push(` ${dateStr}`);
-                    let timeLine = "";
-                    if (show.doorsTime) timeLine += ` Doors: ${show.doorsTime}`;
-                    if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
-                    if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
-                    if (timeLine) lines.push(timeLine);
-                    if (show.allAges === true) lines.push(` All Ages`);
-                    else if (show.allAges === false) lines.push(` 21+`);
-                    if (show.cover) {
-                      const lc = show.cover.toLowerCase();
-                      if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(` FREE — No Cover`);
-                      else lines.push(` Cover: ${show.cover}`);
-                    }
-                    lines.push(``);
-                    lines.push(`Reply STOP to unsubscribe.`);
-                    setSmsPreview(lines.join('\n'));
-                  } else {
-                    setSmsPreview('');
-                  }
-                }}
-              />
-            </div>
-
-            {/* Twilio Gateway & Cost Summary Bar */}
-            <div className="bg-transparent border-none p-0 space-y-4">
-              <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
-                <div className="flex items-center gap-2">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
-                      <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-[var(--color-accent)] text-[10px] font-black uppercase rounded-full flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
-                      </span>
-                    </div>
-                    <span className="text-[11px] text-white/50">
-                      Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-xs">
-                  <div className="text-right">
-                    <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Twilio Credit Balance</div>
-                    <div className="text-emerald-400 font-black text-sm">${smsTwilioBalance.toFixed(2)}</div>
-                  </div>
-                  <div className="text-right pl-4 border-l border-white/10">
-                    <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Total Spent So Far</div>
-                    <div className="text-rose-400 font-black text-sm">${smsTotalSpentAllTime.toFixed(2)}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Metric Cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-transparent border-none p-0 text-start">
-                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
-                  <div className="text-base font-extrabold text-white">480 fans</div>
-                  <div className="text-[9px] text-[var(--color-accent)]">Within 25mi radius</div>
-                </div>
-                <div className="bg-transparent border-none p-0 text-start">
-                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
-                  <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
-                  <div className="text-[9px] text-white/40">US Standard Rate</div>
-                </div>
-                <div className="bg-transparent border-none p-0 text-start">
-                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
-                  <div className="text-base font-black text-rose-400">
-                    ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
-                  </div>
-                  <div className="text-[9px] text-white/40">
-                    {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
-                  </div>
-                </div>
-                <div className="bg-transparent border-none p-0 text-start">
-                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
-                  <div className="text-base font-extrabold text-white">{smsTotalSpentAllTime.toLocaleString()}</div>
-                  <div className="text-[9px] text-purple-300">Across 4 blasts</div>
-                </div>
-              </div>
-            </div>
-
-            {/*  Interactive Smartphone Text Message Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
-              <div className="lg:col-span-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
-                    <span></span> Live Twilio SMS Smartphone Preview
-                  </span>
-                  <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
-                </div>
-
-                {/* Real iPhone 16 Pro Frame Device */}
-                <div className="relative mx-auto w-[330px] h-[660px] select-none filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
-                  {/* Screen Content placed precisely inside the screen cutout */}
-                  <div className="absolute top-[24px] left-[20px] right-[20px] bottom-[24px] rounded-[44px] overflow-hidden bg-[#07070b] flex flex-col justify-between pt-7">
-                    {/* Status Bar */}
-                    <div className="px-6 pt-1 pb-1 flex items-center justify-between text-[11px] font-bold text-white/80 shrink-0 z-10">
-                      <span>9:41</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px]">5G</span>
-                        <div className="w-4 h-2 rounded border border-white/70 p-0.5 flex items-center">
-                          <div className="w-2.5 h-full bg-emerald-400 rounded-xs" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Messages App Header */}
-                    <div className="bg-[#181824] px-4 py-2.5 border-b border-white/10 flex items-center gap-3 shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center text-xs font-black text-white shadow-md">
-                        7H
-                      </div>
-                      <div>
-                        <div className="text-xs font-extrabold text-white leading-tight">7th Heaven Band</div>
-                        <div className="text-[9px] text-[var(--color-accent)] font-semibold mt-0.5">Verified Twilio SMS</div>
-                      </div>
-                    </div>
-
-                    {/* Message Body Screen */}
-                    <div className="p-4 flex-1 overflow-y-auto bg-[#07070b] space-y-3 font-sans text-xs custom-scrollbar">
-                      <div className="text-center text-[9px] text-white/40 font-semibold tracking-wider uppercase">Today 9:41 AM</div>
-
-                      {/* SMS Bubble */}
-                      <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg  rounded-tl-xs border border-white/10 shadow-lg text-[11px] leading-relaxed whitespace-pre-wrap">
-                        {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
-                          <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Footer Reply Bar Mock */}
-                    <div className="bg-[#181824] px-4 py-3 border-t border-white/10 flex items-center justify-between text-[10px] text-white/50 shrink-0 mb-3">
-                      <span>iMessage / SMS</span>
-                      <span className="text-rose-400 font-black tracking-wide">Reply STOP to unsubscribe</span>
-                    </div>
-                  </div>
-
-                  {/* Real iPhone 16 Pro Bezel Frame Image Overlay */}
-                  <NextImage
-                    src="/images/iphone-frame.png"
-                    alt="iPhone 16 Pro Frame"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 380px"
-                    className="object-contain pointer-events-none z-20"
-                  />
-                </div>
-
-                {/* Character & Segment Stats */}
-                <div className="bg-black/30 border border-white/10 p-3 text-xs flex items-center justify-between">
-                  <div>
-                    <span className="text-white/40">Character Count: </span>
-                    <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
-                  </div>
-                  <div>
-                    <span className="text-white/40">Twilio Segments: </span>
-                    <strong className="text-purple-300">
-                      {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment ({Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) * 160} max)
-                    </strong>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6 space-y-4">
-                {/* Custom message override */}
-                <div>
-                  <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
-                    Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
-                  </span>
-                  <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
-                    <ReactQuill
-                      theme="snow"
-                      value={smsCustomMsg}
-                      onChange={setSmsCustomMsg}
-                      placeholder="Leave empty to use the auto-generated message above"
-                      className="text-white overflow-hidden text-xs"
-                    />
-                  </div>
-                </div>
-
-                {/*  Cost Breakdown Calculator */}
-                <div className="bg-black/40 border border-white/10 p-4 space-y-3">
-                  <div className="flex items-center justify-between text-xs font-bold border-b border-white/10 pb-2">
-                    <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
-                    <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
-                  </div>
-                  <div className="space-y-1.5 text-xs text-white/70">
-                    <div className="flex items-center justify-between">
-                      <span>Recipients (25mi Radius):</span>
-                      <span className="font-bold text-white">480 subscribers</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Segments per Message:</span>
-                      <span className="font-bold text-purple-300">
-                        {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Twilio Carrier Fee:</span>
-                      <span className="font-bold text-white">$0.0079 / SMS</span>
-                    </div>
-                    <div className="border-t border-white/10 pt-2 flex items-center justify-between text-sm font-extrabold text-white">
-                      <span>Total Estimated Cost:</span>
-                      <span className="text-rose-400">
-                        ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Send controls */}
-                <div className="flex items-center justify-between pt-2">
-                  <div>
-                    {smsResult && (
-                      <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {smsResult.success ? (
-                          <>
-                            {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
-                            {smsResult.note && <span className="text-purple-300 ml-2 text-xs">({smsResult.note})</span>}
-                          </>
-                        ) : (
-                          <> {smsResult.error}</>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    disabled={smsSending || !smsSelectedShow}
-                    onClick={async () => {
-                      if (smsSendingRef.current) return;
-                      const show = smsShows.find((s: any) => s._id === smsSelectedShow);
-                      if (!show) return;
-                      const recipientDesc = `480 fans near ${show.venue}`;
-                      const calcCost = ((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2);
-                      if (!confirm(`Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: ${calcCost})`)) return;
-                      smsSendingRef.current = true;
-                      setSmsSending(true);
-                      setSmsResult(null);
-                      try {
-                        const body: any = {
-                          venue: show.venue,
-                          city: show.city,
-                          state: show.state || '',
-                          lat: show.lat,
-                          lng: show.lng,
-                        };
-                        if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
-                          body.message = smsCustomMsg;
-                        } else {
-                          const d = new Date(show.date + 'T12:00:00');
-                          body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                          body.time = show.time || '';
-                          body.doorsTime = show.doorsTime || '';
-                          body.playTime = show.playTime || '';
-                          if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
-                          if (show.cover) body.cover = show.cover;
-                        }
-                        const res = await fetch('/api/sms/send', {
+                        await fetch('/api/admin/settings', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify(body),
+                          body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(d) }),
                         });
-                        if (res.ok) {
-                          const data = await res.json();
-                          setSmsResult(data);
-                          if (data.success) {
-                            const costNum = parseFloat(calcCost);
-                            setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
-                            setSmsTotalSpentAllTime(prev => prev + costNum);
-                            setSmsTotalSentAllTime(prev => prev + 480);
-                            setSmsHistoryLogs(prev => [
-                              { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
-                              ...prev
-                            ]);
-                          }
-                        }
-                      } catch (err: any) {
-                        setSmsResult({ error: err.message });
+                      } catch { }
+                    }
+                  }))}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="py-6 pl-0">
+            <p className="text-[0.7rem] text-white/40 mb-5">
+              {smsAutoBlast
+                ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
+                : 'Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it.'}
+            </p>
+
+            {/* Show Picker */}
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="sms-selected-show-select" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
+                <Dropdown
+                  id="sms-selected-show-select"
+                  fullWidth={false}
+                  placeholder="Select an upcoming show"
+                  selected={smsSelectedShow}
+                  options={[
+                    { label: "Select an upcoming show", value: "" },
+                    ...smsShows.map((show: any) => {
+                      const dateStr = (() => {
+                        try {
+                          const d = new Date(show.date + 'T12:00:00');
+                          return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                        } catch { return show.date; }
+                      })();
+                      const loc = show.state ? `${show.city}, ${show.state}` : show.city;
+                      return {
+                        label: `${dateStr} — ${show.venue} (${loc}) ${show.time ? `@ ${show.time}` : ''}`,
+                        value: show._id || show.date,
+                      };
+                    }),
+                  ]}
+                  onChange={(val) => {
+                    setSmsSelectedShow(val);
+                    setSmsResult(null);
+                    const show = smsShows.find((s: any) => (s._id === val || s.date === val));
+                    if (show) {
+                      const location = show.state ? `${show.city}, ${show.state}` : show.city;
+                      const dateStr = (() => {
+                        try {
+                          const d = new Date(show.date + 'T12:00:00');
+                          return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                        } catch { return show.date; }
+                      })();
+                      const lines: string[] = [
+                        ` 7th Heaven is playing in your area!`,
+                        ``,
+                        ` ${show.venue} — ${location}`,
+                      ];
+                      if (dateStr) lines.push(` ${dateStr}`);
+                      let timeLine = "";
+                      if (show.doorsTime) timeLine += ` Doors: ${show.doorsTime}`;
+                      if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
+                      if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
+                      if (timeLine) lines.push(timeLine);
+                      if (show.allAges === true) lines.push(` All Ages`);
+                      else if (show.allAges === false) lines.push(` 21+`);
+                      if (show.cover) {
+                        const lc = show.cover.toLowerCase();
+                        if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(` FREE — No Cover`);
+                        else lines.push(` Cover: ${show.cover}`);
                       }
-                      smsSendingRef.current = false;
-                      setSmsSending(false);
-                    }}
-                    className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer"
-                  >
-                    {smsSending ? (
-                      <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
-                    ) : (
-                      <> Send Proximity Blast</>
-                    )}
-                  </button>
+                      lines.push(``);
+                      lines.push(`Reply STOP to unsubscribe.`);
+                      setSmsPreview(lines.join('\n'));
+                    } else {
+                      setSmsPreview('');
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Twilio Gateway & Cost Summary Bar */}
+              <div className="bg-transparent border-none p-0 space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
+                        <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-[var(--color-accent)] text-[10px] font-black uppercase rounded-full flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-white/50">
+                        Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-xs">
+                    <div className="text-right">
+                      <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Twilio Credit Balance</div>
+                      <div className="text-emerald-400 font-black text-sm">${smsTwilioBalance.toFixed(2)}</div>
+                    </div>
+                    <div className="text-right pl-4 border-l border-white/10">
+                      <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Total Spent So Far</div>
+                      <div className="text-rose-400 font-black text-sm">${smsTotalSpentAllTime.toFixed(2)}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Metric Cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="bg-transparent border-none p-0 text-start">
+                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
+                    <div className="text-base font-extrabold text-white">480 fans</div>
+                    <div className="text-[9px] text-[var(--color-accent)]">Within 25mi radius</div>
+                  </div>
+                  <div className="bg-transparent border-none p-0 text-start">
+                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
+                    <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
+                    <div className="text-[9px] text-white/40">US Standard Rate</div>
+                  </div>
+                  <div className="bg-transparent border-none p-0 text-start">
+                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
+                    <div className="text-base font-black text-rose-400">
+                      ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                    </div>
+                    <div className="text-[9px] text-white/40">
+                      {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
+                    </div>
+                  </div>
+                  <div className="bg-transparent border-none p-0 text-start">
+                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
+                    <div className="text-base font-extrabold text-white">{smsTotalSpentAllTime.toLocaleString()}</div>
+                    <div className="text-[9px] text-purple-300">Across 4 blasts</div>
+                  </div>
+                </div>
+              </div>
+
+              {/*  Interactive Smartphone Text Message Preview */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
+                <div className="lg:col-span-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
+                      <span></span> Live Twilio SMS Smartphone Preview
+                    </span>
+                    <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
+                  </div>
+
+                  {/* Real iPhone 16 Pro Frame Device */}
+                  <div className="relative mx-auto w-[330px] h-[660px] select-none filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
+                    {/* Screen Content placed precisely inside the screen cutout */}
+                    <div className="absolute top-[24px] left-[20px] right-[20px] bottom-[24px] rounded-[44px] overflow-hidden bg-[#07070b] flex flex-col justify-between pt-7">
+                      {/* Status Bar */}
+                      <div className="px-6 pt-1 pb-1 flex items-center justify-between text-[11px] font-bold text-white/80 shrink-0 z-10">
+                        <span>9:41</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px]">5G</span>
+                          <div className="w-4 h-2 rounded border border-white/70 p-0.5 flex items-center">
+                            <div className="w-2.5 h-full bg-emerald-400 rounded-xs" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Messages App Header */}
+                      <div className="bg-[#181824] px-4 py-2.5 border-b border-white/10 flex items-center gap-3 shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center text-xs font-black text-white shadow-md">
+                          7H
+                        </div>
+                        <div>
+                          <div className="text-xs font-extrabold text-white leading-tight">7th Heaven Band</div>
+                          <div className="text-[9px] text-[var(--color-accent)] font-semibold mt-0.5">Verified Twilio SMS</div>
+                        </div>
+                      </div>
+
+                      {/* Message Body Screen */}
+                      <div className="p-4 flex-1 overflow-y-auto bg-[#07070b] space-y-3 font-sans text-xs custom-scrollbar">
+                        <div className="text-center text-[9px] text-white/40 font-semibold tracking-wider uppercase">Today 9:41 AM</div>
+
+                        {/* SMS Bubble */}
+                        <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg  rounded-tl-xs border border-white/10 shadow-lg text-[11px] leading-relaxed whitespace-pre-wrap">
+                          {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
+                            <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Footer Reply Bar Mock */}
+                      <div className="bg-[#181824] px-4 py-3 border-t border-white/10 flex items-center justify-between text-[10px] text-white/50 shrink-0 mb-3">
+                        <span>iMessage / SMS</span>
+                        <span className="text-rose-400 font-black tracking-wide">Reply STOP to unsubscribe</span>
+                      </div>
+                    </div>
+
+                    {/* Real iPhone 16 Pro Bezel Frame Image Overlay */}
+                    <NextImage
+                      src="/images/iphone-frame.png"
+                      alt="iPhone 16 Pro Frame"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 380px"
+                      className="object-contain pointer-events-none z-20"
+                    />
+                  </div>
+
+                  {/* Character & Segment Stats */}
+                  <div className="bg-black/30 border border-white/10 p-3 text-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-white/40">Character Count: </span>
+                      <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
+                    </div>
+                    <div>
+                      <span className="text-white/40">Twilio Segments: </span>
+                      <strong className="text-purple-300">
+                        {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment ({Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) * 160} max)
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-6 space-y-4">
+                  {/* Custom message override */}
+                  <div>
+                    <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
+                      Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
+                    </span>
+                    <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
+                      <ReactQuill
+                        theme="snow"
+                        value={smsCustomMsg}
+                        onChange={setSmsCustomMsg}
+                        placeholder="Leave empty to use the auto-generated message above"
+                        className="text-white overflow-hidden text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  {/*  Cost Breakdown Calculator */}
+                  <div className="bg-black/40 border border-white/10 p-4 space-y-3">
+                    <div className="flex items-center justify-between text-xs font-bold border-b border-white/10 pb-2">
+                      <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
+                      <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
+                    </div>
+                    <div className="space-y-1.5 text-xs text-white/70">
+                      <div className="flex items-center justify-between">
+                        <span>Recipients (25mi Radius):</span>
+                        <span className="font-bold text-white">480 subscribers</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>Segments per Message:</span>
+                        <span className="font-bold text-purple-300">
+                          {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>Twilio Carrier Fee:</span>
+                        <span className="font-bold text-white">$0.0079 / SMS</span>
+                      </div>
+                      <div className="border-t border-white/10 pt-2 flex items-center justify-between text-sm font-extrabold text-white">
+                        <span>Total Estimated Cost:</span>
+                        <span className="text-rose-400">
+                          ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Send controls */}
+                  <div className="flex items-center justify-between pt-2">
+                    <div>
+                      {smsResult && (
+                        <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {smsResult.success ? (
+                            <>
+                              {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
+                              {smsResult.note && <span className="text-purple-300 ml-2 text-xs">({smsResult.note})</span>}
+                            </>
+                          ) : (
+                            <> {smsResult.error}</>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      disabled={smsSending || !smsSelectedShow}
+                      onClick={async () => {
+                        if (smsSendingRef.current) return;
+                        const show = smsShows.find((s: any) => s._id === smsSelectedShow);
+                        if (!show) return;
+                        const recipientDesc = `480 fans near ${show.venue}`;
+                        const calcCost = ((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2);
+                        if (!confirm(`Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: ${calcCost})`)) return;
+                        smsSendingRef.current = true;
+                        setSmsSending(true);
+                        setSmsResult(null);
+                        try {
+                          const body: any = {
+                            venue: show.venue,
+                            city: show.city,
+                            state: show.state || '',
+                            lat: show.lat,
+                            lng: show.lng,
+                          };
+                          if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
+                            body.message = smsCustomMsg;
+                          } else {
+                            const d = new Date(show.date + 'T12:00:00');
+                            body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                            body.time = show.time || '';
+                            body.doorsTime = show.doorsTime || '';
+                            body.playTime = show.playTime || '';
+                            if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
+                            if (show.cover) body.cover = show.cover;
+                          }
+                          const res = await fetch('/api/sms/send', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body),
+                          });
+                          if (res.ok) {
+                            const data = await res.json();
+                            setSmsResult(data);
+                            if (data.success) {
+                              const costNum = parseFloat(calcCost);
+                              setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
+                              setSmsTotalSpentAllTime(prev => prev + costNum);
+                              setSmsTotalSentAllTime(prev => prev + 480);
+                              setSmsHistoryLogs(prev => [
+                                { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
+                                ...prev
+                              ]);
+                            }
+                          }
+                        } catch (err: any) {
+                          setSmsResult({ error: err.message });
+                        }
+                        smsSendingRef.current = false;
+                        setSmsSending(false);
+                      }}
+                      className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer"
+                    >
+                      {smsSending ? (
+                        <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
+                      ) : (
+                        <> Send Proximity Blast</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/*  Cumulative Twilio Spending & History Log Table */}
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
+                    <span></span> Twilio Blast History & Spending Logs
+                  </h4>
+                  <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
+                </div>
+
+                <div className="overflow-x-auto border-none bg-transparent">
+                  <table className="w-full text-left text-xs text-white/80 border-collapse">
+                    <thead className="bg-transparent text-[10px] font-black uppercase tracking-wider text-white/40 border-b border-white/15">
+                      <tr>
+                        <th className="py-2.5 pr-4 pl-0">Date</th>
+                        <th className="py-2.5 px-4">Venue / Location</th>
+                        <th className="py-2.5 px-4">Recipients</th>
+                        <th className="py-2.5 px-4">Segments</th>
+                        <th className="py-2.5 px-4">Total Cost</th>
+                        <th className="py-2.5 pl-4 pr-0 text-right">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/10">
+                      {smsHistoryLogs.map(log => (
+                        <tr key={log.id} className="hover:bg-white/[0.04] border-b border-white/10">
+                          <td className="py-2.5 pr-4 pl-0 font-bold text-white">{log.date}</td>
+                          <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
+                          <td className="py-2.5 px-4 font-mono">{log.recipients} fans</td>
+                          <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
+                          <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
+                          <td className="py-2.5 pl-4 pr-0 text-right">
+                            <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] font-bold rounded-lg">
+                              {log.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-
-            {/*  Cumulative Twilio Spending & History Log Table */}
-            <div className="border-t border-white/10 pt-5 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
-                  <span></span> Twilio Blast History & Spending Logs
-                </h4>
-                <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
-              </div>
-
-              <div className="overflow-x-auto border-none bg-transparent">
-                <table className="w-full text-left text-xs text-white/80 border-collapse">
-                  <thead className="bg-transparent text-[10px] font-black uppercase tracking-wider text-white/40 border-b border-white/15">
-                    <tr>
-                      <th className="py-2.5 pr-4 pl-0">Date</th>
-                      <th className="py-2.5 px-4">Venue / Location</th>
-                      <th className="py-2.5 px-4">Recipients</th>
-                      <th className="py-2.5 px-4">Segments</th>
-                      <th className="py-2.5 px-4">Total Cost</th>
-                      <th className="py-2.5 pl-4 pr-0 text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/10">
-                    {smsHistoryLogs.map(log => (
-                      <tr key={log.id} className="hover:bg-white/[0.04] border-b border-white/10">
-                        <td className="py-2.5 pr-4 pl-0 font-bold text-white">{log.date}</td>
-                        <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
-                        <td className="py-2.5 px-4 font-mono">{log.recipients} fans</td>
-                        <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
-                        <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
-                        <td className="py-2.5 pl-4 pr-0 text-right">
-                          <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] font-bold rounded-lg">
-                            {log.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
-        </div>
         </>)}
       </div>
     </section>
@@ -5549,437 +5550,595 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('crewsms', 'Crew SMS Alert & Group Setup', 'Select target crew members or saved groups to broadcast emergency text messages or load-in notices.')}
         <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
           {isSectionOpen('crewsms') && (<>
-          <div className="py-6 pl-0">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left Column: Member List (Choose Recipients) */}
-              <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-black/60 dark:text-white/40 block">Choose Recipients</span>
-                    <button
-                      type="button"
-                      onClick={() => setIsManageRolesModalOpen(true)}
-                      className="bg-transparent border-none p-0 text-[var(--font-size-4xs)] font-bold text-white/70 hover:text-white underline decoration-purple-400/60 underline-offset-4 hover:decoration-purple-400 transition-all cursor-pointer flex items-center gap-1"
-                    >
-                      <Plus className="w-3 h-3 text-purple-400" />
-                      <span>Manage Preset Roles</span>
-                    </button>
-                  </div>
-                  <span className="text-[0.6rem] text-black/40 dark:text-white/30 font-mono">
-                    Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
-                  </span>
-                </div>
-                <CustomScrollbar height={650} className="bg-transparent border-none p-0 py-2 pr-4">
-                  <ul className="flex flex-col gap-0 list-none p-0 m-0">
-                    {(() => {
-                      const selectedCrewPhonesSet = new Set(selectedCrewPhones);
-                      return recipients
-                        .slice()
-                        .sort((a, b) => {
-                          const normA = a.phone ? normalizePhoneNumber(a.phone) : null;
-                          const normB = b.phone ? normalizePhoneNumber(b.phone) : null;
-                          const aChecked = selectedCrewPhonesSet.has(a.id) || (normA ? selectedCrewPhonesSet.has(normA) : false);
-                          const bChecked = selectedCrewPhonesSet.has(b.id) || (normB ? selectedCrewPhonesSet.has(normB) : false);
-                          if (aChecked && !bChecked) return -1;
-                          if (!aChecked && bChecked) return 1;
-                          return a.name.localeCompare(b.name);
-                        })
-                        .map((r, rIndex, rArr) => {
-                          const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                          const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
-                          const editKey = `main:${r.id}`;
-                          const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
-                          return (
-                            <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none">
-                              <div
-                                className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked
-                                  ? 'text-white'
-                                  : ''
-                                  }`}
-                                title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                              >
-                                <div
-                                  role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
-                                  onClick={() => handleToggleMember(r)}
-                                  className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer border-none"
-                                >
-                                  <SquishyToggle
-                                    id={`roster-toggle-1-${r.id}`}
-                                    label={`Select ${r.name}`}
-                                    checked={isChecked}
-                                    onChange={() => handleToggleMember(r)}
-                                  />
-
-                                  {/* Avatar */}
-                                  {(() => {
-                                    const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                    return avatarSrc ? (
-                                      <img
-                                        src={avatarSrc}
-                                        alt={r.name}
-                                        className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
-                                        onError={(e) => {
-                                          const fallback = resolveMemberAvatar(r.name, '');
-                                          if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                            e.currentTarget.src = fallback;
-                                          }
-                                        }}
-                                      />
-                                    ) : (
-                                      <div
-                                        className={`w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20  shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
-
-                                      >
-                                        {getFirstAndLastInitials(r.name)}
-                                      </div>
-                                    );
-                                  })()}
-
-                                  {/* Name */}
-                                  <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
-                                </div>
-
-                                {/* Role & Edit actions */}
-                                <div className="flex items-center gap-1.5 shrink-0 relative">
-                                  {r.duty ? (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                        setEditingDutyValue(r.duty || '');
-                                      }}
-                                      className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-lg leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
-                                      title={`Click to change or edit role(s): ${r.duty}`}
-                                    >
-                                      <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
-                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                    </button>
-                                  ) : (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                        setEditingDutyValue(r.duty || '');
-                                      }}
-                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
-                                      title="Click to assign role(s)"
-                                    >
-                                      <span>+ Assign Role</span>
-                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                    </button>
-                                  )}
-
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                      setEditingDutyValue(r.duty || '');
-                                    }}
-                                    className="p-1 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
-                                    title="Edit Role"
-                                  >
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                  </button>
-
-                                  {isEditingThis && (
-                                    <DutyRoleEditorPopover
-                                      memberName={r.name}
-                                      editKey={editKey}
-                                      editingDutyValue={editingDutyValue}
-                                      setEditingDutyValue={setEditingDutyValue}
-                                      handleSaveDuty={handleSaveDuty}
-                                      savingDuty={savingDuty}
-                                      setEditingDutyMemberId={setEditingDutyMemberId}
-                                      presetRoles={presetRoles}
-                                      memberId={r.id}
-                                      position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        });
-                    })()}
-                  </ul>
-                </CustomScrollbar>
-              </div>
-
-              {/* Right Column: Group Setup & Message Sending */}
-              <div className="space-y-5">
-                {/* Group dropdown & save selection */}
-                <div className="py-4 pr-0 space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
-                      <CosmicRadialButton
+            <div className="py-6 pl-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left Column: Member List (Choose Recipients) */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-black/60 dark:text-white/40 block">Choose Recipients</span>
+                      <button
                         type="button"
-                        onClick={() => {
-                          setNewSmsGroupError('');
-                          setShowSaveSmsGroup(true);
-                        }}
-                        icon={false}
-                        className="px-3 py-1 text-[10px] font-black uppercase tracking-wider cursor-pointer"
+                        onClick={() => setIsManageRolesModalOpen(true)}
+                        className="bg-transparent border-none p-0 text-[var(--font-size-4xs)] font-bold text-white/70 hover:text-white underline decoration-purple-400/60 underline-offset-4 hover:decoration-purple-400 transition-all cursor-pointer flex items-center gap-1"
                       >
-                        Create Group
-                      </CosmicRadialButton>
+                        <Plus className="w-3 h-3 text-purple-400" />
+                        <span>Manage Preset Roles</span>
+                      </button>
                     </div>
-                    <Dropdown
-                      id="crew-sms-select-group"
-                      fullWidth={false}
-                      placeholder="Choose a group..."
-                      selected={selectedGroup}
-                      options={[
-                        { label: "Choose a group...", value: "" },
-                        { label: `All Crew & Admins (${recipients.length})`, value: "all" },
-                        { label: "Create New Group...", value: "CREATE_NEW" },
-                        ...crewGroups.map((g) => ({ label: `${g.name} (${g.memberIds.length})`, value: g.name })),
-                      ]}
-                      onChange={(val) => {
-                        if (val === 'CREATE_NEW') {
-                          setNewSmsGroupError('');
-                          setShowSaveSmsGroup(true);
-                        } else {
-                          handleSelectGroup(val);
-                        }
-                      }}
-                    />
+                    <span className="text-[0.6rem] text-black/40 dark:text-white/30 font-mono">
+                      Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
+                    </span>
                   </div>
-
-                  {/* Select Show */}
-                  <div>
-                    <label htmlFor="crew-sms-select-show" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-2">Select Show (Autofill Crew)</label>
-                    <Dropdown
-                      id="crew-sms-select-show"
-                      fullWidth={false}
-                      placeholder="Choose a show..."
-                      selected={smsSelectedShowDate}
-                      options={[
-                        { label: "Choose a show...", value: "" },
-                        ...tourDates
-                          .filter((show: any) => show.date)
-                          .sort((a: any, b: any) => a.date.localeCompare(b.date))
-                          .map((show: any) => ({
-                            label: `${show.date} - ${show.venue || show.venue_name || 'Show'}`,
-                            value: show.date,
-                          })),
-                      ]}
-                      onChange={(val) => selectShowForSms(val)}
-                    />
-                  </div>
-
-                  {/* Active Show Banner */}
-                  {(() => {
-                    if (!smsSelectedShowDate) return null;
-                    const show = tourDates.find((s: any) => s.date === smsSelectedShowDate);
-                    const showVenue = show ? (show.venue || show.venue_name) : 'Show';
-                    return (
-                      <div className="p-3 bg-purple-500/10 border border-purple-500/20 flex items-center justify-between text-xs animate-[fadeIn_0.2s_ease-out]">
-                        <div>
-                          <span className="text-[0.65rem] font-bold text-purple-300 block uppercase tracking-widest">Active Show Target</span>
-                          <span className="text-white font-bold">{showVenue} ({smsSelectedShowDate})</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => selectShowForSms('')}
-                          className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-sm font-bold"
-                          title="Clear targeted show"
-                        >
-
-                        </button>
-                      </div>
-                    );
-                  })()}
-
-                  {/* Show Selected Group Members & Delete Button */}
-                  {(() => {
-                    if (!selectedGroup || selectedGroup === 'all') return null;
-                    const group = crewGroups.find(g => g.name === selectedGroup);
-                    if (!group) return null;
-                    const names = group.memberIds.map(mId => {
-                      const match = recipients.find(r => r.id === mId);
-                      return match?.name || mId;
-                    });
-                    return (
-                      <div className="p-3 bg-black/20 border border-white/5 space-y-2 text-xs animate-[fadeIn_0.2s_ease-out]">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Group Members ({names.length})</span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (confirm(`Are you sure you want to delete the group "${group.name}"?`)) {
-                                const updated = crewGroups.filter(g => g.name !== group.name);
-                                setCrewGroups(updated);
-                                localStorage.setItem('7h_crew_groups_v1', JSON.stringify(updated));
-                                setSelectedGroup("");
-                                setSelectedCrewPhones([]);
-                              }
-                            }}
-                            className="text-[var(--font-size-4xs)] text-rose-400 hover:text-rose-300 font-bold border-none bg-transparent cursor-pointer"
-                          >
-                            Delete Group
-                          </button>
-                        </div>
-                        <div className="text-white/80 font-bold leading-relaxed">
-                          {names.join(', ')}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  <div className="pt-2 border-t border-white/5">
-                    {showSaveSmsGroup ? (
-                      <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 p-3 animate-[slideIn_0.2s_ease-out]">
-                        <div className="flex flex-col gap-1">
-                          <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
-                          <GlowInput
-                            id="admin-new-sms-group-name"
-                            type="text"
-                            value={newSmsGroupName}
-                            onChange={(e) => {
-                              setNewSmsGroupName(e.target.value);
-                              if (newSmsGroupError) setNewSmsGroupError('');
-                            }}
-                            placeholder="Group name..."
-                            className="bg-black/50 text-white border border-white/15 px-3 py-2 text-xs font-semibold placeholder:text-white/40"
-                          />
-                        </div>
-
-                        {/* Inline Checklist */}
-                        <div className="flex flex-col gap-1">
-                          <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</span>
-                          <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
-                            {(() => {
-                              const selectedCrewPhonesSet = new Set(selectedCrewPhones);
-                              return allCrewCombined.map((r, rIndex, rArr) => {
-                                const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                                const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
-                                const editKey = `group:${r.id}`;
-                                const isEditingThis = editingDutyMemberId === editKey;
-                                const displayRole = r.duty || r.role || 'CREW';
-                                return (
+                  <CustomScrollbar height={650} className="bg-transparent border-none p-0 py-2 pr-4">
+                    <ul className="flex flex-col gap-0 list-none p-0 m-0">
+                      {(() => {
+                        const selectedCrewPhonesSet = new Set(selectedCrewPhones);
+                        return recipients
+                          .slice()
+                          .sort((a, b) => {
+                            const normA = a.phone ? normalizePhoneNumber(a.phone) : null;
+                            const normB = b.phone ? normalizePhoneNumber(b.phone) : null;
+                            const aChecked = selectedCrewPhonesSet.has(a.id) || (normA ? selectedCrewPhonesSet.has(normA) : false);
+                            const bChecked = selectedCrewPhonesSet.has(b.id) || (normB ? selectedCrewPhonesSet.has(normB) : false);
+                            if (aChecked && !bChecked) return -1;
+                            if (!aChecked && bChecked) return 1;
+                            return a.name.localeCompare(b.name);
+                          })
+                          .map((r, rIndex, rArr) => {
+                            const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                            const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
+                            const editKey = `main:${r.id}`;
+                            const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
+                            return (
+                              <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none">
+                                <div
+                                  className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked
+                                    ? 'text-white'
+                                    : ''
+                                    }`}
+                                  title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
+                                >
                                   <div
-                                    key={r.id}
-                                    className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative"
+                                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
+                                    onClick={() => handleToggleMember(r)}
+                                    className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer border-none"
                                   >
-                                    <div
-                                      className="flex items-center gap-2 cursor-pointer flex-1"
-                                      onClick={() => {
-                                        if (newSmsGroupError) setNewSmsGroupError("");
-                                        handleToggleMember(r);
-                                      }}
-                                    >
-                                      <SquishyToggle
-                                        id={`roster-toggle-popover-${r.id}`}
-                                        label={`Select ${r.name}`}
-                                        checked={isChecked}
-                                        onChange={() => handleToggleMember(r)}
-                                      />
-                                      {(() => {
-                                        const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                        return avatarSrc ? (
-                                          <img
-                                            src={avatarSrc}
-                                            alt={r.name}
-                                            className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
-                                          />
-                                        ) : (
-                                          <div
-                                            className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px] font-black text-white uppercase font-sans"
-                                            style={{ backgroundColor: getAvatarColor(r.name) }}
-                                          >
-                                            {getFirstAndLastInitials(r.name)}
-                                          </div>
-                                        );
-                                      })()}
-                                      <span className="font-semibold text-white">{r.name}</span>
-                                    </div>
+                                    <SquishyToggle
+                                      id={`roster-toggle-1-${r.id}`}
+                                      label={`Select ${r.name}`}
+                                      checked={isChecked}
+                                      onChange={() => handleToggleMember(r)}
+                                    />
 
-                                    <div className="relative shrink-0">
+                                    {/* Avatar */}
+                                    {(() => {
+                                      const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                      return avatarSrc ? (
+                                        <img
+                                          src={avatarSrc}
+                                          alt={r.name}
+                                          className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                          onError={(e) => {
+                                            const fallback = resolveMemberAvatar(r.name, '');
+                                            if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                              e.currentTarget.src = fallback;
+                                            }
+                                          }}
+                                        />
+                                      ) : (
+                                        <div
+                                          className={`w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20  shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
+
+                                        >
+                                          {getFirstAndLastInitials(r.name)}
+                                        </div>
+                                      );
+                                    })()}
+
+                                    {/* Name */}
+                                    <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                                  </div>
+
+                                  {/* Role & Edit actions */}
+                                  <div className="flex items-center gap-1.5 shrink-0 relative">
+                                    {r.duty ? (
                                       <button
                                         type="button"
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                          setEditingDutyValue(r.duty || r.role || '');
+                                          setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
-                                        title={`Click to edit role(s): ${displayRole}`}
+                                        className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-lg leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
+                                        title={`Click to change or edit role(s): ${r.duty}`}
                                       >
-                                        <span className="truncate">{displayRole}</span>
-                                        {isEditingThis && (
-                                          <DutyRoleEditorPopover
-                                            memberName={r.name}
-                                            editKey={editKey}
-                                            editingDutyValue={editingDutyValue}
-                                            setEditingDutyValue={setEditingDutyValue}
-                                            handleSaveDuty={handleSaveDuty}
-                                            savingDuty={savingDuty}
-                                            setEditingDutyMemberId={setEditingDutyMemberId}
-                                            presetRoles={presetRoles}
-                                            memberId={r.id}
-                                            position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
-                                          />
-                                        )}
+                                        <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
                                       </button>
-                                    </div>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                          setEditingDutyValue(r.duty || '');
+                                        }}
+                                        className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
+                                        title="Click to assign role(s)"
+                                      >
+                                        <span>+ Assign Role</span>
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                      </button>
+                                    )}
+
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                        setEditingDutyValue(r.duty || '');
+                                      }}
+                                      className="p-1 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                      title="Edit Role"
+                                    >
+                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                    </button>
+
+                                    {isEditingThis && (
+                                      <DutyRoleEditorPopover
+                                        memberName={r.name}
+                                        editKey={editKey}
+                                        editingDutyValue={editingDutyValue}
+                                        setEditingDutyValue={setEditingDutyValue}
+                                        handleSaveDuty={handleSaveDuty}
+                                        savingDuty={savingDuty}
+                                        setEditingDutyMemberId={setEditingDutyMemberId}
+                                        presetRoles={presetRoles}
+                                        memberId={r.id}
+                                        position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
+                                      />
+                                    )}
                                   </div>
-                                );
-                              });
-                            })()}
-                          </div>
-                        </div>
-
-                        {newSmsGroupError && (
-                          <span className="text-[var(--font-size-4xs)] font-bold text-red-400 block leading-tight">
-                            {newSmsGroupError}
-                          </span>
-                        )}
-
-                        <div className="flex items-center gap-2 mt-1">
-                          <CosmicRadialButton
-                            type="button"
-                            onClick={handleSaveSmsGroup}
-                            icon={false}
-                            className="px-4 py-2 text-xs font-black uppercase tracking-wider cursor-pointer flex-1"
-                          >
-                            Save Group
-                          </CosmicRadialButton>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setNewSmsGroupError('');
-                              setShowSaveSmsGroup(false);
-                            }}
-                            className="px-2.5 py-1.5 text-white/40 hover:text-white text-xs cursor-pointer border-none bg-transparent"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <CosmicRadialButton
-                        type="button"
-                        onClick={() => {
-                          setNewSmsGroupError('');
-                          setShowSaveSmsGroup(true);
-                        }}
-                        icon={false}
-                        className="w-full py-3 text-xs font-black uppercase tracking-wider cursor-pointer"
-                      >
-                        CREATE NEW GROUP FROM SELECTION
-                      </CosmicRadialButton>
-                    )}
-                  </div>
+                                </div>
+                              </li>
+                            );
+                          });
+                      })()}
+                    </ul>
+                  </CustomScrollbar>
                 </div>
 
+                {/* Right Column: Group Setup & Message Sending */}
+                <div className="space-y-5">
+                  {/* Group dropdown & save selection */}
+                  <div className="py-4 pr-0 space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
+                        <CosmicRadialButton
+                          type="button"
+                          onClick={() => {
+                            setNewSmsGroupError('');
+                            setShowSaveSmsGroup(true);
+                          }}
+                          icon={false}
+                          className="px-3 py-1 text-[10px] font-black uppercase tracking-wider cursor-pointer"
+                        >
+                          Create Group
+                        </CosmicRadialButton>
+                      </div>
+                      <Dropdown
+                        id="crew-sms-select-group"
+                        fullWidth={false}
+                        placeholder="Choose a group..."
+                        selected={selectedGroup}
+                        options={[
+                          { label: "Choose a group...", value: "" },
+                          { label: `All Crew & Admins (${recipients.length})`, value: "all" },
+                          { label: "Create New Group...", value: "CREATE_NEW" },
+                          ...crewGroups.map((g) => ({ label: `${g.name} (${g.memberIds.length})`, value: g.name })),
+                        ]}
+                        onChange={(val) => {
+                          if (val === 'CREATE_NEW') {
+                            setNewSmsGroupError('');
+                            setShowSaveSmsGroup(true);
+                          } else {
+                            handleSelectGroup(val);
+                          }
+                        }}
+                      />
+                    </div>
 
+                    {/* Select Show */}
+                    <div>
+                      <label htmlFor="crew-sms-select-show" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-2">Select Show (Autofill Crew)</label>
+                      <Dropdown
+                        id="crew-sms-select-show"
+                        fullWidth={false}
+                        placeholder="Choose a show..."
+                        selected={smsSelectedShowDate}
+                        options={[
+                          { label: "Choose a show...", value: "" },
+                          ...tourDates
+                            .filter((show: any) => show.date)
+                            .sort((a: any, b: any) => a.date.localeCompare(b.date))
+                            .map((show: any) => ({
+                              label: `${show.date} - ${show.venue || show.venue_name || 'Show'}`,
+                              value: show.date,
+                            })),
+                        ]}
+                        onChange={(val) => selectShowForSms(val)}
+                      />
+                    </div>
+
+                    {/* Active Show Banner */}
+                    {(() => {
+                      if (!smsSelectedShowDate) return null;
+                      const show = tourDates.find((s: any) => s.date === smsSelectedShowDate);
+                      const showVenue = show ? (show.venue || show.venue_name) : 'Show';
+                      return (
+                        <div className="p-3 bg-purple-500/10 border border-purple-500/20 flex items-center justify-between text-xs animate-[fadeIn_0.2s_ease-out]">
+                          <div>
+                            <span className="text-[0.65rem] font-bold text-purple-300 block uppercase tracking-widest">Active Show Target</span>
+                            <span className="text-white font-bold">{showVenue} ({smsSelectedShowDate})</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => selectShowForSms('')}
+                            className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-sm font-bold"
+                            title="Clear targeted show"
+                          >
+
+                          </button>
+                        </div>
+                      );
+                    })()}
+
+                    {/* Show Selected Group Members & Delete Button */}
+                    {(() => {
+                      if (!selectedGroup || selectedGroup === 'all') return null;
+                      const group = crewGroups.find(g => g.name === selectedGroup);
+                      if (!group) return null;
+                      const names = group.memberIds.map(mId => {
+                        const match = recipients.find(r => r.id === mId);
+                        return match?.name || mId;
+                      });
+                      return (
+                        <div className="p-3 bg-black/20 border border-white/5 space-y-2 text-xs animate-[fadeIn_0.2s_ease-out]">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Group Members ({names.length})</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (confirm(`Are you sure you want to delete the group "${group.name}"?`)) {
+                                  const updated = crewGroups.filter(g => g.name !== group.name);
+                                  setCrewGroups(updated);
+                                  localStorage.setItem('7h_crew_groups_v1', JSON.stringify(updated));
+                                  setSelectedGroup("");
+                                  setSelectedCrewPhones([]);
+                                }
+                              }}
+                              className="text-[var(--font-size-4xs)] text-rose-400 hover:text-rose-300 font-bold border-none bg-transparent cursor-pointer"
+                            >
+                              Delete Group
+                            </button>
+                          </div>
+                          <div className="text-white/80 font-bold leading-relaxed">
+                            {names.join(', ')}
+                          </div>
+                        </div>
+                      );
+                    })()}
+
+                    <div className="pt-2 border-t border-white/5">
+                      {showSaveSmsGroup ? (
+                        <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 p-3 animate-[slideIn_0.2s_ease-out]">
+                          <div className="flex flex-col gap-1">
+                            <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
+                            <GlowInput
+                              id="admin-new-sms-group-name"
+                              type="text"
+                              value={newSmsGroupName}
+                              onChange={(e) => {
+                                setNewSmsGroupName(e.target.value);
+                                if (newSmsGroupError) setNewSmsGroupError('');
+                              }}
+                              placeholder="Group name..."
+                              className="bg-black/50 text-white border border-white/15 px-3 py-2 text-xs font-semibold placeholder:text-white/40"
+                            />
+                          </div>
+
+                          {/* Inline Checklist */}
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</span>
+                            <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
+                              {(() => {
+                                const selectedCrewPhonesSet = new Set(selectedCrewPhones);
+                                return allCrewCombined.map((r, rIndex, rArr) => {
+                                  const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                                  const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
+                                  const editKey = `group:${r.id}`;
+                                  const isEditingThis = editingDutyMemberId === editKey;
+                                  const displayRole = r.duty || r.role || 'CREW';
+                                  return (
+                                    <div
+                                      key={r.id}
+                                      className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative"
+                                    >
+                                      <div
+                                        className="flex items-center gap-2 cursor-pointer flex-1"
+                                        onClick={() => {
+                                          if (newSmsGroupError) setNewSmsGroupError("");
+                                          handleToggleMember(r);
+                                        }}
+                                      >
+                                        <SquishyToggle
+                                          id={`roster-toggle-popover-${r.id}`}
+                                          label={`Select ${r.name}`}
+                                          checked={isChecked}
+                                          onChange={() => handleToggleMember(r)}
+                                        />
+                                        {(() => {
+                                          const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                          return avatarSrc ? (
+                                            <img
+                                              src={avatarSrc}
+                                              alt={r.name}
+                                              className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
+                                            />
+                                          ) : (
+                                            <div
+                                              className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px] font-black text-white uppercase font-sans"
+                                              style={{ backgroundColor: getAvatarColor(r.name) }}
+                                            >
+                                              {getFirstAndLastInitials(r.name)}
+                                            </div>
+                                          );
+                                        })()}
+                                        <span className="font-semibold text-white">{r.name}</span>
+                                      </div>
+
+                                      <div className="relative shrink-0">
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                            setEditingDutyValue(r.duty || r.role || '');
+                                          }}
+                                          className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                          title={`Click to edit role(s): ${displayRole}`}
+                                        >
+                                          <span className="truncate">{displayRole}</span>
+                                          {isEditingThis && (
+                                            <DutyRoleEditorPopover
+                                              memberName={r.name}
+                                              editKey={editKey}
+                                              editingDutyValue={editingDutyValue}
+                                              setEditingDutyValue={setEditingDutyValue}
+                                              handleSaveDuty={handleSaveDuty}
+                                              savingDuty={savingDuty}
+                                              setEditingDutyMemberId={setEditingDutyMemberId}
+                                              presetRoles={presetRoles}
+                                              memberId={r.id}
+                                              position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
+                                            />
+                                          )}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  );
+                                });
+                              })()}
+                            </div>
+                          </div>
+
+                          {newSmsGroupError && (
+                            <span className="text-[var(--font-size-4xs)] font-bold text-red-400 block leading-tight">
+                              {newSmsGroupError}
+                            </span>
+                          )}
+
+                          <div className="flex items-center gap-2 mt-1">
+                            <CosmicRadialButton
+                              type="button"
+                              onClick={handleSaveSmsGroup}
+                              icon={false}
+                              className="px-4 py-2 text-xs font-black uppercase tracking-wider cursor-pointer flex-1"
+                            >
+                              Save Group
+                            </CosmicRadialButton>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNewSmsGroupError('');
+                                setShowSaveSmsGroup(false);
+                              }}
+                              className="px-2.5 py-1.5 text-white/40 hover:text-white text-xs cursor-pointer border-none bg-transparent"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <CosmicRadialButton
+                          type="button"
+                          onClick={() => {
+                            setNewSmsGroupError('');
+                            setShowSaveSmsGroup(true);
+                          }}
+                          icon={false}
+                          className="w-full py-3 text-xs font-black uppercase tracking-wider cursor-pointer"
+                        >
+                          CREATE NEW GROUP FROM SELECTION
+                        </CosmicRadialButton>
+                      )}
+                    </div>
+                  </div>
+
+
+
+                  {/* Confirm / Send Button */}
+                  <div className="pt-2">
+                    {crewAlertResult && (
+                      <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {crewAlertResult.success
+                          ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
+                          : ` ${crewAlertResult.error}`}
+                        {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
+                      </p>
+                    )}
+                    <button
+                      disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
+                      onClick={async () => {
+                        const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
+                        if (crewAlertSendingRef.current) return;
+                        const isAll = selectedCrewPhones.length === 0;
+                        if (!confirm(isAll
+                          ? `No recipients selected. Send this broadcast to ALL ${sendCount} crew members?`
+                          : `Send this broadcast to the ${sendCount} selected recipients?`
+                        )) return;
+
+                        crewAlertSendingRef.current = true;
+                        setCrewAlertSending(true);
+                        setCrewAlertResult(null);
+                        try {
+                          const show = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
+                          const showVenue = show ? (show.venue || show.venue_name) : undefined;
+                          const showTime = show ? (show.time || '8:00pm') : undefined;
+
+                          const res = await fetch('/api/admin/crew-alert', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              message: crewAlertMsg,
+                              selectedPhones: isAll ? undefined : selectedCrewPhones,
+                              sendSms: sendSmsAlert,
+                              sendEmail: sendEmailAlert,
+                              emailSubject: smsEmailSubject || undefined,
+                              showDate: smsSelectedShowDate || undefined,
+                              showVenue: showVenue || undefined,
+                              showTime: showTime || undefined,
+                              sendAsGroup: crewSendAsGroup
+                            }),
+                          });
+                          if (res.ok) {
+                            const data = await res.json();
+                            setCrewAlertResult(data);
+                            if (data.success) {
+                              setCrewAlertMsg('');
+                              setSelectedCrewPhones([]);
+                              setSmsSelectedShowDate('');
+                              setSmsEmailSubject('');
+                              setSendEmailAlert(false);
+                              setAuditLog(prev => [{
+                                id: crypto.randomUUID(),
+                                text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                                time: 'Just now',
+                                color: 'bg-purple-600',
+                                details: {
+                                  type: 'broadcast',
+                                  smsText: crewAlertMsg,
+                                  emailSubject: smsEmailSubject || undefined
+                                }
+                              }, ...prev]);
+                            } else {
+                              setAuditLog(prev => [{
+                                id: crypto.randomUUID(),
+                                text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                                time: 'Just now',
+                                color: 'bg-red-500'
+                              }, ...prev]);
+                            }
+                          }
+                        } catch (err: any) {
+                          setCrewAlertResult({ error: err.message });
+                        }
+                        crewAlertSendingRef.current = false;
+                        setCrewAlertSending(false);
+                      }}
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
+                    >
+                      {crewAlertSending ? (
+                        <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
+                      ) : (
+                        <> Send Broadcast</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* FULL BLEED / FULL WIDTH MESSAGE COMPOSE & PREVIEW SECTION */}
+              <div className="mt-6 space-y-5">
+                {/* SMS & Email Option Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div
+                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
+                    onClick={() => setSendSmsAlert(prev => !prev)}
+                    className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert
+                      ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                      : 'bg-white/[0.01] text-white/40'
+                      }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <SquishyToggle
+                        id="alert-sms-toggle"
+                        label="SMS TEXTS"
+                        checked={sendSmsAlert}
+                        onChange={(val) => setSendSmsAlert(val)}
+                      />
+                      <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
+                    </div>
+                    <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
+                  </div>
+
+                  <div
+                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
+                    onClick={() => setSendEmailAlert(prev => !prev)}
+                    className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert
+                      ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                      : 'bg-white/[0.01] text-white/40'
+                      }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <SquishyToggle
+                        id="alert-email-toggle"
+                        label="EMAIL ALERTS"
+                        checked={sendEmailAlert}
+                        onChange={(val) => setSendEmailAlert(val)}
+                      />
+                      <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
+                    </div>
+                    <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
+                  </div>
+
+                  {sendSmsAlert && (
+                    <div
+                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
+                      onClick={() => setCrewSendAsGroup(prev => !prev)}
+                      className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup
+                        ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                        : 'bg-white/[0.01] text-white/40'
+                        }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <SquishyToggle
+                          id="alert-group-toggle"
+                          label="SEND AS GROUP TEXT"
+                          checked={crewSendAsGroup}
+                          onChange={(val) => setCrewSendAsGroup(val)}
+                        />
+                        <span className="text-xs font-black uppercase tracking-wider text-purple-300">SEND AS GROUP TEXT</span>
+                      </div>
+                      <span className="text-[10px] text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
+                    </div>
+                  )}
+                </div>
 
                 {/* Confirm / Send Button */}
-                <div className="pt-2">
+                <div className="space-y-3 pt-2">
                   {crewAlertResult && (
                     <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {crewAlertResult.success
@@ -6054,7 +6213,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       } catch (err: any) {
                         setCrewAlertResult({ error: err.message });
                       }
-                      crewAlertSendingRef.current = false;
                       setCrewAlertSending(false);
                     }}
                     className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
@@ -6067,288 +6225,131 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </button>
                 </div>
               </div>
-            </div>
 
-            {/* FULL BLEED / FULL WIDTH MESSAGE COMPOSE & PREVIEW SECTION */}
-            <div className="mt-6 space-y-5">
-              {/* SMS & Email Option Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div
-                  role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
-                  onClick={() => setSendSmsAlert(prev => !prev)}
-                  className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert
-                    ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                    : 'bg-white/[0.01] text-white/40'
-                    }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <SquishyToggle
-                      id="alert-sms-toggle"
-                      label="SMS TEXTS"
-                      checked={sendSmsAlert}
-                      onChange={(val) => setSendSmsAlert(val)}
-                    />
-                    <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
+              {/* 2-Column Live Dispatch Preview (SMS Text Message + Email Template) */}
+              {(sendSmsAlert || sendEmailAlert) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-4 border-t border-white/5">
+                  {/* Left Column: SMS Text Message Preview (50% Width) */}
+                  <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4   flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+                        <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
+                        <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
+                      </div>
+
+                      <div className="   border border-[var(--border-color)] pr-4 pb-4 pt-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
+                        {crewAlertMsg ? crewAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
+                      </div>
+                    </div>
+
+                    <div className="text-xs text-white/50 font-mono text-center pt-1">
+                      Recipient phones will receive raw text alert instantly
+                    </div>
                   </div>
-                  <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
-                </div>
 
-                <div
-                  role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
-                  onClick={() => setSendEmailAlert(prev => !prev)}
-                  className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert
-                    ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                    : 'bg-white/[0.01] text-white/40'
-                    }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <SquishyToggle
-                      id="alert-email-toggle"
-                      label="EMAIL ALERTS"
-                      checked={sendEmailAlert}
-                      onChange={(val) => setSendEmailAlert(val)}
-                    />
-                    <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
+                  {/* Right Column: Email Template Preview (50% Width) */}
+                  <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
+                    <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
+                        <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
+                      </div>
+                      <span className="text-xs text-white/50 font-mono truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
+                    </div>
+
+                    <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
+                      <iframe
+                        srcDoc={emailHtmlPreview}
+                        title="Crew Email Template Live Preview"
+                        className="w-full h-full border-none"
+                        sandbox="allow-same-origin"
+                      />
+                    </div>
                   </div>
-                  <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                 </div>
+              )}
 
-                {sendSmsAlert && (
+
+
+              {/* Preset Roles Manager Modal */}
+              {isManageRolesModalOpen && (
+                <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
                   <div
-                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
-                    onClick={() => setCrewSendAsGroup(prev => !prev)}
-                    className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup
-                      ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                      : 'bg-white/[0.01] text-white/40'
-                      }`}
+                    className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <div className="flex items-center gap-2">
-                      <SquishyToggle
-                        id="alert-group-toggle"
-                        label="SEND AS GROUP TEXT"
-                        checked={crewSendAsGroup}
-                        onChange={(val) => setCrewSendAsGroup(val)}
-                      />
-                      <span className="text-xs font-black uppercase tracking-wider text-purple-300">SEND AS GROUP TEXT</span>
-                    </div>
-                    <span className="text-[10px] text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Confirm / Send Button */}
-              <div className="space-y-3 pt-2">
-                {crewAlertResult && (
-                  <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    {crewAlertResult.success
-                      ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
-                      : ` ${crewAlertResult.error}`}
-                    {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
-                  </p>
-                )}
-                <button
-                  disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
-                  onClick={async () => {
-                    const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
-                    if (crewAlertSendingRef.current) return;
-                    const isAll = selectedCrewPhones.length === 0;
-                    if (!confirm(isAll
-                      ? `No recipients selected. Send this broadcast to ALL ${sendCount} crew members?`
-                      : `Send this broadcast to the ${sendCount} selected recipients?`
-                    )) return;
-
-                    crewAlertSendingRef.current = true;
-                    setCrewAlertSending(true);
-                    setCrewAlertResult(null);
-                    try {
-                      const show = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
-                      const showVenue = show ? (show.venue || show.venue_name) : undefined;
-                      const showTime = show ? (show.time || '8:00pm') : undefined;
-
-                      const res = await fetch('/api/admin/crew-alert', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          message: crewAlertMsg,
-                          selectedPhones: isAll ? undefined : selectedCrewPhones,
-                          sendSms: sendSmsAlert,
-                          sendEmail: sendEmailAlert,
-                          emailSubject: smsEmailSubject || undefined,
-                          showDate: smsSelectedShowDate || undefined,
-                          showVenue: showVenue || undefined,
-                          showTime: showTime || undefined,
-                          sendAsGroup: crewSendAsGroup
-                        }),
-                      });
-                      if (res.ok) {
-                        const data = await res.json();
-                        setCrewAlertResult(data);
-                        if (data.success) {
-                          setCrewAlertMsg('');
-                          setSelectedCrewPhones([]);
-                          setSmsSelectedShowDate('');
-                          setSmsEmailSubject('');
-                          setSendEmailAlert(false);
-                          setAuditLog(prev => [{
-                            id: crypto.randomUUID(),
-                            text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
-                            time: 'Just now',
-                            color: 'bg-purple-600',
-                            details: {
-                              type: 'broadcast',
-                              smsText: crewAlertMsg,
-                              emailSubject: smsEmailSubject || undefined
-                            }
-                          }, ...prev]);
-                        } else {
-                          setAuditLog(prev => [{
-                            id: crypto.randomUUID(),
-                            text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
-                            time: 'Just now',
-                            color: 'bg-red-500'
-                          }, ...prev]);
-                        }
-                      }
-                    } catch (err: any) {
-                      setCrewAlertResult({ error: err.message });
-                    }
-                    setCrewAlertSending(false);
-                  }}
-                  className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
-                >
-                  {crewAlertSending ? (
-                    <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
-                  ) : (
-                    <> Send Broadcast</>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* 2-Column Live Dispatch Preview (SMS Text Message + Email Template) */}
-            {(sendSmsAlert || sendEmailAlert) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-4 border-t border-white/5">
-                {/* Left Column: SMS Text Message Preview (50% Width) */}
-                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4   flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                      <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
-                      <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
-                    </div>
-
-                    <div className="   border border-[var(--border-color)] pr-4 pb-4 pt-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
-                      {crewAlertMsg ? crewAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
-                    </div>
-                  </div>
-
-                  <div className="text-xs text-white/50 font-mono text-center pt-1">
-                    Recipient phones will receive raw text alert instantly
-                  </div>
-                </div>
-
-                {/* Right Column: Email Template Preview (50% Width) */}
-                <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
-                  <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
-                      <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
-                    </div>
-                    <span className="text-xs text-white/50 font-mono truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
-                  </div>
-
-                  <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
-                    <iframe
-                      srcDoc={emailHtmlPreview}
-                      title="Crew Email Template Live Preview"
-                      className="w-full h-full border-none"
-                      sandbox="allow-same-origin"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-
-
-            {/* Preset Roles Manager Modal */}
-            {isManageRolesModalOpen && (
-              <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
-                <div
-                  className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-white flex items-center gap-2">
-                      <Plus className="w-4 h-4 text-purple-400" />
-                      Manage Preset Roles
-                    </h3>
-                    <button
-                      type="button"
-                      onClick={() => setIsManageRolesModalOpen(false)}
-                      className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-xs"
-                    >
-                      Close
-                    </button>
-                  </div>
-
-                  {/* Add New Preset Role */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="admin-new-preset-role" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Add New Preset Role</label>
-                    <div className="flex gap-2">
-                      <input
-                        id="admin-new-preset-role"
-                        type="text"
-                        value={newPresetRoleInput}
-                        onChange={(e) => setNewPresetRoleInput(e.target.value)}
-                        placeholder="e.g. LIGHTING DESIGNER"
-                        className="flex-1 bg-black/40 border border-white/15 rounded-lg px-3 py-2 text-xs text-white placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            handleAddPresetRole(newPresetRoleInput);
-                            setNewPresetRoleInput('');
-                          }
-                        }}
-                      />
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <h3 className="text-sm font-black uppercase tracking-widest text-white flex items-center gap-2">
+                        <Plus className="w-4 h-4 text-purple-400" />
+                        Manage Preset Roles
+                      </h3>
                       <button
                         type="button"
-                        onClick={() => {
-                          handleAddPresetRole(newPresetRoleInput);
-                          setNewPresetRoleInput('');
-                        }}
-                        className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
+                        onClick={() => setIsManageRolesModalOpen(false)}
+                        className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-xs"
                       >
-                        Add
+                        Close
                       </button>
                     </div>
-                  </div>
 
-                  {/* Preset Roles List */}
-                  <div className="space-y-1.5">
-                    <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block">Current Preset Roles ({presetRoles.length})</span>
-                    <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 bg-black/40 p-2 space-y-1.5">
-                      {presetRoles.length === 0 ? (
-                        <div className="text-xs text-white/30 italic text-center py-4">No preset roles defined.</div>
-                      ) : (
-                        presetRoles.map((role) => (
-                          <div key={role} className="flex items-center justify-between gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04]">
-                            <span className="text-xs font-bold text-white/90">{role}</span>
-                            <button
-                              type="button"
-                              onClick={() => handleDeletePresetRole(role)}
-                              className="p-1 -lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
-                              title="Delete Preset"
-                            >
-                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
-                            </button>
-                          </div>
-                        ))
-                      )}
+                    {/* Add New Preset Role */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="admin-new-preset-role" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Add New Preset Role</label>
+                      <div className="flex gap-2">
+                        <input
+                          id="admin-new-preset-role"
+                          type="text"
+                          value={newPresetRoleInput}
+                          onChange={(e) => setNewPresetRoleInput(e.target.value)}
+                          placeholder="e.g. LIGHTING DESIGNER"
+                          className="flex-1 bg-black/40 border border-white/15 rounded-lg px-3 py-2 text-xs text-white placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleAddPresetRole(newPresetRoleInput);
+                              setNewPresetRoleInput('');
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleAddPresetRole(newPresetRoleInput);
+                            setNewPresetRoleInput('');
+                          }}
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Preset Roles List */}
+                    <div className="space-y-1.5">
+                      <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block">Current Preset Roles ({presetRoles.length})</span>
+                      <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 bg-black/40 p-2 space-y-1.5">
+                        {presetRoles.length === 0 ? (
+                          <div className="text-xs text-white/30 italic text-center py-4">No preset roles defined.</div>
+                        ) : (
+                          presetRoles.map((role) => (
+                            <div key={role} className="flex items-center justify-between gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04]">
+                              <span className="text-xs font-bold text-white/90">{role}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleDeletePresetRole(role)}
+                                className="p-1 -lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
+                                title="Delete Preset"
+                              >
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
           </>)}
         </div>
       </section >
@@ -6404,390 +6405,390 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         <div style={{ display: isSectionOpen('bandsms') ? undefined : 'none' }}>
           {isSectionOpen('bandsms') && (<>
-          <div className="py-6 pr-0 pl-0">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left Column: Band List (Choose Recipients) */}
-              <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 block">Choose Recipients</span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
-                        setSelectedBandPhones(allKeys);
-                      }}
-                      className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
-                    >
-                      Select All ({allBandCombined.length})
-                    </button>
-                    {selectedBandPhones.length > 0 && (
+            <div className="py-6 pr-0 pl-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left Column: Band List (Choose Recipients) */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 block">Choose Recipients</span>
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={() => setSelectedBandPhones([])}
-                        className="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
+                        onClick={() => {
+                          const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
+                          setSelectedBandPhones(allKeys);
+                        }}
+                        className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                       >
-                        Clear All
+                        Select All ({allBandCombined.length})
                       </button>
-                    )}
-                    <span className="text-[0.6rem] text-white/30 font-mono">
-                      {selectedBandPhones.length} selected
-                    </span>
+                      {selectedBandPhones.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedBandPhones([])}
+                          className="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
+                        >
+                          Clear All
+                        </button>
+                      )}
+                      <span className="text-[0.6rem] text-white/30 font-mono">
+                        {selectedBandPhones.length} selected
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-transparent border-none p-0 py-2 max-h-[460px] ">
+                    <div className="flex flex-col gap-1">
+                      {(() => {
+                        const selectedBandPhonesSet = new Set(selectedBandPhones);
+                        return allBandCombined
+                          .slice()
+                          .sort((a, b) => {
+                            const normA = normalizePhoneNumber(a.phone) || a.id;
+                            const normB = normalizePhoneNumber(b.phone) || b.id;
+                            const aChecked = selectedBandPhonesSet.has(normA) || selectedBandPhonesSet.has(a.id) || selectedBandPhonesSet.has(a.name);
+                            const bChecked = selectedBandPhonesSet.has(normB) || selectedBandPhonesSet.has(b.id) || selectedBandPhonesSet.has(b.name);
+                            if (aChecked && !bChecked) return -1;
+                            if (!aChecked && bChecked) return 1;
+                            return a.name.localeCompare(b.name);
+                          })
+                          .map((r) => {
+                            const normPhone = normalizePhoneNumber(r.phone);
+                            const isChecked = (normPhone && selectedBandPhonesSet.has(normPhone)) || selectedBandPhonesSet.has(r.id) || selectedBandPhonesSet.has(r.name);
+                            const toggleSelection = () => {
+                              const normKey = normPhone || r.id || r.name;
+                              setSelectedBandPhones(prev => {
+                                const prevSet = new Set(prev);
+                                const isCurrentlySelected = (normPhone ? prevSet.has(normPhone) : false) || prevSet.has(r.id) || prevSet.has(r.name);
+                                if (isCurrentlySelected) {
+                                  return prev.filter(p => p !== normPhone && p !== r.id && p !== r.name);
+                                } else {
+                                  return [...prev, normKey];
+                                }
+                              });
+                            };
+
+                            return (
+                              <div
+                                key={r.id}
+                                role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
+                                onClick={toggleSelection}
+                                className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-3 border-b border-white/25 transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked
+                                  ? 'bg-purple-500/15 text-white'
+                                  : 'hover:bg-white/[0.04] text-white/80'
+                                  }`}
+                                title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
+                              >
+                                <div className="flex items-center gap-3 flex-1 min-w-0">
+                                  <SquishyToggle
+                                    id={`roster-toggle-2-${r.id}`}
+                                    label={`Select ${r.name}`}
+                                    checked={isChecked}
+                                    onChange={() => toggleSelection()}
+                                  />
+
+                                  {/* Avatar */}
+                                  {(() => {
+                                    const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                    return avatarSrc ? (
+                                      <img
+                                        src={avatarSrc}
+                                        alt={r.name}
+                                        className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/20 shadow-md"
+                                        onError={(e) => {
+                                          const fallback = resolveMemberAvatar(r.name, '');
+                                          if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                            e.currentTarget.src = fallback;
+                                          }
+                                        }}
+                                      />
+                                    ) : (
+                                      <div
+                                        className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans"
+                                        style={{ backgroundColor: getAvatarColor(r.name) }}
+                                      >
+                                        {getFirstAndLastInitials(r.name)}
+                                      </div>
+                                    );
+                                  })()}
+
+                                  {/* Name */}
+                                  <span className="text-sm font-extrabold truncate leading-none text-white">{r.name}</span>
+                                </div>
+
+                                {/* Role badge */}
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1  rounded-lg  leading-none shrink-0">
+                                    {r.role}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          });
+                      })()}
+                    </div>
                   </div>
                 </div>
 
-                <div className="bg-transparent border-none p-0 py-2 max-h-[460px] ">
-                  <div className="flex flex-col gap-1">
-                    {(() => {
-                      const selectedBandPhonesSet = new Set(selectedBandPhones);
-                      return allBandCombined
-                        .slice()
-                        .sort((a, b) => {
-                          const normA = normalizePhoneNumber(a.phone) || a.id;
-                          const normB = normalizePhoneNumber(b.phone) || b.id;
-                          const aChecked = selectedBandPhonesSet.has(normA) || selectedBandPhonesSet.has(a.id) || selectedBandPhonesSet.has(a.name);
-                          const bChecked = selectedBandPhonesSet.has(normB) || selectedBandPhonesSet.has(b.id) || selectedBandPhonesSet.has(b.name);
-                          if (aChecked && !bChecked) return -1;
-                          if (!aChecked && bChecked) return 1;
-                          return a.name.localeCompare(b.name);
-                        })
-                        .map((r) => {
-                          const normPhone = normalizePhoneNumber(r.phone);
-                          const isChecked = (normPhone && selectedBandPhonesSet.has(normPhone)) || selectedBandPhonesSet.has(r.id) || selectedBandPhonesSet.has(r.name);
-                          const toggleSelection = () => {
-                            const normKey = normPhone || r.id || r.name;
-                            setSelectedBandPhones(prev => {
-                              const prevSet = new Set(prev);
-                              const isCurrentlySelected = (normPhone ? prevSet.has(normPhone) : false) || prevSet.has(r.id) || prevSet.has(r.name);
-                              if (isCurrentlySelected) {
-                                return prev.filter(p => p !== normPhone && p !== r.id && p !== r.name);
-                              } else {
-                                return [...prev, normKey];
-                              }
-                            });
-                          };
-
-                          return (
-                            <div
-                              key={r.id}
-                              role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
-                              onClick={toggleSelection}
-                              className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-3 border-b border-white/25 transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked
-                                ? 'bg-purple-500/15 text-white'
-                                : 'hover:bg-white/[0.04] text-white/80'
-                                }`}
-                              title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                            >
-                              <div className="flex items-center gap-3 flex-1 min-w-0">
-                                <SquishyToggle
-                                  id={`roster-toggle-2-${r.id}`}
-                                  label={`Select ${r.name}`}
-                                  checked={isChecked}
-                                  onChange={() => toggleSelection()}
-                                />
-
-                                {/* Avatar */}
-                                {(() => {
-                                  const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                  return avatarSrc ? (
-                                    <img
-                                      src={avatarSrc}
-                                      alt={r.name}
-                                      className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/20 shadow-md"
-                                      onError={(e) => {
-                                        const fallback = resolveMemberAvatar(r.name, '');
-                                        if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                          e.currentTarget.src = fallback;
-                                        }
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center text-xs font-black text-white uppercase font-sans"
-                                      style={{ backgroundColor: getAvatarColor(r.name) }}
-                                    >
-                                      {getFirstAndLastInitials(r.name)}
-                                    </div>
-                                  );
-                                })()}
-
-                                {/* Name */}
-                                <span className="text-sm font-extrabold truncate leading-none text-white">{r.name}</span>
-                              </div>
-
-                              {/* Role badge */}
-                              <div className="flex items-center gap-1.5 shrink-0">
-                                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1  rounded-lg  leading-none shrink-0">
-                                  {r.role}
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        });
-                    })()}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Alert Broadcast Form */}
-              <div className="space-y-5">
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="admin-band-sms-show-select" className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
-                    <Dropdown
-                      id="admin-band-sms-show-select"
-                      fullWidth={true}
-                      placeholder="-- Choose target show --"
-                      selected={bandSmsSelectedShowDate}
-                      options={[
-                        { label: "-- Choose target show --", value: "" },
-                        ...tourDates.map((s: any) => ({
-                          label: `${s.date} - ${s.venue || s.venue_name}`,
-                          value: s.date,
-                        })),
-                      ]}
-                      onChange={(val) => selectShowForBandSms(val)}
-                      className="w-full"
-                    />
-                  </div>
-
-                  {bandSmsSelectedShowDate && (
-                    <div className="flex items-center justify-between bg-purple-500/10 border border-purple-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-purple-300 animate-[fadeIn_0.2s_ease-out]">
-                      <div className="flex items-center gap-1.5">
-                        <span></span>
-                        <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
-                      </div>
-                      <button
-                        type="button"
-                        aria-label="Clear selected show"
-                        onClick={() => selectShowForBandSms('')}
-                        className=" text-[var(--color-accent)] hover:text-purple-300 font-bold border-none bg-transparent cursor-pointer text-xs"
-                      >
-
-                      </button>
-                    </div>
-                  )}
-
-                  {/* SMS / Email Option Toggle Cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div
-                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
-                      onClick={() => setSendBandSmsAlert(prev => !prev)}
-                      className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert
-                        ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                        : 'bg-white/[0.01] text-white/40'
-                        }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <SquishyToggle
-                          id="band-alert-sms-toggle"
-                          label="SMS TEXTS"
-                          checked={sendBandSmsAlert}
-                          onChange={(val) => setSendBandSmsAlert(val)}
-                        />
-                        <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
-                      </div>
-                      <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
-                    </div>
-
-                    <div
-                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
-                      onClick={() => setSendBandEmailAlert(prev => !prev)}
-                      className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert
-                        ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                        : 'bg-white/[0.01] text-white/40'
-                        }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <SquishyToggle
-                          id="band-alert-email-toggle"
-                          label="EMAIL ALERTS"
-                          checked={sendBandEmailAlert}
-                          onChange={(val) => setSendBandEmailAlert(val)}
-                        />
-                        <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
-                      </div>
-                      <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
-                    </div>
-                  </div>
-
-                  {/* Email Subject Line (Conditional) */}
-                  {sendBandEmailAlert && (
-                    <div className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
-                      <label htmlFor="admin-band-email-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/50 block">EMAIL SUBJECT LINE</label>
-                      <div className="input-glow-border rounded-lg w-full">
-                        <input
-                          id="admin-band-email-subject"
-                          type="text"
-                          value={bandEmailSubject}
-                          onChange={(e) => setBandEmailSubject(e.target.value)}
-                          placeholder="e.g. Band Schedule Update"
-                          className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Message Form */}
-                  <div className="space-y-2">
-                    <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] font-bold uppercase tracking-widest text-white/50 block">BROADCAST MESSAGE</label>
-                    <div className="input-glow-border rounded-lg w-full">
-                      <textarea
-                        id="admin-band-broadcast-msg"
-                        value={bandAlertMsg}
-                        onChange={(e) => setBandAlertMsg(e.target.value)}
-                        placeholder="Write message to send..."
-                        rows={5}
-                        style={{ backgroundColor: '#181924', color: '#ffffff' }}
-                        className="w-full  text-white! border border-white/10 rounded-lg px-3.5 py-2.5 text-xs placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none leading-relaxed transition-colors"
+                {/* Right Column: Alert Broadcast Form */}
+                <div className="space-y-5">
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="admin-band-sms-show-select" className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
+                      <Dropdown
+                        id="admin-band-sms-show-select"
+                        fullWidth={true}
+                        placeholder="-- Choose target show --"
+                        selected={bandSmsSelectedShowDate}
+                        options={[
+                          { label: "-- Choose target show --", value: "" },
+                          ...tourDates.map((s: any) => ({
+                            label: `${s.date} - ${s.venue || s.venue_name}`,
+                            value: s.date,
+                          })),
+                        ]}
+                        onChange={(val) => selectShowForBandSms(val)}
+                        className="w-full"
                       />
                     </div>
-                  </div>
 
-                  {/* Feedback Logs */}
-                  {bandAlertResult && (
-                    <div className={`p-3 border  text-xs flex flex-col gap-1 ${bandAlertResult.success
-                      ? 'bg-emerald-500/10  border-[var(--color-accent)]/30 text-[var(--color-accent)]'
-                      : 'bg-red-500/10 border-red-500/20 text-red-400'
-                      }`}>
-                      <span className="font-bold flex items-center gap-1">
-                        {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
-                      </span>
-                      <span>
-                        {bandAlertResult.success
-                          ? `Alert successfully broadcasted to ${bandAlertResult.count} recipient(s).`
-                          : bandAlertResult.error}
-                      </span>
-                    </div>
-                  )}
+                    {bandSmsSelectedShowDate && (
+                      <div className="flex items-center justify-between bg-purple-500/10 border border-purple-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-purple-300 animate-[fadeIn_0.2s_ease-out]">
+                        <div className="flex items-center gap-1.5">
+                          <span></span>
+                          <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
+                        </div>
+                        <button
+                          type="button"
+                          aria-label="Clear selected show"
+                          onClick={() => selectShowForBandSms('')}
+                          className=" text-[var(--color-accent)] hover:text-purple-300 font-bold border-none bg-transparent cursor-pointer text-xs"
+                        >
 
-                  {/* Send Button */}
-                  <div>
-                    <button
-                      type="button"
-                      onClick={handleSendBandAlert}
-                      disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
-                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
-                    >
-                      {bandAlertSending ? (
-                        <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
-                      ) : (
-                        <> Send Band Broadcast</>
-                      )}
-                    </button>
-                  </div>
-                </div>
+                        </button>
+                      </div>
+                    )}
 
-                {/* Visual Recipients List */}
-                {(() => {
-                  const selectedBandPhonesSet = new Set(selectedBandPhones);
-                  const checkedRecipients = allBandCombined.filter(c => selectedBandPhonesSet.has(normalizePhoneNumber(c.phone)));
-                  if (checkedRecipients.length === 0) return null;
-                  return (
-                    <div className="space-y-2">
-                      <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block">
-                        Recipients ({checkedRecipients.length})
-                      </span>
-                      <div className="flex flex-col gap-2 bg-black/20 border border-white/5 p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
-                        {checkedRecipients.map(r => {
-                          const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
-                          const timeFrameStr = dayShifts.length > 0
-                            ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
-                            : ((r as any).time || '5:00 PM - 10:00 PM');
-                          const phoneDisplay = r.phone || '(555) 234-5678';
-                          const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
+                    {/* SMS / Email Option Toggle Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div
+                        role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
+                        onClick={() => setSendBandSmsAlert(prev => !prev)}
+                        className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert
+                          ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                          : 'bg-white/[0.01] text-white/40'
+                          }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <SquishyToggle
+                            id="band-alert-sms-toggle"
+                            label="SMS TEXTS"
+                            checked={sendBandSmsAlert}
+                            onChange={(val) => setSendBandSmsAlert(val)}
+                          />
+                          <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
+                        </div>
+                        <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
+                      </div>
 
-                          return (
-                            <div key={r.id} className="flex flex-col gap-1.5 p-2.5 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2.5 truncate">
-                                  {r.avatar ? (
-                                    <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
-                                  ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 shrink-0" />
-                                  )}
-                                  <div className="truncate">
-                                    <span className="font-bold text-white block leading-none">{r.name}</span>
-                                    <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider font-mono block mt-1">{r.role || 'BAND MEMBER'}</span>
-                                  </div>
-                                </div>
-                                <button
-                                  type="button"
-                                  aria-label="Remove recipient"
-                                  onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
-                                  className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
-                                >
-
-                                </button>
-                              </div>
-
-                              {/* Time Frame, Phone & Email Details */}
-                              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
-                                <div className="flex items-center gap-1 text-cyan-300/80">
-                                  <span>⏰</span>
-                                  <span>{timeFrameStr}</span>
-                                </div>
-                                <div className="flex items-center gap-1 text-emerald-300/80">
-                                  <span></span>
-                                  <span>{phoneDisplay}</span>
-                                </div>
-                                <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
-                                  <span></span>
-                                  <span className="truncate">{emailDisplay}</span>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
+                      <div
+                        role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
+                        onClick={() => setSendBandEmailAlert(prev => !prev)}
+                        className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert
+                          ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                          : 'bg-white/[0.01] text-white/40'
+                          }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <SquishyToggle
+                            id="band-alert-email-toggle"
+                            label="EMAIL ALERTS"
+                            checked={sendBandEmailAlert}
+                            onChange={(val) => setSendBandEmailAlert(val)}
+                          />
+                          <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
+                        </div>
+                        <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                       </div>
                     </div>
-                  );
-                })()}
 
+                    {/* Email Subject Line (Conditional) */}
+                    {sendBandEmailAlert && (
+                      <div className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
+                        <label htmlFor="admin-band-email-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/50 block">EMAIL SUBJECT LINE</label>
+                        <div className="input-glow-border rounded-lg w-full">
+                          <input
+                            id="admin-band-email-subject"
+                            type="text"
+                            value={bandEmailSubject}
+                            onChange={(e) => setBandEmailSubject(e.target.value)}
+                            placeholder="e.g. Band Schedule Update"
+                            className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Message Form */}
+                    <div className="space-y-2">
+                      <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] font-bold uppercase tracking-widest text-white/50 block">BROADCAST MESSAGE</label>
+                      <div className="input-glow-border rounded-lg w-full">
+                        <textarea
+                          id="admin-band-broadcast-msg"
+                          value={bandAlertMsg}
+                          onChange={(e) => setBandAlertMsg(e.target.value)}
+                          placeholder="Write message to send..."
+                          rows={5}
+                          style={{ backgroundColor: '#181924', color: '#ffffff' }}
+                          className="w-full  text-white! border border-white/10 rounded-lg px-3.5 py-2.5 text-xs placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none leading-relaxed transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Feedback Logs */}
+                    {bandAlertResult && (
+                      <div className={`p-3 border  text-xs flex flex-col gap-1 ${bandAlertResult.success
+                        ? 'bg-emerald-500/10  border-[var(--color-accent)]/30 text-[var(--color-accent)]'
+                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                        }`}>
+                        <span className="font-bold flex items-center gap-1">
+                          {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
+                        </span>
+                        <span>
+                          {bandAlertResult.success
+                            ? `Alert successfully broadcasted to ${bandAlertResult.count} recipient(s).`
+                            : bandAlertResult.error}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Send Button */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={handleSendBandAlert}
+                        disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
+                        className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
+                      >
+                        {bandAlertSending ? (
+                          <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
+                        ) : (
+                          <> Send Band Broadcast</>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Visual Recipients List */}
+                  {(() => {
+                    const selectedBandPhonesSet = new Set(selectedBandPhones);
+                    const checkedRecipients = allBandCombined.filter(c => selectedBandPhonesSet.has(normalizePhoneNumber(c.phone)));
+                    if (checkedRecipients.length === 0) return null;
+                    return (
+                      <div className="space-y-2">
+                        <span className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block">
+                          Recipients ({checkedRecipients.length})
+                        </span>
+                        <div className="flex flex-col gap-2 bg-black/20 border border-white/5 p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
+                          {checkedRecipients.map(r => {
+                            const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
+                            const timeFrameStr = dayShifts.length > 0
+                              ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
+                              : ((r as any).time || '5:00 PM - 10:00 PM');
+                            const phoneDisplay = r.phone || '(555) 234-5678';
+                            const emailDisplay = r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`;
+
+                            return (
+                              <div key={r.id} className="flex flex-col gap-1.5 p-2.5 bg-white/[0.02] border border-white/5 rounded-lg text-xs">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2.5 truncate">
+                                    {r.avatar ? (
+                                      <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
+                                    ) : (
+                                      <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 shrink-0" />
+                                    )}
+                                    <div className="truncate">
+                                      <span className="font-bold text-white block leading-none">{r.name}</span>
+                                      <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider font-mono block mt-1">{r.role || 'BAND MEMBER'}</span>
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    aria-label="Remove recipient"
+                                    onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
+                                    className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
+                                  >
+
+                                  </button>
+                                </div>
+
+                                {/* Time Frame, Phone & Email Details */}
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
+                                  <div className="flex items-center gap-1 text-cyan-300/80">
+                                    <span>⏰</span>
+                                    <span>{timeFrameStr}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 text-emerald-300/80">
+                                    <span></span>
+                                    <span>{phoneDisplay}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 text-purple-300/80 truncate max-w-[200px]">
+                                    <span></span>
+                                    <span className="truncate">{emailDisplay}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                </div>
+              </div>
+
+              {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-2 border-t border-white/5">
+                {/* Left Column: SMS Text Message Preview (50% Width) */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] pl-5 pr-5 pb-5 space-y-4   flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+                      <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
+                      <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
+                    </div>
+
+                    <div className="   border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
+                      {bandAlertMsg ? bandAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-white/50 font-mono text-center pt-1">
+                    Recipient phone will receive raw text alert instantly
+                  </div>
+                </div>
+
+                {/* Right Column: Email Template Preview (50% Width) */}
+                <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
+                  <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
+                      <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
+                    </div>
+                    <span className="text-xs text-white/50 font-mono">Subject: {bandEmailSubject || '(No subject)'}</span>
+                  </div>
+
+                  <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
+                    <iframe
+                      srcDoc={bandEmailHtmlPreview}
+                      title="Band Email Template Live Preview"
+                      className="w-full h-full border-none"
+                      sandbox="allow-same-origin"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-2 border-t border-white/5">
-              {/* Left Column: SMS Text Message Preview (50% Width) */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] pl-5 pr-5 pb-5 space-y-4   flex flex-col justify-between">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                    <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
-                    <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
-                  </div>
-
-                  <div className="   border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
-                    {bandAlertMsg ? bandAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
-                  </div>
-                </div>
-
-                <div className="text-xs text-white/50 font-mono text-center pt-1">
-                  Recipient phone will receive raw text alert instantly
-                </div>
-              </div>
-
-              {/* Right Column: Email Template Preview (50% Width) */}
-              <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
-                <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
-                    <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
-                  </div>
-                  <span className="text-xs text-white/50 font-mono">Subject: {bandEmailSubject || '(No subject)'}</span>
-                </div>
-
-                <div className="w-full h-[380px] overflow-hidden border border-purple-500/20 shadow-inner bg-[#050508]">
-                  <iframe
-                    srcDoc={bandEmailHtmlPreview}
-                    title="Band Email Template Live Preview"
-                    className="w-full h-full border-none"
-                    sandbox="allow-same-origin"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
           </>)}
         </div>
       </section >
@@ -6814,79 +6815,79 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
       <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
         {isSectionOpen('newsletter') && (<>
-        <div className="py-6 pl-0">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="admin-newsletter-blast-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-newsletter-blast-subject"
-                  type="text"
-                  value={blastSubject}
-                  onChange={e => setBlastSubject(e.target.value)}
-                  placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                  className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-newsletter-blast-body" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <textarea
-                  id="admin-newsletter-blast-body"
-                  value={blastBody}
-                  onChange={e => setBlastBody(e.target.value)}
-                  placeholder="Write your announcement here..."
-                  rows={6}
-                  className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
+          <div className="py-6 pl-0">
+            <div className="space-y-4">
               <div>
-                {blastResult && (
-                  <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                    {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
-                    {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
-                  </p>
-                )}
+                <label htmlFor="admin-newsletter-blast-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-newsletter-blast-subject"
+                    type="text"
+                    value={blastSubject}
+                    onChange={e => setBlastSubject(e.target.value)}
+                    placeholder="e.g.  New Show Announced — Chicago June 15th!"
+                    className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                  />
+                </div>
               </div>
-              <button
-                disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
-                onClick={async () => {
-                  if (blastSendingRef.current) return;
-                  if (!confirm(`Send this email to ALL ${fanDataRef.current?.total || 0} fans?`)) return;
-                  blastSendingRef.current = true;
-                  setBlastSending(true);
-                  setBlastResult(null);
-                  try {
-                    const res = await fetch('/api/admin/newsletter', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ subject: blastSubject, body: blastBody }),
-                    });
-                    if (res.ok) {
-                      const data = await res.json();
-                      setBlastResult(data);
-                      if (data.success) { setBlastSubject(''); setBlastBody(''); }
+              <div>
+                <label htmlFor="admin-newsletter-blast-body" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <textarea
+                    id="admin-newsletter-blast-body"
+                    value={blastBody}
+                    onChange={e => setBlastBody(e.target.value)}
+                    placeholder="Write your announcement here..."
+                    rows={6}
+                    className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  {blastResult && (
+                    <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
+                      {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
+                    </p>
+                  )}
+                </div>
+                <button
+                  disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
+                  onClick={async () => {
+                    if (blastSendingRef.current) return;
+                    if (!confirm(`Send this email to ALL ${fanDataRef.current?.total || 0} fans?`)) return;
+                    blastSendingRef.current = true;
+                    setBlastSending(true);
+                    setBlastResult(null);
+                    try {
+                      const res = await fetch('/api/admin/newsletter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subject: blastSubject, body: blastBody }),
+                      });
+                      if (res.ok) {
+                        const data = await res.json();
+                        setBlastResult(data);
+                        if (data.success) { setBlastSubject(''); setBlastBody(''); }
+                      }
+                    } catch (err: any) {
+                      setBlastResult({ error: err.message });
                     }
-                  } catch (err: any) {
-                    setBlastResult({ error: err.message });
-                  }
-                  blastSendingRef.current = false;
-                  setBlastSending(false);
-                }}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
-              >
-                {blastSending ? (
-                  <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
-                ) : (
-                  <> Send Blast</>
-                )}
-              </button>
+                    blastSendingRef.current = false;
+                    setBlastSending(false);
+                  }}
+                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                >
+                  {blastSending ? (
+                    <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
+                  ) : (
+                    <> Send Blast</>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         </>)}
       </div>
     </section >
@@ -6915,126 +6916,126 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       <div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
         {isSectionOpen('emailflow') && (<>
-        <div className="py-6 pl-0">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-            {/* Booking Flows */}
-            <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
-                  <span></span> Booking System
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Booking Confirmation', trigger: 'Sent to planner when they submit booking request form.' },
-                    { name: 'Booking Admin Alert', trigger: 'Sent to 7th Heaven admins to review new booking details.' },
-                    { name: 'Booking Status Update', trigger: 'Sent to planner when admin approves/declines booking.' },
-                    { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
-                  ].map((email) => (
-                    <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-colors">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-emerald-200">{email.name}</h4>
-                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Crew Flows */}
-            <div className="bg-black/30 border border-purple-500/15 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-purple-300 font-black text-xs uppercase tracking-wider mb-3">
-                  <span></span> Crew Management
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Welcome — Crew', trigger: 'Sent when admin registers new crew account with temporary password.' },
-                    { name: 'Schedule Change Alert', trigger: 'Sent when admin adds, updates, or deletes crew schedule shifts.' },
-                    { name: 'Crew Alert (Email + SMS)', trigger: 'Sent when admin broadcasts text broadcast via Crew SMS panel.' },
-                    { name: 'Crew SMS Dispatched', trigger: 'Sent to admin showing confirmation and recipient table.' },
-                    { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
-                  ].map((email) => (
-                    <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
-                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
-                    </div>
-                  ))}
+          <div className="py-6 pl-0">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {/* Booking Flows */}
+              <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
+                    <span></span> Booking System
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Booking Confirmation', trigger: 'Sent to planner when they submit booking request form.' },
+                      { name: 'Booking Admin Alert', trigger: 'Sent to 7th Heaven admins to review new booking details.' },
+                      { name: 'Booking Status Update', trigger: 'Sent to planner when admin approves/declines booking.' },
+                      { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
+                    ].map((email) => (
+                      <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-colors">
+                        <h4 className="text-[var(--font-size-2xs)] font-extrabold text-emerald-200">{email.name}</h4>
+                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Fan Flows */}
-            <div className="bg-black/30 border border-pink-500/10 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-pink-400 font-black text-xs uppercase tracking-wider mb-3">
-                  <span></span> Fan Engagement
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Welcome — Fan', trigger: 'Sent to fan when they sign up for interactive website features.' },
-                    { name: 'Raffle Winner Alert', trigger: 'Sent to raffle winner chosen from live show audience.' },
-                    { name: 'Raffle Entry Confirmed', trigger: 'Sent to fan when they join live stream drawing.' },
-                    { name: 'Raffle consolation Alert', trigger: 'Sent to non-winners saying thank you for trying.' },
-                    { name: 'Fan Upload Approved', trigger: 'Sent when admin approves fan-submitted live gallery photo.' },
-                    { name: 'Fan Upload Rejected', trigger: 'Sent when admin rejects image due to policy guidelines.' },
-                    { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
-                  ].map((email) => (
-                    <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-colors">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-pink-200">{email.name}</h4>
-                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
-                    </div>
-                  ))}
+              {/* Crew Flows */}
+              <div className="bg-black/30 border border-purple-500/15 p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-purple-300 font-black text-xs uppercase tracking-wider mb-3">
+                    <span></span> Crew Management
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Welcome — Crew', trigger: 'Sent when admin registers new crew account with temporary password.' },
+                      { name: 'Schedule Change Alert', trigger: 'Sent when admin adds, updates, or deletes crew schedule shifts.' },
+                      { name: 'Crew Alert (Email + SMS)', trigger: 'Sent when admin broadcasts text broadcast via Crew SMS panel.' },
+                      { name: 'Crew SMS Dispatched', trigger: 'Sent to admin showing confirmation and recipient table.' },
+                      { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
+                    ].map((email) => (
+                      <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
+                        <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
+                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Cruise Flows */}
-            <div className="bg-black/30 border border-cyan-500/10 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-[#c27aff] font-black text-xs uppercase tracking-wider mb-3">
-                  <span></span> Cruise System
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Cruise Signup Confirmed', trigger: 'Sent to fan when signing up to cruise newsletter waitlist.' },
-                    { name: 'Cruise Community Welcome', trigger: 'Sent when cruise admin approves user reservation.' },
-                    { name: 'Cruise Cancellation', trigger: 'Sent when reservation is cancelled by user/admin.' },
-                    { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
-                  ].map((email) => (
-                    <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-cyan-200">{email.name}</h4>
-                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
-                    </div>
-                  ))}
+              {/* Fan Flows */}
+              <div className="bg-black/30 border border-pink-500/10 p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-pink-400 font-black text-xs uppercase tracking-wider mb-3">
+                    <span></span> Fan Engagement
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Welcome — Fan', trigger: 'Sent to fan when they sign up for interactive website features.' },
+                      { name: 'Raffle Winner Alert', trigger: 'Sent to raffle winner chosen from live show audience.' },
+                      { name: 'Raffle Entry Confirmed', trigger: 'Sent to fan when they join live stream drawing.' },
+                      { name: 'Raffle consolation Alert', trigger: 'Sent to non-winners saying thank you for trying.' },
+                      { name: 'Fan Upload Approved', trigger: 'Sent when admin approves fan-submitted live gallery photo.' },
+                      { name: 'Fan Upload Rejected', trigger: 'Sent when admin rejects image due to policy guidelines.' },
+                      { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
+                    ].map((email) => (
+                      <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-colors">
+                        <h4 className="text-[var(--font-size-2xs)] font-extrabold text-pink-200">{email.name}</h4>
+                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Newsletter & Other */}
-            <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2  text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
-                  <span></span> Newsletter & Account
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Newsletter Blast', trigger: 'Sent when admin broadcasts a new update block via Newsletter panel.' },
-                    { name: 'Flash Merch — Table Pickup', trigger: 'Sent to buyer notifying them to collect merch at table.' },
-                    { name: 'Flash Merch — Shipping', trigger: 'Sent when merch has been shipped to customer address.' },
-                    { name: 'New Account Alert — Admin', trigger: 'Sent to super-admin when new admin logs in first time.' },
-                    { name: 'Welcome — Planner', trigger: 'Sent to corporate planner on registration.' },
-                    { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
-                  ].map((email) => (
-                    <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                      <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
-                      <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
-                    </div>
-                  ))}
+              {/* Cruise Flows */}
+              <div className="bg-black/30 border border-cyan-500/10 p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-[#c27aff] font-black text-xs uppercase tracking-wider mb-3">
+                    <span></span> Cruise System
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Cruise Signup Confirmed', trigger: 'Sent to fan when signing up to cruise newsletter waitlist.' },
+                      { name: 'Cruise Community Welcome', trigger: 'Sent when cruise admin approves user reservation.' },
+                      { name: 'Cruise Cancellation', trigger: 'Sent when reservation is cancelled by user/admin.' },
+                      { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
+                    ].map((email) => (
+                      <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
+                        <h4 className="text-[var(--font-size-2xs)] font-extrabold text-cyan-200">{email.name}</h4>
+                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
+              {/* Newsletter & Other */}
+              <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2  text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
+                    <span></span> Newsletter & Account
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Newsletter Blast', trigger: 'Sent when admin broadcasts a new update block via Newsletter panel.' },
+                      { name: 'Flash Merch — Table Pickup', trigger: 'Sent to buyer notifying them to collect merch at table.' },
+                      { name: 'Flash Merch — Shipping', trigger: 'Sent when merch has been shipped to customer address.' },
+                      { name: 'New Account Alert — Admin', trigger: 'Sent to super-admin when new admin logs in first time.' },
+                      { name: 'Welcome — Planner', trigger: 'Sent to corporate planner on registration.' },
+                      { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
+                    ].map((email) => (
+                      <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
+                        <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
+                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
         </>)}
       </div>
     </section >
@@ -7070,125 +7071,125 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
       <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
         {isSectionOpen('registry') && (<>
-        <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-          {isLoading ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
-          ) : filteredUsers.length === 0 ? (
-            <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
-          ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10">
-                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">User</th>
-                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Role</th>
-                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Status</th>
-                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user) => {
-                  const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
-                  const acct = Object.values(accounts).find((a: any) =>
-                    (a.id && a.id === user.id) ||
-                    (a.email && user.email && a.email.toLowerCase() === user.email.toLowerCase()) ||
-                    (a.name && a.name.toLowerCase() === user.name.toLowerCase())
-                  ) as any;
-                  return (
-                    <React.Fragment key={user.id}>
-                      <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
-                        <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
-                        <td className="p-4 text-sm">
-                          <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]   text-white/60 border border-white/10'}`}>
-                            {user.role}
-                          </span>
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-1.5">
-                            <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
-                              : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
-                                : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                              }`} />
-                            <span className="text-[0.6rem] uppercase tracking-wider text-white/50">{user.status}</span>
-                          </div>
-                        </td>
-                        <td className="p-4 text-right">
-                          {user.role !== 'admin' ? (
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-[#e1e6ff29]   hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
-                              >
-                                {viewingUser === user.id ? 'Hide' : 'View'}
-                              </button>
-                              <button
-                                onClick={() => banUser(user.id, user.name)}
-                                className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          ) : (
-                            <span className="px-4 py-2 inline-block text-[0.55rem] uppercase font-bold tracking-widest text-white/20">
-                              Protected
+          <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+            {isLoading ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
+            ) : filteredUsers.length === 0 ? (
+              <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
+            ) : (
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10">
+                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">User</th>
+                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Role</th>
+                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Status</th>
+                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUsers.map((user) => {
+                    const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
+                    const acct = Object.values(accounts).find((a: any) =>
+                      (a.id && a.id === user.id) ||
+                      (a.email && user.email && a.email.toLowerCase() === user.email.toLowerCase()) ||
+                      (a.name && a.name.toLowerCase() === user.name.toLowerCase())
+                    ) as any;
+                    return (
+                      <React.Fragment key={user.id}>
+                        <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
+                          <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
+                          <td className="p-4 text-sm">
+                            <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]    text-white  border border-white/10'}`}>
+                              {user.role}
                             </span>
-                          )}
-                        </td>
-                      </tr>
-                      {viewingUser === user.id && (
-                        <tr className="bg-white/[0.02]">
-                          <td colSpan={4} className="px-6 py-3">
-                            <div className="flex items-center gap-8 text-[0.7rem]">
-                              <div>
-                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
-                                <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
-                              </div>
-                              <div>
-                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
-                                <span className="text-purple-300 font-mono">
-                                  {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
-                                </span>
-                                {user.role === 'crew' && (
-                                  <button
-                                    onClick={async () => {
-                                      const res = await adminResetPassword(user.id, user.email);
-                                      if (res.success) {
-                                        const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-                                        accounts[user.email.toLowerCase()] = {
-                                          ...accounts[user.email.toLowerCase()],
-                                          id: user.id,
-                                          name: user.name,
-                                          email: user.email.toLowerCase(),
-                                          password: res.password,
-                                          role: 'crew'
-                                        };
-                                        localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
-                                        alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
-                                        window.location.reload();
-                                      }
-                                    }}
-                                    className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-colors"
-                                  >
-                                    Reset & Show
-                                  </button>
-                                )}
-                              </div>
-                              {user.role === 'crew' && !acct?.password && (
-                                <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
-                                  * Credentials lost (Check browser history or re-create account)
-                                </p>
-                              )}
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center gap-1.5">
+                              <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
+                                : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
+                                  : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                                }`} />
+                              <span className="text-[0.6rem] uppercase tracking-wider text-white/50">{user.status}</span>
                             </div>
                           </td>
+                          <td className="p-4 text-right">
+                            {user.role !== 'admin' ? (
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
+                                  className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-[#e1e6ff29]   hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                >
+                                  {viewingUser === user.id ? 'Hide' : 'View'}
+                                </button>
+                                <button
+                                  onClick={() => banUser(user.id, user.name)}
+                                  className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ) : (
+                              <span className="px-4 py-2 inline-block text-[0.55rem] uppercase font-bold tracking-widest text-white/20">
+                                Protected
+                              </span>
+                            )}
+                          </td>
                         </tr>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                        {viewingUser === user.id && (
+                          <tr className="bg-white/[0.02]">
+                            <td colSpan={4} className="px-6 py-3">
+                              <div className="flex items-center gap-8 text-[0.7rem]">
+                                <div>
+                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
+                                  <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
+                                </div>
+                                <div>
+                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
+                                  <span className="text-purple-300 font-mono">
+                                    {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
+                                  </span>
+                                  {user.role === 'crew' && (
+                                    <button
+                                      onClick={async () => {
+                                        const res = await adminResetPassword(user.id, user.email);
+                                        if (res.success) {
+                                          const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
+                                          accounts[user.email.toLowerCase()] = {
+                                            ...accounts[user.email.toLowerCase()],
+                                            id: user.id,
+                                            name: user.name,
+                                            email: user.email.toLowerCase(),
+                                            password: res.password,
+                                            role: 'crew'
+                                          };
+                                          localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
+                                          alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
+                                          window.location.reload();
+                                        }
+                                      }}
+                                      className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                    >
+                                      Reset & Show
+                                    </button>
+                                  )}
+                                </div>
+                                {user.role === 'crew' && !acct?.password && (
+                                  <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
+                                    * Credentials lost (Check browser history or re-create account)
+                                  </p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
 
-              </tbody>
-            </table>
-          )}
-        </div>
+                </tbody>
+              </table>
+            )}
+          </div>
         </>)}
       </div>
     </section>
@@ -7215,136 +7216,136 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
       <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
         {isSectionOpen('crewcreation') && (<>
-        <div className="py-6 pl-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-            <div>
-              <label htmlFor="admin-create-crew-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-crew-name"
-                  type="text"
-                  placeholder="e.g. Alex Rivera"
-                  value={newCrewName}
-                  onChange={e => setNewCrewName(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-crew-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-crew-username"
-                  type="text"
-                  placeholder="e.g. alex_7h"
-                  value={newCrewUsername}
-                  onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
-                  maxLength={24}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-crew-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-crew-email"
-                  type="email"
-                  placeholder="crew@7thheaven.com"
-                  value={newCrewEmail}
-                  onChange={e => setNewCrewEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-crew-password" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-crew-password"
-                  type="password"
-                  placeholder="Min 6 characters"
-                  value={newCrewPassword}
-                  onChange={e => setNewCrewPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-crew-phone" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-crew-phone"
-                  type="tel"
-                  placeholder="(555) 123-4567"
-                  value={newCrewPhone}
-                  onChange={e => {
-                    const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-                    if (digits.length <= 3) setNewCrewPhone(digits);
-                    else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
-                    else setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`);
-                  }}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <button
-              onClick={createCrew}
-              disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
-              className="px-6 py-3 bg-emerald-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-emerald-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center gap-2 whitespace-nowrap"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
-              Create Account
-            </button>
-          </div>
-          <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
-            <span className="text-purple-300 text-sm mt-0.5"></span>
-            <p className="text-[0.65rem] text-white/40 leading-relaxed">
-              A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
-            </p>
-          </div>
-
-          {/* Success card */}
-          {createdCrew && (
-            <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
-                  <div>
-                    <h4 className="text-sm font-bold text-[var(--color-accent)]">Crew Account Created</h4>
-                    <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
-                    {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
-                    <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
-                      <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
-                      <button
-                        onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
-                        className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
-                      >Copy</button>
-                    </div>
-                  </div>
+          <div className="py-6 pl-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+              <div>
+                <label htmlFor="admin-create-crew-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-crew-name"
+                    type="text"
+                    placeholder="e.g. Alex Rivera"
+                    value={newCrewName}
+                    onChange={e => setNewCrewName(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
                 </div>
-                <button aria-label="Dismiss created crew notification" onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+              </div>
+              <div>
+                <label htmlFor="admin-create-crew-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-crew-username"
+                    type="text"
+                    placeholder="e.g. alex_7h"
+                    value={newCrewUsername}
+                    onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                    maxLength={24}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="admin-create-crew-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-crew-email"
+                    type="email"
+                    placeholder="crew@7thheaven.com"
+                    value={newCrewEmail}
+                    onChange={e => setNewCrewEmail(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="admin-create-crew-password" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-crew-password"
+                    type="password"
+                    placeholder="Min 6 characters"
+                    value={newCrewPassword}
+                    onChange={e => setNewCrewPassword(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="admin-create-crew-phone" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-crew-phone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={newCrewPhone}
+                    onChange={e => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      if (digits.length <= 3) setNewCrewPhone(digits);
+                      else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
+                      else setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`);
+                    }}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
               </div>
               <button
-                onClick={scrollToRegistry}
-                className="mt-4 w-full py-2.5 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] font-bold hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2"
+                onClick={createCrew}
+                disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
+                className="px-6 py-3 bg-emerald-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-emerald-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center gap-2 whitespace-nowrap"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-                View in Registry ↓
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
+                Create Account
               </button>
             </div>
-          )}
-
-          {/* Error */}
-          {crewError && (
-            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
-              <span className="text-rose-400"></span>
-              <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
-              <button aria-label="Dismiss crew error" onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+            <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
+              <span className="text-purple-300 text-sm mt-0.5"></span>
+              <p className="text-[0.65rem] text-white/40 leading-relaxed">
+                A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
+              </p>
             </div>
-          )}
-        </div>
+
+            {/* Success card */}
+            {createdCrew && (
+              <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
+                    <div>
+                      <h4 className="text-sm font-bold text-[var(--color-accent)]">Crew Account Created</h4>
+                      <p className="text-[0.7rem]  text-white  mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
+                      {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
+                      <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
+                        <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
+                        <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
+                        <button
+                          onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
+                          className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
+                        >Copy</button>
+                      </div>
+                    </div>
+                  </div>
+                  <button aria-label="Dismiss created crew notification" onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+                </div>
+                <button
+                  onClick={scrollToRegistry}
+                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] font-bold hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                  View in Registry ↓
+                </button>
+              </div>
+            )}
+
+            {/* Error */}
+            {crewError && (
+              <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
+                <span className="text-rose-400"></span>
+                <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
+                <button aria-label="Dismiss crew error" onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+              </div>
+            )}
+          </div>
         </>)}
       </div>
     </section >
@@ -7394,160 +7395,160 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('admincreation', 'Create Admin Account', 'Register new band administrator or planner accounts with full database access and management permissions.')}
       <div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
         {isSectionOpen('admincreation') && (<>
-        <div className="py-6 pl-0">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-            <div>
-              <label htmlFor="admin-create-admin-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-admin-name"
-                  type="text"
-                  placeholder="e.g. Michael Scimeca"
-                  value={newAdminName}
-                  onChange={e => setNewAdminName(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-admin-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-admin-email"
-                  type="email"
-                  placeholder="admin@7thheaven.com"
-                  value={newAdminEmail}
-                  onChange={e => setNewAdminEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="admin-create-admin-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
-              <div className="input-glow-border rounded-lg w-full">
-                <input
-                  id="admin-create-admin-username"
-                  type="text"
-                  placeholder="e.g. mikeys"
-                  value={newAdminUsername}
-                  onChange={e => setNewAdminUsername(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
-                />
-              </div>
-            </div>
-            <button
-              onClick={createAdmin}
-              disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
-              className="px-6 py-3 bg-purple-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(147, 51, 234,0.2)] hover:shadow-[0_0_30px_rgba(147, 51, 234,0.4)] flex items-center gap-2 whitespace-nowrap"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
-              {adminCreateLoading ? 'Creating…' : 'Create Admin'}
-            </button>
-          </div>
-
-          <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
-            <span className="text-purple-300 text-sm mt-0.5"></span>
-            <p className="text-[0.65rem] text-white/40 leading-relaxed">
-              A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
-            </p>
-          </div>
-
-          {/* Success card */}
-          {createdAdmin && (
-            <div className="mt-4 p-5 bg-purple-600/[0.08] border border-purple-500/30">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
-                  <div>
-                    <h4 className="text-sm font-bold text-purple-300">Admin Account Created</h4>
-                    <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
-                    <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
-                      <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdAdmin.password}</code>
-                      <button
-                        onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
-                        className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
-                      >Copy</button>
-                    </div>
-                    <p className="text-[0.6rem] text-white/30 mt-2"> Welcome email sent to {createdAdmin.email}</p>
-                  </div>
-                </div>
-                <button aria-label="Dismiss created admin notification" onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
-              </div>
-            </div>
-          )}
-          {/* Error */}
-          {adminCreateError && (
-            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
-              <span className="text-rose-400"></span>
-              <p className="text-[0.7rem] text-rose-400 font-bold">{adminCreateError}</p>
-              <button aria-label="Dismiss admin error" onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
-            </div>
-          )}
-
-          {/* Sub-Admin Permissions Manager */}
-          <div className="mt-8 pt-6 border-t border-white/10">
-            <div className="flex items-center justify-between mb-4">
+          <div className="py-6 pl-0">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  Sub-Admin Role Permissions
-                  {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 font-mono animate-pulse">Saving changes...</span>}
-                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-[var(--color-accent)] font-mono"> Saved to database</span>}
-                </h4>
-                <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
+                <label htmlFor="admin-create-admin-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-admin-name"
+                    type="text"
+                    placeholder="e.g. Michael Scimeca"
+                    value={newAdminName}
+                    onChange={e => setNewAdminName(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="admin-create-admin-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-admin-email"
+                    type="email"
+                    placeholder="admin@7thheaven.com"
+                    value={newAdminEmail}
+                    onChange={e => setNewAdminEmail(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="admin-create-admin-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+                <div className="input-glow-border rounded-lg w-full">
+                  <input
+                    id="admin-create-admin-username"
+                    type="text"
+                    placeholder="e.g. mikeys"
+                    value={newAdminUsername}
+                    onChange={e => setNewAdminUsername(e.target.value)}
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={createAdmin}
+                disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
+                className="px-6 py-3 bg-purple-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(147, 51, 234,0.2)] hover:shadow-[0_0_30px_rgba(147, 51, 234,0.4)] flex items-center gap-2 whitespace-nowrap"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
+                {adminCreateLoading ? 'Creating…' : 'Create Admin'}
+              </button>
+            </div>
+
+            <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
+              <span className="text-purple-300 text-sm mt-0.5"></span>
+              <p className="text-[0.65rem] text-white/40 leading-relaxed">
+                A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
+              </p>
+            </div>
+
+            {/* Success card */}
+            {createdAdmin && (
+              <div className="mt-4 p-5 bg-purple-600/[0.08] border border-purple-500/30">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
+                    <div>
+                      <h4 className="text-sm font-bold text-purple-300">Admin Account Created</h4>
+                      <p className="text-[0.7rem]  text-white  mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
+                      <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
+                        <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
+                        <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdAdmin.password}</code>
+                        <button
+                          onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
+                          className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
+                        >Copy</button>
+                      </div>
+                      <p className="text-[0.6rem] text-white/30 mt-2"> Welcome email sent to {createdAdmin.email}</p>
+                    </div>
+                  </div>
+                  <button aria-label="Dismiss created admin notification" onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
+                </div>
+              </div>
+            )}
+            {/* Error */}
+            {adminCreateError && (
+              <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
+                <span className="text-rose-400"></span>
+                <p className="text-[0.7rem] text-rose-400 font-bold">{adminCreateError}</p>
+                <button aria-label="Dismiss admin error" onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
+              </div>
+            )}
+
+            {/* Sub-Admin Permissions Manager */}
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    Sub-Admin Role Permissions
+                    {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 font-mono animate-pulse">Saving changes...</span>}
+                    {savePermStatus === 'saved' && <span className="text-[0.65rem] text-[var(--color-accent)] font-mono"> Saved to database</span>}
+                  </h4>
+                  <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {Object.entries(adminPermissions).map(([email, perms]) => (
+                  <div key={email} className="p-4 bg-white/[0.03] border border-white/10">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold text-purple-300 font-mono">{email}</span>
+                      <span className="text-[0.6rem] uppercase tracking-wider text-white/30 font-bold">Sub-Admin</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {[
+                        { key: 'cruise_admin', label: ' Cruise Admin' },
+                        { key: 'cruise_chat', label: ' Cruise Chat' },
+                        { key: 'schedule', label: ' Schedule' },
+                        { key: 'crew_roster', label: ' Crew Roster' },
+                        { key: 'email_blasts', label: ' Email Blasts' },
+                        { key: 'site_settings', label: ' Site Settings' },
+                      ].map(({ key, label }) => {
+                        const enabled = !!perms[key];
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => {
+                              const updated = {
+                                ...adminPermissions,
+                                [email]: {
+                                  ...adminPermissions[email],
+                                  [key]: !enabled,
+                                }
+                              };
+                              savePermissionsToBackend(updated);
+                            }}
+                            className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-colors cursor-pointer ${enabled
+                              ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
+                              : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
+                              }`}
+                          >
+                            <span>{label}</span>
+                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
+                              {enabled ? '' : ''}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <div className="space-y-4">
-              {Object.entries(adminPermissions).map(([email, perms]) => (
-                <div key={email} className="p-4 bg-white/[0.03] border border-white/10">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-purple-300 font-mono">{email}</span>
-                    <span className="text-[0.6rem] uppercase tracking-wider text-white/30 font-bold">Sub-Admin</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {[
-                      { key: 'cruise_admin', label: ' Cruise Admin' },
-                      { key: 'cruise_chat', label: ' Cruise Chat' },
-                      { key: 'schedule', label: ' Schedule' },
-                      { key: 'crew_roster', label: ' Crew Roster' },
-                      { key: 'email_blasts', label: ' Email Blasts' },
-                      { key: 'site_settings', label: ' Site Settings' },
-                    ].map(({ key, label }) => {
-                      const enabled = !!perms[key];
-                      return (
-                        <button
-                          key={key}
-                          type="button"
-                          onClick={() => {
-                            const updated = {
-                              ...adminPermissions,
-                              [email]: {
-                                ...adminPermissions[email],
-                                [key]: !enabled,
-                              }
-                            };
-                            savePermissionsToBackend(updated);
-                          }}
-                          className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-colors cursor-pointer ${enabled
-                            ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
-                            : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
-                            }`}
-                        >
-                          <span>{label}</span>
-                          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
-                            {enabled ? '' : ''}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
         </>)}
       </div>
     </section >
@@ -7575,9 +7576,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('bulkinvites', 'Bulk Invites', 'Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory.')}
       <div style={{ display: isSectionOpen('bulkinvites') ? undefined : 'none' }}>
         {isSectionOpen('bulkinvites') && (<>
-        <div className="py-6 pl-0">
-          <BulkInvitePanel />
-        </div>
+          <div className="py-6 pl-0">
+            <BulkInvitePanel />
+          </div>
         </>)}
       </div>
     </section >
@@ -7679,196 +7680,196 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
         <div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
           {isSectionOpen('cruisesignups') && (<>
-          <div className="py-6 pl-0">
-            {/* Summary stats bar */}
-            <div className="grid grid-cols-4 gap-3 mb-6">
-              <div className="bg-black/30 p-3 border border-white/5 text-center">
-                <p className="text-xl font-black text-cyan-400">{signups.length}</p>
-                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
-              </div>
-              <div className="bg-black/30 p-3 border border-white/5 text-center">
-                <p className="text-xl font-black text-white">{cruiseStats.total}</p>
-                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
-              </div>
-              <div className="bg-black/30 p-3 border border-white/5 text-center">
-                <p className="text-xl font-black text-[var(--color-accent)]">{signups.filter((s: any) => s.depositPaid).length}</p>
-                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
-              </div>
-              <div className="bg-black/30 p-3 border border-white/5 text-center">
-                <p className="text-xl font-black text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
-                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
-              </div>
-            </div>
-
-            {/* Email action bar */}
-            {signups.length > 0 && (
-              <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
-                <div className="flex items-center gap-3">
-                  <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/15 text-white/10 hover:border-white/25'}`}>
-                    {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                  </button>
-                  <span className="text-[0.6rem] text-white/40 font-bold uppercase tracking-widest">
-                    {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
-                  </span>
+            <div className="py-6 pl-0">
+              {/* Summary stats bar */}
+              <div className="grid grid-cols-4 gap-3 mb-6">
+                <div className="bg-black/30 p-3 border border-white/5 text-center">
+                  <p className="text-xl font-black text-cyan-400">{signups.length}</p>
+                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
                 </div>
-                <button
-                  onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
-                  disabled={cruiseSelectedEmails.length === 0}
-                  className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-                  Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
-                </button>
-              </div>
-            )}
-
-            {/* Email compose panel */}
-            {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
-              <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
-                <div className="flex items-center justify-between">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
-                  <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm">✕</button>
+                <div className="bg-black/30 p-3 border border-white/5 text-center">
+                  <p className="text-xl font-black text-white">{cruiseStats.total}</p>
+                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
                 </div>
-                {/* Selected recipients preview */}
-                <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
-                  {cruiseSelectedEmails.map(email => (
-                    <span key={email} className="inline-flex items-center gap-1 bg-black/30 border border-white/5 rounded-full px-2.5 py-1 text-[0.55rem] text-white/50">
-                      {email}
-                      <button aria-label={`Remove ${email}`} onClick={() => toggleEmail(email)} className="text-white/20 hover:text-rose-400 transition-colors cursor-pointer">×</button>
+                <div className="bg-black/30 p-3 border border-white/5 text-center">
+                  <p className="text-xl font-black text-[var(--color-accent)]">{signups.filter((s: any) => s.depositPaid).length}</p>
+                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
+                </div>
+                <div className="bg-black/30 p-3 border border-white/5 text-center">
+                  <p className="text-xl font-black text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
+                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
+                </div>
+              </div>
+
+              {/* Email action bar */}
+              {signups.length > 0 && (
+                <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
+                  <div className="flex items-center gap-3">
+                    <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/15 text-white/10 hover:border-white/25'}`}>
+                      {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                    </button>
+                    <span className="text-[0.6rem] text-white/40 font-bold uppercase tracking-widest">
+                      {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
                     </span>
-                  ))}
-                </div>
-                <div>
-                  <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
-                  <div className="input-glow-border rounded-lg w-full">
-                    <input
-                      id="admin-cruise-email-subject"
-                      type="text"
-                      value={cruiseEmailSubject}
-                      onChange={e => setCruiseEmailSubject(e.target.value)}
-                      placeholder="e.g. Important Cruise Update — Departure Details"
-                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
-                  <div className="input-glow-border rounded-lg w-full">
-                    <textarea
-                      id="admin-cruise-email-body"
-                      value={cruiseEmailBody}
-                      onChange={e => setCruiseEmailBody(e.target.value)}
-                      placeholder="Write your message to cruise passengers..."
-                      rows={5}
-                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    {cruiseEmailResult && (
-                      <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
-                        {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
-                      </p>
-                    )}
                   </div>
                   <button
-                    disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
-                    onClick={sendCruiseEmail}
-                    className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-[0.65rem] uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer"
+                    onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
+                    disabled={cruiseSelectedEmails.length === 0}
+                    className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
                   >
-                    {cruiseEmailSending ? (
-                      <><span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
-                    ) : (
-                      <> Send Email</>
-                    )}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+                    Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
                   </button>
                 </div>
-              </div>
-            )}
+              )}
 
-            {signups.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-white/20 text-sm">No cruise signups yet.</p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
-                {/* Table header */}
-                <div className="grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 px-3 py-2 text-[0.5rem] font-bold text-white/25 uppercase tracking-widest border-b border-white/5">
-                  <span></span>
-                  <span>#</span>
-                  <span>Name / Email</span>
-                  <span>Phone</span>
-                  <span>Party</span>
-                  <span className="text-center">Checked</span>
-                  <span className="text-center">Deposit</span>
-                  <span className="text-center">Full</span>
-                  <span></span>
-                </div>
-                {(() => {
-                  const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
-                  return signups.map((s: any, i: number) => (
-                    <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
-                      {/* Email checkbox */}
-                      <div className="flex justify-center">
-                        <SquishyToggle
-                          id={`cruise-email-toggle-${s.email || i}`}
-                          label={`Select ${s.name || s.email}`}
-                          checked={cruiseSelectedEmailsSet.has(s.email)}
-                          onChange={() => s.email && toggleEmail(s.email)}
-                        />
-                      </div>
-                      {/* Row number */}
-                      <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
-                      {/* Name + Email */}
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                        <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
-                      </div>
-                      {/* Phone */}
-                      <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
-                      {/* Party size + date */}
-                      <div>
-                        <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                        <p className="text-[0.5rem] text-white/20">{s.date}</p>
-                      </div>
-                      {/* Checked off */}
-                      <div className="flex justify-center">
-                        <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                          {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                        </button>
-                      </div>
-                      {/* Deposit paid */}
-                      <div className="flex justify-center">
-                        <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                          {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                        </button>
-                      </div>
-                      {/* Full paid */}
-                      <div className="flex justify-center">
-                        <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                          {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                        </button>
-                      </div>
-                      {/* Delete */}
-                      <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6  rounded-lg  border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
-                      </button>
+              {/* Email compose panel */}
+              {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
+                <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
+                    <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm">✕</button>
+                  </div>
+                  {/* Selected recipients preview */}
+                  <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
+                    {cruiseSelectedEmails.map(email => (
+                      <span key={email} className="inline-flex items-center gap-1 bg-black/30 border border-white/5 rounded-full px-2.5 py-1 text-[0.55rem] text-white/50">
+                        {email}
+                        <button aria-label={`Remove ${email}`} onClick={() => toggleEmail(email)} className="text-white/20 hover:text-rose-400 transition-colors cursor-pointer">×</button>
+                      </span>
+                    ))}
+                  </div>
+                  <div>
+                    <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
+                    <div className="input-glow-border rounded-lg w-full">
+                      <input
+                        id="admin-cruise-email-subject"
+                        type="text"
+                        value={cruiseEmailSubject}
+                        onChange={e => setCruiseEmailSubject(e.target.value)}
+                        placeholder="e.g. Important Cruise Update — Departure Details"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
+                      />
                     </div>
-                  ));
-                })()}
-              </div>
-            )}
+                  </div>
+                  <div>
+                    <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
+                    <div className="input-glow-border rounded-lg w-full">
+                      <textarea
+                        id="admin-cruise-email-body"
+                        value={cruiseEmailBody}
+                        onChange={e => setCruiseEmailBody(e.target.value)}
+                        placeholder="Write your message to cruise passengers..."
+                        rows={5}
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      {cruiseEmailResult && (
+                        <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
+                          {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
+                      onClick={sendCruiseEmail}
+                      className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-[0.65rem] uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer"
+                    >
+                      {cruiseEmailSending ? (
+                        <><span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
+                      ) : (
+                        <> Send Email</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
 
-            {/* Bottom actions */}
-            <div className="flex gap-3 mt-4">
-              <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
-                Export CSV
-              </button>
+              {signups.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-white/20 text-sm">No cruise signups yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
+                  {/* Table header */}
+                  <div className="grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 px-3 py-2 text-[0.5rem] font-bold text-white/25 uppercase tracking-widest border-b border-white/5">
+                    <span></span>
+                    <span>#</span>
+                    <span>Name / Email</span>
+                    <span>Phone</span>
+                    <span>Party</span>
+                    <span className="text-center">Checked</span>
+                    <span className="text-center">Deposit</span>
+                    <span className="text-center">Full</span>
+                    <span></span>
+                  </div>
+                  {(() => {
+                    const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
+                    return signups.map((s: any, i: number) => (
+                      <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                        {/* Email checkbox */}
+                        <div className="flex justify-center">
+                          <SquishyToggle
+                            id={`cruise-email-toggle-${s.email || i}`}
+                            label={`Select ${s.name || s.email}`}
+                            checked={cruiseSelectedEmailsSet.has(s.email)}
+                            onChange={() => s.email && toggleEmail(s.email)}
+                          />
+                        </div>
+                        {/* Row number */}
+                        <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
+                        {/* Name + Email */}
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                          <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                        </div>
+                        {/* Phone */}
+                        <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
+                        {/* Party size + date */}
+                        <div>
+                          <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          <p className="text-[0.5rem] text-white/20">{s.date}</p>
+                        </div>
+                        {/* Checked off */}
+                        <div className="flex justify-center">
+                          <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                            {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          </button>
+                        </div>
+                        {/* Deposit paid */}
+                        <div className="flex justify-center">
+                          <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                            {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          </button>
+                        </div>
+                        {/* Full paid */}
+                        <div className="flex justify-center">
+                          <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                            {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          </button>
+                        </div>
+                        {/* Delete */}
+                        <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6  rounded-lg  border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
+                        </button>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              )}
+
+              {/* Bottom actions */}
+              <div className="flex gap-3 mt-4">
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+                  Export CSV
+                </button>
+              </div>
             </div>
-          </div>
           </>)}
         </div>
       </section >
@@ -9588,7 +9589,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29] px-2.5 py-1 rounded-lg border border-white/30">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
@@ -9598,1127 +9598,1118 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
           {isSectionOpen('calendar') && (<>
-          {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
-          <div className="border-b border-[var(--color-accent)]/30  py-2.5 flex items-center justify-between gap-4 select-none">
-            <div className="flex items-center gap-3 flex-wrap text-xs">
-              <span className="flex items-center gap-2 font-bold text-[var(--color-accent)]">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                </span>
-                LIVE CO-EDITING SYNC
-              </span>
-              <span className="text-white/30 font-light">|</span>
-              <div className="flex items-center gap-2">
-                <span className="text-white/60 text-[11px]">Active Editors:</span>
-                {coEditors.map(ed => (
-                  <span key={ed.id} className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-colors ${ed.isEditing ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]' : 'bg-blue-500/15 border-blue-500/30 text-blue-300'}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                    {ed.name} {ed.isEditing ? ' (Editing shift)' : '(Viewing)'}
+            {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
+            <div className="border-b border-[var(--color-accent)]/30  py-2.5 flex items-center justify-between gap-4 select-none">
+              <div className="flex items-center gap-3 flex-wrap text-xs">
+                <span className="flex items-center gap-2 font-bold text-[var(--color-accent)]">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                   </span>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setCoEditorConflictAlert({
-                    isOpen: true,
-                    editorName: 'Marcus Vance',
-                    shiftTitle: 'Sound Engineer (Tue Aug 4)',
-                    changeDesc: 'Shift updated from 1p-6:30p to 2p-8p while you were viewing the roster!',
-                    timestamp: 'Just now'
-                  });
-                }}
-                className="px-2.5 py-1 bg-purple-500/15 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
-                title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
-              >
-                Simulate Mix-Up Conflict
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowCoEditorModal(true)}
-                className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
-              >
-                Co-Editor Settings
-              </button>
-            </div>
-          </div>
-
-          {/*  Schedule Mix-Up Conflict Resolution Modal */}
-          {coEditorConflictAlert?.isOpen && (
-            <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-              <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
-                <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-                  <div className="w-10 h-10 bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
-
-                  </div>
-                  <div>
-                    <h3 className="text-base font-extrabold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
-                    <p className="text-xs text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
-                  </div>
-                </div>
-
-                <div className="bg-black/50 border border-white/10 p-4 space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-white/50">
-                    <span>Editor: <strong className="text-white">{coEditorConflictAlert.editorName}</strong></span>
-                    <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
-                  </div>
-                  <div className="text-sm font-bold text-pink-300">
-                    Shift: {coEditorConflictAlert.shiftTitle}
-                  </div>
-                  <p className="text-white/80 leading-relaxed bg-[#e1e6ff29]   p-2.5 rounded border border-white/5">
-                    {coEditorConflictAlert.changeDesc}
-                  </p>
-                </div>
-
-                <p className="text-[11px] text-white/50 italic">
-                  Live presence prevents double-bookings & timeline mix-ups by automatically syncing modifications made by other admins.
-                </p>
-
-                <div className="flex items-center justify-end gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCoEditorConflictAlert(null)}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                  >
-                    Accept Remote Sync
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/*  Co-Editors Settings & Live Active List Modal */}
-          {showCoEditorModal && (
-            <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-              <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    <span></span> Active Co-Editors & Lock Status
-                  </h3>
-                  <button aria-label="Close co-editor modal" onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg">✕</button>
-                </div>
-
-                <div className="space-y-3">
+                  LIVE CO-EDITING SYNC
+                </span>
+                <span className="text-white/30 font-light">|</span>
+                <div className="flex items-center gap-2">
+                  <span className=" text-white  text-[11px]">Active Editors:</span>
                   {coEditors.map(ed => (
-                    <div key={ed.id} className="p-3 bg-black/40 border border-white/5 flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 font-black text-xs flex items-center justify-center">
-                          {ed.avatar}
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                            {ed.name}
-                            <span className="text-[10px] text-white/40">({ed.role})</span>
-                          </div>
-                          <div className="text-[10px] text-white/50">{ed.lastAction}</div>
-                        </div>
-                      </div>
-                      <span className={`px-2 py-0.5 text-[9px] font-black rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
-                        {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
-                      </span>
-                    </div>
+                    <span key={ed.id} className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border transition-colors ${ed.isEditing ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]' : 'bg-blue-500/15 border-blue-500/30 text-blue-300'}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                      {ed.name} {ed.isEditing ? ' (Editing shift)' : '(Viewing)'}
+                    </span>
                   ))}
                 </div>
-
-                <div className="p-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-xs text-emerald-300 space-y-1">
-                  <div className="font-bold flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Conflict Prevention Active
-                  </div>
-                  <p className="text-[11px] text-emerald-200/70">
-                    If another team member edits a shift while you are viewing, real-time locks and notifications prevent scheduling mix-ups.
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-end">
-                  <button
-                    onClick={() => setShowCoEditorModal(false)}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
               </div>
-            </div>
-          )}
-
-          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[850px] max-h-[90vh] flex flex-col min-h-0">
-
-            {/* Header controls (Date range, prev/next, today, action icons) */}
-            <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
-              {/* Left: Date Range & Nav */}
-              <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
-                  {getWeekRangeLabel(currentWeekStart)}
-                </h2>
-                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg   overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={handlePrevWeek}
-                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
-                    title="Previous Week"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      document.getElementById('wiw-date-picker')?.click();
-                    }}
-                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
-                    title="Choose Date"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                  </button>
-                  <input
-                    type="date"
-                    id="wiw-date-picker"
-                    aria-label="Select date"
-                    className="sr-only"
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        const chosen = new Date(e.target.value);
-                        const day = chosen.getDay();
-                        const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
-                        setCurrentWeekStart(new Date(chosen.setDate(diff)));
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleNextWeek}
-                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
-                    title="Next Week"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-                  </button>
-                </div>
-
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={handleGoToToday}
-                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-xs font-bold text-white/70 hover:text-white rounded-lg   transition-colors cursor-pointer border-solid"
-                >
-                  TODAY
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleGoToMonth}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid ${calendarRange === 'month'
-                    ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
-                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
-                    }`}
-                >
-                  MONTH
-                </button>
-
-                {/* Week Selector */}
-                <Dropdown
-                  fullWidth={false}
-                  placeholder="Current Week"
-                  selected={calendarRange === '4weeks' ? '4weeks' : calendarRange === 'month' ? 'month' : 'week'}
-                  options={[
-                    { label: 'Current Week', value: 'week' },
-                    { label: 'Next Week', value: 'nextweek' },
-                    { label: 'In 2 Weeks', value: 'in2weeks' },
-                    { label: 'In 3 Weeks', value: 'in3weeks' },
-                    { label: 'In 4 Weeks', value: 'in4weeks' },
-                    { label: 'Next 4 Weeks', value: '4weeks' },
-                    { label: 'Full Month', value: 'month' },
-                  ]}
-                  onChange={(val) => {
-                    if (val === 'week') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
-                    else if (val === 'nextweek') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 7 * 86400000)); }
-                    else if (val === 'in2weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 14 * 86400000)); }
-                    else if (val === 'in3weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 21 * 86400000)); }
-                    else if (val === 'in4weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 28 * 86400000)); }
-                    else if (val === '4weeks') { setCalendarRange('4weeks'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
-                    else if (val === 'month') { setCalendarRange('month'); const today = new Date(); setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1)); }
+                  onClick={() => {
+                    setCoEditorConflictAlert({
+                      isOpen: true,
+                      editorName: 'Marcus Vance',
+                      shiftTitle: 'Sound Engineer (Tue Aug 4)',
+                      changeDesc: 'Shift updated from 1p-6:30p to 2p-8p while you were viewing the roster!',
+                      timestamp: 'Just now'
+                    });
                   }}
-                />
-
-                {/*  Tour Dates Quick-Jump */}
-                <div className="relative" data-tour-dropdown>
-                  <button
-                    type="button"
-                    onClick={() => setShowTourDropdown(prev => !prev)}
-                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
-                      ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
-                      : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
-                      }`}
-                  >
-                    SHOWS
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
-                  </button>
-                  {showTourDropdown && (
-                    <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
-                      {(() => {
-                        const todayStr = new Date().toISOString().split('T')[0];
-                        const upcomingTourDates = tourDates.filter(show => !show.date || show.date >= todayStr);
-                        if (upcomingTourDates.length === 0) {
-                          return <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30 italic">No upcoming tour dates synced yet</div>;
-                        }
-                        return upcomingTourDates
-                          .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
-                          .map((show, idx) => {
-                            const showDate = show.date ? new Date(show.date + 'T12:00:00') : null;
-                            const dateLabel = showDate
-                              ? showDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' })
-                              : 'Unknown';
-                            return (
-                              <button
-                                key={show._id || `${show.date}-${show.venue}`}
-                                type="button"
-                                onClick={() => {
-                                  if (show.date) {
-                                    const chosen = new Date(show.date + 'T12:00:00');
-                                    const day = chosen.getDay();
-                                    const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
-                                    setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
-                                  }
-                                  setShowTourDropdown(false);
-                                }}
-                                className="w-full text-left px-4 py-2.5 hover:bg-[#e1e6ff29]   flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
-                              >
-                                <span className="text-[var(--font-size-3xs)] font-black text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
-                                <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
-                                {show.city && <span className="text-[var(--font-size-3xs)] text-white/30 ml-auto shrink-0">{show.city}</span>}
-                              </button>
-                            );
-                          });
-                      })()}
-                    </div>
-                  )}
-                </div>
-
-                {/* Shows Only Toggle */}
+                  className="px-2.5 py-1 bg-purple-500/15 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
+                  title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
+                >
+                  Simulate Mix-Up Conflict
+                </button>
                 <button
                   type="button"
-                  onClick={() => setShowTourDatesOnly(prev => !prev)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
-                    ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
-                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
-                    }`}
-                  title="Show only days with tour shows"
+                  onClick={() => setShowCoEditorModal(true)}
+                  className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
                 >
-                  {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
+                  Co-Editor Settings
                 </button>
-
-                {/* Crew Member Filter */}
-                <Dropdown
-                  fullWidth={false}
-                  placeholder="Crew Member"
-                  selected={scheduleCrewFilter}
-                  options={[
-                    { label: 'Crew Member', value: '' },
-                    ...crewMembers.flatMap(m => m.id !== 'openshifts' ? [{
-                      label: m.name,
-                      value: m.id,
-                    }] : []),
-                  ]}
-                  onChange={(val) => setScheduleCrewFilter(val)}
-                />
-
-                {/* Advanced Filters Trigger */}
-                <button
-                  type="button"
-                  onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
-                    ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
-                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
-                    }`}
-                  title="Search & advanced filters by person, venue, date range, and event type"
-                >
-                  <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
-                  {activeFiltersCount > 0 && (
-                    <span className="px-1.5 py-0.5 bg-purple-600 text-white rounded-full text-[var(--font-size-4xs)] font-black leading-none">
-                      {activeFiltersCount}
-                    </span>
-                  )}
-                </button>
-
-                {/* Color Coding Mode Selector */}
-                <Dropdown
-                  fullWidth={false}
-                  placeholder="Role Colors"
-                  selected={colorCodingMode}
-                  options={[
-                    { label: 'Role Colors', value: 'role' },
-                    { label: 'Event Type Colors', value: 'eventType' },
-                    { label: 'Band Colors', value: 'band' },
-                  ]}
-                  onChange={(val) => setColorCodingMode(val as any)}
-                />
-
-                {activeFiltersCount > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setScheduleCrewFilter('');
-                      setSchedulePersonSearch('');
-                      setScheduleVenueSearch('');
-                      setScheduleEventTypeFilter('');
-                      setScheduleStartDate('');
-                      setScheduleEndDate('');
-                      setShowTourDatesOnly(false);
-                      setScheduleSortByDate(null);
-                    }}
-                    className="px-3 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-400 hover:text-rose-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
-                    title="Reset all search filters"
-                  >
-                    Clear All
-                  </button>
-                )}
-
-                {/*  Clear All Shifts / Start Fresh Button */}
-                {schedules.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (confirm("Are you sure you want to clear all shift timeframes and start fresh?")) {
-                        setSchedules([]);
-                        if (typeof window !== 'undefined') {
-                          localStorage.setItem('7h_crew_schedules', '[]');
-                        }
-                      }
-                    }}
-                    className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 hover:text-red-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
-                    title="Clear all scheduled shift timeframes and start fresh"
-                  >
-                    Clear All Shifts
-                  </button>
-                )}
-
-                {/*  Generate Test Data Action */}
-                <button
-                  type="button"
-                  onClick={handleGenerateTestData}
-                  className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
-                  title="Generate realistic test schedule data for 2-4 weeks with edge cases"
-                >
-                  Generate Test Data
-                </button>
-
-                {/*  Purge Test Data Action */}
-                {schedules.some(s => s.isTestData || s.id.startsWith('test_shift_') || (s.notes && s.notes.includes('[TEST]'))) && (
-                  <button
-                    type="button"
-                    onClick={handlePurgeTestData}
-                    className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
-                    title="Purge all test schedule data ([TEST] shifts)"
-                  >
-                    Purge Test Data
-                  </button>
-                )}
-
-                {/* ⏳ Coverage Requests Dropdown */}
-                {(() => {
-                  const coverageRequests = schedules.filter(s => s.isCoverageRequested);
-                  const options = [
-                    { label: `${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`, value: '' },
-                    ...coverageRequests.map(shift => {
-                      const member = crewMembers.find(m => m.id === shift.crewId);
-                      const name = member ? member.name : shift.crewName || shift.crewId;
-                      const dateObj = new Date(shift.date + 'T12:00:00');
-                      const dateLabel = !isNaN(dateObj.getTime())
-                        ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                        : shift.date;
-                      return {
-                        label: `${name} — ${shift.role} — ${dateLabel}`,
-                        value: shift.id,
-                      };
-                    })
-                  ];
-
-                  return (
-                    <Dropdown
-                      fullWidth={false}
-                      placeholder={`${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`}
-                      selected=""
-                      options={options}
-                      onChange={(val) => {
-                        if (!val) return;
-                        const shift = schedules.find(s => s.id === val);
-                        if (shift) {
-                          handleSelectCoverageRequest(shift);
-                        }
-                      }}
-                    />
-                  );
-                })()}
               </div>
             </div>
 
-            {/* Expandable Advanced Filters Panel */}
-            {isFiltersPanelExpanded && (
-              <div className="relative z-50 border-b border-white/5 backdrop-blur-md px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {/* Search by Person */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="admin-sched-person-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
-                    <div className="relative w-full input-glow-border rounded-lg">
-                      <input
-                        id="admin-sched-person-search"
-                        type="text"
-                        value={schedulePersonSearch}
-                        onChange={(e) => setSchedulePersonSearch(e.target.value)}
-                        placeholder="Name, role, e.g. Dave, Audio..."
-                        className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
-                      />
-                      {schedulePersonSearch && (
-                        <button
-                          type="button"
-                          aria-label="Clear person search"
-                          onClick={() => setSchedulePersonSearch('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
-                        >✕</button>
-                      )}
+            {/*  Schedule Mix-Up Conflict Resolution Modal */}
+            {coEditorConflictAlert?.isOpen && (
+              <div className="fixed inset-0 z-[999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
+                <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
+                  <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+                    <div className="w-10 h-10 bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
+
+                    </div>
+                    <div>
+                      <h3 className="text-base font-extrabold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
+                      <p className="text-xs text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
 
-                  {/* Search by Venue */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="admin-sched-venue-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
-                    <div className="relative w-full input-glow-border rounded-lg">
-                      <input
-                        id="admin-sched-venue-search"
-                        type="text"
-                        value={scheduleVenueSearch}
-                        onChange={(e) => setScheduleVenueSearch(e.target.value)}
-                        placeholder="Venue, e.g. Blarney, Cruise..."
-                        className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
-                      />
-                      {scheduleVenueSearch && (
-                        <button
-                          type="button"
-                          aria-label="Clear venue search"
-                          onClick={() => setScheduleVenueSearch('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
-                        >✕</button>
-                      )}
+                  <div className="bg-black/50 border border-white/10 p-4 space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-white/50">
+                      <span>Editor: <strong className="text-white">{coEditorConflictAlert.editorName}</strong></span>
+                      <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
                     </div>
+                    <div className="text-sm font-bold text-pink-300">
+                      Shift: {coEditorConflictAlert.shiftTitle}
+                    </div>
+                    <p className="text-white/80 leading-relaxed bg-[#e1e6ff29]   p-2.5 rounded border border-white/5">
+                      {coEditorConflictAlert.changeDesc}
+                    </p>
                   </div>
 
-                  {/* Event Type Filter */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="admin-sched-event-type" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
-                    <Dropdown
-                      id="admin-sched-event-type"
-                      fullWidth={true}
-                      placeholder="Any Event Type"
-                      selected={scheduleEventTypeFilter}
-                      options={[
-                        { label: 'Any Event Type', value: '' },
-                        { label: 'Festival', value: 'festival' },
-                        { label: 'Private Event', value: 'private' },
-                        { label: 'Corporate', value: 'corporate' },
-                        { label: 'Cruise', value: 'cruise' },
-                        { label: 'Club / Bar', value: 'club' },
-                      ]}
-                      onChange={(val) => setScheduleEventTypeFilter(val)}
-                    />
-                  </div>
+                  <p className="text-[11px] text-white/50 italic">
+                    Live presence prevents double-bookings & timeline mix-ups by automatically syncing modifications made by other admins.
+                  </p>
 
-                  {/* Date Range Selection */}
-                  <div className="flex flex-col gap-1.5 col-span-1">
-                    <span className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-full input-glow-border rounded-lg">
-                        <input
-                          type="date"
-                          aria-label="Schedule start date"
-                          value={scheduleStartDate}
-                          onChange={(e) => setScheduleStartDate(e.target.value)}
-                          onClick={(e) => e.currentTarget.showPicker?.()}
-                          className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
-                        />
-                      </div>
-                      <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
-                      <div className="w-full input-glow-border rounded-lg">
-                        <input
-                          type="date"
-                          aria-label="Schedule end date"
-                          value={scheduleEndDate}
-                          onChange={(e) => setScheduleEndDate(e.target.value)}
-                          onClick={(e) => e.currentTarget.showPicker?.()}
-                          className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
-                        />
-                      </div>
-                      {(scheduleStartDate || scheduleEndDate) && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setScheduleStartDate('');
-                            setScheduleEndDate('');
-                          }}
-                          className="text-white/40 hover:text-white bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
-                          title="Reset Date Range"
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
+                  <div className="flex items-center justify-end gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setCoEditorConflictAlert(null)}
+                      className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                    >
+                      Accept Remote Sync
+                    </button>
                   </div>
-                </div>
-
-                {/* Info summary under filters */}
-                <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
-                  <div className="flex items-center gap-4">
-                    <span>
-                      Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
-                    </span>
-                    <span>
-                      Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
-                    </span>
-                  </div>
-                  {activeFiltersCount > 0 && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-purple-300/80 font-semibold italic">Filters active</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setScheduleCrewFilter('');
-                          setSchedulePersonSearch('');
-                          setScheduleVenueSearch('');
-                          setScheduleEventTypeFilter('');
-                          setScheduleStartDate('');
-                          setScheduleEndDate('');
-                          setShowTourDatesOnly(false);
-                          setScheduleSortByDate(null);
-                        }}
-                        className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
-                      >
-                        Reset All Filters
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
 
-            {/* Grid Body + Sidebar */}
-            <div className="flex gap-0 flex-1 min-h-0">
-              {/* Main Schedule Grid */}
-              <div className="flex-1 min-w-0 flex flex-col min-h-0 relative z-30">
-                {calendarView === 'timeline' && renderTimelineGrid()}
-                {calendarView === 'roster' && renderRosterBoard()}
-                {calendarView === 'list' && renderListBoard()}
-              </div>
-
-              {/* Right Sidebar: Tour Dates & Crew */}
-              <div
-                style={{ borderRight: '1px solid #48292f' }}
-                className="w-[280px] shrink-0 border-t border-b border-[#ffffff1f] h-full hidden xl:flex xl:flex-col z-10"
-              >
-
-                {/* Tour Dates Section Box */}
-                <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
-                  <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b border-white/5 relative z-20">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[var(--font-size-3xs)]"></span>
-                      <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      {selectedTourDate && (
-                        <button
-                          type="button"
-                          onClick={() => setSelectedTourDate(null)}
-                          className="text-[var(--font-size-4xs)] font-bold text-purple-300/70 hover:text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
-                        >
-                          SHOW ALL
-                        </button>
-                      )}
-                      <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-[#e1e6ff29]   px-1.5 py-0.5 rounded">
-                        {upcomingTourDatesWithLabels.length}
-                      </span>
-                    </div>
+            {/*  Co-Editors Settings & Live Active List Modal */}
+            {showCoEditorModal && (
+              <div className="fixed inset-0 z-[999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
+                <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <span></span> Active Co-Editors & Lock Status
+                    </h3>
+                    <button aria-label="Close co-editor modal" onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg">✕</button>
                   </div>
 
-                  {/* Gradient Fade Overlays */}
-                  <div className="pointer-events-none absolute top-[36px] left-0 right-0 h-6 bg-gradient-to-b from-[#0e0720] via-[#0e0720]/80 to-transparent z-10" />
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0e0720] via-[#0e0720]/80 to-transparent z-10" />
+                  <div className="space-y-3">
+                    {coEditors.map(ed => (
+                      <div key={ed.id} className="p-3 bg-black/40 border border-white/5 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 font-black text-xs flex items-center justify-center">
+                            {ed.avatar}
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                              {ed.name}
+                              <span className="text-[10px] text-white/40">({ed.role})</span>
+                            </div>
+                            <div className="text-[10px] text-white/50">{ed.lastAction}</div>
+                          </div>
+                        </div>
+                        <span className={`px-2 py-0.5 text-[9px] font-black rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
+                          {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
-                  <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
-                    {(() => {
-                      if (upcomingTourDatesWithLabels.length === 0) {
-                        return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
-                      }
+                  <div className="p-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-xs text-emerald-300 space-y-1">
+                    <div className="font-bold flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Conflict Prevention Active
+                    </div>
+                    <p className="text-[11px] text-emerald-200/70">
+                      If another team member edits a shift while you are viewing, real-time locks and notifications prevent scheduling mix-ups.
+                    </p>
+                  </div>
 
-                      return upcomingTourDatesWithLabels.map((show, idx) => {
-                        const isSelected = selectedTourDate === show.date;
-                        const isActiveWeek = show.date ? activeWeekDateSet.has(show.date) : false;
-                        const shiftCount = show.date ? shiftCountsByDate[show.date] || 0 : 0;
-
-                        return (
-                          <SidebarDateButton
-                            key={show._id || `${show.date}-${show.venue}`}
-                            show={show}
-                            isSelected={isSelected}
-                            isActiveWeek={isActiveWeek}
-                            shiftCount={shiftCount}
-                            onClick={handleDateClick}
-                          />
-                        );
-                      });
-                    })()}
-                  </CustomScrollbar>
+                  <div className="flex items-center justify-end">
+                    <button
+                      onClick={() => setShowCoEditorModal(false)}
+                      className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
-
               </div>
-            </div>
+            )}
 
+            <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[850px] max-h-[90vh] flex flex-col min-h-0">
 
+              {/* Header controls (Date range, prev/next, today, action icons) */}
+              <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
+                {/* Left: Date Range & Nav */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
+                    {getWeekRangeLabel(currentWeekStart)}
+                  </h2>
+                  <div className="flex items-center border border-white/10 bg-black/40 rounded-lg   overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={handlePrevWeek}
+                      className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      title="Previous Week"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        document.getElementById('wiw-date-picker')?.click();
+                      }}
+                      className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      title="Choose Date"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    </button>
+                    <input
+                      type="date"
+                      id="wiw-date-picker"
+                      aria-label="Select date"
+                      className="sr-only"
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          const chosen = new Date(e.target.value);
+                          const day = chosen.getDay();
+                          const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                          setCurrentWeekStart(new Date(chosen.setDate(diff)));
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleNextWeek}
+                      className="p-2 hover:bg-[#e1e6ff29]   transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      title="Next Week"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                    </button>
+                  </div>
 
-            {/* Shift Config Modal / Side Drawer */}
-            {activeDropDay && draggedCrewMemberId && (() => {
-              const editingShift = schedules.find(s => s.id === editingShiftId);
-              const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
-              return (
-                <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
-                  {/* Backdrop Click Overlay */}
                   <button
                     type="button"
-                    aria-label="Close overlay"
-                    className="absolute inset-0 cursor-default border-0 bg-transparent"
-                    onClick={() => {
-                      setActiveDropDay(null);
-                      setDraggedCrewMemberId(null);
-                      setEditingShiftId(null);
+                    onClick={handleGoToToday}
+                    className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-xs font-bold text-white/70 hover:text-white rounded-lg   transition-colors cursor-pointer border-solid"
+                  >
+                    TODAY
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleGoToMonth}
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid ${calendarRange === 'month'
+                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
+                      : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
+                      }`}
+                  >
+                    MONTH
+                  </button>
+
+                  {/* Week Selector */}
+                  <Dropdown
+                    fullWidth={false}
+                    placeholder="Current Week"
+                    selected={calendarRange === '4weeks' ? '4weeks' : calendarRange === 'month' ? 'month' : 'week'}
+                    options={[
+                      { label: 'Current Week', value: 'week' },
+                      { label: 'Next Week', value: 'nextweek' },
+                      { label: 'In 2 Weeks', value: 'in2weeks' },
+                      { label: 'In 3 Weeks', value: 'in3weeks' },
+                      { label: 'In 4 Weeks', value: 'in4weeks' },
+                      { label: 'Next 4 Weeks', value: '4weeks' },
+                      { label: 'Full Month', value: 'month' },
+                    ]}
+                    onChange={(val) => {
+                      if (val === 'week') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
+                      else if (val === 'nextweek') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 7 * 86400000)); }
+                      else if (val === 'in2weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 14 * 86400000)); }
+                      else if (val === 'in3weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 21 * 86400000)); }
+                      else if (val === 'in4weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 28 * 86400000)); }
+                      else if (val === '4weeks') { setCalendarRange('4weeks'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
+                      else if (val === 'month') { setCalendarRange('month'); const today = new Date(); setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1)); }
                     }}
                   />
 
-                  <div className="relative bg-transparent backdrop-blur-md border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
-
-                    {/* Modal Header */}
-                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
-                      <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">
-                          {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
-                        </h3>
-                        <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
-                          Assigning {(() => {
-                            const found = crewMembers.find(c => c.id === draggedCrewMemberId);
-                            return found ? found.name : draggedCrewMemberId;
-                          })()} for {activeDropDay}
-                        </p>
+                  {/*  Tour Dates Quick-Jump */}
+                  <div className="relative" data-tour-dropdown>
+                    <button
+                      type="button"
+                      onClick={() => setShowTourDropdown(prev => !prev)}
+                      className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
+                        ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
+                        : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
+                        }`}
+                    >
+                      SHOWS
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
+                    </button>
+                    {showTourDropdown && (
+                      <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
+                        {(() => {
+                          const todayStr = new Date().toISOString().split('T')[0];
+                          const upcomingTourDates = tourDates.filter(show => !show.date || show.date >= todayStr);
+                          if (upcomingTourDates.length === 0) {
+                            return <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30 italic">No upcoming tour dates synced yet</div>;
+                          }
+                          return upcomingTourDates
+                            .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                            .map((show, idx) => {
+                              const showDate = show.date ? new Date(show.date + 'T12:00:00') : null;
+                              const dateLabel = showDate
+                                ? showDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' })
+                                : 'Unknown';
+                              return (
+                                <button
+                                  key={show._id || `${show.date}-${show.venue}`}
+                                  type="button"
+                                  onClick={() => {
+                                    if (show.date) {
+                                      const chosen = new Date(show.date + 'T12:00:00');
+                                      const day = chosen.getDay();
+                                      const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
+                                      setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
+                                    }
+                                    setShowTourDropdown(false);
+                                  }}
+                                  className="w-full text-left px-4 py-2.5 hover:bg-[#e1e6ff29]   flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
+                                >
+                                  <span className="text-[var(--font-size-3xs)] font-black text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
+                                  <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
+                                  {show.city && <span className="text-[var(--font-size-3xs)] text-white/30 ml-auto shrink-0">{show.city}</span>}
+                                </button>
+                              );
+                            });
+                        })()}
                       </div>
-                      <button
-                        aria-label="Close active drop day modal"
-                        onClick={() => {
-                          setActiveDropDay(null);
-                          setDraggedCrewMemberId(null);
-                          setEditingShiftId(null);
-                        }}
-                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
-                      >✕
+                    )}
+                  </div>
 
-                      </button>
+                  {/* Shows Only Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setShowTourDatesOnly(prev => !prev)}
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
+                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
+                      : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
+                      }`}
+                    title="Show only days with tour shows"
+                  >
+                    {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
+                  </button>
+
+                  {/* Crew Member Filter */}
+                  <Dropdown
+                    fullWidth={false}
+                    placeholder="Crew Member"
+                    selected={scheduleCrewFilter}
+                    options={[
+                      { label: 'Crew Member', value: '' },
+                      ...crewMembers.flatMap(m => m.id !== 'openshifts' ? [{
+                        label: m.name,
+                        value: m.id,
+                      }] : []),
+                    ]}
+                    onChange={(val) => setScheduleCrewFilter(val)}
+                  />
+
+                  {/* Advanced Filters Trigger */}
+                  <button
+                    type="button"
+                    onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
+                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
+                      : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
+                      }`}
+                    title="Search & advanced filters by person, venue, date range, and event type"
+                  >
+                    <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
+                    {activeFiltersCount > 0 && (
+                      <span className="px-1.5 py-0.5 bg-purple-600 text-white rounded-full text-[var(--font-size-4xs)] font-black leading-none">
+                        {activeFiltersCount}
+                      </span>
+                    )}
+                  </button>
+
+                  {/* Color Coding Mode Selector */}
+                  <Dropdown
+                    fullWidth={false}
+                    placeholder="Role Colors"
+                    selected={colorCodingMode}
+                    options={[
+                      { label: 'Role Colors', value: 'role' },
+                      { label: 'Event Type Colors', value: 'eventType' },
+                      { label: 'Band Colors', value: 'band' },
+                    ]}
+                    onChange={(val) => setColorCodingMode(val as any)}
+                  />
+
+                  {activeFiltersCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setScheduleCrewFilter('');
+                        setSchedulePersonSearch('');
+                        setScheduleVenueSearch('');
+                        setScheduleEventTypeFilter('');
+                        setScheduleStartDate('');
+                        setScheduleEndDate('');
+                        setShowTourDatesOnly(false);
+                        setScheduleSortByDate(null);
+                      }}
+                      className="px-3 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-400 hover:text-rose-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                      title="Reset all search filters"
+                    >
+                      Clear All
+                    </button>
+                  )}
+
+                  {/*  Clear All Shifts / Start Fresh Button */}
+                  {schedules.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm("Are you sure you want to clear all shift timeframes and start fresh?")) {
+                          setSchedules([]);
+                          if (typeof window !== 'undefined') {
+                            localStorage.setItem('7h_crew_schedules', '[]');
+                          }
+                        }
+                      }}
+                      className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 hover:text-red-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                      title="Clear all scheduled shift timeframes and start fresh"
+                    >
+                      Clear All Shifts
+                    </button>
+                  )}
+
+                  {/*  Generate Test Data Action */}
+                  <button
+                    type="button"
+                    onClick={handleGenerateTestData}
+                    className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                    title="Generate realistic test schedule data for 2-4 weeks with edge cases"
+                  >
+                    Generate Test Data
+                  </button>
+
+                  {/*  Purge Test Data Action */}
+                  {schedules.some(s => s.isTestData || s.id.startsWith('test_shift_') || (s.notes && s.notes.includes('[TEST]'))) && (
+                    <button
+                      type="button"
+                      onClick={handlePurgeTestData}
+                      className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
+                      title="Purge all test schedule data ([TEST] shifts)"
+                    >
+                      Purge Test Data
+                    </button>
+                  )}
+
+                  {/* ⏳ Coverage Requests Dropdown */}
+                  {(() => {
+                    const coverageRequests = schedules.filter(s => s.isCoverageRequested);
+                    const options = [
+                      { label: `${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`, value: '' },
+                      ...coverageRequests.map(shift => {
+                        const member = crewMembers.find(m => m.id === shift.crewId);
+                        const name = member ? member.name : shift.crewName || shift.crewId;
+                        const dateObj = new Date(shift.date + 'T12:00:00');
+                        const dateLabel = !isNaN(dateObj.getTime())
+                          ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                          : shift.date;
+                        return {
+                          label: `${name} — ${shift.role} — ${dateLabel}`,
+                          value: shift.id,
+                        };
+                      })
+                    ];
+
+                    return (
+                      <Dropdown
+                        fullWidth={false}
+                        placeholder={`${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`}
+                        selected=""
+                        options={options}
+                        onChange={(val) => {
+                          if (!val) return;
+                          const shift = schedules.find(s => s.id === val);
+                          if (shift) {
+                            handleSelectCoverageRequest(shift);
+                          }
+                        }}
+                      />
+                    );
+                  })()}
+                </div>
+              </div>
+
+              {/* Expandable Advanced Filters Panel */}
+              {isFiltersPanelExpanded && (
+                <div className="relative z-50 border-b border-white/5  backdrop-blur-[45px] px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {/* Search by Person */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="admin-sched-person-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
+                      <div className="relative w-full input-glow-border rounded-lg">
+                        <input
+                          id="admin-sched-person-search"
+                          type="text"
+                          value={schedulePersonSearch}
+                          onChange={(e) => setSchedulePersonSearch(e.target.value)}
+                          placeholder="Name, role, e.g. Dave, Audio..."
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        />
+                        {schedulePersonSearch && (
+                          <button
+                            type="button"
+                            aria-label="Clear person search"
+                            onClick={() => setSchedulePersonSearch('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
+                          >✕</button>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Modal Form */}
-                    <div className="pt-5 pr-5 pl-5 pb-0 flex-1 overflow-hidden space-y-4 flex flex-col min-h-0">
+                    {/* Search by Venue */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="admin-sched-venue-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
+                      <div className="relative w-full input-glow-border rounded-lg">
+                        <input
+                          id="admin-sched-venue-search"
+                          type="text"
+                          value={scheduleVenueSearch}
+                          onChange={(e) => setScheduleVenueSearch(e.target.value)}
+                          placeholder="Venue, e.g. Blarney, Cruise..."
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        />
+                        {scheduleVenueSearch && (
+                          <button
+                            type="button"
+                            aria-label="Clear venue search"
+                            onClick={() => setScheduleVenueSearch('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
+                          >✕</button>
+                        )}
+                      </div>
+                    </div>
 
-                      {/* Coverage Request Alert / Control */}
+                    {/* Event Type Filter */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="admin-sched-event-type" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
+                      <Dropdown
+                        id="admin-sched-event-type"
+                        fullWidth={true}
+                        placeholder="Any Event Type"
+                        selected={scheduleEventTypeFilter}
+                        options={[
+                          { label: 'Any Event Type', value: '' },
+                          { label: 'Festival', value: 'festival' },
+                          { label: 'Private Event', value: 'private' },
+                          { label: 'Corporate', value: 'corporate' },
+                          { label: 'Cruise', value: 'cruise' },
+                          { label: 'Club / Bar', value: 'club' },
+                        ]}
+                        onChange={(val) => setScheduleEventTypeFilter(val)}
+                      />
+                    </div>
+
+                    {/* Date Range Selection */}
+                    <div className="flex flex-col gap-1.5 col-span-1">
+                      <span className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-full input-glow-border rounded-lg">
+                          <input
+                            type="date"
+                            aria-label="Schedule start date"
+                            value={scheduleStartDate}
+                            onChange={(e) => setScheduleStartDate(e.target.value)}
+                            onClick={(e) => e.currentTarget.showPicker?.()}
+                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                          />
+                        </div>
+                        <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
+                        <div className="w-full input-glow-border rounded-lg">
+                          <input
+                            type="date"
+                            aria-label="Schedule end date"
+                            value={scheduleEndDate}
+                            onChange={(e) => setScheduleEndDate(e.target.value)}
+                            onClick={(e) => e.currentTarget.showPicker?.()}
+                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                          />
+                        </div>
+                        {(scheduleStartDate || scheduleEndDate) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setScheduleStartDate('');
+                              setScheduleEndDate('');
+                            }}
+                            className="text-white/40 hover:text-white bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                            title="Reset Date Range"
+                          >
+                            Clear
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Info summary under filters */}
+                  <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
+                    <div className="flex items-center gap-4">
+                      <span>
+                        Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
+                      </span>
+                      <span>
+                        Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
+                      </span>
+                    </div>
+                    {activeFiltersCount > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-purple-300/80 font-semibold italic">Filters active</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setScheduleCrewFilter('');
+                            setSchedulePersonSearch('');
+                            setScheduleVenueSearch('');
+                            setScheduleEventTypeFilter('');
+                            setScheduleStartDate('');
+                            setScheduleEndDate('');
+                            setShowTourDatesOnly(false);
+                            setScheduleSortByDate(null);
+                          }}
+                          className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                        >
+                          Reset All Filters
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Grid Body + Sidebar */}
+              <div className="flex gap-0 flex-1 min-h-0">
+                {/* Main Schedule Grid */}
+                <div className="flex-1 min-w-0 flex flex-col min-h-0 relative z-30">
+                  {calendarView === 'timeline' && renderTimelineGrid()}
+                  {calendarView === 'roster' && renderRosterBoard()}
+                  {calendarView === 'list' && renderListBoard()}
+                </div>
+
+                {/* Right Sidebar: Tour Dates & Crew */}
+                <div
+                  style={{ borderRight: '1px solid #48292f' }}
+                  className="w-[280px] shrink-0 border-t border-b border-[#ffffff1f] h-full hidden xl:flex xl:flex-col z-10"
+                >
+
+                  {/* Tour Dates Section Box */}
+                  <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
+                    <div className="px-3 py-2.5 flex items-center justify-between bg-[#0a00653b] shrink-0 border-b border-white/5 relative z-20">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        {selectedTourDate && (
+                          <button
+                            type="button"
+                            onClick={() => setSelectedTourDate(null)}
+                            className="text-xs font-bold bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-2 py-0.5 rounded cursor-pointer"
+                          >
+                            SHOW ALL
+                          </button>
+                        )}
+                        <span className="text-xs font-bold text-white/20 bg-[#e1e6ff29] border border-white/30 px-1.5 py-0.5 rounded-lg">
+                          {upcomingTourDatesWithLabels.length}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Gradient Blur Fade Overlays */}
+                    <div className="pointer-events-none absolute top-[44px] left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] z-10" />
+                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] z-10" />
+
+                    <CustomScrollbar className="bg-[#0a00653b] flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
                       {(() => {
-                        const editingShift = schedules.find(s => s.id === editingShiftId);
-                        if (!editingShift) return null;
-
-                        if (!editingShift.isCoverageRequested) {
-                          return (
-                            <div className="shrink-0">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSchedules(current => {
-                                    const updated = current.map(s => {
-                                      if (s.id === editingShiftId) {
-                                        return { ...s, isCoverageRequested: true };
-                                      }
-                                      return s;
-                                    });
-                                    return updated;
-                                  });
-                                }}
-                                className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-                              >
-                                <span></span> Request Coverage
-                              </button>
-                            </div>
-                          );
+                        if (upcomingTourDatesWithLabels.length === 0) {
+                          return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
                         }
 
-                        // If coverage is requested:
-                        return (
-                          <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
-                            <div className="flex items-center justify-between gap-3 text-red-400">
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm"></span>
-                                <div>
-                                  <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
-                                  <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">
-                                    <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
-                                  </p>
+                        return upcomingTourDatesWithLabels.map((show, idx) => {
+                          const isSelected = selectedTourDate === show.date;
+                          const isActiveWeek = show.date ? activeWeekDateSet.has(show.date) : false;
+                          const shiftCount = show.date ? shiftCountsByDate[show.date] || 0 : 0;
+
+                          return (
+                            <SidebarDateButton
+                              key={show._id || `${show.date}-${show.venue}`}
+                              show={show}
+                              isSelected={isSelected}
+                              isActiveWeek={isActiveWeek}
+                              shiftCount={shiftCount}
+                              onClick={handleDateClick}
+                            />
+                          );
+                        });
+                      })()}
+                    </CustomScrollbar>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+              {/* Shift Config Modal / Side Drawer */}
+              {activeDropDay && draggedCrewMemberId && (() => {
+                const editingShift = schedules.find(s => s.id === editingShiftId);
+                const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
+                return (
+                  <div className="fixed inset-0 bg-transparent z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
+                    {/* Backdrop Click Overlay */}
+                    <button
+                      type="button"
+                      aria-label="Close overlay"
+                      className="absolute inset-0 cursor-default border-0 bg-transparent"
+                      onClick={() => {
+                        setActiveDropDay(null);
+                        setDraggedCrewMemberId(null);
+                        setEditingShiftId(null);
+                      }}
+                    />
+
+                    <div className="relative  backdrop-blur-[45px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] bg-[#0a00653b]">
+
+                      {/* Modal Header */}
+                      <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                        <div>
+                          <h3 className="text-sm font-black italic tracking-wide text-white">
+                            {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
+                          </h3>
+                          <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
+                            Assigning {(() => {
+                              const found = crewMembers.find(c => c.id === draggedCrewMemberId);
+                              return found ? found.name : draggedCrewMemberId;
+                            })()} for {activeDropDay}
+                          </p>
+                        </div>
+                        <button
+                          aria-label="Close active drop day modal"
+                          onClick={() => {
+                            setActiveDropDay(null);
+                            setDraggedCrewMemberId(null);
+                            setEditingShiftId(null);
+                          }}
+                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                        >✕
+
+                        </button>
+                      </div>
+
+                      {/* Modal Form */}
+                      <div className="pt-5 pr-5 pl-5 pb-0 flex-1 overflow-hidden space-y-4 flex flex-col min-h-0">
+
+                        {/* Coverage Request Alert / Control */}
+                        {(() => {
+                          const editingShift = schedules.find(s => s.id === editingShiftId);
+                          if (!editingShift) return null;
+
+                          if (!editingShift.isCoverageRequested) {
+                            return (
+                              <div className="shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSchedules(current => {
+                                      const updated = current.map(s => {
+                                        if (s.id === editingShiftId) {
+                                          return { ...s, isCoverageRequested: true };
+                                        }
+                                        return s;
+                                      });
+                                      return updated;
+                                    });
+                                  }}
+                                  className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                                >
+                                  <span></span> Request Coverage
+                                </button>
+                              </div>
+                            );
+                          }
+
+                          // If coverage is requested:
+                          return (
+                            <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
+                              <div className="flex items-center justify-between gap-3 text-red-400">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm"></span>
+                                  <div>
+                                    <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
+                                    <p className="text-[var(--font-size-3xs)]  text-white  mt-0.5">
+                                      <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
+                                    </p>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSchedules(current => current.map(s => {
+                                      if (s.id === editingShiftId) {
+                                        return { ...s, isCoverageRequested: false };
+                                      }
+                                      return s;
+                                    }));
+                                  }}
+                                  className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
+                                >
+                                  Clear
+                                </button>
+                              </div>
+
+                              <div className="border-t border-white/5 pt-3 space-y-2.5">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
+
+                                  {/* Tab/Toggle for Fit Role vs Override */}
+                                  <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
+                                    <button
+                                      type="button"
+                                      onClick={() => setOnlyShowFitRole(true)}
+                                      className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer ${onlyShowFitRole
+                                        ? 'bg-purple-600 text-white font-black'
+                                        : ' text-white  hover:text-white'
+                                        }`}
+                                    >
+                                      Fit Role ({editingShift.role})
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setOnlyShowFitRole(false)}
+                                      className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer ${!onlyShowFitRole
+                                        ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black'
+                                        : ' text-white  hover:text-white'
+                                        }`}
+                                    >
+                                      Override (All)
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* List of candidates */}
+                                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                                  {(() => {
+                                    const candidates = crewMembers.filter(m =>
+                                      m.id !== 'openshifts' &&
+                                      m.id !== editingShift.crewId &&
+                                      (!onlyShowFitRole || (m.role || '').toUpperCase() === (editingShift.role || '').toUpperCase())
+                                    );
+
+                                    if (candidates.length === 0) {
+                                      return (
+                                        <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
+                                          {onlyShowFitRole
+                                            ? `No other crew members have the role '${editingShift.role}'`
+                                            : 'No other crew members available'}
+                                        </p>
+                                      );
+                                    }
+
+                                    return candidates.map(member => {
+                                      const overlaps = getOverlappingShifts(
+                                        member.id,
+                                        editingShift.date,
+                                        editingShift.startHour,
+                                        editingShift.endHour,
+                                        editingShift.id
+                                      );
+                                      const isOverlapping = overlaps.length > 0;
+
+                                      return (
+                                        <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
+                                          <div className="flex items-center gap-2">
+                                            {(() => {
+                                              const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
+                                              return avatarSrc ? (
+                                                <img
+                                                  src={avatarSrc}
+                                                  alt={member.name}
+                                                  className="w-5 h-5 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                  onError={(e) => {
+                                                    (e.currentTarget as HTMLElement).style.display = 'none';
+                                                  }}
+                                                />
+                                              ) : (
+                                                <div
+                                                  className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                  style={member.color ? { backgroundColor: member.color } : undefined}
+                                                >
+                                                  {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                                </div>
+                                              );
+                                            })()}
+                                            <div>
+                                              <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
+                                              <div className="flex items-center gap-1.5 mt-0.5">
+                                                <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
+                                                {isOverlapping && (
+                                                  <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
+                                                    Overlaps {overlaps[0].time}
+                                                  </span>
+                                                )}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <button
+                                            type="button"
+                                            disabled={isOverlapping}
+                                            onClick={() => {
+                                              // Reassign shift to this member
+                                              setSchedules(current => {
+                                                return current.map(s => {
+                                                  if (s.id === editingShiftId) {
+                                                    return {
+                                                      ...s,
+                                                      crewId: member.id,
+                                                      crewName: member.name,
+                                                      isCoverageRequested: false
+                                                    };
+                                                  }
+                                                  return s;
+                                                });
+                                              });
+                                              setActiveDropDay(null);
+                                              setDraggedCrewMemberId(null);
+                                              setEditingShiftId(null);
+                                            }}
+                                            className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${isOverlapping
+                                              ? 'bg-[#e1e6ff29]   text-white/20 cursor-not-allowed'
+                                              : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
+                                              }`}
+                                          >
+                                            Assign
+                                          </button>
+                                        </div>
+                                      );
+                                    });
+                                  })()}
                                 </div>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSchedules(current => current.map(s => {
-                                    if (s.id === editingShiftId) {
-                                      return { ...s, isCoverageRequested: false };
-                                    }
-                                    return s;
-                                  }));
-                                }}
-                                className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
-                              >
-                                Clear
-                              </button>
+                            </div>
+                          );
+                        })()}
+
+                        {/* Tour Date Show Card Info */}
+                        {(() => {
+                          const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
+                          if (!activeShow) return null;
+
+                          const dateObj = activeDropDay ? new Date(activeDropDay + 'T12:00:00') : null;
+                          const formattedDate = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : activeDropDay;
+                          const festStart = activeShow.festStart || activeShow.festStartTime || '5:00 PM';
+                          const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
+
+                          return (
+                            <div className="shrink-0 bg-purple-500/10 border border-purple-500/20 rounded-lg px-3 py-2 space-y-1.5 font-sans">
+                              <div className="flex items-center justify-between gap-2 min-w-0">
+                                <div className="flex items-center gap-1.5 min-w-0 truncate">
+                                  <span className="text-[14px] font-extrabold text-white truncate">{activeShow.venue}</span>
+                                  <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                                </div>
+                                <span className="text-[12px] font-extrabold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                                  {formattedDate}
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
+                                <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                                  Fest: {festStart}
+                                </span>
+                                <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                                  Band: {bandTime}
+                                </span>
+                                {activeShow.notes && (
+                                  <span className="text-white/40 italic truncate text-[11px] shrink-0" title={activeShow.notes}>
+                                    • {activeShow.notes}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+
+
+                        {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
+                        {!(editingShift && editingShift.isCoverageRequested) && (
+                          <div className="flex flex-col flex-1 min-h-0">
+                            <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</span>
+
+                            {/* Search and Grouping Controls */}
+                            <div className="shrink-0 mb-3 w-full admin-crew-search-wrapper">
+                              <SearchInput
+                                ariaLabel="Search crew members"
+                                value={drawerCrewSearch}
+                                onChange={setDrawerCrewSearch}
+                                placeholder="Search crew members..."
+                                width="100%"
+                                containerClassName="max-w-none w-full"
+                              />
                             </div>
 
-                            <div className="border-t border-white/5 pt-3 space-y-2.5">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
+                            <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
+                              {(() => {
+                                return uniqueCrewList
+                                  .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                                  .sort((a, b) => {
+                                    const aActive = !!selectedCrewAssignments[a.id]?.active;
+                                    const bActive = !!selectedCrewAssignments[b.id]?.active;
+                                    if (aActive && !bActive) return -1;
+                                    if (!aActive && bActive) return 1;
+                                    return a.name.localeCompare(b.name);
+                                  })
+                                  .map((member) => {
+                                    const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
 
-                                {/* Tab/Toggle for Fit Role vs Override */}
-                                <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
-                                  <button
-                                    type="button"
-                                    onClick={() => setOnlyShowFitRole(true)}
-                                    className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer ${onlyShowFitRole
-                                      ? 'bg-purple-600 text-white font-black'
-                                      : 'text-white/60 hover:text-white'
-                                      }`}
-                                  >
-                                    Fit Role ({editingShift.role})
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => setOnlyShowFitRole(false)}
-                                    className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer ${!onlyShowFitRole
-                                      ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black'
-                                      : 'text-white/60 hover:text-white'
-                                      }`}
-                                  >
-                                    Override (All)
-                                  </button>
-                                </div>
-                              </div>
-
-                              {/* List of candidates */}
-                              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                                {(() => {
-                                  const candidates = crewMembers.filter(m =>
-                                    m.id !== 'openshifts' &&
-                                    m.id !== editingShift.crewId &&
-                                    (!onlyShowFitRole || (m.role || '').toUpperCase() === (editingShift.role || '').toUpperCase())
-                                  );
-
-                                  if (candidates.length === 0) {
-                                    return (
-                                      <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
-                                        {onlyShowFitRole
-                                          ? `No other crew members have the role '${editingShift.role}'`
-                                          : 'No other crew members available'}
-                                      </p>
-                                    );
-                                  }
-
-                                  return candidates.map(member => {
                                     const overlaps = getOverlappingShifts(
                                       member.id,
-                                      editingShift.date,
-                                      editingShift.startHour,
-                                      editingShift.endHour,
-                                      editingShift.id
+                                      activeDropDay || '',
+                                      assignment.startHour,
+                                      assignment.endHour,
+                                      editingShiftId || undefined
                                     );
                                     const isOverlapping = overlaps.length > 0;
 
                                     return (
-                                      <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
-                                        <div className="flex items-center gap-2">
-                                          <div
-                                            className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans  "
-                                            style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
-                                          >
-                                            {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                          </div>
-                                          <div>
-                                            <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
-                                            <div className="flex items-center gap-1.5 mt-0.5">
-                                              <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
-                                              {isOverlapping && (
-                                                <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
-                                                  Overlaps {overlaps[0].time}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <button
-                                          type="button"
-                                          disabled={isOverlapping}
-                                          onClick={() => {
-                                            // Reassign shift to this member
-                                            setSchedules(current => {
-                                              return current.map(s => {
-                                                if (s.id === editingShiftId) {
-                                                  return {
-                                                    ...s,
-                                                    crewId: member.id,
-                                                    crewName: member.name,
-                                                    isCoverageRequested: false
-                                                  };
-                                                }
-                                                return s;
-                                              });
-                                            });
-                                            setActiveDropDay(null);
-                                            setDraggedCrewMemberId(null);
-                                            setEditingShiftId(null);
-                                          }}
-                                          className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${isOverlapping
-                                            ? 'bg-[#e1e6ff29]   text-white/20 cursor-not-allowed'
-                                            : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
-                                            }`}
-                                        >
-                                          Assign
-                                        </button>
-                                      </div>
-                                    );
-                                  });
-                                })()}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })()}
-
-                      {/* Tour Date Show Card Info */}
-                      {(() => {
-                        const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
-                        if (!activeShow) return null;
-
-                        const dateObj = activeDropDay ? new Date(activeDropDay + 'T12:00:00') : null;
-                        const formattedDate = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : activeDropDay;
-                        const festStart = activeShow.festStart || activeShow.festStartTime || '5:00 PM';
-                        const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
-
-                        return (
-                          <div className="shrink-0 bg-purple-500/10 border border-purple-500/20 rounded-lg px-3 py-2 space-y-1.5 font-sans">
-                            <div className="flex items-center justify-between gap-2 min-w-0">
-                              <div className="flex items-center gap-1.5 min-w-0 truncate">
-                                <span className="text-[14px] font-extrabold text-white truncate">{activeShow.venue}</span>
-                                <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
-                              </div>
-                              <span className="text-[12px] font-extrabold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
-                                {formattedDate}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
-                              <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
-                                Fest: {festStart}
-                              </span>
-                              <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
-                                Band: {bandTime}
-                              </span>
-                              {activeShow.notes && (
-                                <span className="text-white/40 italic truncate text-[11px] shrink-0" title={activeShow.notes}>
-                                  • {activeShow.notes}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })()}
-
-
-
-                      {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
-                      {!(editingShift && editingShift.isCoverageRequested) && (
-                        <div className="flex flex-col flex-1 min-h-0">
-                          <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</span>
-
-                          {/* Search and Grouping Controls */}
-                          <div className="shrink-0 mb-3 w-full admin-crew-search-wrapper">
-                            <style>{`
-                              .admin-crew-search-wrapper .input-glow-border,
-                              .admin-crew-search-wrapper .input-glow-border::after,
-                              .admin-crew-search-wrapper .input-glow-border::before,
-                              .admin-crew-search-wrapper .input-glow-border > *,
-                              .admin-crew-search-wrapper input {
-                                border-radius: 14px !important;
-                              }
-                              .admin-crew-search-wrapper input {
-                                background-color: rgba(255, 255, 255, 0.05) !important;
-                                background: rgba(255, 255, 255, 0.05) !important;
-                                backdrop-filter: blur(12px) !important;
-                                -webkit-backdrop-filter: blur(12px) !important;
-                                border: 1px solid rgba(255, 255, 255, 0.15) !important;
-                                color: #ffffff !important;
-                                font-weight: 500 !important;
-                              }
-                              .admin-crew-search-wrapper input::placeholder {
-                                color: rgba(255, 255, 255, 0.55) !important;
-                                opacity: 1 !important;
-                                font-weight: 500 !important;
-                              }
-                              .admin-crew-search-wrapper input:focus {
-                                background-color: rgba(255, 255, 255, 0.08) !important;
-                                border-color: rgba(192, 132, 252, 0.5) !important;
-                                box-shadow: 0 0 12px rgba(168, 85, 247, 0.25) !important;
-                              }
-                            `}</style>
-                            <SearchInput
-                              ariaLabel="Search crew members"
-                              value={drawerCrewSearch}
-                              onChange={setDrawerCrewSearch}
-                              placeholder="Search crew members..."
-                              width="100%"
-                              containerClassName="max-w-none w-full"
-                            />
-                          </div>
-
-                          <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
-                            {(() => {
-                              return uniqueCrewList
-                                .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
-                                .sort((a, b) => {
-                                  const aActive = !!selectedCrewAssignments[a.id]?.active;
-                                  const bActive = !!selectedCrewAssignments[b.id]?.active;
-                                  if (aActive && !bActive) return -1;
-                                  if (!aActive && bActive) return 1;
-                                  return a.name.localeCompare(b.name);
-                                })
-                                .map((member) => {
-                                  const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
-
-                                  const overlaps = getOverlappingShifts(
-                                    member.id,
-                                    activeDropDay || '',
-                                    assignment.startHour,
-                                    assignment.endHour,
-                                    editingShiftId || undefined
-                                  );
-                                  const isOverlapping = overlaps.length > 0;
-
-                                  return (
-                                    <div
-                                      key={member.id}
-                                      className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
-                                        ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
-                                        : 'border border-transparent'
-                                        }`}
-                                    >
-                                      <div className="flex items-center justify-between">
-                                        <label className="flex items-center gap-3 select-none cursor-pointer w-full">
-                                          <SquishyToggle
-                                            id={`crew-assign-toggle-${member.id}`}
-                                            label={`Toggle assignment for ${member.name || member.id}`}
-                                            checked={!!assignment.active}
-                                            onChange={(checked) => {
-                                              setSelectedCrewAssignments(prev => ({
-                                                ...prev,
-                                                [member.id]: {
-                                                  active: checked,
-                                                  customized: false,
-                                                  role: assignment.role || dropRole || member.role || 'STAGE HAND',
-                                                  startHour: assignment.startHour || dropStartHour || 12,
-                                                  endHour: assignment.endHour || dropEndHour || 17,
-                                                  timeFrames: structuredClone(dropTimeFrames)
-                                                }
-                                              }));
-                                            }}
-                                          />
-                                          <div className="flex items-center gap-2 flex-1">
-                                            <div
-                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans"
-                                              style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
-                                            >
-                                              {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                              <div className="flex items-center justify-between gap-2">
-                                                <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
-                                                {assignment.active && (
-                                                  <span className="bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
-                                                    Selected
-                                                  </span>
-                                                )}
-                                              </div>
-                                              <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
-                                                {member.phone || 'No phone'} |  {member.email || 'No email'}
-                                              </span>
+                                      <div
+                                        key={member.id}
+                                        className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
+                                          ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
+                                          : 'border border-transparent'
+                                          }`}
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <label className="flex items-center gap-3 select-none cursor-pointer w-full">
+                                            <SquishyToggle
+                                              id={`crew-assign-toggle-${member.id}`}
+                                              label={`Toggle assignment for ${member.name || member.id}`}
+                                              checked={!!assignment.active}
+                                              onChange={(checked) => {
+                                                setSelectedCrewAssignments(prev => ({
+                                                  ...prev,
+                                                  [member.id]: {
+                                                    active: checked,
+                                                    customized: false,
+                                                    role: assignment.role || dropRole || member.role || 'STAGE HAND',
+                                                    startHour: assignment.startHour || dropStartHour || 12,
+                                                    endHour: assignment.endHour || dropEndHour || 17,
+                                                    timeFrames: structuredClone(dropTimeFrames)
+                                                  }
+                                                }));
+                                              }}
+                                            />
+                                            <div className="flex items-center gap-2 flex-1">
                                               {(() => {
-                                                const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter(s => s.id !== editingShiftId);
-                                                if (memberShifts.length === 0) return null;
-                                                return (
-                                                  <div className="mt-1.5 flex flex-wrap gap-1">
-                                                    {memberShifts.map((s, idx) => (
-                                                      <span
-                                                        key={idx}
-                                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
-                                                      >
-                                                        {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
-                                                      </span>
-                                                    ))}
+                                                const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
+                                                return avatarSrc ? (
+                                                  <img
+                                                    src={avatarSrc}
+                                                    alt={member.name}
+                                                    className="w-6 h-6 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                    onError={(e) => {
+                                                      (e.currentTarget as HTMLElement).style.display = 'none';
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  <div
+                                                    className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                  >
+                                                    {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                   </div>
                                                 );
                                               })()}
-                                              {isOverlapping && (
-                                                <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
-                                                  Overlaps: {overlaps[0].time}
+                                              <div className="flex-1 min-w-0">
+                                                <div className="flex items-center justify-between gap-2">
+                                                  <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                                  {assignment.active && (
+                                                    <span className="bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
+                                                      Selected
+                                                    </span>
+                                                  )}
+                                                </div>
+                                                <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
+                                                  {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                 </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                        </label>
-                                      </div>
-
-                                      {/* Inline Time Frames & Form Fields for Toggled Member */}
-                                      {assignment.active && (
-                                        <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
-                                          {dropTimeFrames.map((tf, index) => (
-                                            <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
-                                              <div className="flex items-center justify-between">
-                                                <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                                {dropTimeFrames.length > 1 && (
-                                                  <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                      setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
-                                                    }}
-                                                    className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
-                                                    style={{ fontSize: '10px' }}
-                                                  >
-                                                    Remove
-                                                  </button>
+                                                {(() => {
+                                                  const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter(s => s.id !== editingShiftId);
+                                                  if (memberShifts.length === 0) return null;
+                                                  return (
+                                                    <div className="mt-1.5 flex flex-wrap gap-1">
+                                                      {memberShifts.map((s, idx) => (
+                                                        <span
+                                                          key={idx}
+                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
+                                                        >
+                                                          {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
+                                                        </span>
+                                                      ))}
+                                                    </div>
+                                                  );
+                                                })()}
+                                                {isOverlapping && (
+                                                  <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                                    Overlaps: {overlaps[0].time}
+                                                  </span>
                                                 )}
                                               </div>
+                                            </div>
+                                          </label>
+                                        </div>
 
-                                              <div className="grid grid-cols-2 gap-3">
-                                                <div>
-                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
-                                                  <GooeyDropdown
-                                                    label={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
-                                                    accentColor="#2f2f3c"
-                                                    showChevron={true}
-                                                    chevronColor="rgba(255, 255, 255, 0.7)"
-                                                    textColor="#ffffff"
-                                                    panelTextColor="#ffffff"
-                                                    transparent={false}
-                                                    glassOpacity={1.0}
-                                                    className="w-full"
-                                                    maxHeight={220}
-                                                    items={generateTimeOptions().map(opt => ({
-                                                      label: opt.label,
-                                                      onClick: () => {
-                                                        const val = opt.value;
+                                        {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                        {assignment.active && (
+                                          <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
+                                            {dropTimeFrames.map((tf, index) => (
+                                              <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
+                                                <div className="flex items-center justify-between">
+                                                  <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                                  {dropTimeFrames.length > 1 && (
+                                                    <button
+                                                      type="button"
+                                                      onClick={() => {
+                                                        setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
+                                                      }}
+                                                      className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                                      style={{ fontSize: '10px' }}
+                                                    >
+                                                      Remove
+                                                    </button>
+                                                  )}
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-3">
+                                                  <div>
+                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                                    <GooeyMessagesDropdown
+                                                      placeholder="Select Start Time"
+                                                      selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
+                                                      options={generateTimeOptions().map(opt => opt.label)}
+                                                      onChange={(selectedLabel) => {
+                                                        const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                        if (!found) return;
+                                                        const val = found.value;
                                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, startHour: val } : item));
                                                         setSelectedCrewAssignments(prev => {
                                                           const current = prev[member.id] || { active: true };
@@ -10726,28 +10717,23 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                           const tfs = baseTfs.map((item, i) => i === index ? { ...item, startHour: val } : item);
                                                           return { ...prev, [member.id]: { ...current, startHour: val, timeFrames: tfs } };
                                                         });
-                                                      }
-                                                    }))}
-                                                  />
-                                                </div>
+                                                      }}
+                                                      showAllOption={false}
+                                                      fullWidth={true}
+                                                      className="w-full"
+                                                    />
+                                                  </div>
 
-                                                <div>
-                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
-                                                  <GooeyDropdown
-                                                    label={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
-                                                    accentColor="#2f2f3c"
-                                                    showChevron={true}
-                                                    chevronColor="rgba(255, 255, 255, 0.7)"
-                                                    textColor="#ffffff"
-                                                    panelTextColor="#ffffff"
-                                                    transparent={false}
-                                                    glassOpacity={1.0}
-                                                    className="w-full"
-                                                    maxHeight={220}
-                                                    items={generateTimeOptions().map(opt => ({
-                                                      label: opt.label,
-                                                      onClick: () => {
-                                                        const val = opt.value;
+                                                  <div>
+                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                                    <GooeyMessagesDropdown
+                                                      placeholder="Select End Time"
+                                                      selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
+                                                      options={generateTimeOptions().map(opt => opt.label)}
+                                                      onChange={(selectedLabel) => {
+                                                        const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                        if (!found) return;
+                                                        const val = found.value;
                                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
                                                         setSelectedCrewAssignments(prev => {
                                                           const current = prev[member.id] || { active: true };
@@ -10755,479 +10741,465 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                           const tfs = baseTfs.map((item, i) => i === index ? { ...item, endHour: val } : item);
                                                           return { ...prev, [member.id]: { ...current, endHour: val, timeFrames: tfs } };
                                                         });
-                                                      }
-                                                    }))}
-                                                  />
+                                                      }}
+                                                      showAllOption={false}
+                                                      fullWidth={true}
+                                                      className="w-full"
+                                                    />
+                                                  </div>
                                                 </div>
-                                              </div>
 
-                                              <div className="space-y-1">
-                                                <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                                <div className="input-glow-border rounded-lg w-full">
-                                                  <input
-                                                    id={`admin-drawer-role-${index}`}
-                                                    type="text"
-                                                    value={tf.role}
-                                                    onChange={e => {
-                                                      const val = e.target.value;
-                                                      setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
-                                                    }}
-                                                    placeholder="e.g. Audio Mix"
-                                                    className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
-                                                  />
+                                                <div className="space-y-1">
+                                                  <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                  <div className="input-glow-border rounded-lg w-full">
+                                                    <input
+                                                      id={`admin-drawer-role-${index}`}
+                                                      type="text"
+                                                      value={tf.role}
+                                                      onChange={e => {
+                                                        const val = e.target.value;
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
+                                                      }}
+                                                      placeholder="e.g. Audio Mix"
+                                                      className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
+                                                    />
+                                                  </div>
+                                                  <div className="flex flex-wrap gap-1 mt-1.5">
+                                                    {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                                      const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                                      const isSelected = currentRoles.includes(preset.toUpperCase());
+                                                      return (
+                                                        <button
+                                                          key={preset}
+                                                          type="button"
+                                                          onClick={() => {
+                                                            const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                            const upperPreset = preset.toUpperCase();
+                                                            const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                            let newRoles: string[];
+                                                            if (exists) {
+                                                              newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                            } else {
+                                                              newRoles = [...rawRoles, preset];
+                                                            }
+                                                            const newRoleStr = newRoles.join(', ');
+                                                            setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
+                                                          }}
+                                                          className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
+                                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
+                                                            : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                            }`}
+                                                        >
+                                                          {isSelected ? ` ${preset}` : preset}
+                                                        </button>
+                                                      );
+                                                    })}
+                                                  </div>
                                                 </div>
-                                                <div className="flex flex-wrap gap-1 mt-1.5">
-                                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                                    const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                                    const isSelected = currentRoles.includes(preset.toUpperCase());
-                                                    return (
-                                                      <button
-                                                        key={preset}
-                                                        type="button"
-                                                        onClick={() => {
-                                                          const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                                          const upperPreset = preset.toUpperCase();
-                                                          const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                                          let newRoles: string[];
-                                                          if (exists) {
-                                                            newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                                          } else {
-                                                            newRoles = [...rawRoles, preset];
-                                                          }
-                                                          const newRoleStr = newRoles.join(', ');
-                                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
-                                                        }}
-                                                        className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
-                                                          ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
-                                                          : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                          }`}
-                                                      >
-                                                        {isSelected ? ` ${preset}` : preset}
-                                                      </button>
-                                                    );
-                                                  })}
-                                                </div>
-                                              </div>
 
-                                              <div className="space-y-1">
-                                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
-                                                <GooeyDropdown
-                                                  label="Select tags..."
-                                                  accentColor="#2f2f3c"
-                                                  showChevron={true}
-                                                  chevronColor="rgba(255, 255, 255, 0.7)"
-                                                  textColor="#ffffff"
-                                                  panelTextColor="#ffffff"
-                                                  transparent={false}
-                                                  glassOpacity={1.0}
-                                                  className="w-full"
-                                                  maxHeight={200}
-                                                  items={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(tagName => ({
-                                                    label: tagName,
-                                                    onClick: () => {
-                                                      setDropTimeFrames(prev => prev.map((item, i) => {
+                                                <div className="space-y-1">
+                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                                  <GooeyMessagesDropdown
+                                                    placeholder="Select tags..."
+                                                    showAllOption={false}
+                                                    options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
+                                                    onChange={(val) => {
+                                                      setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
                                                         if (i !== index) return item;
                                                         const tagSet = new Set(item.tags || []);
-                                                        if (tagSet.has(tagName)) {
-                                                          tagSet.delete(tagName);
+                                                        if (tagSet.has(val)) {
+                                                          tagSet.delete(val);
                                                         } else {
-                                                          tagSet.add(tagName);
+                                                          tagSet.add(val);
                                                         }
                                                         return { ...item, tags: Array.from(tagSet) };
                                                       }));
-                                                    }
-                                                  }))}
-                                                />
-                                                {tf.tags && tf.tags.length > 0 && (
-                                                  <div className="flex flex-wrap gap-1 mt-1.5">
-                                                    {tf.tags.map(tag => (
-                                                      <span
-                                                        key={tag}
-                                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
-                                                      >
-                                                        {tag}
-                                                        <button
-                                                          type="button"
-                                                          aria-label={`Remove ${tag} tag`}
-                                                          onClick={() => {
-                                                            setDropTimeFrames(prev => prev.map((item, i) => {
-                                                              if (i === index) {
-                                                                return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
-                                                              }
-                                                              return item;
-                                                            }));
-                                                          }}
-                                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                    }}
+                                                    fullWidth
+                                                  />
+                                                  {tf.tags && tf.tags.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 mt-1.5">
+                                                      {tf.tags.map(tag => (
+                                                        <span
+                                                          key={tag}
+                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
                                                         >
-                                                          ✕
-                                                        </button>
-                                                      </span>
-                                                    ))}
-                                                  </div>
-                                                )}
+                                                          {tag}
+                                                          <button
+                                                            type="button"
+                                                            aria-label={`Remove ${tag} tag`}
+                                                            onClick={() => {
+                                                              setDropTimeFrames(prev => prev.map((item, i) => {
+                                                                if (i === index) {
+                                                                  return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
+                                                                }
+                                                                return item;
+                                                              }));
+                                                            }}
+                                                            className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                          >
+                                                            ✕
+                                                          </button>
+                                                        </span>
+                                                      ))}
+                                                    </div>
+                                                  )}
+                                                </div>
                                               </div>
-                                            </div>
-                                          ))}
+                                            ))}
 
-                                          {dropTimeFrames.length < 3 && (
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
-                                              }}
-                                              className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
-                                              style={{ fontSize: '11px' }}
-                                            >
-                                              Add Time Frame ({dropTimeFrames.length}/3)
-                                            </button>
-                                          )}
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                });
-                            })()}
+                                            {dropTimeFrames.length < 3 && (
+                                              <button
+                                                type="button"
+                                                onClick={() => {
+                                                  setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
+                                                }}
+                                                className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                                                style={{ fontSize: '11px' }}
+                                              >
+                                                Add Time Frame ({dropTimeFrames.length}/3)
+                                              </button>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  });
+                              })()}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
 
-                    </div>
+                      </div>
 
-                    {/* Drawer Footer */}
-                    <div className="p-3.5 border-t border-white/10 bg-transparent space-y-1.5 shrink-0">
-                      <button
-                        type="button"
-                        onClick={addScheduleItem}
-                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider  rounded-lg    transition-colors cursor-pointer border-none"
-                      >
-                        {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
-                      </button>
-
-                      {editingShiftId && (
+                      {/* Drawer Footer */}
+                      <div className="p-3.5 border-t border-white/10 bg-transparent space-y-1.5 shrink-0">
                         <button
                           type="button"
-                          onClick={() => {
-                            deleteScheduleItem(editingShiftId);
-                            setActiveDropDay(null);
-                            setDraggedCrewMemberId(null);
-                            setEditingShiftId(null);
-                          }}
-                          className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider  rounded-lg  transition-colors cursor-pointer"
+                          onClick={addScheduleItem}
+                          className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider  rounded-lg    transition-colors cursor-pointer border-none"
                         >
-                          Delete Shift
+                          {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                         </button>
-                      )}
-                    </div>
 
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/*  Custom Alert / Notification Modal */}
-            {alertModal.isOpen && (
-              <dialog
-                open
-                aria-label="Schedule Notice Modal"
-                className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 m-0 border-none max-w-none w-full h-full animate-[fadeIn_0.2s_ease]"
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") setAlertModal({ ...alertModal, isOpen: false });
-                }}
-              >
-                <button
-                  type="button"
-                  aria-label="Close modal backdrop"
-                  onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
-                  className="absolute inset-0 cursor-pointer border-none bg-transparent w-full h-full"
-                />
-                <div
-                  className="bg-[#181920]/85 backdrop-blur-xl border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10 shadow-2xl"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl shadow-inner shrink-0">
-                    {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
-                    <p className="text-xs text-white/80 mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
-                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer border-none mt-2"
-                  >
-                    Got It
-                  </button>
-                </div>
-              </dialog>
-            )}
-
-            {/* Saved Crew Groups Right Side Drawer (Matches Create New Crew Group setup 1-to-1) */}
-            {cellGroupPopover && (() => {
-              const dateStr = cellGroupPopover.replace('openshifts_group_', '');
-              return (
-                <div className="fixed inset-0 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
-                  {/* Backdrop Click Overlay */}
-                  <button
-                    type="button"
-                    aria-label="Close select group drawer"
-                    className="absolute inset-0 cursor-default border-0"
-                    onClick={() => setCellGroupPopover(null)}
-                  />
-
-                  {/* Full Height Right-Side Drawer Panel (Flush against right edge: w-full max-w-md h-full border-l border-white/10) */}
-                  <div
-                    data-group-popover-cell
-                    className="relative bg-transparent backdrop-blur-2xl border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 font-sans"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* Drawer Header */}
-                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
-                      <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white uppercase">Select Crew Group</h3>
-                        <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-white/50 font-bold px-2.5 py-1 bg-[#e1e6ff29]   rounded-full border border-white/10">{crewGroups.length} saved</span>
-                        <button
-                          aria-label="Close select group drawer"
-                          onClick={() => setCellGroupPopover(null)}
-                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Drawer Content Body */}
-                    <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
-                      {crewGroups.length === 0 ? (
-                        <div className="py-12 text-center space-y-4">
-                          <span className="text-sm text-white/50 italic block">No saved crew groups yet</span>
+                        {editingShiftId && (
                           <button
                             type="button"
                             onClick={() => {
-                              setCellGroupPopover(null);
-                              createGroupForDateRef.current = dateStr;
-                              const initialSettings: any = {};
-                              crewMembers.forEach(m => {
-                                if (m.id === 'openshifts') return;
-                                initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
-                              });
-                              setNewGroupMemberSettings(initialSettings);
-                              setNewGroupNameInput('');
-                              setIsCreateGroupModalOpen(true);
+                              deleteScheduleItem(editingShiftId);
+                              setActiveDropDay(null);
+                              setDraggedCrewMemberId(null);
+                              setEditingShiftId(null);
                             }}
-                            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
+                            className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider  rounded-lg  transition-colors cursor-pointer"
                           >
-                            + Create First Crew Group
+                            Delete Shift
                           </button>
-                        </div>
-                      ) : (
-                        <div className="space-y-2.5">
-                          <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Saved Groups</span>
-                          {crewGroups.map((g, gIdx) => (
-                            <button
-                              key={gIdx}
-                              type="button"
-                              onClick={() => {
-                                handleAddGroupToDay(dateStr, g);
-                                setCellGroupPopover(null);
-                              }}
-                              className="w-full text-left px-4 py-3.5  rounded-lg hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-[#e1e6ff29]   shadow-2xs group"
-                              title={`Apply Group: ${g.name}`}
-                            >
-                              <div className="flex items-center gap-3 min-w-0">
-                                <span className="w-8 h-8  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
-                                <span className="truncate text-sm tracking-wide font-extrabold text-white">{g.name}</span>
-                              </div>
-                              <span className="text-xs font-bold text-purple-400 group-hover:text-purple-300 uppercase tracking-wider shrink-0">Apply →</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </CustomScrollbar>
+                        )}
+                      </div>
 
-                    {/* Drawer Footer */}
-                    <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => setCellGroupPopover(null)}
-                        className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                      >
-                        Cancel
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCellGroupPopover(null);
-                          createGroupForDateRef.current = dateStr;
-                          const initialSettings: any = {};
-                          crewMembers.forEach(m => {
-                            if (m.id === 'openshifts') return;
-                            initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
-                          });
-                          setNewGroupMemberSettings(initialSettings);
-                          setNewGroupNameInput('');
-                          setIsCreateGroupModalOpen(true);
-                        }}
-                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
-                      >
-                        + Create New Group
-                      </button>
                     </div>
                   </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
 
-            {/* Create Group Modal / Right Side Drawer */}
-            {isCreateGroupModalOpen && (
-              <div className="fixed inset-0 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
-                {/* Backdrop Click Overlay */}
-                <button
-                  type="button"
-                  aria-label="Close create group modal"
-                  className="absolute inset-0 cursor-default border-0"
-                  onClick={() => {
-                    setIsCreateGroupModalOpen(false);
-                    createGroupForDateRef.current = null;
+              {/*  Custom Alert / Notification Modal */}
+              {alertModal.isOpen && (
+                <dialog
+                  open
+                  aria-label="Schedule Notice Modal"
+                  className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 m-0 border-none max-w-none w-full h-full animate-[fadeIn_0.2s_ease]"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") setAlertModal({ ...alertModal, isOpen: false });
                   }}
-                />
-
-                <div
-                  className="relative bg-transparent backdrop-blur-2xl border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
-                  onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Modal Header */}
-                  <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                  <button
+                    type="button"
+                    aria-label="Close modal backdrop"
+                    onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+                    className="absolute inset-0 cursor-pointer border-none bg-transparent w-full h-full"
+                  />
+                  <div
+                    className="bg-[#181920]/85 backdrop-blur-xl border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10 shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl shadow-inner shrink-0">
+                      {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
+                    </div>
                     <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
-                      <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                      <h3 className="text-sm font-black italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
+                      <p className="text-xs text-white/80 mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
-                      aria-label="Close create group modal"
-                      onClick={() => {
-                        setIsCreateGroupModalOpen(false);
-                        createGroupForDateRef.current = null;
-                      }}
-                      className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
-                    >✕
-
+                      type="button"
+                      onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+                      className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer border-none mt-2"
+                    >
+                      Got It
                     </button>
                   </div>
+                </dialog>
+              )}
 
-                  {/* Modal Form Content */}
-                  <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
+              {/* Saved Crew Groups Right Side Drawer (Matches Create New Crew Group setup 1-to-1) */}
+              {cellGroupPopover && (() => {
+                const dateStr = cellGroupPopover.replace('openshifts_group_', '');
+                return (
+                  <div className="fixed inset-0 z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
+                    {/* Backdrop Click Overlay */}
+                    <button
+                      type="button"
+                      aria-label="Close select group drawer"
+                      className="absolute inset-0 cursor-default border-0"
+                      onClick={() => setCellGroupPopover(null)}
+                    />
 
-                    {/* Group Name input */}
-                    <div className="mt-2 space-y-1.5">
-                      <label htmlFor="admin-new-group-name" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
-                      <GlowInput
-                        id="admin-new-group-name"
-                        type="text"
-                        value={newGroupNameInput}
-                        onChange={(e) => setNewGroupNameInput(e.target.value)}
-                        placeholder="e.g. Weekend Tech Crew"
-                        className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 text-xs text-white transition-all font-bold"
-                      />
+                    {/* Full Height Right-Side Drawer Panel (Flush against right edge: w-full max-w-md h-full border-l border-white/10) */}
+                    <div
+                      data-group-popover-cell
+                      className="relative bg-[#0a00653b] backdrop-blur-[18px]  border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 font-sans"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {/* Drawer Header */}
+                      <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                        <div className="min-w-0 flex-1 pr-2">
+                          <h3 className="text-sm font-black italic tracking-wide text-white uppercase">Select Crew Group</h3>
+                          <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="text-xs text-white/50 font-bold px-2.5 py-1 bg-[#e1e6ff29] rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
+                          <button
+                            aria-label="Close select group drawer"
+                            onClick={() => setCellGroupPopover(null)}
+                            className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Drawer Content Body */}
+                      <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
+                        {crewGroups.length === 0 ? (
+                          <div className="py-12 text-center space-y-4">
+                            <span className="text-sm text-white/50 italic block">No saved crew groups yet</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCellGroupPopover(null);
+                                createGroupForDateRef.current = dateStr;
+                                const initialSettings: any = {};
+                                crewMembers.forEach(m => {
+                                  if (m.id === 'openshifts') return;
+                                  initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                                });
+                                setNewGroupMemberSettings(initialSettings);
+                                setNewGroupNameInput('');
+                                setIsCreateGroupModalOpen(true);
+                              }}
+                              className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
+                            >
+                              + Create First Crew Group
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="space-y-2.5">
+                            <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Saved Groups</span>
+                            {crewGroups.map((g, gIdx) => (
+                              <button
+                                key={gIdx}
+                                type="button"
+                                onClick={() => {
+                                  handleAddGroupToDay(dateStr, g);
+                                  setCellGroupPopover(null);
+                                }}
+                                className="w-full text-left px-4 py-3.5  rounded-lg hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-[#e1e6ff29]   shadow-2xs group"
+                                title={`Apply Group: ${g.name}`}
+                              >
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <span className="w-8 h-8  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
+                                  <span className="truncate text-sm tracking-wide font-extrabold text-white">{g.name}</span>
+                                </div>
+                                <span className="text-xs font-bold text-purple-400 group-hover:text-purple-300 uppercase tracking-wider shrink-0">Apply →</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </CustomScrollbar>
+
+                      {/* Drawer Footer */}
+                      <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setCellGroupPopover(null)}
+                          className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCellGroupPopover(null);
+                            createGroupForDateRef.current = dateStr;
+                            const initialSettings: any = {};
+                            crewMembers.forEach(m => {
+                              if (m.id === 'openshifts') return;
+                              initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                            });
+                            setNewGroupMemberSettings(initialSettings);
+                            setNewGroupNameInput('');
+                            setIsCreateGroupModalOpen(true);
+                          }}
+                          className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
+                        >
+                          + Create New Group
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Create Group Modal / Right Side Drawer */}
+              {isCreateGroupModalOpen && (
+                <div className="fixed inset-0 z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
+                  {/* Backdrop Click Overlay */}
+                  <button
+                    type="button"
+                    aria-label="Close create group modal"
+                    className="absolute inset-0 cursor-default border-0"
+                    onClick={() => {
+                      setIsCreateGroupModalOpen(false);
+                      createGroupForDateRef.current = null;
+                    }}
+                  />
+
+                  <div
+                    className="relative bg-[#0a00653b] backdrop-blur-[18px]  border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Modal Header */}
+                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                      <div>
+                        <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
+                        <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                      </div>
+                      <button
+                        aria-label="Close create group modal"
+                        onClick={() => {
+                          setIsCreateGroupModalOpen(false);
+                          createGroupForDateRef.current = null;
+                        }}
+                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                      >✕
+
+                      </button>
                     </div>
 
-                    {/* Member Pick list */}
-                    <div className="space-y-2">
-                      <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
+                    {/* Modal Form Content */}
+                    <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
 
-                      <div className=" bg-transparent overflow-hidden">
-                        {crewMembers.flatMap((m) => {
-                          if (m.id === 'openshifts') return [];
-                          const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                      {/* Group Name input */}
+                      <div className="mt-2 space-y-1.5">
+                        <label htmlFor="admin-new-group-name" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
+                        <GlowInput
+                          id="admin-new-group-name"
+                          type="text"
+                          value={newGroupNameInput}
+                          onChange={(e) => setNewGroupNameInput(e.target.value)}
+                          placeholder="e.g. Weekend Tech Crew"
+                          className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 text-xs text-white transition-all font-bold"
+                        />
+                      </div>
 
-                          return [(
-                            <div key={m.id} className="pr-3 pt-3 pb-3 last:border-b-0 transition-colors ">
-                              <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-[#e1e6ff29]   transition-colors group">
-                                {/* Left checkbox and avatar */}
-                                <div className="flex items-center gap-3 min-w-0">
-                                  <SquishyToggle
-                                    id={`group-member-toggle-${m.id}`}
-                                    label={`Toggle active for ${m.name || m.id}`}
-                                    checked={!!setting.active}
-                                    onChange={(act) => {
-                                      setNewGroupMemberSettings(prev => ({
-                                        ...prev,
-                                        [m.id]: {
-                                          active: act,
-                                          timeFrames: (prev[m.id]?.timeFrames && prev[m.id]?.timeFrames!.length > 0)
-                                            ? prev[m.id]?.timeFrames!
-                                            : [{ startHour: 17.0, endHour: 22.0, role: m.role || 'STAGE HAND' }]
-                                        }
-                                      }));
-                                    }}
-                                  />
-                                  <div
-                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans   border border-purple-400/40"
-                                    style={{ backgroundColor: getAvatarColor(m.name) }}
-                                  >
-                                    {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                      {/* Member Pick list */}
+                      <div className="space-y-2">
+                        <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
+
+                        <div className=" bg-transparent overflow-hidden">
+                          {crewMembers.flatMap((m) => {
+                            if (m.id === 'openshifts') return [];
+                            const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+
+                            return [(
+                              <div key={m.id} className="pr-3 pt-3 pb-3 last:border-b-0 transition-colors ">
+                                <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-[#e1e6ff29]   transition-colors group">
+                                  {/* Left checkbox and avatar */}
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <SquishyToggle
+                                      id={`group-member-toggle-${m.id}`}
+                                      label={`Toggle active for ${m.name || m.id}`}
+                                      checked={!!setting.active}
+                                      onChange={(act) => {
+                                        setNewGroupMemberSettings(prev => ({
+                                          ...prev,
+                                          [m.id]: {
+                                            active: act,
+                                            timeFrames: (prev[m.id]?.timeFrames && prev[m.id]?.timeFrames!.length > 0)
+                                              ? prev[m.id]?.timeFrames!
+                                              : [{ startHour: 17.0, endHour: 22.0, role: m.role || 'STAGE HAND' }]
+                                          }
+                                        }));
+                                      }}
+                                    />
+                                    <div
+                                      className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                      style={{}}
+                                    >
+                                      {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                    </div>
+                                    <div className="min-w-0">
+                                      <p className="text-xs font-bold text-white/80 group-hover:text-white truncate transition-colors">{m.name}</p>
+                                      <span className="text-white/40 uppercase font-semibold tracking-wider block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
+                                    </div>
                                   </div>
-                                  <div className="min-w-0">
-                                    <p className="text-xs font-bold text-white/80 group-hover:text-white truncate transition-colors">{m.name}</p>
-                                    <span className="text-white/40 uppercase font-semibold tracking-wider block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
-                                  </div>
-                                </div>
-                              </label>
+                                </label>
 
-                              {/* Multiple time frames and role pill selector when active */}
-                              {setting.active && (
-                                <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
-                                  {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
-                                    <div key={tfIdx} className="p-2.5 bg-transparent border border-white/10 space-y-2 relative">
-                                      <div className="flex items-center justify-between">
-                                        <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
-                                          Time Frame {tfIdx + 1}
-                                        </span>
-                                        {(setting.timeFrames || []).length > 1 && (
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              const currentTfs = setting.timeFrames || [];
-                                              const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
-                                              setNewGroupMemberSettings(prev => ({
-                                                ...prev,
-                                                [m.id]: {
-                                                  ...prev[m.id],
-                                                  timeFrames: nextTfs
-                                                }
-                                              }));
-                                            }}
-                                            className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider cursor-pointer border-none bg-transparent"
-                                            style={{ fontSize: '8px' }}
-                                          >
-                                            Remove
-                                          </button>
-                                        )}
-                                      </div>
+                                {/* Multiple time frames and role pill selector when active */}
+                                {setting.active && (
+                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
+                                    {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
+                                      <div key={tfIdx} className="p-2.5 bg-transparent border border-white/10 space-y-2 relative">
+                                        <div className="flex items-center justify-between">
+                                          <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
+                                            Time Frame {tfIdx + 1}
+                                          </span>
+                                          {(setting.timeFrames || []).length > 1 && (
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                const currentTfs = setting.timeFrames || [];
+                                                const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: {
+                                                    ...prev[m.id],
+                                                    timeFrames: nextTfs
+                                                  }
+                                                }));
+                                              }}
+                                              className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider cursor-pointer border-none bg-transparent"
+                                              style={{ fontSize: '8px' }}
+                                            >
+                                              Remove
+                                            </button>
+                                          )}
+                                        </div>
 
-                                      {/* Start / End selects */}
-                                      <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
-                                          <GooeyDropdown
-                                            label={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
-                                            accentColor="#9333ea"
-                                            showChevron={true}
-                                            chevronColor="rgba(255, 255, 255, 0.7)"
-                                            textColor="#ffffff"
-                                            panelTextColor="#ffffff"
-                                            transparent={false}
-                                            glassOpacity={1.0}
-                                            className="w-full"
-                                            maxHeight={200}
-                                            items={generateTimeOptions().slice(0, -1).map(opt => ({
-                                              label: opt.label,
-                                              onClick: () => {
-                                                const h = opt.value;
+                                        {/* Start / End selects */}
+                                        <div className="grid grid-cols-2 gap-2">
+                                          <div>
+                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                            <GooeyMessagesDropdown
+                                              placeholder="Select Start Time"
+                                              selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
+                                              options={generateTimeOptions().slice(0, -1).map(opt => opt.label)}
+                                              onChange={(selectedLabel) => {
+                                                const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                if (!found) return;
+                                                const h = found.value;
                                                 const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
                                                 const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
                                                 currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
@@ -11235,314 +11207,308 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   ...prev,
                                                   [m.id]: { ...prev[m.id], timeFrames: currentTfs }
                                                 }));
-                                              }
-                                            }))}
-                                          />
+                                              }}
+                                              showAllOption={false}
+                                              fullWidth={true}
+                                              className="w-full"
+                                            />
+                                          </div>
+
+                                          <div>
+                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
+                                            <GooeyMessagesDropdown
+                                              placeholder="Select End Time"
+                                              selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
+                                              options={generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => opt.label)}
+                                              onChange={(selectedLabel) => {
+                                                const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                if (!found) return;
+                                                const h = found.value;
+                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                currentTfs[tfIdx] = { ...tf, endHour: h };
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                }));
+                                              }}
+                                              showAllOption={false}
+                                              fullWidth={true}
+                                              className="w-full"
+                                            />
+                                          </div>
                                         </div>
 
+                                        {/* Multi-role selection pills */}
                                         <div>
-                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
-                                          <GooeyDropdown
-                                            label={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
-                                            accentColor="#9333ea"
-                                            showChevron={true}
-                                            chevronColor="rgba(255, 255, 255, 0.7)"
-                                            textColor="#ffffff"
-                                            panelTextColor="#ffffff"
-                                            transparent={false}
-                                            glassOpacity={1.0}
-                                            className="w-full"
-                                            maxHeight={200}
-                                            items={generateTimeOptions().flatMap(opt => {
-                                              if (opt.value <= tf.startHour) return [];
-                                              return [{
-                                                label: opt.label,
-                                                onClick: () => {
-                                                  const h = opt.value;
-                                                  const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                  currentTfs[tfIdx] = { ...tf, endHour: h };
-                                                  setNewGroupMemberSettings(prev => ({
-                                                    ...prev,
-                                                    [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                  }));
-                                                }
-                                              }];
+                                          <span className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</span>
+                                          <div className="flex flex-wrap gap-1">
+                                            {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                              const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                              const isSelected = currentRoles.includes(preset.toUpperCase());
+                                              return (
+                                                <button
+                                                  key={preset}
+                                                  type="button"
+                                                  onClick={() => {
+                                                    const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                    const upperPreset = preset.toUpperCase();
+                                                    const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                    let newRoles: string[];
+                                                    if (exists) {
+                                                      newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                    } else {
+                                                      newRoles = [...rawRoles, preset];
+                                                    }
+                                                    const newRoleStr = newRoles.join(', ');
+                                                    const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                    currentTfs[tfIdx] = { ...tf, role: newRoleStr };
+                                                    setNewGroupMemberSettings(prev => ({
+                                                      ...prev,
+                                                      [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                    }));
+                                                  }}
+                                                  className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-colors cursor-pointer ${isSelected
+                                                    ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
+                                                    : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                    }`}
+                                                  style={{ fontSize: '7.5px' }}
+                                                >
+                                                  {isSelected ? `✓ ${preset}` : preset}
+                                                </button>
+                                              );
                                             })}
-                                          />
+                                          </div>
                                         </div>
                                       </div>
+                                    ))}
 
-                                      {/* Multi-role selection pills */}
-                                      <div>
-                                        <span className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</span>
-                                        <div className="flex flex-wrap gap-1">
-                                          {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                            const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                            const isSelected = currentRoles.includes(preset.toUpperCase());
-                                            return (
-                                              <button
-                                                key={preset}
-                                                type="button"
-                                                onClick={() => {
-                                                  const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                                  const upperPreset = preset.toUpperCase();
-                                                  const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                                  let newRoles: string[];
-                                                  if (exists) {
-                                                    newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                                  } else {
-                                                    newRoles = [...rawRoles, preset];
-                                                  }
-                                                  const newRoleStr = newRoles.join(', ');
-                                                  const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                  currentTfs[tfIdx] = { ...tf, role: newRoleStr };
-                                                  setNewGroupMemberSettings(prev => ({
-                                                    ...prev,
-                                                    [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                  }));
-                                                }}
-                                                className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-colors cursor-pointer ${isSelected
-                                                  ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
-                                                  : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                  }`}
-                                                style={{ fontSize: '7.5px' }}
-                                              >
-                                                {isSelected ? `✓ ${preset}` : preset}
-                                              </button>
-                                            );
-                                          })}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
-
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
-                                      const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
-                                      const newStart = Math.min(23, lastEnd);
-                                      const newEnd = Math.min(24, newStart + 2);
-                                      const nextTfs = [...currentTfs, { startHour: newStart, endHour: newEnd, role: 'STAGE HAND' }];
-                                      setNewGroupMemberSettings(prev => ({
-                                        ...prev,
-                                        [m.id]: {
-                                          ...prev[m.id],
-                                          timeFrames: nextTfs
-                                        }
-                                      }));
-                                    }}
-                                    className="w-full py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer text-center"
-                                    style={{ fontSize: '8.5px' }}
-                                  >
-                                    + Add Time Frame
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          )];
-                        })}
-                      </div>
-                    </div>
-                  </CustomScrollbar>
-
-                  {/* Modal Footer */}
-                  <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsCreateGroupModalOpen(false);
-                        createGroupForDateRef.current = null;
-                      }}
-                      className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      type="button"
-                      disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
-                      onClick={() => {
-                        const activeMembers = Object.entries(newGroupMemberSettings).filter(([_, s]) => s.active);
-                        const memberIds = activeMembers.map(([id]) => id);
-                        const memberSettings: any = {};
-                        activeMembers.forEach(([id, s]) => {
-                          const tfs = s.timeFrames || [{ startHour: s.startHour || 17, endHour: s.endHour || 22, role: s.role || 'STAGE HAND' }];
-                          memberSettings[id] = {
-                            startHour: tfs[0].startHour,
-                            endHour: tfs[0].endHour,
-                            role: tfs[0].role,
-                            timeFrames: tfs
-                          };
-                        });
-
-                        const newGroup = {
-                          name: newGroupNameInput.trim(),
-                          memberIds,
-                          memberSettings
-                        };
-
-                        setCrewGroups(current => [...current, newGroup]);
-
-                        if (createGroupForDateRef.current) {
-                          handleAddGroupToDay(createGroupForDateRef.current, newGroup);
-                        }
-
-                        setIsCreateGroupModalOpen(false);
-                        createGroupForDateRef.current = null;
-                      }}
-                      className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
-                    >
-                      Save Group
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedShowCrewDate && (() => {
-              const show = getDayShow(selectedShowCrewDate);
-              if (!show) return null;
-
-              const dayShifts = schedules.filter(s => s.date === selectedShowCrewDate);
-              const filledShifts = dayShifts.filter(s => s.crewId !== 'openshifts');
-              const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
-
-              return (
-                <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
-                  {/* Backdrop Click Overlay */}
-                  <button
-                    type="button"
-                    aria-label="Close overlay"
-                    className="absolute inset-0 cursor-default border-0 bg-transparent"
-                    onClick={() => setSelectedShowCrewDate(null)}
-                  />
-
-                  <div className="relative bg-transparent backdrop-blur-md border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
-
-                    {/* Header */}
-                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
-                      <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">
-                          Show Crew Roster
-                        </h3>
-                        <p className="text-[0.65rem] text-purple-300 uppercase tracking-widest font-bold mt-1">
-                          {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
-                        </p>
-                      </div>
-                      <button
-                        aria-label="Close selected show crew date modal"
-                        onClick={() => setSelectedShowCrewDate(null)}
-                        className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
-                      >✕</button>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5 space-y-4 flex-1 overflow-y-auto">
-                      {/* Show Stats Summary */}
-                      <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
-                        <div>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
-                          <span className="text-sm font-black text-white">{dayShifts.length}</span>
-                        </div>
-                        <div>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
-                          <span className="text-sm font-black text-[var(--color-accent)]">{filledShifts.length}</span>
-                        </div>
-                        <div>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
-                          <span className="text-sm font-black text-purple-300">{openShifts.length}</span>
-                        </div>
-                      </div>
-
-                      {/* Scheduled Crew Section */}
-                      <div>
-                        <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
-                        {filledShifts.length === 0 ? (
-                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
-                            No crew members scheduled yet
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            {filledShifts.map(shift => {
-                              const member = crewMembers.find(c => c.id === shift.crewId);
-                              const initials = member?.initials || shift.crewName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-                              const color = member?.color || getAvatarColor(shift.crewName);
-
-                              return (
-                                <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
-                                  <div className="flex items-center gap-2.5 min-w-0">
-                                    {member?.avatar ? (
-                                      <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
-                                    ) : (
-                                      <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[var(--font-size-3xs)] text-white shrink-0" style={{ backgroundColor: color }}>
-                                        {initials}
-                                      </div>
-                                    )}
-                                    <div className="min-w-0">
-                                      <span className="text-xs font-bold text-white block truncate">{shift.crewName}</span>
-                                      <span className="text-[var(--font-size-4xs)] text-white/45 bg-[#e1e6ff29]   px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
-                                        {shift.role}
-                                      </span>
-                                    </div>
-                                  </div>
-
-                                  <div className="text-right shrink-0">
-                                    <span className="text-[var(--font-size-3xs)] font-extrabold text-white/85 block">{shift.time}</span>
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        setSelectedShowCrewDate(null);
-                                        handleEditShiftClick(shift);
+                                        const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
+                                        const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
+                                        const newStart = Math.min(23, lastEnd);
+                                        const newEnd = Math.min(24, newStart + 2);
+                                        const nextTfs = [...currentTfs, { startHour: newStart, endHour: newEnd, role: 'STAGE HAND' }];
+                                        setNewGroupMemberSettings(prev => ({
+                                          ...prev,
+                                          [m.id]: {
+                                            ...prev[m.id],
+                                            timeFrames: nextTfs
+                                          }
+                                        }));
                                       }}
-                                      className="text-[8.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded border border-purple-500/20 hover:border-purple-500/40 transition-colors cursor-pointer mt-1 inline-block"
+                                      className="w-full py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer text-center"
+                                      style={{ fontSize: '8.5px' }}
                                     >
-                                      Edit
+                                      + Add Time Frame
                                     </button>
                                   </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Open Positions Section */}
-                      <div>
-                        <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
-                        {openShifts.length === 0 ? (
-                          <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
-                            No open positions
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            {openShifts.map(shift => (
-                              <div key={shift.id} className="bg-purple-500/[0.02] border border-dashed border-purple-500/25 p-3 flex items-center justify-between gap-3 hover:border-purple-500/40 transition-colors">
-                                <div>
-                                  <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedShowCrewDate(null);
-                                    handleEditShiftClick(shift);
-                                  }}
-                                  className="text-[var(--font-size-4xs)] font-black uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors  "
-                                >
-                                  Fill Slot
-                                </button>
+                                )}
                               </div>
-                            ))}
-                          </div>
-                        )}
+                            )];
+                          })}
+                        </div>
                       </div>
+                    </CustomScrollbar>
 
+                    {/* Modal Footer */}
+                    <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCreateGroupModalOpen(false);
+                          createGroupForDateRef.current = null;
+                        }}
+                        className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        type="button"
+                        disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
+                        onClick={() => {
+                          const activeMembers = Object.entries(newGroupMemberSettings).filter(([_, s]) => s.active);
+                          const memberIds = activeMembers.map(([id]) => id);
+                          const memberSettings: any = {};
+                          activeMembers.forEach(([id, s]) => {
+                            const tfs = s.timeFrames || [{ startHour: s.startHour || 17, endHour: s.endHour || 22, role: s.role || 'STAGE HAND' }];
+                            memberSettings[id] = {
+                              startHour: tfs[0].startHour,
+                              endHour: tfs[0].endHour,
+                              role: tfs[0].role,
+                              timeFrames: tfs
+                            };
+                          });
+
+                          const newGroup = {
+                            name: newGroupNameInput.trim(),
+                            memberIds,
+                            memberSettings
+                          };
+
+                          setCrewGroups(current => [...current, newGroup]);
+
+                          if (createGroupForDateRef.current) {
+                            handleAddGroupToDay(createGroupForDateRef.current, newGroup);
+                          }
+
+                          setIsCreateGroupModalOpen(false);
+                          createGroupForDateRef.current = null;
+                        }}
+                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
+                      >
+                        Save Group
+                      </button>
                     </div>
                   </div>
                 </div>
-              );
-            })()}
-          </div>
+              )}
+
+              {selectedShowCrewDate && (() => {
+                const show = getDayShow(selectedShowCrewDate);
+                if (!show) return null;
+
+                const dayShifts = schedules.filter(s => s.date === selectedShowCrewDate);
+                const filledShifts = dayShifts.filter(s => s.crewId !== 'openshifts');
+                const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
+
+                return (
+                  <div className="fixed inset-0 bg-transparent z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
+                    {/* Backdrop Click Overlay */}
+                    <button
+                      type="button"
+                      aria-label="Close overlay"
+                      className="absolute inset-0 cursor-default border-0 bg-transparent"
+                      onClick={() => setSelectedShowCrewDate(null)}
+                    />
+
+                    <div className="relative bg-[#0a00653b]  backdrop-blur-[45px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+
+                      {/* Header */}
+                      <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                        <div>
+                          <h3 className="text-sm font-black italic tracking-wide text-white">
+                            Show Crew Roster
+                          </h3>
+                          <p className="text-[0.65rem] text-purple-300 uppercase tracking-widest font-bold mt-1">
+                            {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
+                          </p>
+                        </div>
+                        <button
+                          aria-label="Close selected show crew date modal"
+                          onClick={() => setSelectedShowCrewDate(null)}
+                          className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                        >✕</button>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-5 space-y-4 flex-1 overflow-y-auto">
+                        {/* Show Stats Summary */}
+                        <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
+                          <div>
+                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
+                            <span className="text-sm font-black text-white">{dayShifts.length}</span>
+                          </div>
+                          <div>
+                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
+                            <span className="text-sm font-black text-[var(--color-accent)]">{filledShifts.length}</span>
+                          </div>
+                          <div>
+                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
+                            <span className="text-sm font-black text-purple-300">{openShifts.length}</span>
+                          </div>
+                        </div>
+
+                        {/* Scheduled Crew Section */}
+                        <div>
+                          <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
+                          {filledShifts.length === 0 ? (
+                            <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
+                              No crew members scheduled yet
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              {filledShifts.map(shift => {
+                                const member = crewMembers.find(c => c.id === shift.crewId);
+                                const initials = member?.initials || shift.crewName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+                                const color = member?.color || getAvatarColor(shift.crewName);
+
+                                return (
+                                  <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
+                                    <div className="flex items-center gap-2.5 min-w-0">
+                                      {member?.avatar ? (
+                                        <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                      ) : (
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[var(--font-size-3xs)] text-white shrink-0" style={{ backgroundColor: color }}>
+                                          {initials}
+                                        </div>
+                                      )}
+                                      <div className="min-w-0">
+                                        <span className="text-xs font-bold text-white block truncate">{shift.crewName}</span>
+                                        <span className="text-[var(--font-size-4xs)] text-white/45 bg-[#e1e6ff29]   px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
+                                          {shift.role}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div className="text-right shrink-0">
+                                      <span className="text-[var(--font-size-3xs)] font-extrabold text-white/85 block">{shift.time}</span>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setSelectedShowCrewDate(null);
+                                          handleEditShiftClick(shift);
+                                        }}
+                                        className="text-[8.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded border border-purple-500/20 hover:border-purple-500/40 transition-colors cursor-pointer mt-1 inline-block"
+                                      >
+                                        Edit
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Open Positions Section */}
+                        <div>
+                          <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
+                          {openShifts.length === 0 ? (
+                            <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 text-xs italic">
+                              No open positions
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              {openShifts.map(shift => (
+                                <div key={shift.id} className="bg-purple-500/[0.02] border border-dashed border-purple-500/25 p-3 flex items-center justify-between gap-3 hover:border-purple-500/40 transition-colors">
+                                  <div>
+                                    <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedShowCrewDate(null);
+                                      handleEditShiftClick(shift);
+                                    }}
+                                    className="text-[var(--font-size-4xs)] font-black uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors  "
+                                  >
+                                    Fill Slot
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
           </>)}
         </div>
       </section>
@@ -12232,7 +12198,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white underline decoration-white/40 hover:decoration-white transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1 text-[var(--font-size-4xs)] font-bold  text-white  hover:text-white underline decoration-white/40 hover:decoration-white transition-colors cursor-pointer"
                           >
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
@@ -12456,7 +12422,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {cruiseSaveStatus && (
-                    <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out]  backdrop-blur-[45px] ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
                       {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                     </div>
                   )}
@@ -12560,7 +12526,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             onClick={() => setLivePreviewTab('dashboard')}
                             className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
                               ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-[#e1e6ff29]  '
+                              : ' text-white  hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}
                           >
                             Cruise Dashboard Banner
@@ -12570,7 +12536,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             onClick={() => setLivePreviewTab('email')}
                             className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
                               ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-[#e1e6ff29]  '
+                              : ' text-white  hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}
                           >
                             Email Broadcast
@@ -12622,7 +12588,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
                   </div>
                   <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
+                    <p className="text-lg font-black  text-white ">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
                     <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
                   </div>
                 </div>
@@ -12673,7 +12639,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       )}
 
       {selectedQrProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80  backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
           <style dangerouslySetInnerHTML={{
             __html: `
             @media print {
@@ -12730,7 +12696,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 aria-label="Close QR product label modal"
                 onClick={() => setSelectedQrProduct(null)}
-                className="w-8 h-8 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center  text-white  hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >✕
 
               </button>
@@ -12742,14 +12708,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
-                      <span className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</span>
+                      <span className="block text-[0.65rem] font-bold  text-white  uppercase tracking-widest mb-1.5">Link Destination Type</span>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() => setQrLinkType('product')}
                           className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                            : 'bg-black/20 border-white/10 text-white/40 hover: text-white  hover:border-white/20'
                             }`}
                         >
                           Product Detail Page
@@ -12760,7 +12726,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
                           className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                            : 'bg-black/20 border-white/10 text-white/40 hover: text-white  hover:border-white/20'
                             }`}
                         >
                           Direct Add to Cart
@@ -12770,7 +12736,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
                       <div>
-                        <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
+                        <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] font-bold  text-white  uppercase tracking-widest mb-1.5">
                           {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
                         </label>
                         <select
@@ -12798,7 +12764,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
+                      <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold  text-white  uppercase tracking-widest mb-1.5">Sub-label Text</label>
                       <input
                         id="admin-qr-subtitle-input"
                         type="text"
@@ -12826,7 +12792,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 </div>
 
-                <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
+                <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed  text-white ">
                   <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
                   Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
                 </div>
@@ -12878,7 +12844,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
               <button
                 onClick={() => setSelectedQrProduct(null)}
-                className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                className="px-4 py-2 text-xs font-bold  text-white  hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -12905,7 +12871,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
       {showJumpNav && (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-colors duration-300 animate-[fadeIn_0.15s_ease]">
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3  backdrop-blur-[45px] max-h-[400px] w-44 font-sans transition-colors duration-300 animate-[fadeIn_0.15s_ease]">
           <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
             <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
             <button
@@ -12965,7 +12931,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <button
                           key={key}
                           onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                          className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                          className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                         >
                           <span>{section.icon}</span> {section.label}
                         </button>
@@ -13024,19 +12990,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Command Center
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Cruise Roster & Links
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Cruise Blast
                   </button>

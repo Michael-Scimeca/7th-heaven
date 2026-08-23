@@ -34,7 +34,7 @@ export function AdminAuthGate({
         <h1 className="text-xl font-extrabold text-white mb-2 uppercase tracking-wide">
           {isWrongRole ? "Access Restricted" : "Admin Authorization"}
         </h1>
-        <p className="text-xs text-white/60 mb-6">
+        <p className="text-xs  text-white  mb-6">
           {isWrongRole
             ? "Your current account does not have Admin privileges."
             : "Sign in with an administrative account to view management console."}
@@ -42,7 +42,7 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs uppercase tracking-widest font-extrabold text-white/60 mb-1.5 block">Email</label>
+            <label htmlFor="admin-gate-email" className="text-4xs uppercase tracking-widest font-extrabold  text-white  mb-1.5 block">Email</label>
             <input
               id="admin-gate-email"
               type="email"
@@ -54,7 +54,7 @@ export function AdminAuthGate({
             />
           </div>
           <div>
-            <label htmlFor="admin-gate-password" className="text-4xs uppercase tracking-widest font-extrabold text-white/60 mb-1.5 block">Password</label>
+            <label htmlFor="admin-gate-password" className="text-4xs uppercase tracking-widest font-extrabold  text-white  mb-1.5 block">Password</label>
             <input
               id="admin-gate-password"
               type="password"

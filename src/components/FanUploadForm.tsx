@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 const fileToDataUrl = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -226,7 +227,6 @@ export default function FanUploadForm() {
   return (
     <div className="text-[var(--text-color)]">
       <div className="flex items-center gap-3 mb-6">
-        <span className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/50 flex flex-col items-center justify-center text-[var(--color-accent)]">📸</span>
         <div>
           <h2 className="text-xl font-bold text-[var(--text-color)]">Submit to <span className="gradient-text">Fan Wall</span></h2>
           <p className="text-xs text-[var(--muted-text)] mt-1 uppercase tracking-widest font-bold">Share your concert moments</p>
@@ -358,14 +358,15 @@ export default function FanUploadForm() {
 
 
 
-              <button aria-label="Action button"
+              <CosmicRadialButton
                 type={isLoggedIn ? "submit" : "button"}
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 hover:scale-[1.02] active:scale-95 text-white font-black text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg transition-colors disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0"
+                icon={false}
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white font-black text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
               >
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
-              </button>
+              </CosmicRadialButton>
             </div>
           </div>
         </form>

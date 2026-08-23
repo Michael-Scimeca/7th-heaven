@@ -115,7 +115,7 @@ export default function ShopInventoryAdminPage() {
   if (!authorized) {
     return (
       <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
-        <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12] rounded-3xl p-8 text-center">
+        <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12]  rounded-lg p-8 text-center">
           <h1 className="text-xl font-black uppercase text-white mb-2">Admin Access Required</h1>
           <p className="text-white/50 text-sm mb-6">
             This page manages real inventory and pricing. Sign in with an admin, crew, or merch
@@ -170,14 +170,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -542,7 +542,7 @@ function AddVariantForm({
       <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px] font-black uppercase rounded-md">
         Add
       </button>
-      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#e1e6ff29]   text-white/60 text-[10px] font-black uppercase rounded-md">
+      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#e1e6ff29]    text-white  text-[10px] font-black uppercase rounded-md">
         Cancel
       </button>
       {error && <p className="text-rose-400 text-[10px] font-bold w-full">{error}</p>}
@@ -610,8 +610,8 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="bg-[#0e0e18] border border-white/[0.12] rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
+      <div className="bg-[#0e0e18] border border-white/[0.12]  rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2 className="text-white font-black text-lg uppercase tracking-wide">Add Product</h2>
           <button type="button" onClick={onClose} className="text-white/40 hover:text-white text-lg font-bold p-1">
@@ -761,7 +761,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
               </span>
             </div>
           </div>
-          <div className="text-white/60 text-xs">
+          <div className=" text-white  text-xs">
             {(order.line_items || []).map((item, i) => (
               <span key={`${item.title}-${item.variantLabel}-${i}`}>
                 {item.title} ({item.variantLabel}) × {item.quantity}

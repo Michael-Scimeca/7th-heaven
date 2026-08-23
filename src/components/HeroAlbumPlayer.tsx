@@ -80,7 +80,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
   };
 
   return (
-    <div className="w-full max-w-xl bg-black/75 backdrop-blur-2xl border border-white/15 rounded-3xl p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
+    <div className="w-full max-w-xl bg-black/75backdrop-blur-[18px]  border border-white/15  rounded-lg p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
 
       {/* Background Subtle Accent Glow */}
       <div className="absolute -right-20 -top-20 w-64 h-64 bg-[var(--color-accent)]/20 rounded-full blur-3xl pointer-events-none group-hover:bg-[var(--color-accent)]/30 transition-colors duration-700" />

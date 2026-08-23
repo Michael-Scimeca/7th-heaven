@@ -65,7 +65,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mt-4 mb-4">
                 7th Heaven <br /><span className="text-cyan-400">Band News</span>
               </h1>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
+              <p className=" text-white  text-sm leading-relaxed mb-6">
                 Direct updates from the band — tour announcements, new releases, and live event updates.
               </p>
             </div>
@@ -93,7 +93,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <h1 className="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-tight mt-3 mb-3">
                 Band Bulletins <span className="text-cyan-400">&</span> Updates
               </h1>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className=" text-white  text-sm leading-relaxed">
                 Stay tuned for studio news, upcoming summer festival dates, and cruise announcements.
               </p>
             </div>
@@ -140,7 +140,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <h1 className="text-4xl md:text-5xl font-black uppercase text-white mt-2 mb-4">
                 7th Heaven <br /><span className="text-cyan-400">News Feed</span>
               </h1>
-              <p className="text-white/60 text-sm">
+              <p className=" text-white  text-sm">
                 Get real-time alerts on tour additions, VIP packages, and new merchandise drops.
               </p>
             </div>

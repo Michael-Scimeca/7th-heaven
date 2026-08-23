@@ -69,7 +69,7 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white text-xs font-bold uppercase tracking-wider rounded-full border border-purple-500/40 backdrop-blur-md shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white text-xs font-bold uppercase tracking-wider rounded-full border border-purple-500/40  backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
       >
         <span className="text-purple-400 text-sm">🎛️</span>
         <span>Header Mask UI</span>
@@ -80,7 +80,7 @@ export default function HeaderMaskEditor() {
 
       {/* Control Drawer Panel */}
       {isOpen && (
-        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95 backdrop-blur-2xl text-white border border-purple-500/30 rounded-lg  p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95backdrop-blur-[18px]  text-white border border-purple-500/30 rounded-lg  p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
               <h3 className="text-sm font-extrabold tracking-wide uppercase text-purple-200">

@@ -55,7 +55,7 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px] font-black uppercase tracking-widest bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+        <span className="absolute top-3 left-3 text-[10px] font-black uppercase tracking-widest bg-black/70  backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
           {product.category}
         </span>
         {soldOut && (
@@ -91,7 +91,7 @@ function ProductCard({
                   onClick={() => setUserSelectedVariantId(variant.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id
                     ? "bg-[var(--color-accent)] text-white"
-                    : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
+                    : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"
                     }`}
                 >
                   {variant.label}
@@ -340,7 +340,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Real-Time Inventory Tracking
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Products and variants sync live with per-variant stock counts. Sold-out sizes/formats/colors disable themselves automatically.
                 </p>
               </div>
@@ -349,7 +349,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Checkout creates a pending order with full line-item snapshots. Once payment confirms, stock decrements automatically.
                 </p>
               </div>
@@ -358,7 +358,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   <Link href="/admin/shop-inventory" className="underline hover:text-white">
                     /admin/shop-inventory
                   </Link>{" "}
@@ -370,7 +370,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Streamlined Fast Checkout
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Direct guest payment gateway allowing fans to complete orders instantly without mandatory account creation or password friction.
                 </p>
               </div>
@@ -379,7 +379,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Direct Merchant Security
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Payment credentials route securely to merchant servers so sensitive card data is never stored locally on application servers.
                 </p>
               </div>
@@ -388,7 +388,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Instant Email Order Confirmation
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Every order generates an itemized receipt email for the buyer and alerts band staff for quick packing and shipping.
                 </p>
               </div>
@@ -397,7 +397,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-cyan-300 font-black uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Concertgoers can scan official QR codes at live shows to order apparel directly from their mobile phones for venue pickup or delivery.
                 </p>
               </div>
@@ -435,7 +435,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   North&apos;s <strong className="text-white">Recurring Billing API</strong>{" "}
                   supports weekly/bi-weekly/monthly charges with pause, resume, and cancel at any
                   time. Could power a &quot;merch box of the month&quot; or paid fan-club tier —
@@ -447,7 +447,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   💳 Saved Cards &amp; Refunds
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Every transaction through North&apos;s Recurring Billing API is tokenized. That
                   token can issue refunds against a past charge and, longer-term, let a returning
                   fan skip re-entering their card. Refunds today would need to go through North&apos;s
@@ -459,7 +459,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   🧾 Custom / VIP Order Invoicing
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   North&apos;s <strong className="text-white">Gateway Invoicing API</strong> is
                   built for mail-order/telephone-order flows — send a fan a payment link for a
                   custom bundle, signed vinyl, or VIP package without them touching the storefront.
@@ -470,7 +470,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   📊 Real Sales Dashboard
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   North&apos;s Merchant Reporting and Gateway Business Reporting APIs expose
                   settlement and transaction data that could feed a revenue dashboard inside{" "}
                   <Link href="/admin/shop-inventory" className="underline hover:text-white">
@@ -484,7 +484,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   🖥️ Embedded Checkout Upgrade
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   North offers a hosted <strong className="text-white">Embedded Checkout</strong>{" "}
                   widget as an alternative to a raw Browser Post form — same PCI-scope benefit,
                   nicer built-in card-entry UI, without hand-rolling every field.
@@ -495,7 +495,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400 font-black uppercase text-[10px] tracking-wider block mb-1">
                   🏬 In-Person + Online, One Inventory
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   North also does card-present/in-person payments. Ringing up merch-table sales
                   against the same Supabase stock table this shop already uses would keep online
                   and in-person inventory in sync — genuine Shopify POS parity.
@@ -506,7 +506,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-yellow-300 font-black uppercase text-[10px] tracking-wider block mb-1">
                   🛠️ Not North — Custom-Built Only
                 </span>
-                <p className="text-white/60 leading-relaxed">
+                <p className=" text-white  leading-relaxed">
                   Customer accounts/order history (hook into the site&apos;s existing member
                   login), discount codes and sales tax (apply before requesting the TAC), and
                   abandoned-cart emails (the site already has Resend/Twilio wired up elsewhere)
@@ -528,7 +528,7 @@ export default function PaymentTestShopPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat
                   ? "bg-cyan-500 text-black"
-                  : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
+                  : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"
                   }`}
               >
                 {cat}
@@ -573,8 +573,8 @@ export default function PaymentTestShopPage() {
 
       {/* Cart drawer */}
       {showCart && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0e0e18] border border-white/[0.12] rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
+          <div className="bg-[#0e0e18] border border-white/[0.12]  rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2 className="text-white font-black text-lg uppercase tracking-wide">My Cart</h2>
               <button

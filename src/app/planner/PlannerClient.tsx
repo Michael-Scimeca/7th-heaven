@@ -158,7 +158,7 @@ export default function PlannerClient() {
       <div className="min-h-screen text-[var(--text-color)] pt-24 pb-16 relative">
         <div className="site-container max-w-4xl mx-auto px-4 space-y-12">
           {/* Hero Header */}
-          <div className="relative rounded-3xl p-8 sm:p-12 text-center overflow-hidden">
+          <div className="relative  rounded-lg p-8 sm:p-12 text-center overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-4">
               <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
                 Planner <span className="text-[#c27aff]">Portal</span>
@@ -195,7 +195,7 @@ export default function PlannerClient() {
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-black text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
-                <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
+                <p className="text-xs  text-white  leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -270,7 +270,7 @@ export default function PlannerClient() {
           {/* MAIN */}
           <div className="flex-1 min-w-0">
             {/* Hero Card */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-8 mb-6 relative overflow-hidden">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-8 mb-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-[80px]" />
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">

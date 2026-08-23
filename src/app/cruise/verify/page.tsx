@@ -115,10 +115,10 @@ function CruiseVerifyContent() {
         }}
       />
       {/* Backdrop overlay */}
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-md pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-black/60  backdrop-blur-[45px] pointer-events-none z-0" />
 
       {/* Centered Modal Card */}
-      <div className="relative z-10 w-full max-w-md bg-[rgba(10,15,30,0.85)] backdrop-blur-xl border border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)] text-center my-auto">
+      <div className="relative z-10 w-full max-w-md bg-[rgba(10,15,30,0.85)] backdrop-blur-xl border border-purple-500/30  rounded-lg p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)] text-center my-auto">
         {status === "success" ? (
           <div className="py-4">
             <h1 className="text-2xl sm:text-3xl font-black text-emerald-400 mb-2">Access Granted!</h1>
@@ -141,7 +141,7 @@ function CruiseVerifyContent() {
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">Check Your Email</h1>
-            <p className="text-xs sm:text-sm text-white/60 mb-2">
+            <p className="text-xs sm:text-sm  text-white  mb-2">
               We sent a 6-digit verification code to
             </p>
             <div className="mb-5 inline-block">

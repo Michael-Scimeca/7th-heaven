@@ -326,7 +326,7 @@ export default function MemberDashboard() {
                     const pin = pinMatch ? pinMatch[1] : null;
 
                     return (
-                      <div key={msg.id} className={`p-4  border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
+                      <div key={msg.id} className={`p-4  border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4  backdrop-blur-[45px] ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
                         <div className="flex items-center gap-4 w-full">
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-[#e1e6ff29]   border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
@@ -334,7 +334,7 @@ export default function MemberDashboard() {
                               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
                               {msg.isNew && <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
-                            <p className="text-xs text-white/60 max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
+                            <p className="text-xs  text-white  max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
                             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
                           </div>
                         </div>
@@ -394,7 +394,7 @@ export default function MemberDashboard() {
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative bg-black/40 border  overflow-hidden backdrop-blur-md transition-colors ${photo.rejected
+                  className={`group relative bg-black/40 border  overflow-hidden  backdrop-blur-[45px] transition-colors ${photo.rejected
                     ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
                     : photo.approved
                       ? " border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.05)]"

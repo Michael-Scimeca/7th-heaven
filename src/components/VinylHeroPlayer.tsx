@@ -596,7 +596,7 @@ export default function VinylHeroPlayer({
 
                 {/* Top Controls */}
                 <div className="flex items-center justify-center pointer-events-auto">
-                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
+                  <div className="flex items-center gap-2 bg-black/60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow">
                     <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
@@ -634,7 +634,7 @@ export default function VinylHeroPlayer({
                         setVolume(nv);
                         if (audioRef.current) audioRef.current.volume = nv;
                       }}
-                      className="bg-transparent border-0 p-0 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0"
+                      className="bg-transparent border-0 p-0  text-white  hover:text-white transition-colors cursor-pointer shrink-0"
                     >
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                         {volume === 0
@@ -657,7 +657,7 @@ export default function VinylHeroPlayer({
                       }}
                     >
                       {/* Track Background */}
-                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                         <div
                           className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                           style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
@@ -719,7 +719,7 @@ export default function VinylHeroPlayer({
                 <div className="pointer-events-auto px-1 mt-2">
                   <div className="relative w-full h-4 flex items-center cursor-pointer group">
                     {/* Track Background */}
-                    <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                    <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                       {/* Filled Progress Gradient Bar */}
                       <div
                         className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_10px_rgba(217,70,239,0.8)]"
@@ -743,7 +743,7 @@ export default function VinylHeroPlayer({
                       className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                     />
                   </div>
-                  <div className="flex justify-between text-[var(--font-size-3xs)] font-mono text-white/60 mt-0.5">
+                  <div className="flex justify-between text-[var(--font-size-3xs)] font-mono  text-white  mt-0.5">
                     <span>{currentTime}</span>
                     <span>{duration}</span>
                   </div>
@@ -754,7 +754,7 @@ export default function VinylHeroPlayer({
                   <button aria-label="Previous"
                     onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
                     disabled={activeAlbumIdx === 0}
-                    className="flex items-center gap-0.5 text-white/60 hover:text-white disabled:opacity-20 transition-colors text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                    className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
                     title="Previous Album"
                   >
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
@@ -764,7 +764,7 @@ export default function VinylHeroPlayer({
                   <button aria-label="Next"
                     onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
                     disabled={activeAlbumIdx === ALBUMS.length - 1}
-                    className="flex items-center gap-0.5 text-white/60 hover:text-white disabled:opacity-20 transition-colors text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                    className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px] font-black uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
                     title="Next Album"
                   >
                     Album
@@ -782,7 +782,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="backdrop-blur-2xl pl-3 border-l border-white/15 h-full flex flex-col justify-center">
+              <div className=" backdrop-blur-[45px] pl-3 border-l border-white/15 h-full flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px] font-black uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST

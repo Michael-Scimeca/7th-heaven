@@ -518,7 +518,7 @@ export default function AudioPlayerSection() {
           {/* Fast Search Input */}
           <div className="relative mb-6 input-glow-border  rounded-lg pr-3">
             <div className="relative flex items-center w-full">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none z-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4  text-white  pointer-events-none z-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input aria-label="Search"
@@ -747,7 +747,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album Title */}
-              <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/60 text-center font-black px-4 max-w-full">
+              <span className="relative z-[2] text-xs uppercase tracking-[0.2em]  text-white  text-center font-black px-4 max-w-full">
                 {activeAlbum ? (
                   <span className="block text-white font-black text-sm truncate max-w-[220px]">
                     {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
@@ -909,7 +909,7 @@ export default function AudioPlayerSection() {
             {/* Progress Bar (Extends across all available space to the right!) */}
             <div className="relative flex-1 h-3 flex items-center cursor-pointer group mx-2 sm:mx-3 min-w-[100px]">
               {/* Track Background */}
-              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                 <div
                   className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
@@ -967,7 +967,7 @@ export default function AudioPlayerSection() {
                   }}
                 >
                   {/* Track Background */}
-                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10 backdrop-blur-md transition-all duration-200">
+                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                     <div
                       className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                       style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
@@ -1005,7 +1005,7 @@ export default function AudioPlayerSection() {
           return clean(s.title) === clean(trackTitle || '');
         });
         return (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md cursor-default" onClick={() => setShowLyrics(false)}>
+          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80  backdrop-blur-[45px] cursor-default" onClick={() => setShowLyrics(false)}>
             <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4 cursor-auto" onClick={(e) => e.stopPropagation()}>
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">

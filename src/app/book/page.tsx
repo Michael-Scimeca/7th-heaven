@@ -104,11 +104,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <span className="text-base font-bold uppercase tracking-widest text-white/60 block mb-1.5">{label}</span>
+      <span className="text-base font-bold uppercase tracking-widest  text-white  block mb-1.5">{label}</span>
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`group w-full backdrop-blur-md border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between  rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
+        className={`group w-full  backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between  rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
         style={{ background: "#a855f71f", border: "1px solid #ffffff1a" }}
       >
         <span className={`transition-all duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
@@ -124,19 +124,19 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
               type="button"
               disabled={isPrevDisabled}
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
-              className={`p-1 transition-colors ${isPrevDisabled ? 'text-white/20 cursor-not-allowed' : 'text-white/60 hover:text-white cursor-pointer'}`}
+              className={`p-1 transition-colors ${isPrevDisabled ? 'text-white/20 cursor-not-allowed' : ' text-white  hover:text-white cursor-pointer'}`}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
             <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white/60 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
+            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className=" text-white  hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/60 hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className=" text-white  hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
                 <span className="text-xs font-bold text-white">{year}</span>
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/60 hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className=" text-white  hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {M_NAMES.map((m, i) => {
@@ -190,7 +190,7 @@ const InputField = ({ label, labelRight, required, id, className = "", ...props 
   return (
     <div className={`flex flex-col justify-start w-full ${className}`}>
       <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
-        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block leading-tight">{label}{required && " *"}</label>
+        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block leading-tight">{label}{required && " *"}</label>
         {labelRight}
       </div>
       <div className="input-glow-border rounded-lg w-full">
@@ -206,7 +206,7 @@ const TextAreaField = ({ label, required, id, ...props }: { label: string; requi
   const textareaId = id || props.name || `book-textarea-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-2">{label}{required && " *"}</label>
       <div className="input-glow-border rounded-lg">
         <textarea id={textareaId} {...props} required={required}
           className="w-full bg-[#e1e6ff29]   border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
@@ -220,7 +220,7 @@ const SelectField = ({ label, options, required, id, value, onChange, name }: { 
   const selectId = id || name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-2">{label}{required && " *"}</label>
       <GooeyMessagesDropdown
         placeholder="Select"
         defaultSelectedId={value ? String(value) : undefined}
@@ -237,7 +237,7 @@ const SelectField = ({ label, options, required, id, value, onChange, name }: { 
 
 const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
   <div className="mb-2">
-    <span className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-3">{label}{required && " *"}</span>
+    <span className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-3">{label}{required && " *"}</span>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
         <button aria-label="Action button"
@@ -246,8 +246,8 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           onClick={() => onChange({ target: { name, value: o } } as any)}
           className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
             ${value === o
-              ? "bg-purple-600/80 backdrop-blur-md text-white border-purple-400 shadow-md shadow-purple-600/30 font-black"
-              : "bg-[#e1e6ff29]   backdrop-blur-md border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 hover:text-white"
+              ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30 font-black"
+              : "bg-[#e1e6ff29]    backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 hover:text-white"
             }
           `}
         >
@@ -931,7 +931,7 @@ function BookPageContent() {
                           type="button"
                           onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
                           disabled={pinLoading}
-                          className="text-white/30 hover:text-white/60 hover:underline"
+                          className="text-white/30 hover: text-white  hover:underline"
                         >
                           Back to Password
                         </button>
@@ -984,7 +984,7 @@ function BookPageContent() {
   }
 
   return (
-    <div id="book-page" className="min-h-screen relative overflow-clip pt-[100px]">
+    <div className="min-h-screen relative overflow-clip pt-[100px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 
@@ -998,7 +998,7 @@ function BookPageContent() {
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             BOOK <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
           </h1>
-          <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+          <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
             Select your dates, preferred show format, and venue details to reserve 7th Heaven for your festival, private event, venue, or concert.
           </p>
         </div>
@@ -1008,7 +1008,7 @@ function BookPageContent() {
 
 
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit}>
           {isFromPlanner && (
             <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg  flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
@@ -1016,7 +1016,7 @@ function BookPageContent() {
               </div>
               <div>
                 <p className="text-purple-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                <p className="text-white/60 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                <p className=" text-white  text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
               </div>
             </div>
           )}
@@ -1027,7 +1027,7 @@ function BookPageContent() {
                 <ClipboardList className="w-6 h-6 text-purple-300 shrink-0" />
                 <div>
                   <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
-                  <p className="text-white/60 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
+                  <p className=" text-white  text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
                 </div>
               </div>
               <button aria-label="Action button"
@@ -1041,7 +1041,7 @@ function BookPageContent() {
           )}
 
           {/* Step 1: Event Schedule & Format */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative">
+          <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
               Event Schedule & Format
             </h2>
@@ -1075,7 +1075,7 @@ function BookPageContent() {
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
                     <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
-                    <p className="text-base text-white/60">Increase your chances — we&apos;ll try your preferred date first</p>
+                    <p className="text-base  text-white ">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1110,7 +1110,7 @@ function BookPageContent() {
               <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/15 bg-white/[0.02] rounded-lg ">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
-                <p className="text-white/60 text-base max-w-md mx-auto">
+                <p className=" text-white  text-base max-w-md mx-auto">
                   Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                 </p>
               </div>
@@ -1119,7 +1119,7 @@ function BookPageContent() {
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                   <div>
                     <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
-                    <p className="text-base text-white/60 mt-1 uppercase">Configure individual times and formats for each show below</p>
+                    <p className="text-base  text-white  mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
                   <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-full border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
@@ -1144,7 +1144,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white/60 hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/15 hover:border-cyan-400/30"
+                            className=" text-white  hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/15 hover:border-cyan-400/30"
                             title="Add another show on this date"
                           >
                             <Plus className="w-3 h-3" /> Add Another
@@ -1152,7 +1152,7 @@ function BookPageContent() {
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-white/60 hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/15 hover:border-rose-500/30"
+                            className=" text-white  hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/15 hover:border-rose-500/30"
                             title="Remove this show"
                           >
                             <X className="w-3 h-3" /> Remove
@@ -1193,7 +1193,7 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5 bg-[#e1e6ff29]   backdrop-blur-md border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                className="w-full mt-1.5 bg-[#e1e6ff29]    backdrop-blur-[45px] border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                               />
                             )}
                           </div>
@@ -1363,7 +1363,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1377,7 +1377,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1393,7 +1393,7 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
@@ -1409,7 +1409,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1423,7 +1423,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1454,7 +1454,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 2: Contact Information */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
               Contact Information
             </h2>
@@ -1467,7 +1467,7 @@ function BookPageContent() {
           </div>
 
           {/* Step 3: Venue Details & Event Schedule */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
+          <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
             <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
               <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
             </h2>
@@ -1606,7 +1606,7 @@ function BookPageContent() {
                   <div className="md:col-span-2 space-y-4 animate-[fade-in-up_0.15s_ease-out_both] p-4 bg-purple-950/20 border border-purple-500/30 rounded-xl">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 flex-wrap">
-                        <label htmlFor="parkingAddress" className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">
+                        <label htmlFor="parkingAddress" className="text-base font-bold uppercase tracking-[0.15em]  text-white  block">
                           Google Maps Parking Location or Link
                         </label>
                         <div className="flex items-center gap-2 flex-wrap">
@@ -1655,7 +1655,7 @@ function BookPageContent() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="parkingNotes" className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">
+                      <label htmlFor="parkingNotes" className="text-base font-bold uppercase tracking-[0.15em]  text-white  block">
                         Directions for Parking
                       </label>
                       <div className="input-glow-border rounded-lg">
@@ -1681,7 +1681,7 @@ function BookPageContent() {
             <div className="flex flex-col gap-8">
 
               {/* Step 4: Technical & Logistics */}
-              <div className="bg-transparent border-0 p-0 shadow-none relative">
+              <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
                 <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
                   Technical & Logistics
                 </h2>
@@ -1700,11 +1700,11 @@ function BookPageContent() {
               </div>
 
               {/* Step 5: Additional Options */}
-              <div className="bg-transparent border-0 p-0 shadow-none relative">
+              <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
                 <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Production & Extras
                 </h2>
-                <p className="text-white/60 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+                <p className=" text-white  text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(() => {
                     const addOnsSet = new Set(addOns);
@@ -1729,7 +1729,7 @@ function BookPageContent() {
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                               )}
                             </div>
-                            <span className="text-base text-white/60 block leading-snug">{option.desc}</span>
+                            <span className="text-base  text-white  block leading-snug">{option.desc}</span>
                           </div>
                         </button>
                       );
@@ -1750,11 +1750,11 @@ function BookPageContent() {
               </div>
 
               {/* Step 6: Notes & Questions */}
-              <div className="bg-transparent border-0 p-0 shadow-none relative">
+              <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
                 <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Notes & Questions
                 </h2>
-                <p className="text-white/60 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+                <p className=" text-white  text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
                 <div className="input-glow-border rounded-lg">
                   <textarea aria-label="Text input"
                     name="details"
@@ -1939,7 +1939,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
@@ -1953,7 +1953,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]   backdrop-blur-md border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -1991,7 +1991,7 @@ function MapPickerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
+    <div className="fixed inset-0 z-[999999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
       <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
@@ -2034,7 +2034,7 @@ function MapPickerModal({
                       <Building2 className="w-3.5 h-3.5 text-[#c27aff] shrink-0" />
                       <span className="truncate">{item.label}</span>
                     </div>
-                    <div className="text-[11px] text-white/60 truncate">
+                    <div className="text-[11px]  text-white  truncate">
                       {item.parkingAddress} {item.venueCity ? `, ${item.venueCity}` : ''}
                     </div>
                   </div>
@@ -2114,7 +2114,7 @@ function MapPickerModal({
             <button aria-label="Cancel button"
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 rounded-lg text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider transition-colors"
+              className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 rounded-lg text-xs font-bold  text-white  hover:text-white uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>

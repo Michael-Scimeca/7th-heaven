@@ -242,7 +242,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
             <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8 text-cyan-400" />
             </div>
-            <p className="text-white/60 text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
+            <p className=" text-white  text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
             <p className="text-white/30 text-sm mt-1">Camera is warming up or in audio-only mode</p>
           </div>
         </div>

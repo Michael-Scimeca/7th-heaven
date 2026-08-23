@@ -138,7 +138,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
             >
               {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(2, "0")}
             </span>
-            <span className={`uppercase tracking-wider ${compact ? 'text-[10px] sm:text-[12px] font-extrabold text-white/70 mt-0.5 sm:mt-1 tracking-widest' : 'text-[clamp(8px,1vw,11px)] font-extrabold text-white/60 mt-1 tracking-widest'}`}>{u.label}</span>
+            <span className={`uppercase tracking-wider ${compact ? 'text-[10px] sm:text-[12px] font-extrabold text-white/70 mt-0.5 sm:mt-1 tracking-widest' : 'text-[clamp(8px,1vw,11px)] font-extrabold  text-white  mt-1 tracking-widest'}`}>{u.label}</span>
           </div>
           {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-sm sm:text-lg' : 'text-lg sm:text-2xl md:text-4xl'}`}>:</span>}
         </div>

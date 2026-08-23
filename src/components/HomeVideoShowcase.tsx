@@ -180,7 +180,7 @@ export default function HomeVideoShowcase() {
   const [cardsVisible, setCardsVisible] = useState<number>(3);
   const [aspectRatio, setAspectRatio] = useState<string>("aspect-video");
   const [cardGap, setCardGap] = useState<string>("gap-6");
-  const [borderRadius, setBorderRadius] = useState<string>("rounded-3xl");
+  const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
 
   // 2. Motion & Auto-Advance
@@ -442,7 +442,7 @@ export default function HomeVideoShowcase() {
     setCardsVisible(3);
     setAspectRatio("aspect-[4/5]");
     setCardGap("gap-6");
-    setBorderRadius("rounded-3xl");
+    setBorderRadius(" rounded-lg ");
     setBorderStyle("border border-white/10");
 
     setIsAutoPlayEnabled(false);
@@ -484,7 +484,7 @@ export default function HomeVideoShowcase() {
   const gapPx = getGapPx();
 
   return (
-    <section ref={sectionRef} id="video-slider" className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
+    <section ref={sectionRef} id="video-slider" className={`py-section-fluid bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
 
       <div className="w-full relative z-10">
         {/* Section Header with Container Padding */}
@@ -506,7 +506,7 @@ export default function HomeVideoShowcase() {
           ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
-          className={`w-full overflow-hidden py-4 select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
+          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
             }`}
           style={{
             touchAction: "pan-y",
@@ -535,8 +535,8 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ height: "clamp(210px, 41vh, 410px)", maxHeight: "41vh" }}
-                  className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60   `}
+                  style={{ height: "clamp(300px, 35vw, 600px)" }}
+                  className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
@@ -549,29 +549,6 @@ export default function HomeVideoShowcase() {
                     end={end}
                     previewZoomPercent={previewZoomPercent}
                   />
-
-                  {/* Top Badge Overlay */}
-                  {showBadges && (
-                    <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {video.badges.map((badge, bIdx) => (
-                          <span
-                            key={badge + bIdx}
-                            className={`text-[10px] font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-md ${bIdx === 0
-                              ? "bg-[#e1e6ff29] text-white font-black"
-                              : "bg-[#e1e6ff29] text-white"
-                              }`}
-                          >
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-
-                      <span className="text-[10px] font-mono font-bold bg-black/60 text-white/80 px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
-                        Card {idx + 1} / {totalVideos}
-                      </span>
-                    </div>
-                  )}
 
                   {/* Interactive Play Button Overlay */}
                   {playButtonVisibility !== "hidden" && (
@@ -597,35 +574,44 @@ export default function HomeVideoShowcase() {
                   )}
 
                   {/* Gradient shadow overlay for legibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none z-10" />
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
 
-                {/* Below Card Details */}
-                <div className="pt-4 flex flex-col pointer-events-none">
-                  <h3 className={`${titleFontSize} font-black text-white tracking-tight line-clamp-1 group-hover:text-purple-300 transition-colors`}>
-                    {video.title}
-                  </h3>
-
-                  {showMetadata && (
-                    <>
-                      {/* Divider line matching design */}
-                      <div className="w-full border-b border-white/15 my-3" />
-
-                      {/* Sub-metadata row */}
-                      <div className="flex items-center justify-between text-xs text-white/50 font-medium">
-                        <span className="flex items-center gap-1">
-                          Views <strong className="text-white font-mono">{video.viewCount}</strong>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          Preview <strong className="text-purple-300">{previewDurationSec}s Loop</strong>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          Year <strong className="text-white font-mono">{video.year}</strong>
-                        </span>
+                  {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
+                  <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-5 flex flex-col items-center justify-end text-center pointer-events-none">
+                    {showBadges && (
+                      <div className="flex items-center justify-center gap-2 flex-wrap mb-2">
+                        {video.badges.map((badge, bIdx) => (
+                          <span
+                            key={badge + bIdx}
+                            className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white shadow-md"
+                          >
+                            {badge}
+                          </span>
+                        ))}
                       </div>
-                    </>
-                  )}
+                    )}
+
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-black uppercase tracking-tight text-white leading-tight line-clamp-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] group-hover:text-purple-300 transition-colors">
+                      {video.title}
+                    </h3>
+                  </div>
                 </div>
+
+                {/* Below Card Metadata */}
+                {showMetadata && (
+                  <div className="pt-3 flex flex-col pointer-events-none">
+                    <div className="flex items-center justify-between text-xs text-white/50 font-medium">
+                      <span className="flex items-center gap-1">
+                        Views <strong className="text-white font-mono">{video.viewCount}</strong>
+                      </span>
+
+                      <span className="flex items-center gap-1">
+                        Year <strong className="text-white font-mono">{video.year}</strong>
+                      </span>
+                    </div>
+                  </div>
+                )}
+
               </div>
             );
           })}

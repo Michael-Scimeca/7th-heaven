@@ -349,7 +349,7 @@ export default function AdminLegalPage() {
             <h1 className="text-[clamp(2rem,4vw,3.2rem)] font-black leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-white">
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
-            <p className="text-white/60 text-sm mt-2 max-w-3xl font-sans leading-relaxed">
+            <p className=" text-white  text-sm mt-2 max-w-3xl font-sans leading-relaxed">
               Comprehensive regulatory audit panel covering TCPA SMS mandates, DMCA copyright safe harbor, ADA accessibility (WCAG 2.1 AA), GDPR/CCPA privacy rights, PCI-DSS e-commerce security, COPPA minor protections, and database RLS safeguards.
             </p>
           </div>
@@ -428,7 +428,7 @@ export default function AdminLegalPage() {
           </div>
 
           {/* Right Detailed Inspection Panel */}
-          <div className={`border rounded-3xl p-8 lg:p-10 transition-colors duration-300 bg-white/[0.01] ${active.borderColor} shadow-2xl`}>
+          <div className={`border  rounded-lg p-8 lg:p-10 transition-colors duration-300 bg-white/[0.01] ${active.borderColor} shadow-2xl`}>
 
             {/* Active Header Info */}
             <div className="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10 flex-wrap">
@@ -440,7 +440,7 @@ export default function AdminLegalPage() {
                   <h2 className="text-xl lg:text-2xl font-black uppercase tracking-tight italic font-[var(--font-heading)] text-white">
                     {active.title}
                   </h2>
-                  <p className="text-xs text-white/60 mt-1">{active.subtitle}</p>
+                  <p className="text-xs  text-white  mt-1">{active.subtitle}</p>
                 </div>
               </div>
 
@@ -490,7 +490,7 @@ export default function AdminLegalPage() {
                           <h4 className={`text-sm font-bold transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className="text-xs text-white/60 mt-1 leading-relaxed">{req.description}</p>
+                          <p className="text-xs  text-white  mt-1 leading-relaxed">{req.description}</p>
                         </div>
                       </div>
 

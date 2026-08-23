@@ -1647,7 +1647,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("ARCH")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
               }`}
           >
             <Layers className="w-3.5 h-3.5 text-purple-300" />
@@ -1658,7 +1658,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("BOOKING")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
               }`}
           >
             <Calendar className="w-3.5 h-3.5 text-cyan-300" />
@@ -1669,7 +1669,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("CRUISE")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
               }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
@@ -1680,7 +1680,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("FAN_SIGNUP")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
               }`}
           >
             <UserPlus className="w-3.5 h-3.5 text-pink-300" />

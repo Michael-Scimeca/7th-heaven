@@ -178,7 +178,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   };
 
   return (
-    <section id="proximity-notify" className="site-container relative pt-16 md:pt-24 lg:pt-32 bg-transparent overflow-hidden">
+    <section id="proximity-notify" className="site-container relative py-section-fluid bg-transparent overflow-hidden">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
       <div className="relative z-10  max-w-[1100px] mx-auto">
@@ -311,7 +311,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
             {/* Glass Form Card */}
             <div className="w-full max-w-xl">
               {status === "success" ? (
-                <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8 rounded-3xl text-center shadow-2xl">
+                <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8  rounded-lg text-center shadow-2xl">
                   <div className="flex items-center justify-center gap-2.5 mb-3">
                     <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -408,7 +408,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             }}
                             className={`inline-flex items-center gap-1 px-2.5 py-1.5  rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${isSelected
                               ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                              : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                              : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white"
                               }`}
                           >
                             <span>{type.icon}</span>

@@ -160,7 +160,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10 text-white/60'}`}>
+              <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
                 {counts[tab]}
               </span>
             </button>
@@ -203,7 +203,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0 backdrop-blur-md z-10 border-b border-white/10">
+              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0  backdrop-blur-[45px] z-10 border-b border-white/10">
                 <th className="py-3 pr-4 pl-0">Name</th>
                 <th className="py-3 px-4">Email Address</th>
                 <th className="py-3 px-4">Role</th>

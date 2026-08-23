@@ -42,7 +42,7 @@ const renderBackground = () => (
         pointerEvents: "none"
       }}
     />
-    <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
+    <div className="fixed inset-0 bg-black/55  backdrop-blur-[45px] z-0 pointer-events-none" />
   </div>
 );
 
@@ -154,7 +154,7 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+          className="relative z-10 w-full max-w-sm  rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
@@ -185,7 +185,7 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+          className="relative z-10 w-full max-w-sm  rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
 
@@ -218,7 +218,7 @@ export default function VerifyPage() {
         {/* PIN Input Form */}
         {result !== 'valid' && (
           <div
-            className="rounded-3xl px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+            className=" rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
             style={{
               background: "rgba(18, 10, 34, 0.85)",
               backdropFilter: "blur(32px) saturate(180%)",
@@ -324,7 +324,7 @@ export default function VerifyPage() {
         {/* VALID */}
         {result === 'valid' && winnerData && (
           <div
-            className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            className=" rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}
           >
             <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
@@ -370,7 +370,7 @@ export default function VerifyPage() {
         {/* INVALID */}
         {result === 'invalid' && (
           <div
-            className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            className=" rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}
           >
             <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">

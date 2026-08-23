@@ -151,8 +151,8 @@ export default function AdminFeedPost() {
                   type="button"
                   onClick={() => setSelectedMember(m)}
                   className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar
-                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
-                      : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
+                    ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
+                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                 >
                   <div
@@ -164,7 +164,7 @@ export default function AdminFeedPost() {
                   >
                     {m.avatar}
                   </div>
-                  <span className="text-xs text-white/60 block truncate">{m.name.split(" ")[0]}</span>
+                  <span className="text-xs  text-white  block truncate">{m.name.split(" ")[0]}</span>
                 </button>
               ))}
             </div>
@@ -180,8 +180,8 @@ export default function AdminFeedPost() {
                   type="button"
                   onClick={() => setPostType(t.value)}
                   className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border transition-colors duration-200 ${postType === t.value
-                      ? "border-white/20 bg-white/[0.06]"
-                      : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
+                    ? "border-white/20 bg-white/[0.06]"
+                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                   style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}
                 >
@@ -245,8 +245,8 @@ export default function AdminFeedPost() {
             type="submit"
             disabled={!content.trim() || isPosting}
             className={`w-full py-3 text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting
-                ? "btn-primary btn-primary-hover"
-                : "bg-white/[0.05] text-white/20 cursor-not-allowed"
+              ? "btn-primary btn-primary-hover"
+              : "bg-white/[0.05] text-white/20 cursor-not-allowed"
               }`}
           >
             {isPosting ? (
@@ -264,8 +264,8 @@ export default function AdminFeedPost() {
         {status && (
           <div
             className={`mt-4 p-3 text-sm font-medium text-center border transition-colors duration-300 ${status.type === "success"
-                ? "bg-green-500/10 border-green-500/30 text-green-400"
-                : "bg-red-500/10 border-red-500/30 text-red-400"
+              ? "bg-green-500/10 border-green-500/30 text-green-400"
+              : "bg-red-500/10 border-red-500/30 text-red-400"
               }`}
           >
             {status.message}

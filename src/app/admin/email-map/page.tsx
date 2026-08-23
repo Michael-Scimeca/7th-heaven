@@ -197,7 +197,7 @@ export default function EmailMapPage() {
               The API Bridge
             </h3>
             <p className="text-white/40 text-xs leading-relaxed mb-4">
-              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="text-white/60">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
+              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className=" text-white ">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
             <div className="bg-black/40 p-4 rounded font-mono text-xs text-blue-400">
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)

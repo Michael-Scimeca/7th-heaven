@@ -263,7 +263,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
               onMouseLeave={() => setShowVolume(false)}
             >
               <button onClick={toggleMute}
-                className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                className=" text-white  hover:text-white transition-colors cursor-pointer"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -302,7 +302,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
           {/* Fullscreen */}
           <button onClick={toggleFullscreen}
-            className="text-white/60 hover:text-white transition-colors cursor-pointer"
+            className=" text-white  hover:text-white transition-colors cursor-pointer"
             aria-label="Fullscreen"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

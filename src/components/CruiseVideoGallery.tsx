@@ -189,7 +189,7 @@ export default function CruiseVideoGallery() {
     : videos.filter(v => v.category === selectedCategory);
 
   return (
-    <section id="ship-videos" className="py-20 relative z-20">
+    <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  mb-3 px-4 py-1 rounded-full ">
@@ -229,11 +229,11 @@ export default function CruiseVideoGallery() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(n => (
-            <div key={n} className="aspect-video  bg=[#e1e6ff29]  rounded-3xl animate-pulse" />
+            <div key={n} className="aspect-video  bg=[#e1e6ff29]   rounded-lg animate-pulse" />
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="text-center py-16 bg-white/5 rounded-3xl border border-white/10 text-white/50 font-bold uppercase tracking-wider text-xs">
+        <div className="text-center py-16 bg-white/5  rounded-lg border border-white/10 text-white/50 font-bold uppercase tracking-wider text-xs">
           No videos found in this category.
         </div>
       ) : (
@@ -307,7 +307,7 @@ export default function CruiseVideoGallery() {
 
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-[#0b0518] border-2 border-cyan-400/80 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.4)]"
+            className="relative w-full max-w-5xl bg-[#0b0518] border-2 border-cyan-400/80  rounded-lg p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.4)]"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">

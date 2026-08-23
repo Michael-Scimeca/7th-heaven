@@ -67,7 +67,7 @@ export default function NorthCheckoutPage() {
     return (
       <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24 flex items-center justify-center">
         <div className="max-w-md text-center px-6">
-          <p className="text-white/60 text-sm mb-4">
+          <p className=" text-white  text-sm mb-4">
             No active checkout found. Head back to the shop and add something to your cart first.
           </p>
           <Link
@@ -91,7 +91,7 @@ export default function NorthCheckoutPage() {
           ← Back to Shop
         </Link>
 
-        <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-[18px]  border border-white/[0.12]  rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="inline-block text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
               North (EPX) Browser Post

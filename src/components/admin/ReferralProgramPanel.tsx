@@ -421,7 +421,7 @@ export default function ReferralProgramPanel() {
                                   className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${i === 0
                                     ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
                                     : i === 1
-                                      ? "bg-white/10 text-white/60 border border-white/10"
+                                      ? "bg-white/10  text-white  border border-white/10"
                                       : i === 2
                                         ? "bg-[#e1e6ff29]   text-white/40 border border-white/5"
                                         : "text-white/20"

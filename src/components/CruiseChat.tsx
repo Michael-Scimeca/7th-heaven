@@ -470,7 +470,7 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
         <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-full animate-spin" />
         <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
@@ -507,7 +507,7 @@ export default function CruiseChat({
       style={{
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className={` backdrop-blur-md flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
+      className={`  backdrop-blur-[45px] flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
     >
       {showHeader && (
         <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
@@ -572,7 +572,7 @@ export default function CruiseChat({
             <h3 className="text-xl font-black text-white uppercase tracking-tight">
               Join the Live Chat
             </h3>
-            <p className="text-xs text-white/60 leading-relaxed font-medium">
+            <p className="text-xs  text-white  leading-relaxed font-medium">
               Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
             </p>
           </div>
@@ -583,7 +583,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+              className="btn-cosmic-radial-property w-full py-3  text-white font-black text-xs sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
             >
               <span>Sign Up as a Fan</span>
             </button>
@@ -634,7 +634,7 @@ export default function CruiseChat({
                 maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
               }}
-              className="absolute top-0 left-0 right-0 h-12 backdrop-blur-md z-20 pointer-events-none"
+              className="absolute top-0 left-0 right-0 h-12  backdrop-blur-[45px] z-20 pointer-events-none"
             />
 
             <div
@@ -694,7 +694,7 @@ export default function CruiseChat({
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-[10px] text-white/60 font-mono font-medium leading-none ml-auto tracking-tight">
+                          <span className="text-[10px]  text-white  font-mono font-medium leading-none ml-auto tracking-tight">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -726,7 +726,7 @@ export default function CruiseChat({
                       </div>
 
                       {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-md border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90  backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
                           <button
                             aria-label="Warn User"
                             onClick={() => handleWarn(msg.sender_name)}
@@ -772,7 +772,7 @@ export default function CruiseChat({
                 maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
               }}
-              className="absolute bottom-0 left-0 right-0 h-10 backdrop-blur-md z-20 pointer-events-none"
+              className="absolute bottom-0 left-0 right-0 h-10  backdrop-blur-[45px] z-20 pointer-events-none"
             />
           </div>
 

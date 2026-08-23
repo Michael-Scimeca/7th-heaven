@@ -578,11 +578,11 @@ export default function LoginModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
+      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/80  backdrop-blur-[45px] transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-lg rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
+        className="relative w-full max-w-lg  rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
         style={{
           background: "#120a22",
           backdropFilter: "blur(32px) saturate(180%)",
@@ -734,7 +734,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Prominent High-Contrast Sliding Toggle Tabs */}
         {modalMode !== "forgot" && (
-          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
+          <div className="relative grid grid-cols-2 p-1 bg-white/10  backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
             <div
               className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
               style={{
@@ -746,7 +746,7 @@ function LoginModalBodyContent(props: any) {
               onClick={() => setModalMode("login")}
               className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
                 ? "text-white font-extrabold"
-                : "text-white/60 hover:text-white"
+                : " text-white  hover:text-white"
                 }`}
             >
               Sign In
@@ -759,7 +759,7 @@ function LoginModalBodyContent(props: any) {
               }}
               className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
                 ? "text-white font-extrabold"
-                : "text-white/60 hover:text-white"
+                : " text-white  hover:text-white"
                 }`}
             >
               Sign Up
@@ -773,7 +773,7 @@ function LoginModalBodyContent(props: any) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10  rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
+            <div className={`grid p-1 bg-black/40  backdrop-blur-[45px] border border-white/10  rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
@@ -853,7 +853,7 @@ function LoginModalBodyContent(props: any) {
 
             <button type="button"
               onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-              className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-1 cursor-pointer"
+              className="text-xs font-bold  text-white  hover:text-white text-center transition-colors mt-1 cursor-pointer"
             >
               ← Back to details
             </button>
@@ -1046,7 +1046,7 @@ function LoginModalBodyContent(props: any) {
             {modalMode === "forgot" && (
               <button type="button"
                 onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
-                className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-2 cursor-pointer"
+                className="text-xs font-bold  text-white  hover:text-white text-center transition-colors mt-2 cursor-pointer"
               >
                 ← Back to Sign In
               </button>
@@ -1062,7 +1062,7 @@ function LoginModalBodyContent(props: any) {
                 <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[#0f0b18] px-3 font-extrabold text-white/60 tracking-wider">Or continue with</span>
+                <span className="bg-[#0f0b18] px-3 font-extrabold  text-white  tracking-wider">Or continue with</span>
               </div>
             </div>
 

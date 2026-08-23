@@ -170,7 +170,7 @@ export default function BioScrollReveal({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-1  rounded-lg  border border-white/10">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-1  rounded-lg  border border-white/10">
                       {member.role}
                     </span>
                     <h4 className="text-xl font-black uppercase tracking-tight text-white mt-2 drop-shadow-md">

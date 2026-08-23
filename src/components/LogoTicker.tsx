@@ -101,7 +101,7 @@ export default function LogoTicker({
   return (
     <div className="relative w-full">
       <div
-        className={`hoy-ticker relative w-full overflow-hidden py-2 ${bgClassName}`}
+        className={`hoy-ticker relative w-full overflow-hidden ${bgClassName}`}
         style={{ ["--ticker-speed" as string]: `${activeSpeed}s` }}
       >
         <div
@@ -142,7 +142,7 @@ export default function LogoTicker({
                     {item.label}
                   </span>
                   {item.sub && (
-                    <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-wide text-white/60">
+                    <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-wide  text-white ">
                       {item.sub}
                     </span>
                   )}

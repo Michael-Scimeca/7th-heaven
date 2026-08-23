@@ -239,14 +239,14 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [dragThreshold, setDragThreshold] = useState<number>(4);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(511);
-  const [imageHeight, setImageHeight] = useState<number>(664);
-  const [imageScale, setImageScale] = useState<number>(1.44);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(-1);
+  const [cardWidth, setCardWidth] = useState<number>(450);
+  const [imageHeight, setImageHeight] = useState<number>(648);
+  const [imageScale, setImageScale] = useState<number>(1.42);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
   const [gap, setGap] = useState<number>(0);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.00);
   const [maxSkew, setMaxSkew] = useState<number>(30);
-  const [focalScale, setFocalScale] = useState<number>(1.44);
+  const [focalScale, setFocalScale] = useState<number>(1.48);
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
@@ -298,10 +298,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
         if (cfg.dragThreshold !== undefined) setDragThreshold(cfg.dragThreshold);
         if (cfg.parallaxDepth !== undefined) setParallaxDepth(cfg.parallaxDepth);
         if (cfg.maxSkew !== undefined) setMaxSkew(cfg.maxSkew);
-        if (cfg.focalScale !== undefined) setFocalScale(cfg.focalScale);
-        if (cfg.cardWidth !== undefined) setCardWidth(cfg.cardWidth);
-        if (cfg.imageHeight !== undefined) setImageHeight(cfg.imageHeight);
-        if (cfg.imageScale !== undefined) setImageScale(cfg.imageScale);
         if (cfg.imageOffsetY !== undefined) setImageOffsetY(cfg.imageOffsetY);
         if (cfg.gap !== undefined) setGap(cfg.gap);
         if (cfg.nameFontSize !== undefined) setNameFontSize(cfg.nameFontSize);
@@ -343,17 +339,17 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
       let targetHeight: number;
       if (isMobile) {
-        targetHeight = Math.max(300, Math.min(500, Math.round((vh - 60) * 0.55)));
+        targetHeight = Math.max(300, Math.min(430, Math.round(vh * 0.52)));
       } else if (isTablet) {
         // Tablet view: scale member image height to fit proportionally with tablet viewport height
-        targetHeight = Math.max(340, Math.min(540, Math.round((vh - 80) * 0.58)));
+        targetHeight = Math.max(400, Math.min(550, Math.round(vh * 0.63)));
       } else {
-        targetHeight = Math.max(380, Math.min(730, Math.round((vh - 100) * 0.60)));
+        targetHeight = Math.max(520, Math.min(650, Math.round(vh * 0.75)));
       }
 
       const targetWidth = isMobile
-        ? Math.min(Math.round(vw * 0.72), Math.round(targetHeight * 0.72))
-        : Math.round(targetHeight * 0.77);
+        ? Math.min(Math.round(vw * 0.70), Math.round(targetHeight * 0.80))
+        : Math.min(Math.round(vw * 0.20), Math.round(targetHeight * 0.80));
 
       // Calculate available spine space so all 5 videos 100% fit inside the slider section without hitting the PAGES button
       const availableSpineHeight = Math.max(160, vh - 220);
@@ -666,7 +662,7 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
-      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent pt-4 sm:pt-6 md:pt-8 pb-4 mt-2 sm:mt-4 md:mt-6"
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent"
     >
 
 
@@ -777,12 +773,12 @@ lerpSpeed: ${lerpSpeed}`;
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{ touchAction: "pan-y" }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-24 sm:pt-36 pb-0"
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-stage-fluid"
         >
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
             ref={trackRef}
-            className="flex items-end pt-24 sm:pt-36 pb-0"
+            className="flex items-end pt-0 pb-0"
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
@@ -821,7 +817,7 @@ lerpSpeed: ${lerpSpeed}`;
                     goToSlide(i);
                   }}
                   style={{ width: `${cardWidth}px`, isolation: "isolate" }}
-                  className="shrink-0 bg-transparent rounded-3xl px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
+                  className="shrink-0 bg-transparent  rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
@@ -843,7 +839,7 @@ lerpSpeed: ${lerpSpeed}`;
                           unoptimized
                           loading="lazy"
                           draggable={false}
-                          className="smooothy-img w-full h-auto max-h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+                          className="smooothy-img w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             transform: `scale(${imageScale})`,
                             opacity: 1,
@@ -856,6 +852,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control & Active Slide Opacity Lock) */}
                       {textPos === "left" && (
                         <div
+                          id="names"
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
@@ -1000,7 +997,7 @@ lerpSpeed: ${lerpSpeed}`;
 
       {/* ⚙️ Live Physics & Layout Tuner Side Drawer Modal */}
       {showTuner && (
-        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95 backdrop-blur-2xl border-l border-purple-500/30 p-5 text-white shadow-2xl flex flex-col justify-between overflow-hidden">
+        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95backdrop-blur-[18px]  border-l border-purple-500/30 p-5 text-white shadow-2xl flex flex-col justify-between overflow-hidden">
           {/* Header (Sticky Top) */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
             <div className="flex items-center gap-2">

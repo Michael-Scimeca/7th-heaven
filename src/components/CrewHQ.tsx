@@ -567,7 +567,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               href={studioPath}
               className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-colors border ${isLive
                 ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
-                : "bg-white/[0.04] border-white/10 text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
+                : "bg-white/[0.04] border-white/10  text-white  hover:bg-white/[0.08] hover:text-white hover:border-white/20"
                 }`}
             >
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
@@ -596,7 +596,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       onClick={toggleSimulator}
                       className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
-                        : "bg-[#e1e6ff29]   border border-white/10 text-white/40 hover:text-white/60"
+                        : "bg-[#e1e6ff29]   border border-white/10 text-white/40 hover: text-white "
                         }`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
@@ -629,7 +629,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
+                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
                       }`}
                   >
                     All Rooms ({msgs.length})
@@ -640,7 +640,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
                       className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id
                         ? "text-white border-opacity-100"
-                        : "border-white/[0.08] text-white/30 hover:text-white/60"
+                        : "border-white/[0.08] text-white/30 hover: text-white "
                         }`}
                       style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
                     >

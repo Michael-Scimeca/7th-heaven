@@ -45,7 +45,7 @@ export async function GET() {
             <div>
               <span class="text-xs font-extrabold uppercase tracking-widest text-purple-400">Planner Coordinator Portal</span>
               <h2 class="text-2xl font-black text-white mt-1">Confirmed Event Bookings</h2>
-              <p class="text-xs text-white/60 mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
+              <p class="text-xs  text-white  mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
             <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2  rounded-lg text-right">
               <span class="text-[10px] font-mono text-purple-300 uppercase block">Booking Reference</span>

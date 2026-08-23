@@ -272,7 +272,7 @@ export default function StickyNotesOverlay() {
                   key={f}
                   type="button"
                   onClick={() => setActiveFilter(f)}
-                  className={`flex-1 py-1.5 rounded-lg uppercase tracking-wider text-[11px] transition cursor-pointer ${activeFilter === f ? "bg-amber-400 text-black font-black" : "text-white/60 hover:text-white"
+                  className={`flex-1 py-1.5 rounded-lg uppercase tracking-wider text-[11px] transition cursor-pointer ${activeFilter === f ? "bg-amber-400 text-black font-black" : " text-white  hover:text-white"
                     }`}
                 >
                   {f}
@@ -323,7 +323,7 @@ export default function StickyNotesOverlay() {
                         <button
                           type="button"
                           onClick={() => handleToggleHideNote(n.id)}
-                          className="text-[10px] font-bold uppercase tracking-wider text-white/60 hover:text-white flex items-center gap-1 cursor-pointer"
+                          className="text-[10px] font-bold uppercase tracking-wider  text-white  hover:text-white flex items-center gap-1 cursor-pointer"
                         >
                           {isNoteHidden ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
                           <span>{isNoteHidden ? "Unhide" : "Hide"}</span>
@@ -498,7 +498,7 @@ function SingleStickyCard({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${isHighlighted
+      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95backdrop-blur-[18px]  border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${isHighlighted
         ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105"
         : note.status === "submitted"
           ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]"

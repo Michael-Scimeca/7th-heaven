@@ -85,7 +85,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </h2>
 
               {/* Subtitle */}
-              <p className="text-white/60 text-lg max-w-[500px] mb-10 leading-relaxed">
+              <p className=" text-white  text-lg max-w-[500px] mb-10 leading-relaxed">
                 {featured.subtitle}
               </p>
 

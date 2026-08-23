@@ -260,7 +260,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <button aria-label="Action button" onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
                     {item.loaded ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Square className="w-3.5 h-3.5 text-white/15" />}
                   </button>
-                  <span className={`text-xs flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : 'text-white/60'}`}>{item.name}</span>
+                  <span className={`text-xs flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : ' text-white '}`}>{item.name}</span>
                   <button aria-label="Action button" onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[var(--font-size-2xs)] cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ))}

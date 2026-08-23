@@ -237,7 +237,7 @@ export default function CustomYTPlayer({
   return (
     <div
       aria-label="YouTube Video Player"
-      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
+      className="fixed inset-0 z-[9999] bg-black/95  backdrop-blur-[45px] flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
     >
       <button
         type="button"
@@ -377,7 +377,7 @@ export default function CustomYTPlayer({
                 {/* Prev */}
                 {hasPrev && (
                   <button onClick={() => onPrev?.()}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                    className=" text-white  hover:text-white transition-colors cursor-pointer"
                     aria-label="Previous"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -406,7 +406,7 @@ export default function CustomYTPlayer({
                 {/* Next */}
                 {hasNext && (
                   <button onClick={() => onNext?.()}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                    className=" text-white  hover:text-white transition-colors cursor-pointer"
                     aria-label="Next"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -422,7 +422,7 @@ export default function CustomYTPlayer({
                   onMouseLeave={() => setShowVolume(false)}
                 >
                   <button onClick={toggleMute}
-                    className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                    className=" text-white  hover:text-white transition-colors cursor-pointer"
                     aria-label={isMuted ? "Unmute" : "Mute"}
                   >
                     {isMuted || volume === 0 ? (
@@ -481,7 +481,7 @@ export default function CustomYTPlayer({
 
                 {/* Fullscreen */}
                 <button onClick={toggleFullscreen}
-                  className="text-white/60 hover:text-white transition-colors cursor-pointer"
+                  className=" text-white  hover:text-white transition-colors cursor-pointer"
                   aria-label="Fullscreen"
                 >
                   {isFullscreen ? (

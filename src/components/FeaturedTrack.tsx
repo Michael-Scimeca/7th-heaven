@@ -260,7 +260,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-sm shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
-              <p className="text-[var(--font-size-3xs)] font-bold text-white/60 truncate">Exclusive Fan Drop</p>
+              <p className="text-[var(--font-size-3xs)] font-bold  text-white  truncate">Exclusive Fan Drop</p>
               <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>

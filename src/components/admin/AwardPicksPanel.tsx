@@ -203,7 +203,7 @@ export default function AwardPicksPanel() {
                 onClick={() => setSelectedFan(fan)}
                 className={`w-full text-left px-4 py-2.5 border-b border-white/5 last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id
                   ? "bg-[var(--color-accent)]/10 text-white"
-                  : "hover:bg-white/[0.03] text-white/60"
+                  : "hover:bg-white/[0.03]  text-white "
                   }`}
               >
                 <span className="text-sm font-bold">{fan.full_name || "Unnamed"}</span>

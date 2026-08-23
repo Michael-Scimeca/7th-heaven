@@ -57,7 +57,7 @@ export default function LiveStatusSign() {
           <div className="h-4 w-px bg-white/10" />
 
           <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-white/60 tracking-wide uppercase">
+            <span className="text-xs font-bold  text-white  tracking-wide uppercase">
               {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
             </span>
             <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#e1e6ff29]   border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">

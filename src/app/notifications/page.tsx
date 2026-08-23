@@ -145,8 +145,8 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="max-w-3xl mx-auto bg-[#e1e6ff29]   backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-10 shadow-md">
-        <p className="text-white/60 text-sm font-medium text-center mb-8">{activeMeta.blurb}</p>
+      <div className="max-w-3xl mx-auto bg-[#e1e6ff29]   backdrop-blur-xl border border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
+        <p className=" text-white  text-sm font-medium text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">
@@ -215,7 +215,7 @@ export default function NotificationsPage() {
                       href={browserUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs font-bold text-white/60 hover:text-white underline transition-colors"
+                      className="text-xs font-bold  text-white  hover:text-white underline transition-colors"
                     >
                       Or subscribe in your browser instead
                     </a>

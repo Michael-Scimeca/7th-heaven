@@ -150,11 +150,11 @@ export function PageNav() {
     <div className="fixed bottom-8 left-8 z-[999999] font-sans pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
-          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-lg  shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto"
+          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85backdrop-blur-[18px]  border border-purple-500/30 rounded-lg  shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto"
           style={{ maxHeight: 'min(80vh, 600px)' }}
         >
           {/* Header — fixed, translucent blur */}
-          <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-md shrink-0">
+          <div className="py-4 border-b border-white/10 bg-white/[0.04]  backdrop-blur-[45px] shrink-0">
             <h3 className="text-white text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator

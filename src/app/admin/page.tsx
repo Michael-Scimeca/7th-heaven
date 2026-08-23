@@ -240,14 +240,14 @@ export default function AdminGatewayPage() {
           pointerEvents: "none"
         }}
       />
-      <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
+      <div className="fixed inset-0 bg-black/55  backdrop-blur-[45px] z-0 pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
 
         {/* ═══════════ STEP 1: Login Form ═══════════ */}
         {step === "login" && (
           <div
-            className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            className=" rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}
           >
             <div className="p-8 sm:p-10">
@@ -362,7 +362,7 @@ export default function AdminGatewayPage() {
             </div>
 
             <div
-              className="rounded-3xl px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+              className=" rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
               style={{
                 background: "rgba(18, 10, 34, 0.85)",
                 backdropFilter: "blur(32px) saturate(180%)",

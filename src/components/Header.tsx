@@ -539,7 +539,7 @@ export function Header() {
           </TransitionLink>
 
           {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 font-[family-name:'Switzer', var(--font-barlow)] relative z-50">
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
@@ -575,7 +575,7 @@ export function Header() {
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:'Switzer', var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
@@ -636,7 +636,7 @@ export function Header() {
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40  backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}

@@ -712,7 +712,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       {showSettings && mounted && createPortal(
         <div
           data-settings-panel
-          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5  /40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
+          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5  /40 border-2 border-cyan-400/50  rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
           style={{ zIndex: 999999, pointerEvents: 'auto' }}
         >
           <style>{`
@@ -736,7 +736,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             </div>
             <button aria-label="Action button"
               onClick={() => setShowSettings(false)}
-              className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
+              className=" text-white  hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
             >
               ✕ Close
             </button>
@@ -926,7 +926,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                         className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
-                          : 'bg-[#e1e6ff29]   text-white/60 hover:bg-white/10'
+                          : 'bg-[#e1e6ff29]    text-white  hover:bg-white/10'
                           }`}
                       >
                         {act.label}
@@ -1052,7 +1052,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </div>
 
           {/* Actions Bar */}
-          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40 backdrop-blur-md pb-1 z-10">
+          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40  backdrop-blur-[45px] pb-1 z-10">
             <button aria-label="Action button"
               onClick={handleResetTuning}
               className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
@@ -1278,7 +1278,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const isPassed = visitedNodes[i];
           const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
 
-          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
+          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#fff');
           const formatNodeBadgeText = (d: ItineraryDay, idx: number) => {
             const isSeaDay = isAtSeaDay(d);
             const loc = (d.location || '').toLowerCase();
@@ -1314,7 +1314,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full  backdrop-blur-[45px] flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}

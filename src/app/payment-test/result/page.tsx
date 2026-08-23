@@ -68,7 +68,7 @@ function NorthResultContent() {
   return (
     <div className="min-h-screen bg-transparent text-white pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
-        <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-[18px]  border border-white/[0.12]  rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p className="text-white/50 text-sm">Loading payment result…</p>}
 
           {!loading && (hadError || fetchError || !id) && (
@@ -89,11 +89,10 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center border-2 ${
-                  succeeded
-                    ? "bg-emerald-500/10 border-emerald-500/30"
-                    : "bg-rose-500/10 border-rose-500/30"
-                }`}
+                className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center border-2 ${succeeded
+                  ? "bg-emerald-500/10 border-emerald-500/30"
+                  : "bg-rose-500/10 border-rose-500/30"
+                  }`}
               >
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
@@ -101,12 +100,12 @@ function NorthResultContent() {
                 {succeeded ? "Payment Succeeded" : "Payment Failed"}
               </h1>
               {succeeded ? (
-                <div className="text-white/60 text-sm space-y-1">
+                <div className=" text-white  text-sm space-y-1">
                   <p>Amount paid: ${result.amount}</p>
                   {result.maskedAccountNbr && <p>Account: {result.maskedAccountNbr}</p>}
                 </div>
               ) : (
-                <p className="text-white/60 text-sm">
+                <p className=" text-white  text-sm">
                   Reason: {result.authRespText || "Unknown error"}
                 </p>
               )}

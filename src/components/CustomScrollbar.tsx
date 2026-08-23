@@ -33,6 +33,8 @@ export default function CustomScrollbar({
   const [thumbPos, setThumbPos] = useState(topOffset);
   const [hThumbSize, setHThumbSize] = useState(48);
   const [hThumbPos, setHThumbPos] = useState(0);
+  const [hasScrollableY, setHasScrollableY] = useState(false);
+  const [hasScrollableX, setHasScrollableX] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const dragStartPos = useRef(0);
@@ -49,6 +51,7 @@ export default function CustomScrollbar({
     if (showHorizontal) {
       const { scrollWidth, clientWidth, scrollLeft } = el;
       const scrollable = scrollWidth > clientWidth + 2;
+      setHasScrollableX(scrollable);
       const minThumb = 48;
       const ratio = clientWidth / Math.max(clientWidth, scrollWidth);
       const maxThumb = Math.max(minThumb, clientWidth - 16);
@@ -68,6 +71,7 @@ export default function CustomScrollbar({
     if (showVertical) {
       const { scrollHeight, clientHeight, scrollTop } = el;
       const scrollable = scrollHeight > clientHeight + 2;
+      setHasScrollableY(scrollable);
       const minThumb = 48;
       const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
       const availableHeight = Math.max(0, clientHeight - (4 + topOffset) - trackBottom);
@@ -248,8 +252,8 @@ export default function CustomScrollbar({
         }
       `}</style>
 
-      {/* Vertical Track — rendered if showVertical */}
-      {showVertical && (
+      {/* Vertical Track — rendered if showVertical AND content has vertical scroll space */}
+      {showVertical && hasScrollableY && (
         <div
           role="region"
           aria-label="Vertical scrollbar track"
@@ -258,9 +262,9 @@ export default function CustomScrollbar({
           style={{
             position: "absolute",
             top: 4 + topOffset,
-            right: 1,
-            bottom: showHorizontal ? thumbWidth + 8 : 4,
-            width: thumbWidth + 2,
+            right: 5,
+            bottom: (showHorizontal && hasScrollableX) ? thumbWidth + 8 : 4,
+            width: 0,
             backdropFilter: "blur(12px)",
             borderRadius: 9999,
             cursor: "pointer",
@@ -278,7 +282,7 @@ export default function CustomScrollbar({
               top: thumbPos,
               left: "50%",
               transform: "translateX(-50%)",
-              width: thumbWidth,
+              width: 8,
               height: thumbSize,
               background: "linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%)",
               borderRadius: 9999,
@@ -291,8 +295,8 @@ export default function CustomScrollbar({
         </div>
       )}
 
-      {/* Horizontal Mask Strip — hides content scrolling underneath the horizontal scrollbar */}
-      {showHorizontal && (
+      {/* Horizontal Mask Strip */}
+      {showHorizontal && hasScrollableX && (
         <div
           style={{
             position: "absolute",
@@ -300,15 +304,14 @@ export default function CustomScrollbar({
             left: 0,
             right: 0,
             height: thumbWidth + 10,
-
             zIndex: 90,
             pointerEvents: "none",
           }}
         />
       )}
 
-      {/* Horizontal Track — rendered if showHorizontal */}
-      {showHorizontal && (
+      {/* Horizontal Track — rendered if showHorizontal AND content has horizontal scroll space */}
+      {showHorizontal && hasScrollableX && (
         <div
           role="region"
           aria-label="Horizontal scrollbar track"
@@ -317,10 +320,9 @@ export default function CustomScrollbar({
           style={{
             position: "absolute",
             left: 4,
-            right: showVertical ? thumbWidth + 8 : 4,
-            bottom: 0,
-            height: thumbWidth,
-            backdropFilter: "blur(12px)",
+            right: (showVertical && hasScrollableY) ? thumbWidth + 8 : 4,
+            bottom: 1,
+            height: 8,
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,

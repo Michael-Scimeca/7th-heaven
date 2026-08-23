@@ -128,7 +128,7 @@ export default function DevRouteList() {
 
   return (
     <section className="w-full mt-16 mb-12 px-4 md:px-8 font-sans">
-      <div className="max-w-7xl mx-auto rounded-3xl bg-[rgba(15,15,22,0.85)] border border-purple-500/20 backdrop-blur-2xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+      <div className="max-w-7xl mx-auto  rounded-lg bg-[rgba(15,15,22,0.85)] border border-purple-500/20backdrop-blur-[18px]  p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
 
         {/* Top Header Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
@@ -175,7 +175,7 @@ export default function DevRouteList() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeCategory === cat
                       ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
-                      : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white"
+                      : "bg-[#e1e6ff29]   hover:bg-white/10  text-white  hover:text-white"
                       }`}
                   >
                     {cat}
