@@ -18,6 +18,7 @@ import { SquishyToggle } from "@/components/SquishyToggle";
 import GooeyDropdown from "@/components/GooeyDropdown";
 import GlowInput from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword, adminCreateAdmin } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
@@ -5642,16 +5643,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
-                      <button
+                      <CosmicRadialButton
                         type="button"
                         onClick={() => {
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-lg text-[10px] transition-colors cursor-pointer border-none flex items-center gap-1   uppercase tracking-wider"
+                        icon={false}
+                        className="px-3 py-1 text-[10px] font-black uppercase tracking-wider cursor-pointer"
                       >
                         Create Group
-                      </button>
+                      </CosmicRadialButton>
                     </div>
                     <Dropdown
                       id="crew-sms-select-group"
@@ -5804,6 +5806,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         checked={isChecked}
                                         onChange={() => handleToggleMember(r)}
                                       />
+                                      <div
+                                        className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans border border-purple-400/40"
+                                        style={{ backgroundColor: getAvatarColor(r.name) }}
+                                      >
+                                        {(r as any).initials || (r.name || 'Member').split(' ').filter(Boolean).map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                      </div>
                                       <span className="font-semibold text-white">{r.name}</span>
                                     </div>
 
@@ -5848,13 +5856,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         )}
 
                         <div className="flex items-center gap-2 mt-1">
-                          <button
+                          <CosmicRadialButton
                             type="button"
                             onClick={handleSaveSmsGroup}
-                            className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer border-none flex-1"
+                            icon={false}
+                            className="px-4 py-2 text-xs font-black uppercase tracking-wider cursor-pointer flex-1"
                           >
                             Save Group
-                          </button>
+                          </CosmicRadialButton>
                           <button
                             type="button"
                             onClick={() => {
@@ -5868,16 +5877,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       </div>
                     ) : (
-                      <button
+                      <CosmicRadialButton
                         type="button"
                         onClick={() => {
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="w-full px-3 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5"
+                        icon={false}
+                        className="w-full py-3 text-xs font-black uppercase tracking-wider cursor-pointer"
                       >
                         CREATE NEW GROUP FROM SELECTION
-                      </button>
+                      </CosmicRadialButton>
                     )}
                   </div>
                 </div>
@@ -9473,7 +9483,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29]   px-2.5 py-1 rounded border border-white/10">Roster Schedule</span>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29 px-2.5 py-1 rounded border border-white/30">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
