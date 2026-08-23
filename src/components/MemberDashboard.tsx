@@ -405,7 +405,7 @@ export default function MemberDashboard() {
                     <Image width={200} height={200} unoptimized
                       src={photo.src}
                       alt={photo.caption || "Upload"}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover"
                     />
 
                     {/* Status Overlay Badge */}

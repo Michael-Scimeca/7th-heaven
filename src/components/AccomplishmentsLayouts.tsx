@@ -165,7 +165,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <span className="text-[var(--font-size-2xs)] font-mono font-bold  text-[var(--color-accent)] uppercase tracking-wider">{s.badge}</span>
                   <span className="text-[var(--font-size-2xs)] font-mono text-white/30">0{i + 1}</span>
                 </div>
-                <div className="text-4xl font-black text-white mb-2 group-hover:scale-105 transition-transform">{s.number}</div>
+                <div className="text-4xl font-black text-white mb-2">{s.number}</div>
               </div>
               <div>
                 <h4 className="text-xs font-bold uppercase  text-[var(--color-accent)] mb-1">{s.label}</h4>
@@ -242,7 +242,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               className={`p-7 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl hover:border-[var(--color-accent)]/20 transition-colors group ${i === 0 ? "md:col-span-2 md:row-span-2 justify-between flex flex-col" : i === 3 ? "md:col-span-2" : ""
                 }`}
             >
-              <div className="text-4xl md:text-5xl font-black  text-[var(--color-accent)] mb-3 group-hover:scale-105 transition-transform">{s.number}</div>
+              <div className="text-4xl md:text-5xl font-black  text-[var(--color-accent)] mb-3">{s.number}</div>
               <div>
                 <h4 className="text-xs font-bold uppercase text-white mb-1">{s.label}</h4>
                 <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>
@@ -340,8 +340,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {activeLayout === 15 && (
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {stats.map((s) => (
-            <div key={s.label} className="p-7 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg   border border-white/10 backdrop-blur-xl transition-colors group">
-              <div className="text-4xl font-black  text-[var(--color-accent)] mb-2 group-hover:scale-105 transition-transform">{s.number}</div>
+            <div key={s.label} className="p-7 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg border border-white/10 backdrop-blur-xl transition-colors group">
+              <div className="text-4xl font-black  text-[var(--color-accent)] mb-2">{s.number}</div>
               <h4 className="text-xs font-extrabold uppercase text-white mb-2 tracking-wider">{s.label}</h4>
               <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>
             </div>

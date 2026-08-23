@@ -109,7 +109,7 @@ export default function CookieConsentBanner() {
                   <p className="text-xs text-white/30 mt-0.5">Required for the site to function. Cannot be disabled.</p>
                 </div>
                 <div className="w-9 h-5 bg-[var(--color-accent)]/30 rounded-full flex items-center justify-end px-0.5 shrink-0">
-                  <div className="w-4 h-4 rounded-full bg-[var(--color-accent)] shadow-sm" />
+                  <div className="w-4 h-4 rounded-full bg-[var(--color-accent)]  " />
                 </div>
               </div>
               <div className="h-px bg-white/10" />

@@ -381,7 +381,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           </div>
 
           {/* SMS Bubble */}
-          <div className="p-3 bg-transparent border border-white/10 text-[11px] leading-relaxed space-y-1 shadow-sm">
+          <div className="p-3 bg-transparent border border-white/10 text-[11px] leading-relaxed space-y-1  ">
             <span className="text-[11px] font-black text-rose-400 block">{activeTitle}</span>
             <p className="text-white font-semibold text-[11px] leading-relaxed">{activeBody}</p>
             <span className="text-[8px] text-white/50 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>

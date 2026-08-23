@@ -171,7 +171,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg shadow-sm whitespace-nowrap"
+            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg   whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch"
           >
             <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}

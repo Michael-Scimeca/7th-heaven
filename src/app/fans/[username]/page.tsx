@@ -1113,9 +1113,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         return (
                           <div key={photo.id} className={`relative aspect-square  overflow-hidden group border  ${photo.rejected ? 'border-red-500/40' : 'border-black/10'}`}>
                             {isVideo ? (
-                              <video src={photo.src} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay loop muted playsInline />
+                              <video src={photo.src} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                             ) : (
-                              <Image width={200} height={200} unoptimized src={photo.src} alt={photo.venue} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <Image width={200} height={200} unoptimized src={photo.src} alt={photo.venue} className="w-full h-full object-cover" />
                             )}
 
                             {/* Status Badge */}

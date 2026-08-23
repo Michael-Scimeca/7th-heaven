@@ -250,7 +250,7 @@ export default function FAQPage() {
             );
           })
         ) : (
-          <div className="text-center py-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-sm">
+          <div className="text-center py-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8  ">
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>

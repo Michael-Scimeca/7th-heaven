@@ -218,8 +218,8 @@ export default function BulkInvitePanel() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging
-                ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
-                : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
+              ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
+              : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
           >
             <input aria-label="Input field"
@@ -253,7 +253,7 @@ export default function BulkInvitePanel() {
             <button aria-label="Action button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-colors border border-[var(--color-accent)] cursor-pointer disabled:opacity-30 shadow-sm"
+              className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-colors border border-[var(--color-accent)] cursor-pointer disabled:opacity-30  "
             >
               Parse & Import list
             </button>
@@ -295,8 +295,8 @@ export default function BulkInvitePanel() {
           {/* Results Toast */}
           {results && (
             <div className={`p-4  border flex items-center gap-3 ${results.failed > 0
-                ? "bg-rose-50 border-rose-200 text-rose-800"
-                : "bg-emerald-50 border-emerald-200 text-emerald-800"
+              ? "bg-rose-50 border-rose-200 text-rose-800"
+              : "bg-emerald-50 border-emerald-200 text-emerald-800"
               }`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
               <p className="text-xs font-black uppercase tracking-widest">

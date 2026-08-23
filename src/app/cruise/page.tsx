@@ -740,7 +740,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-900/90 via-black to-purple-950/90 border border-purple-400/50 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg=[#e1e6ff29] backdrop-blur-[10px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
               <Ship className="w-4 h-4 text-cyan-300" />
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
@@ -825,7 +825,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://en.wikipedia.org/wiki/Star_of_the_Seas"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🌐</span> <span>WIKI</span>
                         </a>
@@ -835,7 +835,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.royalcaribbean.com/cruise-ships/star-of-the-seas"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🚢</span> <span>ROYAL CARIBBEAN PAGE</span>
                         </a>
@@ -845,7 +845,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🗺️</span> <span>DECK PLAN</span>
                         </a>
@@ -855,7 +855,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🎥</span> <span>VIDEO OF THE SHIP</span>
                         </a>
@@ -865,7 +865,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">📜</span> <span>PAST CRUISE COMPASS</span>
                         </a>
@@ -875,7 +875,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/0LxUHSdFDtY"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🎬</span> <span>SHIP TOUR VIDEO</span>
                         </a>
@@ -885,7 +885,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/6xCQ4xE7L38"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-purple-500/40 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all shadow-sm"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 border border-purple-500/40 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all  "
                         >
                           <span className="text-sm">🔥</span> <span>PROMO VIDEO</span>
                         </a>
@@ -1517,7 +1517,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
+                              <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] px-3 py-1 rounded-full   border-0">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
@@ -1896,7 +1896,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <Image width={200} height={200} unoptimized
                         src={band.photo}
                         alt={band.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+                        className="w-full h-full object-cover opacity-90"
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
@@ -2315,7 +2315,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         unoptimized
                         src={item.img}
                         alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                         <span className="text-[10px] font-black uppercase tracking-widest text-purple-200 bg-purple-600/70 backdrop-blur-md px-2.5 py-1 rounded-full self-start mb-1.5 border border-purple-400/40 shadow-md">
@@ -2401,7 +2401,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     return (
                       <div key={food.name} className="relative rounded-lg overflow-hidden group border border-black/10 h-48 md:h-56">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest text-white bg-purple-600/70 backdrop-blur-md px-2.5 py-1 rounded-full font-black self-start mb-1.5 shadow-md border border-white/20">{food.tag}</span>
                           <p className="font-extrabold text-white text-base md:text-lg leading-snug">{food.name}</p>
@@ -2495,9 +2495,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   ).map((item) => {
                     const isCyan = barTab === "bars";
                     return (
-                      <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56 shadow-sm">
+                      <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56  ">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-1 rounded-full font-black text-white bg-purple-600/70 shadow-md border border-white/20 self-start mb-1.5">{item.tag}</span>
                           <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.name}</p>

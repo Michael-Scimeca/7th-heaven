@@ -3801,7 +3801,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => setActiveScheduleTab('my_schedule')}
                         className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'my_schedule'
-                          ? 'bg-purple-600 text-white shadow-sm font-bold'
+                          ? 'bg-purple-600 text-white   font-bold'
                           : 'bg-transparent text-white/60 hover:text-white'
                           }`}
                       >
@@ -3811,7 +3811,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => setActiveScheduleTab('tour_events')}
                         className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'tour_events'
-                          ? 'bg-purple-600 text-white shadow-sm font-bold'
+                          ? 'bg-purple-600 text-white   font-bold'
                           : 'bg-transparent text-white/60 hover:text-white'
                           }`}
                       >
@@ -3995,7 +3995,7 @@ Reason for decline: ${shift.declineReason || ''}
                                         <button
                                           type="button"
                                           onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold shadow-sm"
+                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold  "
                                         >
                                           Confirm
                                         </button>
@@ -4897,7 +4897,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId
-                    ? 'bg-[var(--color-accent)] text-black shadow-sm'
+                    ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >
@@ -4907,7 +4907,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
                   className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId
-                    ? 'bg-[var(--color-accent)] text-black shadow-sm'
+                    ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >

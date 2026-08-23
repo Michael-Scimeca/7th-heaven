@@ -457,15 +457,15 @@ export function Header() {
       ? "/cruise/demo"
       : isDemoPlannerPage
         ? "/book/demo"
-      : displayRole === "admin"
-        ? "/admin"
-        : displayRole === "crew"
-          ? "/crew"
-          : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
-            ? `/book/${member?.username || "me"}`
-            : displayRole === "cruise"
-              ? `/cruise/${member?.username || "dashboard"}`
-              : `/fans/${member?.username || "me"}`;
+        : displayRole === "admin"
+          ? "/admin"
+          : displayRole === "crew"
+            ? "/crew"
+            : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+              ? `/book/${member?.username || "me"}`
+              : displayRole === "cruise"
+                ? `/cruise/${member?.username || "dashboard"}`
+                : `/fans/${member?.username || "me"}`;
 
   const isAvatarUrl =
     member?.avatar &&
@@ -644,7 +644,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none shadow-sm ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none   ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}

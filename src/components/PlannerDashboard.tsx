@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
               <button
                 type="button"
                 onClick={() => setShowContactModal(true)}
-                className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-white/5 hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-xl transition-all cursor-pointer shadow-sm"
+                className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-white/5 hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-xl transition-all cursor-pointer  "
               >
                 <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
                 Contact 7th Heaven

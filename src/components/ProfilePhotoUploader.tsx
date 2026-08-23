@@ -143,7 +143,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   }
 
   return (
-    <div className="bg-white border border-black/15 p-6 shadow-sm relative overflow-hidden text-black font-sans">
+    <div className="bg-white border border-black/15 p-6   relative overflow-hidden text-black font-sans">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] font-bold">
@@ -199,7 +199,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <button aria-label="Action button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors shadow-sm cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors   cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}

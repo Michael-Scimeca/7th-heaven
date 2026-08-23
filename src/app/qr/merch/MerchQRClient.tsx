@@ -481,7 +481,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   <Image width={200} height={200} unoptimized
                     src={product.imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
 
                   {/* Category Tag */}

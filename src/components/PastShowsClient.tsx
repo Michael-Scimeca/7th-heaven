@@ -170,7 +170,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1.5 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
-                ? "bg-[var(--color-accent)] text-white shadow-sm"
+                ? "bg-[var(--color-accent)] text-white  "
                 : "bg-white/5 text-white/70 hover:text-white border-0"
                 }`}
             >
@@ -184,7 +184,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
-                  ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
+                  ? "bg-[var(--color-accent)] text-white font-black  "
                   : "bg-white/5 text-white/70 hover:text-white border-0"
                   }`}
               >
@@ -234,7 +234,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-black rounded-lg shadow-sm">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-black rounded-lg  ">
                       {yGroup.year}
                     </span>
                     <span className="text-sm font-bold text-[var(--text-color)]">

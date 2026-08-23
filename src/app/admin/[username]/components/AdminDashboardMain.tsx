@@ -167,7 +167,7 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
 
   return (
     <div
-      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs shrink-0 shadow-sm text-white select-none border border-white/10"
+      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs shrink-0   text-white select-none border border-white/10"
       style={{ backgroundColor: color, color: '#ffffff' }}
     >
       {initials}
@@ -3247,7 +3247,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     }}
                     disabled={bannerUpdating}
                     className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive
-                      ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
+                      ? 'bg-purple-600 text-white border-purple-500  '
                       : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20'
                       } disabled:opacity-50`}
                   >
@@ -3624,7 +3624,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               {/* Map Preview Box */}
-              <div className="bg-black/30 border border-[var(--border-color)] p-4 shadow-sm text-center space-y-2">
+              <div className="bg-black/30 border border-[var(--border-color)] p-4   text-center space-y-2">
                 <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
                   <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
                 </div>
@@ -3687,13 +3687,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setShopifyTab('shopify')}
-              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyTab === 'shopify' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyTab === 'shopify' ? 'bg-purple-600 text-white  ' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
             >
               Shopify API
             </button>
             <button
               onClick={() => setShopifyTab('simulated')}
-              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyTab === 'simulated' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyTab === 'simulated' ? 'bg-purple-600 text-white  ' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
             >
               Simulated Checkouts
             </button>
@@ -3713,7 +3713,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       } catch { }
                       setShopifyLoading(false);
                     }}
-                    className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyPeriod === d ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                    className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyPeriod === d ? 'bg-purple-600 text-white  ' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
                   >
                     {d}d
                   </button>
@@ -4352,7 +4352,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50 shadow-sm"
+                                  className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
                                 >
                                   {updatingBookingId === b.bookingId ? '...' : 'Approve'}
                                 </button>
@@ -4372,7 +4372,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50 shadow-sm"
+                                  className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-black text-[0.55rem] uppercase tracking-widest rounded-lg transition-colors cursor-pointer disabled:opacity-50  "
                                 >
                                   {updatingBookingId === b.bookingId ? '...' : 'Reject'}
                                 </button>
@@ -4596,7 +4596,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {moderationQueue.map((photo) => (
                 <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
                   <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
-                    <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
                     <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
                       {new Date(photo.submittedAt).toLocaleDateString()}
                     </div>
@@ -4825,7 +4825,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 }}
                 className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${smsAutoBlast ? 'bg-purple-600' : 'bg-white/10'}`}
               >
-                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${smsAutoBlast ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform   ${smsAutoBlast ? 'translate-x-5' : 'translate-x-0.5'}`} />
               </button>
             </div>
             <span className="text-[0.6rem] text-rose-400/60 uppercase tracking-widest font-bold">
@@ -5648,7 +5648,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-lg text-[10px] transition-colors cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
+                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-lg text-[10px] transition-colors cursor-pointer border-none flex items-center gap-1   uppercase tracking-wider"
                       >
                         Create Group
                       </button>
@@ -6135,7 +6135,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {(sendSmsAlert || sendEmailAlert) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-4 border-t border-white/5">
                 {/* Left Column: SMS Text Message Preview (50% Width) */}
-                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4 shadow-sm flex flex-col justify-between">
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] p-5 space-y-4   flex flex-col justify-between">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                       <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
@@ -6153,11 +6153,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 {/* Right Column: Email Template Preview (50% Width) */}
-                <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4 shadow-sm">
+                <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
                   <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
-                      <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold shadow-sm tracking-wide">Full HTML Template</span>
+                      <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
                     </div>
                     <span className="text-xs text-white/50 font-mono truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
                   </div>
@@ -6649,7 +6649,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.2s_ease-out] pt-2 border-t border-white/5">
               {/* Left Column: SMS Text Message Preview (50% Width) */}
-              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] pl-5 pr-5 pb-5 space-y-4 shadow-sm flex flex-col justify-between">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] pl-5 pr-5 pb-5 space-y-4   flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                     <span className="text-xs font-black uppercase tracking-widest text-[var(--text-color)]">SMS TEXT MESSAGE PREVIEW</span>
@@ -6667,11 +6667,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               {/* Right Column: Email Template Preview (50% Width) */}
-              <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4 shadow-sm">
+              <div className="bg-[#0c0c10] border border-purple-500/20 p-5 space-y-4  ">
                 <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-black uppercase tracking-widest text-white"> EMAIL DISPATCH PREVIEW</span>
-                    <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold shadow-sm tracking-wide">Full HTML Template</span>
+                    <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full font-extrabold   tracking-wide">Full HTML Template</span>
                   </div>
                   <span className="text-xs text-white/50 font-mono">Subject: {bandEmailSubject || '(No subject)'}</span>
                 </div>
@@ -6950,7 +6950,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 key={role}
                 onClick={() => setFilterRole(role as any)}
-                className={`px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black shadow-sm font-black' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black   font-black' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
               >
                 {role}
               </button>
@@ -8439,7 +8439,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1
           }}
-          className={`wiw-card group relative select-none  rounded-lg  p-1.5 flex flex-col justify-between shadow-sm text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
+          className={`wiw-card group relative select-none  rounded-lg  p-1.5 flex flex-col justify-between   text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
             } ${shift.isDraft ? 'wiw-striped' : ''
             } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
             }`}
@@ -8553,7 +8553,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               /* Expanded style for Timeline / List / Detail views */
               <div className={`flex flex-col gap-1 w-full ${showOverlapAvatar ? 'pl-3' : ''}`}>
                 <div className="flex items-center justify-between font-sans">
-                  <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-white drop-shadow-sm font-sans">{shift.role || 'Shift'}</span>
+                  <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-white drop-  font-sans">{shift.role || 'Shift'}</span>
                   {shift.isDraft && (
                     <span className="text-[9px] bg-yellow-400 text-black px-1 rounded font-black font-sans">DRAFT</span>
                   )}
@@ -9077,7 +9077,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             return (
               <div
                 key={day.dateStr}
-                className={` border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors shadow-sm ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
+                className={` border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors   ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
                   }`}
                 onDragOver={(e) => {
                   e.preventDefault();
@@ -9287,7 +9287,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             left: '4px',
                             right: '4px',
                           }}
-                          className={`wiw-card text-white p-1  rounded-lg  text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${shift.isDraft ? 'wiw-striped' : ''
+                          className={`wiw-card text-white p-1  rounded-lg  text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer   ${shift.isDraft ? 'wiw-striped' : ''
                             }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
@@ -9638,7 +9638,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
                   {getWeekRangeLabel(currentWeekStart)}
                 </h2>
-                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg shadow-sm overflow-hidden">
+                <div className="flex items-center border border-white/10 bg-black/40 rounded-lg   overflow-hidden">
                   <button
                     type="button"
                     onClick={handlePrevWeek}
@@ -9684,7 +9684,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   type="button"
                   onClick={handleGoToToday}
-                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg shadow-sm transition-colors cursor-pointer border-solid"
+                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg   transition-colors cursor-pointer border-solid"
                 >
                   TODAY
                 </button>
@@ -9692,7 +9692,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   type="button"
                   onClick={handleGoToMonth}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid ${calendarRange === 'month'
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid ${calendarRange === 'month'
                     ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
                     : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                     }`}
@@ -9730,7 +9730,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={() => setShowTourDropdown(prev => !prev)}
-                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
                       ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
                       : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                       }`}
@@ -9783,7 +9783,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   type="button"
                   onClick={() => setShowTourDatesOnly(prev => !prev)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
                     ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
                     : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                     }`}
@@ -9811,7 +9811,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   type="button"
                   onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
                     ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
                     : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
                     }`}
@@ -10321,7 +10321,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
                                         <div className="flex items-center gap-2">
                                           <div
-                                            className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                            className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans  "
                                             style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
                                           >
                                             {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
@@ -10498,7 +10498,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     <div
                                       key={member.id}
                                       className={`p-3.5 rounded-xl transition-all duration-200 ${assignment.active
-                                        ? 'bg-transparent border border-purple-500/40 shadow-sm shadow-purple-900/20'
+                                        ? 'bg-transparent border border-purple-500/40   shadow-purple-900/20'
                                         : 'border border-transparent'
                                         }`}
                                     >
@@ -10524,7 +10524,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           />
                                           <div className="flex items-center gap-2 flex-1">
                                             <div
-                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans  "
                                               style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
                                             >
                                               {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
@@ -10786,7 +10786,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <button
                         type="button"
                         onClick={addScheduleItem}
-                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider  rounded-lg  shadow-sm transition-colors cursor-pointer border-none"
+                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider  rounded-lg    transition-colors cursor-pointer border-none"
                       >
                         {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                       </button>
@@ -10906,7 +10906,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               setNewGroupNameInput('');
                               setIsCreateGroupModalOpen(true);
                             }}
-                            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
+                            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
                           >
                             + Create First Crew Group
                           </button>
@@ -10960,7 +10960,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setNewGroupNameInput('');
                           setIsCreateGroupModalOpen(true);
                         }}
-                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
+                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
                       >
                         + Create New Group
                       </button>
@@ -11053,7 +11053,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     }}
                                   />
                                   <div
-                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans shadow-sm border border-purple-400/40"
+                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans   border border-purple-400/40"
                                     style={{ backgroundColor: getAvatarColor(m.name) }}
                                   >
                                     {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
@@ -11278,7 +11278,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setIsCreateGroupModalOpen(false);
                         createGroupForDateRef.current = null;
                       }}
-                      className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
+                      className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30"
                     >
                       Save Group
                     </button>
@@ -11414,7 +11414,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     setSelectedShowCrewDate(null);
                                     handleEditShiftClick(shift);
                                   }}
-                                  className="text-[var(--font-size-4xs)] font-black uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
+                                  className="text-[var(--font-size-4xs)] font-black uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors  "
                                 >
                                   Fill Slot
                                 </button>
@@ -12807,14 +12807,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 type="button"
                 onClick={() => setSidebarMode('jump')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white   font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Navigate
               </button>
               <button
                 type="button"
                 onClick={() => setSidebarMode('organize')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white   font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Arrange
               </button>

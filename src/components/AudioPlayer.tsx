@@ -373,7 +373,7 @@ export default function AudioPlayerSection() {
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
-                    <div className="relative w-7 h-7 shrink-0 bg-white/5 border border-white/10 shadow-sm rounded overflow-hidden">
+                    <div className="relative w-7 h-7 shrink-0 bg-white/5 border border-white/10   rounded overflow-hidden">
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}

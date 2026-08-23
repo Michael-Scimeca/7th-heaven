@@ -56,7 +56,7 @@ export function EmbarkationCountdown() {
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-widest mt-1 drop-shadow-sm">{unit}</span>
+            <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-widest mt-1 drop- ">{unit}</span>
           </div>
         ))}
       </div>

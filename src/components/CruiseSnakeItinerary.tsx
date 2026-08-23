@@ -1156,7 +1156,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <Image width={200} height={200} unoptimized
                     src={dayImage}
                     alt={day.theme}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                 </div>

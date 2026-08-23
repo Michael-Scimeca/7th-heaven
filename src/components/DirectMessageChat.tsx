@@ -173,7 +173,7 @@ export default function DirectMessageChat() {
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5  text-xs leading-relaxed font-bold !text-white shadow-sm ${isAdminMsg
+                      className={`p-2.5  text-xs leading-relaxed font-bold !text-white   ${isAdminMsg
                         ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
                         : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
                         }`}

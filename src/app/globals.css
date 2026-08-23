@@ -1009,7 +1009,7 @@ select::placeholder,
   --shadow-accent-glow-lg: none;
   --shadow-cyan-glow: none;
   --shadow-pink-glow: none;
-  --shadow-sm: none;
+  --: none;
   /* Global border radius system — only 0px or full pill (9999px) */
   --radius: 0px;
   --radius-xs: 0px;
@@ -4263,6 +4263,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   0% {
     transform: translateY(100%);
   }
+
   100% {
     transform: translateY(0%);
   }
@@ -4276,6 +4277,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   0% {
     transform: translateY(0%);
   }
+
   100% {
     transform: translateY(-100%);
   }
@@ -4336,7 +4338,10 @@ html.is-preloading.is-revealing #page-content-wrapper {
     radial-gradient(40% 50% at var(--r5-x, 91%) var(--r5-y, 74%), rgba(99, 102, 241, 0.45) 0%, transparent 100%),
     radial-gradient(70% 80% at var(--r6-x, 67%) var(--r6-y, 38%), rgba(217, 70, 239, 0.5) 0%, transparent 100%),
     linear-gradient(135deg, #090314 0%, #000000 100%) !important;
-  animation: cosmic-radial-property-drift 7s ease-in-out infinite alternate !important;
+}
+
+.preloader-cosmic-bg:not(.is-leaving) {
+  animation: cosmic-radial-property-drift 7s ease-in-out infinite alternate;
 }
 
 /* Curtain wipe off screen — clip-path, not translateY, and NOT a flat edge.
