@@ -3257,13 +3257,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </label>
                         </div>
 
-                        <button
+                        <CosmicRadialButton
                           type="button"
                           onClick={launchFlashDrop}
-                          className="w-full rounded-lg py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
+                          icon={false}
+                          className="w-full py-4 text-sm font-black italic tracking-widest uppercase cursor-pointer"
                         >
                           Launch Flash Drop
-                        </button>
+                        </CosmicRadialButton>
 
                         <button
                           type="button"
