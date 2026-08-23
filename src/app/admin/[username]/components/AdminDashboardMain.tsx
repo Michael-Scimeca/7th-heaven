@@ -11978,9 +11978,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="relative flex items-center bg-transparent p-1 rounded-full w-full sm:w-auto justify-center select-none">
             {/* Sliding background pill */}
             <div
-              className={`absolute top-1 bottom-1 rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${adminTab === 'band'
-                ? 'left-1 bg-purple-600'
-                : 'left-[calc(50%+2px)] bg-cyan-600'
+              className={`absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${adminTab === 'band'
+                ? 'left-1 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                : 'left-[calc(50%+2px)] bg-gradient-to-r from-cyan-600 via-teal-500 to-indigo-600 shadow-[0_0_20px_rgba(6,182,212,0.4)]'
                 }`}
               style={{ width: 'calc(50% - 4px)' }}
             />

@@ -3219,7 +3219,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   selectEl.focus();
                                 }
                               }}
-                              className="w-full bg-[#e1e6ff29] border border-white/20 hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                              className="w-full bg-[#e1e6ff29] h-[36px] border border-white/20 hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                               title="Click to select products from the dropdown above"
                             >
                               <span className="font-mono text-purple-300 font-extrabold">{selectedProducts.length}</span>
@@ -3637,47 +3637,43 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
           {!isSetlistCollapsed && (
-            <div className="pb-4 flex-1 flex flex-col justify-between gap-4">
+            <div className="pb-4flex-1 flex flex-col justify-between gap-4">
 
-              {/* Song rows with top & bottom gradient blur overlay */}
-              <div className="relative">
-                {/* Top gradient blur overlay */}
-                <div className="pointer-events-none absolute top-0 left-0 right-0 h-8 z-10 bg-gradient-to-b from-[#0a0518]/90 via-[#0a0518]/50 to-transparent backdrop-blur-[3px]" />
-                {/* Bottom gradient blur overlay */}
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 z-10 bg-gradient-to-t from-[#0a0518]/90 via-[#0a0518]/50 to-transparent backdrop-blur-[3px]" />
+              {/* Song rows */}
+              <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto">
+                {setlist.map((song, idx) => (
+                  <div
+                    key={song.id}
+                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
+                      ? ''
+                      : ''
+                      } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
 
-                <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto py-2">
-                  {setlist.map((song, idx) => (
-                    <div
-                      key={song.id}
-                      className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
-                        ? ''
-                        : ''
-                        } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div className="min-w-0">
-                          <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
-                            {song.title}
-                          </p>
-                          <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
-                            <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button
-                          onClick={() => deleteSongFromSetlist(song.id)}
-                          className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
-                          title="Delete Song"
-                        >
-                          <X className="w-3.5 h-3.5" />
-                        </button>
+                      <div className="min-w-0">
+                        <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
+                          {song.title}
+                        </p>
+                        <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
+                          <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+
+
+                      <button
+                        onClick={() => deleteSongFromSetlist(song.id)}
+                        className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
+                        title="Delete Song"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Add Song form */}
@@ -3819,7 +3815,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           navigator.clipboard.writeText(icsUrl);
                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
                         }}
-                        className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
+                        className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1.5 shrink-0"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
                         Copy Feed URL
