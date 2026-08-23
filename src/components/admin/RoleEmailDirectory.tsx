@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 export interface RoleUser {
   id: string;
@@ -168,14 +169,15 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <button aria-label="Action button"
+          <CosmicRadialButton
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg   whitespace-nowrap"
+            icon={false}
+            className="px-3.5 py-2 text-xs font-bold uppercase cursor-pointer whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch"
           >
-            <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
-          </button>
+            {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
+          </CosmicRadialButton>
 
           <button aria-label="Action button"
             type="button"
