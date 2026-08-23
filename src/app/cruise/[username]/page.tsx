@@ -688,7 +688,7 @@ export default function CruiseDashboard() {
                   <h3 className="text-lg font-black tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl    border border-cyan-500/30">
+                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5  rounded-lg    border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -704,7 +704,7 @@ export default function CruiseDashboard() {
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
@@ -714,14 +714,14 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-white/5 border border-white/15 rounded-xl p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
                     <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                       Cancel
                     </button>
-                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl shadow-lg shadow-purple-600/30">
+                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer  rounded-lg shadow-lg shadow-purple-600/30">
                       Save Announcement
                     </button>
                   </div>
@@ -758,7 +758,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl    border border-cyan-500/30"
+                      className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5  rounded-lg    border border-cyan-500/30"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -774,7 +774,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -784,20 +784,20 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
                       <span className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-white/5 border border-white/15 rounded-xl text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] border border-white/15  rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
                       <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                         Cancel
                       </button>
-                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl shadow-lg shadow-purple-600/30">
+                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer  rounded-lg shadow-lg shadow-purple-600/30">
                         Save Guidelines
                       </button>
                     </div>

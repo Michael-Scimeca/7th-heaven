@@ -229,13 +229,13 @@ export default function CruiseHeroMaskEditor() {
               <button
                 onClick={handleReset}
                 title="Reset to Defaults"
-                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -251,7 +251,7 @@ export default function CruiseHeroMaskEditor() {
             }}
           >
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
-            <div className="bg-purple-950/30 p-3.5 rounded-xl border border-purple-500/30 space-y-3">
+            <div className="bg-purple-950/30 p-3.5  rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY & CRUISING HISTORY
@@ -357,7 +357,7 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
-            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/30 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/30 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-cyan-400" /> CRUISING HISTORY CONTAINER
@@ -463,7 +463,7 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎬 2. HERO TOP MASK GRADIENT */}
-            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   HERO TOP MASK GRADIENT
@@ -536,7 +536,7 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎬 3. HERO BOTTOM MASK GRADIENT */}
-            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" /> HERO BOTTOM MASK GRADIENT
@@ -577,7 +577,7 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎥 4. VIDEO FILTERS */}
-            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                 <Eye className="w-3.5 h-3.5" /> HERO VIDEO FILTERS
               </span>
@@ -648,7 +648,7 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🥞 5. ::BEFORE BLUR OVERLAY STRIP */}
-            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" /> ::BEFORE BLUR OVERLAY STRIP
               </span>
@@ -723,13 +723,13 @@ export default function CruiseHeroMaskEditor() {
           <div className="p-3 border-t border-cyan-500/20 bg-black/50 rounded-b-2xl flex items-center gap-2 shrink-0">
             <button
               onClick={handleSave}
-              className="flex-1 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
+              className="flex-1 py-2  rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
             >
               Save Changes
             </button>
             <button
               onClick={copyCSS}
-              className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all"
+              className="px-3 py-2  rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied!' : 'Copy CSS'}

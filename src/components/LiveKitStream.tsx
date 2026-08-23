@@ -70,7 +70,7 @@ export function LiveKitStream({
     ]).then(([reactMod, clientMod]) => {
       if (mounted) {
         // @ts-ignore
-        import('@livekit/components-styles/prefabs').catch(() => {});
+        import('@livekit/components-styles/prefabs').catch(() => { });
         setLk({
           LiveKitRoom: reactMod.LiveKitRoom,
           GridLayout: reactMod.GridLayout,
@@ -239,7 +239,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       return (
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8 text-cyan-400" />
             </div>
             <p className="text-white/60 text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>

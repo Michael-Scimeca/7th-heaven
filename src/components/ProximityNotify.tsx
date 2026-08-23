@@ -374,9 +374,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 key={opt.value}
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
-                                className={`h-[42px] px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${active
+                                className={`h-[42px] px-2.5 py-1.5  rounded-lg text-xs font-bold transition-all cursor-pointer border ${active
                                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                                  : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                                  : "bg-[#e1e6ff29]   text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
                                   }`}
                               >
                                 {opt.label}
@@ -406,9 +406,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
                               setSelectedShowTypes(next.length === 0 ? ["all"] : next);
                             }}
-                            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${isSelected
+                            className={`inline-flex items-center gap-1 px-2.5 py-1.5  rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${isSelected
                               ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                              : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                              : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
                               }`}
                           >
                             <span>{type.icon}</span>
@@ -445,7 +445,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30 rounded-xl cursor-pointer hover:scale-[1.02] transition-all disabled:opacity-60"
+                    className="w-full py-3.5 text-sm uppercase tracking-wider font-extrabold shadow-lg shadow-purple-600/30  rounded-lg cursor-pointer hover:scale-[1.02] transition-all disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>

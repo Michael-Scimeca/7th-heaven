@@ -135,7 +135,7 @@ export default function EmailPreviewPage() {
                 </button>
               </div>
 
-              <div className="h-4 w-px bg-white/5" />
+              <div className="h-4 w-px bg-[#e1e6ff29]  " />
 
               <div className="flex items-center gap-2">
                 <button aria-label="Previous" onClick={() => setViewMode("preview")}

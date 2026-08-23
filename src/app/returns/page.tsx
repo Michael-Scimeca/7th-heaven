@@ -84,7 +84,7 @@ export default function ReturnsPage() {
             <p className="mb-2 text-[var(--muted-text)]">
               If you have any questions about returns, exchanges, or refunds, please reach out to us:
             </p>
-            <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl  ">
+            <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)]  rounded-lg  ">
               <p className="text-[var(--text-color)] font-bold text-sm">7th Heaven Support</p>
               <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
               <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>

@@ -455,7 +455,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2.5  font-black text-xs uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat
                 ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
-                : "bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10"
+                : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white hover:bg-white/10"
                 }`}
             >
               {cat === "All" && "🛒 All Merch"}
@@ -564,7 +564,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         onClick={() => setSelectedSize(size)}
                         className={`w-12 h-10  font-black text-xs transition-colors cursor-pointer ${selectedSize === size
                           ? "bg-cyan-500 text-black border border-cyan-400 font-black shadow-[0_0_12px_rgba(6,182,212,0.4)]"
-                          : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+                          : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
                           }`}
                       >
                         {size}
@@ -585,7 +585,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     onClick={() => setFulfillmentMethod("pickup")}
                     className={`p-4  border text-left transition-colors cursor-pointer ${fulfillmentMethod === "pickup"
                       ? "bg-cyan-500/15 border-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.2)]"
-                      : "bg-white/5 border-white/10 text-white/50 hover:bg-white/10"
+                      : "bg-[#e1e6ff29]   border-white/10 text-white/50 hover:bg-white/10"
                       }`}
                   >
                     <span className="text-xl block mb-1">🎪</span>
@@ -599,7 +599,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     onClick={() => setFulfillmentMethod("shipping")}
                     className={`p-4  border text-left transition-colors cursor-pointer ${fulfillmentMethod === "shipping"
                       ? "bg-purple-500/15 border-purple-500 text-white shadow-[0_0_20px_rgba(255,10,61,0.2)]"
-                      : "bg-white/5 border-white/10 text-white/50 hover:bg-white/10"
+                      : "bg-[#e1e6ff29]   border-white/10 text-white/50 hover:bg-white/10"
                       }`}
                   >
                     <span className="text-xl block mb-1">📦</span>
@@ -621,7 +621,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="e.g. Alex Miller"
                     value={customerName}
                     onChange={e => setCustomerName(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
+                    className="w-full bg-[#e1e6ff29]   border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
                   />
                 </div>
 
@@ -634,7 +634,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="alex@example.com"
                     value={customerEmail}
                     onChange={e => setCustomerEmail(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
+                    className="w-full bg-[#e1e6ff29]   border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
                   />
                 </div>
               </div>
@@ -650,7 +650,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                       placeholder="Street Address"
                       value={street}
                       onChange={e => setStreet(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:border-purple-500 outline-none mb-2"
+                      className="w-full bg-[#e1e6ff29]   border border-white/10 px-4 py-3 text-sm text-white focus:border-purple-500 outline-none mb-2"
                     />
                     <div className="grid grid-cols-3 gap-2">
                       <input aria-label="Input field"
@@ -659,7 +659,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         placeholder="City"
                         value={city}
                         onChange={e => setCity(e.target.value)}
-                        className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
+                        className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
                       />
                       <input aria-label="Input field"
                         type="text"
@@ -667,7 +667,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         placeholder="State"
                         value={state}
                         onChange={e => setState(e.target.value)}
-                        className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
+                        className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
                       />
                       <input aria-label="Input field"
                         type="text"
@@ -675,7 +675,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         placeholder="ZIP Code"
                         value={zip}
                         onChange={e => setZip(e.target.value)}
-                        className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
+                        className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-purple-500 outline-none"
                       />
                     </div>
                   </div>
@@ -724,7 +724,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 placeholder="Street Address"
                 value={street}
                 onChange={e => setStreet(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:border-yellow-400 outline-none"
+                className="w-full bg-[#e1e6ff29]   border border-white/10 px-4 py-3 text-sm text-white focus:border-yellow-400 outline-none"
               />
 
               <div className="grid grid-cols-3 gap-2">
@@ -734,7 +734,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   placeholder="City"
                   value={city}
                   onChange={e => setCity(e.target.value)}
-                  className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
+                  className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
                 />
                 <input aria-label="Input field"
                   type="text"
@@ -742,7 +742,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   placeholder="State"
                   value={state}
                   onChange={e => setState(e.target.value)}
-                  className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
+                  className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
                 />
                 <input aria-label="Input field"
                   type="text"
@@ -750,7 +750,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   placeholder="ZIP Code"
                   value={zip}
                   onChange={e => setZip(e.target.value)}
-                  className="bg-white/5 border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
+                  className="bg-[#e1e6ff29]   border border-white/10 px-3 py-2.5 text-xs text-white focus:border-yellow-400 outline-none"
                 />
               </div>
 

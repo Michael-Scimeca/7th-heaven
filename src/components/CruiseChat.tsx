@@ -583,7 +583,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Sign Up as a Fan</span>
             </button>
@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-xl border border-white/15 transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -661,7 +661,7 @@ export default function CruiseChat({
                         ? "bg-red-500/10 border-red-500/20 text-red-200"
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";
                     return (
-                      <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                      <div key={msg.id} className={`flex items-center gap-2 p-2.5  rounded-lg border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                         <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                         <div className="flex-1 leading-relaxed">
                           {msg.content}
@@ -789,7 +789,7 @@ export default function CruiseChat({
                       key={s.tag}
                       type="button"
                       onClick={() => insertTag(s.tag)}
-                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-xs text-white transition-colors text-left cursor-pointer"
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-xs text-white transition-colors text-left cursor-pointer"
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">

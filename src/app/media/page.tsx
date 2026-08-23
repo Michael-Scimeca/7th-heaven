@@ -472,7 +472,7 @@ export default function MediaPage() {
                     }}
                     className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                       ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-                      : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
+                      : "bg-[#e1e6ff29]   text-white/60 hover:text-white hover:bg-white/10"
                       }`}
                   >
                     <span>{cat.category}</span>
@@ -499,7 +499,7 @@ export default function MediaPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
                 title="Add a video to the Media Vault & Sanity CMS"
               >
                 <Plus className="w-4 h-4" />
@@ -563,7 +563,7 @@ export default function MediaPage() {
                     )}
 
                     {isPlaying && (
-                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden shadow-2xl z-30 border border-white/15">
+                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full  rounded-lg overflow-hidden shadow-2xl z-30 border border-white/15">
                         <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                       </div>
                     )}
@@ -586,7 +586,7 @@ export default function MediaPage() {
             })}
 
             {filteredVideos.length === 0 && (
-              <div className="py-16 text-center bg-white/5 rounded-lg  border border-white/5">
+              <div className="py-16 text-center bg-[#e1e6ff29]   rounded-lg  border border-white/5">
                 <p className="text-white/60 text-sm font-semibold">No videos found matching &quot;{searchQuery}&quot;</p>
                 <button
                   onClick={() => setSearchQuery("")}
@@ -695,7 +695,7 @@ export default function MediaPage() {
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="Paste video link or ID..."
-                  className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
 
@@ -704,7 +704,7 @@ export default function MediaPage() {
                 const parsed = extractYouTubeId(newUrl);
                 if (parsed && parsed.length === 11) {
                   return (
-                    <div className="p-3 bg-purple-950/40 border border-purple-500/40 rounded-xl flex items-center gap-4">
+                    <div className="p-3 bg-purple-950/40 border border-purple-500/40  rounded-lg flex items-center gap-4">
                       <div className="relative w-24 h-14 rounded-lg overflow-hidden shrink-0 border border-white/20 bg-black">
                         <Image
                           src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
@@ -738,7 +738,7 @@ export default function MediaPage() {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                  className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
 
@@ -750,7 +750,7 @@ export default function MediaPage() {
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/60 border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border border-white/15  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400"
                   >
                     <option value="Official Music Videos">Official Music Videos</option>
                     <option value="TV Appearances">TV Appearances</option>
@@ -774,7 +774,7 @@ export default function MediaPage() {
                     value={newYear}
                     onChange={(e) => setNewYear(e.target.value)}
                     placeholder="2026"
-                    className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
@@ -788,7 +788,7 @@ export default function MediaPage() {
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="e.g. Filmed live at Frontier Days..."
-                  className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
@@ -803,7 +803,7 @@ export default function MediaPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
                 </button>

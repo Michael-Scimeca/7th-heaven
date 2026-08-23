@@ -177,7 +177,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2.5 rounded-lg  bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
+                className="p-2.5 rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
                 aria-label="Close Pages Modal"
               >
                 <X className="w-6 h-6" />
@@ -194,9 +194,9 @@ export default function PagesPillDrawer() {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${activeCategory === cat
+                      className={`px-3 py-1.5  rounded-lg text-xs font-bold transition-all ${activeCategory === cat
                         ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
-                        : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {cat}
@@ -212,7 +212,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
+                    className="w-full bg-black/50 border border-white/15  rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
                   />
                 </div>
               </div>

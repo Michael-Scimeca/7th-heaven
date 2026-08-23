@@ -773,7 +773,7 @@ function LoginModalBodyContent(props: any) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10  rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
@@ -792,8 +792,8 @@ function LoginModalBodyContent(props: any) {
                     }
                   }}
                   className={`py-1.5 px-1.5 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
-                      ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                      : "text-white/50 hover:text-white/90 hover:bg-white/5"
+                    ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                    : "text-white/50 hover:text-white/90 hover:bg-[#e1e6ff29]  "
                     }`}
                 >
                   {role.label}
@@ -909,7 +909,7 @@ function LoginModalBodyContent(props: any) {
                 {!forgotPinSent ? (
                   <div>
                     <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
-                    <div className="input-glow-border rounded-xl w-full">
+                    <div className="input-glow-border  rounded-lg w-full">
                       <input
                         id="forgot-email-input"
                         type="email"
@@ -928,7 +928,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
-                      <div className="input-glow-border rounded-xl w-full">
+                      <div className="input-glow-border  rounded-lg w-full">
                         <input
                           id="forgot-pin-input"
                           type="text"
@@ -943,7 +943,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
-                      <div className="input-glow-border rounded-xl w-full">
+                      <div className="input-glow-border  rounded-lg w-full">
                         <input
                           id="forgot-new-password-input"
                           type="password"
@@ -966,7 +966,7 @@ function LoginModalBodyContent(props: any) {
                   <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
-                  <div className="input-glow-border rounded-xl w-full">
+                  <div className="input-glow-border  rounded-lg w-full">
                     <input
                       id="login-email-input"
                       type="email"
@@ -977,13 +977,13 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
-                  <div className="input-glow-border rounded-xl w-full">
+                  <div className="input-glow-border  rounded-lg w-full">
                     <input
                       id="login-password-input"
                       type="password"
@@ -1349,7 +1349,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border rounded-xl w-full">
+            <div className="input-glow-border  rounded-lg w-full">
               <input
                 id="signup-full-name"
                 type="text"
@@ -1364,7 +1364,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-company-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
               Company / Venue Name
             </label>
-            <div className="input-glow-border rounded-xl w-full">
+            <div className="input-glow-border  rounded-lg w-full">
               <input
                 id="signup-company-name"
                 type="text"
@@ -1380,7 +1380,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border rounded-xl w-full">
+            <div className="input-glow-border  rounded-lg w-full">
               <input
                 id="signup-full-name"
                 type="text"
@@ -1395,7 +1395,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-cabin-no" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
               Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
             </label>
-            <div className="input-glow-border rounded-xl w-full">
+            <div className="input-glow-border  rounded-lg w-full">
               <input
                 id="signup-cabin-no"
                 type="text"
@@ -1413,7 +1413,7 @@ function SignUpExtraFields({
               <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                 Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
               </label>
-              <div className="input-glow-border rounded-xl w-full">
+              <div className="input-glow-border  rounded-lg w-full">
                 <input
                   id="signup-full-name"
                   type="text"
@@ -1421,7 +1421,7 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -1429,7 +1429,7 @@ function SignUpExtraFields({
               <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                 Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
               </label>
-              <div className="input-glow-border rounded-xl w-full">
+              <div className="input-glow-border  rounded-lg w-full">
                 <input
                   id="signup-username-input"
                   type="text"
@@ -1475,7 +1475,7 @@ function SignUpExtraFields({
               <div className="pt-1">
                 <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code & Radius</label>
                 <div className="flex items-center gap-2">
-                  <div className="input-glow-border rounded-xl flex-1">
+                  <div className="input-glow-border  rounded-lg flex-1">
                     <input
                       id="signup-zip-code"
                       type="text"

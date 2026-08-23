@@ -404,7 +404,7 @@ export default function PlannerDashboard() {
               <div className="flex gap-3">
                 <button aria-label="Action button"
                   onClick={() => setShowCancelConfirm(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
+                  className="flex-1 py-3 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
                 >
                   Keep Booking
                 </button>
@@ -435,14 +435,14 @@ export default function PlannerDashboard() {
                 </div>
                 <button
                   onClick={() => setShowContactModal(false)}
-                  className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  className="w-8 h-8 rounded-full bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
                 >
                   ✕
                 </button>
               </div>
 
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+                <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
@@ -460,7 +460,7 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+                <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
@@ -478,7 +478,7 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+                <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
@@ -496,7 +496,7 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+                <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
@@ -518,7 +518,7 @@ export default function PlannerDashboard() {
               <div className="mt-6 pt-4 border-t border-white/10 text-center">
                 <button
                   onClick={() => setShowContactModal(false)}
-                  className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors"
+                  className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-colors"
                 >
                   Close
                 </button>
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
               <button
                 type="button"
                 onClick={() => setShowContactModal(true)}
-                className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-white/5 hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-xl transition-all cursor-pointer  "
+                className="w-full py-3 flex items-center justify-center gap-2 text-white/60 hover:text-white font-bold text-sm uppercase tracking-wider bg-[#e1e6ff29]   hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
               >
                 <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
                 Contact 7th Heaven
@@ -705,7 +705,7 @@ export default function PlannerDashboard() {
             </div>
             <button
               onClick={() => setShowContactModal(true)}
-              className="px-4 py-2 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold uppercase tracking-wider rounded-xl transition-all self-start sm:self-auto cursor-pointer"
+              className="px-4 py-2 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/40 text-[var(--color-accent)] text-xs font-bold uppercase tracking-wider  rounded-lg transition-all self-start sm:self-auto cursor-pointer"
             >
               Open Full Contact Directory
             </button>
@@ -793,7 +793,7 @@ export default function PlannerDashboard() {
 
             <div className="relative">
               {/* Timeline line */}
-              <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-white/5" />
+              <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-[#e1e6ff29]  " />
 
               <div className="flex flex-col gap-4">
                 {allBookings.map((b, i) => {

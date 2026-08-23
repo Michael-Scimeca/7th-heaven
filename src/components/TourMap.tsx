@@ -802,7 +802,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
                 onClick={() => setLegendOpen(o => !o)}
-                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
+                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer hover:bg-[#e1e6ff29]   text-white/80 hover:text-[var(--color-accent)] transition-colors"
               >
                 <span className="text-xs sm:text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
                 <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -944,7 +944,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 30 Days
                       </button>
@@ -955,14 +955,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 90 Days
                       </button>
                       <button
                         type="button"
                         onClick={() => setDateRange([minShowTime, maxShowTime])}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         All Dates
                       </button>
@@ -974,7 +974,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors  rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
                     >
                       <span>✕ Remove Date Filter</span>
                     </button>
@@ -982,7 +982,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setIsDateUiOpen(false)}
-                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center"
+                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider  rounded-lg transition-colors cursor-pointer text-center"
                     >
                       Close Controls
                     </button>

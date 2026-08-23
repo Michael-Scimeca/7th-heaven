@@ -1335,7 +1335,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
-                  <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm font-black mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-white/5 text-white/30"}`}>{i + 1}</span>
+                  <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm font-black mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#e1e6ff29]   text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -1346,7 +1346,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 pt-1">
           {f.tags.map((tag) => (
-            <span key={tag} className={`text-base px-3 py-1 rounded-full font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : "bg-white/5 border-white/10 text-white/40"}`}>
+            <span key={tag} className={`text-base px-3 py-1 rounded-full font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : "bg-[#e1e6ff29]   border-white/10 text-white/40"}`}>
               {tag}
             </span>
           ))}
@@ -1355,7 +1355,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-black uppercase tracking-widest transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover:bg-white/5"}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-black uppercase tracking-widest transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover:bg-[#e1e6ff29]  "}`}>
           Explore live →
         </Link>
       )}
@@ -1396,7 +1396,7 @@ export default function FeaturesPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
-              <span key={p} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
+              <span key={p} className="px-3 py-1.5 rounded-full bg-[#e1e6ff29]   border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
             ))}
           </div>
 
@@ -1404,8 +1404,8 @@ export default function FeaturesPage() {
             <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
             <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
           </div>
         </div>
@@ -1448,7 +1448,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/live/live_michael</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/live/live_michael</div>
                 <span className="text-white/20 text-xs">LIVE</span>
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               </div>
@@ -1526,7 +1526,7 @@ export default function FeaturesPage() {
                   {/* Multi-room switcher */}
                   <div className="absolute top-24 right-4 flex flex-col gap-1.5">
                     {["Michael", "Ryan", "Sammy"].map((name, i) => (
-                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)] text-white" : "bg-white/5 text-white/40 hover:bg-white/10"}`}>
+                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)] text-white" : "bg-[#e1e6ff29]   text-white/40 hover:bg-white/10"}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-white animate-pulse" : "bg-white/30"}`} />
                         {name}
                       </div>
@@ -1570,7 +1570,7 @@ export default function FeaturesPage() {
 
                   {/* Input */}
                   <div className="px-3 pb-3">
-                    <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+                    <div className="flex items-center gap-2 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2">
                       <span className="text-white/20 text-sm flex-1">Say something...</span>
                       <button aria-label="Action button" className=" text-[var(--color-accent)] text-xs font-black uppercase">Send</button>
                     </div>
@@ -1600,7 +1600,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/crew</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/crew</div>
               </div>
 
               <div className="bg-[#080808] p-5 grid grid-cols-1 lg:grid-cols-3 gap-5 min-h-[500px]">
@@ -1639,10 +1639,10 @@ export default function FeaturesPage() {
 
                   {/* A/V controls */}
                   <div className="flex gap-2">
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       🎤 Mic On
                     </button>
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/60 text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       📹 Cam On
                     </button>
                   </div>
@@ -1674,7 +1674,7 @@ export default function FeaturesPage() {
                             <span className="text-xs font-black" style={{ color: m.color }}>{m.user} </span>
                             <span className="text-xs text-white/50">{m.msg}</span>
                           </div>
-                          <button aria-label="Action button" className="shrink-0 text-xs px-1.5 py-0.5 rounded bg-white/5 text-white/25 hover:bg-red-500/20 hover:text-red-400 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">Mute</button>
+                          <button aria-label="Action button" className="shrink-0 text-xs px-1.5 py-0.5 rounded bg-[#e1e6ff29]   text-white/25 hover:bg-red-500/20 hover:text-red-400 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">Mute</button>
                         </div>
                       ))}
                     </div>
@@ -1688,7 +1688,7 @@ export default function FeaturesPage() {
                   <div>
                     <div className="text-white/30 text-xs mb-1.5 font-bold uppercase tracking-widest">📌 Pin Announcement</div>
                     <div className="flex gap-2">
-                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
+                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
                       <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white text-xs font-black cursor-pointer">Pin</button>
                     </div>
                   </div>
@@ -1698,7 +1698,7 @@ export default function FeaturesPage() {
                     <div className="text-white/30 text-xs mb-1.5 font-bold uppercase tracking-widest">💥 Trigger Batch Reaction</div>
                     <div className="flex gap-1.5">
                       {["🔥", "🎸", "🤘", "💜", "⚡"].map(e => (
-                        <button aria-label="Action button" key={e} className="flex-1 py-2 bg-white/5 border border-white/[0.08] rounded-lg text-base hover:bg-[var(--color-accent)]/20 hover:border-[#851DEF]/40 transition-colors cursor-pointer">{e}</button>
+                        <button aria-label="Action button" key={e} className="flex-1 py-2 bg-[#e1e6ff29]   border border-white/[0.08] rounded-lg text-base hover:bg-[var(--color-accent)]/20 hover:border-[#851DEF]/40 transition-colors cursor-pointer">{e}</button>
                       ))}
                     </div>
                   </div>
@@ -1763,7 +1763,7 @@ export default function FeaturesPage() {
                       <span className="text-white/70 font-black text-sm uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 text-xs mb-2">Blast to all subscribers within 50mi</div>
-                    <button aria-label="Action button" className="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-white/50 text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/50 text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
                       📲 Send Live Alert SMS
                     </button>
                   </div>
@@ -1774,7 +1774,7 @@ export default function FeaturesPage() {
             {/* Caption */}
             <div className="mt-4 flex flex-wrap gap-3">
               {["One-Click LiveKit Broadcast", "Chat Moderation + Mute Controls", "Live Raffle Engine", "Merch Flash Drop", "Batch Emoji Blasts", "Pinned Announcements", "Real-Time Viewer Stats", "SMS Fan Alerts"].map(t => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/40">{t}</span>
+                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-[#e1e6ff29]   border border-white/10 text-white/40">{t}</span>
               ))}
             </div>
           </div>
@@ -1792,7 +1792,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/admin</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/admin</div>
                 <span className="text-blue-400 text-xs font-bold">🔐 Admin Only</span>
               </div>
 
@@ -1851,7 +1851,7 @@ export default function FeaturesPage() {
                         </div>
                         <div className="text-3xl font-black tabular-nums" style={{ color: s.color }}>{s.val}</div>
                         <div className="text-white/25 text-xs uppercase tracking-widest mb-1">{s.label}</div>
-                        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-1 bg-[#e1e6ff29]   rounded-full overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${s.bar}%`, background: s.color, opacity: 0.5 }} />
                         </div>
                       </div>
@@ -2070,7 +2070,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-hero.png" alt="Fan Dashboard — Profile header with live show countdown" className="w-full" />
@@ -2088,7 +2088,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-middle.png" alt="Fan Dashboard — Proximity alerts and upcoming shows" className="w-full" />
@@ -2106,7 +2106,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-full bg-red-500/60" />
                 <span className="w-3 h-3 rounded-full bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-lower.png" alt="Fan Dashboard — Show memories and referral program" className="w-full" />
@@ -2142,7 +2142,7 @@ export default function FeaturesPage() {
               { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
-              { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
+              { color: "bg-[#e1e6ff29]   border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
             ].map(l => (
               <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-bold ${l.color}`}>
                 <span className={`w-2 h-2 rounded-full ${l.dot}`} />
@@ -2235,7 +2235,7 @@ export default function FeaturesPage() {
               public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
               login: "bg-purple-600/10  border-purple-500/25  text-purple-300",
               admin: "bg-blue-500/10   border-blue-500/25   text-blue-400",
-              dev: "bg-white/5       border-white/10      text-white/30",
+              dev: "bg-[#e1e6ff29]         border-white/10      text-white/30",
             };
             const accessLabel: Record<string, string> = {
               public: "Public",
@@ -2327,7 +2327,7 @@ export default function FeaturesPage() {
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-black ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-white/5 text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-black ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#e1e6ff29]   text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -2350,7 +2350,7 @@ export default function FeaturesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
-                <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
+                <div className="w-10 h-10 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-black uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
                   <p className="text-sm text-white/40 leading-relaxed mt-0.5">{t.desc}</p>
@@ -2380,7 +2380,7 @@ export default function FeaturesPage() {
               { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
-              { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
+              { color: "bg-[#e1e6ff29]   border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
             ].map(l => (
               <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold ${l.color}`}>
                 <span className={`w-2 h-2 rounded-full ${l.dot}`} />
@@ -2472,7 +2472,7 @@ export default function FeaturesPage() {
               public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
               login: "bg-purple-600/10 border-purple-500/25 text-purple-300",
               admin: "bg-blue-500/10 border-blue-500/25 text-blue-400",
-              dev: "bg-white/5 border-white/10 text-white/30",
+              dev: "bg-[#e1e6ff29]   border-white/10 text-white/30",
             };
             const accessLabel: Record<string, string> = {
               public: "Public",
@@ -2564,10 +2564,10 @@ export default function FeaturesPage() {
             >
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

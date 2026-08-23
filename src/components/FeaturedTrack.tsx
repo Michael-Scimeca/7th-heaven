@@ -412,7 +412,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('signup')}
-                  className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="px-8 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   Join Fan Club
                 </button>

@@ -206,7 +206,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       </div>
 
       <div className="flex items-center justify-center gap-2 my-1">
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
+        <div className={`w-8 h-8  rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
         <h3 className="font-black text-sm text-white uppercase tracking-wider truncate">
@@ -226,7 +226,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 // 3. Decision Branch Node (Gold Pill)
 function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
-    <div className="group relative rounded-xl border border-amber-400/50 bg-[#2d1c07]/95 shadow-[0_0_15px_rgba(245,158,11,0.25)] px-3 py-2 w-48 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none">
+    <div className="group relative  rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 shadow-[0_0_15px_rgba(245,158,11,0.25)] px-3 py-2 w-48 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none">
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-center gap-1.5">
@@ -254,7 +254,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-start gap-3">
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
+        <div className={`w-8 h-8  rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
 
@@ -298,7 +298,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
 
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center shrink-0 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+        <div className="w-8 h-8  rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center shrink-0 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
           <IconComp className="w-4 h-4 animate-pulse" />
         </div>
 
@@ -521,7 +521,7 @@ export default function UserFlowMap() {
         className="pt-10"
       >
         <Background color="#1e1b4b" gap={20} size={1} />
-        <Controls className="!bg-black/80 !border-white/10 !text-white !rounded-xl overflow-hidden" />
+        <Controls className="!bg-black/80 !border-white/10 !text-white ! rounded-lg overflow-hidden" />
         <MiniMap
           style={{ height: 110, width: 160 }}
           nodeColor={(n) => {
@@ -589,7 +589,7 @@ export default function UserFlowMap() {
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/40 block">
                 Technical Summary
               </span>
-              <p className="text-xs text-white/80 leading-relaxed bg-white/[0.03] p-3 rounded-xl border border-white/10">
+              <p className="text-xs text-white/80 leading-relaxed bg-white/[0.03] p-3  rounded-lg border border-white/10">
                 {selectedNode.data.details?.summary || `Interactive ${selectedNode.data.label} node step in the 7th Heaven web app.`}
               </p>
             </div>
@@ -600,7 +600,7 @@ export default function UserFlowMap() {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-300 block">
                   ✉ Transactional Email Subject Line
                 </span>
-                <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl font-mono text-xs text-amber-200">
+                <div className="bg-amber-500/10 border border-amber-500/20 p-3  rounded-lg font-mono text-xs text-amber-200">
                   {selectedNode.data.details.emailSubject}
                 </div>
               </div>
@@ -612,7 +612,7 @@ export default function UserFlowMap() {
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg"
+                className="w-full py-2.5  rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg"
               >
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="w-4 h-4" />
@@ -620,7 +620,7 @@ export default function UserFlowMap() {
             ) : (
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 font-black text-xs uppercase tracking-wider transition"
+                className="w-full py-2.5  rounded-lg bg-white/10 hover:bg-white/20 text-white/80 font-black text-xs uppercase tracking-wider transition"
               >
                 Close Inspector
               </button>

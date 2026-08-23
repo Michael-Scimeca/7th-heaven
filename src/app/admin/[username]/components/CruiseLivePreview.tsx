@@ -21,7 +21,7 @@ export function CruiseLivePreview({
 
   if (livePreviewTab === 'wall' || livePreviewTab === 'dashboard') {
     return (
-      <div className="bg-black/60 border border-white/10 rounded-xl p-5 shadow-inner min-h-[220px]">
+      <div className="bg-black/60 border border-white/10  rounded-lg p-5 shadow-inner min-h-[220px]">
         <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/10">
           <div className="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-extrabold text-xs">
             7H
@@ -43,7 +43,7 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="bg-white text-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-300 text-xs font-sans min-h-[300px]">
+    <div className="bg-white text-slate-900  rounded-lg overflow-hidden shadow-2xl border border-slate-300 text-xs font-sans min-h-[300px]">
       <div className="bg-slate-800 text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-700">
         <span className="font-bold text-[11px] uppercase tracking-wider text-slate-300">📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-slate-400 font-mono">To: All Cruise Guests</span>

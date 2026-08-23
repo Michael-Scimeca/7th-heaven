@@ -104,7 +104,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             Latest Album & Track
           </span>
         </div>
-        <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-widest text-white/40 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+        <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-widest text-white/40 bg-[#e1e6ff29]   px-2.5 py-1 rounded-full border border-white/10">
           {type} · {year}
         </span>
       </div>

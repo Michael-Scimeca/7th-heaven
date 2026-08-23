@@ -89,11 +89,10 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${
-                    selectedVariant.id === variant.id
-                      ? "bg-[var(--color-accent)] text-white"
-                      : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id
+                    ? "bg-[var(--color-accent)] text-white"
+                    : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
+                    }`}
                 >
                   {variant.label}
                 </button>
@@ -529,7 +528,7 @@ export default function PaymentTestShopPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat
                   ? "bg-cyan-500 text-black"
-                  : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+                  : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"
                   }`}
               >
                 {cat}
@@ -540,7 +539,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="px-4 py-2.5 bg-white/5 border border-white/10 hover:border-[var(--color-accent)] rounded-lg text-xs font-black uppercase tracking-wider transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-[#e1e6ff29]   border border-white/10 hover:border-[var(--color-accent)] rounded-lg text-xs font-black uppercase tracking-wider transition-colors flex items-center gap-2"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -598,7 +597,7 @@ export default function PaymentTestShopPage() {
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
+                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08]  rounded-lg p-3"
                     >
                       <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-black/40">
                         <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
@@ -614,7 +613,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
+                          className="w-7 h-7 flex items-center justify-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
                         >
                           −
                         </button>
@@ -625,7 +624,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="w-7 h-7 flex items-center justify-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           +
                         </button>
@@ -661,7 +660,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-widest rounded-lg transition-colors"
+                className="flex-1 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-widest rounded-lg transition-colors"
               >
                 Continue Shopping
               </button>

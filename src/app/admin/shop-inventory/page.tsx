@@ -170,14 +170,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : "bg-white/5 border border-white/10 text-white/60 hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : "bg-white/5 border border-white/10 text-white/60 hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : "bg-[#e1e6ff29]   border border-white/10 text-white/60 hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -263,16 +263,16 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
       <div className="p-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3 min-w-0">
           {product.image_url ? (
-            <Image width={48} height={48} unoptimized src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-white/5" />
+            <Image width={48} height={48} unoptimized src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-[#e1e6ff29]  " />
           ) : (
-            <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-white/30 text-xs font-bold">
+            <div className="w-12 h-12 rounded-lg bg-[#e1e6ff29]   flex items-center justify-center text-white/30 text-xs font-bold">
               No Pic
             </div>
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-white font-bold text-base truncate">{product.title}</h3>
-              <span className="text-[10px] font-black uppercase tracking-wider text-white/40 bg-white/5 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-black uppercase tracking-wider text-white/40 bg-[#e1e6ff29]   px-2 py-0.5 rounded">
                 {product.category}
               </span>
             </div>
@@ -285,7 +285,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-white/40 border border-white/10"
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-[#e1e6ff29]   text-white/40 border border-white/10"
               }`}
           >
             {product.active ? "Active" : "Inactive"}
@@ -301,7 +301,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="px-3 py-1.5 bg-white/5 text-white/70 hover:text-white rounded-lg text-xs font-bold uppercase transition-colors"
+            className="px-3 py-1.5 bg-[#e1e6ff29]   text-white/70 hover:text-white rounded-lg text-xs font-bold uppercase transition-colors"
           >
             {expanded ? "Collapse" : `Variants (${product.variants?.length || 0})`}
           </button>
@@ -407,7 +407,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           setLabel(e.target.value);
           markDirty();
         }}
-        className="col-span-2 sm:col-span-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+        className="col-span-2 sm:col-span-1 bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white"
         placeholder="Label"
       />
       <div className="flex items-center gap-1">
@@ -420,7 +420,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setPrice(e.target.value);
             markDirty();
           }}
-          className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+          className="w-full bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white"
         />
       </div>
       <div>
@@ -431,7 +431,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setStock(e.target.value);
             markDirty();
           }}
-          className={`w-full bg-white/5 border rounded px-2 py-1.5 text-xs text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
+          className={`w-full bg-[#e1e6ff29]   border rounded px-2 py-1.5 text-xs text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
           title="Stock quantity"
         />
         {isOut && <span className="text-[9px] text-rose-400 font-bold">SOLD OUT</span>}
@@ -445,7 +445,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setLowStock(e.target.value);
             markDirty();
           }}
-          className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+          className="w-full bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white"
           title="Low-stock threshold"
         />
       </div>
@@ -464,7 +464,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`px-2 py-1.5 text-[10px] font-black uppercase rounded-md ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-white/5 text-white/40"}`}
+          className={`px-2 py-1.5 text-[10px] font-black uppercase rounded-md ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-[#e1e6ff29]   text-white/40"}`}
         >
           {variant.active ? "On" : "Off"}
         </button>
@@ -529,20 +529,20 @@ function AddVariantForm({
     <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed border-white/20 rounded-lg p-3">
       <div>
         <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Label</label>
-        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
+        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
       </div>
       <div>
         <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Price</label>
-        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
+        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
       </div>
       <div>
         <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Stock</label>
-        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs text-white w-20" />
+        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-20" />
       </div>
       <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px] font-black uppercase rounded-md">
         Add
       </button>
-      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-white/5 text-white/60 text-[10px] font-black uppercase rounded-md">
+      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#e1e6ff29]   text-white/60 text-[10px] font-black uppercase rounded-md">
         Cancel
       </button>
       {error && <p className="text-rose-400 text-[10px] font-bold w-full">{error}</p>}
@@ -744,7 +744,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
   return (
     <div className="space-y-2">
       {orders.map((order) => (
-        <div key={order.id} className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-4">
+        <div key={order.id} className="bg-white/[0.03] border border-white/[0.08]  rounded-lg p-4">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <span className="text-white font-mono text-xs">{order.tran_nbr}</span>

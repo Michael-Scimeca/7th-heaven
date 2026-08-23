@@ -78,15 +78,15 @@ export default function PushAlertsCard({
     group === "fans"
       ? "Instant Show & Merch Push Alerts"
       : group === "crew"
-      ? "Crew Member Live Stream Push Alerts"
-      : "Cruise Passenger Push Alerts";
+        ? "Crew Member Live Stream Push Alerts"
+        : "Cruise Passenger Push Alerts";
 
   const defaultSubtitle =
     group === "fans"
       ? "Get instant free push alerts on your phone whenever 7th Heaven drops new show dates, tickets, or merch!"
       : group === "crew"
-      ? "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
-      : "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.";
+        ? "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
+        : "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.";
 
   return (
     <>
@@ -99,7 +99,7 @@ export default function PushAlertsCard({
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
+            <div className="flex h-10 w-10 items-center justify-center  rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
               <BellIcon />
             </div>
             <div>
@@ -118,7 +118,7 @@ export default function PushAlertsCard({
           </p>
 
           {loading ? (
-            <div className="h-12 w-full animate-pulse rounded-xl bg-white/5 border border-white/10" />
+            <div className="h-12 w-full animate-pulse  rounded-lg bg-[#e1e6ff29]   border border-white/10" />
           ) : (
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-all text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border border-white/15 bg-[#e1e6ff29]   px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-all text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>
@@ -148,7 +148,7 @@ export default function PushAlertsCard({
               {/* QR Code / Instructions Page Link */}
               <Link
                 href={`/notifications?group=${group}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-purple-500/40 bg-purple-500/10 px-4 py-3 text-xs font-bold uppercase tracking-wider text-purple-300 hover:bg-purple-500/20 hover:text-white transition-all text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 text-xs font-bold uppercase tracking-wider text-purple-300 hover:bg-purple-500/20 hover:text-white transition-all text-center"
               >
                 Scan QR Code / Guide →
               </Link>

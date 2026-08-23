@@ -31,14 +31,14 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <span className="text-[var(--font-size-2xs)] font-extrabold uppercase tracking-widest  text-[var(--color-accent)] mb-3 block">
           Select Layout Style (1–20)
         </span>
-        <div className="flex flex-wrap justify-center gap-1.5 max-w-5xl p-2.5 bg-white/5 border border-white/10 backdrop-blur-xl">
+        <div className="flex flex-wrap justify-center gap-1.5 max-w-5xl p-2.5 bg-[#e1e6ff29]   border border-white/10 backdrop-blur-xl">
           {LAYOUTS.map((l) => (
             <button aria-label="Action button"
               key={l.id}
               onClick={() => setActiveLayout(l.id)}
               className={`w-9 h-9  text-xs font-black transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id
                 ? "bg-[var(--color-accent)] text-white shadow-md border border-[var(--color-accent)]/50 scale-110"
-                : "bg-white/5 text-white/60 hover:text-white hover:bg-white/15 border border-transparent"
+                : "bg-[#e1e6ff29]   text-white/60 hover:text-white hover:bg-white/15 border border-transparent"
                 }`}
             >
               {l.name}
@@ -69,7 +69,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats.slice(1), (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl flex flex-col justify-between hover:border-[var(--color-accent)]/20 hover:bg-white/10 transition-colors group"
+              className="p-6 rounded-3xl bg-[#e1e6ff29]   border border-white/10 backdrop-blur-2xl flex flex-col justify-between hover:border-[var(--color-accent)]/20 hover:bg-white/10 transition-colors group"
             >
               <div className="flex justify-between items-center mb-4">
                 <span className="text-3xl font-black  text-[var(--color-accent)] group-hover:scale-110 transition-transform">{s.number}</span>
@@ -158,7 +158,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl hover:border-[var(--color-accent)] hover:bg-white/10 transition-colors group flex flex-col justify-between h-56"
+              className="p-8 rounded-3xl bg-[#e1e6ff29]   border border-white/10 backdrop-blur-2xl hover:border-[var(--color-accent)] hover:bg-white/10 transition-colors group flex flex-col justify-between h-56"
             >
               <div>
                 <div className="flex justify-between items-center mb-3">
@@ -239,7 +239,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className={`p-7 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-2xl hover:border-[var(--color-accent)]/20 transition-colors group ${i === 0 ? "md:col-span-2 md:row-span-2 justify-between flex flex-col" : i === 3 ? "md:col-span-2" : ""
+              className={`p-7 rounded-3xl bg-[#e1e6ff29]   border border-white/10 backdrop-blur-2xl hover:border-[var(--color-accent)]/20 transition-colors group ${i === 0 ? "md:col-span-2 md:row-span-2 justify-between flex flex-col" : i === 3 ? "md:col-span-2" : ""
                 }`}
             >
               <div className="text-4xl md:text-5xl font-black  text-[var(--color-accent)] mb-3">{s.number}</div>
@@ -314,7 +314,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="text-xs text-white/70 mt-1">{s.text}</p>
                 </div>
               </div>
-              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-mono font-bold bg-white/5 border border-white/10  text-[var(--color-accent)] uppercase">
+              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-mono font-bold bg-[#e1e6ff29]   border border-white/10  text-[var(--color-accent)] uppercase">
                 {s.badge}
               </span>
             </div>
@@ -366,7 +366,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {activeLayout === 17 && (
         <div className="max-w-4xl mx-auto space-y-3">
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
-            <div key={s.label} className="p-6 bg-white/5 border border-white/10 hover:border-[var(--color-accent)]/20 hover:bg-white/10 transition-colors flex items-center justify-between group">
+            <div key={s.label} className="p-6 bg-[#e1e6ff29]   border border-white/10 hover:border-[var(--color-accent)]/20 hover:bg-white/10 transition-colors flex items-center justify-between group">
               <div className="flex items-center gap-6">
                 <span className="text-3xl font-black  text-[var(--color-accent)] group-hover:scale-110 transition-transform">{s.number}</span>
                 <div>

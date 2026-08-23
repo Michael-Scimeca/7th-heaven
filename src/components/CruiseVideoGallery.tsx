@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { Play } from "lucide-react";
+import { Play, X } from "lucide-react";
 import CosmicRadialButton from "./CosmicRadialButton";
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -168,6 +168,20 @@ export default function CruiseVideoGallery() {
     fetchVideos();
   }, [fetchVideos]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveVideo(null);
+      }
+    };
+    if (activeVideo) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeVideo]);
+
   const categories = ['All', ...Array.from(new Set(videos.map(v => v.category)))];
 
   const filteredVideos = selectedCategory === 'All'
@@ -179,7 +193,7 @@ export default function CruiseVideoGallery() {
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-purple-400mb-3 px-4 py-1 rounded-full    border border-cyan-500/20">
-          🎥 Virtual Tours & Video Showcase
+          🎥 Virtual Tours &amp; Video Showcase
         </span>
         <h2
           className="text-4xl md:text-6xl font-black uppercase italic tracking-tight text-white leading-none"
@@ -201,7 +215,7 @@ export default function CruiseVideoGallery() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
                   ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                  : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
+                  : ' bg=[#e1e6ff29]  text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
                   }`}
               >
                 {cat}
@@ -215,12 +229,12 @@ export default function CruiseVideoGallery() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(n => (
-            <div key={n} className="aspect-video bg-white/5 rounded-3xl animate-pulse" />
+            <div key={n} className="aspect-video  bg=[#e1e6ff29]  rounded-3xl animate-pulse" />
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="text-center py-12 text-white/40 text-xs bg-white/[0.02] border border-white/5 rounded-3xl">
-          No videos available in this category yet.
+        <div className="text-center py-16 bg-white/5 rounded-3xl border border-white/10 text-white/50 font-bold uppercase tracking-wider text-xs">
+          No videos found in this category.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -229,25 +243,25 @@ export default function CruiseVideoGallery() {
               type="button"
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="w-full text-left group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer   hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1"
+              className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
                 <Image width={200} height={200} unoptimized
                   src={vid.poster || '/images/cruise-hero.png'}
                   alt={vid.title}
-                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 rounded-lg "
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-14 h-14 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
+                    className="w-14 h-14 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-cyan-300 text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg border border-cyan-500/30">
+                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg ">
                   {vid.category}
                 </span>
 
@@ -283,24 +297,42 @@ export default function CruiseVideoGallery() {
 
       {/* Full-screen Video Player Modal */}
       {activeVideo && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in">
-          <div className="relative w-full max-w-5xl   border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-              <div>
-                <span className="text-[var(--font-size-3xs)] font-black uppercase text-purple-400tracking-widest block">
+        <div
+          onClick={() => setActiveVideo(null)}
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in"
+        >
+          {/* Floating Top-Right Close Button for immediate screen dismiss */}
+          <button
+            type="button"
+            aria-label="Close video modal"
+            onClick={() => setActiveVideo(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3 rounded-full bg-white/15 border border-white/30 text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-all duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
+          >
+            <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
+          </button>
+
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-5xl bg-[#0b0518] border-2 border-cyan-400/80 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.4)]"
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
+              <div className="min-w-0 flex-1">
+                <span className="text-[var(--font-size-3xs)] font-black uppercase text-purple-400 tracking-widest block mb-1">
                   {activeVideo.category}
                 </span>
-                <h3 className="text-white font-black text-base md:text-xl uppercase tracking-wide">
+                <h3 className="text-white font-black text-base md:text-xl uppercase tracking-wide truncate">
                   {activeVideo.title}
                 </h3>
               </div>
 
-              <button aria-label="Action button"
+              <button
                 type="button"
+                aria-label="Close player"
                 onClick={() => setActiveVideo(null)}
-                className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 transition-colors cursor-pointer"
+                className="shrink-0 flex items-center gap-2 text-white font-black text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:scale-105"
               >
-                ✕ Close Player
+                <X className="w-4 h-4 text-white" />
+                <span>Close Player</span>
               </button>
             </div>
 

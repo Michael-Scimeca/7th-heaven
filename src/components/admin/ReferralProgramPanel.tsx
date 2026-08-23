@@ -141,8 +141,8 @@ export default function ReferralProgramPanel() {
   if (loading) {
     return (
       <div className="bg-[var(--color-bg-surface)] border border-white/[0.06] p-6 animate-pulse">
-        <div className="h-6 bg-white/5 rounded w-48 mb-3" />
-        <div className="h-4 bg-white/5 rounded w-72" />
+        <div className="h-6 bg-[#e1e6ff29]   rounded w-48 mb-3" />
+        <div className="h-4 bg-[#e1e6ff29]   rounded w-72" />
       </div>
     );
   }
@@ -423,7 +423,7 @@ export default function ReferralProgramPanel() {
                                     : i === 1
                                       ? "bg-white/10 text-white/60 border border-white/10"
                                       : i === 2
-                                        ? "bg-white/5 text-white/40 border border-white/5"
+                                        ? "bg-[#e1e6ff29]   text-white/40 border border-white/5"
                                         : "text-white/20"
                                     }`}
                                 >
@@ -509,7 +509,7 @@ export default function ReferralProgramPanel() {
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
-                                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                  <div className="h-1.5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
                                     <div
                                       className="h-full bg-purple-600 transition-colors"
                                       style={{
@@ -530,7 +530,7 @@ export default function ReferralProgramPanel() {
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
-                                        className="text-xs px-2 py-0.5 bg-white/5 border border-white/5 text-white/40 font-mono"
+                                        className="text-xs px-2 py-0.5 bg-[#e1e6ff29]   border border-white/5 text-white/40 font-mono"
                                       >
                                         {email}
                                       </span>

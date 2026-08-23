@@ -926,7 +926,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                         className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
-                          : 'bg-white/5 text-white/60 hover:bg-white/10'
+                          : 'bg-[#e1e6ff29]   text-white/60 hover:bg-white/10'
                           }`}
                       >
                         {act.label}
@@ -1055,7 +1055,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40 backdrop-blur-md pb-1 z-10">
             <button aria-label="Action button"
               onClick={handleResetTuning}
-              className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
+              className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
             >
               🔄 Reset to Defaults
             </button>

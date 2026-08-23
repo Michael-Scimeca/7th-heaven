@@ -920,7 +920,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5 rounded-xl shadow-2xl transition-opacity duration-300"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
@@ -1267,7 +1267,7 @@ lerpSpeed: ${lerpSpeed}`;
                       onClick={() => setTextPos(pos)}
                       className={`py-1 px-1.5 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer text-center border ${textPos === pos
                         ? "bg-purple-600 text-white border-purple-400 shadow-md"
-                        : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                        : "bg-[#e1e6ff29]   text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
                         }`}
                     >
                       {pos}
@@ -1291,7 +1291,7 @@ lerpSpeed: ${lerpSpeed}`;
                 navigator.clipboard?.writeText(configJSON);
                 alert("📋 Configuration code copied to clipboard!");
               }}
-              className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
+              className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs  rounded-lg shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
             >
               <span>Copy Configuration Code</span>
             </button>
@@ -1311,7 +1311,7 @@ lerpSpeed: ${lerpSpeed}`;
                     console.error("Failed to save settings:", e);
                   }
                 }}
-                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95"
+                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs  rounded-lg shadow-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95"
               >
                 <Save className="w-4 h-4" />
                 <span>Save</span>
@@ -1337,7 +1337,7 @@ lerpSpeed: ${lerpSpeed}`;
                   setTextLayout("pill");
                   setTextPos("left");
                 }}
-                className="py-2.5 px-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95"
+                className="py-2.5 px-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white font-mono font-bold text-xs  rounded-lg flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset</span>

@@ -36,7 +36,7 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-sm uppercase tracking-[0.15em] rounded-xl hover:brightness-110 transition-all shadow-lg"
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-sm uppercase tracking-[0.15em]  rounded-lg hover:brightness-110 transition-all shadow-lg"
                     >
                         Back to Home
                     </Link>

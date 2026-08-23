@@ -226,7 +226,7 @@ export function CalendarPicker({
                       ? "bg-rose-500/20 border border-rose-500/30 text-rose-400 line-through"
                       : isSelected
                         ? "bg-purple-600 border-2 border-purple-400 text-white font-black shadow-lg shadow-purple-600/40 scale-105"
-                        : "bg-white/5 border border-white/10 hover:border-purple-400/60 hover:bg-white/10 text-white"}
+                        : "bg-[#e1e6ff29]   border border-white/10 hover:border-purple-400/60 hover:bg-white/10 text-white"}
                   `}
                 >
                   {date.getDate()}
@@ -324,10 +324,10 @@ export function CalendarPicker({
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className={`w-full text-left p-4 rounded-xl border transition-colors cursor-pointer flex gap-4 items-center group
+                    className={`w-full text-left p-4  rounded-lg border transition-colors cursor-pointer flex gap-4 items-center group
                        ${isSelected
                         ? "border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
-                        : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10 text-white/80"}
+                        : "border-white/10 bg-[#e1e6ff29]   hover:border-white/20 hover:bg-white/10 text-white/80"}
                      `}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>

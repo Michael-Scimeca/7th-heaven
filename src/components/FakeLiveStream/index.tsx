@@ -1321,11 +1321,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   setNotifyingFans(false);
                 }
               }}
-              className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${
-                notifySuccess
-                  ? 'bg-emerald-600 text-white border-emerald-400'
-                  : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white border-pink-400/40 hover:scale-105'
-              }`}
+              className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess
+                ? 'bg-emerald-600 text-white border-emerald-400'
+                : 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white border-pink-400/40 hover:scale-105'
+                }`}
               title="Subscribe to get instant free push alerts on your phone or browser whenever a crew member goes live"
             >
               <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
@@ -1333,8 +1332,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {notifySuccess
                   ? (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "✓ Push Sent to Fans! 🔔" : "✓ Live Alerts Enabled! 🔔")
                   : notifyingFans
-                  ? "Connecting..."
-                  : (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "Broadcasting Push Alert 🔔" : "NOTIFY ME WHEN CREW GOES LIVE 🔔")}
+                    ? "Connecting..."
+                    : (contextMember?.role === 'crew' || contextMember?.role === 'admin' ? "Broadcasting Push Alert 🔔" : "NOTIFY ME WHEN CREW GOES LIVE 🔔")}
               </span>
             </button>
 
@@ -1406,7 +1405,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center mb-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                       <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -2130,7 +2129,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-white/5 border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full bg-[#e1e6ff29]   border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <button aria-label="Action button"
@@ -2511,7 +2510,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
                       }}
-                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
                     >
                       <span>Sign Up as a Fan</span>
                     </button>
@@ -2521,7 +2520,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
                       }}
-                      className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-xl border border-white/15 transition-all cursor-pointer"
+                      className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
                     >
                       Sign In to Account
                     </button>

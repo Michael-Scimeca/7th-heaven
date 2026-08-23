@@ -56,7 +56,7 @@ function VersionB() {
             <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 bg-transparent p-0 text-left" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                 : step > i ? "bg-[var(--color-accent)]/30 text-white"
-                  : "bg-white/5 border border-white/10 text-white/30"
+                  : "bg-[#e1e6ff29]   border border-white/10 text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase tracking-widest font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
@@ -71,7 +71,7 @@ function VersionB() {
         <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
       </div>
       <div className="flex gap-3">
-        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
+        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-xs font-bold text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
         <button aria-label="Action button" type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
           className="flex-1 py-2.5 bg-[var(--color-accent)] rounded-lg text-xs font-bold text-white cursor-pointer hover:bg-[var(--color-accent)]/80 transition-colors">
           {step === 2 ? "Submit" : "Next →"}
@@ -189,7 +189,7 @@ function VersionF() {
             <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
           </div>
           {i > 0 && (
-            <button aria-label="Action button" type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-full bg-white/5 hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
+            <button aria-label="Action button" type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-full bg-[#e1e6ff29]   hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
           )}
         </div>
       ))}

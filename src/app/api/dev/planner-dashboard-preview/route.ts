@@ -47,7 +47,7 @@ export async function GET() {
               <h2 class="text-2xl font-black text-white mt-1">Confirmed Event Bookings</h2>
               <p class="text-xs text-white/60 mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
-            <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2 rounded-xl text-right">
+            <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2  rounded-lg text-right">
               <span class="text-[10px] font-mono text-purple-300 uppercase block">Booking Reference</span>
               <span class="text-lg font-black text-white font-mono tracking-wider">7H-BK-4821</span>
             </div>
@@ -89,10 +89,10 @@ export async function GET() {
             </div>
 
             <div class="pt-2 flex items-center gap-2">
-              <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition">
+              <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg transition">
                 Manage Details
               </button>
-              <button class="py-2 px-3 bg-white/5 border border-white/10 text-white/70 font-bold text-xs rounded-xl">
+              <button class="py-2 px-3 bg-[#e1e6ff29]   border border-white/10 text-white/70 font-bold text-xs rounded-xl">
                 Stage Rider
               </button>
             </div>
@@ -106,15 +106,15 @@ export async function GET() {
             </div>
 
             <div class="space-y-2.5 text-xs">
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5  rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
                 <span class="text-white/80 font-medium">📥 Download Official Contract (.pdf)</span>
                 <span class="text-purple-400 font-bold text-[10px]">READY</span>
               </div>
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5  rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
                 <span class="text-white/80 font-medium">📅 Export Schedule (.ics)</span>
                 <span class="text-purple-400 font-bold text-[10px]">EXPORT</span>
               </div>
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5  rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
                 <span class="text-white/80 font-medium">💬 Band Management Direct Chat</span>
                 <span class="text-emerald-400 font-bold text-[10px]">ONLINE</span>
               </div>

@@ -159,7 +159,7 @@ export default function ShowPageClient({
 
   // shareUrl: use a safe default on SSR, update to real URL after hydration
   const shareUrl = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => window.location.href,
     () => `https://7thheavenband.com/shows/${show.id}`
   );
@@ -423,7 +423,7 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-white/5">
+                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-[#e1e6ff29]  ">
                       <GradientToggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"

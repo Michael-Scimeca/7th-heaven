@@ -373,7 +373,7 @@ export default function AudioPlayerSection() {
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
-                    <div className="relative w-7 h-7 shrink-0 bg-white/5 border border-white/10   rounded overflow-hidden">
+                    <div className="relative w-7 h-7 shrink-0 bg-[#e1e6ff29]   border border-white/10   rounded overflow-hidden">
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}
@@ -516,7 +516,7 @@ export default function AudioPlayerSection() {
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
-          <div className="relative mb-6 input-glow-border rounded-xl pr-3">
+          <div className="relative mb-6 input-glow-border  rounded-lg pr-3">
             <div className="relative flex items-center w-full">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none z-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -526,7 +526,7 @@ export default function AudioPlayerSection() {
                 placeholder="Search 700+ songs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 backdrop-blur-xl border border-white/15 rounded-xl px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
+                className="w-full bg-black/40 backdrop-blur-xl border border-white/15  rounded-lg px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
               />
               {searchQuery && (
                 <button aria-label="Clear search"
@@ -625,7 +625,7 @@ export default function AudioPlayerSection() {
                           <button
                             type="button"
                             key={`${albumIdx}-${trackIdx}`}
-                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-[#e1e6ff29]  '}`} onClick={() => {
                               setActiveAlbumIndex(albumIdx);
                               setActiveTrackIndex(trackIdx);
                               setIsPlaying(true);
@@ -660,7 +660,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
+                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-[#e1e6ff29]  '}`} onClick={() => {
                             if (isActive) togglePlay();
                             else {
                               setActiveTrackIndex(idx);
@@ -729,7 +729,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-white/5 overflow-hidden shrink-0 shadow-md">
+              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0 shadow-md">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}

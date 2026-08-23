@@ -153,7 +153,7 @@ export default function DevRouteList() {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+            className="flex items-center gap-2 px-4 py-2.5  rounded-lg bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]"
           >
             <span>{isOpen ? "Collapse Directory" : "Expand All Routes"}</span>
             {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -175,7 +175,7 @@ export default function DevRouteList() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeCategory === cat
                       ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
-                      : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white"
+                      : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white"
                       }`}
                   >
                     {cat}
@@ -191,7 +191,7 @@ export default function DevRouteList() {
                   placeholder="Search routes or keywords..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60 font-mono"
+                  className="w-full bg-black/40 border border-white/10  rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60 font-mono"
                 />
               </div>
             </div>

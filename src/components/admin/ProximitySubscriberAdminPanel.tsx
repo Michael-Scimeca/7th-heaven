@@ -169,13 +169,13 @@ export default function ProximitySubscriberAdminPanel() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5 rounded-xl bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+          <span className="px-3.5 py-1.5  rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
             <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
           </span>
           <button
             type="button"
             onClick={fetchSubscribers}
-            className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
+            className="px-3 py-1.5  rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
           >
             Refresh
           </button>
@@ -183,7 +183,7 @@ export default function ProximitySubscriberAdminPanel() {
       </div>
 
       {actionStatus && (
-        <div className="mb-6 p-4 rounded-xl bg-purple-950/80 border border-purple-500/40 text-purple-200 text-xs font-bold flex items-center gap-2 animate-pulse">
+        <div className="mb-6 p-4  rounded-lg bg-purple-950/80 border border-purple-500/40 text-purple-200 text-xs font-bold flex items-center gap-2 animate-pulse">
           <span>{actionStatus}</span>
         </div>
       )}
@@ -197,7 +197,7 @@ export default function ProximitySubscriberAdminPanel() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search subscribers by name, zip code, or device..."
-            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
+            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60  rounded-lg pl-10 pr-4 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
           />
         </div>
 
@@ -208,7 +208,7 @@ export default function ProximitySubscriberAdminPanel() {
           <select
             value={radiusFilter}
             onChange={(e) => setRadiusFilter(e.target.value)}
-            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none cursor-pointer"
+            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none cursor-pointer"
           >
             <option value="all">All Distances</option>
             <option value="15">15 Miles Only</option>
@@ -223,7 +223,7 @@ export default function ProximitySubscriberAdminPanel() {
       <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/40">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-white/5 text-[11px] font-black uppercase tracking-wider text-purple-300">
+            <tr className="border-b border-white/10 bg-[#e1e6ff29]   text-[11px] font-black uppercase tracking-wider text-purple-300">
               <th className="py-3.5 px-4">Fan / Device</th>
               <th className="py-3.5 px-4">Zip Code</th>
               <th className="py-3.5 px-4">Radius</th>
@@ -249,7 +249,7 @@ export default function ProximitySubscriberAdminPanel() {
                 const isEditing = editingId === sub.id;
 
                 return (
-                  <tr key={sub.id} className="hover:bg-white/5 transition-colors">
+                  <tr key={sub.id} className="hover:bg-[#e1e6ff29]   transition-colors">
                     {/* Fan / Device */}
                     <td className="py-4 px-4 font-medium">
                       {isEditing ? (

@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { PARALLAX_PRESETS, type HeroParallaxController } from "@/lib/useHeroParallax";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 interface HeroParallaxCustomizerProps extends HeroParallaxController {
   /** Tailwind position classes — override when a page already has another
@@ -108,11 +108,10 @@ export default function HeroParallaxCustomizer({
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${
-                    pxRange === preset.range
-                      ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
-                      : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
-                  }`}
+                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
+                    ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
+                    : "bg-[#e1e6ff29]   border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
+                    }`}
                 >
                   {preset.name}
                 </button>
@@ -160,18 +159,16 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Toggle foreground counter-drift"
             onClick={() => updatePxForeground(!pxForeground)}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${
-              pxForeground
-                ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
-                : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10"
-            }`}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground
+              ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
+              : "bg-[#e1e6ff29]   border-white/5 text-white/60 hover:bg-white/10"
+              }`}
           >
             <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider">Foreground Counter-Drift</span>
             <span className={`w-8 h-4 rounded-full relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
-                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${
-                  pxForeground ? "translate-x-4" : "translate-x-0.5"
-                }`}
+                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
+                  }`}
               />
             </span>
           </button>

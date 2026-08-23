@@ -299,7 +299,7 @@ function DutyRoleEditorPopover({
               handleSaveDuty(memberId);
             }}
             disabled={savingDuty}
-            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-extrabold text-xs rounded-xl cursor-pointer border-none shadow-[0_0_12px_rgba(147,51,234,0.4)] uppercase tracking-wider transition-all"
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-extrabold text-xs  rounded-lg cursor-pointer border-none shadow-[0_0_12px_rgba(147,51,234,0.4)] uppercase tracking-wider transition-all"
           >
             {savingDuty ? 'Saving...' : 'Save'}
           </button>
@@ -310,7 +310,7 @@ function DutyRoleEditorPopover({
               e.stopPropagation();
               setEditingDutyMemberId(null);
             }}
-            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 font-bold text-xs rounded-xl cursor-pointer border-none transition-all"
+            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 font-bold text-xs  rounded-lg cursor-pointer border-none transition-all"
           >
             Cancel
           </button>
@@ -320,7 +320,7 @@ function DutyRoleEditorPopover({
       {/* Quick-Select Chips (All Roles) */}
       <div>
         <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-300/80 block mb-1.5">Quick Toggle Presets:</span>
-        <div className="flex flex-wrap gap-1.5 max-h-[240px] min-h-[140px] overflow-y-auto custom-scrollbar p-2.5 bg-black/40 border border-white/10 rounded-xl shadow-inner">
+        <div className="flex flex-wrap gap-1.5 max-h-[240px] min-h-[140px] overflow-y-auto custom-scrollbar p-2.5 bg-black/40 border border-white/10  rounded-lg shadow-inner">
           {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
             const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
             const isSelected = currentList.includes(chip.toUpperCase());
@@ -369,7 +369,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="w-full bg-black/40 border border-white/15 rounded-xl px-3 py-2 text-xs font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
+          className="w-full bg-black/40 border border-white/15  rounded-lg px-3 py-2 text-xs font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleSaveDuty(memberId);
@@ -3153,7 +3153,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="SMS • Email • Fan Wall" color="rose" />
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emergencybroadcast') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emergencybroadcast') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -3176,7 +3176,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="Crew • Fans • Cruise • Planners • Admins" color="amber" />
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emaildirectory') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emaildirectory') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -3199,7 +3199,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="Web Push • Proximity • Supabase" color="pink" />
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('pushsubscribers') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('pushsubscribers') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -3219,7 +3219,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Post band updates, news, and urgent alerts across the public site</p>
           </div>
           <div className="flex items-center gap-3">
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -3248,7 +3248,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     disabled={bannerUpdating}
                     className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive
                       ? 'bg-purple-600 text-white border-purple-500  '
-                      : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20'
+                      : 'bg-[#e1e6ff29]   text-white/50 border-white/10 hover:border-white/20'
                       } disabled:opacity-50`}
                   >
                     <span className="relative z-10 flex items-center gap-2">
@@ -3260,7 +3260,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 {/* Arrow chevron on far right side */}
-                <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
+                <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
                 </div>
               </div>
@@ -3321,7 +3321,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           }}
                           className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
                             ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
-                            : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                            : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
                             }`}
                         >{label}</button>
                       );
@@ -3332,7 +3332,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setBannerExpiresAt(null);
                         await updateGlobalBanner({ expiresAt: null });
                       }}
-                      className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                      className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-[#e1e6ff29]   text-white/40 hover:bg-white/10 hover:text-white/70'
                         }`}
                     >Off</button>
                   </div>
@@ -3358,7 +3358,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderAnalytics = () => (
     <section id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none hover:bg-white/5 transition-colors">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#e1e6ff29]   transition-colors">
         <div className="flex flex-col">
           <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
@@ -3728,13 +3728,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   } catch { }
                   setShopifyLoading(false);
                 }}
-                className="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                className="px-3 py-1.5 bg-[#e1e6ff29]   border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-colors"
               >
                 ↻ Refresh
               </button>
             </div>
           )}
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -3807,7 +3807,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <button
                               type="button"
                               onClick={() => openQrModal(p)}
-                              className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                              className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                               title="View & Print QR Code"
                             >
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
@@ -3886,7 +3886,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
                                     i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
                                       i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
-                                        'bg-white/5 text-white/30 border border-white/10'
+                                        'bg-[#e1e6ff29]   text-white/30 border border-white/10'
                                     }`}>{i + 1}</span>
                                   <span className="text-sm font-bold truncate max-w-[180px]">{p.title}</span>
                                 </div>
@@ -3924,7 +3924,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
                                   {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                 </span>
-                                <div className="flex-1 h-5 bg-white/5 rounded-full overflow-hidden">
+                                <div className="flex-1 h-5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
                                   <div
                                     className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-colors duration-500"
                                     style={{ width: `${Math.max(pct, 2)}%` }}
@@ -3988,7 +3988,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
                                 {order.fulfillmentStatus && (
                                   <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                    : 'bg-white/5 text-white/30 border border-white/10'
+                                    : 'bg-[#e1e6ff29]   text-white/30 border border-white/10'
                                     }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
                                 )}
                               </div>
@@ -4036,7 +4036,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <button
                               type="button"
                               onClick={() => openQrModal(p)}
-                              className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                              className="inline-flex items-center justify-center p-1.5 bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                               title="View & Print QR Code"
                             >
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
@@ -4155,7 +4155,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex flex-col gap-1">
                               <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
                                 : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                  : 'bg-white/5 text-white/40 border border-white/10'
+                                  : 'bg-[#e1e6ff29]   text-white/40 border border-white/10'
                                 }`}>{order.status}</span>
                               {order.trackingNumber && (
                                 <div className="text-[0.55rem] font-mono text-[var(--color-accent)]/80 mt-0.5">
@@ -4216,7 +4216,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         <div className="flex items-center gap-3">
 
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bookings') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bookings') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -4429,7 +4429,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               )}
 
                               {/* Official Load-In Setup Manager Widget */}
-                              <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30 rounded-xl space-y-3">
+                              <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30  rounded-lg space-y-3">
                                 <div className="flex items-center justify-between gap-2 flex-wrap">
                                   <p className="text-xs uppercase tracking-widest text-purple-300 font-extrabold flex items-center gap-2">
                                     <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
@@ -4451,7 +4451,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
                                     onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                     placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    className="flex-1 bg-white/5 border border-white/15 rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
+                                    className="flex-1 bg-[#e1e6ff29]   border border-white/15 rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
                                   />
                                   <button
                                     type="button"
@@ -4497,10 +4497,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
+          <span className="px-3 py-1 bg-[#e1e6ff29]   border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
             {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).length} Planners
           </span>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -4545,7 +4545,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
+                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors">
                       Email
                     </a>
                     {planner.phone ? (
@@ -4553,7 +4553,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         Text
                       </a>
                     ) : (
-                      <button disabled className="px-4 py-2 text-center bg-white/5 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
+                      <button disabled className="px-4 py-2 text-center bg-[#e1e6ff29]   border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
                         No Phone
                       </button>
                     )}
@@ -4578,7 +4578,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -4595,7 +4595,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pl-0">
               {moderationQueue.map((photo) => (
                 <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden   hover:border-[var(--color-accent)]/50 transition-colors">
-                  <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                  <div className="aspect-[4/3] bg-[#e1e6ff29]   relative overflow-hidden">
                     <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
                     <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest   ">
                       {new Date(photo.submittedAt).toLocaleDateString()}
@@ -4642,7 +4642,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
             {memoryQueue.length} Pending
           </span>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -4712,7 +4712,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         <div className="flex items-center gap-3">
 
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('livealerts') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('livealerts') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -4761,7 +4761,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                          className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors inline-block"
+                          className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors inline-block"
                         >
                           View
                         </Link>
@@ -4832,7 +4832,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {smsShows.length} upcoming show{smsShows.length !== 1 ? 's' : ''}
             </span>
           </div>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('smsblast') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('smsblast') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -5475,7 +5475,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewsms') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewsms') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -5591,7 +5591,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
                                       }}
-                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
+                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
                                       title="Click to assign role(s)"
                                     >
                                       <span>+ Assign Role</span>
@@ -5606,7 +5606,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setEditingDutyMemberId(isEditingThis ? null : editKey);
                                       setEditingDutyValue(r.duty || '');
                                     }}
-                                    className="p-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                    className="p-1 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
                                     title="Edit Role"
                                   >
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
@@ -5982,7 +5982,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div
                   role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
                   onClick={() => setSendSmsAlert(prev => !prev)}
-                  className={`p-5 md:p-6 rounded-xl border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert
+                  className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert
                     ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                     : 'bg-white/[0.01] text-white/40'
                     }`}
@@ -6002,7 +6002,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div
                   role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
                   onClick={() => setSendEmailAlert(prev => !prev)}
-                  className={`p-5 md:p-6 rounded-xl border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert
+                  className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert
                     ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                     : 'bg-white/[0.01] text-white/40'
                     }`}
@@ -6023,7 +6023,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
                     onClick={() => setCrewSendAsGroup(prev => !prev)}
-                    className={`p-5 md:p-6 rounded-xl border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup
+                    className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup
                       ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] text-white/40'
                       }`}
@@ -6299,7 +6299,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bandsms') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bandsms') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -6472,7 +6472,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div
                       role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
                       onClick={() => setSendBandSmsAlert(prev => !prev)}
-                      className={`p-5 md:p-6 rounded-xl border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert
+                      className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert
                         ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                         : 'bg-white/[0.01] text-white/40'
                         }`}
@@ -6492,7 +6492,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div
                       role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
                       onClick={() => setSendBandEmailAlert(prev => !prev)}
-                      className={`p-5 md:p-6 rounded-xl border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert
+                      className={`p-5 md:p-6  rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert
                         ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                         : 'bg-white/[0.01] text-white/40'
                         }`}
@@ -6521,7 +6521,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={bandEmailSubject}
                           onChange={(e) => setBandEmailSubject(e.target.value)}
                           placeholder="e.g. Band Schedule Update"
-                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
+                          className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
                         />
                       </div>
                     </div>
@@ -6704,7 +6704,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         <div className="flex items-center gap-3">
 
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('newsletter') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('newsletter') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -6802,7 +6802,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <Link href="/sitemap/flows" className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 border border-purple-500/30 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             Fullscreen Flowchart ↗
           </Link>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emailflow') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emailflow') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -6956,7 +6956,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </button>
             ))}
           </div>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -6991,7 +6991,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
                         <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
                         <td className="p-4 text-sm">
-                          <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-white/5 text-white/60 border border-white/10'}`}>
+                          <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]   text-white/60 border border-white/10'}`}>
                             {user.role}
                           </span>
                         </td>
@@ -7009,7 +7009,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-white/5 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-[#e1e6ff29]   hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
                               >
                                 {viewingUser === user.id ? 'Hide' : 'View'}
                               </button>
@@ -7099,7 +7099,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         <div className="flex items-center gap-3">
 
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewcreation') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewcreation') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -7276,7 +7276,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </h3>
         </div>
         <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('admincreation') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('admincreation') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -7455,7 +7455,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bulkinvites') ? 'rotate-0' : '-rotate-90')}>
+          <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bulkinvites') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
@@ -7557,7 +7557,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <span className="text-[0.6rem] text-cyan-400/60 uppercase tracking-widest font-bold">
               {signups.length} registered
             </span>
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -8713,7 +8713,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         const roles = (roleStr || 'Crew').split(/[,|/]/).flatMap(r => { const t = r.trim(); return t ? [t] : []; });
         return roles.map((r, idx) => {
           const upper = r.toUpperCase();
-          let colorClass = "text-white/45 bg-white/5 border-white/10";
+          let colorClass = "text-white/45 bg-[#e1e6ff29]   border-white/10";
           if (upper.includes("AUDIO") || upper.includes("MIX")) {
             colorClass = "text-violet-400 bg-violet-500/10 border-violet-500/25";
           } else if (upper.includes("SERVER") || upper.includes("HOST")) {
@@ -9473,8 +9473,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded border border-white/10">Roster Schedule</span>
-            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-[#e1e6ff29]   px-2.5 py-1 rounded border border-white/10">Roster Schedule</span>
+            <div className={"w-7 h-7 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
@@ -9523,7 +9523,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 type="button"
                 onClick={() => setShowCoEditorModal(true)}
-                className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
               >
                 Co-Editor Settings
               </button>
@@ -9552,7 +9552,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="text-sm font-bold text-pink-300">
                     Shift: {coEditorConflictAlert.shiftTitle}
                   </div>
-                  <p className="text-white/80 leading-relaxed bg-white/5 p-2.5 rounded border border-white/5">
+                  <p className="text-white/80 leading-relaxed bg-[#e1e6ff29]   p-2.5 rounded border border-white/5">
                     {coEditorConflictAlert.changeDesc}
                   </p>
                 </div>
@@ -9642,7 +9642,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={handlePrevWeek}
-                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                     title="Previous Week"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
@@ -9652,7 +9652,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onClick={() => {
                       document.getElementById('wiw-date-picker')?.click();
                     }}
-                    className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                     title="Choose Date"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -9674,7 +9674,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={handleNextWeek}
-                    className="p-2 hover:bg-white/5 transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                    className="p-2 hover:bg-[#e1e6ff29]   transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                     title="Next Week"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
@@ -9684,7 +9684,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   type="button"
                   onClick={handleGoToToday}
-                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-white/5 text-xs font-bold text-white/70 hover:text-white rounded-lg   transition-colors cursor-pointer border-solid"
+                  className="px-3 py-1.5 border border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-xs font-bold text-white/70 hover:text-white rounded-lg   transition-colors cursor-pointer border-solid"
                 >
                   TODAY
                 </button>
@@ -9694,7 +9694,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   onClick={handleGoToMonth}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid ${calendarRange === 'month'
                     ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
-                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
                     }`}
                 >
                   MONTH
@@ -9732,7 +9732,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onClick={() => setShowTourDropdown(prev => !prev)}
                     className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
                       ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
-                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                      : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
                       }`}
                   >
                     SHOWS
@@ -9766,7 +9766,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   }
                                   setShowTourDropdown(false);
                                 }}
-                                className="w-full text-left px-4 py-2.5 hover:bg-white/5 flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
+                                className="w-full text-left px-4 py-2.5 hover:bg-[#e1e6ff29]   flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
                               >
                                 <span className="text-[var(--font-size-3xs)] font-black text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
                                 <span className="text-xs font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
@@ -9785,7 +9785,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   onClick={() => setShowTourDatesOnly(prev => !prev)}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
                     ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
-                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
                     }`}
                   title="Show only days with tour shows"
                 >
@@ -9813,7 +9813,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
                   className={`px-3 py-1.5 border text-xs font-bold rounded-lg   transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
                     ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
-                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    : 'border-white/10 bg-black/40 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white'
                     }`}
                   title="Search & advanced filters by person, venue, date range, and event type"
                 >
@@ -10039,7 +10039,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setScheduleStartDate('');
                             setScheduleEndDate('');
                           }}
-                          className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                          className="text-white/40 hover:text-white bg-[#e1e6ff29]   hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
                           title="Reset Date Range"
                         >
                           Clear
@@ -10116,7 +10116,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           SHOW ALL
                         </button>
                       )}
-                      <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">
+                      <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-[#e1e6ff29]   px-1.5 py-0.5 rounded">
                         {upcomingTourDatesWithLabels.length}
                       </span>
                     </div>
@@ -10361,7 +10361,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             setEditingShiftId(null);
                                           }}
                                           className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${isOverlapping
-                                            ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                                            ? 'bg-[#e1e6ff29]   text-white/20 cursor-not-allowed'
                                             : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
                                             }`}
                                         >
@@ -10497,7 +10497,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   return (
                                     <div
                                       key={member.id}
-                                      className={`p-3.5 rounded-xl transition-all duration-200 ${assignment.active
+                                      className={`p-3.5  rounded-lg transition-all duration-200 ${assignment.active
                                         ? 'bg-transparent border border-purple-500/40   shadow-purple-900/20'
                                         : 'border border-transparent'
                                         }`}
@@ -10571,7 +10571,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       {assignment.active && (
                                         <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
                                           {dropTimeFrames.map((tf, index) => (
-                                            <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative rounded-xl animate-[fadeIn_0.2s_ease]">
+                                            <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
                                               <div className="flex items-center justify-between">
                                                 <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                                 {dropTimeFrames.length > 1 && (
@@ -10686,7 +10686,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         }}
                                                         className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
                                                           ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
-                                                          : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                          : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
                                                           }`}
                                                       >
                                                         {isSelected ? ` ${preset}` : preset}
@@ -10876,7 +10876,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-white/50 font-bold px-2.5 py-1 bg-white/5 rounded-full border border-white/10">{crewGroups.length} saved</span>
+                        <span className="text-xs text-white/50 font-bold px-2.5 py-1 bg-[#e1e6ff29]   rounded-full border border-white/10">{crewGroups.length} saved</span>
                         <button
                           aria-label="Close select group drawer"
                           onClick={() => setCellGroupPopover(null)}
@@ -10922,11 +10922,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 handleAddGroupToDay(dateStr, g);
                                 setCellGroupPopover(null);
                               }}
-                              className="w-full text-left px-4 py-3.5 rounded-xl hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-white/5 shadow-2xs group"
+                              className="w-full text-left px-4 py-3.5  rounded-lg hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-[#e1e6ff29]   shadow-2xs group"
                               title={`Apply Group: ${g.name}`}
                             >
                               <div className="flex items-center gap-3 min-w-0">
-                                <span className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
+                                <span className="w-8 h-8  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
                                 <span className="truncate text-sm tracking-wide font-extrabold text-white">{g.name}</span>
                               </div>
                               <span className="text-xs font-bold text-purple-400 group-hover:text-purple-300 uppercase tracking-wider shrink-0">Apply →</span>
@@ -10941,7 +10941,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <button
                         type="button"
                         onClick={() => setCellGroupPopover(null)}
-                        className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                        className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                       >
                         Cancel
                       </button>
@@ -11033,7 +11033,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           return [(
                             <div key={m.id} className="pr-3 pt-3 pb-3 last:border-b-0 transition-colors ">
-                              <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-white/5 transition-colors group">
+                              <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-[#e1e6ff29]   transition-colors group">
                                 {/* Left checkbox and avatar */}
                                 <div className="flex items-center gap-3 min-w-0">
                                   <SquishyToggle
@@ -11190,7 +11190,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 }}
                                                 className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-colors cursor-pointer ${isSelected
                                                   ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
-                                                  : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                  : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
                                                   }`}
                                                 style={{ fontSize: '7.5px' }}
                                               >
@@ -11241,7 +11241,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setIsCreateGroupModalOpen(false);
                         createGroupForDateRef.current = null;
                       }}
-                      className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                      className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -11368,7 +11368,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     )}
                                     <div className="min-w-0">
                                       <span className="text-xs font-bold text-white block truncate">{shift.crewName}</span>
-                                      <span className="text-[var(--font-size-4xs)] text-white/45 bg-white/5 px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
+                                      <span className="text-[var(--font-size-4xs)] text-white/45 bg-[#e1e6ff29]   px-1.5 py-0.5 rounded uppercase font-black leading-none mt-1 inline-block">
                                         {shift.role}
                                       </span>
                                     </div>
@@ -12105,7 +12105,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {auditLog.map((entry, i) => (
                   <div key={entry.id} className="flex gap-2.5 relative pb-4 last:pb-0 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
                     {i < auditLog.length - 1 && (
-                      <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/5" />
+                      <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-[#e1e6ff29]  " />
                     )}
                     <div className="shrink-0 mt-1">
                       <div className={`w-3.5 h-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
@@ -12274,7 +12274,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div>
                     <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
                     <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white/5 border border-white/10 text-white overflow-hidden" />
+                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-[#e1e6ff29]   border border-white/10 text-white overflow-hidden" />
                     </div>
                   </div>
 
@@ -12366,7 +12366,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div>
                         <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</span>
                         <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white/5 border border-white/10 text-white overflow-hidden" />
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-[#e1e6ff29]   border border-white/10 text-white overflow-hidden" />
                         </div>
                       </div>
 
@@ -12446,7 +12446,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             onClick={() => setLivePreviewTab('dashboard')}
                             className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
                               ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                              : 'text-white/60 hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}
                           >
                             Cruise Dashboard Banner
@@ -12456,7 +12456,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             onClick={() => setLivePreviewTab('email')}
                             className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
                               ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                              : 'text-white/60 hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}
                           >
                             Email Broadcast
@@ -12616,7 +12616,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 aria-label="Close QR product label modal"
                 onClick={() => setSelectedQrProduct(null)}
-                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >✕
 
               </button>
@@ -12803,7 +12803,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </button>
           </div>
           {adminTab === 'band' && (
-            <div className="flex bg-white/5 rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
+            <div className="flex bg-[#e1e6ff29]   rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
               <button
                 type="button"
                 onClick={() => setSidebarMode('jump')}
@@ -12851,7 +12851,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <button
                           key={key}
                           onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                          className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                          className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                         >
                           <span>{section.icon}</span> {section.label}
                         </button>
@@ -12896,7 +12896,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           }}
                           onDragOver={(e) => handleDragOver(e, index)}
                           onDragEnd={handleDragEnd}
-                          className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
+                          className={`py-1.5 px-2 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-[#e1e6ff29]   shadow-inner' : ''}`}
                         >
                           <span className="text-white/20 select-none"></span>
                           <span>{section.icon}</span>
@@ -12910,19 +12910,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Command Center
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Cruise Roster & Links
                   </button>
                   <button
                     onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
                   >
                     <span></span> Cruise Blast
                   </button>

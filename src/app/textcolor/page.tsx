@@ -117,7 +117,7 @@ export default function TextColorTestPage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border border-white/15 bg-white/5 px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border border-white/15 bg-[#e1e6ff29]   px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
 

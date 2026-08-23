@@ -218,7 +218,7 @@ export default function StickyNotesOverlay() {
         <button
           type="button"
           onClick={handleAddInstantNote}
-          className="px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black border border-amber-400/50 shadow-amber-500/20 active:scale-95 cursor-pointer"
+          className="px-3.5 py-2  rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black border border-amber-400/50 shadow-amber-500/20 active:scale-95 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Add Sticky Note</span>
@@ -228,9 +228,8 @@ export default function StickyNotesOverlay() {
           type="button"
           onClick={handleToggleGlobalVisibility}
           title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
-          className={`p-2 rounded-xl border text-xs font-bold transition cursor-pointer ${
-            visible ? "bg-white/10 border-white/20 text-white hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"
-          }`}
+          className={`p-2  rounded-lg border text-xs font-bold transition cursor-pointer ${visible ? "bg-white/10 border-white/20 text-white hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"
+            }`}
         >
           {visible ? <Eye className="w-4 h-4 text-emerald-400" /> : <EyeOff className="w-4 h-4 text-red-400" />}
         </button>
@@ -238,7 +237,7 @@ export default function StickyNotesOverlay() {
         <button
           type="button"
           onClick={() => setIsDrawerOpen(true)}
-          className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
+          className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
         >
           <List className="w-4 h-4 text-amber-400" />
           <span className="hidden sm:inline">Notes</span>
@@ -267,15 +266,14 @@ export default function StickyNotesOverlay() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-1.5 p-1 bg-white/5 rounded-xl border border-white/10 text-xs font-bold">
+            <div className="flex gap-1.5 p-1 bg-[#e1e6ff29]    rounded-lg border border-white/10 text-xs font-bold">
               {(["open", "resolved", "all"] as const).map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setActiveFilter(f)}
-                  className={`flex-1 py-1.5 rounded-lg uppercase tracking-wider text-[11px] transition cursor-pointer ${
-                    activeFilter === f ? "bg-amber-400 text-black font-black" : "text-white/60 hover:text-white"
-                  }`}
+                  className={`flex-1 py-1.5 rounded-lg uppercase tracking-wider text-[11px] transition cursor-pointer ${activeFilter === f ? "bg-amber-400 text-black font-black" : "text-white/60 hover:text-white"
+                    }`}
                 >
                   {f}
                 </button>
@@ -293,7 +291,7 @@ export default function StickyNotesOverlay() {
                 acc.push(
                   <div
                     key={n.id}
-                    className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-400/40 transition"
+                    className="p-4  rounded-lg bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-400/40 transition"
                   >
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
@@ -500,13 +498,12 @@ function SingleStickyCard({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${
-        isHighlighted
-          ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105"
-          : note.status === "submitted"
+      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95 backdrop-blur-2xl border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${isHighlighted
+        ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105"
+        : note.status === "submitted"
           ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
           : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"
-      }`}
+        }`}
       style={{
         left: `${pos.left}px`,
         top: `${pos.top}px`,
@@ -523,11 +520,10 @@ function SingleStickyCard({
 
         <div className="flex items-center gap-1.5 shrink-0">
           <span
-            className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${
-              note.status === "submitted"
-                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                : "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-            }`}
+            className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${note.status === "submitted"
+              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+              : "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+              }`}
           >
             {note.status === "submitted" ? "✓ Submitted" : "Draft"}
           </span>
@@ -559,7 +555,7 @@ function SingleStickyCard({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type your sticky note message or feedback here..."
-          className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
+          className="w-full bg-[#e1e6ff29]   border border-white/10  rounded-lg p-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
         />
 
         <div className="flex items-center justify-between pt-1">

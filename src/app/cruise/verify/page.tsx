@@ -128,7 +128,7 @@ function CruiseVerifyContent() {
             </p>
             <Link
               href="/cruise/dashboard"
-              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-extrabold text-sm sm:text-base uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-extrabold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             >
               Access My Dashboard →
             </Link>
@@ -164,7 +164,7 @@ function CruiseVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-black text-white bg-black/60 border rounded-xl outline-none transition-all ${d
+                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-black text-white bg-black/60 border  rounded-lg outline-none transition-all ${d
                       ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
                       : "border-white/15 focus:border-purple-400 focus:bg-purple-950/20"
                       } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
@@ -173,7 +173,7 @@ function CruiseVerifyContent() {
               </div>
 
               {errorMsg && (
-                <div className="p-2.5 bg-rose-500/15 border border-rose-500/30 rounded-xl text-xs font-bold text-rose-300">
+                <div className="p-2.5 bg-rose-500/15 border border-rose-500/30  rounded-lg text-xs font-bold text-rose-300">
                   {errorMsg}
                 </div>
               )}
@@ -181,7 +181,7 @@ function CruiseVerifyContent() {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>

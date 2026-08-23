@@ -170,14 +170,14 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-xl cursor-pointer"
+                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]  rounded-lg cursor-pointer"
                 >
                   Sign In to Planner Portal
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors rounded-xl cursor-pointer"
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors  rounded-lg cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -311,7 +311,7 @@ export default function PlannerClient() {
                 </div>
                 <div className="input-glow-border rounded-xl">
                   <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                    className="w-full bg-white/5 border border-white/15 px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                    className="w-full bg-[#e1e6ff29]   border border-white/15 px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
                 </div>
                 <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
@@ -325,7 +325,7 @@ export default function PlannerClient() {
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold text-white">Readiness</h3></div>
                   <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
-                <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
+                <div className="w-full h-2 bg-[#e1e6ff29]   rounded-full overflow-hidden mb-4">
                   <div className={`h-full rounded-full transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -338,7 +338,7 @@ export default function PlannerClient() {
                     const fieldKey = fieldMap[item.label] || '';
                     const isEditing = editField === i;
                     return (
-                      <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/5 border-white/10'}`}>
+                      <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-[#e1e6ff29]   border-white/10'}`}>
                         <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
                           <span className={`text-xs font-semibold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</span>
@@ -386,11 +386,11 @@ export default function PlannerClient() {
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-[#e1e6ff29]   border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-[#e1e6ff29]   border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}
@@ -407,7 +407,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-base">📜</span>
                   <h3 className="text-sm font-bold text-white">Past Events</h3>
-                  <span className="text-xs font-bold text-white/50 bg-white/5 px-2 py-0.5 rounded">{pastBookings.length} events</span>
+                  <span className="text-xs font-bold text-white/50 bg-[#e1e6ff29]   px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
                   {pastBookings.map((pb, i) => {

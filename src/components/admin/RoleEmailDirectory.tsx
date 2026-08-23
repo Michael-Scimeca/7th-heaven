@@ -153,7 +153,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-2 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg ${activeTab === tab
                 ? "bg-[var(--color-accent)] text-white shadow-md"
-                : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                : "bg-[#e1e6ff29]   text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>
@@ -180,7 +180,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
+            className="px-3.5 py-2 bg-[#e1e6ff29]   hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
           >
             <span></span> Export CSV
           </button>
@@ -218,7 +218,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </tr>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-white/10">
+                  <tr key={user.id} className="hover:bg-[#e1e6ff29]   transition-colors border-b border-white/10">
                     <td className="py-3 pr-4 pl-0 font-bold text-white">
                       <span>{user.name}</span>
                     </td>
@@ -236,7 +236,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <td className="py-3 pl-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

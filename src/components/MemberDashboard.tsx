@@ -312,7 +312,7 @@ export default function MemberDashboard() {
             {(() => {
               if (localInbox.length === 0) {
                 return (
-                  <div className="py-6 flex flex-col items-center border border-white/5 bg-white/5 border-dashed">
+                  <div className="py-6 flex flex-col items-center border border-white/5 bg-[#e1e6ff29]   border-dashed">
                     <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
                     <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
                   </div>
@@ -328,7 +328,7 @@ export default function MemberDashboard() {
                     return (
                       <div key={msg.id} className={`p-4  border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
                         <div className="flex items-center gap-4 w-full">
-                          <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-white/5 border border-white/10'}`}>{msg.icon}</div>
+                          <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : 'bg-[#e1e6ff29]   border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
@@ -342,7 +342,7 @@ export default function MemberDashboard() {
                         {pin && (
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
-                              <div className="px-5 py-2 border border-white/20 bg-white/5 opacity-50 grayscale">
+                              <div className="px-5 py-2 border border-white/20 bg-[#e1e6ff29]   opacity-50 grayscale">
                                 <span className="text-[var(--font-size-2xs)] uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
                                 <span className="font-mono text-xl font-black tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
@@ -385,7 +385,7 @@ export default function MemberDashboard() {
           </div>
 
           {myPhotos.length === 0 ? (
-            <div className="py-8 flex flex-col items-center border border-white/5 bg-white/5 border-dashed">
+            <div className="py-8 flex flex-col items-center border border-white/5 bg-[#e1e6ff29]   border-dashed">
               <p className="text-sm text-white/50 font-bold">No photo submissions found.</p>
               <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
             </div>
@@ -401,7 +401,7 @@ export default function MemberDashboard() {
                       : "border-white/10"
                     }`}
                 >
-                  <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                  <div className="aspect-[4/3] bg-[#e1e6ff29]   relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
                       src={photo.src}
                       alt={photo.caption || "Upload"}

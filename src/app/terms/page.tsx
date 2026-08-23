@@ -58,7 +58,7 @@ export default function TermsPage() {
                 {/* 4 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. Proximity Alerts & Web Push Notifications</h2>
-                    <div className="py-5 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl   px-5">
+                    <div className="py-5 border border-[var(--border-color)] bg-[var(--card-bg)]  rounded-lg   px-5">
                         <p className="mb-4 text-[var(--text-color)]">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
 
                         <div className="space-y-4">
@@ -132,7 +132,7 @@ export default function TermsPage() {
                 {/* 9 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">9. Disclaimers</h2>
-                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-xs text-base">
+                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)]  rounded-lg shadow-xs text-base">
                         <p className="text-[var(--muted-text)]">The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
                     </div>
                 </div>
@@ -159,7 +159,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">13. Contact</h2>
                     <p className="mb-2 text-[var(--muted-text)]">For questions about these Terms of Service:</p>
-                    <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl  ">
+                    <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)]  rounded-lg  ">
                         <p className="text-[var(--text-color)] font-bold text-sm">7th Heaven</p>
                         <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
                         <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>

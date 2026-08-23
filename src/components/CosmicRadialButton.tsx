@@ -271,7 +271,7 @@ export const CosmicRadialButton = React.forwardRef<
           ref={ref}
           type="button"
           onMouseEnter={handleMouseEnter}
-          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer flex items-center gap-2.5 ${className}`}
+          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5  rounded-lg text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer flex items-center gap-2.5 ${className}`}
           style={style}
           {...restProps}
         >

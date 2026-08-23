@@ -7331,7 +7331,7 @@
                 "width": 364,
                 "height": 49
               },
-              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full bg-transparent border-0 rounded-xl pl-11 pr-7 py-2 text-[clamp(16px…\" id=\"tour-search\" type=\"text\" value=\"\">",
+              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full bg-transparent border-0  rounded-lg pl-11 pr-7 py-2 text-[clamp(16px…\" id=\"tour-search\" type=\"text\" value=\"\">",
               "nodeLabel": "Search"
             },
             "subItems": {

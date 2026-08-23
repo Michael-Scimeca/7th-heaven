@@ -152,7 +152,7 @@ export default function GooeyMessagesDropdown({
         type="button"
         disabled={disabled}
         className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 min-h-[46px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
-          } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"} rounded-xl ${open
+          } ${noPadding ? "p-0" : fullWidth ? "px-4 py-2.5" : "px-4 py-2"}  rounded-lg ${open
             ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
             : "bg-[#a855f71f] border-white/15 text-white/90 hover:bg-[#221547]"
           } ${noBorder ? "!border-none" : ""
@@ -189,7 +189,7 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40 rounded-xl p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-2xl z-[99999] overflow-hidden transition-all duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40  rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-2xl z-[99999] overflow-hidden transition-all duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           role="listbox"
         >
           {(title || badge) && (

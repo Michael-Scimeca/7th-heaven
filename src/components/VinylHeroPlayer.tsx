@@ -806,7 +806,7 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-1.5 px-1 py-0.5 rounded cursor-pointer transition-colors duration-200 ${isSelected ? " text-[var(--color-accent)] font-black bg-[var(--color-accent)]/15" : "hover:text-white hover:bg-white/5"
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-1.5 px-1 py-0.5 rounded cursor-pointer transition-colors duration-200 ${isSelected ? " text-[var(--color-accent)] font-black bg-[var(--color-accent)]/15" : "hover:text-white hover:bg-[#e1e6ff29]  "
                             }`}
                         >
                           <span className="text-[8px] font-mono opacity-50 w-3.5 text-right">{track.number}.</span>

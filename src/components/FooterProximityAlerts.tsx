@@ -219,13 +219,13 @@ export default function FooterProximityAlerts() {
       </div>
 
       {status === "error" && errorMsg && (
-        <div className="mb-4 px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
+        <div className="mb-4 px-4 py-2.5  rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
           ⚠️ {errorMsg}
         </div>
       )}
 
       {permission === "denied" && (
-        <div className="mb-4 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold">
+        <div className="mb-4 px-4 py-2.5  rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold">
           🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
         </div>
       )}
@@ -264,9 +264,9 @@ export default function FooterProximityAlerts() {
                   key={opt.value}
                   type="button"
                   onClick={() => setRadius(opt.value)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${isSelected
+                  className={`px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer ${isSelected
                     ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    : "text-white/60 hover:text-white hover:bg-[#e1e6ff29]  "
                     }`}
                 >
                   {opt.label}
@@ -289,9 +289,9 @@ export default function FooterProximityAlerts() {
                 key={type.id}
                 type="button"
                 onClick={() => toggleType(type.id)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${isSelected
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer ${isSelected
                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
+                  : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10 hover:text-white"
                   }`}
               >
                 <span>{type.icon}</span>
@@ -313,14 +313,14 @@ export default function FooterProximityAlerts() {
       <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
           <div className="flex items-center gap-3 shrink-0 flex-nowrap">
-            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider whitespace-nowrap shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5  rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider whitespace-nowrap shrink-0">
               <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
             </span>
             <CosmicRadialButton
               icon={false}
               onClick={handleSavePrefs}
               disabled={isBusy}
-              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+              className="!px-6 !py-3 !text-xs !font-black uppercase tracking-wider  rounded-lg shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
             >
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
@@ -338,7 +338,7 @@ export default function FooterProximityAlerts() {
             icon={false}
             onClick={handleEnableAlerts}
             disabled={isBusy || permission === "denied"}
-            className="!px-6 !py-3.5 !text-xs !font-black uppercase tracking-wider rounded-xl shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+            className="!px-6 !py-3.5 !text-xs !font-black uppercase tracking-wider  rounded-lg shrink-0 cursor-pointer   hover:scale-105 transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
           >
             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
               {status === "saving" ? (

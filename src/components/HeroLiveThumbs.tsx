@@ -153,7 +153,7 @@ export default function HeroLiveThumbs() {
           }}
         >
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="w-[220px] h-[250px] bg-white/5 shrink-0" />
+            <div key={i} className="w-[220px] h-[250px] bg-[#e1e6ff29]   shrink-0" />
           ))}
         </div>
       </div>
@@ -218,7 +218,7 @@ export default function HeroLiveThumbs() {
 
             const crewName = idx === 0 ? "CREW RYAN" : "CREW ADAM";
             const timeText = idx === 0 ? "24:32" : "18:15";
-            const viewers  = idx === 0 ? "1.2K" : "847";
+            const viewers = idx === 0 ? "1.2K" : "847";
 
             return (
               <Link
@@ -248,7 +248,7 @@ export default function HeroLiveThumbs() {
 
                   {/* Viewer count — top right */}
                   <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white text-[var(--font-size-4xs)] font-bold px-2 py-0.5 rounded-full">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
                     {viewers}
                   </div>
 

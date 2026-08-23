@@ -23,12 +23,12 @@ const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
 
 const GooeyDropdown = dynamic(() => import("@/components/GooeyDropdown"), {
   ssr: false,
-  loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-white/5 rounded-xl border border-white/10">Loading Dropdown...</div>
+  loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-[#e1e6ff29]    rounded-lg border border-white/10">Loading Dropdown...</div>
 });
 
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), {
   ssr: false,
-  loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-white/5 rounded-xl border border-white/10">Loading Pill Dropdown...</div>
+  loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-[#e1e6ff29]    rounded-lg border border-white/10">Loading Pill Dropdown...</div>
 });
 
 import RoleBadge from "@/components/RoleBadge";
@@ -206,7 +206,7 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative overflow-hidden px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${activated
+          className={`relative overflow-hidden px-8 py-3.5  rounded-lg font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${activated
             ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
             : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
             }`}
@@ -364,7 +364,7 @@ function CosmicRadialButtonDemo() {
   return (
     <div className="space-y-4">
       {/* Interactive Controls & Tuning Panel */}
-      <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-4">
+      <div className="p-4  rounded-lg bg-[#e1e6ff29]   border border-white/10 space-y-4">
         {/* Render Engine Selector */}
         <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border border-white/10 flex-wrap">
           <div className="flex items-center gap-2">
@@ -376,7 +376,7 @@ function CosmicRadialButtonDemo() {
               onClick={() => setRenderEngine("property")}
               className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "property"
                 ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
-                : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10"
                 }`}
             >
               ⚡ CSS @property Engine (Smooth CSS Transition)
@@ -386,7 +386,7 @@ function CosmicRadialButtonDemo() {
               onClick={() => setRenderEngine("raf")}
               className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "raf"
                 ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
-                : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                : "bg-[#e1e6ff29]   text-white/60 border-white/10 hover:bg-white/10"
                 }`}
             >
               🌊 60fps RAF Lerp Loop (Fluid Physics)
@@ -521,10 +521,10 @@ function CosmicRadialButtonDemo() {
       </div>
 
       {/* Real-time Radial Center Points Readout Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-xl border border-white/10 font-mono text-[11px]">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50  rounded-lg border border-white/10 font-mono text-[11px]">
         {activeCenters.map((c, i) => (
           // eslint-disable-next-line react-doctor/no-array-index-as-key
-          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-white/5 border border-white/5 text-center">
+          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-[#e1e6ff29]   border border-white/5 text-center">
             <span className="text-purple-400 font-bold block text-[10px]">Radial {i + 1}</span>
             <span className="text-white/90 font-semibold">{c.x}% {c.y}%</span>
           </div>
@@ -842,14 +842,14 @@ export default function StyleGuidePage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => resetToDefaults()}
-              className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 font-bold text-xs transition flex items-center gap-2"
+              className="px-4 py-2.5  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/80 font-bold text-xs transition flex items-center gap-2"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Reset Tokens
             </button>
             <button
               onClick={() => saveTheme()}
               disabled={isSaving}
-              className={`px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 ${hasUnsavedChanges
+              className={`px-5 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 ${hasUnsavedChanges
                 ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
                 : "bg-white/10 text-white/50 cursor-default"
                 }`}
@@ -869,7 +869,7 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`px-4 py-2.5 rounded-xl font-extrabold text-xs whitespace-nowrap transition flex items-center gap-2 border ${isActive
+                className={`px-4 py-2.5  rounded-lg font-extrabold text-xs whitespace-nowrap transition flex items-center gap-2 border ${isActive
                   ? "bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-md"
                   : "bg-transparent text-white/60 hover:text-white border-transparent hover:border-white/10"
                   }`}
@@ -939,7 +939,7 @@ export default function StyleGuidePage() {
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula
+                    className={`px-4 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula
                       ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
                       : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                       }`}
@@ -959,7 +959,7 @@ export default function StyleGuidePage() {
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-mono font-black transition-all ${studioSelectedTier === t
+                        className={`px-3 py-1.5  rounded-lg text-xs font-mono font-black transition-all ${studioSelectedTier === t
                           ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
                           : "bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
                           }`}
@@ -1101,7 +1101,7 @@ export default function StyleGuidePage() {
                       Choose whether font stays locked at {studioMinFs}px below {studioMinVw}px or chains into Tablet/Mobile ranges.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/10 self-start sm:self-auto">
+                  <div className="flex items-center gap-2 bg-black/40 p-1  rounded-lg border border-white/10 self-start sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${studioMode === "locked"
@@ -1145,7 +1145,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* Code snippet */}
-                  <div className="overflow-x-auto rounded-xl bg-black/80 pt-3 pb-3 font-mono text-xs text-purple-200 border border-purple-500/20">
+                  <div className="overflow-x-auto  rounded-lg bg-black/80 pt-3 pb-3 font-mono text-xs text-purple-200 border border-purple-500/20">
                     <code className="text-purple-400">font-size</code>:{" "}
                     <span className="text-white font-bold">{studioClamp.clampStr}</span> !important;
                   </div>
@@ -1175,7 +1175,7 @@ export default function StyleGuidePage() {
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/40 block mb-2">
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
-                    <div className="rounded-xl bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
+                    <div className=" rounded-lg bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
                       <div className={`text-${studioSelectedTier} font-black text-white uppercase tracking-tight text-center leading-none`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
@@ -1540,7 +1540,7 @@ ${deskRules.join("\n")}
                         setShowCssModal(true);
                         setTimeout(() => setCssCopied(false), 3000);
                       }}
-                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2"
+                      className="px-6 py-2.5  rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2"
                     >
                       <span>💾 Save & Copy Global CSS</span>
                       {cssCopied && <span className="text-emerald-300 animate-pulse">✓ Copied!</span>}
@@ -1574,7 +1574,7 @@ ${deskRules.join("\n")}
                           });
                         }
                       }}
-                      className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2"
+                      className="px-4 py-2.5  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/60 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2"
                     >
                       ↺ Reset All to Defaults
                     </button>
@@ -1604,7 +1604,7 @@ ${deskRules.join("\n")}
                         The CSS below has been copied to your clipboard. Paste this block directly into <code className="text-purple-400 font-mono">src/app/globals.css</code> to make your fluid typography settings permanent globally across the entire site.
                       </p>
 
-                      <pre className="p-4 rounded-xl bg-black/60 border border-white/10 text-emerald-400 font-mono text-[11px] max-h-80 overflow-y-auto leading-relaxed select-all">
+                      <pre className="p-4  rounded-lg bg-black/60 border border-white/10 text-emerald-400 font-mono text-[11px] max-h-80 overflow-y-auto leading-relaxed select-all">
                         {generatedCssExport}
                       </pre>
 
@@ -1659,10 +1659,10 @@ ${deskRules.join("\n")}
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2 rounded-xl bg-white text-black font-black text-xs shadow-lg">
+              <div className="px-4 py-2  rounded-lg bg-white text-black font-black text-xs shadow-lg">
                 Solid White (#ffffff)
               </div>
-              <div className="px-4 py-2 rounded-xl bg-white/50 text-black font-black text-xs shadow-lg border border-white/20">
+              <div className="px-4 py-2  rounded-lg bg-[#e1e6ff29]  0 text-black font-black text-xs shadow-lg border border-white/20">
                 0.5 White (50%)
               </div>
             </div>
@@ -1677,7 +1677,7 @@ ${deskRules.join("\n")}
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="w-full h-20 rounded-xl border border-white/15 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  className="w-full h-20  rounded-lg border border-white/15 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -1718,7 +1718,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
                   onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#e1e6ff29]   border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -1727,7 +1727,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
                   onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#e1e6ff29]   border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -1736,7 +1736,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
                   onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#e1e6ff29]   border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
             </div>
@@ -1797,7 +1797,7 @@ ${deskRules.join("\n")}
                 <button className="px-5 py-2.5 rounded-lg bg-white/20 border border-white/30 text-white font-bold text-xs ring-2 ring-white/20">
                   Glass Hover
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-white/5 border border-white/5 text-white/30 font-bold text-xs cursor-not-allowed">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-[#e1e6ff29]   border border-white/5 text-white/30 font-bold text-xs cursor-not-allowed">
                   Glass Disabled
                 </button>
               </div>
@@ -1863,7 +1863,7 @@ ${deskRules.join("\n")}
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#e1e6ff29]   border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
                   />
                 </div>
               </div>
@@ -1900,7 +1900,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value="Read-only System ID: 7H-ADMIN-99"
                   disabled
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/5 text-white/30 text-xs cursor-not-allowed"
+                  className="w-full px-4 py-2.5 rounded-lg bg-[#e1e6ff29]   border border-white/5 text-white/30 text-xs cursor-not-allowed"
                 />
               </div>
             </div>
@@ -1928,7 +1928,7 @@ ${deskRules.join("\n")}
                     rows={4}
                     value={textareaInput}
                     onChange={(e) => setTextareaInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-0 transition resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#e1e6ff29]   border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-0 transition resize-none"
                   />
                 </div>
               </div>
@@ -1952,7 +1952,7 @@ ${deskRules.join("\n")}
                   ].map(({ id, slotIndex: i }) => {
                     const digit = pinDefaultDigits[i];
                     return (
-                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                      <div key={id} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0 transition-all duration-200">
                         <input
                           aria-label={`Default PIN digit ${i + 1}`}
                           ref={el => { pinDefaultRefs.current[i] = el; }}
@@ -1966,7 +1966,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinDefaultFocusedIndex(null)}
                           onChange={e => handlePinDefaultDigit(i, e.target.value)}
                           onKeyDown={e => handlePinDefaultKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
+                          className={`w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
                             ${pinDefaultFocusedIndex === i
                               ? 'border-white/40 text-white'
                               : digit
@@ -1994,7 +1994,7 @@ ${deskRules.join("\n")}
                   ].map(({ id, slotIndex: i }) => {
                     const digit = pinDigits[i];
                     return (
-                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                      <div key={id} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0 transition-all duration-200">
                         <input
                           aria-label={`PIN digit ${i + 1}`}
                           ref={el => { pinRefs.current[i] = el; }}
@@ -2007,7 +2007,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinFocusedIndex(null)}
                           onChange={e => handlePinDigit(i, e.target.value)}
                           onKeyDown={e => handlePinKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
+                          className={`w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                             ${pinFocusedIndex === i
                               ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                               : digit
@@ -2033,7 +2033,7 @@ ${deskRules.join("\n")}
                     { id: "sg-filled-slot-4", char: "E" },
                     { id: "sg-filled-slot-5", char: "W" },
                   ].map(({ id, char: d }, i) => (
-                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                    <div key={id} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0">
                       <input
                         aria-label={`Filled PIN digit ${i + 1}`}
                         type="text"
@@ -2042,7 +2042,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
+                        className="w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
                       />
                     </div>
                   ))}
@@ -2061,7 +2061,7 @@ ${deskRules.join("\n")}
                     { id: "sg-err-slot-4", char: "X" },
                     { id: "sg-err-slot-5", char: "X" },
                   ].map(({ id, char: d }, i) => (
-                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                    <div key={id} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0">
                       <input
                         aria-label={`Error PIN digit ${i + 1}`}
                         type="text"
@@ -2070,7 +2070,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
+                        className="w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
                       />
                     </div>
                   ))}
@@ -2106,9 +2106,9 @@ ${deskRules.join("\n")}
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                          <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2147,9 +2147,9 @@ ${deskRules.join("\n")}
                     >
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                          <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2200,9 +2200,9 @@ ${deskRules.join("\n")}
                       </div>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                          <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2243,9 +2243,9 @@ ${deskRules.join("\n")}
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                          <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2319,7 +2319,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       </div>
-                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-md border border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
                           <button
                             key={r}
@@ -2340,13 +2340,13 @@ ${deskRules.join("\n")}
                     <div className="space-y-3 mb-4">
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
-                        <div className="input-glow-border rounded-xl w-full">
+                        <div className="input-glow-border  rounded-lg w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
-                        <div className="input-glow-border rounded-xl w-full">
+                        <div className="input-glow-border  rounded-lg w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
@@ -2421,7 +2421,7 @@ ${deskRules.join("\n")}
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-md border border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
                             key={r}
@@ -2444,13 +2444,13 @@ ${deskRules.join("\n")}
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border rounded-xl w-full">
+                            <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
-                            <div className="input-glow-border rounded-xl w-full">
+                            <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
@@ -2459,13 +2459,13 @@ ${deskRules.join("\n")}
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border rounded-xl w-full">
+                            <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
-                            <div className="input-glow-border rounded-xl w-full">
+                            <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
@@ -2475,13 +2475,13 @@ ${deskRules.join("\n")}
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
-                              <div className="input-glow-border rounded-xl w-full">
+                              <div className="input-glow-border  rounded-lg w-full">
                                 <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
-                              <div className="input-glow-border rounded-xl w-full">
+                              <div className="input-glow-border  rounded-lg w-full">
                                 <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
@@ -2502,7 +2502,7 @@ ${deskRules.join("\n")}
                             <div className="pt-1">
                               <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
-                                <div className="input-glow-border rounded-xl flex-1">
+                                <div className="input-glow-border  rounded-lg flex-1">
                                   <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
                                 </div>
                                 <div className="shrink-0 relative z-30">
@@ -2528,13 +2528,13 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
-                          <div className="input-glow-border rounded-xl w-full">
+                          <div className="input-glow-border  rounded-lg w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
-                          <div className="input-glow-border rounded-xl w-full">
+                          <div className="input-glow-border  rounded-lg w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
@@ -2752,7 +2752,7 @@ ${deskRules.join("\n")}
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white text-xs font-bold transition"
+                className="px-3 py-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 text-white/60 hover:text-white text-xs font-bold transition"
               >
                 Reset Controls
               </button>
@@ -2767,7 +2767,7 @@ ${deskRules.join("\n")}
               </h3>
 
               {/* Multi-User Distinct Color Mode Toggle */}
-              <div className="flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-xl">
+              <div className="flex items-center gap-2 bg-[#e1e6ff29]   border border-white/10 p-1.5 rounded-xl">
                 <span className="text-[11px] font-bold text-white/80 pl-1">Multi-User Unique Colors:</span>
                 <button
                   type="button"
@@ -2806,7 +2806,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubbleRadius(r)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleRadius === r
                         ? "bg-purple-600 border-purple-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {r === 0 ? "0px" : `${r}px`}
@@ -2837,7 +2837,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubbleBorderWidth(w)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleBorderWidth === w
                         ? "bg-cyan-600 border-cyan-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {w === 0 ? "0px" : `${w}px`}
@@ -2868,7 +2868,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s
                         ? "bg-emerald-600 border-emerald-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {s}px
@@ -2899,7 +2899,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubblePaddingY(py)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingY === py
                         ? "bg-cyan-600 border-cyan-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {py}px
@@ -2930,7 +2930,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubblePaddingX(px)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingX === px
                         ? "bg-purple-600 border-purple-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {px}px
@@ -2961,7 +2961,7 @@ ${deskRules.join("\n")}
                       onClick={() => setMessageSpacing(sp)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${messageSpacing === sp
                         ? "bg-amber-600 border-amber-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {sp}px
@@ -2992,7 +2992,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubbleOpacity(o)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleOpacity === o
                         ? "bg-pink-600 border-pink-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {o}%
@@ -3063,7 +3063,7 @@ ${deskRules.join("\n")}
                       onClick={() => setBubbleBgStyle(bg.val)}
                       className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${bubbleBgStyle === bg.val
                         ? "bg-purple-600/40 border-purple-400 text-purple-200"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {bg.label}
@@ -3263,7 +3263,7 @@ ${deskRules.join("\n")}
             <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Success */}
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+              <div className="flex items-start gap-3 p-4  rounded-lg bg-emerald-500/10 border border-emerald-500/30">
                 <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-xs font-bold text-emerald-300">Success</p>
@@ -3271,7 +3271,7 @@ ${deskRules.join("\n")}
                 </div>
               </div>
               {/* Warning */}
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+              <div className="flex items-start gap-3 p-4  rounded-lg bg-amber-500/10 border border-amber-500/30">
                 <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-xs font-bold text-amber-300">Warning</p>
@@ -3279,7 +3279,7 @@ ${deskRules.join("\n")}
                 </div>
               </div>
               {/* Error */}
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+              <div className="flex items-start gap-3 p-4  rounded-lg bg-red-500/10 border border-red-500/30">
                 <X className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-xs font-bold text-red-300">Error</p>
@@ -3328,7 +3328,7 @@ ${deskRules.join("\n")}
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#e1e6ff29]   border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
                     />
                   </div>
                   <button
@@ -3406,13 +3406,13 @@ ${deskRules.join("\n")}
             <div className="h-px bg-white/10 w-full" />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-bold text-center">
-              <div className="p-4 rounded-xl border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4  rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
                 Card Border: border-white/10
               </div>
-              <div className="p-4 rounded-xl border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4  rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
                 Divider: border-b border-white/10
               </div>
-              <div className="p-4 rounded-xl border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4  rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
                 Input Border: border-white/10
               </div>
             </div>
@@ -3439,7 +3439,7 @@ ${deskRules.join("\n")}
               <div className="bg-white/[0.02] border border-white/10 rounded-lg  overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                    <div key={i} className="flex items-center gap-3 p-3  rounded-lg bg-white/[0.03] border border-white/[0.06]">
                       <div className="w-7 h-7 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300 shrink-0">{i + 1}</div>
                       <div>
                         <p className="text-xs font-bold text-white">List item {i + 1}</p>
@@ -3459,7 +3459,7 @@ ${deskRules.join("\n")}
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
-                      <div key={i} className="shrink-0 w-28 h-24 rounded-xl bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
+                      <div key={i} className="shrink-0 w-28 h-24  rounded-lg bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
                         <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300">{i + 1}</div>
                         <span className="text-[10px] text-white/40">Card {i + 1}</span>
                       </div>
@@ -3556,7 +3556,7 @@ ${deskRules.join("\n")}
                 The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="text-cyan-300">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
-            <div className="shrink-0 p-4 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-purple-300 space-y-1">
+            <div className="shrink-0 p-4  rounded-lg bg-black/60 border border-white/10 font-mono text-xs text-purple-300 space-y-1">
               <div><span className="text-white/40">width:</span> 100%;</div>
               <div><span className="text-white/40">max-width:</span> 100% !important;</div>
               <div><span className="text-white/40">padding:</span> 0 var(--page-padding-x);</div>
@@ -3577,7 +3577,7 @@ ${deskRules.join("\n")}
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
+              className={`px-4 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
                 ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                 : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
                 }`}
@@ -3619,7 +3619,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op
                         ? "bg-emerald-600 border-emerald-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {op}%
@@ -3651,7 +3651,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz
                         ? "bg-emerald-600 border-emerald-400 text-white"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {sz}
@@ -3677,7 +3677,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val
                         ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
-                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        : "bg-[#e1e6ff29]   border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {mode.label}
@@ -3788,7 +3788,7 @@ ${deskRules.join("\n")}
             ]).map((item) => {
               const currentValue = tokens[item.category]?.[item.token] || "";
               return (
-                <div key={item.token} className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
+                <div key={item.token} className="p-4  rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-xs font-black uppercase tracking-wider text-pink-400">{item.label}</span>
@@ -3805,13 +3805,13 @@ ${deskRules.join("\n")}
                       type="text"
                       value={currentValue}
                       onChange={(e) => updateToken(item.category, item.token, e.target.value)}
-                      className="flex-1 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs font-mono text-white focus:border-pink-500 focus:outline-none transition"
+                      className="flex-1 px-3 py-1.5 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-xs font-mono text-white focus:border-pink-500 focus:outline-none transition"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
                       type="button"
                       onClick={() => updateToken(item.category, item.token, "transparent")}
-                      className="px-2 py-1.5 text-[10px] font-bold uppercase text-white/60 bg-white/5 border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition"
+                      className="px-2 py-1.5 text-[10px] font-bold uppercase text-white/60 bg-[#e1e6ff29]   border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition"
                     >
                       Clear
                     </button>
@@ -3828,7 +3828,7 @@ ${deskRules.join("\n")}
                         onClick={() => updateToken(item.category, item.token, preset)}
                         className={`px-2 py-1 rounded text-[9px] font-bold border transition ${currentValue === preset
                           ? "bg-pink-600/40 border-pink-400 text-pink-200"
-                          : "bg-white/5 border-white/10 text-white/50 hover:text-white"
+                          : "bg-[#e1e6ff29]   border-white/10 text-white/50 hover:text-white"
                           }`}
                       >
                         {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
@@ -3889,7 +3889,7 @@ ${deskRules.join("\n")}
                       onClick={() => setStateroomTab(tab.id as any)}
                       className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id
                         ? "bg-purple-600/30 text-white"
-                        : "bg-white/5 hover:bg-white/10 text-white/80"
+                        : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/80"
                         }`}
                     >
                       <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
@@ -3945,7 +3945,7 @@ ${deskRules.join("\n")}
                     <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
                     <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
                   </div>
-                  <div className="flex gap-1.5 bg-white/5 p-1.5 border border-white/10 rounded-xl">
+                  <div className="flex gap-1.5 bg-[#e1e6ff29]   p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
                       <button aria-label="Action button"
                         key={perk}
@@ -4184,7 +4184,7 @@ ${deskRules.join("\n")}
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
@@ -4196,7 +4196,7 @@ ${deskRules.join("\n")}
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}
@@ -4344,7 +4344,7 @@ ${deskRules.join("\n")}
                 {/* OpenShifts Cell Controls Mockup */}
                 <div className="space-y-3">
                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">1. OpenShifts Grid Cell Buttons</span>
-                  <div className="p-3 bg-[#0d0d14] border border-white/10 rounded-xl space-y-2 max-w-sm">
+                  <div className="p-3 bg-[#0d0d14] border border-white/10  rounded-lg space-y-2 max-w-sm">
                     <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                       <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
                       <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
@@ -4372,7 +4372,7 @@ ${deskRules.join("\n")}
                   >
                     <div className="text-sm text-white/90 font-black uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
-                      <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-white/5 rounded-full border border-white/10">3 saved</span>
+                      <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-[#e1e6ff29]   rounded-full border border-white/10">3 saved</span>
                     </div>
 
                     <div className="space-y-1.5">
@@ -4384,9 +4384,9 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3  rounded-lg hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
                         >
-                          <span className="w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
+                          <span className="w-7 h-7  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
                             <span className="truncate text-sm tracking-wide font-extrabold">{grp.name}</span>
                             <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
@@ -4429,14 +4429,14 @@ ${deskRules.join("\n")}
                       type="text"
                       readOnly
                       value="Weekend Tech Crew"
-                      className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 rounded-xl text-xs text-white font-bold"
+                      className="w-full px-3.5 py-2.5 bg-transparent border border-white/10  rounded-lg text-xs text-white font-bold"
                     />
                   </div>
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
                     <span className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
-                    <div className="p-3 bg-transparent border border-white/10 rounded-xl space-y-3">
+                    <div className="p-3 bg-transparent border border-white/10  rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-4 bg-purple-600 rounded-full relative cursor-pointer">
@@ -4458,8 +4458,8 @@ ${deskRules.join("\n")}
                           <span className="uppercase tracking-wider text-purple-300 font-extrabold text-[9.5px]">Time Frame 1</span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[10px] text-white font-bold">5:00 PM</div>
-                          <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[10px] text-white font-bold">10:00 PM</div>
+                          <div className="p-1.5 bg-[#e1e6ff29]   border border-white/10 rounded text-[10px] text-white font-bold">5:00 PM</div>
+                          <div className="p-1.5 bg-[#e1e6ff29]   border border-white/10 rounded text-[10px] text-white font-bold">10:00 PM</div>
                         </div>
 
                         {/* Role Pills Showcase */}
@@ -4473,7 +4473,7 @@ ${deskRules.join("\n")}
                                   key={preset}
                                   className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border font-sans ${isSelected
                                     ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
-                                    : 'bg-white/5 border-white/10 text-white/70'
+                                    : 'bg-[#e1e6ff29]   border-white/10 text-white/70'
                                     }`}
                                 >
                                   {isSelected ? `✓ ${preset}` : preset}
@@ -4489,7 +4489,7 @@ ${deskRules.join("\n")}
 
                 {/* Footer */}
                 <div className="p-4 border-t border-white/10 bg-transparent flex items-center justify-between gap-3 shrink-0">
-                  <button type="button" className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer">
+                  <button type="button" className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30">

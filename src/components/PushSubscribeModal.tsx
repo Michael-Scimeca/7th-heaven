@@ -90,7 +90,7 @@ export default function PushSubscribeModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-white/5 hover:bg-white/10"
+          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -98,7 +98,7 @@ export default function PushSubscribeModal({
         {!subscribed ? (
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
+              <div className="flex h-12 w-12 items-center justify-center  rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
                 <Bell className="w-6 h-6 text-yellow-300 animate-bounce" />
               </div>
               <div>
@@ -116,7 +116,7 @@ export default function PushSubscribeModal({
             </p>
 
             {error && (
-              <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs font-semibold">
+              <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30  rounded-lg text-rose-300 text-xs font-semibold">
                 ⚠️ {error}
               </div>
             )}
@@ -127,14 +127,14 @@ export default function PushSubscribeModal({
                   Your Full Name
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border rounded-xl w-full">
+                  <div className="input-glow-border  rounded-lg w-full">
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -148,14 +148,14 @@ export default function PushSubscribeModal({
                   Your Email Address
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border rounded-xl w-full">
+                  <div className="input-glow-border  rounded-lg w-full">
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-xl text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -215,7 +215,7 @@ export default function PushSubscribeModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition-colors"
+              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-widest  rounded-lg transition-colors"
             >
               DONE
             </button>
