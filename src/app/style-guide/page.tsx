@@ -206,11 +206,10 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative overflow-hidden px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${
-            activated
-              ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
-              : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
-          }`}
+          className={`relative overflow-hidden px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${activated
+            ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
+            : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
+            }`}
         >
           {holding && !activated && (
             <div
@@ -225,7 +224,7 @@ function HoldToActivateButtonDemo() {
               </>
             ) : holding ? (
               <>
-                <Sparkles className="w-4 h-4 text-amber-300 animate-spin" /> Holding... {Math.round(progress)}%
+                Holding... {Math.round(progress)}%
               </>
             ) : (
               <>
@@ -369,29 +368,26 @@ function CosmicRadialButtonDemo() {
         {/* Render Engine Selector */}
         <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border border-white/10 flex-wrap">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-400" />
             <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Smooth Motion Engine</span>
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setRenderEngine("property")}
-              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${
-                renderEngine === "property"
-                  ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
-                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
-              }`}
+              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "property"
+                ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
+                : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                }`}
             >
               ⚡ CSS @property Engine (Smooth CSS Transition)
             </button>
             <button
               type="button"
               onClick={() => setRenderEngine("raf")}
-              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${
-                renderEngine === "raf"
-                  ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
-                  : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
-              }`}
+              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "raf"
+                ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
+                : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                }`}
             >
               🌊 60fps RAF Lerp Loop (Fluid Physics)
             </button>
@@ -467,11 +463,10 @@ function CosmicRadialButtonDemo() {
             <button
               type="button"
               onClick={() => setIsAutoDrifting(!isAutoDrifting)}
-              className={`px-3.5 py-1.5 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${
-                isAutoDrifting
-                  ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
-                  : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
-              }`}
+              className={`px-3.5 py-1.5 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${isAutoDrifting
+                ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
+                : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
+                }`}
             >
               {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
             </button>
@@ -669,7 +664,7 @@ export default function StyleGuidePage() {
         if (parsed.vPressure !== undefined) setCanvasVPressure(parsed.vPressure);
         if (parsed.bgColor) setCanvasBgColor(parsed.bgColor);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // Stateroom Catalog & Suite Perks interactive preview states
@@ -790,7 +785,7 @@ export default function StyleGuidePage() {
     try {
       localStorage.setItem("7th_heaven_canvas_settings_v1", JSON.stringify(payload));
       window.dispatchEvent(new CustomEvent("canvas-settings-changed", { detail: payload }));
-    } catch {}
+    } catch { }
   }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize, canvasSpeed, canvasWaveAmp, canvasWaveFreqX, canvasWaveFreqY, canvasColorBlending, canvasColorSaturation, canvasColorBrightness, canvasShadows, canvasHighlights, canvasHPressure, canvasVPressure, canvasBgColor]);
 
   const handleCopyCanvasSpec = () => {
@@ -833,7 +828,7 @@ export default function StyleGuidePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-extrabold text-xs tracking-wider uppercase flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> 7th Heaven Design System
+                7th Heaven Design System
               </span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
@@ -1132,7 +1127,6 @@ export default function StyleGuidePage() {
                 <div className="rounded-lg  bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
                       <span className="text-xs font-mono font-black uppercase tracking-wider text-purple-300">
                         Generated CSS Formula & Live Inspection:
                       </span>
@@ -1829,7 +1823,6 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-indigo-400" />
                   <h3 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
                     Multi-Radial Cosmic Morphing Button (±30% Random Drift)
                   </h3>
@@ -3598,7 +3591,7 @@ ${deskRules.join("\n")}
             {/* Full-Page Film Grain Controls */}
             <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6">
               <h3 className="text-sm font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-                <Sparkles className="w-4 h-4" /> 1. Full-Page Film Grain Overlay System
+                Film Grain Controls
               </h3>
               <p className="text-xs text-white/60">
                 Controls the fixed resolution-independent SVG fractal noise layer covering the entire viewport screen (<code className="text-emerald-300 font-mono">z-[99999]</code>).

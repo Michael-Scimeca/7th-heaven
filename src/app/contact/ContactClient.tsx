@@ -60,10 +60,9 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-[clamp(0.65rem,1vh,0.75rem)] font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-[clamp(0.35rem,1vh,1rem)]">
-          <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
         </h1>
         <p className="text-white/60 text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
@@ -142,6 +141,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           height: "100vh",
           width: "88vw",
           right: -78,
+          marginBottom: "-8%",
           WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
           maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
         }}
@@ -156,6 +156,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   ? "opacity-100 scale-100 filter-none"
                   : "opacity-0 scale-95 filter blur-sm"
                   }`}
+                style={{ marginBottom: "-6%" }}
               >
                 <Image
                   src={photo.id}

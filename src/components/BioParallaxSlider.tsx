@@ -1293,7 +1293,6 @@ lerpSpeed: ${lerpSpeed}`;
               }}
               className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
             >
-              <Sparkles className="w-3.5 h-3.5" />
               <span>Copy Configuration Code</span>
             </button>
 

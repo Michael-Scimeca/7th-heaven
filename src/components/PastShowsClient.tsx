@@ -102,7 +102,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
   };
 
   return (
-    <div className="py-8 font-[family-name:var(--font-barlow)]">
+    <div className="py-8 font-[family-name:'Switzer', var(--font-barlow)]">
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">

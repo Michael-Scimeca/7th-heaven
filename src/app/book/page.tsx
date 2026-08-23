@@ -993,10 +993,9 @@ function BookPageContent() {
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             BOOK <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
           </h1>
           <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
@@ -1522,12 +1521,11 @@ function BookPageContent() {
                 </div>
               </div>
               <p className="text-[11px] text-purple-300/80 font-medium italic flex items-center gap-1 leading-tight mt-1.5 justify-end">
-                <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Band load-in is usually ~2 hours before band start time.
+                Band load-in is usually ~2 hours before band start time.
               </p>
 
               {isLoadInUnsure && (
                 <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-xl text-xs text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
-                  <Sparkles className="w-4.5 h-4.5 text-[#c27aff] shrink-0 mt-0.5" />
                   <div className="space-y-1">
                     <span className="font-extrabold text-white block">Unsure of exact load-in time? No problem!</span>
                     <span className="text-white/80 leading-relaxed block">

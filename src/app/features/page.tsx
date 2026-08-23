@@ -1171,7 +1171,7 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl font-black text-white tabular-nums leading-none" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl font-black text-white tabular-nums leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
       <div className="text-base font-black uppercase tracking-[0.15em] text-white mt-2">{label}</div>
@@ -1249,7 +1249,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             </button>
             {/* Title */}
             <div className="mb-4">
-              <h3 className="text-2xl font-black text-white uppercase tracking-wide" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+              <h3 className="text-2xl font-black text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -1293,7 +1293,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Titles */}
         <div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
+          <h3 className="text-3xl font-black text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
           <p className={`text-lg font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
@@ -1386,7 +1386,7 @@ export default function FeaturesPage() {
             Full Platform Overview · All Features Live & Documented
           </div>
 
-          <h1 className="text-6xl font-black uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h1 className="text-6xl font-black uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 
@@ -1426,7 +1426,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Live Experience — What It Looks Like
             </h2>
           </div>
@@ -1801,7 +1801,7 @@ export default function FeaturesPage() {
                 {/* Top header bar */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.05]">
                   <div className="flex items-center gap-3">
-                    <span className="text-white font-black text-lg uppercase tracking-widest" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
+                    <span className="text-white font-black text-lg uppercase tracking-widest" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
                     <span className="text-white/20 text-sm">Admin Control Center</span>
                   </div>
                   <div className="flex items-center gap-4">
@@ -2051,7 +2051,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🏆</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Fan Dashboard — What It Looks Like
             </h2>
           </div>
@@ -2128,7 +2128,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               All Pages — Site Directory
             </h2>
           </div>
@@ -2273,7 +2273,7 @@ export default function FeaturesPage() {
                         {page.path}
                       </code>
 
-                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
@@ -2302,7 +2302,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="text-white/35 mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2316,7 +2316,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="text-white/35 mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -2344,7 +2344,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2366,7 +2366,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Site Directory
             </h2>
           </div>
@@ -2516,7 +2516,7 @@ export default function FeaturesPage() {
                       </code>
 
                       {/* label */}
-                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
@@ -2551,7 +2551,7 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl font-black uppercase text-white mb-4 leading-none" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl font-black uppercase text-white mb-4 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="text-white/40 text-2xl mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>

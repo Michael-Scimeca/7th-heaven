@@ -245,12 +245,6 @@ export const CosmicRadialButton = React.forwardRef<
     const renderIcon = () => {
       if (icon === false || icon === null) return null;
 
-      if (icon === true) {
-        return (
-          <Sparkles className="w-4 h-4 text-purple-300 group-hover:rotate-12 transition-transform duration-500 animate-pulse shrink-0" />
-        );
-      }
-
       if (React.isValidElement(icon)) {
         const existingClassName = (icon.props as { className?: string })?.className || "";
         const mergedClassName = existingClassName

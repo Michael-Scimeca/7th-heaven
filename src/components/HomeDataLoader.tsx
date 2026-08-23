@@ -60,7 +60,7 @@ export default function HomeDataLoader() {
 
   useEffect(() => {
     // eslint-disable-next-line react-doctor/no-fetch-in-effect
-  // Intentional: page is fully static, this effect hydrates data client-side after first paint
+    // Intentional: page is fully static, this effect hydrates data client-side after first paint
     fetch("/api/tour")
       .then(r => r.ok ? r.json() : null)
       .then(data => {
@@ -94,7 +94,7 @@ export default function HomeDataLoader() {
           setShows(upcoming.length > 0 ? upcoming : mapped);
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoaded(true));
 
     // Fetch announcement from settings API
@@ -108,7 +108,7 @@ export default function HomeDataLoader() {
           }
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const nextShow = shows.find(s => s.city) || shows[0];

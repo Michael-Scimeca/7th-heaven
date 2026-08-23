@@ -851,7 +851,7 @@ export default function CruiseDashboard() {
             <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">

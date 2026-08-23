@@ -466,7 +466,7 @@ export default function CruiseHeroMaskEditor() {
             <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> HERO TOP MASK GRADIENT
+                  HERO TOP MASK GRADIENT
                 </span>
               </div>
 

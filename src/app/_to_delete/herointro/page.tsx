@@ -199,7 +199,7 @@ export default function HeroIntroPage() {
           </span>
           <h1
             className="max-w-2xl text-3xl md:text-6xl font-black uppercase tracking-tight text-white leading-[0.95]"
-            style={{ fontFamily: "var(--font-barlow-condensed)" }}
+            style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
           >
             An experience you just have to see and hear.
           </h1>

@@ -218,7 +218,7 @@ export default function CruisePreviewPage() {
     <div className="min-h-screen pt-28 pb-20">
       <div className="site-container">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-black uppercase italic tracking-tight text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <h1 className="text-4xl font-black uppercase italic tracking-tight text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             Guest Form <span className="accent-gradient-text">Variants</span>
           </h1>
           <p className="text-white/30 text-sm mt-2">6 different UI approaches — pick your favorite</p>

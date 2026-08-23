@@ -558,8 +558,8 @@ export default function HomeVideoShowcase() {
                           <span
                             key={badge + bIdx}
                             className={`text-[10px] font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-md ${bIdx === 0
-                              ? "bg-white text-black font-black"
-                              : "bg-white/80 text-black border border-white/30"
+                              ? "bg-[#e1e6ff29] text-white font-black"
+                              : "bg-[#e1e6ff29] text-white"
                               }`}
                           >
                             {badge}

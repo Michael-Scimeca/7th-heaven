@@ -171,7 +171,7 @@ export default function FansPage() {
                 <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">WALL</span>
               </h1>
               <p className="text-white/60 text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">

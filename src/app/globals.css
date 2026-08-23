@@ -573,9 +573,9 @@ header,
   --color-text-subtle: rgba(255, 255, 255, 0.5);
 
   /* Approved Font Families */
-  --font-family-sans: var(--font-barlow), 'Barlow', sans-serif;
-  --font-family-heading: var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
-  --font-family-display: var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
+  --font-family-sans: 'Switzer', var(--font-barlow), 'Barlow', sans-serif;
+  --font-family-heading: 'Switzer', var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
+  --font-family-display: 'Switzer', var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
 
   /* ═══════════════════════════════════════════════════════════════════════
      FLUID RESPONSIVE TYPOGRAPHY SCALE
@@ -915,9 +915,9 @@ select::placeholder,
   /* ═══════════════════════════════════════════════════════
     TYPOGRAPHY
     ═══════════════════════════════════════════════════════ */
-  --font-heading: var(--font-family-heading, var(--font-barlow));
-  --font-body: var(--font-family-sans, var(--font-barlow));
-  --font-sans: var(--font-family-sans, var(--font-barlow)), "Barlow", system-ui, sans-serif;
+  --font-heading: var(--font-family-heading, 'Switzer', var(--font-barlow));
+  --font-body: var(--font-family-sans, 'Switzer', var(--font-barlow));
+  --font-sans: var(--font-family-sans, 'Switzer', var(--font-barlow)), "Barlow", system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
 
   /* ── Heading letter-spacing ── */
@@ -1398,7 +1398,7 @@ select::placeholder,
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
-    font-family: var(--font-barlow), "Barlow", system-ui, sans-serif;
+    font-family: 'Switzer', var(--font-barlow), "Barlow", system-ui, sans-serif;
     font-weight: 400;
     font-size: 1rem;
     line-height: var(--leading-body, 1.65);
@@ -1444,7 +1444,7 @@ select::placeholder,
   h4,
   h5,
   h6 {
-    font-family: var(--font-barlow), "Barlow", sans-serif;
+    font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
     /* Base: no margin — components control their own spacing */
     margin: 0;
   }
@@ -1603,7 +1603,7 @@ select::placeholder,
 
 /* ── Display / Hero Headings ── */
 @utility heading-hero {
-  font-family: var(--font-family-display), var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-display), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: clamp(3.5rem, 8vw, 7rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -1612,7 +1612,7 @@ select::placeholder,
 }
 
 @utility heading-section {
-  font-family: var(--font-family-heading), var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-heading), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -1621,7 +1621,7 @@ select::placeholder,
 }
 
 @utility heading-card {
-  font-family: var(--font-family-heading), var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-heading), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -1631,7 +1631,7 @@ select::placeholder,
 
 /* ── Body Text ── theme-aware, works in light and dark mode */
 @utility text-body {
-  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: var(--leading-body, 1.65);
@@ -1640,7 +1640,7 @@ select::placeholder,
 
 /* ── Editorial body — relaxed for long-form reading ── */
 @utility text-editorial {
-  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 1.0625rem;
   /* 17px — slightly larger for reading comfort */
   font-weight: 400;
@@ -1652,7 +1652,7 @@ select::placeholder,
 
 /* ── Eyebrow / Section Label ── */
 @utility text-eyebrow {
-  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1663,7 +1663,7 @@ select::placeholder,
 
 /* ── UI Label — for badges, table headers, nav items ── */
 @utility text-label {
-  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -1673,7 +1673,7 @@ select::placeholder,
 
 /* ── Caption / Metadata ── */
 @utility text-caption {
-  font-family: var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   line-height: var(--leading-body, 1.65);
@@ -4256,7 +4256,29 @@ html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
   transform-origin: 50% 50%;
-  animation: page-push-in var(--preloader-reveal-duration) linear forwards;
+  animation: page-slide-up-in var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards !important;
+}
+
+@keyframes page-slide-up-in {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.preloader.is-leaving {
+  animation: preloader-slide-up var(--preloader-reveal-duration) cubic-bezier(0.76, 0, 0.24, 1) forwards !important;
+}
+
+@keyframes preloader-slide-up {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
@@ -4544,7 +4566,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
  * linear, curve baked into the stops (1 - the same easeInOut sample used
  * there), so both animations share the exact same curve as exoape.com. */
 .preloader-mark.is-leaving {
-  animation: preloader-mark-shrink var(--preloader-reveal-duration) linear forwards;
+  animation: none !important;
 }
 
 @keyframes preloader-mark-shrink {

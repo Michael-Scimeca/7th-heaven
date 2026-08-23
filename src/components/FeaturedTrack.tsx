@@ -281,7 +281,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-xs font-black text-white truncate leading-tight uppercase italic" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
+                <h4 className="text-xs font-black text-white truncate leading-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   {track.title}
                 </h4>
                 {currentSong && (
@@ -395,7 +395,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
+              <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
               <p className="text-white/45 text-sm leading-relaxed max-w-md mx-auto mb-8">
@@ -436,7 +436,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-2 py-0.5 rounded-full font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="text-xl sm:text-2xl font-black text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: 'var(--font-barlow-condensed)' }}>
+                  <h4 className="text-xl sm:text-2xl font-black text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     {track.title}
                   </h4>
                   {currentSong && (

@@ -390,12 +390,12 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           font-size:0.75rem;
           font-weight:600;
           color:#ffffff;
-          background:rgba(147, 51, 234, 0.85);
+          background-color: #e1e6ff29;
           padding:5px 11px;
           border-radius:20px;
-          backdrop-filter:blur(6px);
+          backdrop-filter:blur(16px);
           box-shadow:0 2px 8px rgba(0,0,0,0.3);
-          border:1px solid rgba(255,255,255,0.2);
+    
         }
         .su-thumb video{
           position:absolute;

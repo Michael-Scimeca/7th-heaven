@@ -134,11 +134,10 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
   ];
 
   return (
-    <div className="  border border-white/5 overflow-hidden">
+    <div className="border border-white/5 overflow-hidden">
       {/* Header */}
       <div className="px-5 py-3 bg-white/[0.02] border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Sparkles className="w-4 h-4 text-purple-400shrink-0" />
           <div>
             <span className="text-sm font-bold text-white/80">Show Crew — {bookingId}</span>
             <span className="text-xs text-white/30 ml-2">{eventDate} · {venueName}</span>

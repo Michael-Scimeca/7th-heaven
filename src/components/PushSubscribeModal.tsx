@@ -189,7 +189,6 @@ export default function PushSubscribeModal({
                 <CosmicRadialButton
                   type="submit"
                   disabled={loading}
-                  icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
                   className="w-full py-3.5 text-white text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2"
                 >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS 🔔"}

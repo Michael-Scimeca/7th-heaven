@@ -539,7 +539,7 @@ export function Header() {
           </TransitionLink>
 
           {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 font-[family-name:'Switzer', var(--font-barlow)] relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
@@ -575,7 +575,7 @@ export function Header() {
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:'Switzer', var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
@@ -812,7 +812,7 @@ export function Header() {
                     </div>
                   </div>
 
-                  <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:var(--font-barlow-condensed)]">
+                  <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:'Switzer', var(--font-barlow-condensed)]">
                     {[
                       { href: "/features", label: "FEATURES" },
                       { href: "/payment-test", label: "MERCH" },

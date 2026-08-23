@@ -157,9 +157,7 @@ export default function ProximitySubscriberAdminPanel() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0 shadow-lg">
-            <Shield className="w-6 h-6 text-purple-400" />
-          </div>
+
           <div>
             <h2 className="font-[var(--font-heading)] text-xl font-black uppercase tracking-tight text-white flex items-center gap-2">
               Proximity Push Subscriber Controls
@@ -186,7 +184,6 @@ export default function ProximitySubscriberAdminPanel() {
 
       {actionStatus && (
         <div className="mb-6 p-4 rounded-xl bg-purple-950/80 border border-purple-500/40 text-purple-200 text-xs font-bold flex items-center gap-2 animate-pulse">
-          <Sparkles className="w-4 h-4 text-pink-400 shrink-0" />
           <span>{actionStatus}</span>
         </div>
       )}

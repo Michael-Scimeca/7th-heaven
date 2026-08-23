@@ -206,9 +206,7 @@ export default function FooterProximityAlerts() {
     <div className="w-full relative z-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0 shadow-lg">
-            <Bell className="w-6 h-6 text-purple-400 animate-pulse" />
-          </div>
+
           <div>
             <h3 className="font-[var(--font-heading)] text-lg sm:text-xl font-black uppercase tracking-tight text-white flex items-center gap-2">
               Proximity & Show Alert Filters

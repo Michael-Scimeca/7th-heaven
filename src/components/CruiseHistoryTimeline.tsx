@@ -567,7 +567,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </span>
         <h3
           className="text-3xl md:text-5xl font-black uppercase italic text-white tracking-tight"
-          style={{ fontFamily: 'var(--font-barlow-condensed)' }}
+          style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>

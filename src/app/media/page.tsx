@@ -418,35 +418,34 @@ export default function MediaPage() {
             <>
               <HeroParallaxCustomizer {...heroParallax} />
               <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
-              <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-                  <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-                  <span>FEATURED MEDIA</span>
+                <div className="max-w-lg pointer-events-auto transform-gpu isolate">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] backdrop-blur-md text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+                    <span>FEATURED MEDIA</span>
+                  </div>
+                  <h1
+                    className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
+                    style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
+                  >
+                    <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
+                      {featuredVideo.title}
+                    </span>
+                  </h1>
+                  {featuredVideo.description && (
+                    <p className="text-white/60 text-sm mb-4 leading-relaxed max-w-md">{featuredVideo.description}</p>
+                  )}
+                  <div className="flex items-center gap-3 text-xs text-white/40 font-bold uppercase tracking-widest mb-6">
+                    <span>{featuredVideo.year}</span>
+                    {featuredVideo.duration && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.duration}</span></>}
+                    {featuredVideo.viewCount && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.viewCount} views</span></>}
+                  </div>
+                  <CosmicRadialButton
+                    onClick={() => setHeroPlaying(true)}
+                    icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>}
+                    className="px-8 py-3.5 rounded-lg text-white font-black text-xs uppercase tracking-widest"
+                  >
+                    Watch Featured Video
+                  </CosmicRadialButton>
                 </div>
-                <h1
-                  className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
-                  style={{ fontFamily: "var(--font-barlow-condensed)" }}
-                >
-                  <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
-                    {featuredVideo.title}
-                  </span>
-                </h1>
-                {featuredVideo.description && (
-                  <p className="text-white/60 text-sm mb-4 leading-relaxed max-w-md">{featuredVideo.description}</p>
-                )}
-                <div className="flex items-center gap-3 text-xs text-white/40 font-bold uppercase tracking-widest mb-6">
-                  <span>{featuredVideo.year}</span>
-                  {featuredVideo.duration && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.duration}</span></>}
-                  {featuredVideo.viewCount && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.viewCount} views</span></>}
-                </div>
-                <CosmicRadialButton
-                  onClick={() => setHeroPlaying(true)}
-                  icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>}
-                  className="px-8 py-3.5 rounded-lg text-white font-black text-xs uppercase tracking-widest"
-                >
-                  Watch Featured Video
-                </CosmicRadialButton>
-              </div>
               </div>
             </>
           )}
@@ -549,7 +548,7 @@ export default function MediaPage() {
                         ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
                         : "text-white/70 group-hover:text-white"
                         }`}
-                      style={{ fontFamily: "var(--font-barlow-condensed)" }}
+                      style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
                     >
                       {video.title}
                     </h3>
@@ -657,7 +656,7 @@ export default function MediaPage() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg  shadow-[0_0_30px_rgba(168,85,247,0.5)] flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
-          <Sparkles className="w-5 h-5 text-purple-300 shrink-0" />
+
           <span className="text-xs font-bold">{toastMessage}</span>
         </div>
       )}

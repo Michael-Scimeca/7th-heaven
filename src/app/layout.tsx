@@ -190,6 +190,20 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Switzer (Fontshare, free variable font) — now the site's primary
+         * typeface for both body copy and headings. Loaded as a linked
+         * stylesheet (same pattern as Google Fonts above) rather than
+         * next/font/local, since Switzer isn't distributed as static files
+         * we can vendor in-repo. Every existing font-family declaration that
+         * referenced --font-barlow / --font-barlow-condensed now lists
+         * 'Switzer' first, with those fonts kept as the fallback chain if
+         * this stylesheet ever fails to load. --font-rockstar (the brand
+         * wordmark font) is untouched on purpose. */}
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+        />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
@@ -208,7 +222,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, 'Switzer', var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         <HomeShaderGradient />
         {/* <GrainOverlay /> */}
         <Preloader />

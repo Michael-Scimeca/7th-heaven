@@ -31,9 +31,9 @@
     "--color-nav-font": "#9333ea"
   },
   "typography": {
-    "--font-family-sans": "var(--font-barlow), 'Barlow', sans-serif",
-    "--font-family-heading": "var(--font-barlow), 'Barlow', sans-serif",
-    "--font-family-display": "var(--font-barlow), 'Barlow', sans-serif",
+    "--font-family-sans": "'Switzer', var(--font-barlow), 'Barlow', sans-serif",
+    "--font-family-heading": "'Switzer', var(--font-barlow), 'Barlow', sans-serif",
+    "--font-family-display": "'Switzer', var(--font-barlow), 'Barlow', sans-serif",
     "--font-size-base": "1rem",
     "--font-size-2xs": "1rem",
     "--font-size-xs": "1rem",

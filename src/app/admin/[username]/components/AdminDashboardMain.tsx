@@ -9310,7 +9310,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <style>{`
           .wiw-scheduler-container {
             color: #ffffff;
-            font-family: var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Switzer', var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
           }
           .wiw-scheduler-container ::-webkit-scrollbar {
             width: 12px !important;

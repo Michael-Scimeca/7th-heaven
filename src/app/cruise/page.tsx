@@ -751,7 +751,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             7TH HEAVEN <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">FAN CRUISE</span>
           </h1>
 
@@ -775,7 +775,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 2: CABINS & PRICING ── */}
             <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 relative z-20">
               <div className="text-left max-w-3xl mb-12">
-                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
                 </h2>
                 <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
@@ -1294,7 +1294,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-3 px-4 py-1 rounded-full bg-purple-500/10 border border-purple-400/20">
                     Accommodations Guide
                   </span>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Stateroom Catalog & Suite Perks
                   </h3>
                 </div>
@@ -1494,7 +1494,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   {/* Section Header */}
                   <div className="mb-8 text-left">
-                    <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                    <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                       Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
                     </h2>
                     <p className="text-white/70 text-sm font-semibold">
@@ -1879,7 +1879,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <section id="artists" className="pt-16 pb-12">
               <div className="text-left w-full mb-10">
                 <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
-                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Featured <span className="accent-gradient-text">Artists</span>
                 </h2>
                 <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
@@ -1965,7 +1965,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* Inner div with site container padding */}
             <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
               <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Day-by-Day <span className="accent-gradient-text">Schedules</span>
                 </h2>
                 <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
@@ -2013,7 +2013,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div>
                 <div className="text-center md:text-left mb-10">
                   <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Ports of Call Catalog
                   </h3>
                 </div>
@@ -2077,7 +2077,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       </div>
                       <div className="p-8 relative z-20 -mt-16">
-                        <h3 className="text-2xl md:text-4xl font-black uppercase text-white tracking-tight mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                        <h3 className="text-2xl md:text-4xl font-black uppercase text-white tracking-tight mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
                         <p className="text-white/70 text-sm md:text-base leading-relaxed mb-4">
@@ -2259,7 +2259,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 4: SHIP EXPLORER ── */}
             <section id="ship-explorer" className="py-[32px] md:py-20">
               <div className="text-left w-full mb-10">
-                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
                 </h2>
                 <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
@@ -2285,7 +2285,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
               <div className="mb-16">
                 <div className="mb-6 text-left">
-                  <h3 className="text-xl md:text-3xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                  <h3 className="text-xl md:text-3xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
                   </h3>
                   <p className="text-xs md:text-sm text-white/70 font-semibold mt-1">
@@ -2518,7 +2518,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 5: FAQS & HISTORY ── */}
             <section id="faqs" className="pt-20 pb-10">
               <div className="text-left w-full mb-10">
-                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Frequently Asked <span className="accent-gradient-text">Questions</span>
                 </h2>
                 <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
