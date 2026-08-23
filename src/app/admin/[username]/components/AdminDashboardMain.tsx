@@ -10148,8 +10148,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               >
 
                 {/* Tour Dates Section Box */}
-                <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02]">
-                  <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0">
+                <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
+                  <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b border-white/5 relative z-20">
                     <div className="flex items-center gap-1.5">
                       <span className="text-[var(--font-size-3xs)]"></span>
                       <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
@@ -10169,6 +10169,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </span>
                     </div>
                   </div>
+
+                  {/* Gradient Fade Overlays */}
+                  <div className="pointer-events-none absolute top-[36px] left-0 right-0 h-6 bg-gradient-to-b from-[#0e0720] via-[#0e0720]/80 to-transparent z-10" />
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0e0720] via-[#0e0720]/80 to-transparent z-10" />
+
                   <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
                     {(() => {
                       if (upcomingTourDatesWithLabels.length === 0) {
