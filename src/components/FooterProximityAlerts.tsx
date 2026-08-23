@@ -256,7 +256,7 @@ export default function FooterProximityAlerts() {
           <label className="block text-[11px] font-black uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <Sliders className="w-3.5 h-3.5 text-cyan-400" /> Maximum Distance Radius
           </label>
-          <div className="inline-flex flex-wrap gap-1.5 p-1 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md w-fit max-w-full">
+          <div className="inline-flex flex-wrap gap-1.5 p-1 rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] w-fit max-w-full">
             {RADIUS_OPTIONS.map((opt) => {
               const isSelected = radius === opt.value;
               return (

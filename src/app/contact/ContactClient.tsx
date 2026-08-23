@@ -59,7 +59,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-950/70 border border-purple-400/40 backdrop-blur-md text-white text-[clamp(0.65rem,1vh,0.75rem)] font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-[clamp(0.35rem,1vh,1rem)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)] font-black uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -89,7 +89,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 >
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 inline-block">
+                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)] font-black uppercase tracking-wider text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  inline-block">
                       {contact.category || "General Contact"}
                     </span>
                   </div>

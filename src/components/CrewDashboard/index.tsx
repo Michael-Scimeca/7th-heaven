@@ -2729,24 +2729,25 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
                 <div className="flex items-center gap-3 no-glow">
                   <span className="text-xs text-white/60 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
-                  <div className="input-glow-border !w-fit inline-block">
+                  <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="w-full bg-[#e1e6ff29]   border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+                      className="appearance-none bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 text-xs font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
                       onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
                       {Object.values(MEMBER_SEEDS).map(member => (
-                        <option key={member.id} value={`/crew-${member.id}`}>{member.name}</option>
+                        <option key={member.id} value={`/crew-${member.id}`} className="bg-[#0e0720] text-white py-1">{member.name}</option>
                       ))}
                     </select>
+                    <ChevronDown className="w-4 h-4 text-purple-300 pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" />
                   </div>
                 </div>
 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest  flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
