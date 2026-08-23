@@ -3036,7 +3036,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onChange={e => setGlobalPinText(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
                         placeholder="Pin a message to all fans..."
-                        className="w-full bg-emerald-500/[0.08] !border-0  px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none transition-colors"
+                        className="w-full bg-emerald-500/[0.08] !rounded-none !border-0  px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none transition-colors"
                       />
                       <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center z-10">
                         <button
@@ -3134,7 +3134,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-lg text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-[#e1e6ff29]   px-2 py-0.5 rounded"
+                              className="rounded-lg text-[var(--font-size-4xs)] !text-white font-bold uppercase tracking-wider flex items-center gap-1  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-2 py-0.5 rounded"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -3207,7 +3207,22 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
                             <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Total Products</p>
-                            <div className="w-full bg-[#e1e6ff29]   border border-white/15 rounded-lg p-2.5 text-center text-xs font-bold font-mono text-white">{selectedProducts.length}</div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const selectEl = document.querySelector<HTMLSelectElement>('select[aria-label="Select product to add to Flash Drop"]');
+                                if (selectEl) {
+                                  selectEl.focus();
+                                }
+                              }}
+                              className="w-full bg-[#e1e6ff29] border border-white/20 hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                              title="Click to select products from the dropdown above"
+                            >
+                              <span className="font-mono text-purple-300 font-extrabold">{selectedProducts.length}</span>
+                              <span className="text-[10px] text-white/60 uppercase tracking-wider font-semibold">
+                                {selectedProducts.length === 1 ? "Selected" : "Selected"}
+                              </span>
+                            </button>
                           </div>
                           <div>
                             <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Duration</p>
@@ -3355,7 +3370,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
                                   disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                                  className={`h-[44px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
