@@ -207,24 +207,9 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link
-          rel="preload"
-          as="style"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
-        />
-        <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
-          media="print"
-          onLoad={(e) => {
-            (e.currentTarget as HTMLLinkElement).media = "all";
-          }}
         />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
-          />
-        </noscript>
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
