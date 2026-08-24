@@ -5923,7 +5923,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
 /* Progressive Blur Setup (Copied from Everwonder Studio) */
 .progressive-blur {
-  z-index: 40;
+  z-index: 100002;
   pointer-events: none;
   isolation: isolate;
   contain: paint;
