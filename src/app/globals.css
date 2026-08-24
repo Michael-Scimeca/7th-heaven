@@ -5940,7 +5940,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .progressive-blur.is-top {
   top: 0px;
   bottom: auto;
-  height: 80px;
+  height: 180px;
   transform: none;
 }
 
@@ -5950,28 +5950,28 @@ html.is-preloading.is-revealing #page-content-wrapper {
   inset: 0;
   pointer-events: none;
   z-index: 10;
-  background: linear-gradient(to bottom, rgba(5, 3, 10, 0.65) 0%, rgba(5, 3, 10, 0.2) 70%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to bottom, rgba(5, 3, 10, 0.75) 0%, rgba(5, 3, 10, 0.3) 50%, rgba(5, 3, 10, 0) 100%);
 }
 
 .progressive-blur.is-top .progressive-blur__layer.is--1 {
-  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 100%);
-  mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 100%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 20%, #0000 50%);
+  mask: linear-gradient(to bottom, #000 0%, #000 20%, #0000 50%);
 }
 .progressive-blur.is-top .progressive-blur__layer.is--2 {
-  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 90%);
-  mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 90%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 65%);
+  mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 65%);
 }
 .progressive-blur.is-top .progressive-blur__layer.is--3 {
-  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 80%);
-  mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 80%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 80%);
+  mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 80%);
 }
 .progressive-blur.is-top .progressive-blur__layer.is--4 {
-  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 70%);
-  mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 70%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 90%);
+  mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 90%);
 }
 .progressive-blur.is-top .progressive-blur__layer.is--5 {
-  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 70%, #0000 60%);
-  mask: linear-gradient(to bottom, #000 0%, #000 70%, #0000 60%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 100%);
+  mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 100%);
 }
 
 .progressive-blur.is-bottom {
@@ -5985,36 +5985,36 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 .progressive-blur__layer.is--1 {
-  -webkit-backdrop-filter: blur(0.25em);
-  backdrop-filter: blur(0.25em);
+  -webkit-backdrop-filter: blur(.09375em);
+  backdrop-filter: blur(.09375em);
   -webkit-mask: linear-gradient(#0000 50%, #000 62.5% 75%, #0000 87.5%);
   mask: linear-gradient(#0000 50%, #000 62.5% 75%, #0000 87.5%);
 }
 
 .progressive-blur__layer.is--2 {
-  -webkit-backdrop-filter: blur(0.5em);
-  backdrop-filter: blur(0.5em);
+  -webkit-backdrop-filter: blur(.1875em);
+  backdrop-filter: blur(.1875em);
   -webkit-mask: linear-gradient(#0000 62.5%, #000 75% 87.5%, #0000 100%);
   mask: linear-gradient(#0000 62.5%, #000 75% 87.5%, #0000 100%);
 }
 
 .progressive-blur__layer.is--3 {
-  -webkit-backdrop-filter: blur(1em);
-  backdrop-filter: blur(1em);
+  -webkit-backdrop-filter: blur(.375em);
+  backdrop-filter: blur(.375em);
   -webkit-mask: linear-gradient(#0000 75%, #000 87.5% 100%);
   mask: linear-gradient(#0000 75%, #000 87.5% 100%);
 }
 
 .progressive-blur__layer.is--4 {
-  -webkit-backdrop-filter: blur(2em);
-  backdrop-filter: blur(2em);
+  -webkit-backdrop-filter: blur(.75em);
+  backdrop-filter: blur(.75em);
   -webkit-mask: linear-gradient(#0000 82%, #000 92% 100%);
   mask: linear-gradient(#0000 82%, #000 92% 100%);
 }
 
 .progressive-blur__layer.is--5 {
-  -webkit-backdrop-filter: blur(3.5em);
-  backdrop-filter: blur(3.5em);
+  -webkit-backdrop-filter: blur(1.5em);
+  backdrop-filter: blur(1.5em);
   -webkit-mask: linear-gradient(#0000 88%, #000 100%);
   mask: linear-gradient(#0000 88%, #000 100%);
 }
