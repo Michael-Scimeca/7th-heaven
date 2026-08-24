@@ -103,7 +103,7 @@ export default function PushAlertsCard({
               <BellIcon />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-extrabold text-white tracking-wide">
+              <h3 className="text-base sm:text-lg font-bold text-white tracking-wide">
                 {title || defaultTitle}
               </h3>
               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-purple-400">
@@ -127,7 +127,7 @@ export default function PushAlertsCard({
                 onClick={() => setShowModal(true)}
                 className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2"
               >
-                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 text-xs font-black uppercase tracking-wider !text-white shadow-lg">
+                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 text-xs  font-bold  uppercase tracking-wider !text-white shadow-lg">
                   <BellIcon />
                   {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
                 </CosmicRadialButton>

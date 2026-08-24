@@ -181,7 +181,7 @@ export default function LiveShowFeed() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
-            <span className="text-xs font-black uppercase tracking-[0.15em] text-red-400">Live</span>
+            <span className="text-xs  font-bold  uppercase tracking-[0.15em] text-red-400">Live</span>
           </div>
           <span className="text-xs font-bold text-white/30 uppercase tracking-[0.15em]">
             From the Show

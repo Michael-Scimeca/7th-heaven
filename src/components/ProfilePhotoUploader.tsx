@@ -113,11 +113,11 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />
           ) : (
-            <span className=" text-[var(--color-accent)] font-black text-sm">{initials}</span>
+            <span className=" text-[var(--color-accent)]  font-bold  text-sm">{initials}</span>
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-black uppercase tracking-wider text-white truncate">
+          <p className="text-xs  font-bold  uppercase tracking-wider text-white truncate">
             {member?.name || "Official Profile Photo"}
           </p>
           <p className="text-[var(--font-size-3xs)] text-white/40">
@@ -150,7 +150,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
-            <h3 className="text-base font-black uppercase tracking-tight text-black">
+            <h3 className="text-base  font-bold  uppercase tracking-tight text-black">
               Official Profile & Scheduling Photo
             </h3>
             <p className="text-xs text-black/70 font-semibold">
@@ -159,7 +159,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-black uppercase tracking-widest bg-emerald-100 border border-emerald-300 text-emerald-800">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-emerald-100 border border-emerald-300 text-emerald-800">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]  animate-pulse" />
             Photo Active
           </span>
@@ -173,7 +173,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center p-1">
-              <span className="text-xs font-black text-[var(--color-accent)] tracking-wider block">{initials}</span>
+              <span className="text-xs  font-bold  text-[var(--color-accent)] tracking-wider block">{initials}</span>
               <p className="text-[9px] font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
@@ -199,7 +199,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <button aria-label="Action button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors   cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white  font-bold  text-xs uppercase tracking-wider rounded-lg transition-colors   cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
@@ -242,7 +242,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         <div className={`mt-3 px-4 py-2 rounded-lg text-xs font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
           }`}>
           <span>{message.text}</span>
-          <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-black">×</button>
+          <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer  font-bold ">×</button>
         </div>
       )}
     </div>

@@ -167,7 +167,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40 font-black' : 'bg-[#e1e6ff29]   hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : 'bg-[#e1e6ff29]   hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -246,7 +246,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           onClick={() => onChange({ target: { name, value: o } } as any)}
           className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
             ${value === o
-              ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30 font-black"
+              ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
               : "bg-[#e1e6ff29]    backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 hover:text-white"
             }
           `}
@@ -830,7 +830,7 @@ function BookPageContent() {
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
-          <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
+          <h1 className="text-3xl font-bold text-white mb-3 tracking-tight">Request Received</h1>
           <p className="text-white/50 text-lg leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
             <br /><span className="text-base text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
@@ -992,10 +992,10 @@ function BookPageContent() {
 
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-white text-xs font-black uppercase tracking-[0.2em] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             BOOK <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
           </h1>
           <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
@@ -1251,7 +1251,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1270,7 +1270,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1302,7 +1302,7 @@ function BookPageContent() {
                           ) : (
                             <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border border-white/10 rounded-xl">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button aria-label="Action button"
                                     type="button"
@@ -1435,7 +1435,7 @@ function BookPageContent() {
                           <button aria-label="Previous"
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
+                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
                           >
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
                             <span className="text-[var(--font-size-4xs)] text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
@@ -1475,7 +1475,7 @@ function BookPageContent() {
             {/* Show Event Start & End Times + Band Schedule */}
             <div className="space-y-4">
               <div className="border-b border-white/10 pb-2.5">
-                <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="text-xs  font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#c27aff]" /> Event & Performance Schedule
                 </h3>
               </div>
@@ -1514,7 +1514,7 @@ function BookPageContent() {
                           }}
                           label="Unsure?"
                         />
-                        <span className="text-[11px] font-extrabold text-[#c27aff]">Unsure?</span>
+                        <span className="text-[11px] font-bold text-[#c27aff]">Unsure?</span>
                       </div>
                     }
                   />
@@ -1527,7 +1527,7 @@ function BookPageContent() {
               {isLoadInUnsure && (
                 <div className="p-3.5 bg-purple-950/40 border border-purple-500/40  rounded-lg text-xs text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
                   <div className="space-y-1">
-                    <span className="font-extrabold text-white block">Unsure of exact load-in time? No problem!</span>
+                    <span className="font-bold text-white block">Unsure of exact load-in time? No problem!</span>
                     <span className="text-white/80 leading-relaxed block">
                       Our 7th Heaven band booking admin will coordinate your event schedule, update the load-in setup time, and send a confirmation email directly to the planner.
                     </span>
@@ -1539,7 +1539,7 @@ function BookPageContent() {
             {/* Venue Address & Location Picker */}
             <div className="space-y-5">
               <div className="border-b border-white/10 pb-3">
-                <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="text-xs  font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
                 </h3>
               </div>
@@ -1561,7 +1561,7 @@ function BookPageContent() {
 
                 {/* Row 2 Right: SquishyToggle for custom parking directions */}
                 <div className="flex items-end pb-0.5 gap-2.5 flex-wrap md:flex-nowrap">
-                  <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-extrabold text-[#c27aff] select-none shadow-inner">
+                  <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-bold text-[#c27aff] select-none shadow-inner">
                     <SquishyToggle
                       id="toggle-parking-notes"
                       checked={hasParkingNotes}
@@ -1573,7 +1573,7 @@ function BookPageContent() {
                       }}
                       label="Add custom parking directions"
                     />
-                    <span className="text-[#c27aff] font-extrabold tracking-wide text-xs">
+                    <span className="text-[#c27aff] font-bold tracking-wide text-xs">
                       Add custom parking directions
                     </span>
                   </div>
@@ -1861,7 +1861,7 @@ function BookPageContent() {
                     type="submit"
                     icon={false}
                     disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                    className="w-full text-white font-extrabold tracking-wider text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full text-white font-bold tracking-wider text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <>
@@ -1996,7 +1996,7 @@ function MapPickerModal({
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
-            <h3 className="text-lg font-black uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
+            <h3 className="text-lg  font-bold  uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
             type="button"
@@ -2030,7 +2030,7 @@ function MapPickerModal({
                   }}
                 >
                   <div className="space-y-0.5 min-w-0">
-                    <div className="text-xs font-black text-white truncate flex items-center gap-1.5">
+                    <div className="text-xs  font-bold  text-white truncate flex items-center gap-1.5">
                       <Building2 className="w-3.5 h-3.5 text-[#c27aff] shrink-0" />
                       <span className="truncate">{item.label}</span>
                     </div>
@@ -2124,7 +2124,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg text-xs font-black text-white uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg text-xs  font-bold  text-white uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-1.5"
             >
               <Check className="w-4 h-4" /> Save Location to Form
             </button>

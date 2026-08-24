@@ -1171,10 +1171,10 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl font-black text-white tabular-nums leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl  font-bold  text-white tabular-nums leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
-      <div className="text-base font-black uppercase tracking-[0.15em] text-white mt-2">{label}</div>
+      <div className="text-base  font-bold  uppercase tracking-[0.15em] text-white mt-2">{label}</div>
       {sublabel && <div className="text-sm text-white/30 mt-1 max-w-[180px] mx-auto leading-tight">{sublabel}</div>}
     </div>
   );
@@ -1224,7 +1224,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={`text-xs font-black uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${isPurple
+          <span className={`text-xs  font-bold  uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${isPurple
             ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
             : "bg-black/50 border-white/20 text-white/80"
             }`}>
@@ -1249,7 +1249,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             </button>
             {/* Title */}
             <div className="mb-4">
-              <h3 className="text-2xl font-black text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+              <h3 className="text-2xl  font-bold  text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -1293,7 +1293,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Titles */}
         <div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
+          <h3 className="text-3xl  font-bold  text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
           <p className={`text-lg font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
@@ -1305,13 +1305,13 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base leading-relaxed ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
-          <span className="font-black uppercase tracking-widest text-white/50 block mb-1.5 text-sm">Why it matters</span>
+          <span className=" font-bold  uppercase tracking-widest text-white/50 block mb-1.5 text-sm">Why it matters</span>
           {f.whyItMatters}
         </div>
 
         {/* Bullets */}
         <div>
-          <p className="text-sm font-black uppercase tracking-widest text-white/30 mb-3">What it does</p>
+          <p className="text-sm  font-bold  uppercase tracking-widest text-white/30 mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
               <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg  text-white ">
@@ -1326,7 +1326,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button aria-label="Action button"
             onClick={() => setExpanded(v => !v)}
-            className={`flex items-center gap-2 text-base font-black uppercase tracking-widest transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}
+            className={`flex items-center gap-2 text-base  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}
           >
             <span className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
@@ -1335,7 +1335,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
-                  <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm font-black mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#e1e6ff29]   text-white/30"}`}>{i + 1}</span>
+                  <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm  font-bold  mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#e1e6ff29]   text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -1355,7 +1355,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-black uppercase tracking-widest transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover:bg-[#e1e6ff29]  "}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base  font-bold  uppercase tracking-widest transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover:bg-[#e1e6ff29]  "}`}>
           Explore live →
         </Link>
       )}
@@ -1386,7 +1386,7 @@ export default function FeaturesPage() {
             Full Platform Overview · All Features Live & Documented
           </div>
 
-          <h1 className="text-6xl font-black uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h1 className="text-6xl  font-bold  uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 
@@ -1401,12 +1401,12 @@ export default function FeaturesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
-            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
+            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)]  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
           </div>
         </div>
       </section>
@@ -1426,7 +1426,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Live Experience — What It Looks Like
             </h2>
           </div>
@@ -1437,7 +1437,7 @@ export default function FeaturesPage() {
           {/* ── ROW 1: Fan Viewer ── */}
           <div className="mb-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 text-sm font-black uppercase tracking-widest rounded-full">🎥 Fan Live Viewer</span>
+              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 text-sm  font-bold  uppercase tracking-widest rounded-full">🎥 Fan Live Viewer</span>
               <span className="text-white/20 text-sm">— what fans see at /live/[room]</span>
             </div>
 
@@ -1482,10 +1482,10 @@ export default function FeaturesPage() {
                   {/* Top bar */}
                   <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/70 to-transparent">
                     <div className="flex items-center gap-2">
-                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white text-xs font-black uppercase tracking-widest">
+                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white text-xs  font-bold  uppercase tracking-widest">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
                       </span>
-                      <span className="text-white font-black text-sm">Michael — 7th Heaven</span>
+                      <span className="text-white  font-bold  text-sm">Michael — 7th Heaven</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className=" text-white  text-xs">👁 1,247 watching</span>
@@ -1510,7 +1510,7 @@ export default function FeaturesPage() {
                   <div className="absolute bottom-6 left-4 right-4">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className=" text-white  text-xs font-bold uppercase tracking-widest">Hype Meter</span>
-                      <span className="text-[#c084fc] text-xs font-black">87%</span>
+                      <span className="text-[#c084fc] text-xs  font-bold ">87%</span>
                     </div>
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-[#851DEF] to-[#c084fc] rounded-full animate-pulse" style={{ width: "87%" }} />
@@ -1519,7 +1519,7 @@ export default function FeaturesPage() {
 
                   {/* Pinned crew message */}
                   <div className="absolute top-14 left-4 right-4 bg-[var(--color-accent)]/20 border border-[#851DEF]/40 rounded-lg px-3 py-2 flex items-start gap-2">
-                    <span className="text-[#c084fc] text-xs font-black uppercase tracking-widest shrink-0">📌 Crew</span>
+                    <span className="text-[#c084fc] text-xs  font-bold  uppercase tracking-widest shrink-0">📌 Crew</span>
                     <span className="text-white/80 text-xs">"Playing our new single TONIGHT — merch drop in 10 min! 🔥"</span>
                   </div>
 
@@ -1555,7 +1555,7 @@ export default function FeaturesPage() {
                       { user: "7thHeavenFan", msg: "Hype at 87%!! 🚀", color: "#c084fc" },
                     ], (m, i) => ({ m, i })).map(({ m, i }) => (
                       <div key={i} className="flex items-start gap-1.5 animate-none">
-                        <span className="text-xs font-black shrink-0" style={{ color: m.color }}>{m.user}</span>
+                        <span className="text-xs  font-bold  shrink-0" style={{ color: m.color }}>{m.user}</span>
                         <span className="text-xs  text-white  leading-tight">{m.msg}</span>
                       </div>
                     ))}
@@ -1572,7 +1572,7 @@ export default function FeaturesPage() {
                   <div className="px-3 pb-3">
                     <div className="flex items-center gap-2 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2">
                       <span className="text-white/20 text-sm flex-1">Say something...</span>
-                      <button aria-label="Action button" className=" text-[var(--color-accent)] text-xs font-black uppercase">Send</button>
+                      <button aria-label="Action button" className=" text-[var(--color-accent)] text-xs  font-bold  uppercase">Send</button>
                     </div>
                   </div>
                 </div>
@@ -1590,7 +1590,7 @@ export default function FeaturesPage() {
           {/* ── ROW 2: Crew Dashboard ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] text-sm font-black uppercase tracking-widest rounded-full">🎛️ Crew Broadcast Studio</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] text-sm  font-bold  uppercase tracking-widest rounded-full">🎛️ Crew Broadcast Studio</span>
               <span className="text-white/20 text-sm">— what crew sees at /crew</span>
             </div>
 
@@ -1615,7 +1615,7 @@ export default function FeaturesPage() {
                       <div className="w-14 h-14 rounded-full bg-gradient-to-br from-white/60 to-white/20 mb-2" />
                       <div className="w-6 h-6 bg-white/30 rounded-full" style={{ marginTop: "-12px" }} />
                     </div>
-                    <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-red-600 px-2 py-0.5 rounded text-white text-xs font-black uppercase">
+                    <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-red-600 px-2 py-0.5 rounded text-white text-xs  font-bold  uppercase">
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
                     </div>
                     <div className="absolute bottom-2 right-2 text-white/50 text-xs">HD 1080p</div>
@@ -1631,7 +1631,7 @@ export default function FeaturesPage() {
                     ].map(s => (
                       <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
                         <div className="text-lg mb-0.5">{s.icon}</div>
-                        <div className="text-lg font-black" style={{ color: s.color }}>{s.val}</div>
+                        <div className="text-lg  font-bold " style={{ color: s.color }}>{s.val}</div>
                         <div className="text-white/30 text-xs uppercase tracking-wide">{s.label}</div>
                       </div>
                     ))}
@@ -1646,7 +1646,7 @@ export default function FeaturesPage() {
                       📹 Cam On
                     </button>
                   </div>
-                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm font-black uppercase tracking-widest transition-colors cursor-pointer">
+                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
                     ⏹ End Stream
                   </button>
                 </div>
@@ -1654,7 +1654,7 @@ export default function FeaturesPage() {
                 {/* Col 2: Chat moderation */}
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <h3 className=" text-white  text-sm font-black uppercase tracking-widest">Fan Chat</h3>
+                    <h3 className=" text-white  text-sm  font-bold  uppercase tracking-widest">Fan Chat</h3>
                     <span className="text-emerald-400 text-xs">Live · 1,247 online</span>
                   </div>
 
@@ -1671,7 +1671,7 @@ export default function FeaturesPage() {
                         <div key={i} className={`flex items-center gap-2 p-1.5 rounded-lg ${m.flag ? "bg-red-500/10 border border-red-500/20" : "hover:bg-white/[0.02]"} group`}>
                           {m.flag && <span className="text-red-400 text-xs shrink-0">⚠</span>}
                           <div className="flex-1 min-w-0">
-                            <span className="text-xs font-black" style={{ color: m.color }}>{m.user} </span>
+                            <span className="text-xs  font-bold " style={{ color: m.color }}>{m.user} </span>
                             <span className="text-xs text-white/50">{m.msg}</span>
                           </div>
                           <button aria-label="Action button" className="shrink-0 text-xs px-1.5 py-0.5 rounded bg-[#e1e6ff29]   text-white/25 hover:bg-red-500/20 hover:text-red-400 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">Mute</button>
@@ -1689,7 +1689,7 @@ export default function FeaturesPage() {
                     <div className="text-white/30 text-xs mb-1.5 font-bold uppercase tracking-widest">📌 Pin Announcement</div>
                     <div className="flex gap-2">
                       <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
-                      <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white text-xs font-black cursor-pointer">Pin</button>
+                      <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white text-xs  font-bold  cursor-pointer">Pin</button>
                     </div>
                   </div>
 
@@ -1711,28 +1711,28 @@ export default function FeaturesPage() {
                   <div className="bg-gradient-to-br from-[#851DEF]/15 to-black border border-[#851DEF]/30 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🎰</span>
-                      <span className="text-white font-black text-sm uppercase tracking-wide">Raffle Engine</span>
+                      <span className="text-white  font-bold  text-sm uppercase tracking-wide">Raffle Engine</span>
                       <span className="ml-auto text-xs px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] rounded-full font-bold">LIVE</span>
                     </div>
                     {/* Active raffle */}
                     <div className="bg-black/40 rounded-lg p-3 mb-3">
                       <div className="text-white/50 text-xs mb-1">Current Prize</div>
-                      <div className="text-white font-black text-sm mb-2">Signed 7th Heaven Vinyl 🎵</div>
+                      <div className="text-white  font-bold  text-sm mb-2">Signed 7th Heaven Vinyl 🎵</div>
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-white/40 text-xs">Entries</span>
-                        <span className="text-[#c084fc] font-black text-sm">347</span>
+                        <span className="text-[#c084fc]  font-bold  text-sm">347</span>
                       </div>
                       {/* countdown */}
                       <div className="text-center py-2 bg-[var(--color-accent)]/20 rounded-lg border border-[#851DEF]/30">
-                        <div className="text-3xl font-black text-white tabular-nums">0:42</div>
+                        <div className="text-3xl  font-bold  text-white tabular-nums">0:42</div>
                         <div className="text-white/40 text-xs uppercase tracking-widest">Time Remaining</div>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <button aria-label="Action button" className="py-2 bg-[var(--color-accent)]/20 border border-[#851DEF]/30 rounded-lg text-[#c084fc] text-xs font-black uppercase cursor-pointer hover:bg-[var(--color-accent)]/30 transition-colors">
+                      <button aria-label="Action button" className="py-2 bg-[var(--color-accent)]/20 border border-[#851DEF]/30 rounded-lg text-[#c084fc] text-xs  font-bold  uppercase cursor-pointer hover:bg-[var(--color-accent)]/30 transition-colors">
                         + New Raffle
                       </button>
-                      <button aria-label="Action button" className="py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs font-black uppercase cursor-pointer hover:bg-red-500/20 transition-colors">
+                      <button aria-label="Action button" className="py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs  font-bold  uppercase cursor-pointer hover:bg-red-500/20 transition-colors">
                         Draw Winner
                       </button>
                     </div>
@@ -1741,7 +1741,7 @@ export default function FeaturesPage() {
                   <div className="bg-gradient-to-br from-amber-500/10 to-black border border-purple-500/25 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🔥</span>
-                      <span className="text-white font-black text-sm uppercase tracking-wide">Merch Flash Drop</span>
+                      <span className="text-white  font-bold  text-sm uppercase tracking-wide">Merch Flash Drop</span>
                     </div>
                     <div className="space-y-2 mb-3">
                       <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
@@ -1751,7 +1751,7 @@ export default function FeaturesPage() {
                       </div>
                       <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2  text-white  text-xs" />
                     </div>
-                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
                     </button>
                   </div>
@@ -1760,10 +1760,10 @@ export default function FeaturesPage() {
                   <div className="bg-white/[0.02] border border-white/[0.07] p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">📱</span>
-                      <span className="text-white/70 font-black text-sm uppercase tracking-wide">SMS Fan Alert</span>
+                      <span className="text-white/70  font-bold  text-sm uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 text-xs mb-2">Blast to all subscribers within 50mi</div>
-                    <button aria-label="Action button" className="w-full py-2 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/50 text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2 bg-[#e1e6ff29]   border border-white/10 rounded-lg text-white/50 text-xs  font-bold  uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
                       📲 Send Live Alert SMS
                     </button>
                   </div>
@@ -1782,7 +1782,7 @@ export default function FeaturesPage() {
           {/* ── ROW 3: Admin Dashboard ── */}
           <div className="mt-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-sm font-black uppercase tracking-widest rounded-full">⚙️ Admin Dashboard</span>
+              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-sm  font-bold  uppercase tracking-widest rounded-full">⚙️ Admin Dashboard</span>
               <span className="text-white/20 text-sm">— what admins see at /admin</span>
             </div>
 
@@ -1801,7 +1801,7 @@ export default function FeaturesPage() {
                 {/* Top header bar */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.05]">
                   <div className="flex items-center gap-3">
-                    <span className="text-white font-black text-lg uppercase tracking-widest" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
+                    <span className="text-white  font-bold  text-lg uppercase tracking-widest" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
                     <span className="text-white/20 text-sm">Admin Control Center</span>
                   </div>
                   <div className="flex items-center gap-4">
@@ -1828,7 +1828,7 @@ export default function FeaturesPage() {
                     { label: "🛒 Merch", active: false },
                     { label: "📣 Alerts", active: false },
                   ].map(t => (
-                    <div key={t.label} className={`px-5 py-2 rounded-lg text-sm font-black uppercase tracking-widest cursor-pointer transition-colors ${t.active ? "bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
+                    <div key={t.label} className={`px-5 py-2 rounded-lg text-sm  font-bold  uppercase tracking-widest cursor-pointer transition-colors ${t.active ? "bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
                       {t.label}
                     </div>
                   ))}
@@ -1849,7 +1849,7 @@ export default function FeaturesPage() {
                           <span className="text-xl">{s.icon}</span>
                           <span className="text-xs text-white/25 font-bold">{s.trend}</span>
                         </div>
-                        <div className="text-3xl font-black tabular-nums" style={{ color: s.color }}>{s.val}</div>
+                        <div className="text-3xl  font-bold  tabular-nums" style={{ color: s.color }}>{s.val}</div>
                         <div className="text-white/25 text-xs uppercase tracking-widest mb-1">{s.label}</div>
                         <div className="h-1 bg-[#e1e6ff29]   rounded-full overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${s.bar}%`, background: s.color, opacity: 0.5 }} />
@@ -1864,7 +1864,7 @@ export default function FeaturesPage() {
                     {/* Col 1: Bookings */}
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                        <span className="text-white/70 font-black text-xs uppercase tracking-widest">📋 Booking Requests</span>
+                        <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📋 Booking Requests</span>
                         <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">3 Pending</span>
                       </div>
                       <div className="divide-y divide-white/[0.04]">
@@ -1889,8 +1889,8 @@ export default function FeaturesPage() {
                               </div>
                               {b.status === 'pending' ? (
                                 <div className="flex gap-1">
-                                  <button aria-label="Action button" className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] text-xs font-black rounded cursor-pointer hover:bg-emerald-500/25">✓</button>
-                                  <button aria-label="Action button" className="px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-black rounded cursor-pointer hover:bg-red-500/20">✕</button>
+                                  <button aria-label="Action button" className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] text-xs  font-bold  rounded cursor-pointer hover:bg-emerald-500/25">✓</button>
+                                  <button aria-label="Action button" className="px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-red-400 text-xs  font-bold  rounded cursor-pointer hover:bg-red-500/20">✕</button>
                                 </div>
                               ) : (
                                 <span className="text-xs text-[var(--color-accent)] font-bold">✓ Approved</span>
@@ -1904,7 +1904,7 @@ export default function FeaturesPage() {
                     {/* Col 2: Fan Photo Queue */}
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                        <span className="text-white/70 font-black text-xs uppercase tracking-widest">📸 Fan Photo Queue</span>
+                        <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📸 Fan Photo Queue</span>
                         <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">8 Awaiting</span>
                       </div>
                       <div className="p-3 grid grid-cols-3 gap-2">
@@ -1927,10 +1927,10 @@ export default function FeaturesPage() {
                             <div className="absolute bottom-0 left-0 right-0 px-1 py-0.5 bg-black/70">
                               <div className=" text-white  text-[var(--font-size-4xs)] font-bold truncate">{p.label}</div>
                             </div>
-                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] text-white font-black">!</div>}
+                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] text-white  font-bold ">!</div>}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
-                              <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white text-sm font-black cursor-pointer">✓</button>
-                              <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white text-sm font-black cursor-pointer">✕</button>
+                              <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white text-sm  font-bold  cursor-pointer">✓</button>
+                              <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white text-sm  font-bold  cursor-pointer">✕</button>
                             </div>
                           </div>
                         ))}
@@ -1942,7 +1942,7 @@ export default function FeaturesPage() {
                         </div>
                       </div>
                       <div className="border-t border-white/[0.05] px-4 py-3">
-                        <div className="text-white/25 text-xs font-black uppercase tracking-widest mb-2">Recent Sign-ups</div>
+                        <div className="text-white/25 text-xs  font-bold  uppercase tracking-widest mb-2">Recent Sign-ups</div>
                         <div className="flex flex-col gap-1.5">
                           {[
                             { name: "ashley_xo", tier: "Gold", time: "2m ago", color: "#e879f9" },
@@ -1950,7 +1950,7 @@ export default function FeaturesPage() {
                             { name: "LaurenLive", tier: "Silver", time: "34m ago", color: "#a3e635" },
                           ].map((f, i) => (
                             <div key={f.name} className="flex items-center gap-2">
-                              <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
+                              <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs  font-bold  shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
                               <span className=" text-white  text-xs flex-1 font-bold">{f.name}</span>
                               <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: `${f.color}15`, color: f.color, border: `1px solid ${f.color}30` }}>{f.tier}</span>
                               <span className="text-white/20 text-xs">{f.time}</span>
@@ -1964,7 +1964,7 @@ export default function FeaturesPage() {
                     <div className="flex flex-col gap-4">
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                          <span className="text-white/70 font-black text-xs uppercase tracking-widest">📡 Live Streams</span>
+                          <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📡 Live Streams</span>
                           <span className="flex items-center gap-1 text-red-400 text-xs font-bold"><span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />2 Active</span>
                         </div>
                         <div className="divide-y divide-white/[0.04]">
@@ -1994,7 +1994,7 @@ export default function FeaturesPage() {
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-3">
                         <div className="flex items-center gap-2">
                           <span>📣</span>
-                          <span className="text-white/70 font-black text-xs uppercase tracking-widest">SMS Blast</span>
+                          <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">SMS Blast</span>
                           <span className="ml-auto text-white/25 text-xs">2,847 subs</span>
                         </div>
                         <textarea aria-label="Text input" readOnly rows={2} value={"🔥 7th Heaven LIVE tonight @ House of Blues!\nDoors 7pm · Show 8pm · Merch drop mid-set 🎸"} className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/50 text-xs resize-none" />
@@ -2004,14 +2004,14 @@ export default function FeaturesPage() {
                             <option>Within 50mi of venue</option>
                             <option>Gold + Platinum fans</option>
                           </select>
-                          <button aria-label="Action button" className="px-4 py-1.5 bg-[var(--color-accent)]/80 hover:bg-[var(--color-accent)] rounded-lg text-white text-xs font-black uppercase cursor-pointer">Send</button>
+                          <button aria-label="Action button" className="px-4 py-1.5 bg-[var(--color-accent)]/80 hover:bg-[var(--color-accent)] rounded-lg text-white text-xs  font-bold  uppercase cursor-pointer">Send</button>
                         </div>
                         <div className="text-white/20 text-xs">Last blast: Dec 10 — 94% open rate</div>
                       </div>
 
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="px-4 py-3 border-b border-white/[0.05]">
-                          <span className="text-white/70 font-black text-xs uppercase tracking-widest">📝 Audit Log</span>
+                          <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📝 Audit Log</span>
                         </div>
                         <div className="p-3 flex flex-col gap-1.5 font-mono text-xs">
                           {[
@@ -2051,7 +2051,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🏆</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Fan Dashboard — What It Looks Like
             </h2>
           </div>
@@ -2062,7 +2062,7 @@ export default function FeaturesPage() {
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
               <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
@@ -2080,7 +2080,7 @@ export default function FeaturesPage() {
           {/* Screenshot 2: Mid — Proximity + Shows */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
+              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20 text-sm">— upcoming dates + location-based notifications</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
@@ -2098,7 +2098,7 @@ export default function FeaturesPage() {
           {/* Screenshot 3: Lower — Memories + Referral */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm font-black uppercase tracking-widest rounded-full">🎸 Show Memories & Referrals</span>
+              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm  font-bold  uppercase tracking-widest rounded-full">🎸 Show Memories & Referrals</span>
               <span className="text-white/20 text-sm">— post-show engagement + fan-to-fan growth</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
@@ -2115,7 +2115,7 @@ export default function FeaturesPage() {
 
           {/* CTA */}
           <div className="text-center mt-12">
-            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Try the Fan Dashboard →
             </Link>
           </div>
@@ -2128,7 +2128,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               All Pages — Site Directory
             </h2>
           </div>
@@ -2252,7 +2252,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-6">
-                <h3 className="text-base font-black uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
+                <h3 className="text-base  font-bold  uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
                   <span>{group.group}</span>
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
@@ -2273,7 +2273,7 @@ export default function FeaturesPage() {
                         {page.path}
                       </code>
 
-                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="text-sm  font-bold  text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
@@ -2302,7 +2302,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="text-white/35 mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2316,7 +2316,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="text-white/35 mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -2327,7 +2327,7 @@ export default function FeaturesPage() {
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-black ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#e1e6ff29]   text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs  font-bold  ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#e1e6ff29]   text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -2344,7 +2344,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2352,7 +2352,7 @@ export default function FeaturesPage() {
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
-                  <div className="text-base font-black uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
+                  <div className="text-base  font-bold  uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
                   <p className="text-sm text-white/40 leading-relaxed mt-0.5">{t.desc}</p>
                 </div>
               </div>
@@ -2366,7 +2366,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Site Directory
             </h2>
           </div>
@@ -2489,7 +2489,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-8">
-                <h3 className="text-base font-black uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
+                <h3 className="text-base  font-bold  uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
                   {group.group}
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
@@ -2516,7 +2516,7 @@ export default function FeaturesPage() {
                       </code>
 
                       {/* label */}
-                      <span className="text-sm font-black text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="text-sm  font-bold  text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
@@ -2551,7 +2551,7 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl font-black uppercase text-white mb-4 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl  font-bold  uppercase text-white mb-4 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="text-white/40 text-2xl mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
@@ -2560,14 +2560,14 @@ export default function FeaturesPage() {
             <CosmicRadialButton
               icon={false}
               onClick={() => window.location.href = "/fans"}
-              className="px-8 py-4 text-white font-black text-base tracking-[0.15em] rounded-lg"
+              className="px-8 py-4 text-white  font-bold  text-base tracking-[0.15em] rounded-lg"
             >
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

@@ -157,14 +157,14 @@ export default function ReferralProgramPanel() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] font-bold text-purple-300 mb-0.5">Fan Engagement</p>
-            <h3 className="text-white font-black text-lg"> Referral Program</h3>
+            <h3 className="text-white  font-bold  text-lg"> Referral Program</h3>
             <p className="text-white/30 text-xs mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
             </p>
           </div>
           <div className="flex items-center gap-3">
             {enabled && (
-              <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
+              <span className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
                 Live
               </span>
             )}
@@ -191,15 +191,15 @@ export default function ReferralProgramPanel() {
         {/*  Metrics Strip  */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
-            <p className="text-2xl font-black text-purple-300">{totalReferrals}</p>
+            <p className="text-2xl  font-bold  text-purple-300">{totalReferrals}</p>
             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
-            <p className="text-2xl font-black text-[var(--color-accent)]">{totalConverted}</p>
+            <p className="text-2xl  font-bold  text-[var(--color-accent)]">{totalConverted}</p>
             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
-            <p className="text-2xl font-black text-white">{leaderboard.length}</p>
+            <p className="text-2xl  font-bold  text-white">{leaderboard.length}</p>
             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Active Referrers</p>
           </div>
         </div>
@@ -229,7 +229,7 @@ export default function ReferralProgramPanel() {
                   <span className="text-lg">{m.emoji}</span>
                   <div>
                     <p className="text-sm font-bold text-white">
-                      <span className="text-purple-300 font-black">{m.threshold}</span> referrals →{" "}
+                      <span className="text-purple-300  font-bold ">{m.threshold}</span> referrals →{" "}
                       {m.reward}
                     </p>
                   </div>
@@ -293,7 +293,7 @@ export default function ReferralProgramPanel() {
                 <button aria-label="Action button"
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
+                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs  font-bold  uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
                 >
                   Add
                 </button>
@@ -305,7 +305,7 @@ export default function ReferralProgramPanel() {
           <button aria-label="Action button"
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-colors cursor-pointer ${saved
+            className={`w-full mt-3 py-3 text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${saved
               ? "bg-[var(--color-accent)]  text-white"
               : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
               }`}
@@ -325,7 +325,7 @@ export default function ReferralProgramPanel() {
                 key={m.threshold}
                 className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg"
               >
-                <p className="text-lg font-black text-purple-300">{m.threshold}</p>
+                <p className="text-lg  font-bold  text-purple-300">{m.threshold}</p>
                 <p className="text-[var(--font-size-2xs)] text-white/30 font-bold uppercase tracking-widest mt-0.5">
                   {m.emoji} {m.reward}
                 </p>
@@ -418,7 +418,7 @@ export default function ReferralProgramPanel() {
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
-                                  className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${i === 0
+                                  className={`w-8 h-8 flex items-center justify-center  font-bold  text-[var(--font-size-sm)] shrink-0 ${i === 0
                                     ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
                                     : i === 1
                                       ? "bg-white/10  text-white  border border-white/10"
@@ -456,7 +456,7 @@ export default function ReferralProgramPanel() {
 
                                 {/* Count */}
                                 <div className="text-right">
-                                  <p className="text-lg font-black text-purple-300">
+                                  <p className="text-lg  font-bold  text-purple-300">
                                     {entry.total}
                                   </p>
                                   <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/20 font-bold">
@@ -544,7 +544,7 @@ export default function ReferralProgramPanel() {
                                 entry.signed_up > 0 && (
                                   <button aria-label="Action button"
                                     onClick={() => markRewarded(entry.referrer_code)}
-                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
+                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs  font-bold  uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
                                   >
                                     Mark Rewards as Claimed
                                   </button>

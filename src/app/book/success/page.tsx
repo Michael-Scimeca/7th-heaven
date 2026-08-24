@@ -45,14 +45,14 @@ function SuccessContent() {
             </svg>
           </div>
 
-          <h1 className="text-3xl font-extrabold text-white mb-2 tracking-tight">
+          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
             {sessionId ? "Booking Confirmed ✓" : "Request Submitted"}
           </h1>
 
           {bookingId && (
             <div className="inline-block bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 px-4 py-2 mb-4">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/40 block">Booking ID</span>
-              <span className="text-lg font-black  text-[var(--color-accent)] font-mono">{bookingId}</span>
+              <span className="text-lg  font-bold   text-[var(--color-accent)] font-mono">{bookingId}</span>
             </div>
           )}
 

@@ -9,7 +9,7 @@ export default function PrivacyPage() {
     return (
         <section className="site-container py-section-fluid min-h-screen text-[var(--text-color)] text-left">
             <div className="mb-12 text-left">
-                <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
+                <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
                     Privacy <span className="text-[var(--color-accent)]">Policy</span>
                 </h1>
                 <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold">

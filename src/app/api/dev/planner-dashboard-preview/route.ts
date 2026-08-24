@@ -17,13 +17,13 @@ export async function GET() {
         {/* Top Navbar Header */}
         <div class="bg-[#0c0c16] border border-purple-500/30 rounded-lg  p-4 flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center font-black text-purple-300 text-lg">
+            <div class="w-10 h-10 rounded-full bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center  font-bold  text-purple-300 text-lg">
               MR
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h1 class="text-xl font-black text-white italic">Marcus Rivera</h1>
-                <span class="px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-full">
+                <h1 class="text-xl  font-bold  text-white italic">Marcus Rivera</h1>
+                <span class="px-2.5 py-0.5 text-[10px]  font-bold  uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-full">
                   📋 Event Planner
                 </span>
               </div>
@@ -43,13 +43,13 @@ export async function GET() {
           <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
           <div class="flex items-center justify-between relative z-10">
             <div>
-              <span class="text-xs font-extrabold uppercase tracking-widest text-purple-400">Planner Coordinator Portal</span>
-              <h2 class="text-2xl font-black text-white mt-1">Confirmed Event Bookings</h2>
+              <span class="text-xs font-bold uppercase tracking-widest text-purple-400">Planner Coordinator Portal</span>
+              <h2 class="text-2xl  font-bold  text-white mt-1">Confirmed Event Bookings</h2>
               <p class="text-xs  text-white  mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
             <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2  rounded-lg text-right">
               <span class="text-[10px] font-mono text-purple-300 uppercase block">Booking Reference</span>
-              <span class="text-lg font-black text-white font-mono tracking-wider">7H-BK-4821</span>
+              <span class="text-lg  font-bold  text-white font-mono tracking-wider">7H-BK-4821</span>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export async function GET() {
             </div>
 
             <div class="pt-2 flex items-center gap-2">
-              <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg transition">
+              <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition">
                 Manage Details
               </button>
               <button class="py-2 px-3 bg-[#e1e6ff29]   border border-white/10 text-white/70 font-bold text-xs rounded-xl">

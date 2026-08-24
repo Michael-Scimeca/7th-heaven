@@ -254,30 +254,57 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Load the Google Maps API immediately on mount so tiles and markers load behind preloader
+  // Load the Google Maps API once the browser is idle (or after a short fallback delay)
+  // rather than the instant this component mounts. TourMap already mounts lazily via
+  // <LazySection>, but that trigger fires as soon as the section is within 100px of the
+  // viewport — on mobile that's essentially immediately below the hero, so the ~400KB / 9
+  // sequential Maps SDK script requests were kicking off in the same window as the hero
+  // video/poster and stealing bandwidth + fetch priority from it. Lighthouse's simulated
+  // mobile run showed this clearly: observed (real) LCP was 4.1s, but the throttled lab
+  // estimate ballooned to ~12s because of this contention. Deferring to idle keeps tiles
+  // loading "behind the preloader" in practice (idle fires within a beat on a real device)
+  // while letting the critical hero content win the network/CPU priority race.
   useEffect(() => {
     let active = true;
+    let idleHandle: number | null = null;
+    let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
 
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey) {
-      setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
-      console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
-      return;
-    }
+    const loadMaps = () => {
+      if (!active) return;
 
-    if (!googleMapsOptionsSet) {
-      setOptions({ key: apiKey, v: "weekly" });
-      googleMapsOptionsSet = true;
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+        console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+        return;
+      }
+
+      if (!googleMapsOptionsSet) {
+        setOptions({ key: apiKey, v: "weekly" });
+        googleMapsOptionsSet = true;
+      }
+      importLibrary("maps")
+        .then(() => { if (active) setGoogleReady(true); })
+        .catch((e: unknown) => {
+          console.warn("[TourMap] Failed to load Google Maps:", e);
+          if (active) setMapLoadError("Failed to load Google Maps");
+        });
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleHandle = (window as any).requestIdleCallback(loadMaps, { timeout: 1500 });
+    } else {
+      // Safari and older browsers don't support requestIdleCallback — fall back to a
+      // short delay so we still yield to the hero's initial paint/network requests.
+      timeoutHandle = setTimeout(loadMaps, 200);
     }
-    importLibrary("maps")
-      .then(() => { if (active) setGoogleReady(true); })
-      .catch((e: unknown) => {
-        console.warn("[TourMap] Failed to load Google Maps:", e);
-        if (active) setMapLoadError("Failed to load Google Maps");
-      });
 
     return () => {
       active = false;
+      if (idleHandle !== null && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        (window as any).cancelIdleCallback(idleHandle);
+      }
+      if (timeoutHandle) clearTimeout(timeoutHandle);
     };
   }, []);
 
@@ -835,7 +862,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
                             }`}
                         >
-                          <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                          <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                             {showLetter}
                           </div>
                           <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
@@ -849,7 +876,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       {selectedTypes.size > 0 && (
                         <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                       )}
-                      <span className="text-[var(--font-size-4xs)] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
+                      <span className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
                     </div>
                   </div>
                 </div>
@@ -871,7 +898,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1 text-[9px] sm:text-[10px] font-black bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
+                    <span className="ml-1 text-[9px] sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
                       ({markerCount})
                     </span>
                   )}
@@ -883,7 +910,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="flex items-center gap-2">
                       <span className="text-xl">📅</span>
                       <div className="flex flex-col">
-                        <span className="font-extrabold text-sm text-purple-300 uppercase tracking-wide">Date Range Zoom</span>
+                        <span className="font-bold text-sm text-purple-300 uppercase tracking-wide">Date Range Zoom</span>
                         <span className="text-[10px] text-white/50">Filter map markers by timeframe</span>
                       </div>
                     </div>
@@ -939,7 +966,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   {/* Quick Preset Buttons */}
                   <div className="space-y-1">
-                    <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Quick Presets</span>
+                    <span className="text-[9px] font-bold text-white/50 uppercase tracking-wider block">Quick Presets</span>
                     <div className="grid grid-cols-3 gap-1.5">
                       <button
                         type="button"
@@ -948,7 +975,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 30 Days
                       </button>
@@ -959,14 +986,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 90 Days
                       </button>
                       <button
                         type="button"
                         onClick={() => setDateRange([minShowTime, maxShowTime])}
-                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         All Dates
                       </button>
@@ -978,7 +1005,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors  rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-[10px] uppercase tracking-widest transition-colors  rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
                     >
                       <span>✕ Remove Date Filter</span>
                     </button>
@@ -1126,7 +1153,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           background: rgba(8, 8, 18, 0.85);
           color: rgba(255, 255, 255, 0.9);
           font-size: 10px;
-          font-weight: 800;
+        font-weight: 700; 
           text-transform: uppercase;
           letter-spacing: 0.5px;
           padding: 3px 7px;

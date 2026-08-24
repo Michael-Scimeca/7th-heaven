@@ -138,7 +138,7 @@ export default function DevRouteList() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-black uppercase tracking-wide text-white">
+                <h3 className="text-xl  font-bold  uppercase tracking-wide text-white">
                   Developer Route Directory
                 </h3>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -218,7 +218,7 @@ export default function DevRouteList() {
 
                         {/* Type Badge */}
                         <span
-                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${item.type === "Static"
+                          className={`text-[9px] font-mono  font-bold  px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"

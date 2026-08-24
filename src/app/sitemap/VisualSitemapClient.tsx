@@ -1616,11 +1616,11 @@ export default function VisualSitemapClient() {
       {/* Header bar with View Selector Tabs */}
       <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg  backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-black text-sm shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white  font-bold  text-sm shadow-md">
             7H
           </div>
           <div>
-            <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
+            <h1 className="font-bold text-base text-white tracking-wider uppercase">
               {activeTab === "ARCH"
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"

@@ -59,10 +59,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)] font-black uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)]  font-bold  uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
         </h1>
         <p className=" text-white  text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
@@ -89,14 +89,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 >
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)] font-black uppercase tracking-wider text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  inline-block">
+                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)]  font-bold  uppercase tracking-wider text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  inline-block">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
 
                   {/* Name & Title / Note */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="text-[clamp(1.1rem,2vh,1.5rem)] font-black text-white tracking-tight leading-snug">
+                    <h3 className="text-[clamp(1.1rem,2vh,1.5rem)]  font-bold  text-white tracking-tight leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
@@ -120,7 +120,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)]  font-bold  text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
                       >
                         <Phone className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="whitespace-nowrap">{contact.phone}</span>

@@ -36,16 +36,16 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
     <div key={req.id} className="p-4 bg-[#e1e6ff29]   border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition-colors">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
-          <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
+          <span className="text-[7.5px] text-rose-400  font-bold  uppercase tracking-wider">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
           </span>
-          <span className="text-sm font-black text-white leading-none mt-0.5">
+          <span className="text-sm  font-bold  text-white leading-none mt-0.5">
             {reqDate.getDate()}
           </span>
         </div>
         <div>
-          <span className="text-xs font-black text-white">
+          <span className="text-xs  font-bold  text-white">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {FULL_DATE_FORMATTER.format(reqDate)}
           </span>
@@ -63,7 +63,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
       <div className="flex items-center gap-3 self-end md:self-center shrink-0">
         {req.status === 'pending' ? (
           <>
-            <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider animate-pulse">
+            <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider animate-pulse">
               Pending Approval
             </span>
             <button
@@ -75,11 +75,11 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
             </button>
           </>
         ) : req.status === 'approved' ? (
-          <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+          <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider">
             ✓ Approved
           </span>
         ) : (
-          <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+          <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider">
             ✗ Denied
           </span>
         )}
@@ -95,11 +95,11 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
     <div key={item.id} className="p-3 bg-[#e1e6ff29]   border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-colors">
       <div className="flex items-center gap-3">
         <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
-          <span className="text-[7.5px] font-black uppercase tracking-wider">
+          <span className="text-[7.5px]  font-bold  uppercase tracking-wider">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(itemDate).toUpperCase()}
           </span>
-          <span className="text-xs font-black leading-none mt-0.5">
+          <span className="text-xs  font-bold  leading-none mt-0.5">
             {itemDate.getDate()}
           </span>
         </div>
@@ -109,7 +109,7 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
               {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
               {SHORT_DAY_FORMATTER.format(itemDate)}
             </span>
-            <span className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+            <span className={`px-1.5 py-0.2 rounded text-[9px]  font-bold  uppercase tracking-wider border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
               {item.type}
             </span>
           </div>
@@ -142,7 +142,7 @@ function AvailabilityCardForm({
     <div className="flex-1 text-white">
       <div className="flex items-center gap-3 mb-4">
         <div>
-          <h3 className="text-sm font-black italic tracking-wide text-white">Your Availability & Blackouts</h3>
+          <h3 className="text-sm  font-bold  italic tracking-wide text-white">Your Availability & Blackouts</h3>
           <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
         </div>
       </div>
@@ -193,7 +193,7 @@ function AvailabilityCardForm({
             <CosmicRadialButton
               type="submit"
               icon={false}
-              className="px-5 h-[36px] text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
+              className="px-5 h-[36px] text-xs  font-bold  uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
             >
               Save
             </CosmicRadialButton>
@@ -227,7 +227,7 @@ function TimeOffCardForm({
     <div className="flex-1 text-white">
       <div className="flex items-center gap-3 mb-4">
         <div>
-          <h3 className="text-sm font-black italic tracking-wide text-white">Time-Off Requests</h3>
+          <h3 className="text-sm  font-bold  italic tracking-wide text-white">Time-Off Requests</h3>
           <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
         </div>
       </div>
@@ -266,7 +266,7 @@ function TimeOffCardForm({
             <CosmicRadialButton
               type="submit"
               icon={false}
-              className="px-5 h-[36px] text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
+              className="px-5 h-[36px] text-xs  font-bold  uppercase tracking-wider shrink-0 cursor-pointer flex items-center justify-center"
             >
               Submit Request
             </CosmicRadialButton>
@@ -2678,7 +2678,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="text-xl font-bold italic tracking-tight text-white">{displayName}</span>
-                <span className="px-2 py-0.5 text-[var(--color-accent)] text-xs font-black uppercase tracking-widest rounded flex items-center gap-1 rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">Crew</span>
+                <span className="px-2 py-0.5 text-[var(--color-accent)] text-xs  font-bold  uppercase tracking-widest rounded flex items-center gap-1 rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">Crew</span>
               </div>
               <span className="text-xs  text-white ">{email}</span>
             </div>
@@ -2700,7 +2700,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white">
+                  <h3 className="text-sm  font-bold  italic tracking-wide text-white">
                     Live Broadcast & Feed Center
                   </h3>
                   <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5 truncate">
@@ -2731,7 +2731,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Switch Feed and Fan page links moved from header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
                 <div className="flex items-center gap-3 no-glow">
-                  <span className="text-xs  text-white  uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
+                  <span className="text-xs  text-white  uppercase  font-bold  tracking-wider font-sans">Switch Dashboard Feed:</span>
                   <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
@@ -2759,7 +2759,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </Link>
               </div>
 
-              <div className="flex items-center gap-2  text-white  text-xs uppercase tracking-widest font-black">
+              <div className="flex items-center gap-2  text-white  text-xs uppercase tracking-widest  font-bold ">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>
                 Crew Broadcast <span className="text-white/20 px-1.5">·</span> <span>{viewerCount} viewers</span>
               </div>
@@ -2768,7 +2768,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {isLive && (
                 <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
                   <div className="mb-4 sm:mb-0 text-center sm:text-left">
-                    <p className="text-xs flex flex-col sm:flex-row items-center gap-1.5 font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-1.5">
+                    <p className="text-xs flex flex-col sm:flex-row items-center gap-1.5  font-bold  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
                       Fan Watch Link — Share with your audience
                     </p>
@@ -2780,7 +2780,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border  border-[var(--color-accent)]/30 hover:border-emerald-500/50 transition-colors">
                       Open <span className="ml-0.5">→</span>
                     </Link>
-                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
+                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs  font-bold  uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
                       Copy Link
                     </button>
                   </div>
@@ -2845,7 +2845,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="absolute top-4 left-4 flex gap-2 z-20">
                       <div className="px-3 py-1 bg-red-600 rounded-full flex items-center gap-1.5 shadow-red-600/30">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                        <span className="text-xs font-black text-white uppercase tracking-widest">Live</span>
+                        <span className="text-xs  font-bold  text-white uppercase tracking-widest">Live</span>
                       </div>
                       <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/15 rounded-full flex items-center gap-1.5 text-white/90">
                         <span className="text-xs font-medium">{viewerCount} Viewers</span>
@@ -2862,7 +2862,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="shrink-0 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest   transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
+                        className="shrink-0 px-8 py-3 rounded-full text-xs  font-bold  uppercase tracking-widest   transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
                       >
                         {toggling ? '...' : '● End Stream'}
                       </button>
@@ -2876,7 +2876,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onClick={attemptEndStream}
                         disabled={toggling}
                         icon={false}
-                        className="px-10 py-4 text-sm font-black uppercase tracking-widest disabled:opacity-50 flex items-center gap-3 cursor-pointer"
+                        className="px-10 py-4 text-sm  font-bold  uppercase tracking-widest disabled:opacity-50 flex items-center gap-3 cursor-pointer"
                       >
                         <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '12px', height: '12px', borderRadius: '50%', display: 'inline-block' }} />
                         {toggling ? 'Starting...' : 'Go Live'}
@@ -2891,7 +2891,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     className="p-4 flex items-center justify-between shrink-0"
                     style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }}
                   >
-                    <span className="text-xs font-black uppercase tracking-widest text-white/90">Live Chat</span>
+                    <span className="text-xs  font-bold  uppercase tracking-widest text-white/90">Live Chat</span>
                     <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest  text-white ">
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-emerald-500" /> {viewerCount} online
@@ -2975,17 +2975,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
                               <p className="text-sm font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
                               {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
-                                <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-[#c084fc]">
+                                <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-[#c084fc]">
                                   CREW
                                 </span>
                               )}
                               {isUserWarned && (
-                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-purple-300">
+                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-purple-300">
                                   WARNED
                                 </span>
                               )}
                               {isUserBanned && (
-                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-red-400">
+                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-red-400">
                                   BANNED
                                 </span>
                               )}
@@ -3046,7 +3046,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           onClick={handleGlobalPinBox}
                           disabled={!globalPinText.trim()}
-                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white"
+                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-white  font-bold  uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white"
                         >
                           PIN
                         </button>
@@ -3071,7 +3071,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="flex-1 text-white">
                   <div className="flex items-center gap-3 mb-4">
                     <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">Flash Merch Drop</h3>
+                      <h3 className="text-sm  font-bold  italic tracking-wide text-white">Flash Merch Drop</h3>
                       <p className="text-xs font-bold  text-white  uppercase tracking-widest">Limited time, limited stock</p>
                     </div>
                   </div>
@@ -3082,15 +3082,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
+                            <span className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
                           </div>
                           <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
                         </div>
 
                         {/* Countdown timer */}
                         <div className="bg-black/40 border border-white/10 p-4 text-center">
-                          <p className="text-xs font-black tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
-                          <p className="text-3xl font-black font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
+                          <p className="text-xs  font-bold  tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
+                          <p className="text-3xl  font-bold  font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
                           <div className="w-full bg-[#e1e6ff29]   h-1.5 rounded-full mt-3 overflow-hidden">
@@ -3103,7 +3103,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Product List */}
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase text-white/40">Active Products</p>
+                          <p className="text-xs  font-bold  tracking-widest uppercase text-white/40">Active Products</p>
                           {activeDrop.products.map(p => (
                             <div key={p.id} className="flex gap-3 p-2.5 bg-[#e1e6ff29]   border border-white/10 items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
@@ -3112,7 +3112,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                               </div>
                               <div className="shrink-0 text-right">
-                                <p className="text-xs font-black text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
+                                <p className="text-xs  font-bold  text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
                               </div>
                             </div>
                           ))}
@@ -3123,7 +3123,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs  font-bold  tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                           >
                             Cancel Flash Drop
                           </button>
@@ -3131,7 +3131,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
                     ) : (
                       <>
-                        <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
+                        <div className="flex items-center justify-between mb-3 text-xs  font-bold  uppercase tracking-widest">
                           <div className="flex items-center gap-2">
                             <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
                             <a
@@ -3170,7 +3170,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </div>
 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs font-black tracking-widest uppercase  text-white  mb-2">Selected Products & Flash Sale Prices</p>
+                          <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
                             <div className="text-center py-6 rounded-lg border border-white/15  text-white  italic text-xs">
                               No products selected yet. Select a product above.
@@ -3191,7 +3191,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                       aria-label="Flash sale price"
                                       value={p.flashPrice}
                                       onChange={e => updateProductFlashPrice(p.id, e.target.value)}
-                                      className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right"
+                                      className="bg-transparent text-white font-mono  font-bold  text-xs outline-none w-full text-right"
                                       placeholder="Price"
                                     />
                                   </div>
@@ -3210,7 +3210,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
-                            <p className="text-xs font-black tracking-widest uppercase  text-white  mb-2">Total Products</p>
+                            <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Total Products</p>
                             <button
                               type="button"
                               onClick={() => {
@@ -3229,7 +3229,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             </button>
                           </div>
                           <div>
-                            <p className="text-xs font-black tracking-widest uppercase  text-white  mb-2">Duration</p>
+                            <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-1">
                               {['2m', '5m', '10m', '15m'].map((d) => (
                                 <button
@@ -3261,7 +3261,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={launchFlashDrop}
                           icon={false}
-                          className="w-full py-4 text-sm font-black italic tracking-widest uppercase cursor-pointer"
+                          className="w-full py-4 text-sm  font-bold  italic tracking-widest uppercase cursor-pointer"
                         >
                           Launch Flash Drop
                         </CosmicRadialButton>
@@ -3273,7 +3273,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
                             try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
                           }}
-                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
+                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs  font-bold  tracking-widest uppercase transition-colors"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
@@ -3287,7 +3287,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
                     <div className="flex items-center gap-3">
                       <div>
-                        <h3 className="text-sm font-black italic tracking-wide text-white">Live Event Raffle</h3>
+                        <h3 className="text-sm  font-bold  italic tracking-wide text-white">Live Event Raffle</h3>
                         <p className="text-xs font-bold  text-white  uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                       </div>
                     </div>
@@ -3295,7 +3295,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         type="button"
                         onClick={cancelRaffle}
-                        className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
+                        className="px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
                       >
                         {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
                       </button>
@@ -3316,7 +3316,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex gap-2 items-end">
                               {/* Input 1: Prize Name */}
                               <div className="flex-1 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="text"
@@ -3332,7 +3332,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 2: Entries Needed */}
                               <div className="w-20 flex flex-col gap-1.5 relative no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3346,7 +3346,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/30  whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)]  font-bold  uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/30  whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                     {raffleEntrants.length} / {item.min} Entries
                                   </div>
                                 )}
@@ -3354,7 +3354,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 3: Prize Qty */}
                               <div className="w-14 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)]  font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)]   font-bold  uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3375,7 +3375,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
                                   disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-[39px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                                  className={`h-[39px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
@@ -3412,7 +3412,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {raffleStatus === 'open' && (
                       <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
-                        <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
+                        <p className="text-lg  font-bold  text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
                         <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-widest mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
@@ -3422,7 +3422,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
+                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
                           >
                             🧪 TEST: Rig Win for Me
                           </button>
@@ -3438,18 +3438,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           onClick={drawWinner}
                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
                           icon={false}
-                          className="w-full py-4 text-sm font-black italic tracking-widest uppercase disabled:opacity-30 disabled:grayscale cursor-pointer"
+                          className="w-full py-4 text-sm  font-bold  italic tracking-widest uppercase disabled:opacity-30 disabled:grayscale cursor-pointer"
                         >
                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                         </CosmicRadialButton>
                       ) : (
                         <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
                           <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
-                          <h4 className="text-lg font-black text-black italic">Winner Selected</h4>
+                          <h4 className="text-lg  font-bold  text-black italic">Winner Selected</h4>
                           <div className="flex flex-col gap-2 justify-center mt-3">
                             {drawnWinners.map((w, i) => (
                               <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
-                                <span className="text-sm font-black">{w.name}</span>
+                                <span className="text-sm  font-bold ">{w.name}</span>
                                 <span className="text-xs font-mono font-bold tracking-widest text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
                               </div>
                             ))}
@@ -3470,7 +3470,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <div className="mt-6 text-white">
                 <div className="mb-4 flex items-center gap-3">
                   <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                    <h3 className="text-sm  font-bold  italic tracking-wide text-white">Chat Moderation & Policies</h3>
                     <p className="text-xs font-bold  text-white  uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
@@ -3478,7 +3478,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="max-w-[600px] w-full space-y-2">
-                      <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
+                      <h4 className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
                       <p className=" text-white  text-xs leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
@@ -3497,7 +3497,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <CosmicRadialButton
                           type="submit"
                           icon={false}
-                          className="px-5 py-2.5 text-xs font-black uppercase tracking-wider shrink-0 cursor-pointer"
+                          className="px-5 py-2.5 text-xs  font-bold  uppercase tracking-wider shrink-0 cursor-pointer"
                         >
                           Add Keyword
                         </CosmicRadialButton>
@@ -3505,7 +3505,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="text-xs font-black uppercase tracking-widest  text-white ">Active Custom Filters</p>
+                      <p className="text-xs  font-bold  uppercase tracking-widest  text-white ">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center rounded-lg py-6 border border-dashed border-white/15 bg-white/[0.01]">
                           <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
@@ -3539,12 +3539,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
+                      <h3 className="text-sm  font-bold  italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
                       <p className="text-xs font-bold  text-white  uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
                     </div>
                   </div>
                   {isLive && (
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
                       ● Live Tracking
                     </span>
                   )}
@@ -3555,8 +3555,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* store sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Store Sales Revenue</p>
-                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Store Sales Revenue</p>
+                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
                         ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
                       <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">
@@ -3566,8 +3566,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* flash drop sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Flash Drop Sales</p>
-                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Flash Drop Sales</p>
+                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
                         ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
                       <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">
@@ -3577,8 +3577,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* raffle claims card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Raffle Claims</p>
-                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Raffle Claims</p>
+                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
                         {orders.filter(o => o.source === 'Raffle').length}
                       </p>
                       <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">prizes claimed by fans</p>
@@ -3586,10 +3586,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* viewers card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white flex items-center gap-1.5">
                         <Users className="w-3.5 h-3.5 text-white inline" /> Live Viewers
                       </p>
-                      <p className="text-2xl font-black mt-1 text-white font-mono">{viewerCount}</p>
+                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">{viewerCount}</p>
                       <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">{isLive ? "Watching live right now" : "Offline"}</p>
                     </div>
 
@@ -3611,7 +3611,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             >
 
               <div>
-                <h3 className="text-sm font-black italic tracking-wide text-white">Live Setlist & Fan Likes</h3>
+                <h3 className="text-sm  font-bold  italic tracking-wide text-white">Live Setlist & Fan Likes</h3>
                 <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
@@ -3621,7 +3621,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
+                className="px-4 py-2 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest rounded-lg transition-colors border bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
               >
                 Reset Likes
               </button>
@@ -3691,7 +3691,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-black tracking-widest text-white/40 hover: text-white  transition-colors"
+                        className="text-3xs uppercase  font-bold  tracking-widest text-white/40 hover: text-white  transition-colors"
                       >
                         Cancel
                       </button>
@@ -3699,7 +3699,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 text-xs font-black uppercase tracking-widest cursor-pointer"
+                        className="px-4 py-2 text-xs  font-bold  uppercase tracking-widest cursor-pointer"
                       >
                         Import Playlist
                       </CosmicRadialButton>
@@ -3721,7 +3721,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 text-xs font-black uppercase tracking-widest cursor-pointer"
+                        className="px-4 py-2 text-xs  font-bold  uppercase tracking-widest cursor-pointer"
                       >
                         Add
                       </CosmicRadialButton>
@@ -3730,7 +3730,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         type="button"
                         onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-black tracking-widest text-[var(--color-accent)] hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+                        className="text-3xs uppercase  font-bold  tracking-widest text-[var(--color-accent)] hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
                       >
                         <FileText className="w-3.5 h-3.5 text-[var(--color-accent)] inline" /> Bulk Import / Paste List
                       </button>
@@ -3764,7 +3764,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     className="flex items-center gap-3 bg-transparent border-none p-0 text-left cursor-pointer"
                   >
                     <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
+                      <h3 className="text-sm  font-bold  italic tracking-wide text-white">Your Work Schedule</h3>
                       <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
                     </div>
                   </button>
@@ -3777,16 +3777,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                         setIsEmailModalOpen(true);
                       }}
-                      className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white rounded-full text-xs font-black uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
+                      className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white rounded-full text-xs  font-bold  uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
                     >
                       Contact Admins
                     </button>
                     {pendingShifts.length > 0 && (
-                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
                         {pendingShifts.length} Pending
                       </span>
                     )}
-                    <span className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px rounded-full text-xs font-black uppercase tracking-widest">
+                    <span className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px rounded-full text-xs  font-bold  uppercase tracking-widest">
                       {activeShifts.length} Shifts
                     </span>
                     <button
@@ -3816,7 +3816,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
                         }}
                         icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>}
-                        className="px-4 py-2 text-white text-xs font-black uppercase tracking-wider !rounded-lg shrink-0 cursor-pointer"
+                        className="px-4 py-2 text-white text-xs  font-bold  uppercase tracking-wider !rounded-lg shrink-0 cursor-pointer"
                       >
                         Copy Feed URL
                       </CosmicRadialButton>
@@ -3829,7 +3829,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={() => setActiveScheduleTab('my_schedule')}
                           icon={false}
-                          className="py-2 text-xs font-black uppercase tracking-wider text-white cursor-pointer !rounded-lg"
+                          className="py-2 text-xs  font-bold  uppercase tracking-wider text-white cursor-pointer !rounded-lg"
                         >
                           My Shift Schedule ({activeShifts.length})
                         </CosmicRadialButton>
@@ -3837,7 +3837,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           type="button"
                           onClick={() => setActiveScheduleTab('my_schedule')}
-                          className="py-2 text-xs font-black uppercase tracking-wider  text-white  hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center"
+                          className="py-2 text-xs  font-bold  uppercase tracking-wider  text-white  hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center"
                         >
                           My Shift Schedule ({activeShifts.length})
                         </button>
@@ -3848,7 +3848,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={() => setActiveScheduleTab('tour_events')}
                           icon={false}
-                          className="py-2 text-xs font-black uppercase tracking-wider text-white cursor-pointer !rounded-lg"
+                          className="py-2 text-xs  font-bold  uppercase tracking-wider text-white cursor-pointer !rounded-lg"
                         >
                           Band Tour Events ({tourDates.length})
                         </CosmicRadialButton>
@@ -3856,7 +3856,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           type="button"
                           onClick={() => setActiveScheduleTab('tour_events')}
-                          className="py-2 text-xs font-black uppercase tracking-wider  text-white  hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center"
+                          className="py-2 text-xs  font-bold  uppercase tracking-wider  text-white  hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center"
                         >
                           Band Tour Events ({tourDates.length})
                         </button>
@@ -3890,19 +3890,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     ? 'bg-yellow-500/10 border-yellow-500/30'
                                     : 'bg-purple-600/10 border-purple-500/20'
                                     }`}>
-                                    <span className={`text-[8px] font-black uppercase tracking-wider leading-none ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
-                                    <span className="text-xs font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                    <span className={`text-[8px]  font-bold  uppercase tracking-wider leading-none ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
+                                    <span className="text-xs  font-bold  text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
                                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
-                                    <span className="text-[10px] font-black text-purple-300 mt-0.5">Call: {shift.time}</span>
+                                    <span className="text-[10px]  font-bold  text-purple-300 mt-0.5">Call: {shift.time}</span>
                                   </div>
                                 </div>
 
                                 {/* Role & Location Column */}
                                 <div className="flex-1 min-w-[160px]">
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px] font-black uppercase tracking-wider rounded">
+                                    <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded">
                                       {shift.role}
                                     </span>
                                     {(() => {
@@ -3912,7 +3912,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                           <button
                                             type="button"
                                             onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                            className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
+                                            className="text-xs  font-bold  text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
                                             title="Click to view venue load-in, parking & WiFi details"
                                           >
                                             <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {shift.location} <span className="text-[9px] text-[var(--color-accent)]/80">ℹ️</span>
@@ -3920,7 +3920,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                         );
                                       }
                                       return (
-                                        <span className="text-xs font-black text-white/90">
+                                        <span className="text-xs  font-bold  text-white/90">
                                           📍 {shift.location}
                                         </span>
                                       );
@@ -3954,7 +3954,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(shift.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
                                       title="View show lineup acts and discuss details with crew"
                                     >
                                       💬 Lineup & Discuss
@@ -3966,11 +3966,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 <div className="shrink-0 min-w-[130px] text-left md:text-right flex items-center md:justify-end">
                                   {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
                                     <div className="flex items-center gap-1.5">
-                                      <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
+                                      <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
                                         ✓ Confirmed
                                       </span>
                                       {shift.isCoverageRequested ? (
-                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-[var(--color-accent)]/10 border-[var(--color-accent)]/30  text-[var(--color-accent)] animate-pulse">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-[var(--color-accent)]/10 border-[var(--color-accent)]/30  text-[var(--color-accent)] animate-pulse">
                                           ⏳ Coverage Requested
                                         </span>
                                       ) : (
@@ -3986,14 +3986,14 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
 [Your message here]`);
                                               setIsEmailModalOpen(true);
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                           >
                                             ✉️ Email Admin
                                           </button>
                                           <button
                                             type="button"
                                             onClick={() => setRequestingCoverageShift(shift)}
-                                            className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
+                                            className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
                                           >
                                             🙋 Swap
                                           </button>
@@ -4002,13 +4002,13 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
                                     </div>
                                   ) : shift.approvalStatus === 'declined' ? (
                                     <div className="flex items-center gap-1.5">
-                                      <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                      <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
                                         ✗ Declined
                                       </span>
                                       <button
                                         type="button"
                                         onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                        className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
+                                        className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold"
                                       >
                                         Confirm
                                       </button>
@@ -4025,21 +4025,21 @@ Reason for decline: ${shift.declineReason || ''}
 [Your message here]`);
                                           setIsEmailModalOpen(true);
                                         }}
-                                        className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                        className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                       >
                                         ✉️ Email
                                       </button>
                                     </div>
                                   ) : (
                                     <div className="flex flex-col md:items-end gap-1">
-                                      <span className="text-[7.5px] font-black uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
+                                      <span className="text-[7.5px]  font-bold  uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
                                         ⚠️ Action Required
                                       </span>
                                       <div className="flex items-center gap-1">
                                         <button
                                           type="button"
                                           onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold  "
+                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none font-bold  "
                                         >
                                           Confirm
                                         </button>
@@ -4049,7 +4049,7 @@ Reason for decline: ${shift.declineReason || ''}
                                             decliningShiftIdRef.current = shift.id;
                                             setIsDeclineModalOpen(true);
                                           }}
-                                          className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer font-bold"
+                                          className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer font-bold"
                                         >
                                           Decline
                                         </button>
@@ -4064,7 +4064,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 [Your message here]`);
                                             setIsEmailModalOpen(true);
                                           }}
-                                          className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                                          className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                                         >
                                           ✉️ Email
                                         </button>
@@ -4126,20 +4126,20 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     ? 'bg-purple-600/10 border-purple-500/30'
                                     : 'bg-[#e1e6ff29]   border-white/15'
                                     }`}>
-                                    <span className={`text-[8px] font-black uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
-                                    <span className="text-xs font-black text-white leading-none mt-0.5">{dayNum}</span>
+                                    <span className={`text-[8px]  font-bold  uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
+                                    <span className="text-xs  font-bold  text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
                                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
                                     {show.playTime ? (
                                       <>
-                                        <span className="text-[10px] font-black text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
+                                        <span className="text-[10px]  font-bold  text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
                                         {show.time && (
                                           <span className="text-[8px] text-white/40 leading-none mt-0.5" title="Event Show Time">Event: {show.time}</span>
                                         )}
                                       </>
                                     ) : (
-                                      <span className="text-[10px] font-black text-purple-300 mt-0.5">{show.time || 'TBA'}</span>
+                                      <span className="text-[10px]  font-bold  text-purple-300 mt-0.5">{show.time || 'TBA'}</span>
                                     )}
                                   </div>
                                 </div>
@@ -4151,13 +4151,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       <button
                                         type="button"
                                         onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                        className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
+                                        className="text-xs  font-bold  text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
                                         title="Click to view venue specs"
                                       >
                                         <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue} <span className="text-[9px] text-[var(--color-accent)]/80">ℹ️</span>
                                       </button>
                                     ) : (
-                                      <span className="text-xs font-black text-white/90 flex items-center gap-1">
+                                      <span className="text-xs  font-bold  text-white/90 flex items-center gap-1">
                                         <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue}
                                       </span>
                                     )}
@@ -4167,7 +4167,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(show.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none flex items-center gap-1"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer select-none flex items-center gap-1"
                                     >
                                       <MessageSquare className="w-3 h-3 text-purple-300 inline" /> Lineup & Discuss
                                     </button>
@@ -4181,19 +4181,19 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
                                   {userShift ? (
                                     <div className="flex items-center gap-1.5">
-                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px] font-black uppercase tracking-wider rounded leading-none">
+                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded leading-none">
                                         🛡️ {userShift.role}
                                       </span>
                                       {userShift.approvalStatus === 'approved' ? (
-                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
                                           ✓ Confirmed
                                         </span>
                                       ) : userShift.approvalStatus === 'declined' ? (
-                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
                                           ✗ Declined
                                         </span>
                                       ) : (
-                                        <span className="px-1.5 py-0.5 rounded border text-[9px] font-black uppercase tracking-wider shrink-0 bg-yellow-500/10 border-yellow-500/30 text-yellow-400 animate-pulse">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-yellow-500/10 border-yellow-500/30 text-yellow-400 animate-pulse">
                                           ⏳ Pending
                                         </span>
                                       )}
@@ -4203,11 +4203,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       {userAvail ? (
                                         <div className="flex items-center gap-1.5">
                                           {userAvail.type === 'available' ? (
-                                            <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)]  rounded-lg  text-[9px] font-black uppercase tracking-wider leading-none">
+                                            <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)]  rounded-lg  text-[9px]  font-bold  uppercase tracking-wider leading-none">
                                               🟢 Available
                                             </span>
                                           ) : (
-                                            <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300  rounded-lg  text-[9px] font-black uppercase tracking-wider leading-none">
+                                            <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300  rounded-lg  text-[9px]  font-bold  uppercase tracking-wider leading-none">
                                               🔴 Unavailable
                                             </span>
                                           )}
@@ -4244,7 +4244,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-emerald-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-emerald-500/40"
                                           >
                                             🟢 Available
                                           </button>
@@ -4270,7 +4270,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-purple-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-purple-500/40"
                                           >
                                             🔴 Unavailable
                                           </button>
@@ -4296,11 +4296,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl">🚨</div>
                       <div>
-                        <h3 className="text-sm font-black italic tracking-widetext-black">Available Shift Coverage Requests</h3>
+                        <h3 className="text-sm  font-bold  italic tracking-widetext-black">Available Shift Coverage Requests</h3>
                         <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
                       </div>
                     </div>
-                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
                       {coverageShifts.length} Available
                     </span>
                   </div>
@@ -4319,19 +4319,19 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           {/* Date & Time */}
                           <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
                             <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex flex-col items-center justify-center text-center shrink-0">
-                              <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-black uppercase tracking-wider">{month}</span>
-                              <span className="text-base font-black text-black leading-none mt-0.5">{dayNum}</span>
+                              <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)]  font-bold  uppercase tracking-wider">{month}</span>
+                              <span className="text-base  font-bold  text-black leading-none mt-0.5">{dayNum}</span>
                             </div>
                             <div className="flex flex-col">
                               <span className="text-xs font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
-                              <span className="text-xs font-black  text-[var(--color-accent)] mt-0.5">{shift.time}</span>
+                              <span className="text-xs  font-bold   text-[var(--color-accent)] mt-0.5">{shift.time}</span>
                             </div>
                           </div>
 
                           {/* Role & Location */}
                           <div className="flex-1 min-w-[200px]">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="px-2 py-0.5 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded">
+                              <span className="px-2 py-0.5 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider rounded">
                                 {shift.role}
                               </span>
                               {(() => {
@@ -4341,7 +4341,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                      className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                      className="text-xs  font-bold  text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
                                       title="Click to view venue load-in, parking & WiFi details"
                                     >
                                       📍 {shift.location} <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)]/80">ℹ️</span>
@@ -4349,7 +4349,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   );
                                 }
                                 return (
-                                  <span className="text-xs font-black text-black/80">
+                                  <span className="text-xs  font-bold  text-black/80">
                                     📍 {shift.location}
                                   </span>
                                 );
@@ -4357,7 +4357,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               <button
                                 type="button"
                                 onClick={() => setActiveDiscussionDate(shift.date)}
-                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
+                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
                                 title="View show lineup acts and discuss details with crew"
                               >
                                 💬 Lineup & Discuss
@@ -4373,7 +4373,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             <button
                               type="button"
                               onClick={() => handleAcceptCoverage(shift.id)}
-                              className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
+                              className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
                             >
                               🙋 Accept Shift
                             </button>
@@ -4404,7 +4404,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /></svg>
                 </div>
-                <h2 className="text-2xl font-black italic tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
+                <h2 className="text-2xl  font-bold  italic tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
                 <p className="text-sm text-black/60 leading-relaxed">
                   You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
                 </p>
@@ -4413,7 +4413,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="flex flex-col gap-3 relative z-10">
                 <button
                   onClick={confirmEndDiscard}
-                  className="w-full py-4 bg-red-500 hover:bg-red-400 text-black font-black uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
+                  className="w-full py-4 bg-red-500 hover:bg-red-400 text-black  font-bold  uppercase tracking-[0.2em] text-xs transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
                 >
                   End Broadcast
                 </button>
@@ -4432,7 +4432,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         {isDeclineModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
             <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4 shadow-md relative">
-              <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
+              <h3 className="text-sm  font-bold  italic tracking-wide text-black uppercase flex items-center gap-2">
                 <span className="text-rose-500">✗</span> Decline Work Shift
               </h3>
               <p className="text-xs text-black/50 leading-relaxed">
@@ -4453,7 +4453,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     decliningShiftIdRef.current = null;
                     setDeclineReason('');
                   }}
-                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
+                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors"
                 >
                   Cancel
                 </button>
@@ -4468,7 +4468,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     decliningShiftIdRef.current = null;
                     setDeclineReason('');
                   }}
-                  className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
                 >
                   Submit Decline
                 </button>
@@ -4484,7 +4484,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {isEmailModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4 shadow-md relative">
-            <h3 className="text-sm font-black italic tracking-wide text-black uppercase flex items-center gap-2">
+            <h3 className="text-sm  font-bold  italic tracking-wide text-black uppercase flex items-center gap-2">
               <span className=" text-[var(--color-accent)]">📧</span> Email Administrators
             </h3>
 
@@ -4528,7 +4528,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setEmailSubject('');
                   setEmailMessage('');
                 }}
-                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
+                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors"
               >
                 Cancel
               </button>
@@ -4536,7 +4536,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 type="button"
                 disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
                 onClick={handleSendEmailToAdmins}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black  font-bold  rounded-lg text-xs uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
               >
                 {isSendingEmail ? 'Sending...' : 'Send Message'}
               </button>
@@ -4550,7 +4550,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)]  backdrop-blur-[45px] animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
           <div className="flex-1 text-left font-sans">
             {toast.title && (
-              <h4 className={`text-xs uppercase tracking-widest font-black mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
+              <h4 className={`text-xs uppercase tracking-widest  font-bold  mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
                 }`}>
                 {toast.title}
               </h4>
@@ -4579,7 +4579,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🏛️</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
+                  <h3 className="text-sm  font-bold  italic tracking-wide text-black uppercase leading-none">
                     {selectedVenuePopup.name}
                   </h3>
                   <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -4625,7 +4625,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       navigator.clipboard.writeText(selectedVenuePopup.wifiPassword || '');
                       showToast('Wi-Fi password copied to clipboard!', 'success', 'COPIED');
                     }}
-                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
                   >
                     Copy
                   </button>
@@ -4694,7 +4694,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🎸</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
+                  <h3 className="text-sm  font-bold  italic tracking-wide text-black uppercase leading-none">
                     Show Lineup & Gig Discuss
                   </h3>
                   <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -4716,7 +4716,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
             <div className="flex-1 overflow-y-auto space-y-5 pr-1 py-1" data-lenis-prevent="true">
               {/* Lineup */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
+                <h4 className="text-[var(--font-size-3xs)]  font-bold  uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
@@ -4735,7 +4735,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           </div>
                           {changeover && (
                             <div className="text-center">
-                              <span className="inline-block px-2.5 py-0.5 rounded-full bg-purple-600/10 border border-purple-500/25 text-[8.5px] font-black uppercase tracking-wider text-purple-300 font-mono">
+                              <span className="inline-block px-2.5 py-0.5 rounded-full bg-purple-600/10 border border-purple-500/25 text-[8.5px]  font-bold  uppercase tracking-wider text-purple-300 font-mono">
                                 🔄 {changeover}
                               </span>
                             </div>
@@ -4748,7 +4748,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
               {/* Discussion Thread */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-black uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
+                <h4 className="text-[var(--font-size-3xs)]  font-bold  uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
                 {(() => {
                   const comments = gigComments.filter(c => c.date === activeDiscussionDate);
                   const rootComments = comments.filter(c => !c.parentId);
@@ -4781,7 +4781,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   <button
                                     type="button"
                                     onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
-                                    className="text-[var(--font-size-4xs)] font-black text-purple-300 hover:text-black mt-1 border-none bg-transparent cursor-pointer"
+                                    className="text-[var(--font-size-4xs)]  font-bold  text-purple-300 hover:text-black mt-1 border-none bg-transparent cursor-pointer"
                                   >
                                     {replyingToCommentId === c.id ? 'Cancel Reply' : 'Reply'}
                                   </button>
@@ -4817,7 +4817,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       setReplyText('');
                                       setReplyingToCommentId(null);
                                     }}
-                                    className="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border-none cursor-pointer disabled:opacity-30"
+                                    className="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider rounded border-none cursor-pointer disabled:opacity-30"
                                   >
                                     Send
                                   </button>
@@ -4874,7 +4874,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             ]);
                             setNewCommentText('');
                           }}
-                          className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none text-black font-black uppercase tracking-wider text-xs rounded-lg border-none cursor-pointer"
+                          className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none text-black  font-bold  uppercase tracking-wider text-xs rounded-lg border-none cursor-pointer"
                         >
                           Post
                         </button>
@@ -4908,7 +4908,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="flex items-center gap-2.5">
                 <span className="text-xl">🔄</span>
                 <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-black uppercase leading-none">
+                  <h3 className="text-sm  font-bold  italic tracking-wide text-black uppercase leading-none">
                     Request Coverage or Swap
                   </h3>
                   <p className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-mono tracking-wider mt-1.5 uppercase leading-none">
@@ -4940,7 +4940,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
-                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId
+                  className={`py-2 text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId
                     ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
@@ -4950,7 +4950,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId
+                  className={`py-2 text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId
                     ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
@@ -5017,7 +5017,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
+                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs  font-bold  uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
               >
                 Submit Request
               </button>

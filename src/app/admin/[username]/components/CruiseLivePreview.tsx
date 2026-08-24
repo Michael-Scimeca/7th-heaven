@@ -23,7 +23,7 @@ export function CruiseLivePreview({
     return (
       <div className="bg-black/60 border border-white/10  rounded-lg p-5 shadow-inner min-h-[220px]">
         <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/10">
-          <div className="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-extrabold text-xs">
+          <div className="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold text-xs">
             7H
           </div>
           <div>

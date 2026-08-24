@@ -138,7 +138,7 @@ export default function CompleteProfilePage() {
               <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎸
               </div>
-              <h1 className="text-2xl font-black tracking-tight mb-2">
+              <h1 className="text-2xl  font-bold  tracking-tight mb-2">
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
@@ -190,8 +190,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications
-                      ? 'bg-purple-600/10 border-purple-500/40'
-                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    ? 'bg-purple-600/10 border-purple-500/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
                   <SquishyToggle
@@ -226,8 +226,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter
-                      ? 'bg-purple-600/10 border-purple-500/40'
-                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    ? 'bg-purple-600/10 border-purple-500/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
                   <SquishyToggle

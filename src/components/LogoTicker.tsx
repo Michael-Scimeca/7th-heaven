@@ -114,9 +114,9 @@ export default function LogoTicker({
                 key={item.src + "-" + i}
                 className="flex shrink-0 items-center justify-center transition-all duration-150 transform-gpu"
                 style={{
-                  height: "clamp(60px, 10vw, 142px)",
-                  paddingLeft: "clamp(12px, 3.5vw, 60px)",
-                  paddingRight: "clamp(12px, 3.5vw, 60px)",
+                  height: "clamp(44px, 6vw, 96px)",
+                  paddingLeft: "clamp(12px, 2.5vw, 44px)",
+                  paddingRight: "clamp(12px, 2.5vw, 44px)",
                 }}
               >
                 <Image
@@ -126,23 +126,23 @@ export default function LogoTicker({
                   height={0}
                   className={`w-auto max-w-none object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
                     }`}
-                  style={{ height: "clamp(32px, 5.5vw, 82px)", width: "auto", maxHeight: "100%" }}
+                  style={{ height: "clamp(24px, 4vw, 64px)", width: "auto", maxHeight: "100%" }}
                   unoptimized
                 />
               </div>
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-6 border-r border-white/20 px-6 sm:px-10 transform-gpu"
-                style={{ height: "clamp(60px, 10vw, 142px)" }}
+                className="flex shrink-0 items-center gap-4 border-r border-white/20 px-4 sm:px-8 transform-gpu"
+                style={{ height: "clamp(44px, 6vw, 96px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}
                 <div className="flex flex-col leading-tight">
-                  <span className="whitespace-nowrap text-2xl font-black tracking-tight text-white">
+                  <span className="whitespace-nowrap text-[clamp(1rem,2vw,1.6rem)] font-black tracking-tight text-white">
                     {item.label}
                   </span>
                   {item.sub && (
-                    <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-wide  text-white ">
+                    <span className="whitespace-nowrap text-[clamp(9px,1vw,11px)] font-medium uppercase tracking-wide text-white">
                       {item.sub}
                     </span>
                   )}

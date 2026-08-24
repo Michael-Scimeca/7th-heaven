@@ -121,14 +121,14 @@ function CruiseVerifyContent() {
       <div className="relative z-10 w-full max-w-md bg-[rgba(10,15,30,0.85)] backdrop-blur-xl border border-purple-500/30  rounded-lg p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)] text-center my-auto">
         {status === "success" ? (
           <div className="py-4">
-            <h1 className="text-2xl sm:text-3xl font-black text-emerald-400 mb-2">Access Granted!</h1>
+            <h1 className="text-2xl sm:text-3xl  font-bold  text-emerald-400 mb-2">Access Granted!</h1>
             <p className="text-sm text-white/70 leading-relaxed mb-6">
               Your Cruise Member account is confirmed.<br />
               Welcome aboard the 7th Heaven Caribbean Cruise.
             </p>
             <Link
               href="/cruise/dashboard"
-              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-extrabold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             >
               Access My Dashboard →
             </Link>
@@ -137,10 +137,10 @@ function CruiseVerifyContent() {
           <>
             {/* Eyebrow */}
             <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4">
-              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
+              <span className="text-[10px] sm:text-xs  font-bold  uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">Check Your Email</h1>
+            <h1 className="text-2xl sm:text-3xl  font-bold  text-white tracking-tight mb-2">Check Your Email</h1>
             <p className="text-xs sm:text-sm  text-white  mb-2">
               We sent a 6-digit verification code to
             </p>
@@ -164,7 +164,7 @@ function CruiseVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-black text-white bg-black/60 border  rounded-lg outline-none transition-all ${d
+                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl  font-bold  text-white bg-black/60 border  rounded-lg outline-none transition-all ${d
                       ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
                       : "border-white/15 focus:border-purple-400 focus:bg-purple-950/20"
                       } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
@@ -181,7 +181,7 @@ function CruiseVerifyContent() {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>
@@ -216,7 +216,7 @@ function CruiseVerifyContent() {
             {/* Brand footer */}
             <div className="mt-5 flex items-center justify-center gap-3">
               <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10" />
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-white/30">7th Heaven · Caribbean Cruise 2025</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">7th Heaven · Caribbean Cruise 2025</span>
               <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10" />
             </div>
           </>

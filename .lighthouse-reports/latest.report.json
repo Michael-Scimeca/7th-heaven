@@ -10886,7 +10886,7 @@
                 "width": 102,
                 "height": 17
               },
-              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black u…\" id=\"upnext-calendar-btn\">",
+              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  u…\" id=\"upnext-calendar-btn\">",
               "nodeLabel": "ADD TO CALENDAR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -10928,7 +10928,7 @@
                 "width": 92,
                 "height": 17
               },
-              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black u…\">",
+              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  u…\">",
               "nodeLabel": "PRINT TOUR LIST",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -10970,7 +10970,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11012,7 +11012,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11054,7 +11054,7 @@
                 "width": 56,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "UNPLUGGED",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11096,7 +11096,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11222,7 +11222,7 @@
                 "width": 56,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "UNPLUGGED",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11264,7 +11264,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11306,7 +11306,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11348,7 +11348,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11390,7 +11390,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11432,7 +11432,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11474,7 +11474,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11516,7 +11516,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11642,7 +11642,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11684,7 +11684,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11726,7 +11726,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11768,7 +11768,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11810,7 +11810,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11852,7 +11852,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11894,7 +11894,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11936,7 +11936,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -11978,7 +11978,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12020,7 +12020,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12062,7 +12062,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12104,7 +12104,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12146,7 +12146,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12188,7 +12188,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12230,7 +12230,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12272,7 +12272,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12314,7 +12314,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12356,7 +12356,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12398,7 +12398,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12440,7 +12440,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12482,7 +12482,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12524,7 +12524,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12566,7 +12566,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12692,7 +12692,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12734,7 +12734,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12776,7 +12776,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -12818,7 +12818,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13064,7 +13064,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13106,7 +13106,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13148,7 +13148,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13190,7 +13190,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13232,7 +13232,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13274,7 +13274,7 @@
                 "width": 44,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "OUTDOOR",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13520,7 +13520,7 @@
                 "width": 73,
                 "height": 14
               },
-              "snippet": "<span class=\"text-xs sm:text-sm font-black uppercase text-[var(--color-accent)]\">",
+              "snippet": "<span class=\"text-xs sm:text-sm  font-bold  uppercase text-[var(--color-accent)]\">",
               "nodeLabel": "SPECIAL EVENT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.7pt (10.2563px), font weight: bold). Expected contrast ratio of 4.5:1"
             },
@@ -13665,7 +13665,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<h4 class=\"text-2xl font-black text-white leading-tight uppercase tracking-tight ital…\" style=\"font-family: var(--font-barlow-condensed);\">",
+              "snippet": "<h4 class=\"text-2xl  font-bold  text-white leading-tight uppercase tracking-tight ital…\" style=\"font-family: var(--font-barlow-condensed);\">",
               "nodeLabel": "HINSDALE CITP",
               "explanation": "Fix any of the following:\n  Heading order invalid"
             }
@@ -13938,7 +13938,7 @@
                 "width": 102,
                 "height": 17
               },
-              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black u…\" id=\"upnext-calendar-btn\">",
+              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  u…\" id=\"upnext-calendar-btn\">",
               "nodeLabel": "ADD TO CALENDAR",
               "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
             }
@@ -13957,7 +13957,7 @@
                 "width": 92,
                 "height": 17
               },
-              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black u…\">",
+              "snippet": "<button aria-label=\"Next\" class=\"flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  u…\">",
               "nodeLabel": "PRINT TOUR LIST",
               "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
             }

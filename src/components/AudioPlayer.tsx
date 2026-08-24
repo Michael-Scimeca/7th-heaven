@@ -377,7 +377,7 @@ export default function AudioPlayerSection() {
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}
-                  <span className={`text-[11px] font-extrabold uppercase tracking-wider leading-tight truncate ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                  <span className={`text-[11px] font-bold uppercase tracking-wider leading-tight truncate ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
                     {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
                   </span>
                 </div>
@@ -588,7 +588,7 @@ export default function AudioPlayerSection() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-black uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
+                    <p className="text-xs  font-bold  uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
                     <p className="text-[10px] text-white/50 font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
                   </div>
                 </div>
@@ -747,9 +747,9 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album Title */}
-              <span className="relative z-[2] text-xs uppercase tracking-[0.2em]  text-white  text-center font-black px-4 max-w-full">
+              <span className="relative z-[2] text-xs uppercase tracking-[0.2em]  text-white  text-center  font-bold  px-4 max-w-full">
                 {activeAlbum ? (
-                  <span className="block text-white font-black text-sm truncate max-w-[220px]">
+                  <span className="block text-white  font-bold  text-sm truncate max-w-[220px]">
                     {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
                   </span>
                 ) : (
@@ -763,7 +763,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
+                        <h3 className="text-[14px]  font-bold  tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -774,7 +774,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
+                        <h3 className="text-[14px]  font-bold  tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -787,7 +787,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
                       <button aria-label="Action button"
                         onClick={() => setShowLyrics(true)}
-                        className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
+                        className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm  font-bold  transition-colors cursor-pointer text-left mt-2 block"
                       >
                         Lyrics
                       </button>

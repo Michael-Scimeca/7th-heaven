@@ -56,7 +56,7 @@ function AutoPlayVideo({ src }: { src: string }) {
 
 const HEADER_H = 80;
 
-type ThumbItem = { label: string; gradient?: string; video?: string; youtube?: string };
+type ThumbItem = { label: string; badge?: string; gradient?: string; video?: string; youtube?: string };
 
 const SLIDES: {
   tag: string;
@@ -73,10 +73,10 @@ const SLIDES: {
       bg: "transparent",
       accent: "#c084fc",
       thumbs: [
-        { label: "Soldier Field", gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)", video: "/movie/luminous-clip.mp4" },
-        { label: "Cruise Ship Stage", gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)", video: "/movie/cruise.mp4" },
-        { label: "At Sea Crowd", gradient: "linear-gradient(160deg,#d986a8,#5b2340)", video: "/movie/ship-sea.mp4" },
-        { label: "Port Sunset", gradient: "linear-gradient(160deg,#2b4c6f,#0e1b2a)", video: "/movie/ship-port.mp4" },
+        { label: "Soldier Field", badge: "Stadium Stage", gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)", video: "/movie/luminous-clip.mp4" },
+        { label: "Cruise Stage", badge: "Live at Sea", gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)", video: "/movie/cruise.mp4" },
+        { label: "At Sea Crowd", badge: "Fan Audience", gradient: "linear-gradient(160deg,#d986a8,#5b2340)", video: "/movie/ship-sea.mp4" },
+        { label: "Port Sunset", badge: "Caribbean Stage", gradient: "linear-gradient(160deg,#2b4c6f,#0e1b2a)", video: "/movie/ship-port.mp4" },
       ],
     },
     {
@@ -86,10 +86,10 @@ const SLIDES: {
       bg: "transparent",
       accent: "#d8b4fe",
       thumbs: [
-        { label: "Weddings", gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)", video: "/movie/Frankie.mp4" },
-        { label: "Corporate Events", gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)", video: "/movie/Mark.mp4" },
-        { label: "Private Parties", gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)", video: "/movie/Nick.mp4" },
-        { label: "VIP Galas", gradient: "linear-gradient(160deg,#6b4f77,#231429)", video: "/movie/Rich.mp4" },
+        { label: "Weddings", badge: "Private Event", gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)", video: "/movie/Frankie.mp4" },
+        { label: "Corporate Events", badge: "Corporate Show", gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)", video: "/movie/Mark.mp4" },
+        { label: "Private Parties", badge: "VIP Celebration", gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)", video: "/movie/Nick.mp4" },
+        { label: "VIP Galas", badge: "Special Event", gradient: "linear-gradient(160deg,#6b4f77,#231429)", video: "/movie/Rich.mp4" },
       ],
     },
     {
@@ -99,10 +99,10 @@ const SLIDES: {
       bg: "transparent",
       accent: "#f2f1e6",
       thumbs: [
-        { label: "DeKalb Cornfest", gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)", video: "/movie/fest1-clip.mp4" },
-        { label: "Schaumburg Fest", gradient: "linear-gradient(160deg,#e0a35a,#4a2410)", video: "/movie/hero-colorinmostion.mp4" },
-        { label: "Rock N' Wheels", gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)", video: "/movie/Adam.mp4" },
-        { label: "Main Stage", gradient: "linear-gradient(160deg,#7a3b8e,#240d2a)", video: "/movie/spectrum.mp4" },
+        { label: "DeKalb Cornfest", badge: "Summer Fest", gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)", video: "/movie/fest1-clip.mp4" },
+        { label: "Schaumburg Fest", badge: "Main Stage", gradient: "linear-gradient(160deg,#e0a35a,#4a2410)", video: "/movie/hero-colorinmostion.mp4" },
+        { label: "Rock N' Wheels", badge: "Outdoor Fest", gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)", video: "/movie/Adam.mp4" },
+        { label: "Main Stage", badge: "Headliner", gradient: "linear-gradient(160deg,#7a3b8e,#240d2a)", video: "/movie/spectrum.mp4" },
       ],
     },
     {
@@ -112,10 +112,10 @@ const SLIDES: {
       bg: "transparent",
       accent: "#bfa0e9",
       thumbs: [
-        { label: "Local Club", gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)", video: "/movie/be-here-clip.mp4" },
-        { label: "Sports Bar", gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)", video: "/movie/color-in-motion-clip.mp4" },
-        { label: "Pub & Grill", gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)", video: "/movie/next.mp4" },
-        { label: "Late Night Jam", gradient: "linear-gradient(160deg,#8e3b5e,#2a0d1b)", video: "/movie/luminous.mp4" },
+        { label: "Local Club", badge: "Nightclub", gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)", video: "/movie/be-here-clip.mp4" },
+        { label: "Sports Bar", badge: "High Energy", gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)", video: "/movie/color-in-motion-clip.mp4" },
+        { label: "Pub & Grill", badge: "Live Rock", gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)", video: "/movie/next.mp4" },
+        { label: "Late Night Jam", badge: "Live Set", gradient: "linear-gradient(160deg,#8e3b5e,#2a0d1b)", video: "/movie/luminous.mp4" },
       ],
     },
   ];
@@ -123,14 +123,6 @@ const SLIDES: {
 export default function SlideupSection({ showIntro = false }: { showIntro?: boolean }) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // Per-card record of what was last actually WRITTEN to the DOM, so the
-  // scroll handler below can skip re-writing a style that hasn't materially
-  // changed. mask-image is a paint-time property (unlike transform/opacity,
-  // it can't be handled by the compositor), so rewriting it every single
-  // rAF tick of Lenis's eased scroll — even to the same effective value —
-  // was forcing a repaint of these cards (which also contain playing
-  // <video> elements) on nearly every frame. That was the main source of
-  // the scroll stutter through this section.
   const lastStateRef = useRef<{ overlap: number; scale: number; translateY: number; masked: boolean }[]>([]);
 
   useEffect(() => {
@@ -139,7 +131,6 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
     function onScroll() {
       const viewportH = vh();
 
-      // Phase 1: Batch ALL DOM geometry reads into array (no style writes)
       const rects = cardRefs.current.map((card) => {
         if (!card) return null;
         const innerEl = (card.querySelector('.su-card-inner') as HTMLElement) || card;
@@ -149,11 +140,6 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
         };
       });
 
-      // Phase 2: Batch ALL DOM style mutations — but only for cards whose
-      // rounded/quantized values actually moved since the last frame we
-      // wrote. On any given frame only one (occasionally two) of the four
-      // cards is mid-transition, so this cuts the number of paint-triggering
-      // writes by roughly 75%+ compared to writing all four every tick.
       const last = lastStateRef.current;
       cardRefs.current.forEach((card, i) => {
         if (!card || !rects[i]) return;
@@ -169,8 +155,6 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           const translateY = Math.round(-coveredProgress * 20 * 10) / 10;
 
           const overlapPx = Math.max(0, innerRect.bottom - nextRect.top + 20);
-          // Quantized to quarter-percent steps — smooth to the eye, but far
-          // fewer distinct values than raw sub-pixel scroll deltas produce.
           const overlapPercent = Math.round(Math.min(100, (overlapPx / innerRect.height) * 100) * 4) / 4;
 
           if (scale !== prev.scale || translateY !== prev.translateY) {
@@ -256,13 +240,15 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
             ref={(el) => { cardRefs.current[i] = el; }}
           >
             <div className="su-card-inner">
-              <div className="su-headline" style={{ color: slide.accent }}>
-                <span>{slide.title}</span>
+              <div className="flex flex-col items-center text-center pb-[20px] gap-4">
+                <div className="su-headline">
+                  <span>{slide.title}</span>
+                </div>
+                <p className="su-desc">{slide.desc}</p>
               </div>
-              <p className="su-desc">{slide.desc}</p>
               <div className="su-thumbs">
                 {slide.thumbs.map((t, ti) => (
-                  <div key={`${t.label}-${ti}`} className="su-thumb">
+                  <div key={`${t.label}-${ti}`} className="su-thumb group">
                     {t.video && (
                       <AutoPlayVideo src={t.video} />
                     )}
@@ -276,7 +262,11 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                         loading="lazy"
                       />
                     )}
-                    <span>{t.label}</span>
+                    <div className="su-thumb-overlay" />
+                    <div className="su-thumb-content">
+                      {t.badge && <span className="su-thumb-badge">{t.badge}</span>}
+                      <h3 className="su-thumb-title">{t.label}</h3>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -159,7 +159,7 @@ export default function ProximitySubscriberAdminPanel() {
         <div className="flex items-center gap-3">
 
           <div>
-            <h2 className="font-[var(--font-heading)] text-xl font-black uppercase tracking-tight text-white flex items-center gap-2">
+            <h2 className="font-[var(--font-heading)] text-xl  font-bold  uppercase tracking-tight text-white flex items-center gap-2">
               Proximity Push Subscriber Controls
             </h2>
             <p className="text-xs text-purple-300 font-bold uppercase tracking-wider">
@@ -169,7 +169,7 @@ export default function ProximitySubscriberAdminPanel() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5  rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+          <span className="px-3.5 py-1.5  rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs  font-bold  uppercase tracking-wider flex items-center gap-1.5">
             <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
           </span>
           <button
@@ -223,7 +223,7 @@ export default function ProximitySubscriberAdminPanel() {
       <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/40">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-[#e1e6ff29]   text-[11px] font-black uppercase tracking-wider text-purple-300">
+            <tr className="border-b border-white/10 bg-[#e1e6ff29]   text-[11px]  font-bold  uppercase tracking-wider text-purple-300">
               <th className="py-3.5 px-4">Fan / Device</th>
               <th className="py-3.5 px-4">Zip Code</th>
               <th className="py-3.5 px-4">Radius</th>
@@ -303,7 +303,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <option value="all">All</option>
                         </select>
                       ) : (
-                        <span className="px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-black uppercase">
+                        <span className="px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px]  font-bold  uppercase">
                           {sub.radius === "all" ? "All Distance" : `${sub.radius} Mi`}
                         </span>
                       )}

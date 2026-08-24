@@ -170,32 +170,32 @@ export type PositionSlideMaskConfig = {
 const DEFAULT_POSITION_CONFIGS: PositionSlideMaskConfig[] = [
   {
     positionIndex: 0,
-    slideLabel: "Slide 1",
-    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    slideLabel: "Far Left (Pos 1)",
+    gradient: { enabled: true, color: "#000000", startHeight: 70, endHeight: 100, opacity: 50, blendMode: "normal" },
     clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
   },
   {
     positionIndex: 1,
-    slideLabel: "Slide 2",
-    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    slideLabel: "Left (Pos 2)",
+    gradient: { enabled: true, color: "#000000", startHeight: 65, endHeight: 100, opacity: 45, blendMode: "normal" },
     clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
   },
   {
     positionIndex: 2,
-    slideLabel: "Slide 3",
-    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    slideLabel: "Center (Pos 3 - Active)",
+    gradient: { enabled: true, color: "#000000", startHeight: 60, endHeight: 100, opacity: 60, blendMode: "normal" },
     clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
   },
   {
     positionIndex: 3,
-    slideLabel: "Slide 4",
-    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    slideLabel: "Right (Pos 4)",
+    gradient: { enabled: true, color: "#000000", startHeight: 65, endHeight: 100, opacity: 45, blendMode: "normal" },
     clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
   },
   {
     positionIndex: 4,
-    slideLabel: "Slide 5",
-    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    slideLabel: "Far Right (Pos 5)",
+    gradient: { enabled: true, color: "#000000", startHeight: 70, endHeight: 100, opacity: 50, blendMode: "normal" },
     clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
   },
 ];
@@ -250,7 +250,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
-  const [nameFontSize, setNameFontSize] = useState<number>(28); // px
+  const [nameFontSize, setNameFontSize] = useState<string | number>("clamp(18px, 11.75px + 0.953vw, 27px)");
   const [roleFontSize, setRoleFontSize] = useState<number>(14); // px
   const [textBottomOffset, setTextBottomOffset] = useState<number>(16); // px
   const [textBackdropOpacity, setTextBackdropOpacity] = useState<number>(0); // % opacity for text background backdrop mask
@@ -275,6 +275,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     }
     return DEFAULT_POSITION_CONFIGS;
   });
+
+  // State for active tuner slot index (0 = Pos 1, 1 = Pos 2, 2 = Pos 3 Center, 3 = Pos 4, 4 = Pos 5)
+  const [selectedTunerPos, setSelectedTunerPos] = useState<number>(2);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -338,18 +341,24 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       setIsTabletView(isTablet);
 
       let targetHeight: number;
-      if (isMobile) {
-        targetHeight = Math.max(300, Math.min(430, Math.round(vh * 0.52)));
-      } else if (isTablet) {
-        // Tablet view: scale member image height to fit proportionally with tablet viewport height
-        targetHeight = Math.max(400, Math.min(550, Math.round(vh * 0.63)));
+      let targetWidth: number;
+
+      if (vw <= 1200) {
+        // At 1200px and below: Exactly 3 band members span 100% of viewport width
+        const overlapRatio = 0.10;
+        const spanMultiplier = 2 * (1 - overlapRatio) + 1; // 2.8
+        targetWidth = Math.round(vw / spanMultiplier);
+        targetHeight = Math.round(targetWidth * 1.3333);
       } else {
-        targetHeight = Math.max(520, Math.min(650, Math.round(vh * 0.75)));
+        // Above 1200px: 5 band members span 100% of viewport width edge-to-edge
+        const overlapRatio = 0.15;
+        const spanMultiplier = 4 * (1 - overlapRatio) + 1; // 4.4
+        targetWidth = Math.round(vw / spanMultiplier);
+        targetHeight = Math.round(targetWidth * 1.3333);
       }
 
-      const targetWidth = isMobile
-        ? Math.min(Math.round(vw * 0.70), Math.round(targetHeight * 0.80))
-        : Math.min(Math.round(vw * 0.20), Math.round(targetHeight * 0.80));
+      // Card gap: Responsive overlap gap calculated directly from targetWidth
+      const computedCardGap = vw <= 1200 ? Math.round(-targetWidth * 0.10) : Math.round(-targetWidth * 0.15);
 
       // Calculate available spine space so all 5 videos 100% fit inside the slider section without hitting the PAGES button
       const availableSpineHeight = Math.max(160, vh - 220);
@@ -360,6 +369,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
       setImageHeight(targetHeight);
       setCardWidth(targetWidth);
+      setGap(computedCardGap);
       setSpineGap(computedGap);
       setSpineVideoHeight(computedVideoHeight);
     };
@@ -397,6 +407,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const dragSensRef = useRef<number>(dragSens);
   useEffect(() => { dragSensRef.current = dragSens; }, [dragSens]);
+
+  const positionConfigsRef = useRef<PositionSlideMaskConfig[]>(positionConfigs);
+  useEffect(() => { positionConfigsRef.current = positionConfigs; }, [positionConfigs]);
 
   const isDraggingRef = useRef<boolean>(false);
   const dragStartXRef = useRef<number>(0);
@@ -493,8 +506,8 @@ lerpSpeed: ${lerpSpeed}`;
       lastX = currentXRef.current;
       velocityRef.current = vel;
 
-      // Calculate center padding offset for 100vw full screen stage
-      const containerWidth = containerRef.current ? containerRef.current.clientWidth : (typeof window !== "undefined" ? window.innerWidth : 1400);
+      // Calculate exact center padding offset for 100vw full-screen viewport alignment
+      const containerWidth = typeof window !== "undefined" ? window.innerWidth : 1400;
       const centerPadding = (containerWidth - cardWidth) / 2;
 
       if (trackRef.current) {
@@ -511,17 +524,22 @@ lerpSpeed: ${lerpSpeed}`;
           // Distance in slide units from center focal point
           const distFromCenter = Math.abs((currentXRef.current - i * itemTotalWidth) / itemTotalWidth);
 
-          // Continuous smooth scale & opacity: Active center member scales up continuously as it glides into center
-          const focalVal = Math.max(0, 1 - Math.min(distFromCenter, 1.5) / 1.5);
-          const scale = 0.82 + focalVal * (focalScaleRef.current - 0.82);
-          const opacity = 0.40 + focalVal * 0.60;
+          // Continuous smooth scale & opacity: 3 visible members max (Center + 1 Left + 1 Right)
+          const focalVal = Math.max(0, 1 - Math.min(distFromCenter, 1.4) / 1.4);
+          const scale = 0.84 + focalVal * (focalScaleRef.current - 0.84);
+
+          // At 1200px and below: limit visibility to 3 members (Center + 1 Left + 1 Right); Above 1200px: all 5 members visible
+          const isCompactViewport = containerWidth <= 1200;
+          const cardOpacity = isCompactViewport
+            ? (distFromCenter <= 0.85 ? 1 : Math.max(0, 1 - (distFromCenter - 0.85) / 0.35))
+            : 1;
 
           // Smooothy speed-based dynamic skew
           const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.35));
 
           card.style.transformOrigin = "bottom center";
           card.style.transform = `scale(${scale}) skewX(${skewX}deg)`;
-          card.style.opacity = "1";
+          card.style.opacity = String(cardOpacity);
 
           // Dynamic z-index depth layering elevates as card glides into focal center
           if (distFromCenter < 0.75) {
@@ -539,7 +557,7 @@ lerpSpeed: ${lerpSpeed}`;
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const baseScale = isTabletView ? imageScale * 0.70 : imageScale;
+            const baseScale = imageScale;
             const speedScale = baseScale + Math.min(Math.abs(vel) * 0.005, 0.06);
             const transformStr = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${speedScale})`;
 
@@ -552,6 +570,25 @@ lerpSpeed: ${lerpSpeed}`;
               imgEl.style.filter = `drop-shadow(0 25px 50px rgba(0, 0, 0, ${shadowAlpha})) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.45))`;
             } else {
               imgEl.style.filter = "drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35))";
+            }
+
+            // Real-time 60fps photo cutout masking update per position slot
+            const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
+            const slotCfg = (positionConfigsRef.current && positionConfigsRef.current[slotIndex]) || DEFAULT_POSITION_CONFIGS[slotIndex];
+
+            if (slotCfg && slotCfg.clippingMask && slotCfg.clippingMask.enabled) {
+              const maskStr = generateSmoothMaskGradient(
+                slotCfg.clippingMask.startHeight,
+                slotCfg.clippingMask.endHeight,
+                slotCfg.clippingMask.floorOpacity,
+                "to bottom",
+                slotCfg.clippingMask.easing
+              );
+              imgEl.style.webkitMaskImage = maskStr;
+              imgEl.style.maskImage = maskStr;
+            } else {
+              imgEl.style.webkitMaskImage = "none";
+              imgEl.style.maskImage = "none";
             }
           }
         }
@@ -570,7 +607,7 @@ lerpSpeed: ${lerpSpeed}`;
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY, isTabletView]);
+  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY, isTabletView, activeIndex]);
 
   // Go to slide
   const goToSlide = (idx: number) => {
@@ -700,7 +737,7 @@ lerpSpeed: ${lerpSpeed}`;
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
-                    <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
+                    <p className="text-xs sm:text-sm md:text-base  font-bold  text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
                     <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
@@ -735,7 +772,7 @@ lerpSpeed: ${lerpSpeed}`;
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
-                    <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
+                    <p className="text-xs sm:text-sm md:text-base  font-bold  text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
                     <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
@@ -779,7 +816,7 @@ lerpSpeed: ${lerpSpeed}`;
           <div
             ref={trackRef}
             className="flex items-end pt-0 pb-0"
-            style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
+            style={{ width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
               const nameLower = m?.name?.toLowerCase() || "";
@@ -816,7 +853,12 @@ lerpSpeed: ${lerpSpeed}`;
                     }
                     goToSlide(i);
                   }}
-                  style={{ width: `${cardWidth}px`, isolation: "isolate" }}
+                  style={{
+                    width: `${cardWidth}px`,
+                    height: `${imageHeight}px`,
+                    marginRight: i < displayMembers.length - 1 ? `${gap}px` : "0px",
+                    isolation: "isolate"
+                  }}
                   className="shrink-0 bg-transparent  rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
@@ -826,6 +868,7 @@ lerpSpeed: ${lerpSpeed}`;
                       <div
                         className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom w-full"
                         style={{
+                          height: `${imageHeight}px`,
                           maxHeight: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
@@ -839,7 +882,7 @@ lerpSpeed: ${lerpSpeed}`;
                           unoptimized
                           loading="lazy"
                           draggable={false}
-                          className="smooothy-img w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+                          className="smooothy-img w-full h-full object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             transform: `scale(${imageScale})`,
                             opacity: 1,
@@ -855,15 +898,15 @@ lerpSpeed: ${lerpSpeed}`;
                           id="names"
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
-                            bottom: `${textBottomOffset}px`,
+                            bottom: `1px`,
                             opacity: activeIndex === i ? 1 : 0,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold bg-black/40 text-white  pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-extrabold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold bg-black/40 pb-1 pt-1 pr-2 pl-2  text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] " style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
@@ -874,7 +917,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -888,7 +931,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -906,10 +949,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}
                         >
-                          <h3 className="font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className=" font-bold  text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-extrabold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
@@ -920,7 +963,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[#c084fc] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -938,7 +981,7 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -952,7 +995,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -966,7 +1009,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
@@ -997,7 +1040,7 @@ lerpSpeed: ${lerpSpeed}`;
 
       {/* ⚙️ Live Physics & Layout Tuner Side Drawer Modal */}
       {showTuner && (
-        <div className="fixed inset-y-0 right-0 z-[9999] w-96 max-w-full bg-slate-950/95backdrop-blur-[18px]  border-l border-purple-500/30 p-5 text-white shadow-2xl flex flex-col justify-between overflow-hidden">
+        <div className="fixed top-0 bottom-0 right-0 z-[9999] h-screen max-h-screen w-96 max-w-full bg-slate-950/95 backdrop-blur-xl border-l border-purple-500/30 p-5 text-white shadow-2xl flex flex-col overflow-hidden">
           {/* Header (Sticky Top) */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
             <div className="flex items-center gap-2">
@@ -1013,8 +1056,8 @@ lerpSpeed: ${lerpSpeed}`;
             </button>
           </div>
 
-          {/* Scrollable Sliders Content */}
-          <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-6">
+          {/* Scrollable Sliders Content (Guaranteed min-h-0 for Flexbox overflow scrolling) */}
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y pr-2 py-4 space-y-6">
             {/* 1. Motion & Physics */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">1. Motion & Physics</h4>
@@ -1272,6 +1315,149 @@ lerpSpeed: ${lerpSpeed}`;
                   ))}
                 </div>
               </div>
+            </div>
+
+            {/* 4. Photo Cutout Mask Fade per Position Slot */}
+            <div className="space-y-3 pt-3 border-t border-white/10">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">4. Photo Cutout Mask Fade (Pos 1 – 5)</h4>
+
+              {/* Position Slot Tab Selector */}
+              <div className="flex gap-1 overflow-x-auto pb-1">
+                {[0, 1, 2, 3, 4].map((pIdx) => (
+                  <button
+                    key={pIdx}
+                    type="button"
+                    onClick={() => setSelectedTunerPos(pIdx)}
+                    className={`px-2 py-1 text-[10px] font-mono font-bold rounded border cursor-pointer whitespace-nowrap ${selectedTunerPos === pIdx
+                      ? "bg-purple-600 text-white border-purple-400 shadow-md"
+                      : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+                      }`}
+                  >
+                    {pIdx === 2 ? "Pos 3 (Center)" : `Pos ${pIdx + 1}`}
+                  </button>
+                ))}
+              </div>
+
+              {/* Active Position Slot Mask Controls */}
+              {positionConfigs[selectedTunerPos] && (
+                <div className="space-y-3 bg-white/5 p-3 rounded-lg border border-white/10 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-purple-200">{positionConfigs[selectedTunerPos].slideLabel}</span>
+                    <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-white">
+                      <input
+                        type="checkbox"
+                        checked={positionConfigs[selectedTunerPos].clippingMask.enabled}
+                        onChange={(e) => {
+                          const updated = [...positionConfigs];
+                          updated[selectedTunerPos] = {
+                            ...updated[selectedTunerPos],
+                            clippingMask: { ...updated[selectedTunerPos].clippingMask, enabled: e.target.checked }
+                          };
+                          setPositionConfigs(updated);
+                        }}
+                        className="accent-purple-500 cursor-pointer"
+                      />
+                      Enable Photo Mask
+                    </label>
+                  </div>
+
+                  {/* Mask Fade Start & End Height */}
+                  <div className="space-y-1 pt-1 border-t border-white/10">
+                    <div className="flex justify-between text-[11px] font-semibold">
+                      <span>Mask Fade Start: <span className="font-mono text-purple-300">{positionConfigs[selectedTunerPos].clippingMask.startHeight}%</span></span>
+                      <span>End: <span className="font-mono text-purple-300">{positionConfigs[selectedTunerPos].clippingMask.endHeight}%</span></span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <span className="text-[10px] text-gray-400 block mb-0.5">Start Height %</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={positionConfigs[selectedTunerPos].clippingMask.startHeight}
+                          onChange={(e) => {
+                            const updated = [...positionConfigs];
+                            updated[selectedTunerPos] = {
+                              ...updated[selectedTunerPos],
+                              clippingMask: { ...updated[selectedTunerPos].clippingMask, startHeight: Number(e.target.value) }
+                            };
+                            setPositionConfigs(updated);
+                          }}
+                          className="w-full accent-purple-500 cursor-pointer"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-gray-400 block mb-0.5">End Height %</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={positionConfigs[selectedTunerPos].clippingMask.endHeight}
+                          onChange={(e) => {
+                            const updated = [...positionConfigs];
+                            updated[selectedTunerPos] = {
+                              ...updated[selectedTunerPos],
+                              clippingMask: { ...updated[selectedTunerPos].clippingMask, endHeight: Number(e.target.value) }
+                            };
+                            setPositionConfigs(updated);
+                          }}
+                          className="w-full accent-purple-500 cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Floor Opacity */}
+                  <div className="space-y-1 pt-1 border-t border-white/10">
+                    <div className="flex justify-between text-[11px] font-semibold">
+                      <span>Bottom Floor Opacity</span>
+                      <span className="font-mono text-purple-300">{positionConfigs[selectedTunerPos].clippingMask.floorOpacity}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={positionConfigs[selectedTunerPos].clippingMask.floorOpacity}
+                      onChange={(e) => {
+                        const updated = [...positionConfigs];
+                        updated[selectedTunerPos] = {
+                          ...updated[selectedTunerPos],
+                          clippingMask: { ...updated[selectedTunerPos].clippingMask, floorOpacity: Number(e.target.value) }
+                        };
+                        setPositionConfigs(updated);
+                      }}
+                      className="w-full accent-purple-500 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Easing Selector */}
+                  <div className="space-y-1 pt-1 border-t border-white/10">
+                    <span className="text-[10px] font-semibold text-gray-300 block mb-1">Mask Curve Easing</span>
+                    <div className="grid grid-cols-3 gap-1">
+                      {(["linear", "cosine", "ease-in", "ease-out", "ease-in-out"] as const).map((eas) => (
+                        <button
+                          key={eas}
+                          type="button"
+                          onClick={() => {
+                            const updated = [...positionConfigs];
+                            updated[selectedTunerPos] = {
+                              ...updated[selectedTunerPos],
+                              clippingMask: { ...updated[selectedTunerPos].clippingMask, easing: eas }
+                            };
+                            setPositionConfigs(updated);
+                          }}
+                          className={`py-1 px-1 rounded text-[10px] font-mono font-bold transition-all cursor-pointer text-center border ${positionConfigs[selectedTunerPos].clippingMask.easing === eas
+                            ? "bg-purple-600 text-white border-purple-400 shadow-md"
+                            : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+                            }`}
+                        >
+                          {eas}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

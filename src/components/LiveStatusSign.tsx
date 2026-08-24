@@ -51,7 +51,7 @@ export default function LiveStatusSign() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
-            <span className="text-sm font-black uppercase tracking-[0.2em] text-white">Live Now</span>
+            <span className="text-sm  font-bold  uppercase tracking-[0.2em] text-white">Live Now</span>
           </div>
 
           <div className="h-4 w-px bg-white/10" />

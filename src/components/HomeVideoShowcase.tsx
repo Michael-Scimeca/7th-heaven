@@ -490,7 +490,7 @@ export default function HomeVideoShowcase() {
         {/* Section Header with Container Padding */}
         <div className="site-container flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-2.5 font-sans">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans">
               <span className="bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
                 Video & Live Media
               </span>
@@ -536,7 +536,7 @@ export default function HomeVideoShowcase() {
                 {/* Video Card Container */}
                 <div
                   style={{ height: "clamp(300px, 35vw, 600px)" }}
-                  className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60`}
+                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
@@ -577,13 +577,13 @@ export default function HomeVideoShowcase() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
 
                   {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                  <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-5 flex flex-col items-center justify-end text-center pointer-events-none">
+                  <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
                     {showBadges && (
-                      <div className="flex items-center justify-center gap-2 flex-wrap mb-2">
+                      <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
                         {video.badges.map((badge, bIdx) => (
                           <span
                             key={badge + bIdx}
-                            className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white shadow-md"
+                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border border-white/30 backdrop-blur-md text-white shadow-md mb-1"
                           >
                             {badge}
                           </span>
@@ -591,7 +591,7 @@ export default function HomeVideoShowcase() {
                       </div>
                     )}
 
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-black uppercase tracking-tight text-white leading-tight line-clamp-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] group-hover:text-purple-300 transition-colors">
+                    <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)] group-hover:text-purple-300 transition-colors">
                       {video.title}
                     </h3>
                   </div>
@@ -599,14 +599,14 @@ export default function HomeVideoShowcase() {
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-3 flex flex-col pointer-events-none">
-                    <div className="flex items-center justify-between text-xs text-white/50 font-medium">
-                      <span className="flex items-center gap-1">
-                        Views <strong className="text-white font-mono">{video.viewCount}</strong>
+                  <div className="pt-3.5 flex flex-col pointer-events-none">
+                    <div className="flex items-center justify-between text-sm sm:text-base text-white/70 font-semibold">
+                      <span className="flex items-center gap-1.5">
+                        Views <strong className="text-white font-mono text-base sm:text-lg">{video.viewCount}</strong>
                       </span>
 
-                      <span className="flex items-center gap-1">
-                        Year <strong className="text-white font-mono">{video.year}</strong>
+                      <span className="flex items-center gap-1.5">
+                        Year <strong className="text-white font-mono text-base sm:text-lg">{video.year}</strong>
                       </span>
                     </div>
                   </div>

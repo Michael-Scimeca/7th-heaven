@@ -206,7 +206,7 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative overflow-hidden px-8 py-3.5  rounded-lg font-black text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${activated
+          className={`relative overflow-hidden px-8 py-3.5  rounded-lg  font-bold  text-xs uppercase tracking-widest transition-all cursor-pointer select-none border ${activated
             ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
             : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
             }`}
@@ -374,7 +374,7 @@ function CosmicRadialButtonDemo() {
             <button
               type="button"
               onClick={() => setRenderEngine("property")}
-              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "property"
+              className={`px-3 py-1  rounded-lg text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "property"
                 ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
                 : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10"
                 }`}
@@ -384,7 +384,7 @@ function CosmicRadialButtonDemo() {
             <button
               type="button"
               onClick={() => setRenderEngine("raf")}
-              className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "raf"
+              className={`px-3 py-1  rounded-lg text-xs font-mono font-bold transition-all cursor-pointer border ${renderEngine === "raf"
                 ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
                 : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10"
                 }`}
@@ -827,11 +827,11 @@ export default function StyleGuidePage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-extrabold text-xs tracking-wider uppercase flex items-center gap-1.5">
+              <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold text-xs tracking-wider uppercase flex items-center gap-1.5">
                 7th Heaven Design System
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
+            <h1 className="text-4xl sm:text-5xl  font-bold  uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
               Master Style Guide
             </h1>
             <p className=" text-white  text-base mt-2 max-w-2xl">
@@ -849,7 +849,7 @@ export default function StyleGuidePage() {
             <button
               onClick={() => saveTheme()}
               disabled={isSaving}
-              className={`px-5 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 ${hasUnsavedChanges
+              className={`px-5 py-2.5  rounded-lg font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 ${hasUnsavedChanges
                 ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
                 : "bg-white/10 text-white/50 cursor-default"
                 }`}
@@ -869,7 +869,7 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`px-4 py-2.5  rounded-lg font-extrabold text-xs whitespace-nowrap transition flex items-center gap-2 border ${isActive
+                className={`px-4 py-2.5  rounded-lg font-bold text-xs whitespace-nowrap transition flex items-center gap-2 border ${isActive
                   ? "bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-md"
                   : "bg-transparent  text-white  hover:text-white border-transparent hover:border-white/10"
                   }`}
@@ -884,7 +884,7 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section id="typography" className="scroll-mt-36 border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -925,7 +925,7 @@ export default function StyleGuidePage() {
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-black uppercase tracking-wider text-white flex items-center gap-2">
+                      <h3 className="text-lg  font-bold  uppercase tracking-wider text-white flex items-center gap-2">
                         Fluid Type Studio Controls
                         <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-full">
                           .text-{studioSelectedTier}
@@ -939,7 +939,7 @@ export default function StyleGuidePage() {
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`px-4 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula
+                    className={`px-4 py-2.5  rounded-lg font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula
                       ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
                       : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                       }`}
@@ -959,7 +959,7 @@ export default function StyleGuidePage() {
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`px-3 py-1.5  rounded-lg text-xs font-mono font-black transition-all ${studioSelectedTier === t
+                        className={`px-3 py-1.5  rounded-lg text-xs font-mono  font-bold  transition-all ${studioSelectedTier === t
                           ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
                           : "bg-white/[0.04]  text-white  hover:text-white hover:bg-white/10 border border-white/10"
                           }`}
@@ -1127,7 +1127,7 @@ export default function StyleGuidePage() {
                 <div className="rounded-lg  bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-black uppercase tracking-wider text-purple-300">
+                      <span className="text-xs font-mono  font-bold  uppercase tracking-wider text-purple-300">
                         Generated CSS Formula & Live Inspection:
                       </span>
                     </div>
@@ -1176,7 +1176,7 @@ export default function StyleGuidePage() {
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
                     <div className=" rounded-lg bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
-                      <div className={`text-${studioSelectedTier} font-black text-white uppercase tracking-tight text-center leading-none`}>
+                      <div className={`text-${studioSelectedTier}  font-bold  text-white uppercase tracking-tight text-center leading-none`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
                     </div>
@@ -1189,9 +1189,9 @@ export default function StyleGuidePage() {
           {/* Fluid Type Scale Editor */}
           {(() => {
             const FLUID_SCALE = [
-              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: "font-black", extra: "uppercase" },
-              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: "font-black", extra: "uppercase" },
-              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "font-black", extra: "uppercase" },
+              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: " font-bold ", extra: "uppercase" },
+              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: " font-bold ", extra: "uppercase" },
+              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: " font-bold ", extra: "uppercase" },
               { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: "font-extrabold", extra: "" },
               { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125", deskMin: "1.125", deskMax: "1.5", sample: "Rocking Chicago & Nationwide Since 1985", weight: "font-bold", extra: "" },
               { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
@@ -1287,11 +1287,11 @@ ${deskRules.join("\n")}
               <div className="space-y-4">
                 {/* Column headers */}
                 <div className="hidden xl:grid grid-cols-[90px_1fr_220px_220px_220px] gap-4 px-4 pb-2 border-b border-white/10">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Utility</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Preview</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">📱 Mobile Range</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">📟 Tablet Range</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-purple-400">🖥 Desktop Range</span>
+                  <span className="text-[10px]  font-bold  uppercase tracking-widest text-white/30">Utility</span>
+                  <span className="text-[10px]  font-bold  uppercase tracking-widest text-white/30">Preview</span>
+                  <span className="text-[10px]  font-bold  uppercase tracking-widest text-emerald-400">📱 Mobile Range</span>
+                  <span className="text-[10px]  font-bold  uppercase tracking-widest text-amber-400">📟 Tablet Range</span>
+                  <span className="text-[10px]  font-bold  uppercase tracking-widest text-purple-400">🖥 Desktop Range</span>
                 </div>
 
                 {FLUID_SCALE.map((tier) => {
@@ -1303,7 +1303,7 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
                         {/* Label */}
                         <div className="flex items-center gap-2">
-                          <code className="text-[11px] font-mono font-black text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-purple-500/20">
+                          <code className="text-[11px] font-mono  font-bold  text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-purple-500/20">
                             {tier.label}
                           </code>
                         </div>
@@ -1540,7 +1540,7 @@ ${deskRules.join("\n")}
                         setShowCssModal(true);
                         setTimeout(() => setCssCopied(false), 3000);
                       }}
-                      className="px-6 py-2.5  rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2"
+                      className="px-6 py-2.5  rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white  font-bold  text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2"
                     >
                       <span>💾 Save & Copy Global CSS</span>
                       {cssCopied && <span className="text-emerald-300 animate-pulse">✓ Copied!</span>}
@@ -1588,7 +1588,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
                           <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
-                          <h3 className="text-lg font-black uppercase tracking-wider text-white">
+                          <h3 className="text-lg  font-bold  uppercase tracking-wider text-white">
                             Global CSS Saved to Clipboard
                           </h3>
                         </div>
@@ -1638,7 +1638,7 @@ ${deskRules.join("\n")}
         <section id="colors" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
               </h2>
               <p className=" text-white  text-xs mt-1">
@@ -1650,7 +1650,7 @@ ${deskRules.join("\n")}
           {/* White Standard Callout */}
           <div className="p-5 rounded-lg  bg-white/[0.03] border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-mono font-black text-purple-400uppercase tracking-widest block mb-1">
+              <span className="text-xs font-mono  font-bold  text-purple-400uppercase tracking-widest block mb-1">
                 Standardized White Palette Rules
               </span>
               <h3 className="text-lg font-bold text-white">The Two White Palette: Solid White & 0.5 White</h3>
@@ -1659,10 +1659,10 @@ ${deskRules.join("\n")}
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2  rounded-lg bg-white text-black font-black text-xs shadow-lg">
+              <div className="px-4 py-2  rounded-lg bg-white text-black  font-bold  text-xs shadow-lg">
                 Solid White (#ffffff)
               </div>
-              <div className="px-4 py-2  rounded-lg bg-[#e1e6ff29]  0 text-black font-black text-xs shadow-lg border border-white/20">
+              <div className="px-4 py-2  rounded-lg bg-[#e1e6ff29]  0 text-black  font-bold  text-xs shadow-lg border border-white/20">
                 0.5 White (50%)
               </div>
             </div>
@@ -1746,7 +1746,7 @@ ${deskRules.join("\n")}
         {/* SECTION 3: BUTTONS */}
         <section id="buttons" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-emerald-400 flex items-center gap-2">
               <MousePointer className="w-6 h-6" /> 3. Button Variants & States
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -1775,13 +1775,13 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Cyan Neon Action</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
+                <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950  font-bold  text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
                   Default
                 </button>
-                <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
+                <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950  font-bold  text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
                   Hover / Active
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 text-cyan-400/40 font-black text-xs uppercase tracking-wider cursor-not-allowed border border-cyan-500/10">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 text-cyan-400/40  font-bold  text-xs uppercase tracking-wider cursor-not-allowed border border-cyan-500/10">
                   Disabled
                 </button>
               </div>
@@ -1810,7 +1810,7 @@ ${deskRules.join("\n")}
                 <button className="px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 text-xs font-bold transition">
                   Ghost Button
                 </button>
-                <button className="px-5 py-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-extrabold text-xs uppercase tracking-wider transition">
+                <button className="px-5 py-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-bold text-xs uppercase tracking-wider transition">
                   Danger Action
                 </button>
               </div>
@@ -1839,7 +1839,7 @@ ${deskRules.join("\n")}
         {/* SECTION 4: FORM ELEMENTS */}
         <section id="form-elements" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -1966,7 +1966,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinDefaultFocusedIndex(null)}
                           onChange={e => handlePinDefaultDigit(i, e.target.value)}
                           onKeyDown={e => handlePinDefaultKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
+                          className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
                             ${pinDefaultFocusedIndex === i
                               ? 'border-white/40 text-white'
                               : digit
@@ -2007,7 +2007,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinFocusedIndex(null)}
                           onChange={e => handlePinDigit(i, e.target.value)}
                           onKeyDown={e => handlePinKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
+                          className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                             ${pinFocusedIndex === i
                               ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                               : digit
@@ -2042,7 +2042,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
+                        className="w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
                       />
                     </div>
                   ))}
@@ -2070,7 +2070,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
+                        className="w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
                       />
                     </div>
                   ))}
@@ -2089,8 +2089,8 @@ ${deskRules.join("\n")}
 
                   {/* ── Crew Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
-                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
+                    <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
+                    <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
                     <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2103,18 +2103,18 @@ ${deskRules.join("\n")}
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}
                     >
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button aria-label="Action button" disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                        className="w-full py-3  font-bold  text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                       >Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
@@ -2132,7 +2132,7 @@ ${deskRules.join("\n")}
 
                   {/* ── Planner Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
+                    <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
                     <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2149,13 +2149,13 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button aria-label="Action button" disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                        className="w-full py-3  font-bold  text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                       >Access My Dashboard →</button>
                       <div className="space-y-1.5 mt-3 text-center">
                         <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
@@ -2178,9 +2178,9 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className="text-[9px]  font-bold  uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
-                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
+                    <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
                     <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
                     <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
                     <div
@@ -2202,13 +2202,13 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button aria-label="Action button" disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                        className="w-full py-3  font-bold  text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                       >Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
@@ -2226,8 +2226,8 @@ ${deskRules.join("\n")}
 
                   {/* ── Admin 2FA Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
-                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
+                    <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
+                    <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
                     <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN after login</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2240,18 +2240,18 @@ ${deskRules.join("\n")}
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}
                     >
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button aria-label="Action button" disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                        className="w-full py-3  font-bold  text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                       >Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
@@ -2280,8 +2280,8 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign In Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Sign In Modal</h4>
+                  <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
+                  <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Sign In Modal</h4>
                   <p className="text-white/30 text-[10px] mb-4">Existing member login interface</p>
                   <div
                     className=" rounded-lg p-6 w-full no-glow relative"
@@ -2299,10 +2299,10 @@ ${deskRules.join("\n")}
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="text-2xl font-black tracking-tighter uppercase italic text-white">
+                      <h2 className="text-2xl  font-bold  tracking-tighter uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="text-xs uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-1">
+                      <div className="text-xs uppercase tracking-[0.18em]  font-bold  text-[var(--color-accent)] mt-1">
                         SIGN IN TO YOUR ACCOUNT
                       </div>
                     </div>
@@ -2310,14 +2310,14 @@ ${deskRules.join("\n")}
                     {/* Mode Tabs */}
                     <div className="relative grid grid-cols-2 p-1 bg-white/10  backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
-                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white text-center">Sign In</button>
-                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest  text-white  text-center">Sign Up</button>
+                      <button className="relative z-10 py-2 text-xs  font-bold  uppercase tracking-widest text-white text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-xs  font-bold  uppercase tracking-widest  text-white  text-center">Sign Up</button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                        <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       </div>
                       <div className="grid grid-cols-5 p-1 bg-black/40  backdrop-blur-[45px] border border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
@@ -2325,7 +2325,7 @@ ${deskRules.join("\n")}
                             key={r}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
-                            className={`py-1.5 px-1 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any)
+                            className={`py-1.5 px-1 text-[10px]  font-bold  uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any)
                               ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                               : "text-white/50 hover:text-white/90"
                               }`}
@@ -2339,13 +2339,13 @@ ${deskRules.join("\n")}
                     {/* Form Fields */}
                     <div className="space-y-3 mb-4">
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
+                        <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                         <div className="input-glow-border  rounded-lg w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
+                        <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                         <div className="input-glow-border  rounded-lg w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
@@ -2356,14 +2356,14 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3  font-bold  text-xs uppercase tracking-widest rounded-lg mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
                       SIGN IN
                     </button>
 
                     {/* Divider & Socials */}
                     <div className="relative text-center my-4">
                       <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
-                      <span className="relative bg-[#120a22] px-3 text-[9px] font-black uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
+                      <span className="relative bg-[#120a22] px-3 text-[9px]  font-bold  uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5  ">
@@ -2384,8 +2384,8 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign Up Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Sign Up Modal</h4>
+                  <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
+                  <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Sign Up Modal</h4>
                   <p className="text-white/30 text-[10px] mb-4">New fan registration interface</p>
                   <div
                     className=" rounded-lg p-6 w-full no-glow relative"
@@ -2403,31 +2403,31 @@ ${deskRules.join("\n")}
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="text-2xl font-black tracking-tighter uppercase italic text-white">
+                      <h2 className="text-2xl  font-bold  tracking-tighter uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="text-xs uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-1 flex items-center justify-center gap-1 flex-wrap">
-                        SIGN UP FOR FREE <span className="text-xs font-black text-white bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
+                      <div className="text-xs uppercase tracking-[0.18em]  font-bold  text-[var(--color-accent)] mt-1 flex items-center justify-center gap-1 flex-wrap">
+                        SIGN UP FOR FREE <span className="text-xs  font-bold  text-white bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
                       </div>
                     </div>
 
                     {/* Mode Tabs */}
                     <div className="relative grid grid-cols-2 p-1 bg-white/10  backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
-                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest  text-white  text-center">Sign In</button>
-                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white text-center">Sign Up</button>
+                      <button className="relative z-10 py-2 text-xs  font-bold  uppercase tracking-widest  text-white  text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-xs  font-bold  uppercase tracking-widest text-white text-center">Sign Up</button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
-                      <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       <div className="grid grid-cols-2 p-1 bg-black/40  backdrop-blur-[45px] border border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
                             onClick={() => setSignUpRole(r)}
-                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signUpRole === r
+                            className={`py-1.5 px-2 text-[10px]  font-bold  uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signUpRole === r
                               ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                               : "text-white/50 hover:text-white/90"
                               }`}
@@ -2443,13 +2443,13 @@ ${deskRules.join("\n")}
                       {signUpRole === 'planner' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
@@ -2458,13 +2458,13 @@ ${deskRules.join("\n")}
                       ) : signUpRole === 'cruise' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
                             <div className="input-glow-border  rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
@@ -2474,13 +2474,13 @@ ${deskRules.join("\n")}
                         <>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                               <div className="input-glow-border  rounded-lg w-full">
                                 <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
-                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
                               <div className="input-glow-border  rounded-lg w-full">
                                 <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                               </div>
@@ -2500,7 +2500,7 @@ ${deskRules.join("\n")}
 
                           {previewAlerts && (
                             <div className="pt-1">
-                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">Zip Code & Radius</label>
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
                                 <div className="input-glow-border  rounded-lg flex-1">
                                   <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
@@ -2527,13 +2527,13 @@ ${deskRules.join("\n")}
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                           <div className="input-glow-border  rounded-lg w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                           <div className="input-glow-border  rounded-lg w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
@@ -2547,7 +2547,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3  font-bold  text-xs uppercase tracking-widest rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
                       CREATE ACCOUNT
                     </button>
                   </div>
@@ -2662,7 +2662,7 @@ ${deskRules.join("\n")}
         {/* SECTION 5: DROPDOWNS */}
         <section id="dropdowns" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -2702,7 +2702,7 @@ ${deskRules.join("\n")}
         <section id="chat" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
               </h2>
               <p className=" text-white  text-xs mt-1">
@@ -2731,7 +2731,7 @@ ${deskRules.join("\n")}
                   setCopiedSpec(true);
                   setTimeout(() => setCopiedSpec(null as any), 2500);
                 }}
-                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]"
+                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]"
               >
                 {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedSpec ? "CSS Specs Copied!" : "Copy Chat Style Spec"}</span>
@@ -2772,7 +2772,7 @@ ${deskRules.join("\n")}
                 <button
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${multiUserColorMode
+                  className={`px-2.5 py-1 rounded-lg text-[10px]  font-bold  uppercase transition ${multiUserColorMode
                     ? "bg-emerald-600 text-white  "
                     : "bg-white/10 text-white/50"
                     }`}
@@ -3038,7 +3038,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5 rounded-md border border-white/20 bg-transparent cursor-pointer"
+                    className="w-5 h-5  rounded-lg border border-white/20 bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
                   <span className="text-[9px] font-mono  text-white  uppercase truncate max-w-[80px]">
@@ -3112,7 +3112,7 @@ ${deskRules.join("\n")}
         {/* SECTION 7: CARDS & BADGES */}
         <section id="components" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3179,7 +3179,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2"
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase transition flex items-center justify-center gap-2"
               >
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -3191,7 +3191,7 @@ ${deskRules.join("\n")}
         {/* SECTION 8: MODALS & DIALOGS */}
         <section id="modals" className="scroll-mt-36 border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3212,7 +3212,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
               </button>
@@ -3234,7 +3234,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
-                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
               </button>
@@ -3251,7 +3251,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -3318,7 +3318,7 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
-                <h3 className="text-lg font-black text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
+                <h3 className="text-lg  font-bold  text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
                 <p className="text-xs  text-white  mb-6">
                   This is the standard frosted-glass modal card used across verify screens, PIN entry, and success states.
                 </p>
@@ -3333,7 +3333,7 @@ ${deskRules.join("\n")}
                   </div>
                   <button
                     onClick={() => setShowGlassModal(false)}
-                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-widest transition cursor-pointer"
                   >
                     Continue
                   </button>
@@ -3363,20 +3363,20 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
-                <h3 className="text-lg font-black text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
+                <h3 className="text-lg  font-bold  text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
                 <p className="text-xs  text-white  text-center mb-6">
                   This action cannot be undone. The item will be permanently removed from your account.
                 </p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
-                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
-                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold uppercase tracking-widest transition cursor-pointer"
                   >
                     Delete
                   </button>
@@ -3389,7 +3389,7 @@ ${deskRules.join("\n")}
         {/* SECTION 9: BORDERS & GLASS */}
         <section id="borders" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3422,7 +3422,7 @@ ${deskRules.join("\n")}
         {/* SCROLLBAR SHOWCASE */}
         <section id="scrollbars" className="scroll-mt-36 border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Sliders className="w-6 h-6" /> Custom Scrollbars
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3435,12 +3435,12 @@ ${deskRules.join("\n")}
 
             {/* Vertical scroll demo */}
             <div className="space-y-3">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Vertical Scroll</p>
+              <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-purple-400">Vertical Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg  overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3  rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                      <div className="w-7 h-7 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300 shrink-0">{i + 1}</div>
+                      <div className="w-7 h-7 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300 shrink-0">{i + 1}</div>
                       <div>
                         <p className="text-xs font-bold text-white">List item {i + 1}</p>
                         <p className="text-[10px] text-white/30">Scroll down to see more items</p>
@@ -3454,13 +3454,13 @@ ${deskRules.join("\n")}
 
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Horizontal Scroll</p>
+              <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-purple-400">Horizontal Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg  overflow-hidden">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div key={i} className="shrink-0 w-28 h-24  rounded-lg bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
-                        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300">{i + 1}</div>
+                        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300">{i + 1}</div>
                         <span className="text-[10px] text-white/40">Card {i + 1}</span>
                       </div>
                     ))}
@@ -3472,7 +3472,7 @@ ${deskRules.join("\n")}
 
             {/* Both axes demo */}
             <div className="space-y-3 md:col-span-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Both Axes (2D Scroll)</p>
+              <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
                 className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg  p-4"
@@ -3496,7 +3496,7 @@ ${deskRules.join("\n")}
 
           {/* Usage code block */}
           <div className="bg-black/40 border border-white/10 rounded-lg  p-5">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-3">Usage</p>
+            <p className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-purple-400 mb-3">Usage</p>
             <pre className="text-[11px] text-purple-200 font-mono leading-relaxed overflow-x-auto custom-scrollbar">
               {`// globals.css already defines:
 .custom-scrollbar::-webkit-scrollbar        { width: 10px; height: 10px; }
@@ -3514,7 +3514,7 @@ ${deskRules.join("\n")}
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section id="spacing" className="scroll-mt-36  border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3525,19 +3525,19 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400">Mobile Page Padding</span>
-              <div className="text-2xl font-black text-white">16px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl  font-bold  text-white">16px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Used on screens below 768px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-purple-400">Tablet Page Padding</span>
-              <div className="text-2xl font-black text-white">32px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl  font-bold  text-white">32px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-lg  bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-emerald-400">Desktop Page Padding</span>
-              <div className="text-2xl font-black text-white">42px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl  font-bold  text-white">42px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Standardized max desktop horizontal container padding.</p>
             </div>
           </div>
@@ -3545,10 +3545,10 @@ ${deskRules.join("\n")}
           {/* Dedicated .site-container Utility Specification Card */}
           <div className="p-6 rounded-lg  bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
-              <span className="text-xs font-mono font-black text-purple-400 uppercase tracking-widest block">
+              <span className="text-xs font-mono  font-bold  text-purple-400 uppercase tracking-widest block">
                 Primary Layout Wrapper Class
               </span>
-              <h3 className="text-xl font-black text-white flex items-center gap-2">
+              <h3 className="text-xl  font-bold  text-white flex items-center gap-2">
                 <code className="text-purple-300 font-mono bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
                 <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Active Globally</span>
               </h3>
@@ -3568,7 +3568,7 @@ ${deskRules.join("\n")}
         <section id="canvas-studio" className="scroll-mt-36 border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <h2 className="text-2xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <h2 className="text-2xl  font-bold  uppercase tracking-wider text-emerald-400 flex items-center gap-2">
                 <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
               </h2>
               <p className=" text-white  text-xs mt-1">
@@ -3577,7 +3577,7 @@ ${deskRules.join("\n")}
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`px-4 py-2.5  rounded-lg font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
+              className={`px-4 py-2.5  rounded-lg font-bold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
                 ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                 : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
                 }`}
@@ -3590,7 +3590,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Full-Page Film Grain Controls */}
             <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-6">
-              <h3 className="text-sm font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <h3 className="text-sm  font-bold  uppercase tracking-wider text-emerald-400 flex items-center gap-2">
                 Film Grain Controls
               </h3>
               <p className="text-xs  text-white ">
@@ -3689,7 +3689,7 @@ ${deskRules.join("\n")}
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
             <div className="p-6 rounded-lg  bg-white/[0.02] border border-white/10 space-y-5">
-              <h3 className="text-sm font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h3 className="text-sm  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
               <p className="text-[10px] text-white/50">All sliders update the WebGL canvas shader in real-time via <code className="text-purple-300 font-mono">window.__neatInstance</code>.</p>
@@ -3750,7 +3750,7 @@ ${deskRules.join("\n")}
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer ml-auto"
+                    className="w-6 h-6  rounded-lg border border-white/20 bg-transparent cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
                 </div>
@@ -3762,7 +3762,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
         <section id="global-containers" className="scroll-mt-36 border border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-pink-400 flex items-center gap-2">
               <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3791,7 +3791,7 @@ ${deskRules.join("\n")}
                 <div key={item.token} className="p-4  rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-black uppercase tracking-wider text-pink-400">{item.label}</span>
+                      <span className="text-xs  font-bold  uppercase tracking-wider text-pink-400">{item.label}</span>
                       <p className="text-[10px] text-white/50 mt-0.5">{item.desc}</p>
                     </div>
                     <code className="text-[10px] font-mono text-white/40 bg-black/40 px-2 py-1 rounded border border-white/5">{item.token}</code>
@@ -3842,7 +3842,7 @@ ${deskRules.join("\n")}
 
           {/* Live Preview Strip */}
           <div className="space-y-3">
-            <h3 className="text-xs font-black uppercase tracking-wider  text-white ">Live Preview</h3>
+            <h3 className="text-xs  font-bold  uppercase tracking-wider  text-white ">Live Preview</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-5 rounded-lg  space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
                 <span className="text-xs font-bold text-pink-400">Card Container</span>
@@ -3863,7 +3863,7 @@ ${deskRules.join("\n")}
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0  rounded-lg p-0 space-y-6 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -3875,7 +3875,7 @@ ${deskRules.join("\n")}
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
             <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
               <div>
-                <h3 className="text-base font-black uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
+                <h3 className="text-base  font-bold  uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
                 <div className="flex flex-col gap-2.5">
                   {[
                     { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -3892,7 +3892,7 @@ ${deskRules.join("\n")}
                         : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/80"
                         }`}
                     >
-                      <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
+                      <h4 className="text-sm font-bold text-white uppercase tracking-wider">{tab.label}</h4>
                       <p className="text-xs text-white/70 mt-1 leading-relaxed">{tab.desc}</p>
                     </button>
                   ))}
@@ -3900,7 +3900,7 @@ ${deskRules.join("\n")}
               </div>
 
               <div className="mt-8 bg-transparent border-0 p-0">
-                <h4 className="text-xs font-black uppercase text-white tracking-widest mb-3">Available layouts:</h4>
+                <h4 className="text-xs  font-bold  uppercase text-white tracking-widest mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
                   <div className="space-y-2 text-sm text-white/80 font-medium">
                     <p>• Ultimate Family Townhouse</p>
@@ -3942,8 +3942,8 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
-                    <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
-                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
+                    <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
+                    <h3 className="text-2xl md:text-3xl  font-bold  uppercase text-white mt-1">Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 bg-[#e1e6ff29]   p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
@@ -3951,7 +3951,7 @@ ${deskRules.join("\n")}
                         key={perk}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
-                        className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk
+                        className={`px-4 py-2 rounded-lg text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk
                           ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30"
                           : "bg-transparent  text-white  hover:text-white"
                           }`}
@@ -3975,7 +3975,7 @@ ${deskRules.join("\n")}
                     "Lavazza Espresso coffee machine"
                   ].map((perk) => (
                     <div key={`sea-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-purple-400 font-black text-base shrink-0">✓</span>
+                      <span className="text-purple-400  font-bold  text-base shrink-0">✓</span>
                       <span>{perk}</span>
                     </div>
                   ))}
@@ -3997,7 +3997,7 @@ ${deskRules.join("\n")}
                     "Lavazza Espresso coffee machine"
                   ].map((perk) => (
                     <div key={`sky-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-cyan-400 font-black text-base shrink-0">✓</span>
+                      <span className="text-cyan-400  font-bold  text-base shrink-0">✓</span>
                       <span>{perk}</span>
                     </div>
                   ))}
@@ -4024,7 +4024,7 @@ ${deskRules.join("\n")}
                     "In-suite coffee machine"
                   ].map((perk) => (
                     <div key={`star-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-[var(--color-accent)] font-black text-base shrink-0">✓</span>
+                      <span className="text-[var(--color-accent)]  font-bold  text-base shrink-0">✓</span>
                       <span>{perk}</span>
                     </div>
                   ))}
@@ -4062,8 +4062,8 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="text-xs font-black uppercase tracking-[0.25em] text-purple-400">Prevailing Market Pricing Cards</span>
-                <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Stateroom & Cabin Rate Cards</h3>
+                <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-purple-400">Prevailing Market Pricing Cards</span>
+                <h3 className="text-xl md:text-2xl  font-bold  uppercase text-white mt-1">Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
@@ -4080,7 +4080,7 @@ ${deskRules.join("\n")}
                     className="overflow-hidden rounded-lg  flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
                   >
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px]  font-bold  uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         <span>Popular</span>
                       </div>
@@ -4093,23 +4093,23 @@ ${deskRules.join("\n")}
                       )}
                       <div className="px-0 py-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
+                          <span className={`text-[10px]  font-bold  uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
                             }`}>{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
-                        <h4 className="text-base font-black text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                        <h4 className="text-base  font-bold  text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                       </div>
                     </div>
 
                     <div className="px-0 pt-0 pb-5 text-left">
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl font-black text-white">{room.price}</span>
+                        <span className="text-xl  font-bold  text-white">{room.price}</span>
                         <span className="text-xs  text-white  font-bold">USD pp</span>
                       </div>
                       <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                       <button
                         type="button"
-                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg  font-bold  text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo
                           ? 'bg-purple-600 hover:bg-purple-500 text-white'
                           : 'bg-purple-600 hover:bg-purple-500 text-white'
                           }`}
@@ -4128,51 +4128,51 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
-                <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
+                <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
+                <h3 className="text-xl md:text-2xl  font-bold  uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
             <div className="booking-form-card bg-transparent border-0  rounded-lg overflow-hidden shadow-none p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
-                <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                <p className="text-xs text-purple-400font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                <h2 className="text-sm  font-bold  uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                <p className="text-xs text-purple-400font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                 <p className="text-[10px]  text-white  font-bold uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
               </div>
 
               {/* GUEST 1 (Primary Booker) */}
               <div className="booking-section-container border-0 bg-transparent p-0">
                 <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
-                  <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full   border-0">Primary</span>
+                  <span className="text-sm  font-bold  uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full   border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
                   <div className="booking-cell border-0 py-3 px-0   col-span-2" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                    <label htmlFor="sg-guest1-name" className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
                     <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Phone Number *</label>
+                    <label htmlFor="sg-guest1-phone" className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-1.5">Phone Number *</label>
                     <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3  " suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Email Address *</label>
+                    <label htmlFor="sg-guest1-email" className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-1.5">Email Address *</label>
                     <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3   relative" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                     <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                       {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3  " suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                    <label htmlFor="sg-guest1-crown" className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
                     <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
@@ -4180,11 +4180,11 @@ ${deskRules.join("\n")}
                 {/* Toggles */}
                 <div className="grid grid-cols-1 md:grid-cols-2 border-0 gap-y-2 mt-2">
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3 flex flex-col justify-between">
-                    <span className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
+                    <span className="booking-label block text-xs  font-bold  text-purple-400uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs  font-bold  uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
@@ -4192,11 +4192,11 @@ ${deskRules.join("\n")}
                   </div>
 
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3 flex flex-col justify-between">
-                    <span className="booking-label block text-xs font-black text-purple-400 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
+                    <span className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs  font-bold  uppercase tracking-wider border-0 transition-colors cursor-pointer   ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-[#e1e6ff29]   text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}
@@ -4211,8 +4211,8 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="text-xs font-black uppercase tracking-[0.25em] text-purple-400">Policies & Terms Component</span>
-                <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-purple-400">Policies & Terms Component</span>
+                <h3 className="text-xl md:text-2xl  font-bold  uppercase text-white mt-1">Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
@@ -4221,9 +4221,9 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-                  <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
+                  <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
                 </div>
-                <p className="text-xs font-black text-amber-400 uppercase tracking-widest mb-4">
+                <p className="text-xs  font-bold  text-amber-400 uppercase tracking-widest mb-4">
                   Book through us to participate & lock in best rates
                 </p>
                 <p className="text-xs text-white/80 leading-relaxed mb-4">
@@ -4268,20 +4268,20 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Compass className="w-6 h-6 text-purple-400shrink-0" />
-                  <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
+                  <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Passport Requirements</h3>
                 </div>
-                <p className="text-xs font-black text-purple-400uppercase tracking-widest mb-4">
+                <p className="text-xs  font-bold  text-purple-400uppercase tracking-widest mb-4">
                   Essential travel document guidelines
                 </p>
                 <div className="space-y-4 text-xs text-white/80 leading-relaxed">
                   <p>
-                    A physical passport book valid for 6 months post-cruise is <strong className="text-white font-extrabold underline inline-block">highly recommended</strong> for all travelers.
+                    A physical passport book valid for 6 months post-cruise is <strong className="text-white font-bold underline inline-block">highly recommended</strong> for all travelers.
                   </p>
                   <p>
                     For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                   </p>
                   <p>
-                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-cyan-400 font-extrabold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-cyan-400 font-bold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
                   </p>
                 </div>
               </div>
@@ -4290,14 +4290,14 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
-                  <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>
+                  <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Cancellation Policy</h3>
                 </div>
-                <p className="text-xs font-black text-purple-400 uppercase tracking-widest mb-4">
+                <p className="text-xs  font-bold  text-purple-400 uppercase tracking-widest mb-4">
                   Refund terms before booking
                 </p>
                 <div className="space-y-4 text-xs text-white/80 leading-relaxed">
                   <div>
-                    <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
+                    <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-1">Group Rate Rooms:</h4>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                       <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
@@ -4308,7 +4308,7 @@ ${deskRules.join("\n")}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
+                    <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-1">Prevailing Rate:</h4>
                     <p>Cancel by Oct 10, 2026 for no penalty.</p>
                   </div>
                 </div>
@@ -4320,7 +4320,7 @@ ${deskRules.join("\n")}
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section id="crew-scheduling" className="scroll-mt-36 border-0  rounded-lg p-0 space-y-8 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="text-2xl  font-bold  uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
             </h2>
             <p className=" text-white  text-xs mt-1">
@@ -4335,10 +4335,10 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                   <div>
-                    <h3 className="text-sm font-black uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
+                    <h3 className="text-sm  font-bold  uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
                     <p className="text-xs text-white/50">Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-extrabold uppercase border border-purple-500/30">Module Preview</span>
+                  <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
@@ -4370,7 +4370,7 @@ ${deskRules.join("\n")}
                     className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px]  border border-white/10 rounded-lg  shadow-2xl p-4 flex flex-col gap-2 font-sans"
                     style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
                   >
-                    <div className="text-sm text-white/90 font-black uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                    <div className="text-sm text-white/90  font-bold  uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
                       <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-[#e1e6ff29]   rounded-full border border-white/10">3 saved</span>
                     </div>
@@ -4384,9 +4384,9 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3  rounded-lg hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3  rounded-lg hover:bg-white/10 text-sm text-white font-bold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
                         >
-                          <span className="w-7 h-7  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
+                          <span className="w-7 h-7  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono  font-bold  text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
                             <span className="truncate text-sm tracking-wide font-extrabold">{grp.name}</span>
                             <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
@@ -4403,10 +4403,10 @@ ${deskRules.join("\n")}
             <div className="bg-white/[0.02] border border-white/10 rounded-lg  p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 className="text-sm font-black uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
+                  <h3 className="text-sm  font-bold  uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
                   <p className="text-xs text-white/50">Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-extrabold uppercase border border-purple-500/30">Modal Spec</span>
+                <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
               </div>
 
               {/* Modal Frame Mockup */}
@@ -4414,7 +4414,7 @@ ${deskRules.join("\n")}
                 {/* Header */}
                 <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                   <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
+                    <h3 className="text-sm  font-bold  italic tracking-wide text-white">Create New Crew Group</h3>
                     <p className="text-[9px] text-white/40 uppercase tracking-widest font-bold mt-0.5">Select members and customize their shift slots</p>
                   </div>
                   <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm">✕</button>
@@ -4424,7 +4424,7 @@ ${deskRules.join("\n")}
                 <CustomScrollbar height={384} className="px-4 pt-5 pb-3 space-y-3.5">
                   {/* Group Name input */}
                   <div className="mt-1 space-y-1.5">
-                    <label className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Group Name</label>
+                    <label className="text-[9px] uppercase tracking-wider text-white/50 font-bold block">Group Name</label>
                     <input
                       type="text"
                       readOnly
@@ -4435,14 +4435,14 @@ ${deskRules.join("\n")}
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
-                    <span className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
+                    <span className="text-[9px] uppercase tracking-wider text-white/50 font-bold block">Select Crew Members</span>
                     <div className="p-3 bg-transparent border border-white/10  rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-4 bg-purple-600 rounded-full relative cursor-pointer">
                             <div className="w-3.5 h-3.5 bg-white rounded-full absolute top-0.25 right-0.5  " />
                           </div>
-                          <div className="w-7 h-7 rounded-full bg-purple-600 border border-purple-400/40 text-[10px] font-black text-white flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-full bg-purple-600 border border-purple-400/40 text-[10px]  font-bold  text-white flex items-center justify-center">
                             AJ
                           </div>
                           <div>
@@ -4455,7 +4455,7 @@ ${deskRules.join("\n")}
                       {/* Time Frame box */}
                       <div className="p-2.5 bg-transparent border border-white/10 space-y-2 rounded-lg">
                         <div className="flex items-center justify-between">
-                          <span className="uppercase tracking-wider text-purple-300 font-extrabold text-[9.5px]">Time Frame 1</span>
+                          <span className="uppercase tracking-wider text-purple-300 font-bold text-[9.5px]">Time Frame 1</span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                           <div className="p-1.5 bg-[#e1e6ff29]   border border-white/10 rounded text-[10px] text-white font-bold">5:00 PM</div>
@@ -4471,7 +4471,7 @@ ${deskRules.join("\n")}
                               return (
                                 <span
                                   key={preset}
-                                  className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border font-sans ${isSelected
+                                  className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border font-sans ${isSelected
                                     ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
                                     : 'bg-[#e1e6ff29]   border-white/10 text-white/70'
                                     }`}
@@ -4492,7 +4492,7 @@ ${deskRules.join("\n")}
                   <button type="button" className="px-4 py-2 border border-white/10 hover:bg-[#e1e6ff29]   text-white/70 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30">
+                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none   shadow-purple-900/30">
                     Save Group
                   </button>
                 </div>

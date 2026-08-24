@@ -126,7 +126,7 @@ export function NeatButton({
       {...props}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block pointer-events-none" />
-      <span className="relative z-10 text-base font-extrabold tracking-wider text-white/85 group-hover:text-white group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] group-hover:scale-105 transition-all duration-300">
+      <span className="relative z-10 text-base font-bold tracking-wider text-white/85 group-hover:text-white group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] group-hover:scale-105 transition-all duration-300">
         {children}
       </span>
     </button>

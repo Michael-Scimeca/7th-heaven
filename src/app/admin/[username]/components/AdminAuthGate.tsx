@@ -31,7 +31,7 @@ export function AdminAuthGate({
         <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
           🔒
         </div>
-        <h1 className="text-xl font-extrabold text-white mb-2 uppercase tracking-wide">
+        <h1 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
           {isWrongRole ? "Access Restricted" : "Admin Authorization"}
         </h1>
         <p className="text-xs  text-white  mb-6">
@@ -42,7 +42,7 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs uppercase tracking-widest font-extrabold  text-white  mb-1.5 block">Email</label>
+            <label htmlFor="admin-gate-email" className="text-4xs uppercase tracking-widest font-bold  text-white  mb-1.5 block">Email</label>
             <input
               id="admin-gate-email"
               type="email"
@@ -54,7 +54,7 @@ export function AdminAuthGate({
             />
           </div>
           <div>
-            <label htmlFor="admin-gate-password" className="text-4xs uppercase tracking-widest font-extrabold  text-white  mb-1.5 block">Password</label>
+            <label htmlFor="admin-gate-password" className="text-4xs uppercase tracking-widest font-bold  text-white  mb-1.5 block">Password</label>
             <input
               id="admin-gate-password"
               type="password"
@@ -75,7 +75,7 @@ export function AdminAuthGate({
           <button
             type="submit"
             disabled={adminLoginLoading}
-            className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+            className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs  font-bold  uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50"
           >
             {adminLoginLoading ? "Authenticating..." : "Sign In to Admin"}
           </button>

@@ -290,7 +290,7 @@ export default function PlannerDashboard() {
                 <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 text-[var(--color-accent)]" />
                 </div>
-                <h1 className="text-2xl font-black tracking-tight">
+                <h1 className="text-2xl  font-bold  tracking-tight">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
                 </h1>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/30 mt-2">
@@ -445,7 +445,7 @@ export default function PlannerDashboard() {
               <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
+                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
                     <h4 className="text-lg font-bold text-white mt-1">Dickie (NTD Management)</h4>
                     <p className="text-xs text-white/50">Band Contracts, Scheduling & Event Operations</p>
                   </div>
@@ -463,7 +463,7 @@ export default function PlannerDashboard() {
               <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
+                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Jeff Dobbs</h4>
                     <p className="text-xs text-white/50">PA System, Stage Dimensions, Sound & Power</p>
                   </div>
@@ -481,7 +481,7 @@ export default function PlannerDashboard() {
               <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
+                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
                     <p className="text-xs text-white/50">Hospitality, Parking Pass, Green Room & Itinerary</p>
                   </div>
@@ -499,7 +499,7 @@ export default function PlannerDashboard() {
               <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
+                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
                     <h4 className="text-lg font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
                     <p className="text-xs text-white/50">Promotional Assets, Logos, Radio & Media Interviews</p>
                   </div>
@@ -712,7 +712,7 @@ export default function PlannerDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
+              <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
               <h4 className="text-base font-bold text-white">Dickie</h4>
               <p className="text-xs text-white/40 mb-3">NTD Management</p>
             </div>
@@ -728,7 +728,7 @@ export default function PlannerDashboard() {
 
           <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
+              <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
               <p className="text-xs text-white/40 mb-3">Production & Sound</p>
             </div>
@@ -744,7 +744,7 @@ export default function PlannerDashboard() {
 
           <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
+              <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="text-base font-bold text-white">Alan McRae</h4>
               <p className="text-xs text-white/40 mb-3">NTD Management</p>
             </div>
@@ -760,7 +760,7 @@ export default function PlannerDashboard() {
 
           <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
             <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
+              <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
               <h4 className="text-base font-bold text-white">Lenny Rago</h4>
               <p className="text-xs text-white/40 mb-3">NTD Records</p>
             </div>

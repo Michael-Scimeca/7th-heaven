@@ -10,6 +10,7 @@ export const viewport: Viewport = {
 };
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import ProgressiveBlur from "@/components/ProgressiveBlur";
 import Providers from "@/components/Providers";
 import { draftMode } from "next/headers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -257,6 +258,7 @@ export default async function RootLayout({
               <ScrollToTop />
               <SmoothScroll>
                 <div id="page-content-wrapper" className="flex flex-col min-h-screen relative">
+                  <ProgressiveBlur position="top" />
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}

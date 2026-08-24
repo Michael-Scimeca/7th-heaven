@@ -113,7 +113,7 @@ function VideoThumbnail({ videoId, title, isActive, index = 0 }: { videoId: stri
           <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center mb-2 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           </div>
-          <span className="text-white/90 font-black text-xs uppercase tracking-wider line-clamp-2 px-2">{title}</span>
+          <span className="text-white/90  font-bold  text-xs uppercase tracking-wider line-clamp-2 px-2">{title}</span>
           <span className="text-purple-300/60 text-[10px] uppercase tracking-widest font-mono mt-1">7th Heaven Vault</span>
         </div>
       )}
@@ -418,11 +418,11 @@ export default function MediaPage() {
               <HeroParallaxCustomizer {...heroParallax} />
               <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
                 <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                     <span>FEATURED MEDIA</span>
                   </div>
                   <h1
-                    className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
+                    className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
                     style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
                   >
                     <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
@@ -440,7 +440,7 @@ export default function MediaPage() {
                   <CosmicRadialButton
                     onClick={() => setHeroPlaying(true)}
                     icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>}
-                    className="px-8 py-3.5 rounded-lg text-white font-black text-xs uppercase tracking-widest"
+                    className="px-8 py-3.5 rounded-lg text-white  font-bold  text-xs uppercase tracking-widest"
                   >
                     Watch Featured Video
                   </CosmicRadialButton>
@@ -469,13 +469,13 @@ export default function MediaPage() {
                       setActiveFilter(cat.category);
                       setActiveIndex(0);
                     }}
-                    className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
+                    className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                       ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                       : "bg-[#e1e6ff29]    text-white  hover:text-white hover:bg-white/10"
                       }`}
                   >
                     <span>{cat.category}</span>
-                    <span className={`text-[10px] tabular-nums font-black px-1.5 py-0.2 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
+                    <span className={`text-[10px] tabular-nums  font-bold  px-1.5 py-0.2 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
                       }`}>
                       {cat.videos.length}
                     </span>
@@ -498,7 +498,7 @@ export default function MediaPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
                 title="Add a video to the Media Vault & Sanity CMS"
               >
                 <Plus className="w-4 h-4" />
@@ -537,13 +537,13 @@ export default function MediaPage() {
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
                   <div className="relative z-20">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
+                      <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
                         {video.year}
                       </span>
                     </div>
 
                     <h3
-                      className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
+                      className={`text-3xl sm:text-4xl md:text-6xl  font-bold  uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
                         ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
                         : "text-white/70 group-hover:text-white"
                         }`}
@@ -574,7 +574,7 @@ export default function MediaPage() {
                           setPlayingId(video.id);
                         }}
                         icon={<Play className="w-3.5 h-3.5 fill-white ml-0.5" />}
-                        className={`mt-4 px-5 py-2.5 rounded-lg text-white text-xs font-black uppercase tracking-widest ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
+                        className={`mt-4 px-5 py-2.5 rounded-lg text-white text-xs  font-bold  uppercase tracking-widest ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
                       >
                         Play Video
                       </CosmicRadialButton>
@@ -638,10 +638,10 @@ export default function MediaPage() {
 
                         {/* Caption Overlay */}
                         <div className="absolute bottom-4 left-4 right-4 z-20">
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/70  backdrop-blur-[45px] px-2 py-0.5 rounded border border-white/10">
+                          <span className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/70  backdrop-blur-[45px] px-2 py-0.5 rounded border border-white/10">
                             {selectedCategory?.category}
                           </span>
-                          <h4 className="text-lg font-black uppercase tracking-tight text-white mt-1 drop-shadow-md truncate">
+                          <h4 className="text-lg  font-bold  uppercase tracking-tight text-white mt-1 drop-shadow-md truncate">
                             {video.title}
                           </h4>
                         </div>
@@ -673,7 +673,7 @@ export default function MediaPage() {
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black uppercase tracking-wider text-white">Add Video to Media Vault</h3>
+                  <h3 className="text-base  font-bold  uppercase tracking-wider text-white">Add Video to Media Vault</h3>
                   <p className="text-[10px] text-white/50 uppercase tracking-widest font-mono">Syncs to Sanity CMS & Media Hub</p>
                 </div>
               </div>
@@ -688,7 +688,7 @@ export default function MediaPage() {
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px]  font-bold  uppercase tracking-wider text-purple-300 mb-1">
                   Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -731,7 +731,7 @@ export default function MediaPage() {
               })()}
 
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px]  font-bold  uppercase tracking-wider text-purple-300 mb-1">
                   Video Title <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -746,7 +746,7 @@ export default function MediaPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
+                  <label className="block text-[10px]  font-bold  uppercase tracking-wider text-purple-300 mb-1">
                     Category <span className="text-pink-400">*</span>
                   </label>
                   <select
@@ -768,7 +768,7 @@ export default function MediaPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
+                  <label className="block text-[10px]  font-bold  uppercase tracking-wider text-purple-300 mb-1">
                     Release Year
                   </label>
                   <input
@@ -782,7 +782,7 @@ export default function MediaPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px]  font-bold  uppercase tracking-wider text-purple-300 mb-1">
                   Description / Notes (Optional)
                 </label>
                 <textarea
@@ -805,7 +805,7 @@ export default function MediaPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white  font-bold  text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
                 </button>

@@ -221,7 +221,7 @@ export default function CruiseHeroMaskEditor() {
                 <Sliders className="w-4 h-4 text-cyan-400" />
               </div>
               <div>
-                <h3 className="text-sm font-black uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
+                <h3 className="text-sm  font-bold  uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
                 <p className="text-[10px] text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function CruiseHeroMaskEditor() {
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-purple-950/30 p-3.5  rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                <span className="text-xs  font-bold  uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY & CRUISING HISTORY
                 </span>
                 <span className="text-[10px] text-purple-300/70 font-mono">#itinerary & .history</span>
@@ -359,7 +359,7 @@ export default function CruiseHeroMaskEditor() {
             {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                <span className="text-xs  font-bold  uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-cyan-400" /> CRUISING HISTORY CONTAINER
                 </span>
                 <span className="text-[10px] text-cyan-300/70 font-mono">.history-timeline</span>

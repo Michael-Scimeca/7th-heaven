@@ -160,11 +160,11 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-black uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
-        <h3 className="text-xl font-black text-white mb-1">Shows Near You</h3>
+        <h3 className="text-xl  font-bold  text-white mb-1">Shows Near You</h3>
         <p className=" text-white  text-sm mb-6 max-w-md">
           Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
         </p>
@@ -217,7 +217,7 @@ export default function ProximityPanel() {
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
-          className="w-full py-3 text-xs font-black uppercase tracking-widest text-white cursor-pointer"
+          className="w-full py-3 text-xs  font-bold  uppercase tracking-widest text-white cursor-pointer"
         >
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </CosmicRadialButton>
@@ -227,7 +227,7 @@ export default function ProximityPanel() {
       {notificationsEnabled && (
         <div className="pt-2 text-white">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)]">
+            <span className="text-xs  font-bold  uppercase tracking-widest  text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button aria-label="Action button"
@@ -261,10 +261,10 @@ export default function ProximityPanel() {
                       className="flex items-center gap-4 text-left cursor-pointer flex-1"
                     >
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
-                        <span className="text-xs font-black text-blue-400 uppercase">
+                        <span className="text-xs  font-bold  text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="text-lg font-black text-white leading-none">
+                        <span className="text-lg  font-bold  text-white leading-none">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
@@ -279,7 +279,7 @@ export default function ProximityPanel() {
                     <button aria-label="Action button"
                       type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
+                      className={`px-4 py-2 text-xs  font-bold  uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
                         ? "bg-blue-600 text-white border-blue-600"
                         : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}
@@ -319,12 +319,12 @@ export default function ProximityPanel() {
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
                             <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)]">
+                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-xs text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-[var(--font-size-2xs)] font-black uppercase ${tierColors[a.profiles.tier]}`}>
+                                <span className={`text-[var(--font-size-2xs)]  font-bold  uppercase ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}
                                 </span>
                               )}

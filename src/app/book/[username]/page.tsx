@@ -111,18 +111,18 @@ export default function PlannerDashboardPage() {
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={displayName} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white font-black text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   {initials}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-black uppercase text-white bg-[var(--color-accent)] rounded-full shadow-md border border-[var(--color-accent)]/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-[var(--color-accent)] rounded-full shadow-md border border-[var(--color-accent)]/50">
                 Planner
               </span>
             </div>
 
             {/* Member Info */}
             <div>
-              <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white leading-none">
+              <h1 className="text-2xl md:text-3xl  font-bold  uppercase tracking-widest text-white leading-none">
                 {displayName}
               </h1>
               <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>

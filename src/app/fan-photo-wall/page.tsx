@@ -177,10 +177,10 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">WALL</span>
               </h1>
               <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
@@ -192,7 +192,7 @@ export default function FansPage() {
                 <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-xl flex-wrap">
                   <Lock className="w-4 h-4 text-purple-400 shrink-0" />
                   <p>
-                    You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
+                    You must be a <span className="font-bold text-white">Fan Member</span> to share your moments.{" "}
                     <button aria-label="Action button"
                       onClick={() => openModal("signup")}
                       className="underline font-bold text-white hover:text-purple-300 transition-colors cursor-pointer"
@@ -223,7 +223,7 @@ export default function FansPage() {
                   }
                 }}
                 icon={<Camera className="w-4 h-4" />}
-                className="px-8 py-4 rounded-lg text-white text-xs font-black tracking-widest"
+                className="px-8 py-4 rounded-lg text-white text-xs  font-bold  tracking-widest"
               >
                 {showUpload ? "Hide Upload Form" : "Upload Photo / Video"}
               </CosmicRadialButton>
@@ -258,7 +258,7 @@ export default function FansPage() {
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-[#e1e6ff29] text-white text-xs px-3 py-1 font-mono rounded-full font-black">
+              <span className="ml-auto bg-[#e1e6ff29] text-white text-xs px-3 py-1 font-mono rounded-full  font-bold ">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -303,7 +303,7 @@ export default function FansPage() {
                     {/* Metadata & Actions */}
                     <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
                       <div>
-                        <div className="flex items-center gap-1 text-xs font-black text-white truncate">
+                        <div className="flex items-center gap-1 text-xs  font-bold  text-white truncate">
                           <span className="text-purple-400">@</span>
                           <span className="truncate">{photo.name}</span>
                         </div>
@@ -324,7 +324,7 @@ export default function FansPage() {
                         <button
                           onClick={() => handleRejectPhoto(photo.id)}
                           disabled={moderatingId === photo.id}
-                          className="py-1.5 px-2 text-[10px] font-black uppercase tracking-widest text-red-200 bg-red-950/50 border border-red-500/30 rounded-md hover:bg-red-900/70 transition-colors cursor-pointer text-center"
+                          className="py-1.5 px-2 text-[10px]  font-bold  uppercase tracking-widest text-red-200 bg-red-950/50 border border-red-500/30  rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center"
                         >
                           Reject
                         </button>
@@ -332,7 +332,7 @@ export default function FansPage() {
                           onClick={() => handleApprovePhoto(photo.id)}
                           disabled={moderatingId === photo.id}
                           icon={false}
-                          className="!py-1.5 !px-2 text-[10px] font-black uppercase tracking-widest text-white !rounded-md text-center"
+                          className="!py-1.5 !px-2 text-[10px]  font-bold  uppercase tracking-widest text-white ! rounded-lg text-center"
                         >
                           Approve
                         </CosmicRadialButton>
@@ -369,10 +369,10 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <span className="inline-block text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-md border border-white/20 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1  rounded-lg border border-white/20 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                   Featured Moment
                 </span>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-white leading-none drop-shadow-md">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl  font-bold  uppercase tracking-tight text-white leading-none drop-shadow-md">
                   {approvedPhotos[0].name}
                 </h3>
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-white/70 font-semibold mt-2">
@@ -423,7 +423,7 @@ export default function FansPage() {
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-white/80 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest font-extrabold mt-0.5 truncate">
+                          <p className="text-white/80 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest font-bold mt-0.5 truncate">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}

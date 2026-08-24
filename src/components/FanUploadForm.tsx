@@ -308,7 +308,7 @@ export default function FanUploadForm() {
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="text-white font-black tracking-widest uppercase mb-1 text-sm group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
+                      <p className="text-white  font-bold  tracking-widest uppercase mb-1 text-sm group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
                       <p className="text-xs text-white/50 uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
@@ -316,7 +316,7 @@ export default function FanUploadForm() {
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-10 h-10 border-2  border-[var(--color-accent)]/30 border-t-emerald-500 rounded-full animate-spin mb-3" />
-                    <p className="text-white font-black text-sm uppercase tracking-widest">Safety Scan</p>
+                    <p className="text-white  font-bold  text-sm uppercase tracking-widest">Safety Scan</p>
                     <p className="text-emerald-400 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>
                 )}
@@ -363,7 +363,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white font-black text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white  font-bold  text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
               >
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </CosmicRadialButton>

@@ -168,7 +168,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "pink"];
 
   return (
-    <div className={`relative  rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-black shadow-2xlbackdrop-blur-[18px]  cursor-pointer hover:scale-105 transition duration-300`}>
+    <div className={`relative  rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white  font-bold  shadow-2xlbackdrop-blur-[18px]  cursor-pointer hover:scale-105 transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b border-white/20 pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-full bg-black/40 text-cyan-300 font-mono text-[9px] font-bold">
           ROOT 0.0
@@ -177,7 +177,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
           PUBLIC HUB
         </span>
       </div>
-      <h2 className="text-lg uppercase tracking-wider font-extrabold flex items-center justify-center gap-2">
+      <h2 className="text-lg uppercase tracking-wider font-bold flex items-center justify-center gap-2">
         <Globe className="w-5 h-5 text-cyan-200" />
         <span>Home Page (/)</span>
       </h2>
@@ -209,7 +209,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <div className={`w-8 h-8  rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
-        <h3 className="font-black text-sm text-white uppercase tracking-wider truncate">
+        <h3 className=" font-bold  text-sm text-white uppercase tracking-wider truncate">
           {data.label}
         </h3>
       </div>
@@ -231,7 +231,7 @@ function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       <div className="flex items-center justify-center gap-1.5">
         <GitBranch className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-        <span className="font-black text-xs text-amber-200 uppercase tracking-wider truncate">
+        <span className=" font-bold  text-xs text-amber-200 uppercase tracking-wider truncate">
           {data.label}
         </span>
       </div>
@@ -266,7 +266,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className={`w-1.5 h-1.5 rounded-full ${scheme.dot}`} />
           </div>
 
-          <h4 className="font-black text-xs text-white uppercase tracking-wider truncate">
+          <h4 className=" font-bold  text-xs text-white uppercase tracking-wider truncate">
             {data.label}
           </h4>
 
@@ -304,13 +304,13 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1 mb-1">
-            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[8px] font-mono font-black uppercase tracking-widest">
+            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[8px] font-mono  font-bold  uppercase tracking-widest">
               ✉ EMAIL TOUCHPOINT
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
           </div>
 
-          <h4 className="font-black text-xs text-white uppercase tracking-wider truncate">
+          <h4 className=" font-bold  text-xs text-white uppercase tracking-wider truncate">
             {data.label}
           </h4>
 
@@ -497,7 +497,7 @@ export default function UserFlowMap() {
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90  backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between text-xs pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
-          <span className="font-black uppercase tracking-widest text-white">
+          <span className=" font-bold  uppercase tracking-widest text-white">
             7th Heaven User Flow & Architecture Tree Map
           </span>
         </div>
@@ -569,7 +569,7 @@ export default function UserFlowMap() {
                 <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[9px] font-bold uppercase tracking-wider">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="text-lg font-black uppercase tracking-wider text-white mt-1">
+                <h3 className="text-lg  font-bold  uppercase tracking-wider text-white mt-1">
                   {selectedNode.data.label}
                 </h3>
                 <code className="text-xs font-mono text-cyan-300 block mt-0.5">
@@ -612,7 +612,7 @@ export default function UserFlowMap() {
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="w-full py-2.5  rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg"
+                className="w-full py-2.5  rounded-lg bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg"
               >
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="w-4 h-4" />
@@ -620,7 +620,7 @@ export default function UserFlowMap() {
             ) : (
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-full py-2.5  rounded-lg bg-white/10 hover:bg-white/20 text-white/80 font-black text-xs uppercase tracking-wider transition"
+                className="w-full py-2.5  rounded-lg bg-white/10 hover:bg-white/20 text-white/80  font-bold  text-xs uppercase tracking-wider transition"
               >
                 Close Inspector
               </button>

@@ -88,7 +88,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
-            <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
+            <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
           <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
@@ -131,7 +131,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
           <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
+          <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
         <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All
@@ -148,9 +148,9 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Top block: UP NEXT Badge & Countdown timer inline */}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
-            <div className="flex items-center gap-1 text-[var(--font-size-5xs)] font-black uppercase tracking-[0.15em]">
+            <div className="flex items-center gap-1 text-[var(--font-size-5xs)]  font-bold  uppercase tracking-[0.15em]">
               <span className={`w-0.5 h-0.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-              <span className={daysLabel === "Happening Now" ? "text-red-500 font-black" : " text-[var(--color-accent)]"}>
+              <span className={daysLabel === "Happening Now" ? "text-red-500  font-bold " : " text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>
               {daysLabel && daysLabel !== "Happening Now" && (
@@ -167,7 +167,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
           <Link href="/tour" className="block hover:opacity-85 transition-opacity group/venue">
-            <h2 className="font-[var(--font-heading)] text-sm font-extrabold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue: text-[var(--color-accent)] transition-colors">
+            <h2 className="font-[var(--font-heading)] text-sm font-bold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue: text-[var(--color-accent)] transition-colors">
               {nextShow.venue}
             </h2>
             <div className="flex flex-wrap items-center gap-1 text-[var(--font-size-4xs)] text-white/50 font-medium">
@@ -199,7 +199,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
             {nextShow.info && (
-              <p className="mt-1 text-[var(--font-size-5xs)] font-extrabold uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
+              <p className="mt-1 text-[var(--font-size-5xs)] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
                 <Guitar className="w-3 h-3" /> {nextShow.info}
               </p>
             )}
@@ -243,8 +243,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           // eslint-disable-next-line react-doctor/no-array-index-as-key
           <Link key={`hero_show_${idx}_${show.id || show.venue}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
-              <span className="text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
-              <span className="text-[var(--font-size-2xs)] font-black leading-none mt-0.5">{show.date.split(' ')[1]}</span>
+              <span className="text-[var(--font-size-5xs)]  font-bold  uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
+              <span className="text-[var(--font-size-2xs)]  font-bold  leading-none mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-white/90 truncate leading-tight">{show.venue}</p>

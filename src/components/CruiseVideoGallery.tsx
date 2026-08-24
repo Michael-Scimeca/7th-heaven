@@ -196,7 +196,7 @@ export default function CruiseVideoGallery() {
           Virtual Tours & Video Showcase
         </span>
         <h2
-          className="text-4xl md:text-6xl font-black uppercase italic tracking-tight text-white leading-none"
+          className="text-4xl md:text-6xl  font-bold  uppercase italic tracking-tight text-white leading-none"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Explore <span className="accent-gradient-text">Ship Videos</span>
@@ -213,8 +213,8 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
-                  ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                className={`px-5 py-2  text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
+                  ? 'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                   : ' bg=[#e1e6ff29]  text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
                   }`}
               >
@@ -261,7 +261,7 @@ export default function CruiseVideoGallery() {
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-[var(--font-size-3xs)] font-black uppercase tracking-wider px-3 py-1 rounded-lg ">
+                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
                   {vid.category}
                 </span>
               </div>
@@ -269,7 +269,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="py-6 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <h3 className="text-lg font-black text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-lg  font-bold  text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                     {vid.title}
                   </h3>
                   {vid.description && (
@@ -279,7 +279,7 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase text-purple-400tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1.5 text-xs  font-bold  uppercase text-purple-400tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
                   <span>Watch Video Tour</span>
                   <span>→</span>
                 </div>
@@ -311,10 +311,10 @@ export default function CruiseVideoGallery() {
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase text-purple-400 tracking-widest block mb-1">
+                <span className="text-[var(--font-size-3xs)]  font-bold  uppercase text-purple-400 tracking-widest block mb-1">
                   {activeVideo.category}
                 </span>
-                <h3 className="text-white font-black text-base md:text-xl uppercase tracking-wide truncate">
+                <h3 className="text-white  font-bold  text-base md:text-xl uppercase tracking-wide truncate">
                   {activeVideo.title}
                 </h3>
               </div>
@@ -323,7 +323,7 @@ export default function CruiseVideoGallery() {
                 type="button"
                 aria-label="Close player"
                 onClick={() => setActiveVideo(null)}
-                className="shrink-0 flex items-center gap-2 text-white font-black text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:scale-105"
+                className="shrink-0 flex items-center gap-2 text-white  font-bold  text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:scale-105"
               >
                 <X className="w-4 h-4 text-white" />
                 <span>Close Player</span>

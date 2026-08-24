@@ -258,7 +258,7 @@ export default function MemberDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-5">
-            <div className="relative w-16 h-16 flex items-center justify-center text-xl font-black bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]  text-[var(--color-accent)]">
+            <div className="relative w-16 h-16 flex items-center justify-center text-xl  font-bold  bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]  text-[var(--color-accent)]">
               {member!.avatar}
             </div>
             <div>
@@ -301,7 +301,7 @@ export default function MemberDashboard() {
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
               <Ticket className="w-6 h-6 text-cyan-400" />
-              <h2 className="text-xl font-black italic tracking-tight">
+              <h2 className="text-xl  font-bold  italic tracking-tight">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
@@ -332,7 +332,7 @@ export default function MemberDashboard() {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="text-xs  text-white  max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
                             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
@@ -344,18 +344,18 @@ export default function MemberDashboard() {
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/20 bg-[#e1e6ff29]   opacity-50 grayscale">
                                 <span className="text-[var(--font-size-2xs)] uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
-                                <span className="font-mono text-xl font-black tracking-[0.25em] text-white/30 line-through">{pin}</span>
+                                <span className="font-mono text-xl  font-bold  tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
                                 <p className="text-xs font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
-                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white  font-bold  text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
                                 <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400  font-bold  text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -419,7 +419,7 @@ export default function MemberDashboard() {
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20 font-black flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20  font-bold  flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -436,7 +436,7 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-[0.6rem] text-red-400 font-extrabold uppercase tracking-widest mb-1">
+                        <p className="text-[0.6rem] text-red-400 font-bold uppercase tracking-widest mb-1">
                           Reason for Decline
                         </p>
                         <p className="text-[var(--font-size-2xs)] text-red-200/80 leading-normal font-medium">
@@ -547,7 +547,7 @@ export default function MemberDashboard() {
          }
        `}</style>
           <div className="  p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
-            <h1 className="text-5xl sm:text-7xl font-black text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
+            <h1 className="text-5xl sm:text-7xl  font-bold  text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
             <p className="text-xl sm:text-3xl font-bold text-white mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
           </div>
         </div>

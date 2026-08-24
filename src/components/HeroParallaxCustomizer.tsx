@@ -80,7 +80,7 @@ export default function HeroParallaxCustomizer({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/5 pb-2">
             <div className="flex flex-col">
-              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-[var(--color-accent)]">
+              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-[var(--color-accent)]">
                 Parallax Tester
               </span>
               <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
@@ -101,14 +101,14 @@ export default function HeroParallaxCustomizer({
 
           {/* Presets */}
           <div className="space-y-1.5">
-            <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Presets</span>
+            <span className="text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider block">Presets</span>
             <div className="flex flex-wrap gap-1.5">
               {PARALLAX_PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
+                  className={`px-2 py-1 text-[var(--font-size-4xs)]  font-bold  uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
                     ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
                     : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
@@ -121,9 +121,9 @@ export default function HeroParallaxCustomizer({
 
           {/* Depth (range) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
               <span>Depth</span>
-              <span className="text-[var(--color-accent)] font-mono font-black">±{pxRange}%</span>
+              <span className="text-[var(--color-accent)] font-mono  font-bold ">±{pxRange}%</span>
             </div>
             <input
               aria-label="Parallax depth"
@@ -139,9 +139,9 @@ export default function HeroParallaxCustomizer({
 
           {/* Scrub (smoothing) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
               <span>Smoothing</span>
-              <span className="text-[var(--color-accent)] font-mono font-black">{pxScrub.toFixed(1)}s</span>
+              <span className="text-[var(--color-accent)] font-mono  font-bold ">{pxScrub.toFixed(1)}s</span>
             </div>
             <input
               aria-label="Parallax smoothing"
@@ -164,7 +164,7 @@ export default function HeroParallaxCustomizer({
               : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10"
               }`}
           >
-            <span className="text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider">Foreground Counter-Drift</span>
+            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
             <span className={`w-8 h-4 rounded-full relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
                 className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
@@ -190,7 +190,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black  font-bold  text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             {pxCopied ? (
               <>

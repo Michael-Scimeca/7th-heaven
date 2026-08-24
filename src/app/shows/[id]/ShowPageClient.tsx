@@ -286,7 +286,7 @@ export default function ShowPageClient({
           }`}
       >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
+        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0  font-bold  text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-full" />
           ) : isAnon ? "👤" : initials}
@@ -296,16 +296,16 @@ export default function ShowPageClient({
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm text-white truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest  text-[var(--color-accent)] font-black">You</span>}
+            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest  text-[var(--color-accent)]  font-bold ">You</span>}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
             {!isAnon && tier !== "Bronze" && (
-              <span className={`text-[var(--font-size-2xs)] font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
+              <span className={`text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
             )}
             {a.status === "there" ? (
-              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">✓ Here Now</span>
+              <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-[var(--color-accent)]">✓ Here Now</span>
             ) : (
-              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white/25">Going</span>
+              <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white/25">Going</span>
             )}
           </div>
         </div>
@@ -327,7 +327,7 @@ export default function ShowPageClient({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
-                  <span className="text-sm font-black text-white uppercase tracking-wide">
+                  <span className="text-sm  font-bold  text-white uppercase tracking-wide">
                     🎥 {feed.host} is LIVE from the show
                     {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
                   </span>
@@ -335,7 +335,7 @@ export default function ShowPageClient({
                     <span className="text-xs text-red-300/70">{feed.viewers} watching</span>
                   )}
                 </div>
-                <span className="px-4 py-1.5 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
+                <span className="px-4 py-1.5 bg-red-500 text-white text-xs  font-bold  uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
                   Watch Now →
                 </span>
               </Link>
@@ -367,7 +367,7 @@ export default function ShowPageClient({
                 )}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-none mb-3">{show.venue_name}</h1>
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-none mb-3">{show.venue_name}</h1>
               <p className="text-lg text-white/50">{show.city}{show.state ? `, ${show.state}` : ""}</p>
               <p className="text-sm text-white/35 mt-1">{dateStr}</p>
 
@@ -405,7 +405,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 text-sm font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                      className="px-8 py-4 text-sm  font-bold  uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -415,7 +415,7 @@ export default function ShowPageClient({
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
-                      className="px-8 py-4 text-sm font-black uppercase tracking-widest disabled:opacity-50"
+                      className="px-8 py-4 text-sm  font-bold  uppercase tracking-widest disabled:opacity-50"
                     >
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </CosmicRadialButton>
@@ -434,10 +434,10 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm  font-bold  uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm  font-bold  uppercase tracking-widest border border-white/10  text-white  hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -456,10 +456,10 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)] uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)] uppercase tracking-widest mb-4">
                     Missed this show?
                   </span>
-                  <h3 className="text-xl font-black text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
+                  <h3 className="text-xl  font-bold  text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
                   <p className="text-white/40 text-sm leading-relaxed mb-6">
                     Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
                   </p>
@@ -502,10 +502,10 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-[var(--font-size-2xs)] font-black text-red-400 uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-[var(--font-size-2xs)]  font-bold  text-red-400 uppercase tracking-widest mb-4">
                     Live Performance
                   </span>
-                  <h3 className="text-xl font-black text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
+                  <h3 className="text-xl  font-bold  text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
                 </div>
                 <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
                   <iframe
@@ -530,14 +530,14 @@ export default function ShowPageClient({
             <div className="flex items-center gap-6">
               <div className="text-left">
                 <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
-                <p className="text-3xl font-extrabold text-white">{goingCount}</p>
+                <p className="text-3xl font-bold text-white">{goingCount}</p>
               </div>
               {thereCount > 0 && (
                 <>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
                     <p className="text-xs uppercase tracking-widest text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
-                    <p className="text-3xl font-extrabold text-[var(--color-accent)]">{thereCount}</p>
+                    <p className="text-3xl font-bold text-[var(--color-accent)]">{thereCount}</p>
                   </div>
                 </>
               )}
@@ -568,7 +568,7 @@ export default function ShowPageClient({
                     <button aria-label="Action button"
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover: text-white "
+                      className={`px-4 py-1.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover: text-white "
                         }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
@@ -622,13 +622,13 @@ export default function ShowPageClient({
                 <CosmicRadialButton
                   onClick={copyLink}
                   icon={false}
-                  className="px-6 py-3 text-white text-sm font-black tracking-wider rounded-lg"
+                  className="px-6 py-3 text-white text-sm  font-bold  tracking-wider rounded-lg"
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </CosmicRadialButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 text-sm font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"
+                  className="px-6 py-3 border border-white/10 text-white/50 text-sm  font-bold  uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"
                 >
                   💬 Text a Friend
                 </a>

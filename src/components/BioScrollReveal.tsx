@@ -73,11 +73,11 @@ export default function BioScrollReveal({
     <section ref={containerRef} className="relative w-full py-20 px-6 site-container">
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 flex items-center gap-2">
+        <span className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 flex items-center gap-2">
           {subtitle}
         </span>
         <h2
-          className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white"
+          className="text-4xl md:text-6xl  font-bold  italic uppercase tracking-tighter text-white"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           {title}
@@ -102,13 +102,13 @@ export default function BioScrollReveal({
                   <span className="text-xs font-mono text-purple-400 font-bold tracking-widest opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">
+                  <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
+                  className={`text-4xl sm:text-5xl md:text-7xl  font-bold  uppercase tracking-tight transition-all duration-300 ${isActive
                     ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                     : "text-white/30 group-hover:text-white/70"
                     }`}
@@ -170,10 +170,10 @@ export default function BioScrollReveal({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-1  rounded-lg  border border-white/10">
+                    <span className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-1  rounded-lg  border border-white/10">
                       {member.role}
                     </span>
-                    <h4 className="text-xl font-black uppercase tracking-tight text-white mt-2 drop-shadow-md">
+                    <h4 className="text-xl  font-bold  uppercase tracking-tight text-white mt-2 drop-shadow-md">
                       {member.name}
                     </h4>
                   </div>

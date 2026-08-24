@@ -464,16 +464,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-xs font-black border border-emerald-500/30">
+              <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-xs  font-bold  border border-emerald-500/30">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-black text-sm">{displayName}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded">Crew HQ</span>
-                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
+                <span className=" font-bold  text-sm">{displayName}</span>
+                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest rounded">Crew HQ</span>
+                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
               </div>
               <span className="text-[var(--font-size-3xs)] text-white/25">{email}</span>
             </div>
@@ -483,17 +483,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {isLive && (
             <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20">
               <div className="text-center">
-                <p className="text-lg font-black text-red-400">{viewerCount.toLocaleString()}</p>
+                <p className="text-lg  font-bold  text-red-400">{viewerCount.toLocaleString()}</p>
                 <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Viewers</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="text-lg font-black text-white">{fmt(liveDuration)}</p>
+                <p className="text-lg  font-bold  text-white">{fmt(liveDuration)}</p>
                 <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Duration</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="text-lg font-black text-yellow-400">{chatRate}/min</p>
+                <p className="text-lg  font-bold  text-yellow-400">{chatRate}/min</p>
                 <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Chat Rate</p>
               </div>
             </div>
@@ -513,7 +513,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-colors  ${isLive
+              className={`flex items-center gap-2 px-5 py-2   font-bold  text-xs uppercase tracking-widest transition-colors  ${isLive
                 ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
                 : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
                 }`}
@@ -533,16 +533,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
             {/* Profile */}
             <div className="flex items-center gap-5">
-              <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl font-black border border-emerald-500/25">
+              <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl  font-bold  border border-emerald-500/25">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div>
-                <p className="text-2xl font-black tracking-tight">{displayName}</p>
+                <p className="text-2xl  font-bold  tracking-tight">{displayName}</p>
                 <p className="text-sm text-[var(--color-accent)] font-semibold">{member?.role || "Crew"}</p>
                 <p className="text-xs text-white/30 mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -556,7 +556,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#9333ea" },
               ].map(({ label, value, icon, color }) => (
                 <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] min-w-[80px]">
-                  <p className="text-xl font-black" style={{ color }}>{value}</p>
+                  <p className="text-xl  font-bold " style={{ color }}>{value}</p>
                   <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">{icon} {label}</p>
                 </div>
               ))}
@@ -565,7 +565,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-colors border ${isLive
+              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24   font-bold  text-xs uppercase tracking-widest text-center transition-colors border ${isLive
                 ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
                 : "bg-white/[0.04] border-white/10  text-white  hover:bg-white/[0.08] hover:text-white hover:border-white/20"
                 }`}
@@ -589,12 +589,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
+                    <span className=" font-bold  text-sm">📡 Site-Wide Chat Monitor</span>
                     <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live" />
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
-                      className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
+                      className={`ml-2 px-2.5 py-1 rounded-lg  font-bold  text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : "bg-[#e1e6ff29]   border border-white/10 text-white/40 hover: text-white "
                         }`}
@@ -629,7 +629,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
+                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
                       }`}
                   >
                     All Rooms ({msgs.length})
@@ -638,7 +638,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <button aria-label="Action button"
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id
+                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id
                         ? "text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30 hover: text-white "
                         }`}
@@ -671,7 +671,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       >
                         {/* Avatar */}
                         <div
-                          className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] font-black shrink-0 mt-0.5"
+                          className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-4xs)]  font-bold  shrink-0 mt-0.5"
                           style={{ background: roleColor + "22", color: roleColor }}
                         >
                           {(msg.sender_avatar || msg.sender_name || "??").slice(0, 2).toUpperCase()}
@@ -680,7 +680,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                            <span className="text-[var(--font-size-2xs)] font-black" style={{ color: roleColor }}>
+                            <span className="text-[var(--font-size-2xs)]  font-bold " style={{ color: roleColor }}>
                               {msg.sender_name}
                             </span>
                             <span
@@ -752,7 +752,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
                   <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
-                    <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                    <h3 className="text-sm  font-bold  italic tracking-wide text-white">Chat Moderation & Policies</h3>
                     <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
@@ -760,7 +760,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="p-4 space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
-                      <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
+                      <h4 className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
                       <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
@@ -775,7 +775,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         />
                         <button aria-label="Action button"
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black  font-bold  text-xs uppercase tracking-wider transition-colors cursor-pointer"
                         >
                           Add Keyword
                         </button>
@@ -783,7 +783,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                      <p className="text-xs  font-bold  uppercase tracking-widest text-white/40">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
                           <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
@@ -824,23 +824,23 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-base font-black">🎥 Broadcast Studio</span>
-                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[var(--font-size-4xs)] text-red-400 font-black uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
+                  <span className="text-base  font-bold ">🎥 Broadcast Studio</span>
+                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[var(--font-size-4xs)] text-red-400  font-bold  uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
                 {isLive ? (
                   <div className="space-y-3 mb-4">
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-xs text-white/40">Viewers</span>
-                      <span className="text-sm font-black text-red-400">{viewerCount.toLocaleString()}</span>
+                      <span className="text-sm  font-bold  text-red-400">{viewerCount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-xs text-white/40">Duration</span>
-                      <span className="text-sm font-black font-mono">{fmt(liveDuration)}</span>
+                      <span className="text-sm  font-bold  font-mono">{fmt(liveDuration)}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-xs text-white/40">Chat Rate</span>
-                      <span className="text-sm font-black text-yellow-400">{chatRate}/min</span>
+                      <span className="text-sm  font-bold  text-yellow-400">{chatRate}/min</span>
                     </div>
                   </div>
                 ) : (
@@ -851,7 +851,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-colors ${isLive
+                  className={`w-full flex items-center justify-center gap-2 py-3   font-bold  text-sm uppercase tracking-widest transition-colors ${isLive
                     ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
                     : "bg-white text-black hover:bg-white/90"
                     }`}
@@ -873,7 +873,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             {/* Quick Analytics */}
             <div className="  border border-white/[0.07] p-5">
-              <h3 className="font-black text-xs uppercase tracking-widest text-white/25 mb-4">My Analytics</h3>
+              <h3 className=" font-bold  text-xs uppercase tracking-widest text-white/25 mb-4">My Analytics</h3>
               <div className="space-y-3">
                 {[
                   { label: "All-Time Revenue", value: `$${salesRevenue.toLocaleString("en", { minimumFractionDigits: 0 })}`, color: "#10b981" },
@@ -883,7 +883,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025]">
                     <span className="text-xs text-white/40">{label}</span>
-                    <span className="text-sm font-black" style={{ color }}>{value}</span>
+                    <span className="text-sm  font-bold " style={{ color }}>{value}</span>
                   </div>
                 ))}
               </div>
@@ -893,12 +893,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className="  border border-white/[0.07] p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="font-black text-sm">📝 Notes for Admin</h3>
+                  <h3 className=" font-bold  text-sm">📝 Notes for Admin</h3>
                   <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">Saved to Supabase</p>
                 </div>
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-[#e1e6ff29]   text-white/40 border border-white/[0.08] hover:text-white"
+                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-[#e1e6ff29]   text-white/40 border border-white/[0.08] hover:text-white"
                     }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}

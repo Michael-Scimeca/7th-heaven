@@ -90,8 +90,8 @@ export default function HomeMerch() {
         <div className="site-container">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
-              <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
+              <span className="text-xs  font-bold   text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
+              <h2 className="text-2xl  font-bold  italic tracking-tight text-white uppercase">On Sale Now</h2>
             </div>
             <Link href="/merch" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
               Shop All →
@@ -139,15 +139,15 @@ export default function HomeMerch() {
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
-            <span className="text-purple-300 text-xs font-black uppercase tracking-widest">Demo</span>
+            <span className="text-purple-300 text-xs  font-bold  uppercase tracking-widest">Demo</span>
             <p className="text-purple-200/50 text-xs">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
-            <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
+            <span className="text-xs  font-bold   text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
+            <h2 className="text-2xl  font-bold  italic tracking-tight text-white uppercase">On Sale Now</h2>
           </div>
           <Link href="/merch" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
             Shop All →
@@ -165,7 +165,7 @@ export default function HomeMerch() {
               <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-[var(--color-accent)]/30 transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
                     Sale
                   </span>
                 </div>

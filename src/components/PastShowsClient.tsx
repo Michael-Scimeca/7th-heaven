@@ -116,7 +116,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
-            <h1 className="text-[clamp(2rem,4vw,3rem)] font-black uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
+            <h1 className="text-[clamp(2rem,4vw,3rem)]  font-bold  uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
               Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
             </h1>
             <p className="text-base sm:text-lg text-[var(--muted-text)] max-w-2xl font-medium">
@@ -132,19 +132,19 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── STATS BAR ── */}
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">{totalShowsCount}+</span>
+          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">{totalShowsCount}+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">40+</span>
+          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">40+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">500+</span>
+          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">500+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">5+</span>
+          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">5+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
@@ -164,12 +164,12 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="text-xs font-black uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
+            <span className="text-xs  font-bold  uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
               Jump to Year:
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+              className={`px-3 py-1.5 rounded-lg text-xs  font-bold  tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white  "
                 : "bg-[#e1e6ff29]   text-white/70 hover:text-white border-0"
                 }`}
@@ -184,7 +184,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
-                  ? "bg-[var(--color-accent)] text-white font-black  "
+                  ? "bg-[var(--color-accent)] text-white  font-bold   "
                   : "bg-[#e1e6ff29]   text-white/70 hover:text-white border-0"
                   }`}
               >
@@ -234,7 +234,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-black rounded-lg  ">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm  font-bold  rounded-lg  ">
                       {yGroup.year}
                     </span>
                     <span className="text-sm font-bold text-[var(--text-color)]">
@@ -272,22 +272,22 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-600  rounded-lg  border border-rose-500/30">
+                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-rose-500/20 text-rose-600  rounded-lg  border border-rose-500/30">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)]  rounded-lg  border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)]  rounded-lg  border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)]  rounded-lg  border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)]  rounded-lg  border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-sky-500/20 text-sky-600  rounded-lg  border border-sky-500/30">
+                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-sky-500/20 text-sky-600  rounded-lg  border border-sky-500/30">
                                 Special Tour
                               </span>
                             )}

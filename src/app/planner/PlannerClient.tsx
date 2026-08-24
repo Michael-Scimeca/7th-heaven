@@ -160,7 +160,7 @@ export default function PlannerClient() {
           {/* Hero Header */}
           <div className="relative  rounded-lg p-8 sm:p-12 text-center overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              <h1 className="text-3xl sm:text-5xl  font-bold  tracking-tight text-white">
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
               <p className="text-white/70 text-sm sm:text-base leading-relaxed">
@@ -170,7 +170,7 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]  rounded-lg cursor-pointer"
+                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]  rounded-lg cursor-pointer"
                 >
                   Sign In to Planner Portal
                 </button>
@@ -193,7 +193,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-black text-[#c27aff]">{item.step}</div>
+                <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm  font-bold  text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
                 <p className="text-xs  text-white  leading-relaxed">{item.desc}</p>
               </div>
@@ -281,7 +281,7 @@ export default function PlannerClient() {
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-colors rounded-lg">+ New Booking</Link>
                 </div>
                 <div className="flex items-center gap-3 mb-1">
-                  <h1 className="text-3xl font-black tracking-tight text-white">{booking.eventName}</h1>
+                  <h1 className="text-3xl  font-bold  tracking-tight text-white">{booking.eventName}</h1>
                 </div>
                 <p className=" text-[var(--color-accent)] text-sm font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
                 <p className="text-white/40 text-xs mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>

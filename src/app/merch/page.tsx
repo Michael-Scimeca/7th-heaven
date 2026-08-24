@@ -243,9 +243,9 @@ function MerchDashboard() {
     <div className="min-h-screen   flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
-        <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
+        <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="text-white/40 text-sm mb-6">Sign in with your merch team account.</p>
-        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors">Sign In</button>
+        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors">Sign In</button>
       </div>
     </div>
   );
@@ -254,7 +254,7 @@ function MerchDashboard() {
     <div className="min-h-screen   flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-[var(--color-bg-surface)] border border-red-500/20 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🚫</span>
-        <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
+        <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
         <p className="text-white/40 text-sm">This page is only accessible to 7th Heaven merch staff.</p>
       </div>
     </div>
@@ -270,12 +270,12 @@ function MerchDashboard() {
       <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-pink-500 font-black uppercase tracking-[0.3em]">7th Heaven</p>
-            <h1 className="text-white font-black text-lg uppercase tracking-widest">Merch Table</h1>
+            <p className="text-xs text-pink-500  font-bold  uppercase tracking-[0.3em]">7th Heaven</p>
+            <h1 className="text-white  font-bold  text-lg uppercase tracking-widest">Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs font-black uppercase tracking-widest rounded-full animate-pulse">
+              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs  font-bold  uppercase tracking-widest rounded-full animate-pulse">
                 {pendingPickups.length} Pickup{pendingPickups.length !== 1 ? 's' : ''} Pending
               </span>
             )}
@@ -288,7 +288,7 @@ function MerchDashboard() {
         <div className="w-16 h-16 rounded-lg  bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
-        <h2 className="text-3xl font-black uppercase tracking-widest text-white italic">
+        <h2 className="text-3xl  font-bold  uppercase tracking-widest text-white italic">
           Coming Soon
         </h2>
         <p className="text-white/40 text-sm max-w-sm mt-2 font-medium">

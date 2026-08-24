@@ -168,7 +168,7 @@ export default function FAQPage() {
           <SparklesIcon />
           Support Center
         </div>
-        <h1 className="text-4xl sm:text-5xl font-black text-[var(--text-color)] tracking-tight uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
           Frequently Asked <span className="text-purple-600">Questions</span>
         </h1>
         <p className="text-[var(--muted-text)] text-base max-w-xl mx-auto font-medium">
@@ -226,7 +226,7 @@ export default function FAQPage() {
                   onClick={() => toggleExpand(faq.id)}
                   className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
                 >
-                  <span className="font-extrabold text-sm sm:text-base text-white transition duration-200">
+                  <span className="font-bold text-sm sm:text-base text-white transition duration-200">
                     {faq.question}
                   </span>
                   <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
@@ -254,7 +254,7 @@ export default function FAQPage() {
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
-            <h3 className="text-white font-extrabold text-lg mb-1">No matches found</h3>
+            <h3 className="text-white font-bold text-lg mb-1">No matches found</h3>
             <p className="text-white/50 text-sm max-w-xs mx-auto">
               We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
             </p>
@@ -265,7 +265,7 @@ export default function FAQPage() {
       {/* Live Support Banner */}
       <div className="mt-16 bg-[#e1e6ff29] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
         <div>
-          <h4 className="text-white font-extrabold text-lg mb-1">Still need help?</h4>
+          <h4 className="text-white font-bold text-lg mb-1">Still need help?</h4>
           <p className=" text-white  text-sm font-medium">
             Can't find the answer you are looking for? Reach out to our direct support.
           </p>

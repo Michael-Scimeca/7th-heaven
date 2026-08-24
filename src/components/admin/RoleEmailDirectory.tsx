@@ -152,7 +152,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg ${activeTab === tab
+              className={`px-3.5 py-2 text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg ${activeTab === tab
                 ? "bg-[var(--color-accent)] text-white shadow-md"
                 : "bg-[#e1e6ff29]   text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
@@ -203,7 +203,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0  backdrop-blur-[45px] z-10 border-b border-white/10">
+              <tr className="bg-transparent text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider text-white/50 sticky top-0  backdrop-blur-[45px] z-10 border-b border-white/10">
                 <th className="py-3 pr-4 pl-0">Name</th>
                 <th className="py-3 px-4">Email Address</th>
                 <th className="py-3 px-4">Role</th>
@@ -224,11 +224,11 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <td className="py-3 pr-4 pl-0 font-bold text-white">
                       <span>{user.name}</span>
                     </td>
-                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-extrabold select-all">
+                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-bold select-all">
                       {user.email}
                     </td>
                     <td className="py-3 px-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${getRoleBadgeStyle(user.role)}`}>
+                      <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider ${getRoleBadgeStyle(user.role)}`}>
                         {user.role}
                       </span>
                     </td>
@@ -238,7 +238,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <td className="py-3 pl-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

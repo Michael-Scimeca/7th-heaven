@@ -133,7 +133,7 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 text-white font-black text-sm uppercase tracking-widest transition-all duration-200 shadow-[0_10px_35px_rgba(139,61,255,0.6)] border border-white/20 group cursor-pointer"
+        className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 text-white  font-bold  text-sm uppercase tracking-widest transition-all duration-200 shadow-[0_10px_35px_rgba(139,61,255,0.6)] border border-white/20 group cursor-pointer"
         aria-label="Open Pages Directory"
       >
         <Menu className="w-5 h-5 text-white transition-transform group-hover:scale-110" />
@@ -163,7 +163,7 @@ export default function PagesPillDrawer() {
                   <Menu className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2">
+                  <h2 className="text-2xl  font-bold  uppercase tracking-tight text-white flex items-center gap-2">
                     Pages Directory
                     <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes
@@ -233,12 +233,12 @@ export default function PagesPillDrawer() {
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComp className="w-4 h-4 text-purple-400" />
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-300">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300">
                             {item.category}
                           </span>
                         </div>
                         <span
-                          className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${item.type === "Static"
+                          className={`text-[9px] font-mono  font-bold  px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"

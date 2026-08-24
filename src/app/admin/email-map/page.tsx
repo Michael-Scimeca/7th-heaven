@@ -41,7 +41,7 @@ function Node({
     <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
       <div className="flex items-center gap-1.5 mb-0.5">
         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${DOTS[color]}`} />
-        <span className="text-xs font-black uppercase tracking-widest leading-tight">
+        <span className="text-xs  font-bold  uppercase tracking-widest leading-tight">
           {icon && <span className="mr-1">{icon}</span>}
           {label}
         </span>
@@ -86,10 +86,10 @@ export default function EmailMapPage() {
 
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
+          <span className="inline-block text-xs  font-bold  uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
             System Architecture
           </span>
-          <h1 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
             Email <span className="gradient-text">Flow Map</span>
           </h1>
           <p className="text-white/40 text-sm max-w-2xl leading-relaxed">

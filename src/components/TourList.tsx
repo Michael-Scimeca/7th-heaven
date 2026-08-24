@@ -281,6 +281,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || null);
+
+  // Set initial display limit to 15 on mobile (<1024px) after mount
+  useEffect(() => {
+    if (!maxShows && window.innerWidth < 1024) {
+      setDisplayLimit(15);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
@@ -770,20 +778,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       const sortBarHeight = sortBar.offsetHeight || 50;
       const tourListRemaining = containerBottom - (stickyBarTop + sortBarHeight);
 
-      // Distance remaining before reaching the end of scrollable area
-      // (whichever comes first: bottom of tour list table reaching sticky bar, or document bottom)
-      const distanceRemaining = Math.min(docDistanceFromBottom, tourListRemaining);
-
-      // Hard-clamp:
-      // distanceRemaining >= 130 -> opacity = 1
-      // distanceRemaining <= 0   -> opacity = 0 (stays 0 through negative/overscroll values)
-      // 0..130                   -> linear transition distanceRemaining / 130
-      const opacity = Math.max(0, Math.min(1, distanceRemaining / 130));
+      // Leave opacity at 1.0 constantly once stuck so blur stays on at the end
+      const opacity = 1;
       sortBarOpacityRef.current = opacity;
 
       // Direct DOM style application
-      sortBar.style.opacity = String(opacity);
-      sortBar.style.pointerEvents = opacity > 0.05 ? "auto" : "none";
+      sortBar.style.opacity = "1";
+      sortBar.style.pointerEvents = "auto";
 
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
@@ -798,11 +799,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         setIsSortBarStuck(isAboveSentinel);
       }
 
-      // tour-sort-stuck drives the header's extended height + blur.
-      // Only apply it when the bar is BOTH stuck AND still visible (opacity > 0).
-      // When the bar fades out at the bottom of the list, remove the class so
-      // the header returns to its normal height — no extended blur with nothing to show.
-      if (isAboveSentinel && opacity > 0) {
+      // Keep tour-sort-stuck class active whenever bar is stuck so header blur stays on permanently as you scroll down
+      if (isAboveSentinel) {
         document.documentElement.classList.add("tour-sort-stuck");
       } else {
         document.documentElement.classList.remove("tour-sort-stuck");
@@ -1069,7 +1067,7 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
+                    <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)]  font-bold  text-white leading-[1] mb-4 uppercase whitespace-nowrap">
                       {upNext.venue}
                     </h2>
 
@@ -1105,7 +1103,7 @@ ${filterLine}
                       )}
                     </div>
                     {upNext.info && (
-                      <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em]  text-[var(--color-accent)]">
+                      <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)]">
                         {upNext.info}
                       </p>
                     )}
@@ -1119,19 +1117,19 @@ ${filterLine}
                     />
                     <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
                           onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                           id="upnext-calendar-btn"
                         >
                           Add to Calendar
@@ -1150,7 +1148,7 @@ ${filterLine}
                       </div>
                       <button aria-label="Next"
                         onClick={handlePrintTourList}
-                        className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                        className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px]  font-bold  uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                       >
                         Print Tour List
                       </button>
@@ -1166,7 +1164,7 @@ ${filterLine}
               {member?.role === 'admin' && (
                 <button aria-label="Action button"
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
+                  className="text-[0.7rem] font-bold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add Show
                 </button>
@@ -1185,7 +1183,7 @@ ${filterLine}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[80px] z-[90] flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-opacity duration-300 ease-out`}>
             <div
-              className={`absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screenbackdrop-blur-[18px]  shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px]  shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
               style={{
                 maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
@@ -1204,7 +1202,7 @@ ${filterLine}
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)]  font-bold  uppercase tracking-widest text-[var(--text-color)]">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1217,7 +1215,7 @@ ${filterLine}
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)]  font-bold  uppercase tracking-widest text-[var(--text-color)]">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1230,13 +1228,13 @@ ${filterLine}
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)]  font-bold  uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)]  font-bold  uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)]  font-bold  uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             </div>
           </div>
 
@@ -1268,21 +1266,21 @@ ${filterLine}
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
-                    <span className="font-[var(--font-heading)] font-extrabold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
+                    <span className="font-[var(--font-heading)] font-bold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
                     <span className="text-white font-bold text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
-                    <span className="font-black text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
+                    <span className=" font-bold  text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
                     <span className="text-white/80 font-medium text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
                           {show.doorsTime && <span className=" text-white  text-xs font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
-                          {show.playTime && <span className="text-rose-400 font-extrabold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
+                          {show.playTime && <span className="text-rose-400 font-bold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
                           {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-xs font-medium whitespace-nowrap">Event: {show.time}</span>}
                           {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
                       {isShowToday(show) && (
-                        <span className="text-xs font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
+                        <span className="text-xs  font-bold  uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
                           {getCountdownString(show)}
                         </span>
                       )}
@@ -1409,7 +1407,7 @@ ${filterLine}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
+                          className="inline-flex items-center justify-center whitespace-nowrap  font-bold  uppercase tracking-widest text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
@@ -1443,7 +1441,7 @@ ${filterLine}
                     {/* Header Row: Date Badge & Time */}
                     <div className="flex items-center justify-between gap-2 ">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black tracking-wider uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs  font-bold  tracking-wider uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1456,7 +1454,7 @@ ${filterLine}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-purple-300 text-[11px] font-extrabold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
+                              <span className="text-purple-300 text-[11px] font-bold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
@@ -1468,7 +1466,7 @@ ${filterLine}
                           </div>
                         )}
                         {isShowToday(show) && (
-                          <span className="text-xs font-black uppercase tracking-wider text-rose-500 animate-pulse">
+                          <span className="text-xs  font-bold  uppercase tracking-wider text-rose-500 animate-pulse">
                             {getCountdownString(show)}
                           </span>
                         )}
@@ -1477,7 +1475,7 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div className="pt-0.5">
-                      <h4 className="text-2xl font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      <h4 className="text-2xl  font-bold  text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {(show.city || show.state) && (
                         <p className="text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold">
                           <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
@@ -1492,16 +1490,16 @@ ${filterLine}
                         <span className="text-sm">{getShowIcon(show)}</span>
                         {show.info && <span className="text-sm sm:text-base text-white/70 italic font-medium">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="text-xs sm:text-sm font-black text-purple-300 uppercase">All Ages</span>
+                          <span className="text-xs sm:text-sm  font-bold  text-purple-300 uppercase">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="text-xs sm:text-sm font-black text-red-400 uppercase">21+</span>
+                          <span className="text-xs sm:text-sm  font-bold  text-red-400 uppercase">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
                           let tagColors = "text-[var(--color-accent)]";
                           return (
-                            <span key={tag} className={`text-xs sm:text-sm font-black uppercase ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`text-xs sm:text-sm  font-bold  uppercase ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>
@@ -1648,13 +1646,12 @@ ${filterLine}
 
           {displayLimit && !maxShows && filtered.length > displayLimit && (
             <div className="flex justify-center pt-8 pb-16 relative z-20">
-              <button
-                type="button"
+              <CosmicRadialButton
                 onClick={() => setDisplayLimit(null)}
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600/30 via-black to-purple-600/30 hover:from-purple-600/50 hover:to-purple-600/50 text-white font-black uppercase tracking-widest text-xs sm:text-sm border border-purple-400/40  backdrop-blur-[45px] shadow-[0_0_25px_rgba(168,85,247,0.3)] transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+                className="!px-8 !py-3.5 !text-xs sm:!text-sm !font-extrabold"
               >
-                <span>Show All Tour Dates ({filtered.length - displayLimit} More Shows)</span>
-              </button>
+                Load The Rest ({filtered.length - displayLimit} More Shows)
+              </CosmicRadialButton>
             </div>
           )}
 
@@ -1984,7 +1981,7 @@ ${filterLine}
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-              <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">Font Tester</h3>
+              <h3 className="text-white font-bold text-sm uppercase tracking-wider">Font Tester</h3>
               <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
                 className="text-white/40 hover:text-white text-xs cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
@@ -2130,7 +2127,7 @@ ${filterLine}
             {/* Map Fade Mask Controls */}
             <div className="mb-5 pt-4 border-t border-white/10">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-white text-xs uppercase font-extrabold tracking-wider">Map Fade Mask</label>
+                <label className="text-white text-xs uppercase font-bold tracking-wider">Map Fade Mask</label>
                 <SquishyToggle
                   id="map-fade-mask-toggle"
                   label="Map Fade Mask"

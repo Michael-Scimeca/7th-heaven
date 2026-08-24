@@ -41,10 +41,10 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">
-          <span className="text-xs font-mono font-extrabold uppercase tracking-[0.2em]  text-[var(--color-accent)] block mb-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] block mb-2">
             Official Bulletins & Updates
           </span>
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-[var(--text-color)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-3xl md:text-5xl  font-bold  uppercase tracking-tight text-[var(--text-color)] font-[family-name:var(--font-rockstar)]">
             Latest Band <span className=" text-[var(--color-accent)]">News</span>
           </h2>
         </div>
@@ -55,7 +55,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 border-0 pt-8  pb-10  relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-lg">
+                <span className="px-3 py-1 text-[10px]  font-bold  uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-lg">
                   ⭐ Featured Announcement
                 </span>
                 <span className="text-xs font-mono text-[var(--muted-text)] font-bold">

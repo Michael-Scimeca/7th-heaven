@@ -83,7 +83,7 @@ export default function HeaderMaskEditor() {
         <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95backdrop-blur-[18px]  text-white border border-purple-500/30 rounded-lg  p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
-              <h3 className="text-sm font-extrabold tracking-wide uppercase text-purple-200">
+              <h3 className="text-sm font-bold tracking-wide uppercase text-purple-200">
                 Header Mask Gradient Editor
               </h3>
               <p className="text-[11px] text-purple-300/70">

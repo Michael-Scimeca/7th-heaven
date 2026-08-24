@@ -165,7 +165,7 @@ export default function GooeyMessagesDropdown({
         name={name}
       >
         <span
-          className={`text-xs font-black uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}
+          className={`text-xs  font-bold  uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}
         >
           {triggerText}
         </span>
@@ -194,7 +194,7 @@ export default function GooeyMessagesDropdown({
         >
           {(title || badge) && (
             <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">
-              {title && <span className="text-xs font-black uppercase tracking-wider text-purple-300">{title}</span>}
+              {title && <span className="text-xs  font-bold  uppercase tracking-wider text-purple-300">{title}</span>}
               {badge && <span className="text-[10px] font-bold text-white/50">{badge}</span>}
             </div>
           )}
@@ -215,7 +215,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs font-black uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs  font-bold  uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
                       ? "text-white bg-purple-500/20  "
                       : "text-white/80 hover:text-white hover:bg-purple-500/20"
                       }`}
@@ -226,7 +226,7 @@ export default function GooeyMessagesDropdown({
                       setOpen(false);
                     }}
                   >
-                    <span className="pr-2 font-black uppercase tracking-wider whitespace-normal break-words leading-tight">
+                    <span className="pr-2  font-bold  uppercase tracking-wider whitespace-normal break-words leading-tight">
                       {c.name}
                     </span>
                     {isSelected && (

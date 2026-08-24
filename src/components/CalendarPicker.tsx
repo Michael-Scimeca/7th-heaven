@@ -112,7 +112,7 @@ export function CalendarPicker({
     <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
+          <h3 className="text-white font-bold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
           <p className=" text-white  text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
@@ -225,7 +225,7 @@ export function CalendarPicker({
                     ${isBlocked
                       ? "bg-rose-500/20 border border-rose-500/30 text-rose-400 line-through"
                       : isSelected
-                        ? "bg-purple-600 border-2 border-purple-400 text-white font-black shadow-lg shadow-purple-600/40 scale-105"
+                        ? "bg-purple-600 border-2 border-purple-400 text-white  font-bold  shadow-lg shadow-purple-600/40 scale-105"
                         : "bg-[#e1e6ff29]   border border-white/10 hover:border-purple-400/60 hover:bg-white/10 text-white"}
                   `}
                 >
@@ -234,7 +234,7 @@ export function CalendarPicker({
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border border-white/30 text-white text-[var(--font-size-3xs)] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border border-white/30 text-white text-[var(--font-size-3xs)]  font-bold  w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -334,7 +334,7 @@ export function CalendarPicker({
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-black" : "text-white"}`}>{type.label}</span>
+                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300  font-bold " : "text-white"}`}>{type.label}</span>
                       <span className="text-xs  text-white  block leading-tight">{type.desc}</span>
                     </div>
                   </button>

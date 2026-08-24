@@ -281,12 +281,12 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] py-8 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3">
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full    border border-cyan-500/30 text-purple-400text-xs font-black uppercase tracking-widest animate-pulse">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full    border border-cyan-500/30 text-purple-400text-xs  font-bold  uppercase tracking-widest animate-pulse">
             <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-wider text-white">
+          <h1 className="text-3xl md:text-5xl  font-bold  uppercase tracking-wider text-white">
             7th Heaven <span className="text-cyan-400">Merch Express</span>
           </h1>
 
@@ -296,7 +296,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
           {/* Live Scannable QR Code Card */}
           <div className="bg-[#0b0b14]/90 border border-cyan-500/40 p-4 max-w-xs mx-auto shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col items-center space-y-2">
-            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.2em] text-cyan-400">📱 Scan QR Code to Test</span>
+            <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.2em] text-cyan-400">📱 Scan QR Code to Test</span>
             <div className="w-44 h-44 bg-white p-2.5 border border-white/20">
               <Image width={200} height={200} unoptimized
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}
@@ -340,7 +340,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🛍️</span>
                 <div>
-                  <h3 className="text-white font-black text-sm uppercase tracking-wide">Shopify Storefront Integration Blueprint</h3>
+                  <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">Shopify Storefront Integration Blueprint</h3>
                   <p className="text-white/40 text-xs">How this page connects live to your Shopify Storefront API</p>
                 </div>
               </div>
@@ -359,7 +359,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
                 <div className="bg-black/40 border border-white/10 p-3">
-                  <span className="text-cyan-400 font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 1: Environment Variables</span>
+                  <span className="text-cyan-400  font-bold  uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 1: Environment Variables</span>
                   <p className="text-[var(--font-size-2xs)]  text-white ">Add these 2 variables to your <code className="text-white font-mono">.env.local</code> file:</p>
                   <pre className="  p-2 rounded text-[var(--font-size-3xs)] font-mono text-cyan-300 mt-2 overflow-x-auto">
                     NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="7th-heaven-store.myshopify.com"{"\n"}
@@ -368,14 +368,14 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 </div>
 
                 <div className="bg-black/40 border border-white/10 p-3">
-                  <span className=" text-[var(--color-accent)] font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 2: GraphQL Query Fetch</span>
+                  <span className=" text-[var(--color-accent)]  font-bold  uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 2: GraphQL Query Fetch</span>
                   <p className="text-[var(--font-size-2xs)]  text-white ">
                     The server page calls <code className="text-white font-mono">getProducts()</code> in <code className="text-white font-mono">src/lib/shopify.ts</code> to fetch live products, tags, and stock counts.
                   </p>
                 </div>
 
                 <div className="bg-black/40 border border-white/10 p-3">
-                  <span className="text-emerald-400 font-black uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 3: Table Pickup & QR PIN Sync</span>
+                  <span className="text-emerald-400  font-bold  uppercase text-[var(--font-size-3xs)] tracking-wider block mb-1">Step 3: Table Pickup & QR PIN Sync</span>
                   <p className="text-[var(--font-size-2xs)]  text-white ">
                     Orders with Merch Table Pick-Up generate a instant 4-digit PIN (<code className="text-white font-mono">PU-XXXX</code>) that automatically syncs to the band's <code className="text-white font-mono">/merch</code> desk scanner dashboard.
                   </p>
@@ -401,12 +401,12 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-purple-400border border-cyan-500/30">
+                  <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-purple-400border border-cyan-500/30">
                     {activeOrder.fulfillment === "pickup" ? "🎪 Table Pickup" : "📦 Shipped Delivery"}
                   </span>
                   <span className="text-white/40 text-xs">Order #{activeOrder.id.slice(-6)}</span>
                 </div>
-                <h4 className="text-white font-black text-base mt-0.5">{activeOrder.productTitle}</h4>
+                <h4 className="text-white  font-bold  text-base mt-0.5">{activeOrder.productTitle}</h4>
                 {activeOrder.size && <p className="text-white/50 text-xs">Size: <strong className="text-white">{activeOrder.size}</strong></p>}
               </div>
             </div>
@@ -415,8 +415,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             {activeOrder.fulfillment === "pickup" && (
               <div className="flex items-center gap-4 shrink-0">
                 <div className="bg-black/60 border border-cyan-500/40 px-4 py-2 text-center shadow-inner">
-                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-400block">Table Pickup PIN</span>
-                  <span className="text-2xl font-black tracking-widest text-white tabular-nums">{activeOrder.pin}</span>
+                  <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-purple-400block">Table Pickup PIN</span>
+                  <span className="text-2xl  font-bold  tracking-widest text-white tabular-nums">{activeOrder.pin}</span>
                 </div>
 
                 <button aria-label="Action button"
@@ -424,7 +424,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     setSwitchOrderTarget(activeOrder);
                     setShowSwitchToShippingModal(true);
                   }}
-                  className="px-4 py-2.5 bg-purple-500/20 hover:bg-yellow-500/30 border border-purple-500/40 text-yellow-300 font-black text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 bg-purple-500/20 hover:bg-yellow-500/30 border border-purple-500/40 text-yellow-300  font-bold  text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>🏃</span> Left the show? Switch to Shipping
                 </button>
@@ -453,7 +453,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <button aria-label="Action button"
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5  font-black text-xs uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat
+              className={`px-5 py-2.5   font-bold  text-xs uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat
                 ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
                 : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white hover:bg-white/10"
                 }`}
@@ -485,13 +485,13 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 text-[var(--font-size-3xs)] font-black uppercase tracking-widest bg-black/70  backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+                  <span className="absolute top-3 left-3 text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest bg-black/70  backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
                     {product.category}
                   </span>
 
                   {/* Stock status badge */}
                   {product.stockCount && product.stockCount <= 5 && (
-                    <span className="absolute bottom-3 left-3 text-[var(--font-size-3xs)] font-black uppercase tracking-widest bg-red-500/80 text-white px-2.5 py-1 rounded-lg animate-pulse">
+                    <span className="absolute bottom-3 left-3 text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest bg-red-500/80 text-white px-2.5 py-1 rounded-lg animate-pulse">
                       ⚡ Only {product.stockCount} Left at Desk!
                     </span>
                   )}
@@ -499,7 +499,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
                 {/* Info */}
                 <div className="p-5 space-y-2">
-                  <h3 className="text-white font-black text-base group-hover:text-cyan-300 transition-colors line-clamp-1">
+                  <h3 className="text-white  font-bold  text-base group-hover:text-cyan-300 transition-colors line-clamp-1">
                     {product.title}
                   </h3>
                   <p className="text-white/50 text-xs line-clamp-2 leading-relaxed">
@@ -512,12 +512,12 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="p-5 pt-0 flex items-center justify-between gap-3">
                 <div>
                   <span className="text-xs text-white/40 block font-bold">Price</span>
-                  <span className="text-xl font-black text-cyan-400">${product.price}</span>
+                  <span className="text-xl  font-bold  text-cyan-400">${product.price}</span>
                 </div>
 
                 <button aria-label="Action button"
                   onClick={() => handleOpenCheckout(product)}
-                  className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-black text-xs uppercase tracking-wider transition-colors shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:scale-105 active:scale-95 cursor-pointer"
+                  className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black  font-bold  text-xs uppercase tracking-wider transition-colors shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:scale-105 active:scale-95 cursor-pointer"
                 >
                   Buy Now
                 </button>
@@ -538,8 +538,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-3">
                 <Image width={200} height={200} unoptimized src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-12 h-12 object-cover border border-white/10" />
                 <div>
-                  <h3 className="text-white font-black text-base line-clamp-1">{selectedProduct.title}</h3>
-                  <p className="text-cyan-400 font-black text-sm">${selectedProduct.price}</p>
+                  <h3 className="text-white  font-bold  text-base line-clamp-1">{selectedProduct.title}</h3>
+                  <p className="text-cyan-400  font-bold  text-sm">${selectedProduct.price}</p>
                 </div>
               </div>
               <button aria-label="Action button"
@@ -555,15 +555,15 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               {/* Size Selector if available */}
               {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div>
-                  <span className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Select Size</span>
+                  <span className="text-xs  font-bold  uppercase tracking-wider text-white/70 block mb-2">Select Size</span>
                   <div className="flex flex-wrap gap-2">
                     {selectedProduct.sizes.map(size => (
                       <button aria-label="Action button"
                         key={size}
                         type="button"
                         onClick={() => setSelectedSize(size)}
-                        className={`w-12 h-10  font-black text-xs transition-colors cursor-pointer ${selectedSize === size
-                          ? "bg-cyan-500 text-black border border-cyan-400 font-black shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                        className={`w-12 h-10   font-bold  text-xs transition-colors cursor-pointer ${selectedSize === size
+                          ? "bg-cyan-500 text-black border border-cyan-400  font-bold  shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                           : "bg-[#e1e6ff29]   border border-white/10  text-white  hover:text-white"
                           }`}
                       >
@@ -576,7 +576,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               {/* Fulfillment Method Selector */}
               <div>
-                <span className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Fulfillment Option</span>
+                <span className="text-xs  font-bold  uppercase tracking-wider text-white/70 block mb-2">Fulfillment Option</span>
                 <div className="grid grid-cols-2 gap-3">
 
                   {/* Option 1: Merch Table Pickup */}
@@ -589,7 +589,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                       }`}
                   >
                     <span className="text-xl block mb-1">🎪</span>
-                    <span className="text-xs font-black uppercase tracking-wide block text-white">Merch Table Pickup</span>
+                    <span className="text-xs  font-bold  uppercase tracking-wide block text-white">Merch Table Pickup</span>
                     <span className="text-[var(--font-size-3xs)] text-purple-400font-bold block mt-0.5">Free Instant Pickup</span>
                   </button>
 
@@ -603,7 +603,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                       }`}
                   >
                     <span className="text-xl block mb-1">📦</span>
-                    <span className="text-xs font-black uppercase tracking-wide block text-white">Ship to My Address</span>
+                    <span className="text-xs  font-bold  uppercase tracking-wide block text-white">Ship to My Address</span>
                     <span className="text-[var(--font-size-3xs)] text-purple-300 font-bold block mt-0.5">Standard Carrier</span>
                   </button>
 
@@ -642,7 +642,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
                 <div className="space-y-3 pt-2 border-t border-white/10 transition-opacity duration-300 animate-in fade-in">
-                  <p className="text-xs font-black uppercase tracking-wider  text-[var(--color-accent)]">Shipping Address</p>
+                  <p className="text-xs  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">Shipping Address</p>
                   <div>
                     <input aria-label="Input field"
                       type="text"
@@ -686,7 +686,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <button aria-label="Action button"
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black font-black text-sm uppercase tracking-widest transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
+                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black  font-bold  text-sm uppercase tracking-widest transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
               >
                 {isSubmitting ? "Processing Order..." : `Complete Purchase — $${selectedProduct.price}`}
               </button>
@@ -706,7 +706,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
                 <div>
-                  <h3 className="text-white font-black text-sm uppercase tracking-wide">Left the Show? Switch to Shipping</h3>
+                  <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">Left the Show? Switch to Shipping</h3>
                   <p className="text-white/40 text-xs">Enter your delivery address below</p>
                 </div>
               </div>
@@ -756,7 +756,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               <button aria-label="Action button"
                 type="submit"
-                className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer mt-2"
+                className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer mt-2"
               >
                 Confirm Delivery Address & Convert Order
               </button>
@@ -772,13 +772,13 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
           <div className="bg-[var(--color-bg-surface)] border border-cyan-500/50  rounded-lg max-w-md w-full p-6 sm:p-8 space-y-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)]">
 
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-cyan-400">Venue Printable QR Sign</span>
+              <span className="text-xs  font-bold  uppercase tracking-widest text-cyan-400">Venue Printable QR Sign</span>
               <button aria-label="Action button" onClick={() => setShowQRSignModal(false)} className="text-white/40 hover:text-white font-bold cursor-pointer">✕ Close</button>
             </div>
 
             <div className="p-6 bg-gradient-to-b from-[#091a28] to-[#0a0a12] border-2 border-cyan-400 relative">
-              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.3em] text-cyan-300 block mb-1">7th Heaven Band</span>
-              <h2 className="text-2xl font-black uppercase text-white tracking-wider mb-1">Scan for Express Merch</h2>
+              <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.3em] text-cyan-300 block mb-1">7th Heaven Band</span>
+              <h2 className="text-2xl  font-bold  uppercase text-white tracking-wider mb-1">Scan for Express Merch</h2>
               <p className="text-xs text-white/70 mb-5">Pick Up at Band Table or Ship to Your Door</p>
 
               {/* Scannable QR Code Image */}
@@ -796,7 +796,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => window.print()}
-                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
               >
                 🖨️ Print / Save Sign
               </button>

@@ -730,7 +730,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="flex items-center gap-2">
               <span className="text-xl">⚙️</span>
               <div>
-                <h3 className="text-white font-black text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
+                <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
                 <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
               </div>
             </div>
@@ -747,7 +747,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
             {/* SECTION 1: Velocity & Viewport Triggers */}
             <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <div className="flex justify-between items-center text-cyan-300 font-black text-sm">
+              <div className="flex justify-between items-center text-cyan-300  font-bold  text-sm">
                 <span>⚡ Cruise Boat & Line Travel Speed</span>
                 <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
               </div>
@@ -908,7 +908,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 space-y-3 mt-2">
               <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
                 <span className="text-lg">📍</span>
-                <h3 className="text-white font-black uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
+                <h3 className="text-white  font-bold  uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -924,7 +924,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <button aria-label="Action button"
                         key={act.id}
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
+                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                           : 'bg-[#e1e6ff29]    text-white  hover:bg-white/10'
                           }`}
@@ -1068,7 +1068,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               )}
               <button aria-label="Action button"
                 onClick={handleSaveTuning}
-                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
               >
                 💾 Save Settings
               </button>
@@ -1314,7 +1314,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full  backdrop-blur-[45px] flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5 rounded-full  backdrop-blur-[45px] flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}

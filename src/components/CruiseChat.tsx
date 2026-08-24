@@ -29,7 +29,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={`font-black text-xs px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300 font-black' : 'text-purple-300 font-bold'}`}
+          className={` font-bold  text-xs px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
@@ -78,7 +78,7 @@ const getAvatarGradient = (name: string) => {
     'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white shadow-md',
     'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-md',
     'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-md',
-    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-md',
+    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black  font-bold  shadow-md',
     'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-md',
     'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md',
   ];
@@ -516,9 +516,9 @@ export default function CruiseChat({
               💬
             </div>
             <div>
-              <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
+              <h3 className=" font-bold  text-white text-xs tracking-wide flex items-center gap-1.5">
                 Passenger Lounge
-                <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
+                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
                   LIVE
                 </span>
               </h3>
@@ -538,7 +538,7 @@ export default function CruiseChat({
                 {onlineUsers.map((u) => (
                   <div key={u.name} className="flex items-center gap-1 group">
                     <div
-                      className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0 ring-1"
+                      className="w-4 h-4 rounded-full flex items-center justify-center text-[7px]  font-bold  shrink-0 ring-1"
                       style={{
                         background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
                         borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
@@ -569,7 +569,7 @@ export default function CruiseChat({
           </div>
 
           <div className="space-y-2 max-w-xs">
-            <h3 className="text-xl font-black text-white uppercase tracking-tight">
+            <h3 className="text-xl  font-bold  text-white uppercase tracking-tight">
               Join the Live Chat
             </h3>
             <p className="text-xs  text-white  leading-relaxed font-medium">
@@ -583,7 +583,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="btn-cosmic-radial-property w-full py-3  text-white font-black text-xs sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
+              className="btn-cosmic-radial-property w-full py-3  text-white  font-bold  text-xs sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
             >
               <span>Sign Up as a Fan</span>
             </button>
@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -678,7 +678,7 @@ export default function CruiseChat({
 
                   return (
                     <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
-                      <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
+                      <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs  font-bold  mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                         {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                       </div>
                       <div className="flex flex-col items-start flex-1 min-w-0">
@@ -686,11 +686,11 @@ export default function CruiseChat({
                           <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
+                          <span className={`text-[8px]  font-bold  uppercase tracking-widest px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[8px]  font-bold  uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
@@ -779,7 +779,7 @@ export default function CruiseChat({
           <div className="relative shrink-0">
             {showTagMenu && (
               <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
-                <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
+                <div className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
                   <span>Tag Admin / Crew Member</span>
                   <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
                 </div>
@@ -804,7 +804,7 @@ export default function CruiseChat({
 
             {showEmojiPicker && (
               <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
-                <div className="text-[10px] font-black uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
+                <div className="text-[10px]  font-bold  uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
                   <span>Quick Emojis</span>
                   <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black text-xs font-bold">✕</button>
                 </div>

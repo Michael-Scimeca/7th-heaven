@@ -253,7 +253,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-[0.2em] text-cyan-400">Now Playing</span>
+          <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em] text-cyan-400">Now Playing</span>
         </div>
 
         {locked ? (
@@ -281,7 +281,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-xs font-black text-white truncate leading-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h4 className="text-xs  font-bold  text-white truncate leading-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   {track.title}
                 </h4>
                 {currentSong && (
@@ -386,7 +386,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-ping" />
-            <span className="text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)]">Latest Track Drop</span>
+            <span className="text-xs  font-bold  uppercase tracking-[0.25em]  text-[var(--color-accent)]">Latest Track Drop</span>
           </div>
 
           {locked ? (
@@ -395,7 +395,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="text-2xl  font-bold  uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
               <p className="text-white/45 text-sm leading-relaxed max-w-md mx-auto mb-8">
@@ -436,7 +436,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-2 py-0.5 rounded-full font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="text-xl sm:text-2xl font-black text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h4 className="text-xl sm:text-2xl  font-bold  text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     {track.title}
                   </h4>
                   {currentSong && (
@@ -595,7 +595,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5 rounded-full font-black animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="text-[0.55rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5 rounded-full  font-bold  animate-pulse border border-[var(--color-accent)]/30">Playing</span>
                             )}
                             <span className="text-[0.55rem] text-white/25 uppercase font-bold tracking-widest">MP3</span>
                           </div>

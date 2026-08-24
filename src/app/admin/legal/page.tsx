@@ -340,13 +340,13 @@ export default function AdminLegalPage() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-white/10">
           <div>
             <div className="flex items-center gap-3 mb-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 text-xs font-black tracking-[0.2em] uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+              <span className="inline-flex items-center gap-1.5 text-xs  font-bold  tracking-[0.2em] uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 100% Passed Legal Audit
               </span>
               <span className="text-white/40 text-xs font-mono">Website Inspection & Regulatory Framework</span>
             </div>
-            <h1 className="text-[clamp(2rem,4vw,3.2rem)] font-black leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-white">
+            <h1 className="text-[clamp(2rem,4vw,3.2rem)]  font-bold  leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-white">
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
             <p className=" text-white  text-sm mt-2 max-w-3xl font-sans leading-relaxed">
@@ -357,11 +357,11 @@ export default function AdminLegalPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 shrink-0">
             {/* Pass Rate Gauge Box */}
             <div className="bg-[#141422] border border-purple-500/30 rounded-lg  p-4 flex items-center gap-4   ">
-              <div className="w-12 h-12  rounded-lg bg-purple-600/20 border border-purple-400/40 flex items-center justify-center font-black text-purple-300 text-lg">
+              <div className="w-12 h-12  rounded-lg bg-purple-600/20 border border-purple-400/40 flex items-center justify-center  font-bold  text-purple-300 text-lg">
                 {passPercentage}%
               </div>
               <div>
-                <div className="text-[10px] font-black uppercase tracking-wider text-purple-300">Compliance Status</div>
+                <div className="text-[10px]  font-bold  uppercase tracking-wider text-purple-300">Compliance Status</div>
                 <div className="text-xs text-emerald-400 font-bold flex items-center gap-1 mt-0.5">
                   <span>✓</span> {completedChecksCount} of {totalChecks} Inspections Passed
                 </div>
@@ -382,7 +382,7 @@ export default function AdminLegalPage() {
 
           {/* Left Menu Tabs */}
           <div className="space-y-3">
-            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2 px-1">
+            <div className="text-[10px]  font-bold  uppercase tracking-widest text-white/40 mb-2 px-1">
               Regulatory Audit Categories
             </div>
             {SECTIONS.map((sec) => {
@@ -410,7 +410,7 @@ export default function AdminLegalPage() {
                     </div>
                   </div>
                   {categoryPassed && (
-                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-400 text-[10px] font-black flex items-center justify-center shrink-0 ml-2">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-400 text-[10px]  font-bold  flex items-center justify-center shrink-0 ml-2">
                       ✓
                     </span>
                   )}
@@ -437,21 +437,21 @@ export default function AdminLegalPage() {
                   {active.icon}
                 </div>
                 <div>
-                  <h2 className="text-xl lg:text-2xl font-black uppercase tracking-tight italic font-[var(--font-heading)] text-white">
+                  <h2 className="text-xl lg:text-2xl  font-bold  uppercase tracking-tight italic font-[var(--font-heading)] text-white">
                     {active.title}
                   </h2>
                   <p className="text-xs  text-white  mt-1">{active.subtitle}</p>
                 </div>
               </div>
 
-              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-black uppercase tracking-widest rounded-full flex items-center gap-1.5">
+              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs  font-bold  uppercase tracking-widest rounded-full flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Verified Compliant
               </span>
             </div>
 
             {/* Compliance Context & Legal Rationale Box */}
             <div className="bg-purple-950/20 border border-purple-500/30 rounded-lg  p-5 mb-8">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-purple-300 block mb-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
               <p className="text-xs leading-relaxed text-white/80">{active.explanation}</p>
@@ -460,7 +460,7 @@ export default function AdminLegalPage() {
             {/* Requirement Checklist Items */}
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs font-black uppercase tracking-widest text-purple-300">
+                <h3 className="text-xs  font-bold  uppercase tracking-widest text-purple-300">
                   Inspections & Technical Verification Items
                 </h3>
                 <span className="text-[10px] text-white/40 font-mono">Click checkbox to toggle verification</span>
@@ -495,7 +495,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.isCritical && (
-                        <span className="text-[0.55rem] font-black uppercase tracking-widest bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-full shrink-0">
+                        <span className="text-[0.55rem]  font-bold  uppercase tracking-widest bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-full shrink-0">
                           Critical Rule
                         </span>
                       )}
@@ -504,7 +504,7 @@ export default function AdminLegalPage() {
                     {/* Developer Action & System Verification Proof */}
                     <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                       <div className="flex items-start gap-2">
-                        <span className="text-emerald-400 font-black shrink-0">🛠️ DEV ACTION:</span>
+                        <span className="text-emerald-400  font-bold  shrink-0">🛠️ DEV ACTION:</span>
                         <p className="text-white/70 italic text-[11px] leading-relaxed">{req.actionItem}</p>
                       </div>
 

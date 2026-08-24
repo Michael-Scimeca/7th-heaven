@@ -145,7 +145,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         </div>
         <div className="flex items-center gap-1.5">
           <span className="text-[var(--font-size-2xs)] font-bold text-white/20 uppercase tracking-widest">Headcount:</span>
-          <span className={`text-xs font-black ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
+          <span className={`text-xs  font-bold  ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
         </div>
       </div>
 

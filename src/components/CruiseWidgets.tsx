@@ -43,7 +43,7 @@ export function EmbarkationCountdown() {
     <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
-          <h2 className="text-white font-black italic tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
+          <h2 className="text-white  font-bold  italic tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
           <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
@@ -52,11 +52,11 @@ export function EmbarkationCountdown() {
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
             <div className="min-w-[48px] flex items-center justify-center">
-              <span className="text-white font-mono font-black text-2xl md:text-3xl leading-none text-center">
+              <span className="text-white font-mono  font-bold  text-2xl md:text-3xl leading-none text-center">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-widest mt-1 drop- ">{unit}</span>
+            <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest mt-1 drop- ">{unit}</span>
           </div>
         ))}
       </div>
@@ -186,7 +186,7 @@ export function PhotoWall() {
     <div className="mt-16">
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
+          <h2 className="text-xl  font-bold  italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
         <button aria-label="Action button" className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
@@ -503,7 +503,7 @@ export function BookingManager({ email }: { email?: string }) {
           type="submit"
           icon={false}
           disabled={registering}
-          className="w-full mt-2 py-2.5 text-white font-black tracking-wider text-xs rounded-lg disabled:opacity-50"
+          className="w-full mt-2 py-2.5 text-white  font-bold  tracking-wider text-xs rounded-lg disabled:opacity-50"
         >
           {registering ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
@@ -549,11 +549,11 @@ export function BookingManager({ email }: { email?: string }) {
             <span>⏳</span> Balance Owed
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+            <span className="text-rose-400  font-bold  text-sm">{booking.balance_due || "$350.00"}</span>
             {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
               <button aria-label="Action button"
                 onClick={() => setIsPayModalOpen(true)}
-                className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
               >
                 💳 Pay Balance
               </button>
@@ -590,7 +590,7 @@ export function BookingManager({ email }: { email?: string }) {
             )}`}
             className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 rounded-lg"
           >
-            <div className="flex items-center gap-1.5 font-black">
+            <div className="flex items-center gap-1.5  font-bold ">
               <span>✉️</span> Cruise Admin
             </div>
             <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">cruise@7thheavenband.com</span>
@@ -606,7 +606,7 @@ export function BookingManager({ email }: { email?: string }) {
             )}`}
             className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 rounded-lg"
           >
-            <div className="flex items-center gap-1.5 font-black">
+            <div className="flex items-center gap-1.5  font-bold ">
               <span>✉️</span> Support Agent (Mary)
             </div>
             <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">mary@ntdvacations.com</span>
@@ -618,7 +618,7 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10  text-white  text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="text-sm">🚢</span>
-          <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
+          <span className="font-bold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
         </div>
         <p>
           Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
@@ -751,13 +751,13 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
-            <h3 className="text-lg font-black uppercase tracking-widest text-white">Payment Successful</h3>
+            <h3 className="text-lg  font-bold  uppercase tracking-widest text-white">Payment Successful</h3>
             <p className=" text-white  text-xs leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
               onClick={onClose}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
             >
               Close
             </button>
@@ -766,11 +766,11 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
           <form onSubmit={handlePaymentSubmit} className="p-6 md:p-8 space-y-6">
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
-                <h3 className="text-sm font-black uppercase tracking-widest text-white">Final Payment</h3>
+                <h3 className="text-sm  font-bold  uppercase tracking-widest text-white">Final Payment</h3>
                 <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
-                <span className="text-rose-400 font-black text-lg">{balanceDue}</span>
+                <span className="text-rose-400  font-bold  text-lg">{balanceDue}</span>
               </div>
             </div>
 
@@ -789,14 +789,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -812,7 +812,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           <span className="text-white/40 text-[var(--font-size-4xs)] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
                         </div>
                       </div>
-                      <span className="text-[var(--font-size-4xs)] font-black text-purple-400uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                      <span className="text-[var(--font-size-4xs)]  font-bold  text-purple-400uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
                         Default
                       </span>
                     </div>
@@ -875,14 +875,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Close"
                     type="button"
                     onClick={onClose}
-                    className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer"
+                    className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <CosmicRadialButton
                     type="submit"
                     icon={false}
-                    className="flex-1 py-2.5 text-white text-xs font-black tracking-wider rounded-lg"
+                    className="flex-1 py-2.5 text-white text-xs  font-bold  tracking-wider rounded-lg"
                   >
                     Pay {balanceDue}
                   </CosmicRadialButton>
@@ -982,7 +982,7 @@ export function SongRequestLeaderboard() {
       <div className="space-y-4">
         {songs.map((song, i) => (
           <div key={song.id} className="flex items-center gap-4 group">
-            <span className={`text-sm font-black w-4 text-center ${i < 3 ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
+            <span className={`text-sm  font-bold  w-4 text-center ${i < 3 ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
               {i + 1}
             </span>
             <div className="flex-1">
@@ -1077,7 +1077,7 @@ export function ExcursionTeasers() {
               <div className="text-xs text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
-              <div className="text-xs font-black text-white">{ex.spots}</div>
+              <div className="text-xs  font-bold  text-white">{ex.spots}</div>
               <div className="text-xs text-white/40 uppercase tracking-widest">Spots Left</div>
             </div>
           </div>

@@ -106,9 +106,7 @@ function HomeShaderGradientComponent() {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    // Skip WebGL gradient on mobile — too GPU intensive; CSS background used instead
-    if (typeof window !== "undefined" && window.innerWidth < 768) return;
-
+    // Initialize WebGL background canvas across all screen sizes
     let neatInstance: any = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
     let idleId: any = null;
@@ -414,7 +412,7 @@ function HomeShaderGradientComponent() {
       </div>
 
       {/* Background Shader Canvas Container */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-transparent">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
         <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
         <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none transition-opacity duration-300" />
       </div>

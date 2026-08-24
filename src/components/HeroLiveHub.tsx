@@ -229,11 +229,11 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
-                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-full text-sm font-black uppercase tracking-widest shadow-red-600/20">
+                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-full text-sm  font-bold  uppercase tracking-widest shadow-red-600/20">
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
                     Live Now
                   </div>
-                  <h4 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-6">Join the Crew Live</h4>
+                  <h4 className="text-2xl  font-bold  text-white uppercase italic tracking-tighter mb-6">Join the Crew Live</h4>
                   <Link href="/live" className="btn-primary flex items-center justify-center gap-3 px-8 py-4 text-sm shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Enter Live Stream ⚡
                   </Link>

@@ -89,7 +89,7 @@ export default function LiveStreamInlineSubscribe({
             <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-base font-black text-white">Verification Email Sent to {email}! ✉️</h4>
+            <h4 className="text-base  font-bold  text-white">Verification Email Sent to {email}! ✉️</h4>
             <p className="text-xs text-gray-300 mt-0.5">
               To prevent unauthorized signups, we sent a verification link to <strong className="text-white font-mono">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
@@ -119,7 +119,7 @@ export default function LiveStreamInlineSubscribe({
               <Bell className="w-5 h-5 animate-bounce" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-wider">
+              <h3 className="text-base sm:text-lg  font-bold  text-white uppercase tracking-wider">
                 Crew Member Live Stream Push & Email Alerts
               </h3>
               <p className="text-xs text-purple-200/70">
@@ -128,7 +128,7 @@ export default function LiveStreamInlineSubscribe({
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
             100% Free Push Alerts
           </span>
@@ -202,7 +202,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 text-white text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3 text-white text-xs  font-bold  uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
             >
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>

@@ -50,7 +50,7 @@ function CancelContent() {
       {status === "success" ? (
         <>
           <span className="text-4xl block mb-4">✅</span>
-          <h2 className="text-2xl font-black text-white mb-2">Signup Cancelled</h2>
+          <h2 className="text-2xl  font-bold  text-white mb-2">Signup Cancelled</h2>
           <p className="text-white/50 text-sm mb-2">
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
           </p>
@@ -71,7 +71,7 @@ function CancelContent() {
       ) : (
         <>
           <span className="text-4xl block mb-4">🚢</span>
-          <h2 className="text-2xl font-black text-white mb-2">Cancel Your Cruise Signup?</h2>
+          <h2 className="text-2xl  font-bold  text-white mb-2">Cancel Your Cruise Signup?</h2>
           <p className="text-white/50 text-sm mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>

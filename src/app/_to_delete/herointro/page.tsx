@@ -194,11 +194,11 @@ export default function HeroIntroPage() {
         {/* Text layer — static, only ever revealed by the mask (no extra
             translate) so it can't end up pushed off-screen mid-wipe. */}
         <div className="absolute bottom-14 left-6 md:left-10 right-6 md:right-10 flex flex-col gap-3">
-          <span className="text-xs font-black uppercase tracking-[0.3em] text-white/50">
+          <span className="text-xs  font-bold  uppercase tracking-[0.3em] text-white/50">
             40 years of rocking the world.
           </span>
           <h1
-            className="max-w-2xl text-3xl md:text-6xl font-black uppercase tracking-tight text-white leading-[0.95]"
+            className="max-w-2xl text-3xl md:text-6xl  font-bold  uppercase tracking-tight text-white leading-[0.95]"
             style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
           >
             An experience you just have to see and hear.

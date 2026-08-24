@@ -91,10 +91,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       >
         <div>
           <p className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] mb-0.5">Show Promotions</p>
-          <h3 className="text-white font-black text-lg flex items-center gap-2">
+          <h3 className="text-white  font-bold  text-lg flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -227,7 +227,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button aria-label="Action button"
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-colors ${saved
+                    className={`w-full py-3.5 text-sm  font-bold  uppercase tracking-widest transition-colors ${saved
                       ? "bg-[var(--color-accent)]  text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                       }`}

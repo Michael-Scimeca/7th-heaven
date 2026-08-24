@@ -104,7 +104,7 @@ export default function NotificationsPage() {
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
-        <h1 className="text-4xl sm:text-5xl font-black text-[var(--text-color)] tracking-tight uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
         <p className="text-[var(--muted-text)] text-base font-medium">
@@ -150,7 +150,7 @@ export default function NotificationsPage() {
 
         {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">
-            <p className="text-white font-extrabold mb-1">Not set up yet</p>
+            <p className="text-white font-bold mb-1">Not set up yet</p>
             <p className="text-white/50 text-sm">
               This alert channel hasn&apos;t been configured on the server yet. Check back soon,
               or reach out on the{" "}
@@ -175,7 +175,7 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="flex-1 w-full space-y-5">
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs font-black flex items-center justify-center">1</span>
+                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">1</span>
                 <div>
                   <p className="text-white font-bold text-sm mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
@@ -200,14 +200,14 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs font-black flex items-center justify-center">2</span>
+                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">2</span>
                 <div className="flex-1">
                   <p className="text-white font-bold text-sm mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
-                      className="px-5 py-2.5 text-xs font-black tracking-wider rounded-lg"
+                      className="px-5 py-2.5 text-xs  font-bold  tracking-wider rounded-lg"
                     >
                       Open in ntfy App
                     </CosmicRadialButton>
@@ -224,7 +224,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs font-black flex items-center justify-center">3</span>
+                <span className="shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">3</span>
                 <div>
                   <p className="text-white font-bold text-sm">
                     Done. You&apos;ll get a push notification the moment we send one to this channel &mdash;

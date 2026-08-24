@@ -12,6 +12,7 @@ import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import ProgressiveBlur from "@/components/ProgressiveBlur";
 
 const emptySubscribe = () => () => { };
 
@@ -499,14 +500,10 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none  ${scrolled
-        ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none ${scrolled
+        ? "bg-transparent text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
-      style={{
-        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%))",
-        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%))"
-      }}
       suppressHydrationWarning
     >
       <div className="w-full max-w-full site-container">
@@ -547,7 +544,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#9333ea] font-extrabold active"
+                    ? "!text-[#9333ea] font-bold active"
                     : "!text-white/90 hover:!text-white"
                     }`}
                 >
@@ -560,12 +557,12 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea] font-extrabold active"
+                ? "!text-[#9333ea] font-bold active"
                 : "!text-white/90 hover:!text-white"
                 }`}
             >
               {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px]  font-bold  uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
                   <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
                   LIVE
                 </span>
@@ -580,7 +577,7 @@ export function Header() {
             <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#9333ea] font-extrabold active"
+                ? "!text-[#9333ea] font-bold active"
                 : "!text-white/90 hover:!text-white"
                 }`}
             >
@@ -592,7 +589,7 @@ export function Header() {
             <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#9333ea] font-extrabold active"
+                ? "!text-[#9333ea] font-bold active"
                 : "!text-white/90 hover:!text-white"
                 }`}
             >
@@ -603,7 +600,7 @@ export function Header() {
             <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#9333ea] font-extrabold active"
+                ? "!text-[#9333ea] font-bold active"
                 : "!text-white/90 hover:!text-white"
                 }`}
             >
@@ -629,14 +626,14 @@ export function Header() {
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    className="relative flex items-center justify-center text-white text-xs  font-bold  shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40  backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40  backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white  font-bold  text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}
@@ -644,7 +641,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none   ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px]  font-bold  uppercase text-white flex items-center justify-center leading-none   ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -662,7 +659,7 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 text-xs font-black tracking-wider rounded-lg shrink-0"
+                className="px-3.5 py-1.5 text-xs  font-bold  tracking-wider rounded-lg shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN
@@ -808,11 +805,11 @@ export function Header() {
                       className="w-full h-full object-cover"
                       onCanPlay={(e) => {
                         e.currentTarget.muted = true;
-                        e.currentTarget.play().catch(() => {});
+                        e.currentTarget.play().catch(() => { });
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px]  font-bold  uppercase tracking-widest">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>
@@ -833,7 +830,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"
+                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl  font-bold  uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"
                           }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and

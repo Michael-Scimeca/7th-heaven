@@ -147,7 +147,7 @@ export default function AwardPicksPanel() {
                 }`}
             >
               <div
-                className="w-10 h-10 mx-auto mb-1.5 rounded-lg flex items-center justify-center text-lg font-black"
+                className="w-10 h-10 mx-auto mb-1.5 rounded-lg flex items-center justify-center text-lg  font-bold "
                 style={{ background: `${pick.color}20`, color: pick.color, border: `1px solid ${pick.color}40` }}
               >
                 7H

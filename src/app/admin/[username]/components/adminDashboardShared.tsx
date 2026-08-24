@@ -22,7 +22,7 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
 
   return (
     <div
-      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-black text-xs shrink-0 text-white select-none border border-white/10"
+      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center  font-bold  text-xs shrink-0 text-white select-none border border-white/10"
       style={{ color: '#ffffff' }}
     >
       {initials}
@@ -55,11 +55,11 @@ export const SidebarDateButton = React.memo(({
         }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
-        <span className="text-[7.5px] font-extrabold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
-        <span className={`text-[9.5px] font-black tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className="text-[7.5px] font-bold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
+        <span className={`text-[9.5px]  font-bold  tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`text-[10px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`text-[10px] font-bold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (

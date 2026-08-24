@@ -276,7 +276,7 @@ function PlannerVerifyContent() {
                       onBlur={() => setFocusedIndex(null)}
                       onChange={e => handleDigit(i, e.target.value)}
                       onKeyDown={e => handleKeyDown(i, e)}
-                      className={`w-full h-full text-center text-xl font-black  rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
+                      className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                         ${focusedIndex === i
                           ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                           : d
