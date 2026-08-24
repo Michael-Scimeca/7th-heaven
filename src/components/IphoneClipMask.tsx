@@ -52,12 +52,12 @@ interface IphoneClipMaskProps {
 export default function IphoneClipMask({
   children,
   className = "",
-  insetXPercent = 7.8,
-  insetTopPercent = 8.2,
+  insetXPercent = 9.8,
+  insetTopPercent = 6.2,
   insetBottomPercent = 0.2,
   insetYPercent = 0,
-  clipRoundPx = 48,
-  borderRadiusPx = 48,
+  clipRoundPx = 61,
+  borderRadiusPx = 61,
   style = {},
 }: IphoneClipMaskProps) {
   const top = insetTopPercent ?? insetYPercent;
