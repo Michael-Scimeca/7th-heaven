@@ -81,7 +81,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     const finish = () => {
-      if (doneRef.current) return;
+      if (doneRef.current || forceShow) return;
       doneRef.current = true;
 
       setLeaving(true);
