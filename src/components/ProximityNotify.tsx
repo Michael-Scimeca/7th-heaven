@@ -6,7 +6,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
@@ -81,6 +81,37 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const [notifyBrowser, setNotifyBrowser] = useState(false);
   const [selectedShowTypes, setSelectedShowTypes] = useState<string[]>(["all"]);
   const fileRef = useRef<HTMLInputElement>(null);
+  const phoneVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = phoneVideoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const playVideo = () => {
+      if (video.paused) {
+        video.play().catch(() => {
+          // Autoplay attempt fallback
+        });
+      }
+    };
+
+    playVideo();
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        playVideo();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   const handleBrowserNotifyToggle = (checked: boolean) => {
     setNotifyBrowser(checked);
@@ -193,14 +224,25 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-zinc-950 flex flex-col justify-between">
                   {/* Concert Video Background */}
                   <video
-                    src="/movie/notefication.mp4"
+                    ref={phoneVideoRef}
                     autoPlay
                     loop
                     muted
                     playsInline
+                    preload="auto"
                     aria-label="7th Heaven Concert Live Stream"
                     className="absolute inset-0 w-full h-full object-cover object-center brightness-95"
-                  />
+                    onCanPlay={(e) => {
+                      e.currentTarget.muted = true;
+                      e.currentTarget.play().catch(() => {});
+                    }}
+                    onLoadedMetadata={(e) => {
+                      e.currentTarget.muted = true;
+                      e.currentTarget.play().catch(() => {});
+                    }}
+                  >
+                    <source src="/movie/notefication.mp4" type="video/mp4" />
+                  </video>
 
                   {/* Dark Gradient Overlay for Status Bar & Contrast */}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none" />
@@ -218,36 +260,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                   </div>
 
-                  {/* Floating Live Reaction Bubbles (CSS Animated) */}
-                  <div className="absolute right-6 bottom-14 z-20 w-20 h-80 pointer-events-none flex flex-col items-center justify-end overflow-visible">
-                    {/* Floating Bubble 1 - Heart */}
-                    <div className="absolute bottom-0 p-3.5 rounded-full bg-amber-100/90 text-amber-950   animate-float-up-1">
-                      <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                    </div>
-
-                    {/* Floating Bubble 2 - Thumbs Up */}
-                    <div className="absolute bottom-3 p-3.5 rounded-full bg-white/95 text-zinc-900   animate-float-up-2">
-                      <svg className="w-6 h-6 fill-zinc-900" viewBox="0 0 24 24">
-                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
-                      </svg>
-                    </div>
-
-                    {/* Floating Bubble 3 - Heart Pill */}
-                    <div className="absolute bottom-6 p-3.5 rounded-full bg-amber-200/90 text-amber-950   animate-float-up-3">
-                      <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                    </div>
-
-                    {/* Floating Bubble 4 - Thumbs Up Small */}
-                    <div className="absolute bottom-9 p-2.5 rounded-full bg-white/90 text-zinc-900 shadow-lg animate-float-up-4">
-                      <svg className="w-5 h-5 fill-zinc-900" viewBox="0 0 24 24">
-                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -473,46 +485,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
         </div>
       </div>
-
-      {/* Floating Reaction CSS Keyframes */}
-      <style>{`
-        @keyframes floatUp1 {
-          0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
-          15% { opacity: 1; transform: translateY(-20px) scale(1) rotate(-6deg); }
-          80% { opacity: 0.9; transform: translateY(-150px) scale(1.1) rotate(6deg); }
-          100% { transform: translateY(-220px) scale(0.7) rotate(-12deg); opacity: 0; }
-        }
-        @keyframes floatUp2 {
-          0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-          20% { opacity: 1; transform: translateY(-30px) scale(1) rotate(8deg); }
-          85% { opacity: 0.85; transform: translateY(-170px) scale(1.05) rotate(-8deg); }
-          100% { transform: translateY(-240px) scale(0.6) rotate(10deg); opacity: 0; }
-        }
-        @keyframes floatUp3 {
-          0% { transform: translateY(0) scale(0.7) rotate(0deg); opacity: 0; }
-          25% { opacity: 1; transform: translateY(-40px) scale(1.1) rotate(-10deg); }
-          75% { opacity: 0.9; transform: translateY(-130px) scale(1) rotate(4deg); }
-          100% { transform: translateY(-200px) scale(0.7) rotate(-6deg); opacity: 0; }
-        }
-        @keyframes floatUp4 {
-          0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-          18% { opacity: 1; transform: translateY(-25px) scale(0.95) rotate(5deg); }
-          82% { opacity: 0.8; transform: translateY(-160px) scale(1) rotate(-5deg); }
-          100% { transform: translateY(-230px) scale(0.6) rotate(8deg); opacity: 0; }
-        }
-        .animate-float-up-1 {
-          animation: floatUp1 4s ease-in-out infinite;
-        }
-        .animate-float-up-2 {
-          animation: floatUp2 4.5s ease-in-out infinite 1.2s;
-        }
-        .animate-float-up-3 {
-          animation: floatUp3 3.8s ease-in-out infinite 2.3s;
-        }
-        .animate-float-up-4 {
-          animation: floatUp4 4.2s ease-in-out infinite 0.7s;
-        }
-      `}</style>
     </section>
   );
 }

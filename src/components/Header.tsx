@@ -804,7 +804,12 @@ export function Header() {
                       loop
                       muted
                       playsInline
+                      preload="auto"
                       className="w-full h-full object-cover"
+                      onCanPlay={(e) => {
+                        e.currentTarget.muted = true;
+                        e.currentTarget.play().catch(() => {});
+                      }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest">

@@ -5857,8 +5857,8 @@ html.is-preloading.is-revealing #page-content-wrapper {
   }
 }
 
-div,
+/* div,
 section,
 span {
   outline: 1px dashed blue
-}
+} */
