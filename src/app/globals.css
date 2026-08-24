@@ -5923,7 +5923,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
 /* Progressive Blur Setup (Copied from Everwonder Studio) */
 .progressive-blur {
-  z-index: 100002;
+  z-index: 40;
   pointer-events: none;
   isolation: isolate;
   contain: paint;
@@ -5941,6 +5941,11 @@ html.is-preloading.is-revealing #page-content-wrapper {
   top: -1px;
   bottom: auto;
   transform: rotate(180deg) translate(0);
+}
+
+html.is-preloading.is-revealing .progressive-blur.is-top {
+  transform: rotate(180deg) translate(0) scaleY(0.8928) !important;
+  transform-origin: top center !important;
 }
 
 /* .progressive-blur.is-top::before {
