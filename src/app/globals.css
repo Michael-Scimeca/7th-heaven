@@ -4328,20 +4328,131 @@ html.is-preloading.is-revealing #page-content-wrapper {
   pointer-events: none;
 }
 
-.preloader-cosmic-bg {
-  background-color: #030006 !important;
-  background-image:
-    radial-gradient(45% 55% at var(--r1-x, 18%) var(--r1-y, 71%), rgba(192, 38, 211, 0.5) 0%, transparent 100%),
-    radial-gradient(55% 50% at var(--r2-x, 36%) var(--r2-y, 76%), rgba(124, 58, 237, 0.55) 0%, transparent 100%),
-    radial-gradient(35% 45% at var(--r3-x, 7%) var(--r3-y, 98%), rgba(147, 51, 234, 0.4) 0%, transparent 100%),
-    radial-gradient(45% 40% at var(--r4-x, 72%) var(--r4-y, 23%), rgba(232, 121, 249, 0.45) 0%, transparent 100%),
-    radial-gradient(40% 50% at var(--r5-x, 91%) var(--r5-y, 74%), rgba(99, 102, 241, 0.45) 0%, transparent 100%),
-    radial-gradient(70% 80% at var(--r6-x, 67%) var(--r6-y, 38%), rgba(217, 70, 239, 0.5) 0%, transparent 100%),
-    linear-gradient(135deg, #090314 0%, #000000 100%) !important;
+/* ─── baunov/gradients-bg liquid moving gradient background ─── */
+:root {
+  --color-bg1: #030006;
+  --color-bg2: #090314;
+  --color1: 147, 51, 234;
+  --color2: 192, 38, 211;
+  --color3: 124, 58, 237;
+  --color4: 232, 121, 249;
+  --color5: 99, 102, 241;
+  --color-interactive: 168, 85, 247;
+  --circle-size: 80%;
+  --blending: hard-light;
 }
 
-.preloader-cosmic-bg:not(.is-leaving) {
-  animation: cosmic-radial-property-drift 7s ease-in-out infinite alternate;
+@keyframes moveInCircle {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes moveVertical {
+  0% { transform: translateY(-50%); }
+  50% { transform: translateY(50%); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes moveHorizontal {
+  0% { transform: translateX(-50%) translateY(-10%); }
+  50% { transform: translateX(50%) translateY(10%); }
+  100% { transform: translateX(-50%) translateY(-10%); }
+}
+
+.gradient-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+}
+
+.gradient-bg .gradients-container {
+  filter: url(#goo) blur(40px);
+  width: 100%;
+  height: 100%;
+}
+
+.gradient-bg .g1 {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: center center;
+  animation: moveVertical 30s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .g2 {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 400px);
+  animation: moveInCircle 20s reverse infinite;
+  opacity: 1;
+}
+
+.gradient-bg .g3 {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2 + 200px);
+  left: calc(50% - var(--circle-size) / 2 - 500px);
+  transform-origin: calc(50% + 400px);
+  animation: moveInCircle 40s linear infinite;
+  opacity: 1;
+}
+
+.gradient-bg .g4 {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: calc(50% - var(--circle-size) / 2);
+  left: calc(50% - var(--circle-size) / 2);
+  transform-origin: calc(50% - 200px);
+  animation: moveHorizontal 40s ease infinite;
+  opacity: 0.7;
+}
+
+.gradient-bg .g5 {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: calc(var(--circle-size) * 2);
+  height: calc(var(--circle-size) * 2);
+  top: calc(50% - var(--circle-size));
+  left: calc(50% - var(--circle-size));
+  transform-origin: calc(50% - 800px) calc(50% + 200px);
+  animation: moveInCircle 20s ease infinite;
+  opacity: 1;
+}
+
+.gradient-bg .interactive {
+  position: absolute;
+  background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+  mix-blend-mode: var(--blending);
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: -50%;
+  opacity: 0.7;
+}
+
+.preloader-cosmic-bg {
+  background-color: #030006 !important;
 }
 
 /* Curtain wipe off screen — clip-path, not translateY, and NOT a flat edge.

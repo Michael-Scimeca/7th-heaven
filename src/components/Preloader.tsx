@@ -147,6 +147,42 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     };
   }, [active, leaving]);
 
+  const interRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!active || leaving) return;
+    const inter = interRef.current;
+    if (!inter) return;
+
+    let curX = 0;
+    let curY = 0;
+    let tgX = 0;
+    let tgY = 0;
+    let animId: number;
+
+    const onMouseMove = (e: MouseEvent) => {
+      tgX = e.clientX;
+      tgY = e.clientY;
+    };
+
+    const move = () => {
+      curX += (tgX - curX) / 20;
+      curY += (tgY - curY) / 20;
+      if (inter) {
+        inter.style.transform = `translate(${Math.round(curX)}px, ${Math.round(curY)}px)`;
+      }
+      animId = requestAnimationFrame(move);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    animId = requestAnimationFrame(move);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      cancelAnimationFrame(animId);
+    };
+  }, [active, leaving]);
+
   if (!active) return null;
 
   return (
@@ -156,7 +192,28 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       aria-label="Loading"
       aria-live="polite"
     >
-      <div ref={logoRef}>
+      {/* ── Liquid Moving Gradient Background (baunov/gradients-bg) ── */}
+      <div className="gradient-bg pointer-events-none">
+        <svg className="hidden">
+          <defs>
+            <filter id="goo">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur" />
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+              <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+          </defs>
+        </svg>
+        <div className="gradients-container">
+          <div className="g1" />
+          <div className="g2" />
+          <div className="g3" />
+          <div className="g4" />
+          <div className="g5" />
+          <div ref={interRef} className="interactive" />
+        </div>
+      </div>
+
+      <div ref={logoRef} className="relative z-10">
         <Logo className="h-8 md:h-11 w-auto text-white" />
       </div>
     </div>
