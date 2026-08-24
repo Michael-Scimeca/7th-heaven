@@ -34,9 +34,11 @@ interface PreloaderProps {
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
   const [active, setActive] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [fillPercent, setFillPercent] = useState(0);
   const doneRef = useRef(false);
   const pageReadyRef = useRef(false);
   const logoRef = useRef<HTMLDivElement>(null);
+  const fillProgressRef = useRef(0);
 
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
@@ -83,6 +85,8 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const finish = () => {
       if (doneRef.current || forceShow) return;
       doneRef.current = true;
+      fillProgressRef.current = 100;
+      setFillPercent(100);
 
       setLeaving(true);
       root.classList.add("is-revealing");
@@ -100,8 +104,29 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const checkReadyLoop = () => {
       if (doneRef.current) return;
       const elapsed = performance.now() - startedAt;
+      const minVis = minVisibleMs();
 
-      if (pageReadyRef.current && elapsed >= minVisibleMs()) {
+      // Calculate target progress from real loading state + elapsed time
+      let targetProgress = Math.min(95, Math.floor((elapsed / minVis) * 85));
+
+      if (typeof document !== "undefined") {
+        if (document.readyState === "interactive") {
+          targetProgress = Math.max(targetProgress, 65);
+        } else if (document.readyState === "complete") {
+          targetProgress = Math.max(targetProgress, 90);
+        }
+      }
+
+      if (pageReadyRef.current) {
+        targetProgress = 100;
+      }
+
+      // Smooth lerp fillProgressRef
+      fillProgressRef.current += (targetProgress - fillProgressRef.current) * 0.12;
+      const currentFill = Math.min(100, Math.round(fillProgressRef.current));
+      setFillPercent(currentFill);
+
+      if (pageReadyRef.current && elapsed >= minVis && currentFill >= 98) {
         finish();
       } else {
         rafId = requestAnimationFrame(checkReadyLoop);
@@ -134,7 +159,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     if (!logo) return;
 
     const tween = gsap.to(logo, {
-      opacity: 0.45,
+      opacity: 0.85,
       duration: 0.9,
       ease: "sine.inOut",
       yoyo: true,
@@ -213,8 +238,27 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
         </div>
       </div>
 
-      <div ref={logoRef} className="relative z-10">
-        <Logo className="h-8 md:h-11 w-auto text-white" />
+      {/* ── 7th Heaven Logo Progressive Bottom-To-Top Fill ── */}
+      <div ref={logoRef} className="relative z-10 select-none flex flex-col items-center gap-3">
+        <div className="relative inline-flex items-center justify-center">
+          {/* Base Unfilled Logo Outline (20% Opacity) */}
+          <Logo className="h-9 md:h-12 w-auto text-white/20" />
+
+          {/* Foreground Filled Logo (Fills up vertically from bottom to top based on fillPercent) */}
+          <div
+            className="absolute inset-0 overflow-hidden transition-[clip-path] duration-75 ease-out"
+            style={{
+              clipPath: `inset(${100 - fillPercent}% 0 0 0)`,
+            }}
+          >
+            <Logo className="h-9 md:h-12 w-auto text-white filter drop-shadow-[0_0_20px_rgba(255,255,255,0.9)]" />
+          </div>
+        </div>
+
+        {/* Loading Progress Percentage Text */}
+        <div className="text-[11px] font-mono font-bold tracking-widest text-white/50 uppercase">
+          {fillPercent}%
+        </div>
       </div>
     </div>
   );

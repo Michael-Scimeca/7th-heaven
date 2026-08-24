@@ -192,7 +192,7 @@ export default async function RootLayout({
       <body style={{ fontFamily: "var(--font-family-sans, 'Switzer', sans-serif)", letterSpacing: "0" }} suppressHydrationWarning>
         <HomeShaderGradient />
         {/* <GrainOverlay /> */}
-        <Preloader forceShow={true} />
+        <Preloader />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
