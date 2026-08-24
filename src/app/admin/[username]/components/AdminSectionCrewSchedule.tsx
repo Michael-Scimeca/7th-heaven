@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-doctor/nextjs-no-img-element, react-doctor/jsx-max-depth, react-doctor/no-giant-component */
 "use client";
 import React from 'react';

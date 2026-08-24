@@ -215,53 +215,29 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
       <div className="relative z-10  max-w-[1100px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center justify-center">
 
-          {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (5 Cols) ── */}
+          {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
           <div className="md:col-span-5 flex justify-center items-center w-full">
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[400px]">
-              {/* iPhone Outer Device Frame */}
-              <div className="relative w-full aspect-[9/18.5] bg-black/90 rounded-[56px] p-4 border-[3px] border-amber-200/25 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden group">
-                {/* Inner Screen */}
-                <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-zinc-950 flex flex-col justify-between">
-                  {/* Concert Video Background */}
-                  <video
-                    ref={phoneVideoRef}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    aria-label="7th Heaven Concert Live Stream"
-                    className="absolute inset-0 w-full h-full object-cover object-center brightness-95"
-                    onCanPlay={(e) => {
-                      e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => {});
-                    }}
-                    onLoadedMetadata={(e) => {
-                      e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => {});
-                    }}
-                  >
-                    <source src="/movie/notefication.mp4" type="video/mp4" />
-                  </video>
-
-                  {/* Dark Gradient Overlay for Status Bar & Contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none" />
-
-                  {/* Status Bar (Clock + Icons) */}
-                  <div className="relative z-20 flex items-center justify-between px-7 pt-4 text-white text-[14px] font-semibold tracking-tight">
-                    <span>02:25</span>
-                    {/* Dynamic Island Notch */}
-                    <div className="w-28 h-6 bg-black rounded-full border border-white/10 mx-auto -mt-1 shadow-inner" />
-                    <div className="flex items-center gap-1.5 opacity-90 text-[12px]">
-                      <span>5G</span>
-                      <div className="w-4.5 h-3 border border-white rounded-sm flex items-center p-0.5">
-                        <div className="w-full h-full bg-white rounded-xs" />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+            <div className="relative w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[400px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950">
+              <video
+                ref={phoneVideoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                aria-label="7th Heaven Concert Live Stream"
+                className="w-full h-full object-cover object-center"
+                onCanPlay={(e) => {
+                  e.currentTarget.muted = true;
+                  e.currentTarget.play().catch(() => {});
+                }}
+                onLoadedMetadata={(e) => {
+                  e.currentTarget.muted = true;
+                  e.currentTarget.play().catch(() => {});
+                }}
+              >
+                <source src="/movie/notefication.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
 

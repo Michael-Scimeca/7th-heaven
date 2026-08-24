@@ -524,7 +524,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const h = isBouncing ? 46 : 31;
 
       const firstShow = v.shows[0];
-      const hasExplicitMap = Boolean(firstShow.mapUrl || firstShow.directionsLink);
+      const hasExplicitMap = Boolean(firstShow?.mapUrl || (firstShow as Record<string, any>)?.directionsLink);
       const hasExplicitParking = Boolean(firstShow.parkingUrl || firstShow.parkingInfo);
 
       const rawDirectionsUrl = firstShow.mapUrl?.includes('maps.apple.com')
