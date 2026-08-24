@@ -577,7 +577,7 @@ export default function VinylHeroPlayer({
                             >
                               <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                                <span className="text-[var(--font-size-5xs)]  font-bold  text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
+                                <span className="text-[var(--font-size-5xs)]  font-bold  text-white uppercase tracking-tighter leading-none">{album.title}</span>
                                 <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                               </div>
                             </div>
@@ -695,10 +695,10 @@ export default function VinylHeroPlayer({
                         {isBuffering ? (
                           <span className="text-[9px]  font-bold  text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1 rounded animate-pulse shrink-0">BUFFERING MP3</span>
                         ) : (
-                          <span className="text-[10px] font-bold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
+                          <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
                         )}
                       </div>
-                      <div className="text-[10px] font-bold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                      <div className="text-[10px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                         {currentTrack.title}
                       </div>
                     </button>
@@ -806,7 +806,7 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-1.5 px-1 py-0.5 rounded cursor-pointer transition-colors duration-200 ${isSelected ? " text-[var(--color-accent)]  font-bold  bg-[var(--color-accent)]/15" : "hover:text-white hover:bg-[#e1e6ff29]  "
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-1.5 px-1 py-0.5 rounded transition-colors duration-200 ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover:bg-[#e1e6ff29] cursor-pointer"
                             }`}
                         >
                           <span className="text-[8px] font-mono opacity-50 w-3.5 text-right">{track.number}.</span>
