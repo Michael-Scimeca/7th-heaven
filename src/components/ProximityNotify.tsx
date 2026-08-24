@@ -217,8 +217,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     <section id="proximity-notify" className="site-container relative py-section-fluid bg-transparent overflow-hidden">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
-      <div className="relative z-10  mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 items-center justify-center">
+      <div className="relative z-10 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-center">
 
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
           <div className="md:col-span-5 flex justify-center items-center w-full">
