@@ -191,13 +191,15 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               <div className="relative w-full aspect-[9/18.5] bg-black/90 rounded-[56px] p-4 border-[3px] border-amber-200/25 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden group">
                 {/* Inner Screen */}
                 <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-zinc-950 flex flex-col justify-between">
-                  {/* Concert Photo Background */}
-                  <Image
-                    src="/images/band-performance.webp"
-                    alt="7th Heaven Concert Live Stream"
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"
-                    className="object-cover object-center transform  transition-transform duration-700 brightness-95"
+                  {/* Concert Video Background */}
+                  <video
+                    src="/movie/notefication.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    aria-label="7th Heaven Concert Live Stream"
+                    className="absolute inset-0 w-full h-full object-cover object-center brightness-95"
                   />
 
                   {/* Dark Gradient Overlay for Status Bar & Contrast */}
