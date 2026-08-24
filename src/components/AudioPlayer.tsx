@@ -353,7 +353,7 @@ export default function AudioPlayerSection() {
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-4">
-      <h3 className="tracking-[0.2em] uppercase text-white/40 mb-1.5">{title}</h3>
+      <h3 className=" uppercase text-white/40 mb-1.5" style={{ fontSize: "clamp(1.2rem, 1.9vw, 2.0rem)" }}>{title}</h3>
       <ul className="flex flex-col gap-0.5">
         {categoryAlbums.map((album) => {
           const originalIdx = albums.findIndex(a => a.id === album.id);
@@ -369,7 +369,7 @@ export default function AudioPlayerSection() {
                     window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId: album.id } }));
                   }
                 }}
-                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1  rounded-lg  ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0' : 'hover:bg-white/10'}`}
+                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 rounded-lg ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'hover:bg-white/10 cursor-pointer'}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
@@ -543,8 +543,8 @@ export default function AudioPlayerSection() {
             <div
               ref={sidebarScrollRef}
               onScroll={handleSidebarScroll}
-              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
-              style={{ overscrollBehavior: "contain" }}
+              className="flex-1 pr-3 pb-8 overflow-y-auto no-scrollbar min-h-0"
+              style={{ overscrollBehavior: "auto" }}
             >
               {renderAlbumList(originalCds, "Original CD's")}
               {renderAlbumList(medleyCds, "Medley CD's")}
@@ -607,11 +607,10 @@ export default function AudioPlayerSection() {
               <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
                 <div
                   ref={tracklistScrollRef}
-                  data-lenis-prevent="true"
                   onScroll={handleTracklistScroll}
-                  className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
+                  className="flex-1 overflow-y-auto px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
                   style={{
-                    overscrollBehavior: "contain",
+                    overscrollBehavior: "auto",
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                     maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                   }}
@@ -625,7 +624,7 @@ export default function AudioPlayerSection() {
                           <button
                             type="button"
                             key={`${albumIdx}-${trackIdx}`}
-                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-[#e1e6ff29]  '}`} onClick={() => {
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover:bg-[#e1e6ff29] cursor-pointer'}`} onClick={() => {
                               setActiveAlbumIndex(albumIdx);
                               setActiveTrackIndex(trackIdx);
                               setIsPlaying(true);
@@ -660,7 +659,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-[#e1e6ff29]  '}`} onClick={() => {
+                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover:bg-[#e1e6ff29] cursor-pointer'}`} onClick={() => {
                             if (isActive) togglePlay();
                             else {
                               setActiveTrackIndex(idx);
