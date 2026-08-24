@@ -1,45 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import Logo from "./Logo";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // ─── Preloader ───────────────────────────────────────────────────────────────
-// Timings below were originally measured frame-by-frame off a screen
-// recording, then corrected by live-inspecting exoape.com's actual shipped
-// source (window.$nuxt.$root + its component bundle) directly — the
-// recording-based numbers for the fill duration and dim hold turned out to
-// be off, the source values are ground truth:
-//   - instant cut to black (ONE frame, not a fade)
-//   - mark is on screen at 20% brightness (exoape: rgba(light-grey, 0.2) on
-//     their dim `.background` layer) with NO hold — their fill tween starts
-//     at timeline position 0, immediately on mount
-//   - it then FILLS from the bottom edge upward over 2000ms (exoape: their
-//     `.filler` bar is an explicit GSAP `duration: 2` scaleY tween, not a
-//     fade). Not a fade here either: sampling the mark in horizontal bands
-//     showed the lowest band reaching full brightness well before the top
-//     band did — averaging brightness across the whole mark hides that
-//     completely, which is how an earlier pass concluded "opacity ramp" and
-//     got it wrong.
-//   - the mark then shrinks + fades in place (see .preloader-mark.is-leaving
-//     in globals.css) WHILE the overlay leaves as an outgoing page and the
-//     real page arrives — exoape's icon/fill group animates independently
-//     (scale 1->0, autoAlpha 1->0) at the same time as their curtain-lift,
-//     not just riding along attached to it.
-//
-// The curtain-lift step reuses page-push-out/page-push-in's easing curve
-// (not the motion itself — the preloader is a simple translateY, the route
-// transition is a measured push) so entering the site and navigating within
-// it feel like the same system rather than two independently-tuned ones.
-//
-// Runs on every full document load — PRELOAD_SCRIPT_CONTENT in layout.tsx is
-// the single gate. This component keeps no state of its own about whether it
-// has run, so there is nothing here that can disagree with that script.
+// Uses the exact same curtain overlay backdrop, logo sizing, and breathing pulse
+// animation as PageTransition.tsx so initial page entry and route-to-route
+// navigations are visually and functionally identical.
 
-// Every tunable lives in globals.css (:root) and is read back at runtime, so
-// this file cannot drift out of step with the stylesheet. These are only the
-// last-resort fallback if that CSS read fails for some reason.
-const FALLBACK = { minVisible: 2000, reveal: 1030 };
+const FALLBACK = { minVisible: 1200, reveal: 1030 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
@@ -49,7 +20,6 @@ function cssMs(name: string, fallback: number): number {
   if (!raw) return fallback;
   const n = parseFloat(raw);
   if (!Number.isFinite(n)) return fallback;
-  // Chrome normalises 620ms to .62s, so the unit must be checked, not assumed.
   return raw.endsWith("ms") ? n : n * 1000;
 }
 
@@ -62,16 +32,11 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
-  // Starts false on both server and client so hydration matches. The black for
-  // the very first paint does NOT come from this component — it comes from the
-  // html.is-preloading::before rule, which the blocking inline script in
-  // layout.tsx switches on before anything paints. Without that there would be
-  // a visible flash of the real page before React ever mounted.
   const [active, setActive] = useState(false);
   const [leaving, setLeaving] = useState(false);
-  const [fillPercent, setFillPercent] = useState(0);
   const doneRef = useRef(false);
   const pageReadyRef = useRef(false);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
@@ -109,9 +74,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       return;
     }
 
-    // Lock all scrolling while preloader is active
     lockScroll();
-
     setActive(true);
     const startedAt = performance.now();
     let rafId: number;
@@ -120,10 +83,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const finish = () => {
       if (doneRef.current) return;
       doneRef.current = true;
-      setFillPercent(100);
 
-      // Both layers start in the SAME frame, exactly as a route change does:
-      // the overlay leaves on page-push-out while the page arrives on page-push-in.
       setLeaving(true);
       root.classList.add("is-revealing");
 
@@ -137,51 +97,55 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       );
     };
 
-    // Smoothly animate logo fill percentage to match actual load progress
-    const currentFillRef = { current: 0 };
-    const animateFill = () => {
+    const checkReadyLoop = () => {
       if (doneRef.current) return;
       const elapsed = performance.now() - startedAt;
 
-      let target: number;
-      if (pageReadyRef.current) {
-        target = 100;
-      } else {
-        target = Math.min(90, (elapsed / 2200) * 90);
-      }
-
-      const prev = currentFillRef.current;
-      const delta = target - prev;
-      const speed = pageReadyRef.current ? 0.25 : 0.12;
-      const nextVal = prev + delta * speed;
-      const finalVal = (pageReadyRef.current && nextVal >= 98) ? 100 : nextVal;
-      currentFillRef.current = finalVal;
-      setFillPercent(finalVal);
-
-      if (pageReadyRef.current && finalVal >= 98 && elapsed >= minVisibleMs()) {
+      if (pageReadyRef.current && elapsed >= minVisibleMs()) {
         finish();
       } else {
-        rafId = requestAnimationFrame(animateFill);
+        rafId = requestAnimationFrame(checkReadyLoop);
       }
     };
 
-    rafId = requestAnimationFrame(animateFill);
+    rafId = requestAnimationFrame(checkReadyLoop);
 
     waitForPageReady().then(() => {
       pageReadyRef.current = true;
     });
 
-    // Hard backstop timeout: ensure finish() is triggered even if an asset stalls
-    timers.push(setTimeout(() => {
-      pageReadyRef.current = true;
-      finish();
-    }, 5000));
+    timers.push(
+      setTimeout(() => {
+        pageReadyRef.current = true;
+        finish();
+      }, 5000)
+    );
 
     return () => {
       cancelAnimationFrame(rafId);
       timers.forEach(clearTimeout);
     };
   }, [forceShow, onComplete]);
+
+  // Logo breathing shimmer pulse — identical to PageTransition.tsx
+  useEffect(() => {
+    if (!active || leaving) return;
+    const logo = logoRef.current;
+    if (!logo) return;
+
+    const tween = gsap.to(logo, {
+      opacity: 0.45,
+      duration: 0.9,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+
+    return () => {
+      tween.kill();
+      gsap.set(logo, { opacity: 1 });
+    };
+  }, [active, leaving]);
 
   if (!active) return null;
 
@@ -192,15 +156,8 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       aria-label="Loading"
       aria-live="polite"
     >
-      <div className={`preloader-mark${leaving ? " is-leaving" : ""}`}>
-        <Logo className="preloader-logo preloader-logo-base" />
-        <Logo
-          className="preloader-logo preloader-logo-fill"
-          style={{
-            clipPath: `polygon(-10% ${(92 - fillPercent * 1.07).toFixed(2)}%, 110% ${(108 - fillPercent * 1.07).toFixed(2)}%, 110% 130%, -10% 130%)`,
-            animation: "none",
-          }}
-        />
+      <div ref={logoRef}>
+        <Logo className="h-8 md:h-11 w-auto text-white" />
       </div>
     </div>
   );
