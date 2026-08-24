@@ -103,6 +103,11 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
       ([entry]) => {
         if (entry.isIntersecting) {
           setVideoLoaded(true);
+          if (video) {
+            video.src = "/movie/notefication.mp4";
+            video.load();
+            video.play().catch(() => {});
+          }
           observer.disconnect();
         }
       },
@@ -221,13 +226,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               <div className="relative w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950">
                 <video
                   ref={phoneVideoRef}
+                  src={videoLoaded ? "/movie/notefication.mp4" : undefined}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  preload="none"
+                  preload={videoLoaded ? "auto" : "none"}
                   aria-label="7th Heaven Concert Live Stream"
-                  className="w-full h-full  object-contain"
+                  className="w-full h-full object-contain"
                   onCanPlay={(e) => {
                     e.currentTarget.muted = true;
                     e.currentTarget.play().catch(() => { });
@@ -236,9 +242,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     e.currentTarget.muted = true;
                     e.currentTarget.play().catch(() => { });
                   }}
-                >
-                  <source src={videoLoaded ? "/movie/notefication.mp4" : undefined} type="video/mp4" />
-                </video>
+                />
               </div>
             </IphoneClipMask>
           </div>
