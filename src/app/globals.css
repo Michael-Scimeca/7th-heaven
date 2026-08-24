@@ -5942,6 +5942,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 .progressive-blur.is-top {
   top: -1px;
   bottom: auto;
+  height: 90px;
   transform: rotate(180deg) translate(0);
 }
 
@@ -5951,7 +5952,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   inset: 0;
   pointer-events: none;
   z-index: 10;
-  background: linear-gradient(to top, #0a010df0 0%, #0000 50%);
+  background: linear-gradient(to top, rgba(10, 1, 13, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .progressive-blur.is-bottom {
