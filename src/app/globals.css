@@ -1409,7 +1409,7 @@ select::placeholder,
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
-    font-family: 'Switzer', var(--font-barlow), "Barlow", system-ui, sans-serif;
+    font-family: 'Switzer', system-ui, sans-serif;
     font-weight: 400;
     font-size: 1rem;
     line-height: var(--leading-body, 1.65);
@@ -1455,7 +1455,7 @@ select::placeholder,
   h4,
   h5,
   h6 {
-    font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+    font-family: 'Switzer', sans-serif;
     /* Base: no margin — components control their own spacing */
     margin: 0;
   }
@@ -1617,7 +1617,7 @@ select::placeholder,
 
 /* ── Display / Hero Headings ── */
 @utility heading-hero {
-  font-family: var(--font-family-display), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-display, 'Switzer', sans-serif);
   font-size: clamp(3.5rem, 8vw, 7rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -1626,7 +1626,7 @@ select::placeholder,
 }
 
 @utility heading-section {
-  font-family: var(--font-family-heading), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-heading, 'Switzer', sans-serif);
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -1635,7 +1635,7 @@ select::placeholder,
 }
 
 @utility heading-card {
-  font-family: var(--font-family-heading), 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: var(--font-family-heading, 'Switzer', sans-serif);
   font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -1645,7 +1645,7 @@ select::placeholder,
 
 /* ── Body Text ── theme-aware, works in light and dark mode */
 @utility text-body {
-  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: var(--leading-body, 1.65);
@@ -1654,7 +1654,7 @@ select::placeholder,
 
 /* ── Editorial body — relaxed for long-form reading ── */
 @utility text-editorial {
-  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', sans-serif;
   font-size: 1.0625rem;
   /* 17px — slightly larger for reading comfort */
   font-weight: 400;
@@ -1666,7 +1666,7 @@ select::placeholder,
 
 /* ── Eyebrow / Section Label ── */
 @utility text-eyebrow {
-  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1677,7 +1677,7 @@ select::placeholder,
 
 /* ── UI Label — for badges, table headers, nav items ── */
 @utility text-label {
-  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -1687,7 +1687,7 @@ select::placeholder,
 
 /* ── Caption / Metadata ── */
 @utility text-caption {
-  font-family: 'Switzer', var(--font-barlow), "Barlow", sans-serif;
+  font-family: 'Switzer', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   line-height: var(--leading-body, 1.65);
@@ -5928,7 +5928,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   isolation: isolate;
   contain: paint;
   width: 100%;
-  height: calc(10em + 20px);
+  height: 80px;
   transform-style: preserve-3d;
   position: fixed;
   bottom: 0px;
@@ -5943,14 +5943,15 @@ html.is-preloading.is-revealing #page-content-wrapper {
   transform: rotate(180deg) translate(0);
 }
 
-.progressive-blur.is-top::before {
+/* .progressive-blur.is-top::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 10;
   background: linear-gradient(to top, #0a010df0 0%, #0000 50%);
-}
+  height: calc(10em + 20px);
+} */
 
 .progressive-blur.is-bottom {
   bottom: -1px;
@@ -5960,6 +5961,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   width: 100%;
   height: 100%;
   position: absolute;
+  will-change: height, backdrop-filter;
 }
 
 .progressive-blur__layer.is--1 {

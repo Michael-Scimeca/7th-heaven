@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Inter, Inter_Tight, Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -8,6 +7,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
 };
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
@@ -29,48 +29,9 @@ const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
 const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive));
 const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing));
 
-import localFont from "next/font/local";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  preload: true,
-});
-
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
-
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  variable: "--font-inter-tight",
-  display: "swap",
-  preload: true,
-});
-
-const rockstar = localFont({
-  src: "../../public/Fonts/Rockstar-ExtraBold.otf",
-  variable: "--font-rockstar",
-  display: "swap",
-});
-
-const barlowCondensed = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["800"],
-  style: ["italic"],
-  variable: "--font-barlow-condensed",
-  display: "swap",
-  preload: true,
-});
-
-const barlow = Barlow({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-barlow",
-  display: "swap",
-  preload: true,
-});
 
 // Runs on EVERY full document load, matching the reference site. Gating this
 // on sessionStorage (as an earlier version did) meant refreshes and direct URL
@@ -191,7 +152,7 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`dark ${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -228,7 +189,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, 'Switzer', var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+      <body style={{ fontFamily: "var(--font-family-sans, 'Switzer', sans-serif)", letterSpacing: "0" }} suppressHydrationWarning>
         <HomeShaderGradient />
         {/* <GrainOverlay /> */}
         <Preloader />
