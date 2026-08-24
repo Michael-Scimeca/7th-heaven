@@ -5906,7 +5906,6 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
   @media (min-width: 1667px) {
     padding-top: 3vw !important;
-    padding-bottom: 3vw !important;
   }
 }
 
@@ -5918,7 +5917,6 @@ html.is-preloading.is-revealing #page-content-wrapper {
   }
 
   @media (min-width: 1667px) {
-    padding-top: 3vw !important;
     padding-bottom: 3vw !important;
   }
 }
