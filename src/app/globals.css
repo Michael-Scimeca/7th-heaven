@@ -5772,7 +5772,6 @@ html.is-preloading.is-revealing #page-content-wrapper {
   letter-spacing: -0.02em;
   color: #ffffff;
   margin: 0;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.98));
 }
 
 .su-thumb video {
@@ -5897,18 +5896,6 @@ html.is-preloading.is-revealing #page-content-wrapper {
   }
 }
 
-@utility pt-section-fluid {
-  padding-top: 7vw !important;
-
-  @media (min-width: 768px) {
-    padding-top: 7.5vw !important;
-  }
-
-  @media (min-width: 1667px) {
-    padding-top: 3vw !important;
-    padding-bottom: 3vw !important;
-  }
-}
 
 @utility pb-section-fluid {
   padding-bottom: 7vw !important;
@@ -5918,8 +5905,19 @@ html.is-preloading.is-revealing #page-content-wrapper {
   }
 
   @media (min-width: 1667px) {
-    padding-top: 3vw !important;
     padding-bottom: 3vw !important;
+  }
+}
+
+@utility pt-section-fluid {
+  padding-top: 7vw !important;
+
+  @media (min-width: 768px) {
+    padding-top: 7.5vw !important;
+  }
+
+  @media (min-width: 1667px) {
+    padding-top: 3vw !important;
   }
 }
 
@@ -5940,10 +5938,10 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 .progressive-blur.is-top {
-  top: -1px;
+  top: 0px;
   bottom: auto;
-  height: 90px;
-  transform: rotate(180deg) translate(0);
+  height: 80px;
+  transform: none;
 }
 
 .progressive-blur.is-top::before {
@@ -5952,7 +5950,28 @@ html.is-preloading.is-revealing #page-content-wrapper {
   inset: 0;
   pointer-events: none;
   z-index: 10;
-  background: linear-gradient(to top, rgba(10, 1, 13, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to bottom, rgba(5, 3, 10, 0.65) 0%, rgba(5, 3, 10, 0.2) 70%, rgba(0, 0, 0, 0) 100%);
+}
+
+.progressive-blur.is-top .progressive-blur__layer.is--1 {
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 100%);
+  mask: linear-gradient(to bottom, #000 0%, #000 30%, #0000 100%);
+}
+.progressive-blur.is-top .progressive-blur__layer.is--2 {
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 90%);
+  mask: linear-gradient(to bottom, #000 0%, #000 40%, #0000 90%);
+}
+.progressive-blur.is-top .progressive-blur__layer.is--3 {
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 80%);
+  mask: linear-gradient(to bottom, #000 0%, #000 50%, #0000 80%);
+}
+.progressive-blur.is-top .progressive-blur__layer.is--4 {
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 70%);
+  mask: linear-gradient(to bottom, #000 0%, #000 60%, #0000 70%);
+}
+.progressive-blur.is-top .progressive-blur__layer.is--5 {
+  -webkit-mask: linear-gradient(to bottom, #000 0%, #000 70%, #0000 60%);
+  mask: linear-gradient(to bottom, #000 0%, #000 70%, #0000 60%);
 }
 
 .progressive-blur.is-bottom {
