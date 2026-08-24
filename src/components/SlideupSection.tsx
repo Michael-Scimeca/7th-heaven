@@ -1,26 +1,31 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 function AutoPlayVideo({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.play().catch(() => { });
+    if (typeof IntersectionObserver === "undefined") {
+      setShouldLoad(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          setShouldLoad(true);
           video.play().catch(() => { });
         } else {
           video.pause();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "150px 0px" }
     );
 
     observer.observe(video);
@@ -42,13 +47,13 @@ function AutoPlayVideo({ src }: { src: string }) {
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={shouldLoad ? src : undefined}
       onTimeUpdate={handleTimeUpdate}
       autoPlay
       muted
       loop
       playsInline
-      preload="auto"
+      preload="none"
       className="absolute inset-0 z-[1] w-full h-full object-cover"
     />
   );

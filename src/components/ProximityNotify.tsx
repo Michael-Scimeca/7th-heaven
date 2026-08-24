@@ -84,6 +84,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const fileRef = useRef<HTMLInputElement>(null);
   const phoneVideoRef = useRef<HTMLVideoElement>(null);
 
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   useEffect(() => {
     const video = phoneVideoRef.current;
     if (!video) return;
@@ -92,26 +94,23 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     video.defaultMuted = true;
     video.playsInline = true;
 
-    const playVideo = () => {
-      if (video.paused) {
-        video.play().catch(() => {
-          // Autoplay attempt fallback
-        });
-      }
-    };
+    if (typeof IntersectionObserver === "undefined") {
+      setVideoLoaded(true);
+      return;
+    }
 
-    playVideo();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
 
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        playVideo();
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+    observer.observe(video);
+    return () => observer.disconnect();
   }, []);
 
   const handleBrowserNotifyToggle = (checked: boolean) => {
@@ -226,7 +225,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   loop
                   muted
                   playsInline
-                  preload="auto"
+                  preload="none"
                   aria-label="7th Heaven Concert Live Stream"
                   className="w-full h-full  object-contain"
                   onCanPlay={(e) => {
@@ -238,7 +237,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     e.currentTarget.play().catch(() => { });
                   }}
                 >
-                  <source src="/movie/notefication.mp4" type="video/mp4" />
+                  <source src={videoLoaded ? "/movie/notefication.mp4" : undefined} type="video/mp4" />
                 </video>
               </div>
             </IphoneClipMask>

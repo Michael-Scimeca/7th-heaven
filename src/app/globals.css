@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-.via-pink-600 {
-  --tw-gradient-via: lab(29 38.77 -82.2);
-  --tw-gradient-via-stops: var(--tw-gradient-position), lab(19 45.56 -43.4) var(--tw-gradient-from-position), lab(11 35.97 -52.38) var(--tw-gradient-via-position), lab(28 44.98 -49.34) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-via-stops);
-}
-
 /* PageSpeed optimization: Force initial content to be displayed immediately on FCP/LCP paint */
 html:not(.specificity),
 html>body,
@@ -59,16 +53,6 @@ body {
 @utility py-section-3 {
   padding-top: clamp(50px, 2.89vw + 33.76px, 80px) !important;
   padding-bottom: clamp(50px, 2.89vw + 33.76px, 80px) !important;
-}
-
-@utility pb-section-fluid {
-  padding-top: 0px !important;
-  padding-bottom: clamp(50px, 2.89vw + 33.76px, 80px) !important;
-}
-
-@utility pt-section-fluid {
-  padding-top: clamp(50px, 2.89vw + 33.76px, 80px) !important;
-  padding-bottom: 0px !important;
 }
 
 body,

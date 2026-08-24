@@ -262,12 +262,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // video/poster and stealing bandwidth + fetch priority from it. Lighthouse's simulated
   // mobile run showed this clearly: observed (real) LCP was 4.1s, but the throttled lab
   // estimate ballooned to ~12s because of this contention. Deferring to idle keeps tiles
-  // loading "behind the preloader" in practice (idle fires within a beat on a real device)
-  // while letting the critical hero content win the network/CPU priority race.
+  // Defer loading Google Maps API until the tour map element approaches viewport threshold.
+  // This prevents maps.googleapis.com (main.js + util.js ~153KB) from loading on initial page render,
+  // saving ~1.26s of unused JS execution time and eliminating content Contention with Hero LCP.
   useEffect(() => {
     let active = true;
-    let idleHandle: number | null = null;
-    let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
+    const container = mapRef.current;
 
     const loadMaps = () => {
       if (!active) return;
@@ -291,20 +291,26 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         });
     };
 
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      idleHandle = (window as any).requestIdleCallback(loadMaps, { timeout: 1500 });
-    } else {
-      // Safari and older browsers don't support requestIdleCallback — fall back to a
-      // short delay so we still yield to the hero's initial paint/network requests.
-      timeoutHandle = setTimeout(loadMaps, 200);
+    if (!container || typeof IntersectionObserver === "undefined") {
+      loadMaps();
+      return () => { active = false; };
     }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          loadMaps();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+
+    observer.observe(container);
 
     return () => {
       active = false;
-      if (idleHandle !== null && typeof window !== "undefined" && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(idleHandle);
-      }
-      if (timeoutHandle) clearTimeout(timeoutHandle);
+      observer.disconnect();
     };
   }, []);
 
@@ -398,15 +404,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     class VenueMarkerOverlay extends google.maps.OverlayView {
       private position: google.maps.LatLng;
       private html: string;
+      private tooltipHtml: string;
       private onClickCb: () => void;
       div: HTMLDivElement | null = null;
-
       private initialZIndex: number;
 
-      constructor(position: google.maps.LatLng, html: string, onClickCb: () => void, initialZIndex: number = 1) {
+      constructor(position: google.maps.LatLng, html: string, tooltipHtml: string, onClickCb: () => void, initialZIndex: number = 1) {
         super();
         this.position = position;
         this.html = html;
+        this.tooltipHtml = tooltipHtml;
         this.onClickCb = onClickCb;
         this.initialZIndex = initialZIndex;
       }
@@ -424,7 +431,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
         div.addEventListener("mouseenter", () => {
           div.style.zIndex = "999999";
+          if (this.tooltipHtml && !div.querySelector(".custom-tooltip-card")) {
+            const tDoc = new DOMParser().parseFromString(this.tooltipHtml, "text/html");
+            const relContainer = div.querySelector(".relative") || div;
+            Array.from(tDoc.body.childNodes).forEach((node) => {
+              relContainer.appendChild(document.importNode(node, true));
+            });
+          }
         });
+
         div.addEventListener("mouseleave", () => {
           div.style.zIndex = String(this.initialZIndex);
         });
@@ -594,40 +609,39 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <text x="50" y="45" dy="0.35em" fill="${isBouncing ? '#a855f7' : cfg.color}" style="fill: ${isBouncing ? '#a855f7' : cfg.color} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
           <div class="marker-label ${isBouncing ? "active-show-label" : ""}">${isBouncing ? "⚡ UP NEXT: " : ""}${v.venue}</div>
+        </div>
+      </div>`;
 
-          <!-- Custom HTML Tooltip (Pure CSS Managed) -->
-          <div class="custom-tooltip-card">
-            <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
-              <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
-              <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
-              <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                ${tooltipShowText}
-                ${ageBadge}
-              </div>
-              ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ''}
-              ${isHappening
-          ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
-          : isNext
-            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
-            : ""}
-
-              <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
-                ${directionsHtml}
-                <div style="display:flex; gap:6px;">
-                  <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
-                    📅 Add to Cal
-                  </a>
-                  ${parkingHtml}
-                </div>
-                <div style="font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; text-align:center; font-weight:500;">👉 Click pin for details</div>
-              </div>
-
-              <!-- Arrow border -->
-              <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid ${cfg.color}aa; z-index:1; pointer-events:none;"></div>
-              <!-- Arrow fill -->
-              <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(-1px); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid rgba(8, 8, 18, 0.96); z-index:2; pointer-events:none;"></div>
-            </div>
+      const tooltipCardHtml = `<div class="custom-tooltip-card">
+        <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
+          <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
+          <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            ${tooltipShowText}
+            ${ageBadge}
           </div>
+          ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ''}
+          ${isHappening
+      ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
+      : isNext
+        ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
+        : ""}
+
+          <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+            ${directionsHtml}
+            <div style="display:flex; gap:6px;">
+              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
+                📅 Add to Cal
+              </a>
+              ${parkingHtml}
+            </div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; text-align:center; font-weight:500;">👉 Click pin for details</div>
+          </div>
+
+          <!-- Arrow border -->
+          <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid ${cfg.color}aa; z-index:1; pointer-events:none;"></div>
+          <!-- Arrow fill -->
+          <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(-1px); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid rgba(8, 8, 18, 0.96); z-index:2; pointer-events:none;"></div>
         </div>
       </div>`;
 
@@ -687,18 +701,19 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const position = new google.maps.LatLng(v.lat, v.lng);
 
       const infoWindow = new google.maps.InfoWindow({
-        content: popupHtml,
         disableAutoPan: false,
         headerDisabled: true,
       });
 
-      const overlay = new VenueMarkerOverlay(position, pinHtml, () => {
+      const overlay = new VenueMarkerOverlay(position, pinHtml, tooltipCardHtml, () => {
         // Close any other open popups before opening this one
         markersRef.current.forEach(m => { if (m.infoWindow !== infoWindow) m.infoWindow.close(); });
+        infoWindow.setContent(popupHtml);
         infoWindow.setPosition(position);
         infoWindow.open({ map });
         onPinClickRef.current?.(v.venue, firstShow.date);
       }, isBouncing ? 1000 : 1);
+      overlay.setMap(map);
       overlay.setMap(map);
 
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });

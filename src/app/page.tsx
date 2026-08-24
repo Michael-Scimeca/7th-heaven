@@ -54,27 +54,35 @@ export default function Home() {
       <HomeDataLoader />
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
-      <HomeVideoShowcase />
+      <LazySection fallbackHeight="500px">
+        <HomeVideoShowcase />
+      </LazySection>
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
-      <SlideupSection />
+      <LazySection fallbackHeight="600px">
+        <SlideupSection />
+      </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <section id="logos" className="relative w-full py-section-fluid">
+      <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
         <LogoTicker items={ARTIST_LOGOS} direction="left" />
         <LogoTicker items={PRESS_LOGOS} direction="right" />
-      </section>
+      </LazySection>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <HomeNewsSection />
+      <LazySection fallbackHeight="400px">
+        <HomeNewsSection />
+      </LazySection>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <HomeMerch />
+      <LazySection fallbackHeight="400px">
+        <HomeMerch />
+      </LazySection>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <section id="music" className="relative w-full min-h-[600px] py-section-fluid overflow-visible">
+      <LazySection fallbackHeight="600px" id="music" className="relative w-full min-h-[600px] py-section-fluid overflow-visible">
         <AudioPlayerSection />
-      </section>
+      </LazySection>
     </div>
   );
 }

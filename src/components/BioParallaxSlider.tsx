@@ -68,52 +68,6 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
   },
 ];
 
-const getMemberVideo = (name: string = "") => {
-  const n = name.toLowerCase();
-  if (n.includes("adam")) return "/movie/Adam.mp4";
-  if (n.includes("richard") || n.includes("rick") || n.includes("dicky") || n.includes("rich")) return "/movie/Rich.mp4";
-  if (n.includes("frankie")) return "/movie/Frankie.mp4";
-  if (n.includes("mark")) return "/movie/Mark.mp4";
-  if (n.includes("nick")) return "/movie/Nick.mp4";
-  return "/movie/Adam.mp4";
-};
-
-function MemberVideoThumbnail({
-  src,
-  isActive,
-  className = ""
-}: {
-  src: string;
-  isActive: boolean;
-  className?: string;
-}) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
-    if (isActive) {
-      vid.play().catch(() => { });
-    } else {
-      vid.pause();
-      vid.currentTime = 0;
-    }
-  }, [isActive]);
-
-  return (
-    <video
-      ref={videoRef}
-      src={src}
-      loop
-      muted
-      playsInline
-      className={`${className} transition-colors duration-500 opacity-100 brightness-100`}
-    >
-      <track kind="captions" />
-    </video>
-  );
-}
-
 // Helper to generate smooth math-based mask gradients
 function generateSmoothMaskGradient(
   startPct: number,
@@ -703,13 +657,20 @@ lerpSpeed: ${lerpSpeed}`;
     >
 
 
-      {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
+      {/* 🎬 LEFT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
         <div className="absolute left-2 sm:left-6 md:left-8 top-[36px] z-30 flex flex-col items-start select-none">
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
+              const nameLower = (m?.name || "").toLowerCase();
+              let imageSrc = "/images/members/adam.png";
+              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
+              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
+              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
+              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
+              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
+              else if (m?.image) imageSrc = typeof m.image === 'string' ? m.image : urlFor(m.image).url();
 
               return (
                 <button aria-label="Action button"
@@ -719,9 +680,9 @@ lerpSpeed: ${lerpSpeed}`;
                   className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                     }`}
                 >
-                  {/* Video Card (Height & gap scale down dynamically with window height) */}
+                  {/* Member Card Thumbnail */}
                   <div
-                    className="sm: overflow-hidden relative transition-colors duration-300   shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -729,7 +690,7 @@ lerpSpeed: ${lerpSpeed}`;
                       maskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)"
                     }}
                   >
-                    <MemberVideoThumbnail src={videoSrc} isActive={isActive} className="w-full h-full object-cover" />
+                    <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
@@ -751,13 +712,20 @@ lerpSpeed: ${lerpSpeed}`;
         </div>
       )}
 
-      {/* 🎬 RIGHT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
+      {/* 🎬 RIGHT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "right-spine" && (
         <div className="absolute right-2 sm:right-6 md:right-8 top-[36px] z-30 flex flex-col items-end select-none">
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
+              const nameLower = (m?.name || "").toLowerCase();
+              let imageSrc = "/images/members/adam.png";
+              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
+              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
+              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
+              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
+              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
+              else if (m?.image) imageSrc = typeof m.image === 'string' ? m.image : urlFor(m.image).url();
 
               return (
                 <button aria-label="Action button"
@@ -780,9 +748,9 @@ lerpSpeed: ${lerpSpeed}`;
                     </p>
                   </div>
 
-                  {/* Video Card (Height & gap scale down dynamically with window height) */}
+                  {/* Member Card Thumbnail */}
                   <div
-                    className="sm: overflow-hidden relative transition-colors duration-300   shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -790,7 +758,7 @@ lerpSpeed: ${lerpSpeed}`;
                       maskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)"
                     }}
                   >
-                    <MemberVideoThumbnail src={videoSrc} isActive={isActive} className="w-full h-full object-cover" />
+                    <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                   </div>
                 </button>
               );

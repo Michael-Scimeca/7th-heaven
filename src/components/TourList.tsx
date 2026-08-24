@@ -280,7 +280,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
-  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || null);
+  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || 20);
 
   // Set initial display limit to 15 on mobile (<1024px) after mount
   useEffect(() => {

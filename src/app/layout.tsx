@@ -35,6 +35,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
 });
 
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -45,6 +46,7 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-tight",
   display: "swap",
+  preload: true,
 });
 
 const rockstar = localFont({
@@ -59,6 +61,7 @@ const barlowCondensed = Barlow_Condensed({
   style: ["italic"],
   variable: "--font-barlow-condensed",
   display: "swap",
+  preload: true,
 });
 
 const barlow = Barlow({
@@ -66,6 +69,7 @@ const barlow = Barlow({
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-barlow",
   display: "swap",
+  preload: true,
 });
 
 // Runs on EVERY full document load, matching the reference site. Gating this
@@ -201,10 +205,26 @@ export default async function RootLayout({
          * this stylesheet ever fails to load. --font-rockstar (the brand
          * wordmark font) is untouched on purpose. */}
         <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+        />
         <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+          media="print"
+          onLoad={(e) => {
+            (e.currentTarget as HTMLLinkElement).media = "all";
+          }}
         />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+          />
+        </noscript>
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a

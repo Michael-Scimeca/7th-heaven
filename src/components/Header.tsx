@@ -796,12 +796,12 @@ export function Header() {
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
                   <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg  relative  group">
                     <video
-                      src="/movie/fest1-clip.mp4"
+                      src={mobileOpen ? "/movie/fest1-clip.mp4" : undefined}
                       autoPlay
                       loop
                       muted
                       playsInline
-                      preload="auto"
+                      preload="none"
                       className="w-full h-full object-cover"
                       onCanPlay={(e) => {
                         e.currentTarget.muted = true;
