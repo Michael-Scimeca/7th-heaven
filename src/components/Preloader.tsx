@@ -209,11 +209,6 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           <div className="g3" />
           <div className="g4" />
           <div className="g5" />
-          <div className="g6" />
-          <div className="g7" />
-          <div className="g8" />
-          <div className="g9" />
-          <div className="g10" />
           <div ref={interRef} className="interactive" />
         </div>
       </div>
