@@ -431,7 +431,7 @@ export default function MediaPage() {
               <HeroParallaxCustomizer {...heroParallax} />
               <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
                 <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em]  mb-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border  border-white/10    backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em]  mb-4">
                     <span>FEATURED MEDIA</span>
                   </div>
                   <h1
@@ -539,11 +539,10 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu origin-left ${
-                    isActive
-                      ? "scale-[1.08] translate-x-3 z-20 opacity-100 border-purple-400"
-                      : "scale-100 opacity-55 hover:opacity-90 border-white/10"
-                  }`}
+                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu origin-left ${isActive
+                    ? "scale-[1.08] translate-x-3 z-20 opacity-100 border-purple-400"
+                    : "scale-100 opacity-55 hover:opacity-90 border-white/10"
+                    }`}
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
@@ -554,9 +553,8 @@ export default function MediaPage() {
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
                   <div className="relative z-20">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className={`text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${
-                        isActive ? "text-purple-300" : "text-[var(--color-accent)]"
-                      }`}>
+                      <span className={`text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${isActive ? "text-purple-300" : "text-[var(--color-accent)]"
+                        }`}>
                         {video.year}
                       </span>
                     </div>
@@ -581,7 +579,7 @@ export default function MediaPage() {
                     )}
 
                     {isPlaying && (
-                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full  rounded-lg overflow-hidden    z-30 border border-white/15">
+                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full  rounded-lg overflow-hidden    z-30 border  border-white/20 ">
                         <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                       </div>
                     )}
@@ -716,7 +714,7 @@ export default function MediaPage() {
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="Paste video link or ID..."
-                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-black/60 border  border-white/20   rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
 
@@ -726,7 +724,7 @@ export default function MediaPage() {
                 if (parsed && parsed.length === 11) {
                   return (
                     <div className="p-3 bg-purple-950/40 border border-purple-500/40  rounded-lg flex items-center gap-4">
-                      <div className="relative w-24 h-14 rounded-lg overflow-hidden shrink-0 border border-white/20 bg-black">
+                      <div className="relative w-24 h-14 rounded-lg overflow-hidden shrink-0 border  border-white/10  bg-black">
                         <Image
                           src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
                           alt="Thumbnail preview"
@@ -759,7 +757,7 @@ export default function MediaPage() {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-black/60 border  border-white/20   rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
 
@@ -771,7 +769,7 @@ export default function MediaPage() {
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/60 border border-white/15  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border  border-white/20   rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400"
                   >
                     <option value="Official Music Videos">Official Music Videos</option>
                     <option value="TV Appearances">TV Appearances</option>
@@ -795,7 +793,7 @@ export default function MediaPage() {
                     value={newYear}
                     onChange={(e) => setNewYear(e.target.value)}
                     placeholder="2026"
-                    className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border  border-white/20   rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
@@ -809,7 +807,7 @@ export default function MediaPage() {
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="e.g. Filmed live at Frontier Days..."
-                  className="w-full bg-black/60 border border-white/15  rounded-lg px-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border  border-white/20   rounded-lg px-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 

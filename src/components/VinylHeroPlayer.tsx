@@ -504,13 +504,14 @@ export default function VinylHeroPlayer({
 
   const unscaledWidth = 740;
   const unscaledHeight = 315; // Height to cover header text + 250px sleeve + margin
+  const effScale = scale * 1.05;
 
   return (
     <div
       className="relative flex justify-end items-end"
       style={{
-        width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-        height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+        width: `${unscaledWidth * effScale}px`,
+        height: `${unscaledHeight * effScale}px`,
       }}
     >
       <div
@@ -518,7 +519,7 @@ export default function VinylHeroPlayer({
         style={{
           width: `${unscaledWidth}px`,
           height: `${unscaledHeight}px`,
-          transform: scale < 1 ? `scale(${scale})` : undefined,
+          transform: `scale(${effScale})`,
           transformOrigin: "bottom right",
         }}
       >
@@ -668,7 +669,7 @@ export default function VinylHeroPlayer({
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">
-                    <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow w-full">
+                    <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border  border-white/20  shadow w-full">
                       <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                       </button>
@@ -863,7 +864,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-start pt-2 pb-2 border-b border-white/10 bg-[#0a00653b] backdrop-blur-[45px]">
+              <div className="pl-3 border border-white/10  h-full flex flex-col justify-start pt-2 pb-2 bg-[#0a00653b] backdrop-blur-[45px]">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST

@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border border-white/15 bg-[#e1e6ff29]   px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-all text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border  border-white/20  bg-[#e1e6ff29]   px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-all text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

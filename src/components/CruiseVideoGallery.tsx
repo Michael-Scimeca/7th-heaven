@@ -192,7 +192,7 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  mb-3 px-4 py-1 rounded-full ">
+        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1 rounded-full ">
           Virtual Tours & Video Showcase
         </span>
         <h2
@@ -261,7 +261,7 @@ export default function CruiseVideoGallery() {
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
+                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
                   {vid.category}
                 </span>
               </div>
@@ -300,7 +300,7 @@ export default function CruiseVideoGallery() {
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3 rounded-full bg-white/15 border border-white/30 text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-all duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3 rounded-full bg-white/15 border  border-white/10  text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-all duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
           >
             <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
           </button>

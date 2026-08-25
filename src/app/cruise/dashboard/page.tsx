@@ -272,7 +272,7 @@ export default function CruiseDashboardGate() {
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                      {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
+                      {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
                     </button>
                   </form>
                 )}

@@ -190,7 +190,7 @@ function PlannerVerifyContent() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full bg-[#e1e6ff29]   border border-white/15 focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40  rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
+                className="w-full bg-[#e1e6ff29]   border  border-white/20  focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40  rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
               />
             </div>
             {errorMsg && (

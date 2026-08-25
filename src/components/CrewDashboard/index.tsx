@@ -156,7 +156,7 @@ function AvailabilityCardForm({
               required
               value={availDate}
               onChange={e => setAvailDate(e.target.value)}
-              className="w-full px-3 py-2  border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+              className="w-full px-3 py-2  border  border-white/20  text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
             />
           </div>
           <div>
@@ -165,7 +165,7 @@ function AvailabilityCardForm({
               id="avail-type-select"
               value={availType}
               onChange={e => setAvailType(e.target.value as any)}
-              className="w-full px-3 py-2  border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+              className="w-full px-3 py-2  border  border-white/20  text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
             >
               <option value="unavailable" className=" text-white">Unavailable / Blackout</option>
               <option value="available" className=" text-white">Available</option>
@@ -178,7 +178,7 @@ function AvailabilityCardForm({
                 id="avail-note-select"
                 value={availNote}
                 onChange={e => setAvailNote(e.target.value)}
-                className="w-full px-3 py-2  border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2  border  border-white/20  text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select note / reason...</option>
                 <option value="Out of town" className=" text-white">Out of town</option>
@@ -201,7 +201,7 @@ function AvailabilityCardForm({
         </form>
 
         {myAvailabilities.length === 0 ? (
-          <div className="text-center py-6 border rounded-lg border-dashed border-white/15 bg-white/[0.01]">
+          <div className="text-center py-6 border rounded-lg border-dashed  border-white/20  bg-white/[0.01]">
             <p className="text-white/40 text-xs italic">No availability blocks configured yet.</p>
           </div>
         ) : (
@@ -241,7 +241,7 @@ function TimeOffCardForm({
               required
               value={timeOffDate}
               onChange={e => setTimeOffDate(e.target.value)}
-              className="w-full px-3 py-2  border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+              className="w-full px-3 py-2  border  border-white/20  text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
             />
           </div>
           <div className="sm:col-span-2 flex gap-3 items-end">
@@ -252,7 +252,7 @@ function TimeOffCardForm({
                 required
                 value={timeOffReason}
                 onChange={e => setTimeOffReason(e.target.value)}
-                className="w-full px-3 py-2  border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2  border  border-white/20  text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select reason for time-off...</option>
                 <option value="Family vacation" className=" text-white">Family vacation</option>
@@ -274,7 +274,7 @@ function TimeOffCardForm({
         </form>
 
         {myTimeOffRequests.length === 0 ? (
-          <div className="text-center py-6 rounded-lg border border-dashed border-white/15 bg-white/[0.01]">
+          <div className="text-center py-6 rounded-lg border border-dashed  border-white/20  bg-white/[0.01]">
             <p className="text-white/40 text-xs italic">No time-off requests submitted yet.</p>
           </div>
         ) : (
@@ -2672,7 +2672,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <header>
         <div className="py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full  flex items-center justify-center text-xl font-bold border border-[var(--color-accent)]/30 relative">
+            <div className="w-12 h-12 rounded-full  flex items-center justify-center text-xl font-bold border   border-white/10 relative">
               {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
             </div>
             <div className="flex flex-col">
@@ -2709,7 +2709,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-[#e1e6ff29]   border-white/15  text-white '}`}>
+                <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-[#e1e6ff29]    border-white/20   text-white '}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
@@ -2719,7 +2719,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <span className="text-xs font-bold  text-white  uppercase tracking-wider hidden sm:inline whitespace-nowrap">
                 {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
               </span>
-              <div className={`w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+              <div className={`w-8 h-8 rounded-full border  border-white/20  flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
                 ▼
               </div>
             </div>
@@ -2735,7 +2735,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="appearance-none bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 text-xs font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                      className="appearance-none bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 text-xs font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
                       onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -2750,7 +2750,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest  flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest  flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2777,7 +2777,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </p>
                   </div>
                   <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border  border-[var(--color-accent)]/30 hover:border-emerald-500/50 transition-colors">
+                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border    border-white/10 hover:border-emerald-500/50 transition-colors">
                       Open <span className="ml-0.5">→</span>
                     </Link>
                     <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs  font-bold  uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
@@ -2847,10 +2847,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         <span className="text-xs  font-bold  text-white uppercase tracking-widest">Live</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/15 rounded-full flex items-center gap-1.5 text-white/90">
+                      <div className="px-3 py-1 bg-black/60 backdrop-blur border  border-white/20  rounded-full flex items-center gap-1.5 text-white/90">
                         <span className="text-xs font-medium">{viewerCount} Viewers</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/15 rounded-full flex items-center gap-1.5 text-white/90">
+                      <div className="px-3 py-1 bg-black/60 backdrop-blur border  border-white/20  rounded-full flex items-center gap-1.5 text-white/90">
                         <span className="text-xs font-medium">{formatTime(elapsed)}</span>
                       </div>
                     </div>
@@ -3138,7 +3138,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-lg text-[var(--font-size-4xs)] !text-white font-bold uppercase tracking-wider flex items-center gap-1  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-2 py-0.5 rounded"
+                              className="rounded-lg text-[var(--font-size-4xs)] !text-white font-bold uppercase tracking-wider flex items-center gap-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-2 py-0.5 rounded"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -3157,7 +3157,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 e.target.value = "";
                               }
                             }}
-                            className="w-full border border-white/20 p-3 text-white font-bold text-sm outline-none cursor-pointer appearance-none"
+                            className="w-full border  border-white/10  p-3 text-white font-bold text-sm outline-none cursor-pointer appearance-none"
                             style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
                           >
                             <option value="" className="text-white/40 bg-black">Select product to add to Flash Drop...</option>
@@ -3172,19 +3172,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
                           <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
-                            <div className="text-center py-6 rounded-lg border border-white/15  text-white  italic text-xs">
+                            <div className="text-center py-6 rounded-lg border  border-white/20   text-white  italic text-xs">
                               No products selected yet. Select a product above.
                             </div>
                           ) : (
                             selectedProducts.map(p => (
-                              <div key={p.id} className="flex gap-4 p-3 border border-white/15 items-center justify-between text-white bg-[#e1e6ff29]  ">
+                              <div key={p.id} className="flex gap-4 p-3 border  border-white/20  items-center justify-between text-white bg-[#e1e6ff29]  ">
                                 <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
                                   <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
-                                  <div className="flex items-center bg-black/60 border border-white/15 rounded-lg px-2 py-1 max-w-[90px]">
+                                  <div className="flex items-center bg-black/60 border  border-white/20  rounded-lg px-2 py-1 max-w-[90px]">
                                     <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
                                     <input
                                       type="text"
@@ -3219,7 +3219,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   selectEl.focus();
                                 }
                               }}
-                              className="w-full bg-[#e1e6ff29] h-[36px] border border-white/20 hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                              className="w-full bg-[#e1e6ff29] h-[36px] border  border-white/10  hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                               title="Click to select products from the dropdown above"
                             >
                               <span className="font-mono text-purple-300 font-extrabold">{selectedProducts.length}</span>
@@ -3236,7 +3236,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-[#e1e6ff29]   border-white/15  text-white  hover:bg-white/10'}`}
+                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-[#e1e6ff29]    border-white/20   text-white  hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3325,7 +3325,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className={`w-full bg-[#e1e6ff29] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
+                                    className={`w-full bg-[#e1e6ff29] border  border-white/10  rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
                                   />
                                 </div>
                               </div>
@@ -3341,12 +3341,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.min || ''}
                                     onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29] border border-white/30 px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#e1e6ff29] border  border-white/10  px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
                                   />
                                 </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)]  font-bold  uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/30  whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)]  font-bold  uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border  border-white/10   whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                     {raffleEntrants.length} / {item.min} Entries
                                   </div>
                                 )}
@@ -3363,7 +3363,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.qty || ''}
                                     onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29] border border-white/30  px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#e1e6ff29] border  border-white/10   px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
                                   />
                                 </div>
                               </div>
@@ -3403,7 +3403,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/20 text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:border-white/50 hover:bg-[#e1e6ff29]   transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed  border-white/10  text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:border-white/50 hover:bg-[#e1e6ff29]   transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3416,8 +3416,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-widest mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
-                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border  border-white/20  rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
+                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border  border-white/20  rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
                           </div>
                           <button
                             type="button"
@@ -3491,7 +3491,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newCustomWord}
                             onChange={e => setNewCustomWord(e.target.value)}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#e1e6ff29]   border border-white/15 px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full bg-[#e1e6ff29]   border  border-white/20  px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <CosmicRadialButton
@@ -3507,7 +3507,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
                       <p className="text-xs  font-bold  uppercase tracking-widest  text-white ">Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="text-center rounded-lg py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                        <div className="text-center rounded-lg py-6 border border-dashed  border-white/20  bg-white/[0.01]">
                           <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
                         </div>
                       ) : (
@@ -3515,7 +3515,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/15 text-xs font-bold text-white"
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border  border-white/20  text-xs font-bold text-white"
                             >
                               <span>{word}</span>
                               <button
@@ -3777,16 +3777,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                         setIsEmailModalOpen(true);
                       }}
-                      className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white rounded-full text-xs  font-bold  uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
+                      className="px-3 py-1 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white rounded-full text-xs  font-bold  uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
                     >
                       Contact Admins
                     </button>
                     {pendingShifts.length > 0 && (
-                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border   border-white/10  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
                         {pendingShifts.length} Pending
                       </span>
                     )}
-                    <span className="px-3 py-1 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px rounded-full text-xs  font-bold  uppercase tracking-widest">
+                    <span className="px-3 py-1 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px rounded-full text-xs  font-bold  uppercase tracking-widest">
                       {activeShifts.length} Shifts
                     </span>
                     <button
@@ -3902,7 +3902,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 {/* Role & Location Column */}
                                 <div className="flex-1 min-w-[160px]">
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded">
+                                    <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border   border-white/10  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded">
                                       {shift.role}
                                     </span>
                                     {(() => {
@@ -3970,7 +3970,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                         ✓ Confirmed
                                       </span>
                                       {shift.isCoverageRequested ? (
-                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-[var(--color-accent)]/10 border-[var(--color-accent)]/30  text-[var(--color-accent)] animate-pulse">
+                                        <span className="px-1.5 py-0.5 rounded border text-[9px]  font-bold  uppercase tracking-wider shrink-0 bg-[var(--color-accent)]/10   border-white/10  text-[var(--color-accent)] animate-pulse">
                                           ⏳ Coverage Requested
                                         </span>
                                       ) : (
@@ -4124,7 +4124,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
                                   <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift
                                     ? 'bg-purple-600/10 border-purple-500/30'
-                                    : 'bg-[#e1e6ff29]   border-white/15'
+                                    : 'bg-[#e1e6ff29]    border-white/20 '
                                     }`}>
                                     <span className={`text-[8px]  font-bold  uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
                                     <span className="text-xs  font-bold  text-white leading-none mt-0.5">{dayNum}</span>
@@ -4181,7 +4181,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
                                   {userShift ? (
                                     <div className="flex items-center gap-1.5">
-                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded leading-none">
+                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border   border-white/10  text-[var(--color-accent)] text-[9px]  font-bold  uppercase tracking-wider rounded leading-none">
                                         🛡️ {userShift.role}
                                       </span>
                                       {userShift.approvalStatus === 'approved' ? (
@@ -4244,7 +4244,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-emerald-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border  border-white/20  hover:border-emerald-500/40"
                                           >
                                             🟢 Available
                                           </button>
@@ -4270,7 +4270,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-purple-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px]  font-bold  uppercase tracking-wider rounded transition-colors cursor-pointer border  border-white/20  hover:border-purple-500/40"
                                           >
                                             🔴 Unavailable
                                           </button>
@@ -4294,13 +4294,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="bg-white border border-black/10 overflow-hidden shadow-md mt-6">
                   <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl">🚨</div>
+                      <div className="w-10 h-10 bg-[var(--color-accent)]/20 border   border-white/10 flex items-center justify-center text-xl">🚨</div>
                       <div>
                         <h3 className="text-sm  font-bold  italic tracking-widetext-black">Available Shift Coverage Requests</h3>
                         <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
                       </div>
                     </div>
-                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
+                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border   border-white/10  text-[var(--color-accent)] rounded-full text-xs  font-bold  uppercase tracking-widest animate-pulse">
                       {coverageShifts.length} Available
                     </span>
                   </div>

@@ -526,7 +526,7 @@ function AddVariantForm({
   };
 
   return (
-    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed border-white/20 rounded-lg p-3">
+    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed  border-white/10  rounded-lg p-3">
       <div>
         <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Label</label>
         <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />

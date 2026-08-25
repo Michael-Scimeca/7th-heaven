@@ -151,10 +151,10 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/15 min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
+        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border  border-white/20  min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"}  rounded-lg ${open
             ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
-            : "bg-[#a855f71f] border-white/15 text-white/90 hover:bg-[#221547]"
+            : "bg-[#a855f71f]  border-white/20  text-white/90 hover:bg-[#221547]"
           } ${noBorder ? "!border-none" : ""
           } flex items-center gap-3 cursor-pointer transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}

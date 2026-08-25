@@ -217,7 +217,7 @@ export default function FAQPage() {
             return (
               <div
                 key={faq.id}
-                className="bg-transparent overflow-hidden transition-colors duration-300 border-b border-white/15"
+                className="bg-transparent overflow-hidden transition-colors duration-300 border-b  border-white/20 "
                 style={{
                   borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
                 }}

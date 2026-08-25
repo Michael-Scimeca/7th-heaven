@@ -169,7 +169,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div className={`relative  rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white  font-bold  shadow-2xlbackdrop-blur-[18px]  cursor-pointer hover:scale-105 transition duration-300`}>
-      <div className="flex items-center justify-between gap-1 border-b border-white/20 pb-1.5 mb-2">
+      <div className="flex items-center justify-between gap-1 border-b  border-white/10  pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-full bg-black/40 text-cyan-300 font-mono text-[9px] font-bold">
           ROOT 0.0
         </span>
@@ -277,7 +277,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       </div>
 
       {data.imgUrl && (
-        <div className="mt-2.5 rounded-lg overflow-hidden border border-white/15 relative h-28 bg-black/50 shadow-inner">
+        <div className="mt-2.5 rounded-lg overflow-hidden border  border-white/20  relative h-28 bg-black/50 shadow-inner">
           <Image src={data.imgUrl} alt={data.label} fill unoptimized sizes="256px" className="object-cover object-top hover:scale-105 transition duration-300" />
         </div>
       )}

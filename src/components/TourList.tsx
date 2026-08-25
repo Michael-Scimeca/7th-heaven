@@ -1441,7 +1441,7 @@ ${filterLine}
                     {/* Header Row: Date Badge & Time */}
                     <div className="flex items-center justify-between gap-2 ">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs  font-bold  tracking-wider uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  tracking-wider uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1459,7 +1459,7 @@ ${filterLine}
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border border-white/15 rounded-lg whitespace-nowrap">
+                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border  border-white/20  rounded-lg whitespace-nowrap">
                                 {show.time}
                               </span>
                             )}
@@ -1589,7 +1589,7 @@ ${filterLine}
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2   border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px]  backdrop-blur-[45px] font-sans">
+                              <div className="absolute left-0 mt-2   border  border-white/20  rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px]  backdrop-blur-[45px] font-sans">
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>

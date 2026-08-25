@@ -197,7 +197,7 @@ export default function ProximitySubscriberAdminPanel() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search subscribers by name, zip code, or device..."
-            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60  rounded-lg pl-10 pr-4 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
+            className="w-full bg-black/40 border  border-white/20  focus:border-purple-500/60  rounded-lg pl-10 pr-4 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none transition-colors"
           />
         </div>
 
@@ -208,7 +208,7 @@ export default function ProximitySubscriberAdminPanel() {
           <select
             value={radiusFilter}
             onChange={(e) => setRadiusFilter(e.target.value)}
-            className="w-full bg-black/40 border border-white/15 focus:border-purple-500/60  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none cursor-pointer"
+            className="w-full bg-black/40 border  border-white/20  focus:border-purple-500/60  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none cursor-pointer"
           >
             <option value="all">All Distances</option>
             <option value="15">15 Miles Only</option>

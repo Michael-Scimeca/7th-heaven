@@ -78,7 +78,7 @@ export function DailyPoll() {
   const totalVotes = POLL_OPTIONS.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border  border-[var(--color-accent)]/30 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border    border-white/10 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🗳️</span>
       </div>
@@ -505,7 +505,7 @@ export function BookingManager({ email }: { email?: string }) {
           disabled={registering}
           className="w-full mt-2 py-2.5 text-white  font-bold  tracking-wider text-xs rounded-lg disabled:opacity-50"
         >
-          {registering ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
+          {registering ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
       </form>
     </div>

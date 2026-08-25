@@ -1691,7 +1691,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg border border-white/15 bg-[#e1e6ff29]   text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
+            className="px-3 py-1.5 rounded-lg border  border-white/20  bg-[#e1e6ff29]   text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
           >
             <span>XML</span>
             <ExternalLink className="w-3 h-3" />
@@ -1714,12 +1714,12 @@ export default function VisualSitemapClient() {
           colorMode="dark"
         >
           <Background color="#1e1b2e" gap={24} size={1} />
-          <Controls className="!bg-black/90 !border-white/15 !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
+          <Controls className="!bg-black/90 ! border-white/20  !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
             nodeColor="#71717a"
-            className="!bg-black/90 !border-white/15 ! rounded-lg !shadow-2xl"
+            className="!bg-black/90 ! border-white/20  ! rounded-lg !shadow-2xl"
           />
         </ReactFlow>
       </div>

@@ -50,7 +50,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {/* ── LAYOUT 1: HERO FEATURED BENTO ── */}
       {activeLayout === 1 && (
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2 p-8 md:p-10  rounded-lg bg-[var(--color-surface-raised)] border border-[var(--color-accent)]/30 shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-[18px]  flex flex-col justify-between group hover:border-[var(--color-accent)] transition-colors">
+          <div className="md:col-span-2 p-8 md:p-10  rounded-lg bg-[var(--color-surface-raised)] border   border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-[18px]  flex flex-col justify-between group hover:border-[var(--color-accent)] transition-colors">
             <div className="flex justify-between items-start mb-6">
               <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30">
                 {stats[0].badge}

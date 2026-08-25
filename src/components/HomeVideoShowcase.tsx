@@ -520,9 +520,8 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className={`smooothy-slide group flex flex-col shrink-0 transition-all duration-300 transform-gpu hover:scale-[1.035] active:scale-[1.05] ${
-                  activeModalVideo?.id === video.id ? "scale-[1.05] z-30" : "z-10"
-                }`}
+                className={`smooothy-slide group flex flex-col shrink-0 transition-all duration-300 transform-gpu hover:scale-[1.035] active:scale-[1.05] ${activeModalVideo?.id === video.id ? "scale-[1.05] z-30" : "z-10"
+                  }`}
                 style={{
                   width: smooothyVertical
                     ? "100%"
@@ -536,11 +535,10 @@ export default function HomeVideoShowcase() {
                 {/* Video Card Container */}
                 <div
                   style={{ height: "clamp(300px, 35vw, 600px)" }}
-                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 ${
-                    activeModalVideo?.id === video.id
-                      ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
-                      : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
-                  }`}
+                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 ${activeModalVideo?.id === video.id
+                    ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
+                    : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+                    }`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
@@ -587,7 +585,7 @@ export default function HomeVideoShowcase() {
                         {video.badges.map((badge, bIdx) => (
                           <span
                             key={badge + bIdx}
-                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border border-white/30 backdrop-blur-md text-white   mb-1"
+                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border  border-white/10  backdrop-blur-md text-white   mb-1"
                           >
                             {badge}
                           </span>
@@ -627,10 +625,10 @@ export default function HomeVideoShowcase() {
       {/* Full Video Modal Lightbox */}
       {activeModalVideo && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border border-white/20   ">
+          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border  border-white/10    ">
             <button
               onClick={() => setActiveModalVideo(null)}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
+              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white border  border-white/10  flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Close Modal"
             >
               <X className="w-5 h-5" />

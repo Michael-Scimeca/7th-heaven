@@ -239,7 +239,7 @@ export default function StickyNotesOverlay() {
           <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 pr-1">Sticky Notes</span>
         </button>
       ) : (
-        <div className="fixed bottom-5 right-5 z-[99999] flex items-center gap-2 bg-black/90 backdrop-blur-xl border border-white/20 p-2 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+        <div className="fixed bottom-5 right-5 z-[99999] flex items-center gap-2 bg-black/90 backdrop-blur-xl border  border-white/10  p-2 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
           <button
             type="button"
             onClick={handleAddInstantNote}
@@ -253,7 +253,7 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={handleToggleGlobalVisibility}
             title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
-            className={`p-2  rounded-lg border text-xs font-bold transition cursor-pointer ${visible ? "bg-white/10 border-white/20 text-white hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"
+            className={`p-2  rounded-lg border text-xs font-bold transition cursor-pointer ${visible ? "bg-white/10  border-white/10  text-white hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"
               }`}
           >
             {visible ? <Eye className="w-4 h-4 text-emerald-400" /> : <EyeOff className="w-4 h-4 text-red-400" />}
@@ -262,7 +262,7 @@ export default function StickyNotesOverlay() {
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
           >
             <List className="w-4 h-4 text-amber-400" />
             <span className="hidden sm:inline">Notes</span>
@@ -285,7 +285,7 @@ export default function StickyNotesOverlay() {
       {/* Admin Notes Slide-Over Drawer */}
       {isDrawerOpen && (
         <div className="fixed inset-0 z-[100000] flex justify-end bg-black/70 backdrop-blur-md">
-          <div className="w-full max-w-md bg-[#0a0713] border-l border-white/15 h-full flex flex-col p-6 shadow-2xl space-y-6 overflow-hidden">
+          <div className="w-full max-w-md bg-[#0a0713] border-l  border-white/20  h-full flex flex-col p-6 shadow-2xl space-y-6 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
                 <StickyNote className="w-5 h-5" />

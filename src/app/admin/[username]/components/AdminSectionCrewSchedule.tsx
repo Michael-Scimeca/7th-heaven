@@ -620,7 +620,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     return [(
                       <span
                         key={tag}
-                        className="px-1.5 py-0.5 rounded text-[8.5px]  font-bold  uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
+                        className="px-1.5 py-0.5 rounded text-[8.5px]  font-bold  uppercase tracking-wider leading-none bg-black/40 text-white/80 border  border-white/20  select-none"
                       >
                         {tag}
                       </span>
@@ -653,7 +653,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <span className="text-[var(--font-size-4xs)] font-bold text-white/90 font-mono tracking-tight">{timeLabel}</span>
               <div className="flex items-center gap-1">
                 {showOverlapAvatar && shift.crewId && shift.crewId !== 'openshifts' && (
-                  <div className="w-4 h-4 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-[var(--font-size-5xs)] font-bold uppercase text-white font-sans" title={shift.crewName}>
+                  <div className="w-4 h-4 rounded-full bg-white/20 border  border-white/10  flex items-center justify-center text-[var(--font-size-5xs)] font-bold uppercase text-white font-sans" title={shift.crewName}>
                     {(shift.crewName || shift.crewId).slice(0, 2).toUpperCase()}
                   </div>
                 )}
@@ -1567,7 +1567,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
           {isSectionOpen('calendar') && (<>
             {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
-            <div className="border-b border-[var(--color-accent)]/30  py-2.5 flex items-center justify-between gap-4 select-none">
+            <div className="border-b   border-white/10  py-2.5 flex items-center justify-between gap-4 select-none">
               <div className="flex items-center gap-3 flex-wrap text-xs">
                 <span className="flex items-center gap-2 font-bold text-[var(--color-accent)]">
                   <span className="relative flex h-2.5 w-2.5">
@@ -1691,7 +1691,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     ))}
                   </div>
 
-                  <div className="p-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-xs text-emerald-300 space-y-1">
+                  <div className="p-3 bg-emerald-500/10 border    border-white/10 text-xs text-emerald-300 space-y-1">
                     <div className="font-bold flex items-center gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       Conflict Prevention Active
@@ -2351,7 +2351,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                   <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider text-white/50">Assign Coverage:</span>
 
                                   {/* Tab/Toggle for Fit Role vs Override */}
-                                  <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
+                                  <div className="flex bg-black/40 p-0.5 rounded-lg border  border-white/20 ">
                                     <button
                                       type="button"
                                       onClick={() => setOnlyShowFitRole(true)}

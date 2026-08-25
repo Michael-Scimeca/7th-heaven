@@ -437,7 +437,7 @@ function CosmicRadialButtonDemo() {
               value={easingCurve}
               onChange={(e) => setEasingCurve(e.target.value)}
               disabled={renderEngine === "raf"}
-              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/20 text-white font-mono text-xs focus:outline-none cursor-pointer disabled:opacity-30"
+              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border  border-white/10  text-white font-mono text-xs focus:outline-none cursor-pointer disabled:opacity-30"
             >
               <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
               <option value="cubic-bezier(0.16, 1, 0.3, 1)">Expo Out (cubic-bezier(0.16, 1, 0.3, 1))</option>
@@ -465,7 +465,7 @@ function CosmicRadialButtonDemo() {
               onClick={() => setIsAutoDrifting(!isAutoDrifting)}
               className={`px-3.5 py-1.5 font-mono text-xs font-bold rounded-lg transition-all cursor-pointer border ${isAutoDrifting
                 ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
-                : "bg-white/10 text-white/70 border-white/20 hover:bg-white/20"
+                : "bg-white/10 text-white/70  border-white/10  hover:bg-white/20"
                 }`}
             >
               {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
@@ -479,7 +479,7 @@ function CosmicRadialButtonDemo() {
               setCopiedCode(true);
               setTimeout(() => setCopiedCode(false), 2000);
             }}
-            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold rounded-lg border border-white/20 cursor-pointer transition-all flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold rounded-lg border  border-white/10  cursor-pointer transition-all flex items-center gap-1.5"
           >
             {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedCode ? "Copied CSS!" : "Copy Generated CSS"}</span>
@@ -1662,7 +1662,7 @@ ${deskRules.join("\n")}
               <div className="px-4 py-2  rounded-lg bg-white text-black  font-bold  text-xs shadow-lg">
                 Solid White (#ffffff)
               </div>
-              <div className="px-4 py-2  rounded-lg bg-[#e1e6ff29]  0 text-black  font-bold  text-xs shadow-lg border border-white/20">
+              <div className="px-4 py-2  rounded-lg bg-[#e1e6ff29]  0 text-black  font-bold  text-xs shadow-lg border  border-white/10 ">
                 0.5 White (50%)
               </div>
             </div>
@@ -1677,7 +1677,7 @@ ${deskRules.join("\n")}
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="w-full h-20  rounded-lg border border-white/15 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  className="w-full h-20  rounded-lg border  border-white/20  overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -1794,7 +1794,7 @@ ${deskRules.join("\n")}
                 <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs transition">
                   Glass Default
                 </button>
-                <button className="px-5 py-2.5 rounded-lg bg-white/20 border border-white/30 text-white font-bold text-xs ring-2 ring-white/20">
+                <button className="px-5 py-2.5 rounded-lg bg-white/20 border  border-white/10  text-white font-bold text-xs ring-2 ring-white/20">
                   Glass Hover
                 </button>
                 <button disabled className="px-5 py-2.5 rounded-lg bg-[#e1e6ff29]   border border-white/5 text-white/30 font-bold text-xs cursor-not-allowed">
@@ -2108,7 +2108,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2149,7 +2149,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2202,7 +2202,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2245,7 +2245,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12  rounded-lg shrink-0">
                             <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2341,13 +2341,13 @@ ${deskRules.join("\n")}
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                         <div className="input-glow-border  rounded-lg w-full">
-                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                         <div className="input-glow-border  rounded-lg w-full">
-                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div className="text-right">
@@ -2445,13 +2445,13 @@ ${deskRules.join("\n")}
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
-                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                         </div>
@@ -2460,13 +2460,13 @@ ${deskRules.join("\n")}
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border  rounded-lg w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
                             <div className="input-glow-border  rounded-lg w-full">
-                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                         </div>
@@ -2476,13 +2476,13 @@ ${deskRules.join("\n")}
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                               <div className="input-glow-border  rounded-lg w-full">
-                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
                               <div className="input-glow-border  rounded-lg w-full">
-                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                           </div>
@@ -2503,7 +2503,7 @@ ${deskRules.join("\n")}
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
                                 <div className="input-glow-border  rounded-lg flex-1">
-                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
                                 </div>
                                 <div className="shrink-0 relative z-30">
                                   <GooeyDropdown
@@ -2529,13 +2529,13 @@ ${deskRules.join("\n")}
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                           <div className="input-glow-border  rounded-lg w-full">
-                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                           <div className="input-glow-border  rounded-lg w-full">
-                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                       </div>
@@ -3038,7 +3038,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5  rounded-lg border border-white/20 bg-transparent cursor-pointer"
+                    className="w-5 h-5  rounded-lg border  border-white/10  bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
                   <span className="text-[9px] font-mono  text-white  uppercase truncate max-w-[80px]">
@@ -3750,7 +3750,7 @@ ${deskRules.join("\n")}
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6  rounded-lg border border-white/20 bg-transparent cursor-pointer ml-auto"
+                    className="w-6 h-6  rounded-lg border  border-white/10  bg-transparent cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
                 </div>
@@ -3798,7 +3798,7 @@ ${deskRules.join("\n")}
                   </div>
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-8 h-8 rounded-lg border border-white/20 shrink-0"
+                      className="w-8 h-8 rounded-lg border  border-white/10  shrink-0"
                       style={{ backgroundColor: currentValue }}
                     />
                     <input

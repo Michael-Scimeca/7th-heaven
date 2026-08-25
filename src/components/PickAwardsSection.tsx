@@ -179,7 +179,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
             const pick = pickTypes.find((p) => p.id === selectedPick);
             if (!pick || pick.owned === 0) return null;
             return (
-              <div className="mb-6 p-4 border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
+              <div className="mb-6 p-4 border   border-white/10 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
@@ -252,7 +252,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/30 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
+                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border   border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}

@@ -119,7 +119,7 @@ export default function AdminFeedPost() {
                 {m.avatar}
               </div>
             ))}
-            <div className="w-8 h-8 rounded-full border-2 border-dashed border-white/20 flex items-center justify-center text-white/20 text-xs">+</div>
+            <div className="w-8 h-8 rounded-full border-2 border-dashed  border-white/10  flex items-center justify-center text-white/20 text-xs">+</div>
           </div>
           <span className="text-xs text-white/30 font-bold uppercase tracking-widest">
             {onlineMembers.length} Crew Active
@@ -251,7 +251,7 @@ export default function AdminFeedPost() {
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-3 h-3 border  border-white/10  border-t-white rounded-full animate-spin" />
                 Posting...
               </span>
             ) : (

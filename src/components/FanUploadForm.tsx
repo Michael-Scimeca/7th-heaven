@@ -276,7 +276,7 @@ export default function FanUploadForm() {
                       const file = selectedFiles[i];
                       const isVideo = file && (file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov'));
                       return (
-                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border border-white/20 group">
+                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border  border-white/10  group">
                           {isVideo ? (
                             <video src={src} className="w-full h-full object-cover" muted playsInline>
                               <track kind="captions" />
@@ -294,14 +294,14 @@ export default function FanUploadForm() {
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
                       }}
-                      className="plus-button aspect-square rounded-lg border-2 border-dashed border-white/30 flex flex-col items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                      className="plus-button aspect-square rounded-lg border-2 border-dashed  border-white/10  flex flex-col items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="absolute inset-2.5 border-2 border-dashed border-white/20  rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
+                    <div className="absolute inset-2.5 border-2 border-dashed  border-white/10   rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
                     <div className="text-center p-6 relative z-10 flex flex-col items-center">
                       <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)] shadow-[0_0_25px_rgba(255,10,61,0.2)] group-hover:scale-110 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -315,7 +315,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
-                    <div className="w-10 h-10 border-2  border-[var(--color-accent)]/30 border-t-emerald-500 rounded-full animate-spin mb-3" />
+                    <div className="w-10 h-10 border-2    border-white/10 border-t-emerald-500 rounded-full animate-spin mb-3" />
                     <p className="text-white  font-bold  text-sm uppercase tracking-widest">Safety Scan</p>
                     <p className="text-emerald-400 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>

@@ -541,7 +541,7 @@ export default function CruiseDashboard() {
                   {authError && <p className="text-rose-500 text-xs mt-2 text-center font-bold">{authError}</p>}
 
                   <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
+                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
@@ -590,7 +590,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Access Cruise Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
@@ -616,7 +616,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
                   )}
@@ -704,7 +704,7 @@ export default function CruiseDashboard() {
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
@@ -714,7 +714,7 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
@@ -774,7 +774,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -784,13 +784,13 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
                       <span className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] border border-white/15  rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] border  border-white/20   rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
@@ -865,7 +865,7 @@ export default function CruiseDashboard() {
                 onClick={() => setActiveItinYear(2027)}
                 className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
                   ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                  : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >
                 2027 Star of the Seas (7-Night)
@@ -875,7 +875,7 @@ export default function CruiseDashboard() {
                 onClick={() => setActiveItinYear(2028)}
                 className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
                   ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                  : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >
                 2028 Legend of the Seas (8-Night)

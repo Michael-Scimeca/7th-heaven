@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -472,7 +472,7 @@ export default function AdminLegalPage() {
                   <div
                     key={req.id}
                     className={`border rounded-lg  p-5 transition-all duration-200 ${isChecked
-                      ? 'bg-white/[0.02] border-white/15'
+                      ? 'bg-white/[0.02]  border-white/20 '
                       : 'bg-rose-950/10 border-rose-500/30'
                       }`}
                   >

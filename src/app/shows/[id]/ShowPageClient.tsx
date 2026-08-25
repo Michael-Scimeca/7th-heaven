@@ -405,7 +405,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 text-sm  font-bold  uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                      className="px-8 py-4 text-sm  font-bold  uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border  border-white/10  hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -466,7 +466,7 @@ export default function ShowPageClient({
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="p-4 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-center">
+                    <div className="p-4 bg-emerald-500/10 border    border-white/10 text-center">
                       <p className="text-emerald-400 font-bold text-sm">✓ Successfully subscribed!</p>
                       <p className="text-white/40 text-xs mt-1">We will alert you when new dates are announced.</p>
                     </div>

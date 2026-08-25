@@ -699,7 +699,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-xs text-white/50 mt-0.5">No crew feeds are live right now — check back during the next show</p>
                       </div>
                     </div>
-                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs  font-bold  uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border border-white/15">Live Hub →</span>
+                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs  font-bold  uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border  border-white/20 ">Live Hub →</span>
                   </div>
                 </Link>
               )}
@@ -723,13 +723,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     }
 
                     return [(
-                      <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? ' border-[var(--color-accent)]/30 opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group shadow-md`}>
+                      <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? '   border-white/10 opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group shadow-md`}>
                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         </div>
                         <div className="flex items-start justify-between relative z-10">
                           <div>
                             {isClaimed ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border  border-[var(--color-accent)]/30 rounded-full text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-widest mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border    border-white/10 rounded-full text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-widest mb-4">
                                 ✓ PRIZE CLAIMED
                               </span>
                             ) : (
@@ -792,14 +792,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         Happening Now
                       </span>
                     ) : isEnded ? (
-                      <span className="text-xs  font-bold  text-white uppercase tracking-[0.2em] bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-3 py-1 rounded-full">Show Completed</span>
+                      <span className="text-xs  font-bold  text-white uppercase tracking-[0.2em] bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3 py-1 rounded-full">Show Completed</span>
                     ) : (
                       <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Next Show</span>
                     )}
                     {nextShow ? (() => {
                       return (
                         <>
-                          <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border  border-[var(--color-accent)]/30 bg-emerald-500/[0.03]  p-4 -mx-1' : ''}`}>
+                          <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border    border-white/10 bg-emerald-500/[0.03]  p-4 -mx-1' : ''}`}>
                             <div>
                               <h3 className="text-2xl  font-bold  text-white mb-1">{nextShow.venue}</h3>
                               <p className=" text-white  text-sm">
@@ -856,7 +856,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
                     <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-4 md:pb-3">
-                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-[#e1e6ff29]   border border-white/15 rounded-lg shrink-0">
+                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-[#e1e6ff29]   border  border-white/20  rounded-lg shrink-0">
                         <span className="text-xs  font-bold  text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-lg  font-bold  text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
@@ -888,7 +888,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([show.venue, show.city, show.state].filter(Boolean).join(' '))}`;
                               return (
                                 <a href={mapsHref} target="_blank" rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-[0.6rem] text-white rounded-lg  font-bold  uppercase tracking-wider !text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
+                                  className="inline-flex items-center gap-1 text-[0.6rem] text-white rounded-lg  font-bold  uppercase tracking-wider !text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                                   Directions
                                 </a>
@@ -896,7 +896,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             })()}
                             {/* Parking — smart button: link-only / note-only / both */}
                             {(show.directionsLink || show.notes) && (() => {
-                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] rounded-lg  font-bold  uppercase tracking-wider !text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
+                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] rounded-lg  font-bold  uppercase tracking-wider !text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
                               if (show.directionsLink && !show.notes) {
                                 return (
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
@@ -911,7 +911,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                       {PIN_ICON} Parking
                                     </button>
                                     {parkingNoteOpenIdx === i && (
-                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/15 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
+                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border  border-white/20  rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem]  font-bold  uppercase tracking-widest text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
@@ -935,7 +935,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                                     </button>
                                     {parkingNoteOpenIdx === i && (
-                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/15 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
+                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border  border-white/20  rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem]  font-bold  uppercase tracking-widest text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
@@ -1043,13 +1043,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 relative text-white">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white px-3 py-1 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]">Live Stream Alerts</span>
+                    <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white px-3 py-1 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]">Live Stream Alerts</span>
                   </div>
                   <h3 className="text-xl  font-bold  text-white mb-1">Never Miss a Live Feed</h3>
                   <p className=" text-white  text-sm mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
                   {liveAlertSubscribed ? (
-                    <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-[var(--color-accent)]/30 w-full">
+                    <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border   border-white/10 w-full">
                       <div>
                         <p className="text-sm font-bold text-[var(--color-accent)]">Live Alerts Active</p>
                         <p className="text-sm  text-white ">We&apos;ll text <span className="text-white font-mono">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
@@ -1067,7 +1067,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           placeholder="(312) 555-0199"
                           value={liveAlertPhone}
                           onChange={(e) => setLiveAlertPhone(e.target.value)}
-                          className="bg-[#e1e6ff29]   border border-white/15 rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
+                          className="bg-[#e1e6ff29]   border  border-white/20  rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
                         />
                       </div>
                       <CosmicRadialButton
@@ -1241,7 +1241,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-sm font-bold text-white truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg  font-bold  text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/merch`} className="text-xs  font-bold  uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/15 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
+                          <Link href={`/merch`} className="text-xs  font-bold  uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border  border-white/20  hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
                     </div>

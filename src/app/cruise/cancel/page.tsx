@@ -98,7 +98,7 @@ export default function CruiseCancelPage() {
     <div className="min-h-screen pt-[72px] flex items-center justify-center">
       <Suspense fallback={
         <div className="text-center">
-          <span className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin inline-block" />
+          <span className="w-8 h-8 border-2  border-white/10  border-t-white rounded-full animate-spin inline-block" />
         </div>
       }>
         <CancelContent />

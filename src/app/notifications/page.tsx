@@ -135,7 +135,7 @@ export default function NotificationsPage() {
               onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive
                 ? "bg-purple-600 border-purple-600 text-white shadow-md"
-                : "bg-[#e1e6ff29]   border-white/15 text-white/70 hover:text-white hover:border-white/30"
+                : "bg-[#e1e6ff29]    border-white/20  text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
               {tab.label}
@@ -183,7 +183,7 @@ export default function NotificationsPage() {
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-white text-xs font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border  border-white/20  text-white text-xs font-bold hover:bg-white/15 transition-colors"
                     >
                       <AppleIcon /> App Store
                     </a>
@@ -191,7 +191,7 @@ export default function NotificationsPage() {
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-white text-xs font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border  border-white/20  text-white text-xs font-bold hover:bg-white/15 transition-colors"
                     >
                       <AndroidIcon /> Google Play
                     </a>

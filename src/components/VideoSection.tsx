@@ -305,7 +305,7 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="w-9 h-9 shrink-0 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xs  font-bold   text-[var(--color-accent)]">7H</div>
+                <div className="w-9 h-9 shrink-0 rounded-full bg-[var(--color-accent)]/20 border   border-white/10 flex items-center justify-center text-xs  font-bold   text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
                   <h3 className="text-base font-bold text-white leading-tight line-clamp-2 group-hover: text-[var(--color-accent)] transition-colors mb-1">
                     {video.title}

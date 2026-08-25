@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border  border-white/20  transition-all cursor-pointer"
             >
               Sign In to Account
             </button>

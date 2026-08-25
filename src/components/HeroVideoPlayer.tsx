@@ -482,9 +482,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           muted
           loop
           playsInline
-          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${
-            isVideoFading ? "opacity-0 scale-[1.36] filter blur-sm" : "opacity-100 scale-[1.3] filter blur-0"
-          }`}
+          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${isVideoFading ? "opacity-0 scale-[1.36] filter blur-sm" : "opacity-100 scale-[1.3] filter blur-0"
+            }`}
         >
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
@@ -532,7 +531,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border  border-white/20  flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -602,7 +601,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                   ))}
                   {/* Custom Color Selector */}
                   <div
-                    className="w-6 h-6 rounded-full border border-white/20 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
+                    className="w-6 h-6 rounded-full border  border-white/10  relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
                     <input aria-label="Input field"

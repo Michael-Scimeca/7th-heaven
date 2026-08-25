@@ -258,7 +258,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-sm shrink-0">🔒</div>
+            <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-sm shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="text-[var(--font-size-3xs)] font-bold  text-white  truncate">Exclusive Fan Drop</p>
               <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
@@ -268,7 +268,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border border-white/15   flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border  border-white/20    flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                 <div className="relative z-10 w-4 h-4 rounded-full bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
@@ -392,7 +392,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
             <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 hover:border-white/20">
-              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
+              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
               <h3 className="text-2xl  font-bold  uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -424,7 +424,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="flex flex-col md:flex-row items-center gap-6 justify-between">
 
                 {/* Visual Cover/Vinyl */}
-                <div className="relative w-20 h-20 shrink-0 rounded-full border-2 border-white/15   flex items-center justify-center overflow-hidden group">
+                <div className="relative w-20 h-20 shrink-0 rounded-full border-2  border-white/20    flex items-center justify-center overflow-hidden group">
                   <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                   <div className="relative z-10 w-6 h-6 rounded-full bg-[var(--color-bg-primary)] border border-white/10 flex items-center justify-center text-xs">
                     💿
@@ -433,7 +433,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-2 py-0.5 rounded-full font-bold">
+                  <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border   border-white/10 px-2 py-0.5 rounded-full font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
                   <h4 className="text-xl sm:text-2xl  font-bold  text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>

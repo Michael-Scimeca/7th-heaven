@@ -1488,7 +1488,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] transition-opacity duration-300 ease-out">
                     <div
-                      className="flex items-center gap-2 px-3 py-1.5 text-black text-xs  font-bold  uppercase tracking-wider border border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                      className="flex items-center gap-2 px-3 py-1.5 text-black text-xs  font-bold  uppercase tracking-wider border   border-white/10 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
                         background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
                         backdropFilter: 'blur(8px)',
@@ -2122,7 +2122,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#e1e6ff29]   border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full bg-[#e1e6ff29]   border  border-white/20  rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <button aria-label="Action button"
@@ -2513,7 +2513,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
                       }}
-                      className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border border-white/15 transition-all cursor-pointer"
+                      className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border  border-white/20  transition-all cursor-pointer"
                     >
                       Sign In to Account
                     </button>
@@ -2583,7 +2583,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked
                                   ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
-                                  : 'bg-white/10 border border-white/15 hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
+                                  : 'bg-white/10 border  border-white/20  hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >

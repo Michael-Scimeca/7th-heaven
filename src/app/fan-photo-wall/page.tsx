@@ -177,7 +177,7 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -272,10 +272,10 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="p-3 bg-[#e1e6ff15] border border-white/15 rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
+                    className="p-3 bg-[#e1e6ff15] border  border-white/20  rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
                   >
                     {/* Small Compact Thumbnail */}
-                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border border-white/20 bg-black/40">
+                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border  border-white/10  bg-black/40">
                       {isVideo ? (
                         <video
                           src={photo.src}
@@ -369,7 +369,7 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1  rounded-lg border border-white/20 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1  rounded-lg border  border-white/10  bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                   Featured Moment
                 </span>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl  font-bold  uppercase tracking-tight text-white leading-none drop-shadow-md">
@@ -407,7 +407,7 @@ export default function FansPage() {
                 >
                   <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
                     <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-white/15 border border-white/30 flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-white/15 border  border-white/10  flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
                         {photo.name
                           ? photo.name
                             .split(" ")
@@ -467,7 +467,7 @@ export default function FansPage() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                        <span className="text-white bg-white/10 border border-white/20 px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest backdrop-blur-md">
+                        <span className="text-white bg-white/10 border  border-white/10  px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest backdrop-blur-md">
                           {isVideo ? "Play Video" : "Expand Photo"}
                         </span>
                       </div>

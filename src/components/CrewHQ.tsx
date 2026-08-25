@@ -924,7 +924,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3   border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-colors group"
+                  className="flex items-center gap-2 p-3   border border-white/[0.07] hover: border-white/20  hover:bg-white/[0.02] transition-colors group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>

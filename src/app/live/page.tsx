@@ -537,7 +537,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer"
+                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border  border-white/10  text-white cursor-pointer"
                 >
                   COPY LINK
                 </button>

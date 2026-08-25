@@ -49,7 +49,7 @@ export function AdminAuthGate({
               value={adminLoginEmail}
               onChange={(e) => setAdminLoginEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors font-bold"
+              className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors font-bold"
               required
             />
           </div>
@@ -61,7 +61,7 @@ export function AdminAuthGate({
               value={adminLoginPassword}
               onChange={(e) => setAdminLoginPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors font-bold"
+              className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors font-bold"
               required
             />
           </div>

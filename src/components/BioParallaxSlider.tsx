@@ -882,7 +882,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
@@ -928,7 +928,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
@@ -960,7 +960,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>

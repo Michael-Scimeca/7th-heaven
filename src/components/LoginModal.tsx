@@ -819,7 +819,7 @@ function LoginModalBodyContent(props: any) {
         {/* PIN Verification Step */}
         {pinSent ? (
           <div className="flex flex-col gap-4 my-4">
-            <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
+            <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border   border-white/10 rounded-lg">
               A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
             </div>
 
@@ -916,14 +916,14 @@ function LoginModalBodyContent(props: any) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                         required
                       />
                     </div>
                   </div>
                 ) : (
                   <>
-                    <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
+                    <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border   border-white/10 rounded-lg">
                       A verification code has been sent to <strong>{email}</strong>
                     </div>
                     <div>
@@ -936,7 +936,7 @@ function LoginModalBodyContent(props: any) {
                           value={forgotPinCode}
                           onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em]  font-bold  rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em]  font-bold  rounded-xl"
                           required
                         />
                       </div>
@@ -950,7 +950,7 @@ function LoginModalBodyContent(props: any) {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                           required
                         />
                       </div>
@@ -977,7 +977,7 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
@@ -993,7 +993,7 @@ function LoginModalBodyContent(props: any) {
                       autoComplete="new-password"
                       data-lpignore="true"
                       data-form-type="other"
-                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   {modalMode === "login" && (
@@ -1130,7 +1130,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Admin
             </button>
@@ -1156,7 +1156,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Planner
             </button>
@@ -1260,7 +1260,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Admin
         </button>
@@ -1286,7 +1286,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Planner
         </button>
@@ -1356,7 +1356,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1369,7 +1369,7 @@ function SignUpExtraFields({
                 id="signup-company-name"
                 type="text"
                 placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1387,7 +1387,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1400,7 +1400,7 @@ function SignUpExtraFields({
                 id="signup-cabin-no"
                 type="text"
                 placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1421,7 +1421,7 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -1437,7 +1437,7 @@ function SignUpExtraFields({
                   onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
-                  className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                 />
               </div>
             </div>
@@ -1483,7 +1483,7 @@ function SignUpExtraFields({
                       onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
-                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   <div className="shrink-0 relative z-30">

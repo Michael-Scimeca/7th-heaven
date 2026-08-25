@@ -170,7 +170,7 @@ export default function VerifyPage() {
           </button>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
-            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white/80 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border  border-white/20  text-white/80 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
           >
             Preview PIN Inputs →
           </button>
@@ -360,7 +360,7 @@ export default function VerifyPage() {
                 Access My Dashboard →
               </Link>
 
-              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border  border-white/20  text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                 Verify Another PIN
               </button>
             </div>
@@ -380,7 +380,7 @@ export default function VerifyPage() {
             <p className="text-white/40 text-sm mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
-            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer">
+            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border  border-white/20  text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

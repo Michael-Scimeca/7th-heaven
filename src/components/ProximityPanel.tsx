@@ -160,7 +160,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
@@ -281,7 +281,7 @@ export default function ProximityPanel() {
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2 text-xs  font-bold  uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
                         ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
+                        : "bg-white/10 text-white  border-white/20  hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}
                     >
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}

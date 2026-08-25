@@ -526,7 +526,7 @@ export default function AudioPlayerSection() {
                 placeholder="Search 700+ songs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 backdrop-blur-xl border border-white/15  rounded-lg px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
+                className="w-full bg-black/40 backdrop-blur-xl border  border-white/20   rounded-lg px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
               />
               {searchQuery && (
                 <button aria-label="Clear search"
@@ -580,7 +580,7 @@ export default function AudioPlayerSection() {
               {/* Tablet & Mobile Album Header Bar */}
               <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0    ">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border  border-white/10  shrink-0    ">
                     {activeAlbum?.image ? (
                       <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
                     ) : (
@@ -598,7 +598,7 @@ export default function AudioPlayerSection() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
+                    className="w-full bg-black/40 border  border-white/20  rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -728,7 +728,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
+              <div className="relative z-[2] w-[100px] h-[100px] border  border-white/20  rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}

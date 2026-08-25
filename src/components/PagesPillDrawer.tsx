@@ -133,7 +133,7 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 text-white  font-bold  text-sm uppercase tracking-widest transition-all duration-200 shadow-[0_10px_35px_rgba(139,61,255,0.6)] border border-white/20 group cursor-pointer"
+        className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 text-white  font-bold  text-sm uppercase tracking-widest transition-all duration-200 shadow-[0_10px_35px_rgba(139,61,255,0.6)] border  border-white/10  group cursor-pointer"
         aria-label="Open Pages Directory"
       >
         <Menu className="w-5 h-5 text-white transition-transform group-hover:scale-110" />
@@ -212,7 +212,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15  rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
+                    className="w-full bg-black/50 border  border-white/20   rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
                   />
                 </div>
               </div>

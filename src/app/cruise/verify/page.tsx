@@ -166,7 +166,7 @@ function CruiseVerifyContent() {
                     onPaste={handlePaste}
                     className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl  font-bold  text-white bg-black/60 border  rounded-lg outline-none transition-all ${d
                       ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
-                      : "border-white/15 focus:border-purple-400 focus:bg-purple-950/20"
+                      : " border-white/20  focus:border-purple-400 focus:bg-purple-950/20"
                       } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
                   />
                 ))}

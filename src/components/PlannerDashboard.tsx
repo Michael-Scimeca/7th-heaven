@@ -422,7 +422,7 @@ export default function PlannerDashboard() {
       {/* Band Event Contacts Modal */}
       {showContactModal && (
         <div className="fixed inset-0 bg-black/80  backdrop-blur-[45px] z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
-          <div className="bg-[#0b0c10] border border-[var(--color-accent)]/30 p-6 md:p-8  rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[#0b0c10] border   border-white/10 p-6 md:p-8  rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
@@ -451,10 +451,10 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 551-5363
                   </a>
-                  <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> info@NTDManagement.com
                   </a>
                 </div>
@@ -469,10 +469,10 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 772-5333
                   </a>
-                  <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> jeffdobbs64@yahoo.com
                   </a>
                 </div>
@@ -487,10 +487,10 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (630) 842-9129
                   </a>
-                  <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> Alan@NTDManagement.com
                   </a>
                 </div>
@@ -505,10 +505,10 @@ export default function PlannerDashboard() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 269-6200
                   </a>
-                  <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> LRago@NTDRecords.com
                   </a>
                 </div>
@@ -630,7 +630,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border   border-white/10 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -651,7 +651,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border   border-white/10 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -703,14 +703,14 @@ export default function PlannerDashboard() {
           </div>
           <button
             onClick={() => setShowContactModal(true)}
-            className="px-4 py-2 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
+            className="px-4 py-2 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
           >
             Open Full Contact Directory
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
             <div>
               <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
               <h4 className="text-base font-bold text-white">Dickie</h4>
@@ -726,7 +726,7 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
             <div>
               <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
@@ -742,7 +742,7 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
             <div>
               <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="text-base font-bold text-white">Alan McRae</h4>
@@ -758,7 +758,7 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
             <div>
               <span className="text-[9px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
               <h4 className="text-base font-bold text-white">Lenny Rago</h4>

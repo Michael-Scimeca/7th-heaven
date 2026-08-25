@@ -740,10 +740,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
-            <span className="text-xs  font-bold  uppercase tracking-widest bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-3.5 py-1.5 rounded-full">
+            <span className="text-xs  font-bold  uppercase tracking-widest bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3.5 py-1.5 rounded-full">
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
 
@@ -788,7 +788,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => setActivePriceYear(2027)}
                     className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2027
                       ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
-                      : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
                     2027 Star of the Seas (7-Night)
@@ -798,7 +798,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => setActivePriceYear(2028)}
                     className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2028
                       ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
-                      : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
                     2028 Legend of the Seas (8-Night)
@@ -1024,7 +1024,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </p>
 
                 {/* Official Cruise Social Links */}
-                <div className="flex items-center justify-center gap-1.5 bg-black/60 p-1.5 rounded-full border border-white/20  backdrop-blur-[45px] shadow-lg max-w-fit mx-auto mb-8">
+                <div className="flex items-center justify-center gap-1.5 bg-black/60 p-1.5 rounded-full border  border-white/10   backdrop-blur-[45px] shadow-lg max-w-fit mx-auto mb-8">
                   <a
                     href="https://www.facebook.com/chicagomusiccruise/"
                     target="_blank"
@@ -1047,7 +1047,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     href="https://x.com/CMCNTDV"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-slate-700/60 hover:bg-black !text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/30"
+                    className="px-3.5 py-1.5 rounded-full bg-slate-700/60 hover:bg-black !text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 border  border-white/10 "
                     title="Chicago Music Cruise X (Twitter)"
                   >
                     <span className="!text-white">X (Twitter)</span>
@@ -1082,11 +1082,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">CEO / Booking / Bands</p>
                     <p className="text-xs text-white/50 font-medium">Marketing / Media</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:8475515363" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border border-white/30 hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:8475515363" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(847) 551-5363</span>
                       </a>
-                      <a href="mailto:info@NTDVacations.com" className="text-xs font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border border-white/20 hover:border-white/50 flex items-center gap-1.5">
+                      <a href="mailto:info@NTDVacations.com" className="text-xs font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/50 flex items-center gap-1.5">
                         <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
 
                         <span>info@NTDVacations.com</span>
@@ -1111,11 +1111,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">Group Excursions / Group Hotels</p>
                     <p className="text-xs text-white/50 font-medium">Group Air / Charters / Shuttles</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:8776839753" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border border-white/30 hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:8776839753" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(877) 683-9753 - Ext 5</span>
                       </a>
-                      <a href="mailto:Mary@NTDVacations.com" className="text-xs font-bold !text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border border-white/20 hover:border-white/50 flex items-center gap-1.5">
+                      <a href="mailto:Mary@NTDVacations.com" className="text-xs font-bold !text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/50 flex items-center gap-1.5">
                         <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
 
                         <span>Mary@NTDVacations.com</span>
@@ -1140,11 +1140,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">Schedule</p>
                     <p className="text-xs text-white/50 font-medium">Activities / Logistics</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:6308429129" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border border-white/30 hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:6308429129" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(630) 842-9129</span>
                       </a>
-                      <a href="mailto:alan@NTDVacations.com" className="text-xs font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border border-white/20 hover:border-white/50 flex items-center gap-1.5">
+                      <a href="mailto:alan@NTDVacations.com" className="text-xs font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-full border  border-white/10  hover:border-white/50 flex items-center gap-1.5">
                         <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
                         <span>alan@NTDVacations.com</span>
                       </a>
@@ -1201,7 +1201,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-xl">{room.icon}</span>}
-                              <span className={` bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-[var(--font-size-3xs)]  font-bold  uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status === "soldout" ? "" :
+                              <span className={` bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-[var(--font-size-3xs)]  font-bold  uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status === "soldout" ? "" :
                                 room.status === "warning" ? "bg-[#e1e5ff29] text-white" :
                                   "text-white"
                                 }`}>{room.badge}</span>
@@ -1262,7 +1262,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             className="w-full text-left overflow-hidden rounded-lg  flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
-                              <div className="absolute top-3 right-3  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] text-white text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 z-10">
+                              <div className="absolute top-3 right-3  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 z-10">
                                 <span>Popular</span>
                               </div>
                             )}
@@ -1275,7 +1275,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <div className="px-0 py-5 text-left">
                                 <div className="flex justify-between items-start gap-2 mb-3 text-left">
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
-                                  <span className={` rounded-lg text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-0.5 rounded tracking-wider bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] ${isYo ? '' : ''
+                                  <span className={` rounded-lg text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-0.5 rounded tracking-wider bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] ${isYo ? '' : ''
                                     }`}>{room.label}</span>
                                 </div>
                                 <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
@@ -1394,7 +1394,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-purple-400">VIP Experiences</span>
                           <h3 className="text-2xl md:text-3xl  font-bold  uppercase text-white mt-1">Suite Class Perks</h3>
                         </div>
-                        <div className="flex gap-1.5  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]p-1.5 rounded-xl">
+                        <div className="flex gap-1.5  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]p-1.5 rounded-xl">
                           {(["sea", "sky", "star"] as const).map(perk => (
                             <button aria-label="Action button"
                               key={perk}
@@ -1538,7 +1538,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="text-sm  font-bold  uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] px-3 py-1 rounded-full">Primary</span>
+                              <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3 py-1 rounded-full">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
@@ -1780,7 +1780,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               disabled={signupStatus === "submitting"}
                               className="w-full !py-4 text-xs  font-bold  uppercase tracking-widest justify-center shadow-md cursor-pointer disabled:opacity-70"
                             >
-                              {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
+                              {signupStatus === "submitting" ? <span className="w-5 h-5 border-2  border-white/10  border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                             </CosmicRadialButton>
 
                             <CosmicRadialButton
@@ -1939,7 +1939,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {band.desc}
                       </p>
 
-                      <div className="mt-4 pt-3 border-t border-white/15 flex items-center justify-between">
+                      <div className="mt-4 pt-3 border-t  border-white/20  flex items-center justify-between">
                         <a
                           href={band.website}
                           target="_blank"
@@ -2000,7 +2000,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => setActiveItinYear(2027)}
                     className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
                       ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                      : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
                     2027 Star of the Seas (7-Night)
@@ -2010,7 +2010,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => setActiveItinYear(2028)}
                     className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
                       ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                      : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
                     2028 Legend of the Seas (8-Night)
@@ -2046,7 +2046,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group  rounded-2xl overflow-hidden ">
                         <div className="h-48 w-full relative overflow-hidden  rounded-lg bg-black">
                           {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-3 left-3 z-20 px-3 py-1  bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-white">
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-white">
                             Port Call #{idx + 1}
                           </span>
                         </div>
@@ -2071,7 +2071,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {port.gallery && port.gallery.length > 1 && (
                             <div className="flex gap-1.5 mt-4 pt-3 border-t border-white/10 overflow-x-auto scrollbar-none">
                               {port.gallery.map((gImg, gIdx) => (
-                                <div key={gIdx} className="w-12 h-10  rounded-lg overflow-hidden shrink-0 border border-white/20">
+                                <div key={gIdx} className="w-12 h-10  rounded-lg overflow-hidden shrink-0 border  border-white/10 ">
                                   <Image width={48} height={40} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
                                 </div>
                               ))}
@@ -2087,7 +2087,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "spotlight" && (
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                     {/* Main Featured Hero Card */}
-                    <div className="lg:col-span-2 bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px]  rounded-lg overflow-hidden relative shadow-2xl">
+                    <div className="lg:col-span-2 bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]  rounded-lg overflow-hidden relative shadow-2xl">
                       <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent z-10" />
                         {PORTS_DATA[activeSpotlightPort].image && (
@@ -2122,7 +2122,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
                             <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2">
                               {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => (
-                                <div key={gIdx} className="w-24 h-16  rounded-lg overflow-hidden shrink-0 border border-white/20 shadow-md">
+                                <div key={gIdx} className="w-24 h-16  rounded-lg overflow-hidden shrink-0 border  border-white/10  shadow-md">
                                   <Image width={96} height={64} unoptimized src={gImg} alt="Gallery Still" className="w-full h-full object-cover" />
                                 </div>
                               ))}
@@ -2151,11 +2151,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           type="button"
                           onClick={() => setActiveSpotlightPort(idx)}
                           className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx
-                            ? " bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px]"
-                            : " bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px]"
+                            ? " bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]"
+                            : " bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]"
                             }`}
                         >
-                          <div className="w-12 h-12  rounded-lg overflow-hidden shrink-0 bg-black border border-white/20">
+                          <div className="w-12 h-12  rounded-lg overflow-hidden shrink-0 bg-black border  border-white/10 ">
                             {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -2180,7 +2180,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ◀
                       </button>
@@ -2189,7 +2189,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ▶
                       </button>
@@ -2203,12 +2203,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA.map((port, idx) => (
                         <div
                           key={`carousel-${port.name}`}
-                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px]   rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
+                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]   rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
                         >
                           <div className="h-52 w-full relative overflow-hidden bg-black/60">
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                             {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70  backdrop-blur-[45px] border border-white/20 rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-purple-300">
+                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70  backdrop-blur-[45px] border  border-white/10  rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-purple-300">
                               {idx + 1} / {PORTS_DATA.length}
                             </span>
                           </div>
@@ -2237,7 +2237,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "list" && (
                   <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                     {PORTS_DATA.map((port, idx) => (
-                      <div key={`list-${port.name}`} className="bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
+                      <div key={`list-${port.name}`} className="bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
                         <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden  rounded-lg relative shrink-0">
                           {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
                           <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)]  font-bold  text-purple-300 uppercase border border-white/10">
@@ -2264,7 +2264,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                          className="shrink-0 px-4 py-2 bg-[#e1e6ff29]  border-white/30 backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+                          className="shrink-0 px-4 py-2 bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
                         >
                           Book →
                         </button>
@@ -2339,7 +2339,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                        <span className="text-[10px]  font-bold  uppercase tracking-widest text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  px-2.5 py-1 rounded-full self-start mb-1.5 ">
+                        <span className="text-[10px]  font-bold  uppercase tracking-widest text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-2.5 py-1 rounded-full self-start mb-1.5 ">
                           {item.category}
                         </span>
                         <p className="font-bold text-white text-base md:text-lg leading-snug">{item.title}</p>
@@ -2424,7 +2424,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1 rounded-full  font-bold  self-start mb-1.5 bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] ">{food.tag}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1 rounded-full  font-bold  self-start mb-1.5 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] ">{food.tag}</span>
                           <p className="font-bold text-white text-base md:text-lg leading-snug">{food.name}</p>
                         </div>
                       </div>
@@ -2444,7 +2444,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h3 className="text-xl sm:text-2xl  font-bold  uppercase text-white">Bars & Entertainment Explorer</h3>
                     <p className="text-xs text-white/70 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
                   </div>
-                  <div className="flex bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">
+                  <div className="flex bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("bars")}
@@ -2520,7 +2520,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full  font-bold  text-white bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]   self-start mb-1.5">{item.tag}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full  font-bold  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]   self-start mb-1.5">{item.tag}</span>
                           <p className="font-bold text-white text-base md:text-lg leading-snug">{item.name}</p>
                         </div>
                       </div>
@@ -2550,7 +2550,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* FAQs List */}
               <div className="space-y-3 mb-0 text-left max-w-4xl">
                 {FAQS_EXTENDED.map((faq, i) => (
-                  <div key={faq.q} className="bg-[#59595929] border border-white/30 backdrop-blur-[16px]  rounded-lg overflow-hidden shadow-xs">
+                  <div key={faq.q} className="bg-[#59595929] border  border-white/10  backdrop-blur-[16px]  rounded-lg overflow-hidden shadow-xs">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -2560,7 +2560,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <span className={`text-white/70 text-sm transition-transform  font-bold  shrink-0 ${openFaq === i ? 'rotate-45 text-rose-400' : ''}`}>+</span>
                     </button>
                     {openFaq === i && (
-                      <div className="px-5 py-4 bg-[#59595929] border border-white/30 backdrop-blur-[16px]">
+                      <div className="px-5 py-4 bg-[#59595929] border  border-white/10  backdrop-blur-[16px]">
                         <p className="text-xs md:text-sm text-white/80 font-medium leading-relaxed">{faq.a}</p>
                       </div>
                     )}
@@ -2595,13 +2595,13 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell  pb-4 pt-4 ">
           <label htmlFor="cruise-card-name-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-number-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4 ">
@@ -2609,19 +2609,19 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
             <div>
               <label htmlFor="cruise-card-exp-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-cvv-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-zip-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
@@ -2629,7 +2629,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-amount-1" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-amount-1" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base  font-bold  text-purple-300 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-amount-1" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base  font-bold  text-purple-300 focus:outline-none rounded-lg" />
           </div>
         </div>
       </div>
@@ -2646,13 +2646,13 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-name-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-number-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
@@ -2660,19 +2660,19 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
             <div>
               <label htmlFor="cruise-card-exp-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-cvv-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-zip-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
@@ -2680,7 +2680,7 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-amount-2" className="booking-label block text-xs  font-bold  text-purple-400 uppercase tracking-wider mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-amount-2" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base  font-bold  text-purple-300 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-amount-2" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/20  px-3.5 py-2.5 text-base  font-bold  text-purple-300 focus:outline-none rounded-lg" />
           </div>
         </div>
       </div>

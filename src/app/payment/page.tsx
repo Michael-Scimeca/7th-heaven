@@ -91,7 +91,7 @@ function PaymentTestContent() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 border border-[var(--color-accent)]/30 bg-emerald-500/10 text-[var(--color-accent)] text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border   border-white/10 bg-emerald-500/10 text-[var(--color-accent)] text-xs font-bold leading-normal">
               🎉{" "}
               {confirmed
                 ? `Payment confirmed: $${(confirmed.amountTotal / 100).toFixed(2)} ${confirmed.currency?.toUpperCase()}.`

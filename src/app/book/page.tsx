@@ -842,7 +842,7 @@ function BookPageContent() {
             </Link>
             {!isLoggedIn && (
               creatingAccount ? (
-                <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 p-5 text-left">
+                <div className="bg-white/[0.03] border   border-white/10 p-5 text-left">
                   <div className="mb-4">
                     <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
@@ -885,7 +885,7 @@ function BookPageContent() {
                           className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" />
                           ) : (
                             "Go →"
                           )}
@@ -912,7 +912,7 @@ function BookPageContent() {
                           className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" />
                           ) : (
                             "Verify & Create"
                           )}
@@ -967,7 +967,7 @@ function BookPageContent() {
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border   border-white/10 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
@@ -992,7 +992,7 @@ function BookPageContent() {
 
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30 backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -1107,7 +1107,7 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/15 bg-white/[0.02] rounded-lg ">
+              <div className="text-center p-6 rounded-lg border-2 border-dashed  border-white/20  bg-white/[0.02] rounded-lg ">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className=" text-white  text-base max-w-md mx-auto">
@@ -1144,7 +1144,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className=" text-white  hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/15 hover:border-cyan-400/30"
+                            className=" text-white  hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border  border-white/20  hover:border-cyan-400/30"
                             title="Add another show on this date"
                           >
                             <Plus className="w-3 h-3" /> Add Another
@@ -1152,7 +1152,7 @@ function BookPageContent() {
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className=" text-white  hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/15 hover:border-rose-500/30"
+                            className=" text-white  hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border  border-white/20  hover:border-rose-500/30"
                             title="Remove this show"
                           >
                             <X className="w-3 h-3" /> Remove
@@ -1363,7 +1363,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1377,7 +1377,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1393,7 +1393,7 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
@@ -1409,7 +1409,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1423,7 +1423,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1865,7 +1865,7 @@ function BookPageContent() {
                   >
                     {submitting ? (
                       <>
-                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" />
                         Submitting...
                       </>
                     ) : (
@@ -1939,7 +1939,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
@@ -1953,7 +1953,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border  border-white/20  text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -2083,7 +2083,7 @@ function MapPickerModal({
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 bg-[#e1e6ff29]   border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-[#e1e6ff29]   border  border-white/20  rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}

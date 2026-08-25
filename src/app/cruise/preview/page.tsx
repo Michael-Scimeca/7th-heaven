@@ -167,7 +167,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 text-xs font-bold uppercase tracking-widest text-white/20 hover: text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 text-xs font-bold uppercase tracking-widest text-white/20 hover: text-[var(--color-accent)] hover:  border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }

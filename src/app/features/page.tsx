@@ -1226,7 +1226,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <span className={`text-xs  font-bold  uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${isPurple
             ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
-            : "bg-black/50 border-white/20 text-white/80"
+            : "bg-black/50  border-white/10  text-white/80"
             }`}>
             ▶ Live Preview
           </span>
@@ -1254,7 +1254,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
               </h3>
             </div>
             {/* Image */}
-            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/15"}`}>
+            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : " border-white/20 "}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized
                 src={src}
@@ -1404,8 +1404,8 @@ export default function FeaturesPage() {
             <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
             <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)]  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
           </div>
         </div>
@@ -2062,7 +2062,7 @@ export default function FeaturesPage() {
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border   border-white/10  text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
               <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
@@ -2349,7 +2349,7 @@ export default function FeaturesPage() {
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
+              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover: border-white/20  hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base  font-bold  uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
@@ -2564,10 +2564,10 @@ export default function FeaturesPage() {
             >
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/15 hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

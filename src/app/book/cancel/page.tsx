@@ -94,7 +94,7 @@ function CancelContent() {
 
         {status === "done" && (
           <>
-            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border    border-white/10 flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">Booking Cancelled</h1>

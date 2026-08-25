@@ -478,7 +478,7 @@ a:hover {
                           type="text"
                           value={settings.borderColor}
                           onChange={(e) => update("borderColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-1.5 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-1.5 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -508,7 +508,7 @@ a:hover {
                         type="color"
                         value={settings.focusBorderColor.startsWith("#") ? settings.focusBorderColor : "#00f0ff"}
                         onChange={(e) => update("focusBorderColor", e.target.value)}
-                        className="w-full h-8 bg-transparent rounded cursor-pointer border border-white/20"
+                        className="w-full h-8 bg-transparent rounded cursor-pointer border  border-white/10 "
                       />
                     </div>
                   </div>
@@ -561,13 +561,13 @@ a:hover {
                           type="color"
                           value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.searchIconColor || "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -725,13 +725,13 @@ a:hover {
                           type="color"
                           value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.checkboxAccentColor}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -794,13 +794,13 @@ a:hover {
                           type="color"
                           value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.headingColor}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -812,13 +812,13 @@ a:hover {
                           type="color"
                           value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.pTextColor}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -830,13 +830,13 @@ a:hover {
                           type="color"
                           value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.linkColor}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
@@ -848,13 +848,13 @@ a:hover {
                           type="color"
                           value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.linkHoverColor}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg text-xs font-mono text-white"
                         />
                       </div>
                     </div>
