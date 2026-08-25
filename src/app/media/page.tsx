@@ -110,7 +110,7 @@ function VideoThumbnail({ videoId, title, isActive, index = 0 }: { videoId: stri
 
       {failed && !isActive && (
         <div className="absolute inset-0 bg-gradient-to-br from-[#291645] via-[#120a24] to-[#05030a] flex flex-col items-center justify-center p-4 text-center z-10">
-          <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center mb-2 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+          <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center mb-2   ">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           </div>
           <span className="text-white/90  font-bold  text-xs uppercase tracking-wider line-clamp-2 px-2">{title}</span>
@@ -404,7 +404,7 @@ export default function MediaPage() {
                     onClick={() => setHeroPlaying(true)}
                     aria-label="Play featured video"
                     icon={false}
-                    className="w-24 h-24 !rounded-full !p-0 flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300 shadow-[0_0_60px_rgba(168,85,247,0.7)] border border-purple-300/40 pointer-events-auto cursor-pointer"
+                    className="w-24 h-24 !rounded-full !p-0 flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300  border border-purple-300/40 pointer-events-auto cursor-pointer"
                   >
                     <Play className="w-9 h-9 text-white fill-white ml-1.5" />
                   </CosmicRadialButton>
@@ -418,14 +418,14 @@ export default function MediaPage() {
               <HeroParallaxCustomizer {...heroParallax} />
               <div ref={heroForegroundRef} className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
                 <div className="max-w-lg pointer-events-auto transform-gpu isolate">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e1e6ff29] border border-white/30   backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em]  mb-4">
                     <span>FEATURED MEDIA</span>
                   </div>
                   <h1
-                    className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  italic uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none mb-4 transform-gpu isolate"
+                    className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  italic uppercase tracking-tighter text-white leading-none mb-4 transform-gpu isolate"
                     style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
                   >
-                    <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">
+                    <span className="inline-block pr-[0.15em] ">
                       {featuredVideo.title}
                     </span>
                   </h1>
@@ -470,7 +470,7 @@ export default function MediaPage() {
                       setActiveIndex(0);
                     }}
                     className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
-                      ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
+                      ? "bg-[var(--color-accent)] text-white "
                       : "bg-[#e1e6ff29]    text-white  hover:text-white hover:bg-white/10"
                       }`}
                   >
@@ -498,7 +498,7 @@ export default function MediaPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-all  hover:scale-105 cursor-pointer shrink-0"
                 title="Add a video to the Media Vault & Sanity CMS"
               >
                 <Plus className="w-4 h-4" />
@@ -526,7 +526,11 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-lg md:rounded-none min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent   md:shadow-none"
+                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-2xl min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-6 overflow-hidden transform-gpu ${
+                    isActive
+                      ? "scale-[1.035] z-20 bg-purple-900/30 border border-purple-500/40 shadow-[0_0_35px_rgba(168,85,247,0.25)]"
+                      : "scale-100 bg-purple-950/20 md:bg-transparent group-hover:bg-purple-900/10"
+                  }`}
                 >
                   {/* Full Section Background Video (Mobile Only) */}
                   <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
@@ -543,8 +547,8 @@ export default function MediaPage() {
                     </div>
 
                     <h3
-                      className={`text-3xl sm:text-4xl md:text-6xl  font-bold  uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
-                        ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
+                      className={`text-3xl sm:text-4xl md:text-6xl  font-bold  uppercase tracking-tight transition-colors duration-300 ${isActive
+                        ? "!text-[#c084fc]"
                         : "text-white/70 group-hover:text-white"
                         }`}
                       style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
@@ -562,7 +566,7 @@ export default function MediaPage() {
                     )}
 
                     {isPlaying && (
-                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full  rounded-lg overflow-hidden shadow-2xl z-30 border border-white/15">
+                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full  rounded-lg overflow-hidden    z-30 border border-white/15">
                         <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                       </div>
                     )}
@@ -599,7 +603,7 @@ export default function MediaPage() {
 
           {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS ON TABLET & DESKTOP) */}
           <div className="hidden md:block md:col-span-7 shrink-0 md:sticky md:top-[120px] z-20">
-            <div className="relative aspect-[16/10] w-full rounded-lg  overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
+            <div className="relative aspect-[16/10] w-full rounded-lg  overflow-hidden border-0  bg-purple-950/20">
               {filteredVideos.map((video, index) => {
                 const isActive = activeIndex === index;
                 const isPlaying = playingId === video.id;
@@ -630,7 +634,7 @@ export default function MediaPage() {
                         <div className="absolute inset-0 hidden group-hover/card:flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
                           <CosmicRadialButton
                             icon={false}
-                            className="w-16 h-16 !rounded-full !p-0 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.7)] group-hover/card:scale-110 transition-transform border border-purple-300/40"
+                            className="w-16 h-16 !rounded-full !p-0 flex items-center justify-center  group-hover/card:scale-110 transition-transform border border-purple-300/40"
                           >
                             <Play className="w-7 h-7 fill-white ml-1 text-white" />
                           </CosmicRadialButton>
@@ -641,7 +645,7 @@ export default function MediaPage() {
                           <span className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/70  backdrop-blur-[45px] px-2 py-0.5 rounded border border-white/10">
                             {selectedCategory?.category}
                           </span>
-                          <h4 className="text-lg  font-bold  uppercase tracking-tight text-white mt-1 drop-shadow-md truncate">
+                          <h4 className="text-lg  font-bold  uppercase tracking-tight text-white mt-1 truncate">
                             {video.title}
                           </h4>
                         </div>
@@ -657,7 +661,7 @@ export default function MediaPage() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg  shadow-[0_0_30px_rgba(168,85,247,0.5)] flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
+        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg  flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
 
           <span className="text-xs font-bold">{toastMessage}</span>
         </div>
@@ -666,7 +670,7 @@ export default function MediaPage() {
       {/* ── ADD YOUTUBE VIDEO MODAL (Sanity CMS + Media Vault) ── */}
       {isAdmin && isAddModalOpen && (
         <div className="fixed inset-0 z-[999999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-          <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(147,51,234,0.3)] p-6 relative">
+          <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-lg overflow-hidden  p-6 relative">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
@@ -805,7 +809,7 @@ export default function MediaPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white  font-bold  text-xs uppercase tracking-wider  rounded-lg transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white  font-bold  text-xs uppercase tracking-wider  rounded-lg transition-all  cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
                 </button>
