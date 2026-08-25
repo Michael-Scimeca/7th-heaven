@@ -56,7 +56,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       document.documentElement.style.overflow = "hidden";
       const l = getLenis();
       if (l && typeof l.stop === "function") {
-        try { l.stop(); } catch {}
+        try { l.stop(); } catch { }
       }
     };
 
@@ -65,7 +65,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       document.documentElement.style.overflow = "";
       const l = getLenis();
       if (l && typeof l.start === "function") {
-        try { l.start(); } catch {}
+        try { l.start(); } catch { }
       }
     };
 
@@ -219,15 +219,6 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     >
       {/* ── Liquid Moving Gradient Background (baunov/gradients-bg) ── */}
       <div className="gradient-bg pointer-events-none">
-        <svg className="hidden">
-          <defs>
-            <filter id="goo">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur" />
-              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-              <feBlend in="SourceGraphic" in2="goo" />
-            </filter>
-          </defs>
-        </svg>
         <div className="gradients-container">
           <div className="g1" />
           <div className="g2" />
