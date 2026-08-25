@@ -106,7 +106,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           if (video) {
             video.src = "/movie/notefication.mp4";
             video.load();
-            video.play().catch(() => {});
+            video.play().catch(() => { });
           }
           observer.disconnect();
         }
@@ -223,8 +223,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
           <div className="md:col-span-5 flex justify-center items-center w-full h-full my-auto">
             <div className="relative w-full h-full max-h-[900px] flex items-center justify-center">
-              <IphoneClipMask className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-none md:w-full h-full max-h-[900px] flex items-center justify-center">
-                <div className="relative w-full h-full max-h-[900px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950 flex items-center justify-center transition-all duration-300">
+              <IphoneClipMask
+                insetXPercent={0}
+                insetTopPercent={0}
+                insetBottomPercent={0}
+                borderRadiusPx={48}
+                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center"
+              >
+                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[2px] border-white/20 bg-black flex items-center justify-center transition-all duration-300">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}
@@ -234,7 +240,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     playsInline
                     preload={videoLoaded ? "auto" : "none"}
                     aria-label="7th Heaven Concert Live Stream"
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover rounded-[40px]"
                     onCanPlay={(e) => {
                       e.currentTarget.muted = true;
                       e.currentTarget.play().catch(() => { });
@@ -250,7 +256,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
-          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0">
+          <div className="md:col-span-8 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0">
             {/* Header Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
