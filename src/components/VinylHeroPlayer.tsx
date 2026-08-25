@@ -506,12 +506,7 @@ export default function VinylHeroPlayer({
             position: 'relative',
           }}
         >
-
-
           <div className="relative" style={{ width: '600px' }}>
-
-
-
             {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
             <div style={{
               WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
@@ -592,7 +587,9 @@ export default function VinylHeroPlayer({
             </div>
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="w-[250px] h-[250px] border border-white/20  bg-white/20 border border-white/30 backdrop-blur-md " />
+              <div className="fancy w-[250px] h-[250px] rounded-2xl">
+                <div className="fancy-inner" />
+              </div>
             </div>
 
             {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
