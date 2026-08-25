@@ -653,8 +653,8 @@ export default function VinylHeroPlayer({
               {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                 <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
-                  {/* Header Title directly anchored to top of 250px player window box */}
-                  <div className="absolute -top-6 left-0 right-0 flex items-center justify-between pointer-events-none z-40 px-1">
+                  {/* Header Title directly anchored to top of 250px player window box — aligned flush with top controls pill */}
+                  <div className="absolute -top-6.5 left-0 right-0 flex items-center justify-between pointer-events-none z-40 px-4">
                     <div className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
                       <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
