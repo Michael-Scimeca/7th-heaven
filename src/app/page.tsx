@@ -65,6 +65,18 @@ export default function Home() {
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
+        <div className="container mx-auto px-4 mb-6 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 bg-[#1a1726]/90 border border-white/15 px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#d946ef] animate-pulse" />
+            <span className="text-[11px] font-black uppercase tracking-widest text-white/95">
+              WHO WE&apos;VE PLAYED WITH &amp; WHERE WE&apos;VE BEEN FEATURED
+            </span>
+          </div>
+          <p className="text-[13px] font-medium text-white/60 max-w-lg leading-relaxed">
+            Shared stages with legendary artists &amp; featured across major national networks, press, and broadcasts.
+          </p>
+        </div>
+
         <LogoTicker items={ARTIST_LOGOS} direction="left" />
         <LogoTicker items={PRESS_LOGOS} direction="right" />
       </LazySection>
