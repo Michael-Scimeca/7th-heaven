@@ -592,6 +592,7 @@ export default function VinylHeroPlayer({
                 <Swiper
                   slidesPerView="auto"
                   centeredSlides={true}
+                  slideToClickedSlide={true}
                   slidesOffsetBefore={-100}
                   slidesOffsetAfter={100}
                   loop={false}
@@ -608,7 +609,8 @@ export default function VinylHeroPlayer({
                   {ALBUMS.map((album, idx) => (
                     <SwiperSlide
                       key={album.id}
-                      style={{ width: "165px", height: "250px", display: "flex", alignItems: "center" }}
+                      style={{ width: "165px", height: "250px", display: "flex", alignItems: "center", cursor: "pointer" }}
+                      onClick={() => goToAlbum(idx)}
                     >
 
                       {({ isActive }) => {
@@ -618,7 +620,7 @@ export default function VinylHeroPlayer({
                             type="button"
                             className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
                               ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                              : "opacity-90 scale-90 z-0"
+                              : "opacity-90 scale-90 z-0 hover:scale-100"
                               } ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
@@ -627,12 +629,9 @@ export default function VinylHeroPlayer({
                             }}
                             onClick={(e) => {
                               e.stopPropagation();
+                              goToAlbum(idx);
                               if (isActive) {
                                 togglePlay();
-                              } else {
-                                // Switch to this album and auto-play first track
-                                goToAlbum(idx);
-                                playTrack(0);
                               }
                             }}
                           >
@@ -833,25 +832,25 @@ export default function VinylHeroPlayer({
                   </div>
 
                   {/* Album nav arrows */}
-                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto">
-                    <button aria-label="Previous"
+                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto z-40">
+                    <button aria-label="Previous Album"
                       onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
                       disabled={activeAlbumIdx === 0}
-                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                      className="flex items-center gap-1 text-white hover:text-white disabled:opacity-30 transition-all text-[9.5px] font-bold uppercase tracking-wider cursor-pointer bg-black/70 hover:bg-[#d946ef] px-2.5 py-1 rounded-full border border-white/20 shadow-md"
                       title="Previous Album"
                     >
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
-                      Album
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
+                      <span>PREV ALBUM</span>
                     </button>
-                    <span className="text-[8px] text-white/40 font-bold">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
-                    <button aria-label="Next"
+                    <span className="text-[9px] text-white font-bold bg-black/70 px-2 py-0.5 rounded-full border border-white/15">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
+                    <button aria-label="Next Album"
                       onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
                       disabled={activeAlbumIdx === ALBUMS.length - 1}
-                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                      className="flex items-center gap-1 text-white hover:text-white disabled:opacity-30 transition-all text-[9.5px] font-bold uppercase tracking-wider cursor-pointer bg-black/70 hover:bg-[#d946ef] px-2.5 py-1 rounded-full border border-white/20 shadow-md"
                       title="Next Album"
                     >
-                      Album
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
+                      <span>NEXT ALBUM</span>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
                     </button>
                   </div>
                 </div>
