@@ -218,33 +218,35 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
       <div className="relative z-10 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch justify-center">
 
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
-          <div className="md:col-span-5 flex justify-center items-center w-full">
-            <IphoneClipMask className="w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[400px]">
-              <div className="relative w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950">
-                <video
-                  ref={phoneVideoRef}
-                  src={videoLoaded ? "/movie/notefication.mp4" : undefined}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload={videoLoaded ? "auto" : "none"}
-                  aria-label="7th Heaven Concert Live Stream"
-                  className="w-full h-full object-contain"
-                  onCanPlay={(e) => {
-                    e.currentTarget.muted = true;
-                    e.currentTarget.play().catch(() => { });
-                  }}
-                  onLoadedMetadata={(e) => {
-                    e.currentTarget.muted = true;
-                    e.currentTarget.play().catch(() => { });
-                  }}
-                />
-              </div>
-            </IphoneClipMask>
+          <div className="md:col-span-5 flex justify-center items-stretch w-full h-full my-auto">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <IphoneClipMask className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-none md:w-full h-full max-h-full flex items-center justify-center">
+                <div className="relative w-full h-full min-h-[480px] md:min-h-[600px] aspect-[9/16.5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950 flex items-center justify-center">
+                  <video
+                    ref={phoneVideoRef}
+                    src={videoLoaded ? "/movie/notefication.mp4" : undefined}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload={videoLoaded ? "auto" : "none"}
+                    aria-label="7th Heaven Concert Live Stream"
+                    className="w-full h-full object-contain"
+                    onCanPlay={(e) => {
+                      e.currentTarget.muted = true;
+                      e.currentTarget.play().catch(() => { });
+                    }}
+                    onLoadedMetadata={(e) => {
+                      e.currentTarget.muted = true;
+                      e.currentTarget.play().catch(() => { });
+                    }}
+                  />
+                </div>
+              </IphoneClipMask>
+            </div>
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
