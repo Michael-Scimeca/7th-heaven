@@ -169,6 +169,19 @@ const getStaggerDelay = (idx: number) => {
   return 360;                 // Mark
 };
 
+const getMemberImage = (m?: Partial<SanityBandMember>): string => {
+  if (m?.image) {
+    return typeof m.image === 'string' ? m.image : urlFor(m.image).url();
+  }
+  const nameLower = (m?.name || "").toLowerCase();
+  if (nameLower.includes("adam")) return "/images/members/adam.png";
+  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) return "/images/members/dicky.png";
+  if (nameLower.includes("frankie")) return "/images/members/frankie.png";
+  if (nameLower.includes("mark")) return "/images/members/mark.png";
+  if (nameLower.includes("nick")) return "/images/members/nick.png";
+  return "/images/members/adam.png";
+};
+
 export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioParallaxSliderProps) {
   // Construct 5-member stage explicitly: Frankie, Nick (Left), Adam (Center), Richard (Right), Mark
   const displayMembers = useMemo(() => {
@@ -663,14 +676,7 @@ lerpSpeed: ${lerpSpeed}`;
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const nameLower = (m?.name || "").toLowerCase();
-              let imageSrc = "/images/members/adam.png";
-              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
-              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
-              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
-              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
-              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
-              else if (m?.image) imageSrc = typeof m.image === 'string' ? m.image : urlFor(m.image).url();
+              const imageSrc = getMemberImage(m);
 
               return (
                 <button aria-label="Action button"
@@ -718,14 +724,7 @@ lerpSpeed: ${lerpSpeed}`;
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const nameLower = (m?.name || "").toLowerCase();
-              let imageSrc = "/images/members/adam.png";
-              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
-              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
-              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
-              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
-              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
-              else if (m?.image) imageSrc = typeof m.image === 'string' ? m.image : urlFor(m.image).url();
+              const imageSrc = getMemberImage(m);
 
               return (
                 <button aria-label="Action button"
@@ -787,14 +786,7 @@ lerpSpeed: ${lerpSpeed}`;
             style={{ width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
-              const nameLower = m?.name?.toLowerCase() || "";
-              let imageSrc = "";
-              if (nameLower.includes("adam")) imageSrc = "/images/members/adam.png";
-              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/members/dicky.png";
-              else if (nameLower.includes("frankie")) imageSrc = "/images/members/frankie.png";
-              else if (nameLower.includes("mark")) imageSrc = "/images/members/mark.png";
-              else if (nameLower.includes("nick")) imageSrc = "/images/members/nick.png";
-              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/members/adam.png";
+              const imageSrc = getMemberImage(m);
 
               // Stage slot index relative to current active centered slide (2 = Active Center, 1 = Left, 0 = Far Left, 3 = Right, 4 = Far Right)
               const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
