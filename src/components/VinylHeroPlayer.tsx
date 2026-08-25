@@ -599,26 +599,31 @@ export default function VinylHeroPlayer({
                   initialSlide={activeAlbumIdx}
                   spaceBetween={0}
                   grabCursor={true}
+                  simulateTouch={true}
+                  allowTouchMove={true}
+                  threshold={4}
+                  touchStartPreventDefault={false}
                   onSwiper={(swiper) => { swiperRef.current = swiper; }}
                   onSlideChange={handleSlideChange}
                   onSliderFirstMove={() => setIsDragging(true)}
-                  onTouchEnd={() => setIsDragging(false)}
+                  onTouchEnd={() => setTimeout(() => setIsDragging(false), 50)}
+                  onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
                   style={{ overflow: "visible", position: "relative", zIndex: 20 }}
-                  className="vinyl-swiper"
+                  className="vinyl-swiper cursor-grab active:cursor-grabbing"
                 >
                   {ALBUMS.map((album, idx) => (
                     <SwiperSlide
                       key={album.id}
-                      style={{ width: "165px", height: "250px", display: "flex", alignItems: "center", cursor: "pointer" }}
-                      onClick={() => goToAlbum(idx)}
+                      style={{ width: "165px", height: "250px", display: "flex", alignItems: "center" }}
                     >
 
                       {({ isActive }) => {
                         const vinylSrc = `/vin${(idx % 3) + 1}.png`;
                         return (
-                          <button
-                            type="button"
-                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
+                          <div
+                            role="button"
+                            tabIndex={0}
+                            className={`relative rounded-full flex items-center justify-center mx-auto transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing border-0 p-0 bg-transparent ${isActive && !isDragging
                               ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
                               : "opacity-90 scale-90 z-0 hover:scale-100"
                               } ${isActive ? "vinyl-spinning" : ""}`}
@@ -627,11 +632,18 @@ export default function VinylHeroPlayer({
                               height: "165px",
                               animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
                             }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              goToAlbum(idx);
-                              if (isActive) {
-                                togglePlay();
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                goToAlbum(idx);
+                                if (isActive) togglePlay();
+                              }
+                            }}
+                            onClick={() => {
+                              if (!isDragging) {
+                                goToAlbum(idx);
+                                if (isActive) {
+                                  togglePlay();
+                                }
                               }
                             }}
                           >
@@ -656,7 +668,7 @@ export default function VinylHeroPlayer({
                                 </div>
                               </div>
                             </div>
-                          </button>
+                          </div>
                         );
                       }}
                     </SwiperSlide>
