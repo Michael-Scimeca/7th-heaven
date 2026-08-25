@@ -465,7 +465,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             loop
             playsInline
             preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.25] opacity-90 transition-opacity duration-500"
+            className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
           />
         </div>
       ) : isYouTube && YTComp ? (
@@ -482,7 +482,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           muted
           loop
           playsInline
-          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${isVideoFading ? "opacity-0 scale-[1.36] filter blur-sm" : "opacity-100 scale-[1.3] filter blur-0"
+          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
             }`}
         >
           <source src={videoSrc} type="video/mp4" />
