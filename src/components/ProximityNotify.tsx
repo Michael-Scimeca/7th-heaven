@@ -217,18 +217,18 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     <section id="proximity-notify" className="site-container relative py-section-fluid bg-transparent overflow-hidden">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
-      <div className="relative z-10 mx-auto">
+      <div className="relative z-10 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch justify-center">
 
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
-          <div className="md:col-span-5 flex justify-center items-center w-full h-full my-auto">
-            <div className="relative w-full h-full max-h-[900px] flex items-center justify-center">
+          <div className="md:col-span-5 flex justify-center md:justify-end items-center w-full h-full my-auto">
+            <div className="relative w-full h-full max-h-[900px] flex items-center justify-center md:justify-end">
               <IphoneClipMask
                 insetXPercent={0}
                 insetTopPercent={0}
                 insetBottomPercent={0}
                 borderRadiusPx={48}
-                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center"
+                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end"
               >
                 <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[2px] border-white/20 bg-black flex items-center justify-center transition-all duration-300">
                   <video
@@ -256,7 +256,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
-          <div className="md:col-span-8 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0">
+          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
