@@ -526,10 +526,10 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-2xl min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-6 overflow-hidden transform-gpu ${
+                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu ${
                     isActive
-                      ? "scale-[1.035] z-20 bg-purple-900/30 border border-purple-500/40 shadow-[0_0_35px_rgba(168,85,247,0.25)]"
-                      : "scale-100 bg-purple-950/20 md:bg-transparent group-hover:bg-purple-900/10"
+                      ? "scale-[1.04] z-20 opacity-100"
+                      : "scale-100 opacity-70 hover:opacity-100"
                   }`}
                 >
                   {/* Full Section Background Video (Mobile Only) */}
