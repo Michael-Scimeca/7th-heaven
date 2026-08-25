@@ -766,7 +766,7 @@ export default function VinylHeroPlayer({
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className={`text-left border-0 bg-white text-black rounded-lg px-3 py-1 shadow-md min-w-[130px] cursor-pointer transition-all duration-200 transform-gpu hover:scale-105 active:scale-110 ${isPlaying || showTracklist ? "scale-105 ring-2 ring-[#d946ef] shadow-[0_0_20px_rgba(217,70,239,0.5)]" : ""}`}
+                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 shadow-md min-w-[130px] cursor-pointer"
                       >
                         <div className="text-[9px]  font-bold  uppercase leading-tight flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
@@ -787,7 +787,7 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-all duration-200 hover:scale-105 active:scale-110 transform-gpu w-fit"
+                        className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-colors hover:scale-105 w-fit"
                       >
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
                         Buy CD
