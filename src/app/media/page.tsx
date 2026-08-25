@@ -323,35 +323,45 @@ export default function MediaPage() {
     return v.title.toLowerCase().includes(q) || (v.description && v.description.toLowerCase().includes(q));
   }) || [];
 
-  // GSAP ScrollTrigger setup for video list items
+  // 60 FPS focal line scroll sync setup for video list items to sticky video player
   useEffect(() => {
     if (typeof window === "undefined" || filteredVideos.length === 0) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+    let rafId: number;
 
-    const ctx = gsap.context(() => {
-      videoItemRefs.current.forEach((item, index) => {
+    function updateActiveOnScroll() {
+      if (!videoItemRefs.current.length) return;
+      const targetY = window.innerHeight * 0.38; // 38% from top of screen (sticky player focus line)
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      videoItemRefs.current.forEach((item, idx) => {
         if (!item) return;
-
-        ScrollTrigger.create({
-          trigger: item,
-          start: "top 55%",
-          end: "bottom 45%",
-          onEnter: () => setActiveIndex(index),
-          onEnterBack: () => setActiveIndex(index),
-          onToggle: (self) => {
-            if (self.isActive) {
-              setActiveIndex(index);
-            }
-          },
-        });
+        const rect = item.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const dist = Math.abs(center - targetY);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestIdx = idx;
+        }
       });
-    }, containerRef);
 
-    ScrollTrigger.refresh();
+      setActiveIndex(closestIdx);
+    }
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateActiveOnScroll);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    updateActiveOnScroll();
 
     return () => {
-      ctx.revert();
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, [filteredVideos.length, activeFilter, searchQuery]);
 
