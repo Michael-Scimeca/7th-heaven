@@ -522,7 +522,7 @@ export default function VinylHeroPlayer({
                 centeredSlides={true}
                 loop={false}
                 initialSlide={activeAlbumIdx}
-                spaceBetween={30}
+                spaceBetween={0}
                 grabCursor={true}
                 onSwiper={(swiper) => { swiperRef.current = swiper; }}
                 onSlideChange={handleSlideChange}
