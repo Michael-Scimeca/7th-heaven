@@ -524,9 +524,9 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-center cursor-pointer group transition-all duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
-              ? "!text-[#9333ea]"
-              : ""
+            className={`shrink-0 min-w-0 flex items-center justify-center group transition-all duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
+              ? "!text-[#9333ea] active cursor-default"
+              : "cursor-pointer"
               }`}
             title="7th Heaven — Go to Home Page"
           >
@@ -544,8 +544,8 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#9333ea] font-bold active"
-                    : "!text-white/90 hover:!text-white"
+                    ? "!text-[#9333ea] font-bold active cursor-default"
+                    : "!text-white/90 hover:!text-white cursor-pointer"
                     }`}
                 >
                   {link.label}
@@ -557,8 +557,8 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea] font-bold active"
-                : "!text-white/90 hover:!text-white"
+                ? "!text-[#9333ea] font-bold active cursor-default"
+                : "!text-white/90 hover:!text-white cursor-pointer"
                 }`}
             >
               {hasLiveStreams && (
@@ -577,8 +577,8 @@ export function Header() {
             <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#9333ea] font-bold active"
-                : "!text-white/90 hover:!text-white"
+                ? "!text-[#9333ea] font-bold active cursor-default"
+                : "!text-white/90 hover:!text-white cursor-pointer"
                 }`}
             >
               CRUISE
@@ -589,8 +589,8 @@ export function Header() {
             <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#9333ea] font-bold active"
-                : "!text-white/90 hover:!text-white"
+                ? "!text-[#9333ea] font-bold active cursor-default"
+                : "!text-white/90 hover:!text-white cursor-pointer"
                 }`}
             >
               BOOK US
@@ -600,8 +600,8 @@ export function Header() {
             <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#9333ea] font-bold active"
-                : "!text-white/90 hover:!text-white"
+                ? "!text-[#9333ea] font-bold active cursor-default"
+                : "!text-white/90 hover:!text-white cursor-pointer"
                 }`}
             >
               CONTACT
@@ -830,7 +830,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl  font-bold  uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"
+                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
                           }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and

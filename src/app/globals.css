@@ -6104,3 +6104,11 @@ html.is-preloading.is-revealing .progressive-blur.is-top {
   backdrop-filter: blur(3.5em);
   mask: linear-gradient(#0000 88%, #000 100%);
 }
+
+/* Ensure active navigation items or logos never display click pointer */
+a.active,
+button.active,
+.active,
+[aria-current="page"] {
+  cursor: default !important;
+}
