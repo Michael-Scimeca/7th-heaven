@@ -374,7 +374,7 @@ function HomeShaderGradientComponent() {
       if (saved) {
         applySettings(JSON.parse(saved));
       }
-    } catch {}
+    } catch { }
 
     const handleSettingsChange = (e: Event) => {
       const customEv = e as CustomEvent;
@@ -389,28 +389,6 @@ function HomeShaderGradientComponent() {
 
   return (
     <>
-      {/* Fixed Full-Page Film Grain Overlay Layer — Covers the ENTIRE page over all content */}
-      <div
-        id="global-film-grain-overlay"
-        className="fixed inset-0 pointer-events-none z-[99999] transition-opacity duration-200"
-        style={{
-          opacity: `var(--canvas-grain-opacity, 0.18)`,
-          mixBlendMode: `var(--canvas-grain-blend, overlay)` as any,
-        }}
-      >
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}>
-          <filter id="globalGrainFilter">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.85"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#globalGrainFilter)" />
-        </svg>
-      </div>
-
       {/* Background Shader Canvas Container */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
         <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />

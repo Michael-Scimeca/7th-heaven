@@ -560,17 +560,6 @@ export default function VinylHeroPlayer({
         >
           <div className="relative" style={{ width: '777px' }}>
             {/* Header Title anchored directly to x = 184px (the top-left corner of the 263px sleeve window box) */}
-            <div className="absolute -top-7 left-[255px] w-[263px] flex items-center justify-between pointer-events-none z-40">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
-                  Listen To Our Hits
-                </span>
-              </div>
-              <span className="text-[8.5px] font-bold tracking-wider text-white/50 uppercase">
-                3 Latest Albums
-              </span>
-            </div>
-
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
               <div className="fancy w-[263px] h-[263px] rounded-lg shadow-[0_0_40px_rgba(147,51,234,0.25)]">
@@ -695,10 +684,13 @@ export default function VinylHeroPlayer({
                       <div className="w-[1px] h-3 bg-white/20 my-auto" />
                       <button aria-label="Toggle Playlist"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className={`p-1 rounded-full transition-all duration-300 cursor-pointer ${showTracklist ? "text-white bg-white/40 border border-white/60 shadow-[0_0_20px_rgba(255,255,255,1),0_0_10px_rgba(255,255,255,0.9)] drop-shadow-[0_0_8px_rgba(255,255,255,1)] scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                        className={`p-1.5 rounded-full transition-all duration-300 cursor-pointer ${showTracklist
+                          ? "text-white bg-[#d946ef] border border-white shadow-[0_0_20px_#d946ef,0_0_10px_#ffffff] scale-110"
+                          : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
+                          }`}
                         title="Toggle Playlist"
                       >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_4px_rgba(255,255,255,0.9)]">
                           <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
                           <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
                         </svg>
