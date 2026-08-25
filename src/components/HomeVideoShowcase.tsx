@@ -178,7 +178,7 @@ export default function HomeVideoShowcase() {
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-video");
+  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[3/4]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
@@ -534,7 +534,7 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ height: "clamp(300px, 35vw, 600px)" }}
+                  style={{ height: "clamp(450px, 48vw, 780px)" }}
                   className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 ${activeModalVideo?.id === video.id
                     ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
                     : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
