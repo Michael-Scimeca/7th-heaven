@@ -332,7 +332,7 @@ export default function StickyNotesOverlay() {
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-amber-400 font-bold">Sticky Note #{n.id.slice(-4)}</span>
                         {isNoteHidden && (
-                          <span className="text-[9px]  font-bold  text-rose-400 uppercase tracking-wider bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
+                          <span className=" text-[12px]   font-bold  text-rose-400 uppercase tracking-wider bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
                             Hidden
                           </span>
                         )}
@@ -555,7 +555,7 @@ function SingleStickyCard({
 
         <div className="flex items-center gap-1.5 shrink-0">
           <span
-            className={`text-[9px]  font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${note.status === "submitted"
+            className={` text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${note.status === "submitted"
               ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
               : "bg-amber-500/20 text-amber-300 border border-amber-500/40"
               }`}
@@ -594,7 +594,7 @@ function SingleStickyCard({
         />
 
         <div className="flex items-center justify-between pt-1">
-          <span className="text-[9px] text-white/40 font-mono">
+          <span className=" text-[12px]  text-white/40 font-mono">
             {formattedTime}
           </span>
 

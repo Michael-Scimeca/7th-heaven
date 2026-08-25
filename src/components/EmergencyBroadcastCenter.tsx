@@ -286,7 +286,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
                   Twilio SMS Alert
                 </span>
-                <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
+                <span className=" text-[12px]  text-[var(--muted-text)] font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
               </div>
             </div>
           </label>
@@ -299,7 +299,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                   Email Broadcast
                 </span>
-                <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
+                <span className=" text-[12px]  text-[var(--muted-text)] font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
               </div>
             </div>
           </label>
@@ -312,7 +312,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                   Push Notification (ntfy)
                 </span>
-                <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">Free ($0.00) — real send</span>
+                <span className=" text-[12px]  text-[var(--muted-text)] font-mono font-bold">Free ($0.00) — real send</span>
               </div>
             </div>
           </label>
@@ -325,7 +325,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                   Fan Wall Banner
                 </span>
-                <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">Free ($0.00)</span>
+                <span className=" text-[12px]  text-[var(--muted-text)] font-mono font-bold">Free ($0.00)</span>
               </div>
             </div>
           </label>
@@ -355,7 +355,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               <label htmlFor="emg-msg-body" className="text-[10px]  font-bold  text-[var(--muted-text)] uppercase tracking-wider">
                 SMS & Alert Body Text
               </label>
-              <span className="text-[9px] font-mono font-bold text-purple-300">
+              <span className=" text-[12px]  font-mono font-bold text-purple-300">
                 {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
@@ -373,7 +373,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         {/* Live iPhone SMS Mockup Preview */}
         <div className="bg-transparent border border-[var(--border-color)] p-3 flex flex-col justify-between shadow-xs">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-1.5 mb-2.5">
-            <span className="text-[9px]  font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-1.5">
+            <span className=" text-[12px]   font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
               Twilio Live SMS Preview
             </span>
@@ -387,7 +387,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             <span className="text-[8px] text-white/50 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>
           </div>
 
-          <div className="mt-2.5 pt-1.5 border-t border-[var(--border-color)] flex items-center justify-between text-[9px] font-mono text-[var(--muted-text)] font-bold">
+          <div className="mt-2.5 pt-1.5 border-t border-[var(--border-color)] flex items-center justify-between  text-[12px]  font-mono text-[var(--muted-text)] font-bold">
             <span>Estimated Cost: <strong className="text-emerald-400  font-bold ">${estimatedSmsCost.toFixed(2)}</strong></span>
             <span>Targeting {recipientCount.toLocaleString()} Fans</span>
           </div>

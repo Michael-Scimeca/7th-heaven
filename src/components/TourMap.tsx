@@ -622,10 +622,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           </div>
           ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ''}
           ${isHappening
-      ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
-      : isNext
-        ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
-        : ""}
+          ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
+          : isNext
+            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
+            : ""}
 
           <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
             ${directionsHtml}
@@ -913,7 +913,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1 text-[9px] sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
+                    <span className="ml-1  text-[12px]  sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
                       ({markerCount})
                     </span>
                   )}
@@ -981,7 +981,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   {/* Quick Preset Buttons */}
                   <div className="space-y-1">
-                    <span className="text-[9px] font-bold text-white/50 uppercase tracking-wider block">Quick Presets</span>
+                    <span className=" text-[12px]  font-bold text-white/50 uppercase tracking-wider block">Quick Presets</span>
                     <div className="grid grid-cols-3 gap-1.5">
                       <button
                         type="button"
@@ -990,7 +990,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 30 Days
                       </button>
@@ -1001,14 +1001,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 90 Days
                       </button>
                       <button
                         type="button"
                         onClick={() => setDateRange([minShowTime, maxShowTime])}
-                        className="px-2 py-1 text-[9px] font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10 bg-[#e1e6ff29]   hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         All Dates
                       </button>

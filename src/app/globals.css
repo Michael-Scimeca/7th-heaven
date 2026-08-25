@@ -12,7 +12,7 @@ h1 {
 html {
   background-color: #05030a;
   color: #ffffff;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
@@ -22,7 +22,7 @@ body {
   background-color: transparent !important;
   background: transparent !important;
   color: #ffffff;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
@@ -6019,14 +6019,14 @@ html.is-preloading.is-revealing #page-content-wrapper {
 
 
 @utility pt-stage-fluid {
-  padding-top: 7vw !important;
+  padding-top: 12vw !important;
 
   @media (min-width: 768px) {
     padding-top: 7.5vw !important;
   }
 
   @media (min-width: 1667px) {
-    padding-top: 6vw !important;
+    padding-top: 9vw !important;
   }
 }
 

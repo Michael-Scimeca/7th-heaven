@@ -68,7 +68,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         <div className={`h-1 w-full ${accent.bar}`} />
 
         <div className="flex items-center justify-between gap-1 px-2 py-1">
-          <span className={`font-bold ${isSmall ? "text-[8px]" : "text-[9px]"} tracking-wide uppercase truncate ${accent.text}`}>
+          <span className={`font-bold ${isSmall ? "text-[8px]" : " text-[12px] "} tracking-wide uppercase truncate ${accent.text}`}>
             {data.header}
           </span>
           <span className={`shrink-0 px-1 py-[1px] rounded text-[7px] font-mono font-bold ${accent.chip}`}>
@@ -88,14 +88,14 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-150 block"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/20 text-[9px] font-mono">
+            <div className="w-full h-full flex items-center justify-center text-white/20  text-[12px]  font-mono">
               {targetPath}
             </div>
           )}
         </div>
 
         <div className="px-2 py-1.5">
-          <p className={`font-semibold ${isSmall ? "text-[9px]" : "text-[10.5px]"} text-white/85 group-hover:text-white leading-tight truncate`}>
+          <p className={`font-semibold ${isSmall ? " text-[12px] " : "text-[10.5px]"} text-white/85 group-hover:text-white leading-tight truncate`}>
             {data.title}
           </p>
         </div>

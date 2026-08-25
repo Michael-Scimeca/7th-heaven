@@ -3546,19 +3546,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="">
                       <span className="text-lg block"></span>
                       <span className="text-xs  font-bold  text-[var(--text-color)] block mt-1">68%</span>
-                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
+                      <span className=" text-[12px]  font-bold uppercase text-[var(--muted-text)] block">Mobile</span>
                     </div>
 
                     <div className="">
                       <span className="text-lg block"></span>
                       <span className="text-xs  font-bold  text-[var(--text-color)] block mt-1">27%</span>
-                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
+                      <span className=" text-[12px]  font-bold uppercase text-[var(--muted-text)] block">Desktop</span>
                     </div>
 
                     <div className="">
                       <span className="text-lg block"></span>
                       <span className="text-xs  font-bold  text-[var(--text-color)] block mt-1">5%</span>
-                      <span className="text-[9px] font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
+                      <span className=" text-[12px]  font-bold uppercase text-[var(--muted-text)] block">Tablet</span>
                     </div>
                   </div>
 
@@ -4343,7 +4343,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <button
                                     type="button"
                                     onClick={() => setEditingInlineLoadInId(null)}
-                                    className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
+                                    className="px-2 py-1  text-[12px]  font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
                                   >
                                     Cancel
                                   </button>
@@ -4354,7 +4354,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
                                       setEditingInlineLoadInId(null);
                                     }}
-                                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-[9px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
+                                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white  font-bold   text-[12px]  uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
                                   >
                                     {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
                                   </button>
@@ -5050,26 +5050,26 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="bg-transparent border-none p-0 text-start">
                     <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
                     <div className="text-base font-bold text-white">480 fans</div>
-                    <div className="text-[9px] text-[var(--color-accent)]">Within 25mi radius</div>
+                    <div className=" text-[12px]  text-[var(--color-accent)]">Within 25mi radius</div>
                   </div>
                   <div className="bg-transparent border-none p-0 text-start">
                     <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
                     <div className="text-base font-bold text-purple-300">${smsCostPerSegment}/SMS</div>
-                    <div className="text-[9px] text-white/40">US Standard Rate</div>
+                    <div className=" text-[12px]  text-white/40">US Standard Rate</div>
                   </div>
                   <div className="bg-transparent border-none p-0 text-start">
                     <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
                     <div className="text-base  font-bold  text-rose-400">
                       ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
                     </div>
-                    <div className="text-[9px] text-white/40">
+                    <div className=" text-[12px]  text-white/40">
                       {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
                     </div>
                   </div>
                   <div className="bg-transparent border-none p-0 text-start">
                     <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
                     <div className="text-base font-bold text-white">{smsTotalSpentAllTime.toLocaleString()}</div>
-                    <div className="text-[9px] text-purple-300">Across 4 blasts</div>
+                    <div className=" text-[12px]  text-purple-300">Across 4 blasts</div>
                   </div>
                 </div>
               </div>
@@ -5112,13 +5112,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         <div>
                           <div className="text-xs font-bold text-white leading-tight">7th Heaven Band</div>
-                          <div className="text-[9px] text-[var(--color-accent)] font-semibold mt-0.5">Verified Twilio SMS</div>
+                          <div className=" text-[12px]  text-[var(--color-accent)] font-semibold mt-0.5">Verified Twilio SMS</div>
                         </div>
                       </div>
 
                       {/* Message Body Screen */}
                       <div className="p-4 flex-1 overflow-y-auto bg-[#07070b] space-y-3 font-sans text-xs custom-scrollbar">
-                        <div className="text-center text-[9px] text-white/40 font-semibold tracking-wider uppercase">Today 9:41 AM</div>
+                        <div className="text-center  text-[12px]  text-white/40 font-semibold tracking-wider uppercase">Today 9:41 AM</div>
 
                         {/* SMS Bubble */}
                         <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg  rounded-tl-xs border border-white/10 shadow-lg text-[11px] leading-relaxed whitespace-pre-wrap">
@@ -6524,7 +6524,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                 {/* Role badge */}
                                 <div className="flex items-center gap-1.5 shrink-0">
-                                  <span className="inline-block text-[9px]  font-bold  uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1  rounded-lg  leading-none shrink-0">
+                                  <span className="inline-block  text-[12px]   font-bold  uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1  rounded-lg  leading-none shrink-0">
                                     {r.role}
                                   </span>
                                 </div>
@@ -8573,7 +8573,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         >
           {activeLockingEditor && (
             <div className="absolute inset-x-0 -top-2 z-20 flex justify-center pointer-events-none">
-              <span className="bg-pink-600 text-white text-[9px]  font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
+              <span className="bg-pink-600 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
                 {activeLockingEditor.name.split(' ')[0]} editing
               </span>
             </div>
@@ -8677,7 +8677,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="flex items-center justify-between font-sans">
                   <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-white drop-  font-sans">{shift.role || 'Shift'}</span>
                   {shift.isDraft && (
-                    <span className="text-[9px] bg-yellow-400 text-black px-1 rounded  font-bold  font-sans">DRAFT</span>
+                    <span className=" text-[12px]  bg-yellow-400 text-black px-1 rounded  font-bold  font-sans">DRAFT</span>
                   )}
                 </div>
                 <div className="text-[var(--font-size-4xs)] font-medium text-white/80 line-clamp-1 font-sans">
@@ -8892,7 +8892,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="flex items-center gap-1.5">
                             <span className="text-[var(--text-color)]  font-bold  text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
-                              <span className="text-[9px] bg-purple-600 text-white px-1 py-0.5 rounded  font-bold  uppercase tracking-widest scale-[0.85] origin-left select-none">
+                              <span className=" text-[12px]  bg-purple-600 text-white px-1 py-0.5 rounded  font-bold  uppercase tracking-widest scale-[0.85] origin-left select-none">
                                 NEXT
                               </span>
                             )}
@@ -8934,7 +8934,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[9px] font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 px-1.5 py-0.5 rounded truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full  text-[12px]  font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 px-1.5 py-0.5 rounded truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -8955,7 +8955,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
                       <div>
                         <span className="text-xs  font-bold  text-[var(--text-color)] block leading-tight">OpenShifts</span>
-                        <span className="text-[9px] text-[var(--muted-text)] font-bold uppercase tracking-wider leading-none">Positions</span>
+                        <span className=" text-[12px]  text-[var(--muted-text)] font-bold uppercase tracking-wider leading-none">Positions</span>
                       </div>
                     </div>
                   </td>
@@ -9086,11 +9086,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                             <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                               {hoursStatus.status !== 'ok' ? (
-                                <span className="text-[9px] text-rose-500 font-bold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
+                                <span className=" text-[12px]  text-rose-500 font-bold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
                                   <span className="font-mono">{totalHours}h</span>
                                 </span>
                               ) : (
-                                <span className="text-[9px] text-[var(--muted-text)] font-bold font-mono leading-none">
+                                <span className=" text-[12px]  text-[var(--muted-text)] font-bold font-mono leading-none">
                                   {totalHours}h
                                 </span>
                               )}
@@ -9104,10 +9104,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg   text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
                               <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
-                              <div className=" text-[var(--color-accent)] font-bold text-[9px] uppercase tracking-wider mb-2">
+                              <div className=" text-[var(--color-accent)] font-bold  text-[12px]  uppercase tracking-wider mb-2">
                                 Role: {member.role || 'Crew Member'}
                               </div>
-                              <div className="text-[var(--muted-text)] text-[9px] space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
+                              <div className="text-[var(--muted-text)]  text-[12px]  space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
                                 <div className="flex items-center gap-1.5">
                                   <span></span>
                                   <span className="truncate">{member.email || 'N/A'}</span>
@@ -9118,7 +9118,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 </div>
                               </div>
                               {hoursStatus.status !== 'ok' && (
-                                <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] text-[9px] text-[var(--muted-text)]">
+                                <div className="mt-2.5 pt-2 border-t border-[var(--border-color)]  text-[12px]  text-[var(--muted-text)]">
                                   <div className="font-bold text-[var(--text-color)]">Hours Alert:</div>
                                   <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
                                   <div className="text-rose-500 font-bold mt-0.5 flex items-center gap-1">
@@ -9722,7 +9722,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="text-[10px] text-white/50">{ed.lastAction}</div>
                           </div>
                         </div>
-                        <span className={`px-2 py-0.5 text-[9px]  font-bold  rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
+                        <span className={`px-2 py-0.5  text-[12px]   font-bold  rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
                           {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
                         </span>
                       </div>
@@ -10650,7 +10650,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 <div className="flex items-center justify-between gap-2">
                                                   <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
                                                   {assignment.active && (
-                                                    <span className="bg-purple-500 text-white text-[9px]  font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
+                                                    <span className="bg-purple-500 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
                                                       Selected
                                                     </span>
                                                   )}
@@ -12030,7 +12030,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
             )}
             {/* Hover overlay with camera icon */}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[9px] font-bold uppercase transition-opacity">
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white  text-[12px]  font-bold uppercase transition-opacity">
               <span className="text-sm"></span>
               <span>{adminAvatarUploading ? "..." : "Upload"}</span>
             </div>
@@ -12530,7 +12530,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setLivePreviewTab('dashboard')}
-                            className={`px-3 py-1 rounded-lg text-[9px]  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
+                            className={`px-3 py-1 rounded-lg  text-[12px]   font-bold  uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
                               ? 'bg-cyan-500 text-black shadow-md'
                               : ' text-white  hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}
@@ -12540,7 +12540,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setLivePreviewTab('email')}
-                            className={`px-3 py-1 rounded-lg text-[9px]  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
+                            className={`px-3 py-1 rounded-lg  text-[12px]   font-bold  uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
                               ? 'bg-cyan-500 text-black shadow-md'
                               : ' text-white  hover:text-white hover:bg-[#e1e6ff29]  '
                               }`}

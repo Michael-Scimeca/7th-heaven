@@ -230,7 +230,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 borderRadiusPx={48}
                 className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end"
               >
-                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[2px] border-white/20 bg-black flex items-center justify-center transition-all duration-300">
+                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]  bg-black flex items-center justify-center transition-all duration-300">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}

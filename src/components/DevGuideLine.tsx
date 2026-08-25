@@ -69,7 +69,7 @@ export default function DevGuideLine() {
         <div className="fixed inset-0 z-[999998] pointer-events-none overflow-hidden">
           {/* Left guideline (25px mobile, 32px desktop) */}
           <div className="absolute top-0 bottom-0 left-[25px] md:left-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 left-1 bg-cyan-950/90 text-cyan-300 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap  ">
+            <span className="absolute top-2 left-1 bg-cyan-950/90 text-cyan-300  text-[12px]  font-mono font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap  ">
               <span className="md:hidden">25px Left</span>
               <span className="hidden md:inline">32px Left</span>
             </span>
@@ -77,7 +77,7 @@ export default function DevGuideLine() {
 
           {/* Right guideline (25px mobile, 32px desktop) */}
           <div className="absolute top-0 bottom-0 right-[25px] md:right-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 right-1 bg-cyan-950/90 text-cyan-300 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap  ">
+            <span className="absolute top-2 right-1 bg-cyan-950/90 text-cyan-300  text-[12px]  font-mono font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap  ">
               <span className="md:hidden">25px Right</span>
               <span className="hidden md:inline">32px Right</span>
             </span>

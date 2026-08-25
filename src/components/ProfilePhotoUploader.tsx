@@ -174,7 +174,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           ) : (
             <div className="text-center p-1">
               <span className="text-xs  font-bold  text-[var(--color-accent)] tracking-wider block">{initials}</span>
-              <p className="text-[9px] font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
+              <p className=" text-[12px]  font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
           <button aria-label="Action button"

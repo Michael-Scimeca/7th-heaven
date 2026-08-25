@@ -502,7 +502,7 @@ export default function AudioPlayerSection() {
   return (
     <section
       ref={sectionRef}
-      className="h-[calc(100dvh-90px)] flex flex-col justify-between relative w-full bg-transparent overflow-hidden"
+      className="h-[calc(100dvh-90px)] flex flex-col justify-between relative w-full bg-transparent overflow-hidden hidden md:flex"
       id="music-player-section"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
@@ -763,7 +763,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-4">
                         <h3 className="text-[14px]  font-bold  tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
-                        <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
                           ))}
@@ -774,7 +774,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-4">
                         <h3 className="text-[14px]  font-bold  tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
-                        <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
                           ))}

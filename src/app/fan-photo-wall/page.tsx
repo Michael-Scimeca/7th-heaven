@@ -295,7 +295,7 @@ export default function FansPage() {
                           className="object-cover"
                         />
                       )}
-                      <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-black/80 backdrop-blur-md rounded text-[9px] font-mono text-white/90">
+                      <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-black/80 backdrop-blur-md rounded  text-[12px]  font-mono text-white/90">
                         {photo.date || "Pending"}
                       </div>
                     </div>

@@ -516,7 +516,7 @@ export default function VinylHeroPlayer({
 
   return (
     <div
-      className="relative flex justify-end items-end"
+      className="relative flex justify-end items-end hidden md:flex"
       style={{
         width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
         height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,

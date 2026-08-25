@@ -10,7 +10,7 @@ import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw, Paintbrush, Scissors, Sav
 import { SanityBandMember, urlFor } from "@/lib/sanity";
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
-const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
+const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mobileImage?: string })[] = [
   {
     name: "Frankie Harchut", role: "Drums",
     birthday: "May 31", zodiac: "Gemini",
@@ -21,7 +21,9 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Midwest Girls In The Summertime",
     favQuote: "Success is where preparation and opportunity meet",
     funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/members/frankie.png"
+    image: "/images/members/desktop-frank.png",
+    desktopImage: "/images/members/desktop-frank.png",
+    mobileImage: "/images/members/frank-mobile.png"
   },
   {
     name: "Nick Cox", role: "Guitars • Vocals • Piano",
@@ -32,7 +34,9 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "American History X", fav7hSong: "Take Me With You",
     favQuote: "The universe is a pretty big place... seems like an awful waste of space.",
     funFact: "I love just staying home on my couch",
-    image: "/images/members/nick.png"
+    image: "/images/members/desktop-nick.png",
+    desktopImage: "/images/members/desktop-nick.png",
+    mobileImage: "/images/members/nick.png"
   },
   {
     name: "Adam Heisler", role: "Lead Vocals",
@@ -42,7 +46,9 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Give me a good romantic comedy",
     fav7hSong: "You and I", favQuote: "I'm always happy and never satisfied",
     funFact: "I used to be a Jr. Black belt in Tae Kwon Do",
-    image: "/images/members/adam.png"
+    image: "/images/members/desktop-adam.png",
+    desktopImage: "/images/members/desktop-adam.png",
+    mobileImage: "/images/members/adam-mobile.png"
   },
   {
     name: "Richard Hofherr", role: "Guitars • Keys • Vocals",
@@ -54,7 +60,9 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Sing, Diamonds, Midwest Girls",
     favQuote: "Life is all about perspectives. You can look at the glass half-empty and half-full.",
     funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/members/dicky.png"
+    image: "/images/members/desktop-richy.png",
+    desktopImage: "/images/members/desktop-richy.png",
+    mobileImage: "/images/members/dicky-mobile.png"
   },
   {
     name: "Mark Kennetz", role: "Bass • Vocals • Uke • Guitar",
@@ -64,7 +72,9 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Hot Fuzz, Anchorman", fav7hSong: "Ethereal",
     favQuote: "The past is in our heads, the future is in our hands",
     funFact: "Stage 2 carnivore — eat anything with 2 legs or less!",
-    image: "/images/members/mark.png"
+    image: "/images/members/desktop-mark.png",
+    desktopImage: "/images/members/desktop-mark.png",
+    mobileImage: "/images/members/mark-mobile.png"
   },
 ];
 
@@ -155,7 +165,7 @@ const DEFAULT_POSITION_CONFIGS: PositionSlideMaskConfig[] = [
 ];
 
 interface BioParallaxSliderProps {
-  members?: Partial<SanityBandMember>[];
+  members?: (Partial<SanityBandMember> & { desktopImage?: string; mobileImage?: string })[];
 }
 
 // Fast Staggered load animation delays:
@@ -169,15 +179,32 @@ const getStaggerDelay = (idx: number) => {
   return 360;                 // Mark
 };
 
-const getMemberImage = (m?: Partial<SanityBandMember>): string => {
+const getMemberDesktopImage = (m?: Partial<SanityBandMember> & { desktopImage?: string }): string => {
+  if (m?.desktopImage) return m.desktopImage;
   const nameLower = (m?.name || "").toLowerCase();
-  if (nameLower.includes("adam")) return "/images/members/adam.png";
-  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) return "/images/members/dicky.png";
-  if (nameLower.includes("frankie")) return "/images/members/frankie.png";
-  if (nameLower.includes("mark")) return "/images/members/mark.png";
-  if (nameLower.includes("nick")) return "/images/members/nick.png";
+  if (nameLower.includes("adam")) return "/images/members/desktop-adam.png";
+  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/desktop-richy.png";
+  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/desktop-frank.png";
+  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/desktop-mark.png";
+  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/desktop-nick.png";
   if (typeof m?.image === 'string' && m.image) return m.image;
-  return "/images/members/adam.png";
+  return "/images/members/desktop-adam.png";
+};
+
+const getMemberMobileImage = (m?: Partial<SanityBandMember> & { mobileImage?: string }): string => {
+  if (m?.mobileImage) return m.mobileImage;
+  const nameLower = (m?.name || "").toLowerCase();
+  if (nameLower.includes("adam")) return "/images/members/adam-mobile.png";
+  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/dicky-mobile.png";
+  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/frank-mobile.png";
+  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/mark-mobile.png";
+  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/nick.png";
+  if (typeof m?.image === 'string' && m.image) return m.image;
+  return "/images/members/adam-mobile.png";
+};
+
+const getMemberImage = (m?: Partial<SanityBandMember> & { desktopImage?: string; mobileImage?: string }, isMobile?: boolean): string => {
+  return isMobile ? getMemberMobileImage(m) : getMemberDesktopImage(m);
 };
 
 export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioParallaxSliderProps) {
@@ -215,10 +242,31 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const [nameFontSize, setNameFontSize] = useState<string | number>("clamp(18px, 11.75px + 0.953vw, 27px)");
   const [roleFontSize, setRoleFontSize] = useState<number>(14); // px
   const [textBottomOffset, setTextBottomOffset] = useState<number>(16); // px
   const [textBackdropOpacity, setTextBackdropOpacity] = useState<number>(0); // % opacity for text background backdrop mask
+
+  const computedNameFontSize = useMemo(() => {
+    if (isMobileView) {
+      if (typeof nameFontSize === "number") {
+        return `${Math.max(10, nameFontSize - 4)}px`;
+      }
+      if (typeof nameFontSize === "string" && nameFontSize.includes("clamp(18px")) {
+        return "clamp(14px, 7.75px + 0.953vw, 23px)";
+      }
+      return `calc(${nameFontSize} - 4px)`;
+    }
+    return typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize;
+  }, [nameFontSize, isMobileView]);
+
+  const computedRoleFontSize = useMemo(() => {
+    if (isMobileView) {
+      return `${Math.max(10, roleFontSize - 3)}px`;
+    }
+    return `${roleFontSize}px`;
+  }, [roleFontSize, isMobileView]);
 
   // 🎭 Position-Based Slide Masking Configurations (0 = Pos 1, 4 = Pos 5) with localStorage persistence
   const [positionConfigs, setPositionConfigs] = useState<PositionSlideMaskConfig[]>(() => {
@@ -301,8 +349,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       if (typeof window === "undefined") return;
       const vh = window.innerHeight;
       const vw = window.innerWidth;
-      const isMobile = vw < 640;
-      const isTablet = vw >= 640 && vw < 1024;
+      const isMobile = vw < 768;
+      const isTablet = vw >= 768 && vw < 1024;
+      setIsMobileView(isMobile);
       setIsTabletView(isTablet);
 
       let targetHeight: number;
@@ -530,31 +579,22 @@ lerpSpeed: ${lerpSpeed}`;
             imgEl.style.transform = transformStr;
             imgEl.style.opacity = "1";
 
-            if (focalVal > 0.05) {
-              const shadowAlpha = (focalVal * 0.60).toFixed(2);
-              imgEl.style.filter = `drop-shadow(0 25px 50px rgba(0, 0, 0, ${shadowAlpha})) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.45))`;
-            } else {
-              imgEl.style.filter = "drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35))";
-            }
+            // Filter drop-shadow disabled
+            imgEl.style.filter = "none";
 
-            // Real-time 60fps photo cutout masking update per position slot
+            // Real-time 60fps photo cutout mask per position slot
             const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
             const slotCfg = (positionConfigsRef.current && positionConfigsRef.current[slotIndex]) || DEFAULT_POSITION_CONFIGS[slotIndex];
 
-            if (slotCfg && slotCfg.clippingMask && slotCfg.clippingMask.enabled) {
-              const maskStr = generateSmoothMaskGradient(
-                slotCfg.clippingMask.startHeight,
-                slotCfg.clippingMask.endHeight,
-                slotCfg.clippingMask.floorOpacity,
-                "to bottom",
-                slotCfg.clippingMask.easing
-              );
-              imgEl.style.webkitMaskImage = maskStr;
-              imgEl.style.maskImage = maskStr;
-            } else {
-              imgEl.style.webkitMaskImage = "none";
-              imgEl.style.maskImage = "none";
-            }
+            const maskStr = generateSmoothMaskGradient(
+              slotCfg?.clippingMask?.startHeight ?? 75,
+              slotCfg?.clippingMask?.endHeight ?? 98,
+              slotCfg?.clippingMask?.floorOpacity ?? 0,
+              "to bottom",
+              slotCfg?.clippingMask?.easing ?? "linear"
+            );
+            imgEl.style.webkitMaskImage = maskStr;
+            imgEl.style.maskImage = maskStr;
           }
         }
       }
@@ -674,7 +714,7 @@ lerpSpeed: ${lerpSpeed}`;
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const imageSrc = getMemberImage(m);
+              const imageSrc = getMemberImage(m, isMobileView);
 
               return (
                 <button aria-label="Action button"
@@ -722,7 +762,7 @@ lerpSpeed: ${lerpSpeed}`;
           <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
             {displayMembers.map((m, idx) => {
               const isActive = activeIndex === idx;
-              const imageSrc = getMemberImage(m);
+              const imageSrc = getMemberImage(m, isMobileView);
 
               return (
                 <button aria-label="Action button"
@@ -784,7 +824,9 @@ lerpSpeed: ${lerpSpeed}`;
             style={{ width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
-              const imageSrc = getMemberImage(m);
+              const imageSrc = getMemberImage(m, isMobileView);
+              const desktopSrc = getMemberDesktopImage(m);
+              const mobileSrc = getMemberMobileImage(m);
 
               return (
                 <button
@@ -817,21 +859,25 @@ lerpSpeed: ${lerpSpeed}`;
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
-                        <Image
-                          src={imageSrc}
-                          alt={m?.name || "Member Photo"}
-                          width={1200}
-                          height={1600}
-                          quality={100}
-                          unoptimized
-                          loading="lazy"
-                          draggable={false}
-                          className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
-                          style={{
-                            transform: `scale(${imageScale})`,
-                            opacity: 1,
-                          }}
-                        />
+                        <picture className="w-full h-full flex items-end justify-center">
+                          <source media="(max-width: 767px)" srcSet={mobileSrc} />
+                          <source media="(min-width: 768px)" srcSet={desktopSrc} />
+                          <Image
+                            src={imageSrc}
+                            alt={m?.name || "Member Photo"}
+                            width={1200}
+                            height={1600}
+                            quality={100}
+                            unoptimized
+                            loading="lazy"
+                            draggable={false}
+                            className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+                            style={{
+                              transform: `scale(${imageScale})`,
+                              opacity: 1,
+                            }}
+                          />
+                        </picture>
 
                       </div>
 
@@ -846,10 +892,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-bold bg-black/40 text-white  pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold sm:bg-black/60 bg-black/40 text-white  sm:pt-1 pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold bg-black/40 pb-1 pt-1 pr-2 pl-2  text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] " style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2  text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] " style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -860,10 +906,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -874,10 +920,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -892,10 +938,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}
                         >
-                          <h3 className=" font-bold  text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className=" font-bold  text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -906,10 +952,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[#c084fc] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[#c084fc] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -924,10 +970,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -938,10 +984,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -952,10 +998,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>

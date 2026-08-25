@@ -170,10 +170,10 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
     <div className={`relative  rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white  font-bold  shadow-2xlbackdrop-blur-[18px]  cursor-pointer hover:scale-105 transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b  border-white/10  pb-1.5 mb-2">
-        <span className="px-2.5 py-0.5 rounded-full bg-black/40 text-cyan-300 font-mono text-[9px] font-bold">
+        <span className="px-2.5 py-0.5 rounded-full bg-black/40 text-cyan-300 font-mono  text-[12px]  font-bold">
           ROOT 0.0
         </span>
-        <span className="px-2 py-0.5 rounded bg-white/20 text-white font-mono text-[9px] uppercase tracking-wider">
+        <span className="px-2 py-0.5 rounded bg-white/20 text-white font-mono  text-[12px]  uppercase tracking-wider">
           PUBLIC HUB
         </span>
       </div>
@@ -199,7 +199,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
-        <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider ${scheme.badge}`}>
+        <span className={`px-2 py-0.5 rounded  text-[12px]  font-mono font-bold uppercase tracking-wider ${scheme.badge}`}>
           HEADER NAV
         </span>
         <span className={`w-2 h-2 rounded-full ${scheme.dot}`} />
@@ -315,12 +315,12 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
           </h4>
 
           {data.details?.emailSubject && (
-            <p className="text-[9px] italic text-amber-200/90 truncate mt-0.5">
+            <p className=" text-[12px]  italic text-amber-200/90 truncate mt-0.5">
               &quot;{data.details.emailSubject}&quot;
             </p>
           )}
 
-          <code className="text-[9px] font-mono text-white/40 block truncate mt-0.5">
+          <code className=" text-[12px]  font-mono text-white/40 block truncate mt-0.5">
             {data.sub}
           </code>
         </div>
@@ -549,7 +549,7 @@ export default function UserFlowMap() {
 
       {/* Bottom Color Legend */}
       <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg  backdrop-blur-xl text-xs font-bold uppercase tracking-widest">
-        <span className="text-white/40 text-[9px] font-mono">Legend:</span>
+        <span className="text-white/40  text-[12px]  font-mono">Legend:</span>
         <span className="flex items-center gap-1.5 text-pink-300 text-[10px]"><span className="w-2 h-2 rounded-full bg-pink-400" /> Home</span>
         <span className="flex items-center gap-1.5 text-teal-300 text-[10px]"><span className="w-2 h-2 rounded-full bg-teal-400" /> Merch</span>
         <span className="flex items-center gap-1.5 text-sky-300 text-[10px]"><span className="w-2 h-2 rounded-full bg-sky-400" /> Shows</span>
@@ -566,7 +566,7 @@ export default function UserFlowMap() {
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[9px] font-bold uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono  text-[12px]  font-bold uppercase tracking-wider">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
                 <h3 className="text-lg  font-bold  uppercase tracking-wider text-white mt-1">

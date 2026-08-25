@@ -524,7 +524,7 @@ export default function CruiseChat({
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
-                <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">
+                <span className=" text-[12px]  font-bold text-emerald-400 uppercase tracking-wider">
                   {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
                 </span>
               </div>

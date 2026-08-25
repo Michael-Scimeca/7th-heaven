@@ -649,7 +649,7 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); router.push('/'); }}
-                  className="hidden lg:block text-[9px] font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:block  text-[12px]  font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
                   Sign Out
@@ -809,7 +809,7 @@ export function Header() {
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px]  font-bold  uppercase tracking-widest">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between  text-[12px]   font-bold  uppercase tracking-widest">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>

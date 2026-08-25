@@ -1153,19 +1153,19 @@ export default function StyleGuidePage() {
                   {/* Formula Math Breakdown */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px] font-mono  text-white ">
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[9px] uppercase">Min Rem</span>
+                      <span className="block text-white/30  text-[12px]  uppercase">Min Rem</span>
                       <span className="text-emerald-300 font-bold">{studioClamp.minRem.toFixed(4)}rem</span> ({studioMinFs}px)
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[9px] uppercase">Max Rem</span>
+                      <span className="block text-white/30  text-[12px]  uppercase">Max Rem</span>
                       <span className="text-purple-300 font-bold">{studioClamp.maxRem.toFixed(4)}rem</span> ({studioMaxFs}px)
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[9px] uppercase">Slope (vw)</span>
+                      <span className="block text-white/30  text-[12px]  uppercase">Slope (vw)</span>
                       <span className="text-cyan-300 font-bold">{studioClamp.slopeVw.toFixed(4)}vw</span>
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[9px] uppercase">Intercept (rem)</span>
+                      <span className="block text-white/30  text-[12px]  uppercase">Intercept (rem)</span>
                       <span className="text-amber-300 font-bold">{studioClamp.interceptRem.toFixed(4)}rem</span>
                     </div>
                   </div>
@@ -2178,7 +2178,7 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className="text-[9px]  font-bold  uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className=" text-[12px]   font-bold  uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
                     <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
                     <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
@@ -2363,7 +2363,7 @@ ${deskRules.join("\n")}
                     {/* Divider & Socials */}
                     <div className="relative text-center my-4">
                       <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
-                      <span className="relative bg-[#120a22] px-3 text-[9px]  font-bold  uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
+                      <span className="relative bg-[#120a22] px-3  text-[12px]   font-bold  uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5  ">
@@ -3041,7 +3041,7 @@ ${deskRules.join("\n")}
                     className="w-5 h-5  rounded-lg border  border-white/10  bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
-                  <span className="text-[9px] font-mono  text-white  uppercase truncate max-w-[80px]">
+                  <span className=" text-[12px]  font-mono  text-white  uppercase truncate max-w-[80px]">
                     {multiUserColorMode ? "Multi-User" : bubbleColorPalette}
                   </span>
                 </div>
@@ -3481,7 +3481,7 @@ ${deskRules.join("\n")}
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
                       {Array.from({ length: 10 }).map((_, col) => (
-                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-[9px] font-mono text-purple-300">
+                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center  text-[12px]  font-mono text-purple-300">
                           {row},{col}
                         </div>
                       ))}
@@ -3826,7 +3826,7 @@ ${deskRules.join("\n")}
                         key={preset}
                         type="button"
                         onClick={() => updateToken(item.category, item.token, preset)}
-                        className={`px-2 py-1 rounded text-[9px] font-bold border transition ${currentValue === preset
+                        className={`px-2 py-1 rounded  text-[12px]  font-bold border transition ${currentValue === preset
                           ? "bg-pink-600/40 border-pink-400 text-pink-200"
                           : "bg-[#e1e6ff29]   border-white/10 text-white/50 hover:text-white"
                           }`}
@@ -4347,17 +4347,17 @@ ${deskRules.join("\n")}
                   <div className="p-3 bg-[#0d0d14] border border-white/10  rounded-lg space-y-2 max-w-sm">
                     <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                       <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
+                      <span className=" text-[12px]  font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
                     </div>
 
                     <div className="flex gap-2 w-full">
                       <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                         <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
-                        <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Add Crew Group</span>
+                        <span className=" text-[12px]  font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Add Crew Group</span>
                       </div>
                       <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                         <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
-                        <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Create Group</span>
+                        <span className=" text-[12px]  font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Create Group</span>
                       </div>
                     </div>
                   </div>
@@ -4415,7 +4415,7 @@ ${deskRules.join("\n")}
                 <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                   <div>
                     <h3 className="text-sm  font-bold  italic tracking-wide text-white">Create New Crew Group</h3>
-                    <p className="text-[9px] text-white/40 uppercase tracking-widest font-bold mt-0.5">Select members and customize their shift slots</p>
+                    <p className=" text-[12px]  text-white/40 uppercase tracking-widest font-bold mt-0.5">Select members and customize their shift slots</p>
                   </div>
                   <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm">✕</button>
                 </div>
@@ -4424,7 +4424,7 @@ ${deskRules.join("\n")}
                 <CustomScrollbar height={384} className="px-4 pt-5 pb-3 space-y-3.5">
                   {/* Group Name input */}
                   <div className="mt-1 space-y-1.5">
-                    <label className="text-[9px] uppercase tracking-wider text-white/50 font-bold block">Group Name</label>
+                    <label className=" text-[12px]  uppercase tracking-wider text-white/50 font-bold block">Group Name</label>
                     <input
                       type="text"
                       readOnly
@@ -4435,7 +4435,7 @@ ${deskRules.join("\n")}
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
-                    <span className="text-[9px] uppercase tracking-wider text-white/50 font-bold block">Select Crew Members</span>
+                    <span className=" text-[12px]  uppercase tracking-wider text-white/50 font-bold block">Select Crew Members</span>
                     <div className="p-3 bg-transparent border border-white/10  rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">

@@ -683,7 +683,7 @@ export default function CruiseDashboard() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px]  font-bold  tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5 rounded-full border border-cyan-500/30">Priority Update</span>
+                    <span className=" text-[12px]   font-bold  tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5 rounded-full border border-cyan-500/30">Priority Update</span>
                   </div>
                   <h3 className="text-lg  font-bold  tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>

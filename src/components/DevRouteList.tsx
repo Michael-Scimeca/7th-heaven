@@ -218,7 +218,7 @@ export default function DevRouteList() {
 
                         {/* Type Badge */}
                         <span
-                          className={`text-[9px] font-mono  font-bold  px-1.5 py-0.5 rounded ${item.type === "Static"
+                          className={` text-[12px]  font-mono  font-bold  px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"

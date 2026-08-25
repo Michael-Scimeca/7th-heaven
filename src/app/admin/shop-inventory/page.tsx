@@ -434,8 +434,8 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           className={`w-full bg-[#e1e6ff29]   border rounded px-2 py-1.5 text-xs text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
           title="Stock quantity"
         />
-        {isOut && <span className="text-[9px] text-rose-400 font-bold">SOLD OUT</span>}
-        {isLow && <span className="text-[9px] text-yellow-400 font-bold">LOW STOCK</span>}
+        {isOut && <span className=" text-[12px]  text-rose-400 font-bold">SOLD OUT</span>}
+        {isLow && <span className=" text-[12px]  text-yellow-400 font-bold">LOW STOCK</span>}
       </div>
       <div>
         <input
@@ -528,15 +528,15 @@ function AddVariantForm({
   return (
     <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed  border-white/10  rounded-lg p-3">
       <div>
-        <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Label</label>
+        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Label</label>
         <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
       </div>
       <div>
-        <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Price</label>
+        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Price</label>
         <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
       </div>
       <div>
-        <label className="block text-[9px] font-bold uppercase text-white/40 mb-1">Stock</label>
+        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Stock</label>
         <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#e1e6ff29]   border border-white/10 rounded px-2 py-1.5 text-xs text-white w-20" />
       </div>
       <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px]  font-bold  uppercase rounded-md">

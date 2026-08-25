@@ -29,7 +29,7 @@ export function CruiseLivePreview({
           <div>
             <div className="text-xs font-bold text-white flex items-center gap-2">
               7th Heaven Official
-              <span className="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono uppercase">Admin Post</span>
+              <span className=" text-[12px]  bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono uppercase">Admin Post</span>
             </div>
             <div className="text-[10px] text-white/40 font-mono">Just now • Cruise Wall Feed</div>
           </div>
