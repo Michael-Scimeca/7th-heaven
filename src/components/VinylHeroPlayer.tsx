@@ -565,7 +565,7 @@ export default function VinylHeroPlayer({
 
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="fancy w-[263px] h-[263px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+              <div className="fancy w-[263px] h-[263px] rounded-lg shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
                     <div className="flex flex-col items-center gap-2 opacity-60 animate-pulse">
@@ -863,7 +863,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3  pr-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px]">
+              <div className="pl-3  pr-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
@@ -877,8 +877,9 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="custom-purple-scrollbar flex-1 min-h-0 space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight overflow-y-auto pr-2 pb-2 whitespace-nowrap"
-                  style={{ scrollBehavior: 'smooth' }}
+                  className="custom-purple-scrollbar max-h-[205px] overflow-y-auto pointer-events-auto space-y-1 font-sans text-[14px] font-bold uppercase text-white/80 tracking-tight pr-2 pb-2 whitespace-nowrap"
+                  style={{ scrollBehavior: 'smooth', overscrollBehavior: 'contain' }}
+                  onWheel={(e) => e.stopPropagation()}
                 >
                   {currentAlbum.tracks.map((track, tIdx) => {
                     const isSelected = tIdx === activeTrackIdx;
@@ -887,12 +888,12 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-1.5 px-1 py-0.5 rounded transition-colors duration-200 ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover:bg-[#e1e6ff29] cursor-pointer"
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-1.5 py-1 rounded transition-colors duration-200 ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover:bg-[#e1e6ff29] cursor-pointer"
                             }`}
                         >
-                          <span className="text-[8px] font-mono opacity-50 w-3.5 text-right">{track.number}.</span>
-                          <span className="truncate flex-1 text-[10px]">{track.title}</span>
-                          {isSelected && isPlaying && <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-pulse" />}
+                          <span className="text-[12px] font-mono opacity-50 w-4 text-right">{track.number}.</span>
+                          <span className="truncate flex-1 text-[14px]">{track.title}</span>
+                          {isSelected && isPlaying && <span className="w-2 h-2 rounded-full bg-[#d946ef] animate-pulse" />}
                         </button>
                       </li>
                     );
