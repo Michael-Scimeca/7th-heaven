@@ -542,14 +542,14 @@ export default function VinylHeroPlayer({
 
         {/* ── SWIPER VINYL DISC SLIDER ── */}
         <div
-          className="vinyl-slider-wrap overflow-visible"
+          className="vinyl-slider-wrap"
           style={{
-            width: '800px',
+            width: '600px',
             height: '250px',
             position: 'relative',
           }}
         >
-          <div className="relative overflow-visible" style={{ width: '800px' }}>
+          <div className="relative" style={{ width: '600px' }}>
             {/* Header Title anchored directly to x = 175px (the exact top-left corner of the 250px sleeve window box) */}
             <div className="absolute -top-7 left-[175px] w-[250px] flex items-center justify-between pointer-events-none z-40 px-2">
               <div className="flex items-center gap-1.5">
@@ -564,7 +564,7 @@ export default function VinylHeroPlayer({
             </div>
 
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
-            <div className="absolute inset-0 flex items-center justify-start pointer-events-none z-[-1]" style={{ paddingLeft: '175px' }}>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
               <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
@@ -584,32 +584,24 @@ export default function VinylHeroPlayer({
                   : "opacity-0 scale-95 blur-xs pointer-events-none"
               }`}
             >
-              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve at edge */}
+              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div style={{
-                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, black 5%, black 95%, transparent 100%)',
-                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, black 5%, black 95%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
               }}>
                 <Swiper
                   slidesPerView="auto"
                   centeredSlides={true}
-                  slideToClickedSlide={true}
-                  slidesOffsetBefore={-100}
-                  slidesOffsetAfter={100}
                   loop={false}
                   initialSlide={activeAlbumIdx}
                   spaceBetween={0}
                   grabCursor={true}
-                  simulateTouch={true}
-                  allowTouchMove={true}
-                  threshold={4}
-                  touchStartPreventDefault={false}
                   onSwiper={(swiper) => { swiperRef.current = swiper; }}
                   onSlideChange={handleSlideChange}
                   onSliderFirstMove={() => setIsDragging(true)}
-                  onTouchEnd={() => setTimeout(() => setIsDragging(false), 50)}
-                  onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
+                  onTouchEnd={() => setIsDragging(false)}
                   style={{ overflow: "visible", position: "relative", zIndex: 20 }}
-                  className="vinyl-swiper cursor-grab active:cursor-grabbing"
+                  className="vinyl-swiper"
                 >
                   {ALBUMS.map((album, idx) => (
                     <SwiperSlide
@@ -620,30 +612,25 @@ export default function VinylHeroPlayer({
                       {({ isActive }) => {
                         const vinylSrc = `/vin${(idx % 3) + 1}.png`;
                         return (
-                          <div
-                            role="button"
-                            tabIndex={0}
-                            className={`relative rounded-full flex items-center justify-center mx-auto transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing border-0 p-0 bg-transparent ${isActive && !isDragging
+                          <button
+                            type="button"
+                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
                               ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                              : "opacity-90 scale-90 z-0 hover:scale-100"
+                              : "opacity-90 scale-90 z-0"
                               } ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
                               height: "165px",
                               animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
                             }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (isActive) {
+                                togglePlay();
+                              } else {
+                                // Switch to this album and auto-play first track
                                 goToAlbum(idx);
-                                if (isActive) togglePlay();
-                              }
-                            }}
-                            onClick={() => {
-                              if (!isDragging) {
-                                goToAlbum(idx);
-                                if (isActive) {
-                                  togglePlay();
-                                }
+                                playTrack(0);
                               }
                             }}
                           >
@@ -668,7 +655,7 @@ export default function VinylHeroPlayer({
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </button>
                         );
                       }}
                     </SwiperSlide>
@@ -676,8 +663,8 @@ export default function VinylHeroPlayer({
                 </Swiper>
               </div>
 
-              {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc inside the 250px sleeve box at left: 175px */}
-              <div className="absolute inset-0 flex items-center justify-start pointer-events-none z-30" style={{ paddingLeft: '175px' }}>
+              {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                 <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
 
                   {/* Top Controls */}
@@ -844,25 +831,25 @@ export default function VinylHeroPlayer({
                   </div>
 
                   {/* Album nav arrows */}
-                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto z-40">
-                    <button aria-label="Previous Album"
+                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto">
+                    <button aria-label="Previous"
                       onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
                       disabled={activeAlbumIdx === 0}
-                      className="flex items-center gap-1 text-white hover:text-white disabled:opacity-30 transition-all text-[9.5px] font-bold uppercase tracking-wider cursor-pointer bg-black/70 hover:bg-[#d946ef] px-2.5 py-1 rounded-full border border-white/20 shadow-md"
+                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
                       title="Previous Album"
                     >
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
-                      <span>PREV ALBUM</span>
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
+                      Album
                     </button>
-                    <span className="text-[9px] text-white font-bold bg-black/70 px-2 py-0.5 rounded-full border border-white/15">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
-                    <button aria-label="Next Album"
+                    <span className="text-[8px] text-white/40 font-bold">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
+                    <button aria-label="Next"
                       onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
                       disabled={activeAlbumIdx === ALBUMS.length - 1}
-                      className="flex items-center gap-1 text-white hover:text-white disabled:opacity-30 transition-all text-[9.5px] font-bold uppercase tracking-wider cursor-pointer bg-black/70 hover:bg-[#d946ef] px-2.5 py-1 rounded-full border border-white/20 shadow-md"
+                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
                       title="Next Album"
                     >
-                      <span>NEXT ALBUM</span>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
+                      Album
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
                     </button>
                   </div>
                 </div>
