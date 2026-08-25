@@ -786,20 +786,6 @@ lerpSpeed: ${lerpSpeed}`;
             {displayMembers.map((m, i) => {
               const imageSrc = getMemberImage(m);
 
-              // Stage slot index relative to current active centered slide (2 = Active Center, 1 = Left, 0 = Far Left, 3 = Right, 4 = Far Right)
-              const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
-              const slideCfg = positionConfigs[slotIndex] || DEFAULT_POSITION_CONFIGS[slotIndex];
-
-              const clipStyle = slideCfg.clippingMask.enabled
-                ? generateSmoothMaskGradient(
-                  slideCfg.clippingMask.startHeight,
-                  slideCfg.clippingMask.endHeight,
-                  slideCfg.clippingMask.floorOpacity,
-                  "to bottom",
-                  slideCfg.clippingMask.easing
-                )
-                : undefined;
-
               return (
                 <button
                   type="button"
@@ -840,11 +826,10 @@ lerpSpeed: ${lerpSpeed}`;
                           unoptimized
                           loading="lazy"
                           draggable={false}
-                          className="smooothy-img w-full h-full object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+                          className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             transform: `scale(${imageScale})`,
                             opacity: 1,
-                            ...(clipStyle ? { WebkitMaskImage: clipStyle, maskImage: clipStyle } : {}),
                           }}
                         />
 
