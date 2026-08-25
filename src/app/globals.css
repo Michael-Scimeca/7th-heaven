@@ -6201,3 +6201,11 @@ button.active,
     --fancy-angle: 360deg;
   }
 }
+
+div,
+span,
+a,
+button,
+section {
+  /* border: 1px solid #ff0707; */
+}
