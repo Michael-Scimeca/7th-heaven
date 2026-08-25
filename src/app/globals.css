@@ -12,16 +12,20 @@ h1 {
 html {
   background-color: #05030a;
   color: #ffffff;
-  overflow-x: clip;
+  overflow-x: hidden;
   max-width: 100vw;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   background-color: transparent !important;
   background: transparent !important;
   color: #ffffff;
-  overflow-x: clip;
+  overflow-x: hidden;
   max-width: 100vw;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* =============================================
