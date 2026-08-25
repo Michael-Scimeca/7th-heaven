@@ -19,7 +19,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
 
   return (
     <div
-      className={`smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu transition-transform duration-500 ease-out ${hovered ? "scale-108" : "scale-100"}`}
+      className="smooothy-parallax-media absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] overflow-hidden transform-gpu"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -27,7 +27,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
           title={videoTitle}
-          className="absolute inset-0 w-full h-full pointer-events-none object-cover"
+          className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover scale-[1.04] transform-gpu"
           allow="autoplay; encrypted-media"
         />
       ) : (
@@ -36,7 +36,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
           alt={videoTitle}
           fill
           sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover pointer-events-none"
+          className="object-cover pointer-events-none scale-[1.04] transform-gpu"
         />
       )}
     </div>
@@ -534,7 +534,11 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ height: "clamp(450px, 48vw, 780px)" }}
+                  style={{
+                    height: "clamp(450px, 48vw, 780px)",
+                    WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                    isolation: "isolate",
+                  }}
                   className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 ${activeModalVideo?.id === video.id
                     ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
                     : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
