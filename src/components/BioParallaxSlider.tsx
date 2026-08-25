@@ -854,6 +854,7 @@ lerpSpeed: ${lerpSpeed}`;
                           style={{
                             transform: `scale(${imageScale})`,
                             opacity: 1,
+                            filter: "saturate(1.32) contrast(1.08) brightness(1.06)",
                             ...(clipStyle ? { WebkitMaskImage: clipStyle, maskImage: clipStyle } : {}),
                           }}
                         />
