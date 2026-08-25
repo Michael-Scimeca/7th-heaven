@@ -331,15 +331,17 @@ export default function MediaPage() {
 
     function updateActiveOnScroll() {
       if (!videoItemRefs.current.length) return;
-      const targetY = window.innerHeight * 0.38; // 38% from top of screen (sticky player focus line)
+      // Focus line anchored at 22% viewport height (top-of-view list focal line)
+      const targetY = Math.max(160, window.innerHeight * 0.22);
       let closestIdx = 0;
       let minDistance = Infinity;
 
       videoItemRefs.current.forEach((item, idx) => {
         if (!item) return;
         const rect = item.getBoundingClientRect();
-        const center = rect.top + rect.height / 2;
-        const dist = Math.abs(center - targetY);
+        // Top-biased focal center of each item
+        const focusPoint = rect.top + Math.min(rect.height / 2, 80);
+        const dist = Math.abs(focusPoint - targetY);
         if (dist < minDistance) {
           minDistance = dist;
           closestIdx = idx;
