@@ -584,10 +584,10 @@ export default function VinylHeroPlayer({
                   : "opacity-0 scale-95 blur-xs pointer-events-none"
               }`}
             >
-              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve smoothly without right overflow */}
+              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div style={{
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 48%, rgba(0, 0, 0, 0.4) 64%, transparent 80%)',
-                maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 48%, rgba(0, 0, 0, 0.4) 64%, transparent 80%)',
+                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
               }}>
                 <Swiper
                   slidesPerView="auto"
