@@ -210,8 +210,17 @@ export default function VinylHeroPlayer({
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(0.4);
   const [scale, setScale] = useState(1);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
+
+  useEffect(() => {
+    // Progressive player reveal sequence: border box loads first, then controls & vinyl disc fade in
+    const timer = setTimeout(() => {
+      setIsPlayerReady(true);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -507,271 +516,292 @@ export default function VinylHeroPlayer({
           }}
         >
           <div className="relative" style={{ width: '600px' }}>
-            {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
-            <div style={{
-              WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
-              maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
-            }}>
-              <Swiper
-                slidesPerView="auto"
-                centeredSlides={true}
-                loop={false}
-                initialSlide={activeAlbumIdx}
-                spaceBetween={0}
-                grabCursor={true}
-                onSwiper={(swiper) => { swiperRef.current = swiper; }}
-                onSlideChange={handleSlideChange}
-                onSliderFirstMove={() => setIsDragging(true)}
-                onTouchEnd={() => setIsDragging(false)}
-                style={{ overflow: "visible", position: "relative", zIndex: 20 }}
-                className="vinyl-swiper"
-              >
-                {ALBUMS.map((album, idx) => (
-                  <SwiperSlide
-                    key={album.id}
-                    style={{ width: "165px", height: "250px", display: "flex", alignItems: "center" }}
-                  >
-
-                    {({ isActive }) => {
-                      const vinylSrc = `/vin${(idx % 3) + 1}.png`;
-                      return (
-                        <button
-                          type="button"
-                          className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
-                            ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                            : "opacity-90 scale-90 z-0"
-                            } ${isActive ? "vinyl-spinning" : ""}`}
-                          style={{
-                            width: "165px",
-                            height: "165px",
-                            animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (isActive) {
-                              togglePlay();
-                            } else {
-                              // Switch to this album and auto-play first track
-                              goToAlbum(idx);
-                              playTrack(0);
-                            }
-                          }}
-                        >
-                          {/* Real vinyl disc image */}
-                          <Image
-                            src={vinylSrc}
-                            alt={`${album.title} vinyl`}
-                            fill
-                            sizes="165px"
-                            className="object-cover rounded-full"
-                          />
-                          {/* Center label with album art — sits on top of the vinyl image */}
-                          <div className="relative z-10 flex items-center justify-center">
-                            <div
-                              className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
-                              style={{ backgroundColor: album.centerLabelColor }}
-                            >
-                              <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                                <span className="text-[var(--font-size-5xs)]  font-bold  text-white uppercase tracking-tighter leading-none">{album.title}</span>
-                                <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
-                              </div>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    }}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-            {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
+            {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="fancy w-[250px] h-[250px] rounded-2xl">
-                <div className="fancy-inner" />
+              <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+                <div className="fancy-inner flex items-center justify-center">
+                  {!isPlayerReady && (
+                    <div className="flex flex-col items-center gap-2 opacity-60 animate-pulse">
+                      <div className="w-7 h-7 rounded-full border-2 border-purple-400/40 border-t-purple-400 animate-spin" />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-              <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
+            {/* LAYER 2 & 3: Vinyl disc track & Controls overlay — REVEALED SMOOTHLY ONCE READY */}
+            <div
+              className={`transition-all duration-700 ease-out ${
+                isPlayerReady
+                  ? "opacity-100 scale-100 blur-0 pointer-events-auto"
+                  : "opacity-0 scale-95 blur-xs pointer-events-none"
+              }`}
+            >
+              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
+              <div style={{
+                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+              }}>
+                <Swiper
+                  slidesPerView="auto"
+                  centeredSlides={true}
+                  loop={false}
+                  initialSlide={activeAlbumIdx}
+                  spaceBetween={0}
+                  grabCursor={true}
+                  onSwiper={(swiper) => { swiperRef.current = swiper; }}
+                  onSlideChange={handleSlideChange}
+                  onSliderFirstMove={() => setIsDragging(true)}
+                  onTouchEnd={() => setIsDragging(false)}
+                  style={{ overflow: "visible", position: "relative", zIndex: 20 }}
+                  className="vinyl-swiper"
+                >
+                  {ALBUMS.map((album, idx) => (
+                    <SwiperSlide
+                      key={album.id}
+                      style={{ width: "165px", height: "250px", display: "flex", alignItems: "center" }}
+                    >
 
-                {/* Top Controls */}
-                <div className="flex items-center justify-center pointer-events-auto ">
-                  <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow w-full">
-                    <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
-                    </button>
-                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer    " title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
-                      {isBuffering ? (
-                        <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent rounded-full animate-spin" />
-                      ) : isPlaying ? (
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
-                      ) : (
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                      )}
-                    </button>
-                    <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Next Track">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
-                    </button>
-                    <div className="w-[1px] h-3 bg-white/20 my-auto" />
-                    <button aria-label="Toggle Playlist"
-                      onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
-                      title="Toggle Playlist"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
-                        <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
-                      </svg>
-                    </button>
-                    <div className="w-[1px] h-3 bg-white/20 my-auto" />
-                    {/* Volume */}
-                    <button
-                      type="button"
-                      aria-label="Toggle mute"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const nv = volume > 0 ? 0 : 1;
-                        setVolume(nv);
-                        if (audioRef.current) audioRef.current.volume = nv;
+                      {({ isActive }) => {
+                        const vinylSrc = `/vin${(idx % 3) + 1}.png`;
+                        return (
+                          <button
+                            type="button"
+                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
+                              ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
+                              : "opacity-90 scale-90 z-0"
+                              } ${isActive ? "vinyl-spinning" : ""}`}
+                            style={{
+                              width: "165px",
+                              height: "165px",
+                              animationPlayState: isActive ? (isPlaying ? "running" : "paused") : undefined,
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (isActive) {
+                                togglePlay();
+                              } else {
+                                // Switch to this album and auto-play first track
+                                goToAlbum(idx);
+                                playTrack(0);
+                              }
+                            }}
+                          >
+                            {/* Real vinyl disc image */}
+                            <Image
+                              src={vinylSrc}
+                              alt={`${album.title} vinyl`}
+                              fill
+                              sizes="165px"
+                              className="object-cover rounded-full"
+                            />
+                            {/* Center label with album art — sits on top of the vinyl image */}
+                            <div className="relative z-10 flex items-center justify-center">
+                              <div
+                                className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                                style={{ backgroundColor: album.centerLabelColor }}
+                              >
+                                <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
+                                  <span className="text-[var(--font-size-5xs)]  font-bold  text-white uppercase tracking-tighter leading-none">{album.title}</span>
+                                  <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        );
                       }}
-                      className="bg-transparent border-0 p-0  text-white  hover:text-white transition-colors cursor-pointer shrink-0"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        {volume === 0
-                          ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
-                          : volume < 0.5
-                            ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
-                            : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
-                      </svg>
-                    </button>
-                    {/* Expanded Volume Slider with Mouse Wheel support */}
-                    <div
-                      className="relative w-24 h-4 flex items-center cursor-pointer group"
-                      onClick={(e) => e.stopPropagation()}
-                      onWheel={(e) => {
-                        e.stopPropagation();
-                        const delta = e.deltaY < 0 ? 0.05 : -0.05;
-                        const nv = Math.min(1, Math.max(0, volume + delta));
-                        setVolume(nv);
-                        if (audioRef.current) audioRef.current.volume = nv;
-                      }}
-                    >
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+
+              {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+                <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
+
+                  {/* Top Controls */}
+                  <div className="flex items-center justify-center pointer-events-auto ">
+                    <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow w-full">
+                      <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
+                      </button>
+                      <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer    " title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
+                        {isBuffering ? (
+                          <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent rounded-full animate-spin" />
+                        ) : isPlaying ? (
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                        ) : (
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                        )}
+                      </button>
+                      <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Next Track">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
+                      </button>
+                      <div className="w-[1px] h-3 bg-white/20 my-auto" />
+                      <button aria-label="Toggle Playlist"
+                        onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
+                        className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                        title="Toggle Playlist"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
+                          <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+                        </svg>
+                      </button>
+                      <div className="w-[1px] h-3 bg-white/20 my-auto" />
+                      {/* Volume */}
+                      <button
+                        type="button"
+                        aria-label="Toggle mute"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const nv = volume > 0 ? 0 : 1;
+                          setVolume(nv);
+                          if (audioRef.current) audioRef.current.volume = nv;
+                        }}
+                        className="bg-transparent border-0 p-0  text-white  hover:text-white transition-colors cursor-pointer shrink-0"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                          {volume === 0
+                            ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
+                            : volume < 0.5
+                              ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
+                              : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
+                        </svg>
+                      </button>
+                      {/* Expanded Volume Slider with Mouse Wheel support */}
+                      <div
+                        className="relative w-24 h-4 flex items-center cursor-pointer group"
+                        onClick={(e) => e.stopPropagation()}
+                        onWheel={(e) => {
+                          e.stopPropagation();
+                          const delta = e.deltaY < 0 ? 0.05 : -0.05;
+                          const nv = Math.min(1, Math.max(0, volume + delta));
+                          setVolume(nv);
+                          if (audioRef.current) audioRef.current.volume = nv;
+                        }}
+                      >
+                        {/* Track Background */}
+                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                          <div
+                            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                            style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                          />
+                        </div>
+                        {/* Glowing Thumb Handle */}
+                        <div
+                          className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                          style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                        />
+                        {/* Invisible Native Input for 100% accessible volume control */}
+                        <input
+                          aria-label="Volume slider"
+                          type="range"
+                          min="0"
+                          max="1"
+                          step="0.01"
+                          value={volume}
+                          onChange={(e) => {
+                            const nv = parseFloat(e.target.value);
+                            setVolume(nv);
+                            if (audioRef.current) audioRef.current.volume = nv;
+                          }}
+                          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom: Title + Waveform */}
+                  <div className="flex items-end justify-between pointer-events-none mt-auto">
+                    <div className="flex flex-col gap-1 pointer-events-auto">
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
+                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 shadow-md min-w-[130px] cursor-pointer"
+                      >
+                        <div className="text-[9px]  font-bold  uppercase leading-tight flex items-center gap-1">
+                          <span className="truncate">{currentAlbum.title}</span>
+                          {isBuffering ? (
+                            <span className="text-[9px]  font-bold  text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1 rounded animate-pulse shrink-0">BUFFERING MP3</span>
+                          ) : (
+                            <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
+                          )}
+                        </div>
+                        <div className="text-[10px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                          {currentTrack.title}
+                        </div>
+                      </button>
+                      {/* BUY CD button */}
+                      <Link
+                        href={currentAlbum.storeUrl}
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-colors hover:scale-105 w-fit"
+                      >
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
+                        Buy CD
+                      </Link>
+                    </div>
+                    <SoundWaveCanvas isPlaying={isPlaying} />
+                  </div>
+
+                  {/* Progress Scrubber — pinned to very bottom */}
+                  <div className="pointer-events-auto px-1 mt-2">
+                    <div className="relative w-full h-4 flex items-center cursor-pointer group">
                       {/* Track Background */}
                       <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                        {/* Filled Progress Gradient Bar */}
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
-                          style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_10px_rgba(217,70,239,0.8)]"
+                          style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
                         />
                       </div>
                       {/* Glowing Thumb Handle */}
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
-                        style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
+                        className="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_12px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                        style={{ left: `${Math.min(100, Math.max(0, progress))}%` }}
                       />
+                      {/* Invisible Native Input for 100% accessible dragging/seeking */}
                       <input
-                        aria-label="Adjust volume"
+                        aria-label="Seek audio position"
                         type="range"
                         min="0"
-                        max="1"
-                        step="0.01"
-                        value={volume}
-                        onChange={handleVolumeChange}
+                        max="100"
+                        step="0.1"
+                        value={progress}
+                        onChange={handleSeek}
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                       />
                     </div>
-                  </div>
-                </div>
-
-                {/* Bottom: Title + Waveform */}
-                <div className="flex items-end justify-between pointer-events-none mt-auto">
-                  <div className="flex flex-col gap-1 pointer-events-auto">
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 shadow-md min-w-[130px] cursor-pointer"
-                    >
-                      <div className="text-[9px]  font-bold  uppercase leading-tight flex items-center gap-1">
-                        <span className="truncate">{currentAlbum.title}</span>
-                        {isBuffering ? (
-                          <span className="text-[9px]  font-bold  text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1 rounded animate-pulse shrink-0">BUFFERING MP3</span>
-                        ) : (
-                          <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
-                        )}
-                      </div>
-                      <div className="text-[10px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
-                        {currentTrack.title}
-                      </div>
-                    </button>
-                    {/* BUY CD button */}
-                    <Link
-                      href={currentAlbum.storeUrl}
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-colors hover:scale-105 w-fit"
-                    >
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
-                      Buy CD
-                    </Link>
-                  </div>
-                  <SoundWaveCanvas isPlaying={isPlaying} />
-                </div>
-
-                {/* Progress Scrubber — pinned to very bottom */}
-                <div className="pointer-events-auto px-1 mt-2">
-                  <div className="relative w-full h-4 flex items-center cursor-pointer group">
-                    {/* Track Background */}
-                    <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
-                      {/* Filled Progress Gradient Bar */}
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_10px_rgba(217,70,239,0.8)]"
-                        style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
-                      />
+                    <div className="flex justify-between text-[var(--font-size-3xs)] font-mono  text-white  mt-0.5">
+                      <span>{currentTime}</span>
+                      <span>{duration}</span>
                     </div>
-                    {/* Glowing Thumb Handle */}
-                    <div
-                      className="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_12px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
-                      style={{ left: `${Math.min(100, Math.max(0, progress))}%` }}
-                    />
-                    {/* Invisible Native Input for 100% accessible dragging/seeking */}
-                    <input
-                      aria-label="Seek audio position"
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={progress}
-                      onChange={handleSeek}
-                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
-                    />
                   </div>
-                  <div className="flex justify-between text-[var(--font-size-3xs)] font-mono  text-white  mt-0.5">
-                    <span>{currentTime}</span>
-                    <span>{duration}</span>
-                  </div>
-                </div>
 
-                {/* Album nav arrows */}
-                <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto">
-                  <button aria-label="Previous"
-                    onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
-                    disabled={activeAlbumIdx === 0}
-                    className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
-                    title="Previous Album"
-                  >
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
-                    Album
-                  </button>
-                  <span className="text-[8px] text-white/40 font-bold">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
-                  <button aria-label="Next"
-                    onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
-                    disabled={activeAlbumIdx === ALBUMS.length - 1}
-                    className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
-                    title="Next Album"
-                  >
-                    Album
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
-                  </button>
+                  {/* Album nav arrows */}
+                  <div className="absolute bottom-2 left-0 right-0 flex items-center justify-between px-2 pointer-events-auto">
+                    <button aria-label="Previous"
+                      onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx - 1); }}
+                      disabled={activeAlbumIdx === 0}
+                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                      title="Previous Album"
+                    >
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="15 18 9 12 15 6 15 18" /></svg>
+                      Album
+                    </button>
+                    <span className="text-[8px] text-white/40 font-bold">{activeAlbumIdx + 1} / {ALBUMS.length}</span>
+                    <button aria-label="Next"
+                      onClick={(e) => { e.stopPropagation(); goToAlbum(activeAlbumIdx + 1); }}
+                      disabled={activeAlbumIdx === ALBUMS.length - 1}
+                      className="flex items-center gap-0.5  text-white  hover:text-white disabled:opacity-20 transition-colors text-[9px]  font-bold  uppercase tracking-wider cursor-pointer bg-black/40 hover:bg-black/60 px-2 py-1 rounded-full"
+                      title="Next Album"
+                    >
+                      Album
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="9 18 15 12 9 6 9 18" /></svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
