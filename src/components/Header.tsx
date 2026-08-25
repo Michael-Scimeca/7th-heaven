@@ -545,7 +545,7 @@ export function Header() {
                   href={link.href}
                   className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
                     ? "!text-[#9333ea] font-bold active cursor-default"
-                    : "!text-white/90 hover:!text-white cursor-pointer"
+                    : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                     }`}
                 >
                   {link.label}
@@ -558,7 +558,7 @@ export function Header() {
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-white cursor-pointer"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
             >
               {hasLiveStreams && (
@@ -578,7 +578,7 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-white cursor-pointer"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
             >
               CRUISE
@@ -590,7 +590,7 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-white cursor-pointer"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
             >
               BOOK US
@@ -601,7 +601,7 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-white cursor-pointer"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
             >
               CONTACT
@@ -610,7 +610,7 @@ export function Header() {
             {/* Cart Icon — always visible */}
             <TransitionLink
               href="/payment-test"
-              className="!text-white/80 hover:!text-white transition-colors p-0.5 mx-0.5 shrink-0"
+              className="!text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0"
               title="Cart / Merch"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
