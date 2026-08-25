@@ -692,8 +692,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {children}
         </div>
 
-        {/* Vinyl MP3 Album Player */}
-        <div className="flex justify-end">
+        {/* Vinyl MP3 Album Player — flushed all the way to the far right edge of the window */}
+        <div className="flex justify-end overflow-visible -mr-4 md:-mr-8 lg:-mr-12">
           {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
         </div>
       </div>

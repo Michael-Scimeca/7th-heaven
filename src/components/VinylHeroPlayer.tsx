@@ -542,14 +542,14 @@ export default function VinylHeroPlayer({
 
         {/* ── SWIPER VINYL DISC SLIDER ── */}
         <div
-          className="vinyl-slider-wrap"
+          className="vinyl-slider-wrap overflow-visible"
           style={{
-            width: '600px',
+            width: '800px',
             height: '250px',
             position: 'relative',
           }}
         >
-          <div className="relative" style={{ width: '600px' }}>
+          <div className="relative overflow-visible" style={{ width: '800px' }}>
             {/* Header Title anchored directly to x = 175px (the exact top-left corner of the 250px sleeve window box) */}
             <div className="absolute -top-7 left-[175px] w-[250px] flex items-center justify-between pointer-events-none z-40 px-2">
               <div className="flex items-center gap-1.5">
@@ -564,7 +564,7 @@ export default function VinylHeroPlayer({
             </div>
 
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
+            <div className="absolute inset-0 flex items-center justify-start pointer-events-none z-[-1]" style={{ paddingLeft: '175px' }}>
               <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
@@ -584,10 +584,10 @@ export default function VinylHeroPlayer({
                   : "opacity-0 scale-95 blur-xs pointer-events-none"
               }`}
             >
-              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
+              {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve at edge */}
               <div style={{
-                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
-                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, black 5%, black 95%, transparent 100%)',
+                maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, black 5%, black 95%, transparent 100%)',
               }}>
                 <Swiper
                   slidesPerView="auto"
