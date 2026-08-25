@@ -212,8 +212,17 @@ export default function VinylHeroPlayer({
   const [scale, setScale] = useState(1);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [bufferPercent, setBufferPercent] = useState(0);
+  const [tracklistScrollPct, setTracklistScrollPct] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
+
+  const handleTracklistScroll = (e: React.UIEvent<HTMLOListElement>) => {
+    const target = e.currentTarget;
+    const maxScroll = target.scrollHeight - target.clientHeight;
+    if (maxScroll > 0) {
+      setTracklistScrollPct(Math.min(100, Math.max(0, (target.scrollTop / maxScroll) * 100)));
+    }
+  };
 
   const updateBufferProgress = () => {
     const audio = audioRef.current;
@@ -863,8 +872,18 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3  pr-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg">
-                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
+              <div className="relative border border-white/10 h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
+                {/* Always-Visible Glowing Purple Scrollbar Indicator Track */}
+                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-purple-950/70 rounded-full border border-purple-500/30 overflow-hidden pointer-events-none z-50">
+                  <div
+                    className="w-full rounded-full bg-gradient-to-b from-[#e9d5ff] via-[#d946ef] to-[#9333ea] shadow-[0_0_10px_#d946ef] transition-transform duration-75"
+                    style={{
+                      height: '35%',
+                      transform: `translateY(${tracklistScrollPct * 1.3}px)`
+                    }}
+                  />
+                </div>
+                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap px-4">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>
@@ -877,8 +896,9 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="custom-purple-scrollbar max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 font-sans text-[14px] font-bold uppercase text-white/80 tracking-tight pr-2 pb-2 whitespace-nowrap"
+                  className="custom-purple-scrollbar max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 font-sans text-[14px] font-bold uppercase text-white/80 tracking-tight pr-3 pb-2 whitespace-nowrap"
                   style={{ scrollBehavior: 'smooth', overscrollBehavior: 'contain' }}
+                  onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}
                 >
                   {currentAlbum.tracks.map((track, tIdx) => {
@@ -888,7 +908,7 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-1.5 py-1 rounded transition-colors duration-200 ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover:bg-[#e1e6ff29] cursor-pointer"
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-1 rounded transition-colors duration-200 ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover:bg-[#e1e6ff29] cursor-pointer"
                             }`}
                         >
                           <span className="text-[12px] font-mono opacity-50 w-4 text-right">{track.number}.</span>

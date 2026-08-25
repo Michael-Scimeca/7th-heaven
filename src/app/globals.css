@@ -6210,3 +6210,9 @@ button,
 section {
   /* border: 1px solid #ff0707; */
 }
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #ffffff00, 0 0 0 4px #4e46e500;
+  /* custom focus ring */
+}
