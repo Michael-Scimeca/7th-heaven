@@ -550,22 +550,22 @@ export default function VinylHeroPlayer({
           }}
         >
           <div className="relative" style={{ width: '600px' }}>
-            {/* Header Title Above Player Box — perfectly aligned with window borders */}
-            <div className="absolute -top-6.5 left-[calc(50%-125px)] w-[250px] flex items-center justify-between pointer-events-none z-30 px-3">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
-                <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
-                  Listen To Our Hits
-                </span>
-              </div>
-              <span className="text-[8px] font-bold tracking-wider text-white/45 uppercase">
-                3 Latest Albums
-              </span>
-            </div>
-
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+              <div className="fancy relative w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+                {/* Header Title directly anchored to the 250px sleeve card box window edges */}
+                <div className="absolute -top-6 left-0 right-0 flex items-center justify-between pointer-events-none z-30 px-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
+                    <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
+                      Listen To Our Hits
+                    </span>
+                  </div>
+                  <span className="text-[8px] font-bold tracking-wider text-white/45 uppercase">
+                    3 Latest Albums
+                  </span>
+                </div>
+
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
                     <div className="flex flex-col items-center gap-2 opacity-60 animate-pulse">
