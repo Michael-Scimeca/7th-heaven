@@ -550,6 +550,19 @@ export default function VinylHeroPlayer({
           }}
         >
           <div className="relative" style={{ width: '600px' }}>
+            {/* Header Title anchored directly to x = 175px (the exact top-left corner of the 250px sleeve window box) */}
+            <div className="absolute -top-7 left-[175px] w-[250px] flex items-center justify-between pointer-events-none z-40 px-2">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
+                <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
+                  Listen To Our Hits
+                </span>
+              </div>
+              <span className="text-[8.5px] font-bold tracking-wider text-white/50 uppercase">
+                3 Latest Albums
+              </span>
+            </div>
+
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
               <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
@@ -653,18 +666,6 @@ export default function VinylHeroPlayer({
               {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                 <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
-                  {/* Header Title directly anchored to top of 250px player window box — breaking out of parent p-4 padding */}
-                  <div className="absolute -top-6.5 -left-4 -right-4 flex items-center justify-between pointer-events-none z-40 px-4">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
-                      <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
-                        Listen To Our Hits
-                      </span>
-                    </div>
-                    <span className="text-[8.5px] font-bold tracking-wider text-white/50 uppercase">
-                      3 Latest Albums
-                    </span>
-                  </div>
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">

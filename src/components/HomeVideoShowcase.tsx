@@ -490,10 +490,8 @@ export default function HomeVideoShowcase() {
         {/* Section Header with Container Padding */}
         <div className="site-container flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans">
-              <span className="bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
-                Video & Live Media
-              </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans text-white">
+              Video &amp; Live Media
             </h2>
             <p className="text-purple-200/75 text-sm sm:text-base md:text-lg font-normal mb-5 leading-relaxed">
               Explore 7th Heaven&apos;s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.
@@ -564,7 +562,7 @@ export default function HomeVideoShowcase() {
                           setActiveModalVideo(video);
                         }}
                         icon={false}
-                        className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl transition-all cursor-pointer pointer-events-auto hover:scale-110`}
+                        className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40    transition-all cursor-pointer pointer-events-auto hover:scale-110`}
                         aria-label={`Play full video for ${video.title}`}
                         title="Play Full Video"
                       >
@@ -583,7 +581,7 @@ export default function HomeVideoShowcase() {
                         {video.badges.map((badge, bIdx) => (
                           <span
                             key={badge + bIdx}
-                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border border-white/30 backdrop-blur-md text-white shadow-md mb-1"
+                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border border-white/30 backdrop-blur-md text-white   mb-1"
                           >
                             {badge}
                           </span>
@@ -591,7 +589,7 @@ export default function HomeVideoShowcase() {
                       </div>
                     )}
 
-                    <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.98)] group-hover:text-purple-300 transition-colors">
+                    <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
                       {video.title}
                     </h3>
                   </div>
@@ -623,7 +621,7 @@ export default function HomeVideoShowcase() {
       {/* Full Video Modal Lightbox */}
       {activeModalVideo && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border border-white/20 shadow-2xl">
+          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border border-white/20   ">
             <button
               onClick={() => setActiveModalVideo(null)}
               className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
