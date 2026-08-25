@@ -210,9 +210,20 @@ export default function VinylHeroPlayer({
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(0.4);
   const [scale, setScale] = useState(1);
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(true);
+  const [bufferPercent, setBufferPercent] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
+
+  const updateBufferProgress = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.buffered.length > 0 && audio.duration > 0) {
+      const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
+      const pct = Math.min(100, Math.round((bufferedEnd / audio.duration) * 100));
+      setBufferPercent(pct);
+    }
+  };
 
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
@@ -513,13 +524,14 @@ export default function VinylHeroPlayer({
         {/* Hidden Audio — src managed imperatively via useEffect/playTrack, NOT via React src= prop */}
         <audio
           ref={audioRef}
-          preload="none"
-          onTimeUpdate={() => { handleTimeUpdate(); setIsBuffering(false); }}
-          onLoadedMetadata={handleLoadedMetadata}
+          preload="auto"
+          onTimeUpdate={() => { handleTimeUpdate(); updateBufferProgress(); }}
+          onProgress={updateBufferProgress}
+          onLoadedMetadata={() => { handleLoadedMetadata(); updateBufferProgress(); }}
           onEnded={nextTrack}
           onWaiting={() => setIsBuffering(true)}
-          onLoadStart={() => { if (isPlaying) setIsBuffering(true); }}
-          onCanPlay={() => setIsBuffering(false)}
+          onLoadStart={() => setIsBuffering(true)}
+          onCanPlay={() => { setIsBuffering(false); updateBufferProgress(); }}
           onPlaying={() => setIsBuffering(false)}
           onPause={() => setIsBuffering(false)}
           onError={() => setIsBuffering(false)}
@@ -745,7 +757,10 @@ export default function VinylHeroPlayer({
                         <div className="text-[9px]  font-bold  uppercase leading-tight flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
                           {isBuffering ? (
-                            <span className="text-[9px]  font-bold  text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1 rounded animate-pulse shrink-0">BUFFERING MP3</span>
+                            <span className="text-[9px] font-bold text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1.5 py-0.5 rounded-full animate-pulse shrink-0 flex items-center gap-1">
+                              <span className="w-2 h-2 border border-[#d946ef] border-t-transparent rounded-full animate-spin" />
+                              LOADING {bufferPercent > 0 ? `${bufferPercent}%` : "SONG"}
+                            </span>
                           ) : (
                             <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
                           )}
