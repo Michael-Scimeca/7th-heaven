@@ -863,7 +863,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px]">
+              <div className="pl-3  pr-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px]">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
@@ -877,7 +877,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="custom-purple-scrollbar space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[195px] overflow-y-auto pr-1.5 whitespace-nowrap"
+                  className="custom-purple-scrollbar flex-1 min-h-0 space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight overflow-y-auto pr-2 pb-2 whitespace-nowrap"
                   style={{ scrollBehavior: 'smooth' }}
                 >
                   {currentAlbum.tracks.map((track, tIdx) => {
