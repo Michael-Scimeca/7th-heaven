@@ -502,16 +502,15 @@ export default function VinylHeroPlayer({
     if (audioRef.current) audioRef.current.volume = v;
   };
 
-  const unscaledWidth = 740;
-  const unscaledHeight = 315; // Height to cover header text + 250px sleeve + margin
-  const effScale = scale * 1.05;
+  const unscaledWidth = 777; // 740 * 1.05 (5% bigger)
+  const unscaledHeight = 331; // 315 * 1.05 (5% bigger)
 
   return (
     <div
       className="relative flex justify-end items-end"
       style={{
-        width: `${unscaledWidth * effScale}px`,
-        height: `${unscaledHeight * effScale}px`,
+        width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
+        height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
       }}
     >
       <div
@@ -519,7 +518,7 @@ export default function VinylHeroPlayer({
         style={{
           width: `${unscaledWidth}px`,
           height: `${unscaledHeight}px`,
-          transform: `scale(${effScale})`,
+          transform: scale < 1 ? `scale(${scale})` : undefined,
           transformOrigin: "bottom right",
         }}
       >
@@ -545,14 +544,14 @@ export default function VinylHeroPlayer({
         <div
           className="vinyl-slider-wrap"
           style={{
-            width: '740px',
-            height: '250px',
+            width: '777px',
+            height: '263px',
             position: 'relative',
           }}
         >
-          <div className="relative" style={{ width: '740px' }}>
-            {/* Header Title anchored directly to x = 175px (the exact top-left corner of the 250px sleeve window box) */}
-            <div className="absolute -top-7 left-[175px] w-[250px] flex items-center justify-between pointer-events-none z-40 px-2">
+          <div className="relative" style={{ width: '777px' }}>
+            {/* Header Title anchored directly to x = 184px (the top-left corner of the 263px sleeve window box) */}
+            <div className="absolute -top-7 left-[184px] w-[263px] flex items-center justify-between pointer-events-none z-40 px-2">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
                 <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
@@ -566,7 +565,7 @@ export default function VinylHeroPlayer({
 
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="fancy w-[250px] h-[250px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+              <div className="fancy w-[263px] h-[263px] rounded-2xl shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
                     <div className="flex flex-col items-center gap-2 opacity-60 animate-pulse">
@@ -665,7 +664,7 @@ export default function VinylHeroPlayer({
 
               {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-                <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
+                <div className="relative w-[263px] h-[263px] flex flex-col justify-between p-4 pointer-events-none">
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">
@@ -864,7 +863,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3 border border-white/10  h-full flex flex-col justify-start pt-2 pb-2 bg-[#0a00653b] backdrop-blur-[45px]">
+              <div className="pl-3 border border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px]">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
