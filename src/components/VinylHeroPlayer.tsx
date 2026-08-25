@@ -695,7 +695,7 @@ export default function VinylHeroPlayer({
                       <div className="w-[1px] h-3 bg-white/20 my-auto" />
                       <button aria-label="Toggle Playlist"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-white bg-white/30 shadow-[0_0_12px_rgba(255,255,255,0.9)] scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                        className={`p-1 rounded-full transition-all duration-300 cursor-pointer ${showTracklist ? "text-white bg-white/40 border border-white/60 shadow-[0_0_20px_rgba(255,255,255,1),0_0_10px_rgba(255,255,255,0.9)] drop-shadow-[0_0_8px_rgba(255,255,255,1)] scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                         title="Toggle Playlist"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
