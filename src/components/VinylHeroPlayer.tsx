@@ -665,8 +665,8 @@ export default function VinylHeroPlayer({
                 </Swiper>
               </div>
 
-              {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+              {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc inside the 250px sleeve box at left: 175px */}
+              <div className="absolute inset-0 flex items-center justify-start pointer-events-none z-30" style={{ paddingLeft: '175px' }}>
                 <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
 
                   {/* Top Controls */}
