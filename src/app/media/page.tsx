@@ -335,9 +335,10 @@ export default function MediaPage() {
 
         ScrollTrigger.create({
           trigger: item,
-          start: "top 60%",
-          end: "bottom 40%",
-          scrub: 0.5,
+          start: "top 55%",
+          end: "bottom 45%",
+          onEnter: () => setActiveIndex(index),
+          onEnterBack: () => setActiveIndex(index),
           onToggle: (self) => {
             if (self.isActive) {
               setActiveIndex(index);
@@ -526,10 +527,10 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu ${
+                  className={`relative group cursor-pointer transition-all duration-300 select-none border-b min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu origin-left ${
                     isActive
-                      ? "scale-[1.04] z-20 opacity-100"
-                      : "scale-100 opacity-70 hover:opacity-100"
+                      ? "scale-[1.04] z-20 opacity-100 border-purple-500/60"
+                      : "scale-100 opacity-55 hover:opacity-90 border-white/10"
                   }`}
                 >
                   {/* Full Section Background Video (Mobile Only) */}
@@ -541,15 +542,17 @@ export default function MediaPage() {
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
                   <div className="relative z-20">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
+                      <span className={`text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${
+                        isActive ? "text-purple-300" : "text-[var(--color-accent)]"
+                      }`}>
                         {video.year}
                       </span>
                     </div>
 
                     <h3
-                      className={`text-3xl sm:text-4xl md:text-6xl  font-bold  uppercase tracking-tight transition-colors duration-300 ${isActive
-                        ? "!text-[#c084fc]"
-                        : "text-white/70 group-hover:text-white"
+                      className={`text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-tight transition-colors duration-300 ${isActive
+                        ? "!text-[#c084fc] drop-shadow-[0_0_15px_rgba(192,132,252,0.5)]"
+                        : "text-white/60 group-hover:text-white"
                         }`}
                       style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
                     >
