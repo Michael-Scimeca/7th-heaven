@@ -592,6 +592,8 @@ export default function VinylHeroPlayer({
                 <Swiper
                   slidesPerView="auto"
                   centeredSlides={true}
+                  slidesOffsetBefore={-100}
+                  slidesOffsetAfter={100}
                   loop={false}
                   initialSlide={activeAlbumIdx}
                   spaceBetween={0}
