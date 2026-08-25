@@ -138,8 +138,8 @@ export default function AudioPlayerSection() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(0.8);
-  const prevVolumeRef = useRef(0.8);
+  const [volume, setVolume] = useState(0.4);
+  const prevVolumeRef = useRef(0.4);
   const [showLyrics, setShowLyrics] = useState(false);
   const [loadedLyrics, setLoadedLyrics] = useState<LyricData | null>(null);
 
@@ -512,7 +512,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden   ">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -580,7 +580,7 @@ export default function AudioPlayerSection() {
               {/* Tablet & Mobile Album Header Bar */}
               <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0 shadow-md">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0    ">
                     {activeAlbum?.image ? (
                       <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
                     ) : (
@@ -708,7 +708,7 @@ export default function AudioPlayerSection() {
               data-lenis-prevent-wheel="true"
               data-lenis-prevent-touch="true"
               onWheel={(e) => e.stopPropagation()}
-              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40 shadow-2xl"
+              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40   "
               style={{ overscrollBehavior: "contain" }}
             >
 
@@ -728,7 +728,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0 shadow-md">
+              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}

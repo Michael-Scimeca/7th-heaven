@@ -208,10 +208,16 @@ export default function VinylHeroPlayer({
   const [currentTime, setCurrentTime] = useState("0:00");
   const [duration, setDuration] = useState("0:00");
   const [isDragging, setIsDragging] = useState(false);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(0.4);
   const [scale, setScale] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
 
   useEffect(() => {
     const update = () => {
@@ -508,7 +514,7 @@ export default function VinylHeroPlayer({
 
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-              <div className="w-[250px] h-[250px] border border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.9)]" />
+              <div className="w-[250px] h-[250px] border border-white/20  bg-white/20 border border-white/30 backdrop-blur-md " />
             </div>
 
             {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
@@ -600,7 +606,7 @@ export default function VinylHeroPlayer({
                     <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
-                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
+                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer    " title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
                       {isBuffering ? (
                         <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent rounded-full animate-spin" />
                       ) : isPlaying ? (
@@ -706,7 +712,7 @@ export default function VinylHeroPlayer({
                     <Link
                       href={currentAlbum.storeUrl}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full shadow-md transition-colors hover:scale-105 w-fit"
+                      className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-colors hover:scale-105 w-fit"
                     >
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
                       Buy CD
@@ -782,7 +788,7 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className=" backdrop-blur-[45px] pl-3 border-l border-white/15 h-full flex flex-col justify-center">
+              <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
