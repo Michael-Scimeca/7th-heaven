@@ -66,6 +66,8 @@ const GRADIENT_PRESETS = [
 
 export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
+  const [isVideoFading, setIsVideoFading] = useState(false);
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
 
@@ -283,10 +285,25 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     };
   }, [captureFrame, videoSrc]); // re-run when source changes
 
-  // ── Album → video sync ──────────────────────────────────────────────────────
+  // ── Album → video sync with smooth fade crossfade transition ────────────────
   const handleAlbumChange = useCallback((albumId: string) => {
     const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
-    setVideoSrc((prev) => (prev === next ? prev : next));
+    if (next === videoSrc) return;
+
+    // 1. Smoothly fade out current video
+    setIsVideoFading(true);
+
+    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    fadeTimerRef.current = setTimeout(() => {
+      // 2. Swap video source while hidden
+      setVideoSrc(next);
+    }, 280);
+  }, [videoSrc]);
+
+  useEffect(() => {
+    return () => {
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -309,17 +326,24 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           try { video.currentTime = 10; } catch (_) { }
         }
       };
+      const handlePlayStart = () => {
+        setTimeAt10();
+        // 3. Smoothly fade back in once new video starts playing
+        setIsVideoFading(false);
+      };
       video.addEventListener("loadedmetadata", setTimeAt10, { once: true });
-      video.addEventListener("canplay", setTimeAt10, { once: true });
-      video.addEventListener("playing", setTimeAt10, { once: true });
+      video.addEventListener("canplay", handlePlayStart, { once: true });
+      video.addEventListener("playing", handlePlayStart, { once: true });
       video.load();
       video.play().then(() => {
-        setTimeAt10();
-      }).catch(() => { });
+        handlePlayStart();
+      }).catch(() => {
+        setIsVideoFading(false);
+      });
       return () => {
         video.removeEventListener("loadedmetadata", setTimeAt10);
-        video.removeEventListener("canplay", setTimeAt10);
-        video.removeEventListener("playing", setTimeAt10);
+        video.removeEventListener("canplay", handlePlayStart);
+        video.removeEventListener("playing", handlePlayStart);
       };
     }
   }, [videoSrc, isYouTube]);
@@ -458,7 +482,9 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none scale-[1.3]"
+          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${
+            isVideoFading ? "opacity-0 scale-[1.36] filter blur-sm" : "opacity-100 scale-[1.3] filter blur-0"
+          }`}
         >
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
@@ -585,7 +611,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       onChange={(e) => updateColor(e.target.value)}
                       className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent opacity-0"
                     />
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white drop-shadow"><path d="M12 5v14M5 12h14" /></svg>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white"><path d="M12 5v14M5 12h14" /></svg>
                   </div>
                 </div>
               </div>
