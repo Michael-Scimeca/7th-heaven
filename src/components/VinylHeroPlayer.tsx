@@ -223,7 +223,7 @@ export default function VinylHeroPlayer({
     const update = () => {
       if (typeof window !== "undefined") {
         if (window.innerWidth < 768) {
-          setScale(Math.max(0.45, (window.innerWidth - 100) / 600));
+          setScale(Math.max(0.45, (window.innerWidth - 40) / 740));
         } else {
           setScale(1);
         }
@@ -460,7 +460,7 @@ export default function VinylHeroPlayer({
     if (audioRef.current) audioRef.current.volume = v;
   };
 
-  const unscaledWidth = 600;
+  const unscaledWidth = 740;
   const unscaledHeight = 280; // Enough height to cover the 250px sleeve + margin
 
   return (
@@ -503,7 +503,6 @@ export default function VinylHeroPlayer({
           style={{
             width: '600px',
             height: '250px',
-            marginTop: '20px',
             position: 'relative',
           }}
         >
@@ -512,10 +511,6 @@ export default function VinylHeroPlayer({
           <div className="relative" style={{ width: '600px' }}>
 
 
-            {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-              <div className="w-[250px] h-[250px] border border-white/20  bg-white/20 border border-white/30 backdrop-blur-md " />
-            </div>
 
             {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
             <div style={{
@@ -595,14 +590,18 @@ export default function VinylHeroPlayer({
                 ))}
               </Swiper>
             </div>
+            {/* LAYER 1: Sleeve card background — sits BEHIND the disc (z-10) */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
+              <div className="w-[250px] h-[250px] border border-white/20  bg-white/20 border border-white/30 backdrop-blur-md " />
+            </div>
 
             {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
               <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
 
                 {/* Top Controls */}
-                <div className="flex items-center justify-center pointer-events-auto">
-                  <div className="flex items-center gap-2 bg-black/60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow">
+                <div className="flex items-center justify-center pointer-events-auto ">
+                  <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border border-white/15 shadow w-full">
                     <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
@@ -785,7 +784,7 @@ export default function VinylHeroPlayer({
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
                 }`}
-              style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
+              style={{ left: 'calc(50% + 195px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
@@ -828,7 +827,7 @@ export default function VinylHeroPlayer({
 
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
