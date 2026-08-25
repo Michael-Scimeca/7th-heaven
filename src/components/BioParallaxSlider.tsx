@@ -170,15 +170,13 @@ const getStaggerDelay = (idx: number) => {
 };
 
 const getMemberImage = (m?: Partial<SanityBandMember>): string => {
-  if (m?.image) {
-    return typeof m.image === 'string' ? m.image : urlFor(m.image).url();
-  }
   const nameLower = (m?.name || "").toLowerCase();
   if (nameLower.includes("adam")) return "/images/members/adam.png";
   if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) return "/images/members/dicky.png";
   if (nameLower.includes("frankie")) return "/images/members/frankie.png";
   if (nameLower.includes("mark")) return "/images/members/mark.png";
   if (nameLower.includes("nick")) return "/images/members/nick.png";
+  if (typeof m?.image === 'string' && m.image) return m.image;
   return "/images/members/adam.png";
 };
 
