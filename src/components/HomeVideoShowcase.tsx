@@ -19,7 +19,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
 
   return (
     <div
-      className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
+      className={`smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu transition-transform duration-500 ease-out ${hovered ? "scale-108" : "scale-100"}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -534,7 +534,7 @@ export default function HomeVideoShowcase() {
                 {/* Video Card Container */}
                 <div
                   style={{ height: "clamp(300px, 35vw, 600px)" }}
-                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60`}
+                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 transform-gpu group-hover:scale-[1.03] group-active:scale-[1.04] ${activeModalVideo?.id === video.id ? "scale-[1.04] ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]" : ""}`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
