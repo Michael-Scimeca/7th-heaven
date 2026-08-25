@@ -210,7 +210,7 @@ export default function VinylHeroPlayer({
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(0.4);
   const [scale, setScale] = useState(1);
-  const [isPlayerReady, setIsPlayerReady] = useState(true);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [bufferPercent, setBufferPercent] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
@@ -227,9 +227,10 @@ export default function VinylHeroPlayer({
 
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
-    // Border box (.fancy) is rendered IMMEDIATELY right off the bat on mount.
+    // Phase 1: Border box (.fancy) renders FIRST immediately on mount.
+    // Phase 2: Albums & MP3 controls smoothly fade in when ready.
     const isPreloading = typeof document !== "undefined" && document.documentElement.classList.contains("is-preloading");
-    const fallbackDelay = isPreloading ? 450 : 150;
+    const fallbackDelay = isPreloading ? 500 : 350;
     let preloaderDoneTimer: ReturnType<typeof setTimeout> | undefined;
 
     const timer = setTimeout(() => {
@@ -237,7 +238,7 @@ export default function VinylHeroPlayer({
     }, fallbackDelay);
 
     const handlePreloaderDone = () => {
-      preloaderDoneTimer = setTimeout(() => setIsPlayerReady(true), 50);
+      preloaderDoneTimer = setTimeout(() => setIsPlayerReady(true), 150);
     };
 
     if (typeof window !== "undefined") {
