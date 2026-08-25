@@ -96,6 +96,9 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
           unlockScroll();
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("7h-preloader-done"));
+          }
           onComplete?.();
         }, revealDurationMs())
       );

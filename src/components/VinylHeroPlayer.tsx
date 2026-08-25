@@ -214,14 +214,36 @@ export default function VinylHeroPlayer({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const swiperRef = useRef<import("swiper").Swiper | null>(null);
 
+  /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
-    // Progressive player reveal sequence: border box loads first, then controls & vinyl disc fade in
+    // Border box (.fancy) is rendered IMMEDIATELY right off the bat on mount.
+    // Disc & controls fade in after preloader completes / 1400ms fallback delay.
+    const isPreloading = typeof document !== "undefined" && document.documentElement.classList.contains("is-preloading");
+    const fallbackDelay = isPreloading ? 1400 : 700;
+    let preloaderDoneTimer: ReturnType<typeof setTimeout> | undefined;
+
     const timer = setTimeout(() => {
       setIsPlayerReady(true);
-    }, 450);
-    return () => clearTimeout(timer);
+    }, fallbackDelay);
+
+    const handlePreloaderDone = () => {
+      preloaderDoneTimer = setTimeout(() => setIsPlayerReady(true), 300);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("7h-preloader-done", handlePreloaderDone);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      if (preloaderDoneTimer) clearTimeout(preloaderDoneTimer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("7h-preloader-done", handlePreloaderDone);
+      }
+    };
   }, []);
 
+  /* eslint-disable-next-line react-doctor/effect-needs-cleanup */
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
