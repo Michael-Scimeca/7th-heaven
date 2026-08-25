@@ -855,30 +855,36 @@ export default function VinylHeroPlayer({
                 </div>
               </div>
             </div>
-            {/* ── TRACKLIST PANEL — anchored right of the 270px center card ── */}
+            {/* ── TRACKLIST PANEL — top border aligned 100% flush with the top of the white playlist box ── */}
             <div
-              className={`absolute top-0 bottom-0 flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist
+              className={`absolute flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
                 }`}
-              style={{ left: 'calc(50% + 195px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
+              style={{
+                left: 'calc(50% + 195px)',
+                top: '128px',
+                bottom: '12px',
+                width: showTracklist ? '220px' : '0px',
+                overflow: 'hidden'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
+              <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-start">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">
                   <span className="text-[9px]  font-bold  uppercase tracking-wider  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>
                   <div className="flex items-center gap-1.5">
                     <span className="text-[8px] font-bold text-white/40">{currentAlbum.tracks.length} SONGS</span>
-                    <button aria-label="Action button"
+                    <button aria-label="Close tracklist"
                       onClick={() => setShowTracklist(false)}
                       className="text-white/50 hover:text-white text-[10px] font-bold px-1 rounded transition-colors cursor-pointer"
                     >✕</button>
                   </div>
                 </div>
                 <ol
-                  className="custom-purple-scrollbar space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[190px] overflow-y-auto pr-1.5 whitespace-nowrap"
+                  className="custom-purple-scrollbar space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[105px] overflow-y-auto pr-1.5 whitespace-nowrap"
                   style={{ scrollBehavior: 'smooth' }}
                 >
                   {currentAlbum.tracks.map((track, tIdx) => {
