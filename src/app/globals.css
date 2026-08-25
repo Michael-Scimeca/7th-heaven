@@ -2216,10 +2216,18 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 /* ── Header logo responsive positioning & hover ── */
-#header-logo,
-#header-logo * {
-  pointer-events: auto !important;
-  cursor: pointer !important;
+#header-logo {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+#header-logo:not(.active) * {
+  cursor: pointer;
+}
+
+#header-logo.active,
+#header-logo.active * {
+  cursor: default !important;
 }
 
 #header-logo {
@@ -2243,10 +2251,10 @@ html.tour-sort-stuck #tour-sort-bar {
   }
 }
 
-#header-logo:hover,
-#header-logo:hover svg,
-#header-logo:hover path,
-#header-logo:hover polygon {
+#header-logo:not(.active):hover,
+#header-logo:not(.active):hover svg,
+#header-logo:not(.active):hover path,
+#header-logo:not(.active):hover polygon {
   color: #9333ea !important;
   fill: #9333ea !important;
 }
