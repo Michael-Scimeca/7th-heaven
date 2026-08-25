@@ -541,7 +541,7 @@ export default function MediaPage() {
                   onClick={() => handleTitleClick(index)}
                   className={`relative group cursor-pointer transition-all duration-300 select-none border-b min-h-[250px] sm:min-h-[280px] md:min-h-0 flex flex-col justify-end p-6 sm:p-8 md:p-0 md:pb-10 overflow-hidden transform-gpu origin-left ${
                     isActive
-                      ? "scale-[1.04] z-20 opacity-100 border-purple-500/60"
+                      ? "scale-[1.08] translate-x-3 z-20 opacity-100 border-purple-400"
                       : "scale-100 opacity-55 hover:opacity-90 border-white/10"
                   }`}
                 >
