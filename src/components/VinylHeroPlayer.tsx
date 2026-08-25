@@ -550,15 +550,15 @@ export default function VinylHeroPlayer({
           }}
         >
           <div className="relative" style={{ width: '600px' }}>
-            {/* Header Title Above Player Box */}
-            <div className="absolute -top-7 left-[calc(50%-125px)] w-[250px] flex items-center justify-between pointer-events-none z-30 px-1">
+            {/* Header Title Above Player Box — perfectly aligned with window borders */}
+            <div className="absolute -top-6.5 left-[calc(50%-125px)] w-[250px] flex items-center justify-between pointer-events-none z-30 px-3">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#d946ef] animate-ping" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-white/90 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
+                <span className="text-[9.5px] font-black uppercase tracking-wider text-white/95 drop-shadow-[0_0_10px_rgba(217,70,239,0.8)]">
                   Listen To Our Hits
                 </span>
               </div>
-              <span className="text-[8px] font-bold tracking-wider text-white/40 uppercase">
+              <span className="text-[8px] font-bold tracking-wider text-white/45 uppercase">
                 3 Latest Albums
               </span>
             </div>
