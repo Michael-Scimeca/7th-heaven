@@ -217,9 +217,8 @@ export default function VinylHeroPlayer({
   /* eslint-disable react-doctor/effect-needs-cleanup */
   useEffect(() => {
     // Border box (.fancy) is rendered IMMEDIATELY right off the bat on mount.
-    // Disc & controls fade in after preloader completes / 1400ms fallback delay.
     const isPreloading = typeof document !== "undefined" && document.documentElement.classList.contains("is-preloading");
-    const fallbackDelay = isPreloading ? 1400 : 700;
+    const fallbackDelay = isPreloading ? 450 : 150;
     let preloaderDoneTimer: ReturnType<typeof setTimeout> | undefined;
 
     const timer = setTimeout(() => {
@@ -227,7 +226,7 @@ export default function VinylHeroPlayer({
     }, fallbackDelay);
 
     const handlePreloaderDone = () => {
-      preloaderDoneTimer = setTimeout(() => setIsPlayerReady(true), 300);
+      preloaderDoneTimer = setTimeout(() => setIsPlayerReady(true), 50);
     };
 
     if (typeof window !== "undefined") {

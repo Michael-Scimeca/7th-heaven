@@ -10,7 +10,7 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 // animation as PageTransition.tsx so initial page entry and route-to-route
 // navigations are visually and functionally identical.
 
-const FALLBACK = { minVisible: 1200, reveal: 1030 };
+const FALLBACK = { minVisible: 300, reveal: 350 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
@@ -124,12 +124,12 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
         targetProgress = 100;
       }
 
-      // Smooth lerp fillProgressRef
-      fillProgressRef.current += (targetProgress - fillProgressRef.current) * 0.12;
+      // Smooth fast lerp fillProgressRef
+      fillProgressRef.current += (targetProgress - fillProgressRef.current) * 0.35;
       const currentFill = Math.min(100, Math.round(fillProgressRef.current));
       setFillPercent(currentFill);
 
-      if (pageReadyRef.current && elapsed >= minVis && currentFill >= 98) {
+      if (pageReadyRef.current && elapsed >= minVis && currentFill >= 95) {
         finish();
       } else {
         rafId = requestAnimationFrame(checkReadyLoop);
@@ -146,7 +146,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       setTimeout(() => {
         pageReadyRef.current = true;
         finish();
-      }, 5000)
+      }, 1200)
     );
 
     return () => {
