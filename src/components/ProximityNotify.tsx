@@ -221,10 +221,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch justify-center">
 
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
-          <div className="md:col-span-5 flex justify-center items-stretch w-full h-full my-auto">
-            <div className="relative w-full h-full flex items-center justify-center">
-              <IphoneClipMask className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-none md:w-full h-full max-h-full flex items-center justify-center">
-                <div className="relative w-full h-full min-h-[480px] md:min-h-[600px] aspect-[9/16.5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950 flex items-center justify-center">
+          <div className="md:col-span-5 flex justify-center items-center w-full h-full my-auto">
+            <div className="relative w-full h-full max-h-[900px] flex items-center justify-center">
+              <IphoneClipMask className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-none md:w-full h-full max-h-[900px] flex items-center justify-center">
+                <div className="relative w-full h-full max-h-[900px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-zinc-950 flex items-center justify-center transition-all duration-300">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}
