@@ -833,23 +833,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const [newAdminName, setNewAdminName] = useState('');
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [newAdminUsername, setNewAdminUsername] = useState('');
-  const [sidebarMode, setSidebarMode] = useState<'jump' | 'organize'>('jump');
   const [createdAdmin, setCreatedAdmin] = useState<{ name: string; email: string; password: string } | null>(null);
   const [adminCreateError, setAdminCreateError] = useState('');
   const [adminCreateLoading, setAdminCreateLoading] = useState(false);
   const [openInfoSection, setOpenInfoSection] = useState<string | null>(null);
-
-  const [showJumpNav, setShowJumpNav] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('7h_show_jump_nav_v1') || localStorage.getItem('7h_show_jump_nav');
-    if (saved === 'false') setShowJumpNav(false);
-  }, []);
-
-  const toggleJumpNav = () => {
-    setShowJumpNav(prev => !prev);
-    try { localStorage.setItem('7h_show_jump_nav_v1', String(!showJumpNav)); } catch { }
-  };
 
   const customRolesRef = useRef<string[]>([]);
 
@@ -12827,141 +12814,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       )}
 
-      {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
-      {showJumpNav && (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3  backdrop-blur-[45px] max-h-[400px] w-44 font-sans transition-colors duration-300 animate-[fadeIn_0.15s_ease]">
-          <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
-            <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
-            <button
-              onClick={toggleJumpNav}
-              title="Hide Navigation"
-              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
-            >
 
-            </button>
-          </div>
-          {adminTab === 'band' && (
-            <div className="flex bg-[#e1e6ff29]   rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
-              <button
-                type="button"
-                onClick={() => setSidebarMode('jump')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white    font-bold ' : 'text-white/40 hover:text-white'}`}
-              >
-                Navigate
-              </button>
-              <button
-                type="button"
-                onClick={() => setSidebarMode('organize')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white    font-bold ' : 'text-white/40 hover:text-white'}`}
-              >
-                Arrange
-              </button>
-            </div>
-          )}
-          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5} direction="vertical">
-            <div className="flex flex-col gap-1 text-xs pr-1">
-              {adminTab === 'band' ? (
-                sidebarMode === 'jump' ? (
-                  <>
-                    {sectionOrder.map((key) => {
-                      const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '' },
-                        calendar: { label: 'Crew Schedule', icon: '' },
-                        analytics: { label: 'Google Analytics', icon: '' },
-                        shopify: { label: 'Shopify Store', icon: '' },
-                        bookings: { label: 'Booking Requests', icon: '' },
-                        planners: { label: 'Planners Directory', icon: '' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '' },
-                        livealerts: { label: 'Live Alerts', icon: '' },
-                        smsblast: { label: 'SMS Blast', icon: '' },
-                        crewsms: { label: 'Crew SMS', icon: '' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '' },
-                        newsletter: { label: 'Newsletter', icon: '' },
-                        emailflow: { label: 'Email Template Flows', icon: '' },
-                        registry: { label: 'Fan Registry', icon: '' },
-                        crewcreation: { label: 'Crew Management', icon: '' },
-                        admincreation: { label: 'Admin Management', icon: '' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '' },
-                        awardpicks: { label: 'Award Picks', icon: '' }
-                      };
-                      const section = labelMap[key] || { label: key, icon: '' };
-                      return (
-                        <button
-                          key={key}
-                          onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                          className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                        >
-                          <span>{section.icon}</span> {section.label}
-                        </button>
-                      );
-                    })}
-                  </>
-                ) : (
-                  <>
-                    <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
-                      Drag sections below to reorder layout:
-                    </div>
-                    {sectionOrder.map((key, index) => {
-                      const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '' },
-                        calendar: { label: 'Crew Schedule', icon: '' },
-                        analytics: { label: 'Google Analytics', icon: '' },
-                        shopify: { label: 'Shopify Store', icon: '' },
-                        bookings: { label: 'Booking Requests', icon: '' },
-                        planners: { label: 'Planners Directory', icon: '' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '' },
-                        livealerts: { label: 'Live Alerts', icon: '' },
-                        smsblast: { label: 'SMS Blast', icon: '' },
-                        crewsms: { label: 'Crew SMS', icon: '' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '' },
-                        newsletter: { label: 'Newsletter', icon: '' },
-                        emailflow: { label: 'Email Template Flows', icon: '' },
-                        registry: { label: 'Fan Registry', icon: '' },
-                        crewcreation: { label: 'Crew Management', icon: '' },
-                        admincreation: { label: 'Admin Management', icon: '' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '' },
-                        awardpicks: { label: 'Award Picks', icon: '' }
-                      };
-                      const section = labelMap[key] || { label: key, icon: '' };
-                      return (
-                        <div
-                          key={key}
-                          className="py-1.5 px-2 hover:bg-[#e1e6ff29] text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 border border-transparent select-none"
-                        >
-                          <span className="text-white/20 select-none"></span>
-                          <span>{section.icon}</span>
-                          <span className="truncate">{section.label}</span>
-                        </div>
-                      );
-                    })}
-                  </>
-                )
-              ) : (
-                <>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Command Center
-                  </button>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Cruise Roster & Links
-                  </button>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-[#e1e6ff29]   hover:text-white  text-white  transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Cruise Blast
-                  </button>
-                </>
-              )}
-            </div>
-          </CustomScrollbar>
-        </div>
-      )}
     </div>
 
   );
