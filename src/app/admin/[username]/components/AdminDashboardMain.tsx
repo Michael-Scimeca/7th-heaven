@@ -7118,7 +7118,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ) as any;
                     return (
                       <div key={user.id} className="transition-colors">
-                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 p-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 pb-4 pt-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
                           <div className="font-bold text-sm truncate max-w-[220px]">
                             <div className="flex items-center gap-2.5 truncate">
                               {(() => {
@@ -7145,7 +7145,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           </div>
                           <div className="text-sm">
-                            <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]    text-white  border border-white/10'}`}>
+                            <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? '  text-[var(--color-accent)] ' : '  text-white '}`}>
                               {user.role}
                             </span>
                           </div>
@@ -7163,13 +7163,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <div className="flex items-center justify-end gap-2">
                                 <button
                                   onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                  className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-[#e1e6ff29]   hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                  className="px-3 py-2  bg-[#e1e6ff29] border border-white/10 text-white hover:bg-[#e1e6ff29]   hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
                                 >
                                   {viewingUser === user.id ? 'Hide' : 'View'}
                                 </button>
                                 <button
                                   onClick={() => banUser(user.id, user.name)}
-                                  className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                  className="px-3 py-2  bg-[#e1e6ff29] border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
                                 >
                                   Remove
                                 </button>
@@ -11576,49 +11576,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           z-index: 50 !important;
         }
 
-        /* Dynamic Theme Variables for Admin Dashboard */
-        #admin-dashboard-root {
-         
-        }
 
-        #admin-dashboard-root h1,
-        #admin-dashboard-root h2,
-        #admin-dashboard-root h3,
-        #admin-dashboard-root h4,
-        #admin-dashboard-root h5,
-        #admin-dashboard-root h6,
-        #admin-dashboard-root p,
-        #admin-dashboard-root span:not(.badge-text),
-        #admin-dashboard-root label,
-        #admin-dashboard-root td,
-        #admin-dashboard-root th,
-        #admin-dashboard-root input,
-        #admin-dashboard-root select,
-        #admin-dashboard-root textarea {
-          color: var(--text-color);
-        }
-
-        /* Protect CruiseChat styling & Live SMS Preview from global admin text overrides */
-        #admin-dashboard-root #cruise-chat-root [class*="text-white"] {
-          color: #ffffff !important;
-        }
-
-        #admin-dashboard-root .live-sms-preview-box {
-          background-color: #0d0e17 !important;
-          color: #ffffff !important;
-          border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        }
-
-        /* Solid button overrides so button labels remain white where appropriate */
-        #admin-dashboard-root .bg-red-600,
-        #admin-dashboard-root .bg-purple-600,
-        #admin-dashboard-root .bg-cyan-600,
-        #admin-dashboard-root .bg-[var(--color-accent)] ,
-        #admin-dashboard-root .bg-purple-700,
-        #admin-dashboard-root button[class*="bg-red-600"],
-        #admin-dashboard-root button[class*="bg-purple-600"] {
-          color: #ffffff !important;
-        }
 
 
         /* Transparent Section Header Bars & Universal Hover Highlight */
