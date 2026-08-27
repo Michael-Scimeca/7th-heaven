@@ -3162,10 +3162,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     );
   };
   const renderAnnouncements = () => (
-    <section className="space-y-6">
+    <div className="space-y-6">
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
-      <section id="admin-sec-emergencybroadcast" className="overflow-visible">
+      <div id="admin-sec-emergencybroadcast" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -3187,10 +3187,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <EmergencyBroadcastCenter tourDates={tourDates} />
           </>)}
         </div>
-      </section>
+      </div>
 
       {/*  Role-Based Email Lists & Subscriber Directory */}
-      <section id="admin-sec-emaildirectory" className="overflow-hidden">
+      <div id="admin-sec-emaildirectory" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -3212,10 +3212,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <RoleEmailDirectory dynamicUsers={users} />
           </>)}
         </div>
-      </section>
+      </div>
 
       {/* Web Push & Proximity Alert Subscribers */}
-      <section id="admin-sec-pushsubscribers" className="overflow-hidden">
+      <div id="admin-sec-pushsubscribers" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('pushsubscribers'); } }} onClick={() => toggleSection('pushsubscribers')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -3237,8 +3237,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <ProximitySubscriberAdminPanel />
           </>)}
         </div>
-      </section>
-      <section id="admin-sec-announcements" className="overflow-hidden">
+      </div>
+      <div id="admin-sec-announcements" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -3385,12 +3385,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </>)}
         </div>
-      </section>
-    </section>
+      </div>
+    </div>
   );
 
   const renderAnalytics = () => (
-    <section id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
+    <div id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none !rounded-none  !rounded-none">
         <div className="flex flex-col">
           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -3697,11 +3697,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section>
+    </div>
   );
 
   const renderShopify = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div
         role="button"
         tabIndex={0}
@@ -4237,11 +4237,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           )}
         </>)}
       </div>
-    </section>
+    </div>
   );
 
   const renderBookings = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
@@ -4521,11 +4521,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderPlanners = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
@@ -4605,11 +4605,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderPhotoMod = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
@@ -4666,11 +4666,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderMemoryMod = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
@@ -4739,14 +4739,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           }
         </>)}
       </div>
-    </section >
+    </div>
   );
 
 
 
 
   const renderLiveAlerts = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] !rounded-none cursor-pointer">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
@@ -4827,11 +4827,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section>
+    </div>
   );
 
   const renderSmsBlast = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div
         role="button"
         tabIndex={0}
@@ -5311,7 +5311,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section>
+    </div>
   );
 
 
@@ -5514,7 +5514,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     });
 
     return (
-      <section id="section-crewsms" className="overflow-visible">
+      <div id="section-crewsms" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
 
@@ -6336,7 +6336,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </>)}
         </div>
-      </section >
+      </div >
     );
   };
 
@@ -6369,7 +6369,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     });
 
     return (
-      <section id="section-bandsms" className="overflow-visible">
+      <div id="section-bandsms" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
 
@@ -6775,12 +6775,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </>)}
         </div>
-      </section >
+      </div >
     );
   };
 
   const renderNewsletter = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
@@ -6878,11 +6878,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderEmailFlow = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
@@ -7026,11 +7026,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderRegistry = () => (
-    <section className="bg-transparent overflow-hidden">
+    <div className="bg-transparent overflow-hidden">
       <div className="py-6 pl-0 flex items-center justify-between select-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
@@ -7202,11 +7202,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section>
+    </div>
   );
 
   const renderCrewCreation = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
@@ -7358,7 +7358,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const createAdmin = async () => {
@@ -7386,7 +7386,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   };
 
   const renderAdminCreation = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
 
@@ -7561,13 +7561,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
 
 
   const renderBulkInvites = () => (
-    <section className="overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
@@ -7591,7 +7591,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </>)}
       </div>
-    </section >
+    </div>
   );
 
   const renderCruiseSignups = () => {
@@ -7669,7 +7669,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     };
 
     return (
-      <section className="overflow-hidden">
+      <div className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
@@ -7882,7 +7882,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </>)}
         </div>
-      </section >
+      </div>
     );
   };
 
@@ -9432,7 +9432,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     };
 
     return (
-      <section className="overflow-hidden">
+      <div className="overflow-hidden">
         <style>{`
           .wiw-scheduler-container {
             color: #ffffff;
@@ -11523,7 +11523,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </>)}
         </div>
-      </section>
+      </div>
     );
   }
 
@@ -12120,16 +12120,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               }
 
               return (
-                <div key={key} id={"admin-sec-" + key}>
+                <section key={key} id={"admin-sec-" + key} className="transition-colors duration-300">
                   {component}
-                </div>
+                </section>
               );
             })}
 
           </div>
 
           <div className="flex flex-col gap-4 w-full mt-4">
-            <section className="bg-transparent overflow-hidden h-full flex flex-col">
+            <div className="bg-transparent overflow-hidden h-full flex flex-col">
               <div className="admin-section-header py-6 pr-6 pl-0 flex items-center justify-between bg-transparent shrink-0">
                 <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
                   Audit Log
@@ -12234,7 +12234,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 ))}
               </div>
-            </section>
+            </div>
           </div>
 
         </>
