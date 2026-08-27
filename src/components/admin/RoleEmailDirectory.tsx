@@ -197,7 +197,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="py-6 pl-0 bg-transparent border-none space-y-6 text-black font-sans">
+    <div className="py-6 pl-0 bg-transparent border-none space-y-6 text-white font-sans">
 
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -256,23 +256,21 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
       {/* Email List Container (Divs) */}
       <div className="border-none overflow-hidden bg-transparent relative">
-        <CustomScrollbar height={480} direction="vertical">
-          <div className="w-full text-left">
-            {/* Header Row (Div) */}
-            <div className="sticky top-0 z-10  backdrop-blur-md [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
-              <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-white/70 border-b border-white/10">
-                <div>Name</div>
-                <div>Email Address</div>
-                <div>Role</div>
-                <div>Phone Number</div>
-                <div className="text-right">Quick Action</div>
-              </div>
-            </div>
+        <div className="w-full text-left">
+          {/* Fixed Header Row */}
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2  font-bold uppercase tracking-wider text-white border-b border-white/10 select-none text-[12px]">
+            <div>Name</div>
+            <div>Email Address</div>
+            <div>Role</div>
+            <div>Phone Number</div>
+            <div className="text-right">Quick Action</div>
+          </div>
 
-            {/* Body Rows (Divs) */}
+          {/* Scrollable Body Rows */}
+          <CustomScrollbar height={480} direction="vertical">
             <div className="divide-y divide-white/10 text-xs">
               {filteredUsers.length === 0 ? (
-                <div className="py-8 text-center text-white/40 opacity-60    font-semibold">
+                <div className="py-8 text-center text-white/40 opacity-60 font-semibold">
                   No recipients found matching your search.
                 </div>
               ) : (
@@ -292,7 +290,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                           />
                         ) : (
                           <div
-                            className={`w-7 h-7 rounded-full bg-gradient-to-br ${getAvatarColor(user.name)} flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans shadow-xs border border-white/20`}
+                            className={`w-7 h-7 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans shadow-xs border border-white/20`}
                           >
                             {getInitials(user.name)}
                           </div>
@@ -321,8 +319,8 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 ))
               )}
             </div>
-          </div>
-        </CustomScrollbar>
+          </CustomScrollbar>
+        </div>
         {/* Bottom smooth gradient mask blur overlay */}
         <div className="absolute bottom-0 left-0 right-0 h-5 backdrop-blur-md pointer-events-none z-10 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]" />
       </div>

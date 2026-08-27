@@ -7045,7 +7045,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 key={role}
                 onClick={() => setFilterRole(role as any)}
-                className={`px-3 py-1.5 text-[0.65rem]  font-bold  uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black    font-bold ' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                className={`px-3 py-1.5 text-[0.65rem]  font-bold  uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap cursor-pointer ${filterRole === role ? 'text-white font-bold shadow-md' : ''}`}
               >
                 {role}
               </button>
@@ -7059,22 +7059,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
       <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
         {isSectionOpen('registry') && (<>
-          <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-            {isLoading ? (
-              <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
-            ) : filteredUsers.length === 0 ? (
-              <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
-            ) : (
-              <div className="w-full text-left">
-                {/* Header Row */}
-                <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10 font-bold select-none">
-                  <div>User</div>
-                  <div>Role</div>
-                  <div>Status</div>
-                  <div className="text-right">Action</div>
-                </div>
+          <div className="w-full text-left">
+            {/* Fixed Header Row */}
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4  dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10 font-bold select-none">
+              <div>User</div>
+              <div>Role</div>
+              <div>Status</div>
+              <div className="text-right">Action</div>
+            </div>
 
-                {/* Body Rows */}
+            {/* Scrollable Body Rows */}
+            <CustomScrollbar height={400} direction="vertical">
+              {isLoading ? (
+                <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
+              ) : filteredUsers.length === 0 ? (
+                <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
+              ) : (
                 <div className="divide-y divide-black/10 dark:divide-white/5">
                   {filteredUsers.map((user) => {
                     const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
@@ -7085,7 +7085,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ) as any;
                     return (
                       <div key={user.id} className="transition-colors">
-                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 pb-4 pt-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 pb-4 pt-4 px-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
                           <div className="font-bold text-sm truncate max-w-[220px]">
                             <div className="flex items-center gap-2.5 truncate">
                               {(() => {
@@ -7175,30 +7175,32 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           role: 'crew'
                                         };
                                         localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
-                                        alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
-                                        window.location.reload();
+                                        alert(`Password reset for ${user.name}!\nNew Password: ${res.password}`);
+                                        setViewingUser(null);
+                                      } else {
+                                        alert(`Failed to reset password: ${res.error}`);
                                       }
                                     }}
-                                    className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                    className="ml-2 px-2 py-0.5 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 text-[0.55rem] font-bold uppercase tracking-wider rounded border border-purple-500/30"
                                   >
-                                    Reset & Show
+                                    Reset Password
                                   </button>
                                 )}
                               </div>
-                              {user.role === 'crew' && !acct?.password && (
-                                <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
-                                  * Credentials lost (Check browser history or re-create account)
-                                </p>
-                              )}
                             </div>
+                            {user.role === 'crew' && !acct?.password && (
+                              <p className="mt-1 text-[0.55rem] text-amber-400/70 italic font-mono">
+                                * Credentials lost (Check browser history or re-create account)
+                              </p>
+                            )}
                           </div>
                         )}
                       </div>
                     );
                   })}
                 </div>
-              </div>
-            )}
+              )}
+            </CustomScrollbar>
           </div>
         </>)}
       </div>
@@ -8854,7 +8856,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           return (
             <span
               key={r}
-              className={`inline-block px-1.5 py-0.5 text-[8.5px]  font-bold  uppercase tracking-tight rounded border leading-none shrink-0 ${colorClass}`}
+              className={`inline-block px-1.5 py-0.5 text-[8.5px]  font-bold  uppercase tracking-tight rounded-lg border leading-none shrink-0 ${colorClass}`}
             >
               {r}
             </span>
@@ -8864,18 +8866,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       return (
         <CustomScrollbar className="w-full flex-1 min-h-0" topOffset={42} direction="both">
-          <table
-            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${176 + filteredDays.length * 144}px` }}
-            className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-transparent text-[var(--text-color)]"
+          <div
+            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
+            className="w-full flex flex-col text-left select-none bg-transparent text-[var(--text-color)]"
           >
-            <thead>
-              <tr className="border-b border-l border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-bold tracking-wider">
-                <th className="p-2 w-44 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</th>
+            <div className="flex flex-col">
+              <div className="flex w-full border-r  border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-bold tracking-wider">
+                <div className="p-2 w-60 shrink-0  border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
                   return (
-                    <th
+                    <div
                       key={day.dateStr}
                       id={`col-header-${day.dateStr}`}
                       onClick={() => {
@@ -8883,11 +8885,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
+                      className={`p-2 w-36 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
                         ? 'bg-purple-500/20 text-purple-300  font-bold  shadow-[inset_0_-3px_0_#9333ea]'
                         : isNextShow
                           ? 'bg-purple-500/10 text-purple-300  font-bold  border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
-                          : 'text-[var(--text-color)] hover:  '
+                          : 'text-[var(--text-color)]  '
                         }`}
                       title="Click to select date & stack working crew at top"
                     >
@@ -8923,7 +8925,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr
                                 ? 'bg-purple-500/20 text-purple-300 font-extrabold'
-                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:  '
+                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] '
                                 }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
@@ -8945,14 +8947,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </button>
                         )}
                       </div>
-                    </th>
+                    </div>
                   );
                 })}
-              </tr>
+              </div>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <tr className="border-b border-[var(--border-color)] transition-colors bg-transparent">
-                  <td className="p-1 border-l border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-transparent">
+                <div className="flex w-full border-b border-[var(--border-color)] transition-colors bg-transparent">
+                  <div className="p-1 w-60 shrink-0 border-r border-[var(--border-color)] flex items-center wiw-sticky-col bg-transparent">
                     <div className="flex items-center gap-2 pl-1">
                       <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
@@ -8962,14 +8964,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className=" text-[12px]  text-[var(--muted-text)] font-bold uppercase tracking-wider leading-none">Positions</span>
                       </div>
                     </div>
-                  </td>
+                  </div>
                   {filteredDays.map(day => {
                     const isSelectedDay = selectedTourDate === day.dateStr;
                     const isNextShow = day.dateStr === nextShowDate;
                     return (
-                      <td
+                      <div
                         key={day.dateStr}
-                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer ${isSelectedDay
+                        className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)]   transition-colors cursor-pointer ${isSelectedDay
                           ? 'bg-purple-500/10 border-x border-purple-500/30'
                           : isNextShow
                             ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -9049,13 +9051,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           </div>
                         </div>
-                      </td>
+                      </div>
                     );
                   })}
-                </tr>
+                </div>
               )}
-            </thead>
-            <tbody>
+            </div>
+            <div className="flex flex-col">
               {/* Crew Rows — individually collapsible */}
               {(() => {
                 const activeWeekDateSet = new Set(next7Days.map(d => d.dateStr));
@@ -9070,8 +9072,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
                   return (
-                    <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
-                      <td className={`p-2 border-l border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
+                    <div key={member.id} className={`flex w-full border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
+                      <div className={`p-2 w-60 shrink-0  border-r border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
                             <div className="absolute left-1 top-1/2 -translate-y-1/2  text-[var(--color-accent)]" title="Warning: Schedule issues">
@@ -9081,7 +9083,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <CrewAvatar member={member} />
                           <div className="min-w-0 wiw-tooltip-container flex-1">
                             <div className="flex items-center justify-between gap-1">
-                              <p className="text-[11px]  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
+                              <p className="text-xs  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
                               {isWorkingOnActiveDate && (
                                 <span className="text-[7.5px]  font-bold  uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
@@ -9101,7 +9103,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {renderRoleBadges(member.role)}
                             </div>
 
-                            <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
+                            <div className="mt-1 text-[10px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
                               {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}> {member.phone}</div>}
                               {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
                             </div>
@@ -9133,14 +9135,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           </div>
                         </div>
-                      </td>
+                      </div>
 
                       {filteredDays.map(day => {
                         const dayShifts = schedulesByDateAndCrew[day.dateStr]?.[member.id] || [];
                         const isSelectedDay = selectedTourDate === day.dateStr;
                         const isNextShow = day.dateStr === nextShowDate;
                         return (
-                          <td
+                          <div
                             key={day.dateStr}
                             tabIndex={0}
                             onKeyDown={(e) => {
@@ -9149,7 +9151,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                               }
                             }}
-                            className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer group ${isSelectedDay
+                            className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)] relative   transition-colors cursor-pointer group ${isSelectedDay
                               ? 'bg-purple-500/10 border-x border-purple-500/30'
                               : isNextShow
                                 ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -9178,15 +9180,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 + ADD
                               </button>
                             )}
-                          </td>
+                          </div>
                         );
                       })}
-                    </tr>
+                    </div>
                   );
                 });
               })()}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </CustomScrollbar>
       );
     };
@@ -10213,7 +10215,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Grid Body + Sidebar */}
               <div className="flex gap-0 flex-1 min-h-0">
                 {/* Main Schedule Grid */}
-                <div className="flex-1 min-w-0 flex flex-col min-h-0 relative z-30">
+                <div className="flex-1 min-w-0 flex flex-col min-h-0 relative z-30 border border-white/10">
                   {calendarView === 'timeline' && renderTimelineGrid()}
                   {calendarView === 'roster' && renderRosterBoard()}
                   {calendarView === 'list' && renderListBoard()}
@@ -12522,7 +12524,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* Cruise Roster & Signup Stats */}
           <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:   border-white/10 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden">
+            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5    border-white/10 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-colors duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
@@ -12555,7 +12557,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
                     <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
                       {(cruiseStats.recentSignups || []).map((s) => (
-                        <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover:   border-white/10 transition-colors group/row">
+                        <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5  border-white/10 transition-colors group/row">
                           <div className="w-7 h-7 rounded-full bg-emerald-500/10 border    border-white/10 flex items-center justify-center text-[0.5rem]  font-bold  text-[var(--color-accent)] shrink-0">
                             {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                           </div>

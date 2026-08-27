@@ -813,7 +813,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
           return (
             <span
               key={r}
-              className={`inline-block px-1.5 py-0.5 text-[8.5px]  font-bold  uppercase tracking-tight rounded border leading-none shrink-0 ${colorClass}`}
+              className={`inline-block px-1.5 py-0.5 text-[9.5px]  font-bold  uppercase tracking-tight rounded-lg border leading-none shrink-0 ${colorClass}`}
             >
               {r}
             </span>
@@ -822,19 +822,19 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
       };
 
       return (
-        <CustomScrollbar className="w-full flex-1 min-h-0" topOffset={42} direction="both">
-          <table
-            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${176 + filteredDays.length * 144}px` }}
-            className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-transparent text-[var(--text-color)]"
+        <CustomScrollbar className=" w-full flex-1 min-h-0" topOffset={42} direction="both">
+          <div
+            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
+            className="w-full flex flex-col text-left select-none bg-transparent text-[var(--text-color)]"
           >
-            <thead>
-              <tr className="border-b border-l border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-bold tracking-wider">
-                <th className="p-2 w-44 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</th>
+            <div className="flex flex-col">
+              <div className="flex w-full border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-bold tracking-wider">
+                <div className="p-2 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
                   return (
-                    <th
+                    <div
                       key={day.dateStr}
                       id={`col-header-${day.dateStr}`}
                       onClick={() => {
@@ -842,11 +842,11 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
+                      className={`p-2 w-36 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
                         ? 'bg-purple-500/20 text-purple-300  font-bold  shadow-[inset_0_-3px_0_#9333ea]'
                         : isNextShow
                           ? 'bg-purple-500/10 text-purple-300  font-bold  border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
-                          : 'text-[var(--text-color)] hover:  '
+                          : 'text-[var(--text-color)]  '
                         }`}
                       title="Click to select date & stack working crew at top"
                     >
@@ -882,7 +882,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr
                                 ? 'bg-purple-500/20 text-purple-300 font-extrabold'
-                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:  '
+                                : 'text-[var(--muted-text)] hover:text-[var(--text-color) '
                                 }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
@@ -904,14 +904,14 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           </button>
                         )}
                       </div>
-                    </th>
+                    </div>
                   );
                 })}
-              </tr>
+              </div>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <tr className="border-b border-[var(--border-color)] transition-colors bg-transparent">
-                  <td className="p-1 border-l border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-transparent">
+                <div className="flex w-full border-b border-[var(--border-color)] transition-colors bg-transparent">
+                  <div className="p-1 w-60 shrink-0 border-l border-r border-[var(--border-color)] flex items-center wiw-sticky-col bg-transparent">
                     <div className="flex items-center gap-2 pl-1">
                       <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
@@ -921,14 +921,14 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <span className=" text-[12px]  text-[var(--muted-text)] font-bold uppercase tracking-wider leading-none">Positions</span>
                       </div>
                     </div>
-                  </td>
+                  </div>
                   {filteredDays.map(day => {
                     const isSelectedDay = selectedTourDate === day.dateStr;
                     const isNextShow = day.dateStr === nextShowDate;
                     return (
-                      <td
+                      <div
                         key={day.dateStr}
-                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer ${isSelectedDay
+                        className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)] relative   transition-colors cursor-pointer ${isSelectedDay
                           ? 'bg-purple-500/10 border-x border-purple-500/30'
                           : isNextShow
                             ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -1008,13 +1008,13 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                           </div>
                         </div>
-                      </td>
+                      </div>
                     );
                   })}
-                </tr>
+                </div>
               )}
-            </thead>
-            <tbody>
+            </div>
+            <div className="flex flex-col">
               {/* Crew Rows — individually collapsible */}
               {(() => {
                 const activeWeekDateSet = new Set(next7Days.map(d => d.dateStr));
@@ -1029,8 +1029,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
                   return (
-                    <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
-                      <td className={`p-2 border-l border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
+                    <div key={member.id} className={`flex w-full border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
+                      <div className={`p-2 w-60 shrink-0 border-l  border-b border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
                             <div className="absolute left-1 top-1/2 -translate-y-1/2  text-[var(--color-accent)]" title="Warning: Schedule issues">
@@ -1040,7 +1040,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <CrewAvatar member={member} />
                           <div className="min-w-0 wiw-tooltip-container flex-1">
                             <div className="flex items-center justify-between gap-1">
-                              <p className="text-[11px]  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
+                              <p className="text-xs  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
                               {isWorkingOnActiveDate && (
                                 <span className="text-[7.5px]  font-bold  uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
@@ -1060,7 +1060,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               {renderRoleBadges(member.role)}
                             </div>
 
-                            <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
+                            <div className="mt-1 text-[10px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
                               {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}> {member.phone}</div>}
                               {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
                             </div>
@@ -1092,14 +1092,14 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             </div>
                           </div>
                         </div>
-                      </td>
+                      </div>
 
                       {filteredDays.map(day => {
                         const dayShifts = schedulesByDateAndCrew[day.dateStr]?.[member.id] || [];
                         const isSelectedDay = selectedTourDate === day.dateStr;
                         const isNextShow = day.dateStr === nextShowDate;
                         return (
-                          <td
+                          <div
                             key={day.dateStr}
                             tabIndex={0}
                             onKeyDown={(e) => {
@@ -1108,7 +1108,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                               }
                             }}
-                            className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer group ${isSelectedDay
+                            className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)] relative  transition-colors cursor-pointer group ${isSelectedDay
                               ? 'bg-purple-500/10 border-x border-purple-500/30'
                               : isNextShow
                                 ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -1137,15 +1137,15 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 + ADD
                               </button>
                             )}
-                          </td>
+                          </div>
                         );
                       })}
-                    </tr>
+                    </div>
                   );
                 });
               })()}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </CustomScrollbar>
       );
     };
