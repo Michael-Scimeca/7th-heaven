@@ -6070,7 +6070,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 .progressive-blur {
-  z-index: 40;
+  z-index: 9998;
   pointer-events: none;
   isolation: isolate;
   contain: paint;
