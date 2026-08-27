@@ -3558,19 +3558,24 @@ textarea,
   --page-transition-duration: 1030ms;
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+.content-area {
+  view-transition-name: page-body;
 }
 
-::view-transition-old(root) {
+::view-transition-old(page-body),
+::view-transition-new(page-body) {
+  animation: none;
+  mix-blend-mode: normal;
+  backface-visibility: hidden;
+}
+
+::view-transition-old(page-body) {
   z-index: 1;
   animation: page-push-out var(--page-transition-duration) linear forwards,
     page-push-out-filter var(--page-transition-duration) linear forwards;
 }
 
-::view-transition-new(root) {
+::view-transition-new(page-body) {
   z-index: 2;
   transform-origin: 50% 50%;
   animation: page-push-in var(--page-transition-duration) linear forwards;
@@ -4217,6 +4222,8 @@ header {
 
   ::view-transition-old(root),
   ::view-transition-new(root),
+  ::view-transition-old(page-body),
+  ::view-transition-new(page-body),
   ::view-transition-old(site-header),
   ::view-transition-new(site-header) {
     animation: none;
