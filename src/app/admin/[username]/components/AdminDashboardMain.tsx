@@ -1260,8 +1260,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     }
   });
 
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-
   // Helper to save layout to Supabase User Metadata
   const saveLayoutToSupabase = async (order: string[], collapsed: Record<string, boolean>) => {
     if (!isLoggedIn) return;
@@ -1353,37 +1351,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     }
     // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [setSectionOrder]);
-
-  const handleDragStart = (index: number) => {
-    setDraggedIndex(index);
-  };
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    if (draggedIndex === null || draggedIndex === index) return;
-
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const relativeY = e.clientY - rect.top;
-    const threshold = rect.height / 2;
-
-    // Only swap if cursor has crossed the halfway mark in the direction of drag
-    if (draggedIndex < index && relativeY < threshold) return;
-    if (draggedIndex > index && relativeY > threshold) return;
-
-    const updated = [...sectionOrder];
-    const item = updated.splice(draggedIndex, 1)[0];
-    updated.splice(index, 0, item);
-    setDraggedIndex(index);
-    setSectionOrder(updated);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedIndex(null);
-    try {
-      localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(sectionOrder));
-      saveLayoutToSupabase(sectionOrder, collapsedSections);
-    } catch { }
-  };
 
   //  Tour Dates Sync State & Handlers 
   const [tourDates, setTourDates] = useState<any[]>([]);
@@ -12127,20 +12094,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
             {sectionOrder.map((key, index) => {
-              const dragProps = {
-                draggable: true,
-                onDragStart: (e: any) => {
-                  if (!e.target.closest('.drag-handle')) {
-                    e.preventDefault();
-                    return;
-                  }
-                  handleDragStart(index);
-                },
-                onDragOver: (e: any) => handleDragOver(e, index),
-                onDragEnd: handleDragEnd,
-                className: "transition-colors duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
-              };
-
               let component = null;
               switch (key) {
                 case 'announcements': component = renderAnnouncements(); break;
@@ -12167,7 +12120,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               }
 
               return (
-                <div key={key} id={"admin-sec-" + key} {...dragProps}>
+                <div key={key} id={"admin-sec-" + key}>
                   {component}
                 </div>
               );
@@ -12971,15 +12924,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       return (
                         <div
                           key={key}
-                          draggable={true}
-                          onDragStart={(e) => {
-                            e.dataTransfer.effectAllowed = 'move';
-                            e.dataTransfer.setData('text/plain', key);
-                            handleDragStart(index);
-                          }}
-                          onDragOver={(e) => handleDragOver(e, index)}
-                          onDragEnd={handleDragEnd}
-                          className={`py-1.5 px-2 hover:bg-[#e1e6ff29]   text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-[#e1e6ff29]   shadow-inner' : ''}`}
+                          className="py-1.5 px-2 hover:bg-[#e1e6ff29] text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 border border-transparent select-none"
                         >
                           <span className="text-white/20 select-none"></span>
                           <span>{section.icon}</span>
