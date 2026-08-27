@@ -3195,7 +3195,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     );
   };
   const renderAnnouncements = () => (
-    <div className="space-y-6">
+    <section className="space-y-6">
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <section id="admin-sec-emergencybroadcast" className="overflow-visible">
@@ -3419,7 +3419,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </>)}
         </div>
       </section>
-    </div>
+    </section>
   );
 
   const renderAnalytics = () => (

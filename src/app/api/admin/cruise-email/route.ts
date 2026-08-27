@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       <div style="max-width:600px;margin:0 auto;background:#0a0a0f;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);">
         <div style="background:linear-gradient(135deg,#0e7490,#06b6d4);padding:32px 24px;text-align:center;">
           <p style="margin:0 0 4px;color:rgba(255,255,255,0.6);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:3px;">7th Heaven Cruise</p>
-          <h1 style="margin:0;font-size:24px;font-weight:900;color:#fff;font-style:italic;">${subject}</h1>
+          <h1 style="margin:0;font-size:24px;font-weight:900;color:#fff;font-style:  ;">${subject}</h1>
         </div>
         <div style="padding:32px 24px;font-size:15px;line-height:1.7;color:#cbd5e1;">
           ${body.replace(/\n/g, '<br/>')}

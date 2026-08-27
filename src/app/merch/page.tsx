@@ -288,7 +288,7 @@ function MerchDashboard() {
         <div className="w-16 h-16 rounded-lg  bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
-        <h2 className="text-3xl  font-bold  uppercase tracking-widest text-white italic">
+        <h2 className="text-3xl  font-bold  uppercase tracking-widest text-white   ">
           Coming Soon
         </h2>
         <p className="text-white/40 text-sm max-w-sm mt-2 font-medium">

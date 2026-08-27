@@ -43,7 +43,7 @@ export function EmbarkationCountdown() {
     <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
-          <h2 className="text-white  font-bold  italic tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
+          <h2 className="text-white  font-bold     tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
           <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
@@ -186,7 +186,7 @@ export function PhotoWall() {
     <div className="mt-16">
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-xl  font-bold  italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
+          <h2 className="text-xl  font-bold     tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
         <button aria-label="Action button" className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
@@ -1049,7 +1049,7 @@ export function CaptainsLog() {
           </div>
         </div>
       </div>
-      <p className="text-xs text-white/40 mt-3 italic text-center">
+      <p className="text-xs text-white/40 mt-3    text-center">
         "Hey everyone, Richard here! We are running through the 80s set right now..."
       </p>
     </div>

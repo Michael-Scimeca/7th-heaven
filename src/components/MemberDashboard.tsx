@@ -301,7 +301,7 @@ export default function MemberDashboard() {
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
               <Ticket className="w-6 h-6 text-cyan-400" />
-              <h2 className="text-xl  font-bold  italic tracking-tight">
+              <h2 className="text-xl  font-bold     tracking-tight">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
@@ -428,7 +428,7 @@ export default function MemberDashboard() {
 
                   <div className="p-4 flex flex-col gap-2">
                     {photo.caption && (
-                      <p className="text-xs text-white/70 italic border-l-2   border-white/10 pl-2 line-clamp-2">
+                      <p className="text-xs text-white/70    border-l-2   border-white/10 pl-2 line-clamp-2">
                         "{photo.caption}"
                       </p>
                     )}

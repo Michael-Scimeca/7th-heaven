@@ -22,7 +22,7 @@ export async function GET() {
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h1 class="text-xl  font-bold  text-white italic">Marcus Rivera</h1>
+                <h1 class="text-xl  font-bold  text-white   ">Marcus Rivera</h1>
                 <span class="px-2.5 py-0.5 text-[10px]  font-bold  uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40  rounded-lg ">
                   📋 Event Planner
                 </span>

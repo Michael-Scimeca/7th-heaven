@@ -330,7 +330,7 @@ export default function BulkInvitePanel() {
                 {invites.map((inv) => (
                   <tr key={inv.email} className="hover:bg-black/[0.01] transition-colors">
                     <td className="py-3.5 px-4 font-bold text-black">{inv.email}</td>
-                    <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="italic text-black/30">N/A</span>}</td>
+                    <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="   text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
                         <span className="px-2.5 py-1 bg-black/5 text-black/60  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem]">

@@ -36,7 +36,7 @@ export function CruiseLivePreview({
         </div>
         <div
           className="prose prose-invert max-w-none text-xs text-white/90 leading-relaxed font-sans"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedContent || '<p class="text-white/30 italic">Start typing above to see live preview...</p>') }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedContent || '<p class="text-white/30   ">Start typing above to see live preview...</p>') }}
         />
       </div>
     );
