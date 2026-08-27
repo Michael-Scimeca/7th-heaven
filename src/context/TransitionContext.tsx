@@ -208,24 +208,24 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         });
 
       if (supportsViewTransition()) {
-        // startViewTransition() takes its "before" snapshot synchronously,
-        // right now — the current (old) page, exactly as it looks at the
-        // moment of the click. Everything inside the callback runs while
-        // that snapshot is already captured and the real DOM is still live
-        // and visible (this is why PageTransition's curtain/logo overlay
-        // still works during this wait, for a genuinely slow destination —
-        // it's just an ordinary DOM overlay on the still-live old page).
-        // Once the callback's promise resolves, the browser takes the
-        // "after" snapshot and runs the CSS in globals.css
-        // (::view-transition-old(root) / ::view-transition-new(root)) to
-        // animate between them.
-        (document as unknown as { startViewTransition: (cb: () => Promise<void>) => void })
+        const vt = (document as unknown as { startViewTransition: (cb: () => Promise<void>) => { finished: Promise<void> } })
           .startViewTransition(navigateAndWait);
+
+        const onFinish = () => {
+          if (typeof window !== "undefined") {
+            (window as any).__pageTransitionActive = false;
+            document.documentElement.classList.remove("is-page-transitioning");
+          }
+          setPendingHref(null);
+          setModeState("idle");
+        };
+
+        if (vt && vt.finished) {
+          vt.finished.then(onFinish).catch(onFinish);
+        } else {
+          setTimeout(onFinish, 1040);
+        }
       } else {
-        // No native support (Firefox, as of when this was written) — same
-        // navigate-and-wait sequence, just without the browser doing
-        // anything special with the before/after snapshots. PageTransition's
-        // curtain still covers this exactly like it always has.
         navigateAndWait();
       }
     },

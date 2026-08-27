@@ -412,11 +412,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     };
 
     if (supportsViewTransition()) {
-      // Hold transition state for exactly as long as the CSS animation
-      // actually runs, +1 frame of slack so `finish()` can never land on the
-      // frame the browser is still compositing the final keyframe on.
-      const t = setTimeout(finish, readViewTransitionMs() + 16);
-      return () => clearTimeout(t);
+      return;
     }
 
     gsap.set(content, { clipPath: PAGE_REVEAL_CLIP_FROM, willChange: "clip-path" });
