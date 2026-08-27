@@ -499,12 +499,10 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-all duration-300 pointer-events-none ${scrolled
-        ? "bg-[#05030a]/80 backdrop-blur-xl border-b border-white/10 text-white shadow-lg"
-        : "bg-transparent text-white"
-        }`}
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
       suppressHydrationWarning
     >
+      <ProgressiveBlur position="top" />
       <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"
