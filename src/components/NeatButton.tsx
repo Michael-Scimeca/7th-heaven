@@ -122,11 +122,11 @@ export function NeatButton({
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       style={{ borderRadius: computedRadius, ...style }}
-      className={`group relative isolation-isolate inline-flex w-fit items-center justify-center border-none overflow-hidden cursor-pointer bg-[#0d0a12] px-6 py-4 text-center transition-all duration-300 shadow-2xl active:scale-[0.98] ${className}`}
+      className={`group relative isolation-isolate inline-flex w-fit items-center justify-center border-none overflow-hidden cursor-pointer bg-[#0d0a12] px-6 py-4 text-center transition-[transform,box-shadow] duration-300 shadow-2xl active:scale-[0.98] ${className}`}
       {...props}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block pointer-events-none" />
-      <span className="relative z-10 text-base font-bold tracking-wider text-white/85 group-hover:text-white group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] group-hover:scale-105 transition-all duration-300">
+      <span className="relative z-10 text-base font-bold tracking-wider text-white/85 group-hover:text-white group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] group-hover:scale-105 transition-[color,filter,transform] duration-300">
         {children}
       </span>
     </button>

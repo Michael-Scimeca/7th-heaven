@@ -56,7 +56,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border  border-white/20  flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+          className="w-10 h-10  rounded-lg  bg-black/60  backdrop-blur-[45px] border   border-white/10   flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
           title="Open Parallax Customizer"
         >
           <svg
@@ -90,7 +90,7 @@ export default function HeroParallaxCustomizer({
             <button
               aria-label="Close Parallax Customizer"
               onClick={() => setIsPxUiOpen(false)}
-              className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
+              className="w-6 h-6  rounded-lg  hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -165,9 +165,9 @@ export default function HeroParallaxCustomizer({
               }`}
           >
             <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
-            <span className={`w-8 h-4 rounded-full relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
+            <span className={`w-8 h-4  rounded-lg  relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
-                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
+                className={`absolute top-0.5 w-3 h-3  rounded-lg  bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
                   }`}
               />
             </span>

@@ -114,12 +114,12 @@ export default function AdminFeedPost() {
               <div
                 key={m.id || m.name || i}
                 title={m.name}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white"
+                className="w-8 h-8  rounded-lg  flex items-center justify-center text-xs font-bold border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white"
               >
                 {m.avatar}
               </div>
             ))}
-            <div className="w-8 h-8 rounded-full border-2 border-dashed  border-white/10  flex items-center justify-center text-white/20 text-xs">+</div>
+            <div className="w-8 h-8  rounded-lg  border-2 border-dashed  border-white/10  flex items-center justify-center text-white/20 text-xs">+</div>
           </div>
           <span className="text-xs text-white/30 font-bold uppercase tracking-widest">
             {onlineMembers.length} Crew Active
@@ -130,8 +130,8 @@ export default function AdminFeedPost() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
+              <span className="relative inline-flex  rounded-lg  h-2.5 w-2.5 bg-red-500" />
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.15em] text-red-400">Collaborative Live Feed</span>
           </div>
@@ -156,7 +156,7 @@ export default function AdminFeedPost() {
                     }`}
                 >
                   <div
-                    className="w-8 h-8 mx-auto rounded-full flex items-center justify-center text-xs font-bold mb-1 border"
+                    className="w-8 h-8 mx-auto  rounded-lg  flex items-center justify-center text-xs font-bold mb-1 border"
                     style={{
                       borderColor: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.1)",
                       color: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.5)",
@@ -180,7 +180,7 @@ export default function AdminFeedPost() {
                   type="button"
                   onClick={() => setPostType(t.value)}
                   className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border transition-colors duration-200 ${postType === t.value
-                    ? "border-white/20 bg-white/[0.06]"
+                    ? " border-white/10  bg-white/[0.06]"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                   style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}
@@ -251,7 +251,7 @@ export default function AdminFeedPost() {
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="w-3 h-3 border  border-white/10  border-t-white rounded-full animate-spin" />
+                <span className="w-3 h-3 border  border-white/10  border-t-white  rounded-lg  animate-spin" />
                 Posting...
               </span>
             ) : (

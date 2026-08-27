@@ -205,7 +205,10 @@ export function useHeroParallax({
         );
       }
 
-      ScrollTrigger.refresh();
+      const rafId = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+      return () => cancelAnimationFrame(rafId);
     });
 
     return () => ctx.revert();

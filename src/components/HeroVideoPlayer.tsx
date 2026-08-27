@@ -184,7 +184,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       loaded = true;
       import("@/components/VinylHeroPlayer").then((mod) => setVinylComp(() => mod.default));
       import("@/components/HeroYTBackground").then((mod) => setYTComp(() => mod.default));
-      cleanup();
     };
 
     const cleanup = () => {
@@ -194,17 +193,22 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       window.removeEventListener("mousemove", loadWidgets);
     };
 
-    window.addEventListener("scroll", loadWidgets, { passive: true });
-    window.addEventListener("pointerdown", loadWidgets, { passive: true });
-    window.addEventListener("touchstart", loadWidgets, { passive: true });
-    window.addEventListener("mousemove", loadWidgets, { passive: true });
+    // Load immediately on desktop viewports so hero vinyl renders at 0ms
+    const isDesktop = typeof window !== "undefined" ? window.matchMedia("(min-width: 768px)").matches : true;
+    if (isDesktop) {
+      loadWidgets();
+    } else {
+      window.addEventListener("scroll", loadWidgets, { passive: true });
+      window.addEventListener("pointerdown", loadWidgets, { passive: true });
+      window.addEventListener("touchstart", loadWidgets, { passive: true });
+      window.addEventListener("mousemove", loadWidgets, { passive: true });
+    }
 
-    // Fallback: 6-second delay if no interaction occurs
-    const t = setTimeout(loadWidgets, 6000);
+    const t = setTimeout(loadWidgets, isDesktop ? 0 : 2500);
 
     return () => {
-      clearTimeout(t);
       cleanup();
+      clearTimeout(t);
     };
   }, []);
 
@@ -478,6 +482,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
           preload="auto"
+          {...{ fetchpriority: "high" }}
           autoPlay
           muted
           loop
@@ -531,7 +536,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-full bg-black/60  backdrop-blur-[45px] border  border-white/20  flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10  rounded-lg  bg-black/60  backdrop-blur-[45px] border   border-white/10   flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -573,7 +578,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 </div>
                 <button aria-label="Action button"
                   onClick={() => setIsCustomizerOpen(false)}
-                  className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
+                  className="w-6 h-6  rounded-lg  hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
@@ -587,7 +592,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     <button aria-label="Action button"
                       key={preset.color}
                       onClick={() => updateColor(preset.color)}
-                      className={`w-6 h-6 rounded-full border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
+                      className={`w-6 h-6  rounded-lg  border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
                       style={{
                         backgroundColor: preset.color,
                         borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
@@ -595,13 +600,13 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       title={preset.name}
                     >
                       {tintColor === preset.color && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
+                        <div className="w-1.5 h-1.5  rounded-lg  bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
                       )}
                     </button>
                   ))}
                   {/* Custom Color Selector */}
                   <div
-                    className="w-6 h-6 rounded-full border  border-white/10  relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
+                    className="w-6 h-6  rounded-lg  border  border-white/10  relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
                     <input aria-label="Input field"

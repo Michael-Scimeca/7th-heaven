@@ -190,7 +190,7 @@ function PlannerVerifyContent() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full bg-[#e1e6ff29]   border  border-white/20  focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40  rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
+                className="w-full bg-[#e1e6ff29]   border   border-white/10   focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40  rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
               />
             </div>
             {errorMsg && (
@@ -281,7 +281,7 @@ function PlannerVerifyContent() {
                           ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                           : d
                             ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                            : 'border-white/20 text-white/40 hover:border-white/40'
+                            : ' border-white/10  text-white/40 hover:border-white/40'
                         }`}
                     />
                   </div>

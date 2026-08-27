@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-doctor/nextjs-no-img-element */
 
 import { useState } from "react";
 import Image from "next/image";
@@ -13,15 +14,53 @@ export interface ContactItem {
   note?: string | null;
 }
 
-const ALL_PHOTOS = [
-  { id: "/images/contact/Dickie-contact.png", alt: "Dickie - Booking & Management", scaleClass: "scale-100" },
-  { id: "/images/contact/Lenny-contact.png", alt: "Lenny Rago - Press & Media", scaleClass: "scale-100" },
-  { id: "/images/contact/Jeff-contact.png", alt: "Jeff Dobbs - Technical & Production", scaleClass: "scale-100" },
-  { id: "/images/contact/Alan-contact.png", alt: "Alan McRae - Advance Non-Technical", scaleClass: "scale-100" },
-  { id: "/images/contact/Mary-contact.png", alt: "Mary Grivas - 7th Heaven Cruise & Vacations", scaleClass: "scale-100" },
+interface ContactPhoto {
+  id: string;
+  desktop: string;
+  mobile: string;
+  alt: string;
+  scaleClass: string;
+}
+
+const ALL_PHOTOS: ContactPhoto[] = [
+  {
+    id: "dickie",
+    desktop: "/images/contact/Dickie-contact.webp",
+    mobile: "/images/contact/Dickie-contact-mobile.webp",
+    alt: "Dickie - Booking & Management",
+    scaleClass: "scale-100",
+  },
+  {
+    id: "lenny",
+    desktop: "/images/contact/Lenny-contact.webp",
+    mobile: "/images/contact/Lenny-contact-mobile.webp",
+    alt: "Lenny Rago - Press & Media",
+    scaleClass: "scale-100",
+  },
+  {
+    id: "jeff",
+    desktop: "/images/contact/Jeff-contact.webp",
+    mobile: "/images/contact/Jeff-contact-mobile.webp",
+    alt: "Jeff Dobbs - Technical & Production",
+    scaleClass: "scale-100",
+  },
+  {
+    id: "alan",
+    desktop: "/images/contact/Alan-contact.webp",
+    mobile: "/images/contact/Alan-contact-mobile.webp",
+    alt: "Alan McRae - Advance Non-Technical",
+    scaleClass: "scale-100",
+  },
+  {
+    id: "mary",
+    desktop: "/images/contact/Mary-contact.webp",
+    mobile: "/images/contact/Mary-contact-mobile.webp",
+    alt: "Mary Grivas - 7th Heaven Cruise & Vacations",
+    scaleClass: "scale-100",
+  },
 ];
 
-const DEFAULT_PHOTO = "/images/contact/Dickie-contact.png";
+const DEFAULT_PHOTO_ID = "dickie";
 
 function getPhotoForCategory(contact: ContactItem): string {
   const catLower = (contact.category || "").toLowerCase();
@@ -37,33 +76,33 @@ function getPhotoForCategory(contact: ContactItem): string {
     nameLower.includes("mary") ||
     emailLower.includes("mary")
   ) {
-    return "/images/contact/Mary-contact.png";
+    return "mary";
   }
   if (catLower.includes("non-technical") || nameLower.includes("alan") || catLower.includes("alan")) {
-    return "/images/contact/Alan-contact.png";
+    return "alan";
   }
   if (catLower.includes("press") || catLower.includes("media") || nameLower.includes("lenny")) {
-    return "/images/contact/Lenny-contact.png";
+    return "lenny";
   }
   if (nameLower.includes("jeff") || (catLower.includes("technical") && !catLower.includes("non-technical"))) {
-    return "/images/contact/Jeff-contact.png";
+    return "jeff";
   }
-  return "/images/contact/Dickie-contact.png";
+  return "dickie";
 }
 
 export default function ContactClient({ contacts }: { contacts: ContactItem[] }) {
-  const [activePhoto, setActivePhoto] = useState<string>(DEFAULT_PHOTO);
+  const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
 
   return (
     <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[clamp(75px,10vh,120px)] min-h-[calc(100vh-100px)] pb-6">
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)]  font-bold  uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1  rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)]  font-bold  uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
           <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
         </div>
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-          CONTACT <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">7TH HEAVEN</span>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          CONTACT
         </h1>
         <p className=" text-white  text-[clamp(0.8rem,1.2vh,1.125rem)] font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
@@ -83,13 +122,13 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               return (
                 <div
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
-                  onMouseEnter={() => setActivePhoto(photoForThisCard)}
-                  onClick={() => setActivePhoto(photoForThisCard)}
+                  onMouseEnter={() => setActivePhotoId(photoForThisCard)}
+                  onClick={() => setActivePhotoId(photoForThisCard)}
                   className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10"
                 >
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <span className="px-2.5 py-0.5 rounded-full text-[clamp(0.65rem,0.95vh,0.75rem)]  font-bold  uppercase tracking-wider text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  inline-block">
+                    <span className="px-2.5 py-0.5  rounded-lg  text-[clamp(0.65rem,0.95vh,0.75rem)]  font-bold  uppercase tracking-wider text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  inline-block">
                       {contact.category || "General Contact"}
                     </span>
                   </div>
@@ -148,25 +187,26 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       >
         <div className="relative w-full h-full flex items-end justify-end">
           {ALL_PHOTOS.map((photo) => {
-            const isActive = activePhoto === photo.id;
+            const isActive = activePhotoId === photo.id;
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 transition-all duration-500 ease-out flex items-end justify-end ${isActive
+                className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive
                   ? "opacity-100 scale-100 filter-none"
                   : "opacity-0 scale-95 filter blur-sm"
                   }`}
                 style={{ marginBottom: "-6%" }}
               >
-                <Image
-                  src={photo.id}
-                  alt={photo.alt}
-                  fill
-                  priority
-                  unoptimized
-                  sizes="50vw"
-                  className={`object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
-                />
+                <picture className="w-full h-full flex items-end justify-end pointer-events-none">
+                  <source media="(max-width: 768px)" srcSet={photo.mobile} />
+                  <source media="(min-width: 769px)" srcSet={photo.desktop} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photo.desktop}
+                    alt={photo.alt}
+                    className={`w-full h-full object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
+                  />
+                </picture>
               </div>
             );
           })}

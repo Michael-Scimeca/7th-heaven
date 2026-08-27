@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element */
 import React from 'react';
 
 export const STANDARD_ROLE_TAGS_SET = new Set([
@@ -16,13 +17,56 @@ export const getAvatarColor = (name: string) => {
   return colors[Math.abs(hash) % colors.length];
 };
 
+export const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
+  if (avatar && avatar.trim() && !avatar.includes('ui-avatars.com')) return avatar;
+  const lower = (name || '').toLowerCase();
+
+  if (lower.includes('adam')) return '/images/members/adam.png';
+  if (lower.includes('nick')) return '/images/members/nick.png';
+  if (lower.includes('mark')) return '/images/members/mark.png';
+  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/members/frankie.png';
+  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/members/dicky.png';
+
+  if (lower.includes('abbie')) return '/images/crew/abbie.png';
+  if (lower.includes('al') && lower.includes('hollie')) return '/images/crew/al.png';
+  if (lower.includes('andrea')) return '/images/crew/andrea.png';
+  if (lower.includes('arjun')) return '/images/crew/arjun.png';
+  if (lower.includes('chris')) return '/images/crew/chris.png';
+  if (lower.includes('colin') || lower.includes('farrell')) return '/images/crew/chris.png';
+  if (lower.includes('daniel')) return '/images/crew/daniel.png';
+  if (lower.includes('croke')) return '/images/crew/dave_croke.png';
+  if (lower.includes('maas')) return '/images/crew/dave_maas.png';
+  if (lower.includes('xu')) return '/images/crew/david_xu.png';
+  if (lower.includes('emily')) return '/images/crew/emily.png';
+  if (lower.includes('emma')) return '/images/crew/emma.png';
+  if (lower.includes('erin')) return '/images/crew/erin.png';
+  if (lower.includes('francesca')) return '/images/crew/francesca.png';
+  if (lower.includes('john') && lower.includes('wick')) return '/images/crew/john_wick.png';
+  if (lower.includes('john')) return '/images/crew/john_doe.png';
+
+  return '';
+};
+
 export const CrewAvatar = React.memo(({ member }: { member: any }) => {
   const name = member?.name || 'Crew';
+  const avatarUrl = resolveMemberAvatar(name, member?.avatar || member?.avatarUrl);
   const initials = member?.initials || name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+  const [imgError, setImgError] = React.useState(false);
+
+  if (avatarUrl && !imgError) {
+    return (
+      <img
+        src={avatarUrl}
+        alt={name}
+        onError={() => setImgError(true)}
+        className="w-9 h-9 rounded-full object-cover border border-white/20 shrink-0 shadow-md"
+      />
+    );
+  }
 
   return (
     <div
-      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center  font-bold  text-xs shrink-0 text-white select-none border border-white/10"
+      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold text-xs shrink-0 text-white select-none border border-white/10"
       style={{ color: '#ffffff' }}
     >
       {initials}

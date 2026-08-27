@@ -133,26 +133,26 @@ function parseCruiseNotes(notes: string): ParsedCruiseNotes | null {
 }
 
 const STATIC_CREW = [
-  { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Abbie+Janssen&background=f472b6&color=fff', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
-  { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Al+Hollie&background=a78bfa&color=fff', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
-  { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Andrea+Kinzinger&background=60a5fa&color=fff', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
-  { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Arjun+Patel&background=34d399&color=fff', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
-  { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Chris+Loxely&background=fbbf24&color=fff', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
-  { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Daniel+Kim&background=f87171&color=fff', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
-  { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Dave+Croke&background=8b5cf6&color=fff', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
-  { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: 'https://ui-avatars.com/api/?name=Dave+Maas&background=ec4899&color=fff', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
-  { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=David+Xu&background=3b82f6&color=fff', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
-  { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Emily+Hafften&background=10b981&color=fff', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
-  { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Emma+Smid&background=f59e0b&color=fff', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
-  { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Erin+Eagan&background=8a1cfc&color=fff', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
-  { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Francesca+Troast&background=ec4899&color=fff', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
+  { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: '/images/crew/abbie.png', email: 'abbie@7thheavenband.com', phone: '(555) 123-4567' },
+  { id: 'al', name: 'Al Hollie', role: 'STAGE HAND', maxHours: 32, avatar: '/images/crew/al.png', email: 'al@7thheavenband.com', phone: '(555) 234-5678' },
+  { id: 'andrea', name: 'Andrea Kinzinger', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/andrea.png', email: 'andrea@7thheavenband.com', phone: '(555) 345-6789' },
+  { id: 'arjun', name: 'Arjun Patel', role: 'SOUND ENGINEER', maxHours: 32, avatar: '/images/crew/arjun.png', email: 'arjun@7thheavenband.com', phone: '(555) 456-7890' },
+  { id: 'chris', name: 'Chris Loxely', role: 'LIGHTS', maxHours: 40, avatar: '/images/crew/chris.png', email: 'chris@7thheavenband.com', phone: '(555) 567-8901' },
+  { id: 'daniel', name: 'Daniel Kim', role: 'TOUR MANAGER', maxHours: 40, avatar: '/images/crew/daniel.png', email: 'daniel@7thheavenband.com', phone: '(555) 678-9012' },
+  { id: 'dave_croke', name: 'Dave Croke', role: 'EQUIPMENT SETUP', maxHours: 32, avatar: '/images/crew/dave_croke.png', email: 'dave_c@7thheavenband.com', phone: '(555) 789-0123' },
+  { id: 'dave_maas', name: 'Dave Maas', role: 'TEAR DOWN', maxHours: 24, avatar: '/images/crew/dave_maas.png', email: 'dave_m@7thheavenband.com', phone: '(555) 890-1234' },
+  { id: 'david_xu', name: 'David Xu', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/david_xu.png', email: 'david@7thheavenband.com', phone: '(555) 901-2345' },
+  { id: 'emily', name: 'Emily Hafften', role: 'MERCH', maxHours: 32, avatar: '/images/crew/emily.png', email: 'emily@7thheavenband.com', phone: '(555) 012-3456' },
+  { id: 'emma', name: 'Emma Smid', role: 'PHOTOGRAPHER', maxHours: 40, avatar: '/images/crew/emma.png', email: 'emma@7thheavenband.com', phone: '(555) 123-9876' },
+  { id: 'erin', name: 'Erin Eagan', role: 'EVENT SUPPORT', maxHours: 40, avatar: '/images/crew/erin.png', email: 'erin@7thheavenband.com', phone: '(555) 234-8765' },
+  { id: 'francesca', name: 'Francesca Troast', role: 'STAGE HAND', maxHours: 40, avatar: '/images/crew/francesca.png', email: 'francesca@7thheavenband.com', phone: '(555) 345-7654' },
   { id: 'mary', name: 'Mary Grivas', role: 'ADMIN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff', email: 'Marygrivas65@icloud.com', phone: '(630) 688-1725' },
-  { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Michael+Scimeca&background=8a1cfc&color=fff', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
+  { id: 'michael', name: 'Michael Scimeca', role: 'AUDIO MIX', maxHours: 40, avatar: '/images/crew/al.png', email: 'michael@7thheavenband.com', phone: '(555) 456-6543' },
   { id: 'sammy', name: 'Sammy D', role: 'BAND MEMBER', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Sammy+D&background=ec4899&color=fff', email: 'sammy@7thheavenband.com', phone: '(555) 567-5432' },
   { id: 'ryan', name: 'Ryan K', role: 'STAGE HAND', maxHours: 32, avatar: 'https://ui-avatars.com/api/?name=Ryan+K&background=0ea5e9&color=fff', email: 'ryan@7thheavenband.com', phone: '(555) 678-4321' },
   { id: 'tony', name: 'Tony M', role: 'EQUIPMENT SETUP', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Tony+M&background=10b981&color=fff', email: 'tony@7thheavenband.com', phone: '(555) 789-3210' },
   { id: 'marcus', name: 'Marcus Vance', role: 'TEAR DOWN', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Marcus+Vance&background=f97316&color=fff', email: 'marcus@7thheavenband.com', phone: '(555) 890-1235' },
-  { id: 'colin', name: 'Colin Farrell', role: 'CAMERA', maxHours: 40, avatar: 'https://ui-avatars.com/api/?name=Colin+Farrell&background=ec4899&color=fff', email: 'colin@7thheavenband.com', phone: '(555) 321-4321' }
+  { id: 'colin', name: 'Colin Farrell', role: 'CAMERA', maxHours: 40, avatar: '/images/crew/chris.png', email: 'colin@7thheavenband.com', phone: '(555) 321-4321' }
 ];
 
 const getAvatarColor = (name: string) => {
@@ -162,14 +162,60 @@ const getAvatarColor = (name: string) => {
   return colors[Math.abs(hash) % colors.length];
 };
 
+const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
+  const lower = (name || '').toLowerCase();
+
+  if (lower.includes('adam')) return '/images/members/adam.png';
+  if (lower.includes('nick')) return '/images/members/nick.png';
+  if (lower.includes('mark')) return '/images/members/mark.png';
+  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/members/frankie.png';
+  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/members/dicky.png';
+
+  if (lower.includes('michael') || lower.includes('scimeca')) return '/images/crew/al.png';
+
+  if (lower.includes('abbie')) return '/images/crew/abbie.png';
+  if (lower.includes('al') && lower.includes('hollie')) return '/images/crew/al.png';
+  if (lower.includes('andrea')) return '/images/crew/andrea.png';
+  if (lower.includes('arjun')) return '/images/crew/arjun.png';
+  if (lower.includes('chris')) return '/images/crew/chris.png';
+  if (lower.includes('colin') || lower.includes('farrell')) return '/images/crew/chris.png';
+  if (lower.includes('daniel')) return '/images/crew/daniel.png';
+  if (lower.includes('croke')) return '/images/crew/dave_croke.png';
+  if (lower.includes('maas')) return '/images/crew/dave_maas.png';
+  if (lower.includes('xu')) return '/images/crew/david_xu.png';
+  if (lower.includes('emily')) return '/images/crew/emily.png';
+  if (lower.includes('emma')) return '/images/crew/emma.png';
+  if (lower.includes('erin')) return '/images/crew/erin.png';
+  if (lower.includes('francesca')) return '/images/crew/francesca.png';
+  if (lower.includes('john')) return '/images/crew/john_doe.png';
+
+  if (avatar && !avatar.includes('ui-avatars.com') && avatar.trim().length > 0) {
+    return avatar;
+  }
+
+  return '';
+};
+
 const CrewAvatar = React.memo(({ member }: { member: any }) => {
   const name = member?.name || 'Crew';
+  const avatarUrl = resolveMemberAvatar(name, member?.avatar || member?.avatarUrl);
   const initials = member?.initials || name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-  const color = member?.color || getAvatarColor(name);
+  const [imgError, setImgError] = React.useState(false);
+
+  if (avatarUrl && !imgError) {
+    return (
+      <img
+        src={avatarUrl}
+        alt={name}
+        onError={() => setImgError(true)}
+        className="w-9 h-9 rounded-full object-cover border border-white/20 shrink-0 shadow-md"
+      />
+    );
+  }
 
   return (
     <div
-      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center  font-bold  text-xs shrink-0   text-white select-none border border-white/10"
+      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold text-xs shrink-0 text-white select-none border border-white/10"
       style={{ color: '#ffffff' }}
     >
       {initials}
@@ -497,38 +543,7 @@ const getFirstAndLastInitials = (name: string): string => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
-  const lower = (name || '').toLowerCase();
 
-  if (lower.includes('adam')) return '/images/members/adam.png';
-  if (lower.includes('nick')) return '/images/members/nick.png';
-  if (lower.includes('mark')) return '/images/members/mark.png';
-  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/members/frankie.png';
-  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/members/dicky.png';
-
-  if (lower.includes('michael') || lower.includes('scimeca')) return '/images/crew/al.png';
-
-  if (lower.includes('abbie')) return '/images/crew/abbie.png';
-  if (lower.includes('al') && lower.includes('hollie')) return '/images/crew/al.png';
-  if (lower.includes('andrea')) return '/images/crew/andrea.png';
-  if (lower.includes('arjun')) return '/images/crew/arjun.png';
-  if (lower.includes('chris')) return '/images/crew/chris.png';
-  if (lower.includes('daniel')) return '/images/crew/daniel.png';
-  if (lower.includes('croke')) return '/images/crew/dave_croke.png';
-  if (lower.includes('maas')) return '/images/crew/dave_maas.png';
-  if (lower.includes('xu')) return '/images/crew/david_xu.png';
-  if (lower.includes('emily')) return '/images/crew/emily.png';
-  if (lower.includes('emma')) return '/images/crew/emma.png';
-  if (lower.includes('erin')) return '/images/crew/erin.png';
-  if (lower.includes('francesca')) return '/images/crew/francesca.png';
-  if (lower.includes('john')) return '/images/crew/john_doe.png';
-
-  if (avatar && !avatar.includes('ui-avatars.com') && avatar.trim().length > 0) {
-    return avatar;
-  }
-
-  return '';
-};
 
 // eslint-disable-next-line react-doctor/prefer-useReducer
 export function AdminDashboardMain({ params }: { params: Promise<{ username: string }> }) {
@@ -3184,7 +3199,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <section id="admin-sec-emergencybroadcast" className="overflow-visible">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
@@ -3209,7 +3224,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Role-Based Email Lists & Subscriber Directory */}
       <section id="admin-sec-emaildirectory" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -3234,7 +3249,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/* Web Push & Proximity Alert Subscribers */}
       <section id="admin-sec-pushsubscribers" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('pushsubscribers'); } }} onClick={() => toggleSection('pushsubscribers')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('pushsubscribers'); } }} onClick={() => toggleSection('pushsubscribers')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
@@ -3257,7 +3272,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </section>
       <section id="admin-sec-announcements" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
@@ -3276,7 +3291,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {isSectionOpen('announcements') && (<>
             {/* Global Announcement Banner Control */}
             <div className="relative z-10 bg-transparent flex flex-col group">
-              <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+              <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors !rounded-none">
                 <div className="flex flex-col">
                   <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
@@ -3409,7 +3424,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderAnalytics = () => (
     <section id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#e1e6ff29]   transition-colors">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none !rounded-none  !rounded-none">
         <div className="flex flex-col">
           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
@@ -4260,7 +4275,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderBookings = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
@@ -4544,7 +4559,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderPlanners = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
@@ -4628,7 +4643,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderPhotoMod = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
@@ -4689,7 +4704,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderMemoryMod = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
           <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
@@ -4765,7 +4780,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderLiveAlerts = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] !rounded-none cursor-pointer">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
@@ -4855,7 +4870,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         tabIndex={0}
         onClick={() => toggleSection('smsblast')}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('smsblast'); } }}
-        className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
+        className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] !rounded-none cursor-pointer"
       >
         <div className="flex items-center">
 
@@ -4918,28 +4933,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {smsAutoBlast && (
               <div className="flex items-center gap-2">
                 <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
-                <GooeyDropdown
-                  label={String(smsAutoBlastDays)}
-                  accentColor="#9333ea"
-                  showChevron={true}
-                  chevronColor="#ffffff"
-                  textColor="#ffffff"
-                  panelTextColor="#ffffff"
-                  transparent={false}
-                  glassOpacity={1.0}
-                  items={[1, 2, 3, 5, 7].map(d => ({
-                    label: String(d),
-                    onClick: async () => {
-                      setSmsAutoBlastDays(d);
-                      try {
-                        await fetch('/api/admin/settings', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(d) }),
-                        });
-                      } catch { }
-                    }
-                  }))}
+                <GooeyMessagesDropdown
+                  selected={String(smsAutoBlastDays)}
+                  options={[1, 2, 3, 5, 7].map(d => ({ label: String(d), value: String(d) }))}
+                  onChange={async (selectedVal: string) => {
+                    const d = parseInt(selectedVal, 10);
+                    if (isNaN(d)) return;
+                    setSmsAutoBlastDays(d);
+                    try {
+                      await fetch('/api/admin/settings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(d) }),
+                      });
+                    } catch { }
+                  }}
+                  showAllOption={false}
                 />
               </div>
             )}
@@ -5539,7 +5548,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section id="section-crewsms" className="overflow-visible">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
 
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
@@ -5858,86 +5867,88 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           {/* Inline Checklist */}
                           <div className="flex flex-col gap-1">
                             <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</span>
-                            <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
-                              {(() => {
-                                const selectedCrewPhonesSet = new Set(selectedCrewPhones);
-                                return allCrewCombined.map((r, rIndex, rArr) => {
-                                  const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                                  const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
-                                  const editKey = `group:${r.id}`;
-                                  const isEditingThis = editingDutyMemberId === editKey;
-                                  const displayRole = r.duty || r.role || 'CREW';
-                                  return (
-                                    <div
-                                      key={r.id}
-                                      className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative"
-                                    >
+                            <CustomScrollbar direction="vertical" height={450}>
+                              <div className="border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5 pr-3">
+                                {(() => {
+                                  const selectedCrewPhonesSet = new Set(selectedCrewPhones);
+                                  return allCrewCombined.map((r, rIndex, rArr) => {
+                                    const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                                    const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
+                                    const editKey = `group:${r.id}`;
+                                    const isEditingThis = editingDutyMemberId === editKey;
+                                    const displayRole = r.duty || r.role || 'CREW';
+                                    return (
                                       <div
-                                        className="flex items-center gap-2 cursor-pointer flex-1"
-                                        onClick={() => {
-                                          if (newSmsGroupError) setNewSmsGroupError("");
-                                          handleToggleMember(r);
-                                        }}
+                                        key={r.id}
+                                        className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative"
                                       >
-                                        <SquishyToggle
-                                          id={`roster-toggle-popover-${r.id}`}
-                                          label={`Select ${r.name}`}
-                                          checked={isChecked}
-                                          onChange={() => handleToggleMember(r)}
-                                        />
-                                        {(() => {
-                                          const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                          return avatarSrc ? (
-                                            <img
-                                              src={avatarSrc}
-                                              alt={r.name}
-                                              className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
-                                            />
-                                          ) : (
-                                            <div
-                                              className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px]  font-bold  text-white uppercase font-sans"
-                                              style={{ backgroundColor: getAvatarColor(r.name) }}
-                                            >
-                                              {getFirstAndLastInitials(r.name)}
-                                            </div>
-                                          );
-                                        })()}
-                                        <span className="font-semibold text-white">{r.name}</span>
-                                      </div>
-
-                                      <div className="relative shrink-0">
-                                        <button
-                                          type="button"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                            setEditingDutyValue(r.duty || r.role || '');
+                                        <div
+                                          className="flex items-center gap-2 cursor-pointer flex-1"
+                                          onClick={() => {
+                                            if (newSmsGroupError) setNewSmsGroupError("");
+                                            handleToggleMember(r);
                                           }}
-                                          className="text-[7.5px]  font-bold  uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
-                                          title={`Click to edit role(s): ${displayRole}`}
                                         >
-                                          <span className="truncate">{displayRole}</span>
-                                          {isEditingThis && (
-                                            <DutyRoleEditorPopover
-                                              memberName={r.name}
-                                              editKey={editKey}
-                                              editingDutyValue={editingDutyValue}
-                                              setEditingDutyValue={setEditingDutyValue}
-                                              handleSaveDuty={handleSaveDuty}
-                                              savingDuty={savingDuty}
-                                              setEditingDutyMemberId={setEditingDutyMemberId}
-                                              presetRoles={presetRoles}
-                                              memberId={r.id}
-                                              position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
-                                            />
-                                          )}
-                                        </button>
+                                          <SquishyToggle
+                                            id={`roster-toggle-popover-${r.id}`}
+                                            label={`Select ${r.name}`}
+                                            checked={isChecked}
+                                            onChange={() => handleToggleMember(r)}
+                                          />
+                                          {(() => {
+                                            const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                            return avatarSrc ? (
+                                              <img
+                                                src={avatarSrc}
+                                                alt={r.name}
+                                                className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
+                                              />
+                                            ) : (
+                                              <div
+                                                className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px]  font-bold  text-white uppercase font-sans"
+                                                style={{ backgroundColor: getAvatarColor(r.name) }}
+                                              >
+                                                {getFirstAndLastInitials(r.name)}
+                                              </div>
+                                            );
+                                          })()}
+                                          <span className="font-semibold text-white">{r.name}</span>
+                                        </div>
+
+                                        <div className="relative shrink-0">
+                                          <button
+                                            type="button"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                              setEditingDutyValue(r.duty || r.role || '');
+                                            }}
+                                            className="text-[7.5px]  font-bold  uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                            title={`Click to edit role(s): ${displayRole}`}
+                                          >
+                                            <span className="truncate">{displayRole}</span>
+                                            {isEditingThis && (
+                                              <DutyRoleEditorPopover
+                                                memberName={r.name}
+                                                editKey={editKey}
+                                                editingDutyValue={editingDutyValue}
+                                                setEditingDutyValue={setEditingDutyValue}
+                                                handleSaveDuty={handleSaveDuty}
+                                                savingDuty={savingDuty}
+                                                setEditingDutyMemberId={setEditingDutyMemberId}
+                                                presetRoles={presetRoles}
+                                                memberId={r.id}
+                                                position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
+                                              />
+                                            )}
+                                          </button>
+                                        </div>
                                       </div>
-                                    </div>
-                                  );
-                                });
-                              })()}
-                            </div>
+                                    );
+                                  });
+                                })()}
+                              </div>
+                            </CustomScrollbar>
                           </div>
 
                           {newSmsGroupError && (
@@ -6392,7 +6403,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section id="section-bandsms" className="overflow-visible">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
 
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
@@ -6803,7 +6814,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderNewsletter = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
@@ -6858,7 +6869,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </p>
                   )}
                 </div>
-                <button
+                <CosmicRadialButton
                   disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
                   onClick={async () => {
                     if (blastSendingRef.current) return;
@@ -6867,10 +6878,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     setBlastSending(true);
                     setBlastResult(null);
                     try {
-                      const res = await fetch('/api/admin/newsletter', {
+                      const res = await fetch('/api/admin/newsletter/send', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ subject: blastSubject, body: blastBody }),
+                        body: JSON.stringify({
+                          subject: blastSubject,
+                          body: blastBody,
+                        }),
                       });
                       if (res.ok) {
                         const data = await res.json();
@@ -6883,14 +6897,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     blastSendingRef.current = false;
                     setBlastSending(false);
                   }}
-                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                  icon={false}
+                  className="px-6 py-3 font-bold text-sm uppercase tracking-widest cursor-pointer flex items-center gap-2"
                 >
                   {blastSending ? (
-                    <><span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> Sending...</>
+                    <><span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-full animate-spin" /> Sending...</>
                   ) : (
-                    <> Send Blast</>
+                    <>Send Blast</>
                   )}
-                </button>
+                </CosmicRadialButton>
               </div>
             </div>
           </div>
@@ -6901,7 +6916,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderEmailFlow = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
@@ -7103,7 +7118,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     return (
                       <React.Fragment key={user.id}>
                         <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
-                          <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
+                          <td className="p-4 font-bold text-sm truncate max-w-[220px]">
+                            <div className="flex items-center gap-2.5 truncate">
+                              {(() => {
+                                const avatarSrc = resolveMemberAvatar(user.name, (user as any).avatar || (user as any).avatar_url);
+                                return avatarSrc ? (
+                                  <img
+                                    src={avatarSrc}
+                                    alt={user.name}
+                                    className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/30 shadow-xs"
+                                    onError={(e) => {
+                                      (e.currentTarget as HTMLElement).style.display = 'none';
+                                    }}
+                                  />
+                                ) : (
+                                  <div
+                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-purple-400/30 shadow-xs"
+                                    style={{ backgroundColor: getAvatarColor(user.name) }}
+                                  >
+                                    {user.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '?'}
+                                  </div>
+                                );
+                              })()}
+                              <span className="truncate">{user.name}</span>
+                            </div>
+                          </td>
                           <td className="p-4 text-sm">
                             <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]    text-white  border border-white/10'}`}>
                               {user.role}
@@ -7203,7 +7242,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderCrewCreation = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
           <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
@@ -7298,7 +7337,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 onClick={createCrew}
                 disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
-                className="px-6 py-3 bg-emerald-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-emerald-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center gap-2 whitespace-nowrap"
+                className="px-6 py-3 btn-cosmic-radial-property font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg  transition-colors disabled:opacity-30 disabled:cursor-not-allowed  flex items-center gap-2 whitespace-nowrap"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 Create Account
@@ -7383,7 +7422,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderAdminCreation = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
 
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
@@ -7445,7 +7484,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 onClick={createAdmin}
                 disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
-                className="px-6 py-3 bg-purple-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(147, 51, 234,0.2)] hover:shadow-[0_0_30px_rgba(147, 51, 234,0.4)] flex items-center gap-2 whitespace-nowrap"
+                className="px-6 py-3 btn-cosmic-radial-property font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed  flex items-center gap-2 whitespace-nowrap"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 {adminCreateLoading ? 'Creating…' : 'Create Admin'}
@@ -7564,7 +7603,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderBulkInvites = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
         <div className="flex items-center">
 
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
@@ -7666,7 +7705,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none  !rounded-none">
           <div className="flex items-center">
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"></circle><line x1="12" y1="22" x2="12" y2="8"></line><path d="M5 12H2a10 10 0 0 0 20 0h-3"></path></svg>
@@ -8934,7 +8973,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full  text-[12px]  font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 px-1.5 py-0.5 rounded truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full  text-[9px]  font-bold uppercase text-purple-300 hover:text-white  truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -9586,7 +9625,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         `}</style>
 
         {/* Section Header */}
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -10575,304 +10614,306 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               />
                             </div>
 
-                            <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
-                              {(() => {
-                                return uniqueCrewList
-                                  .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
-                                  .sort((a, b) => {
-                                    const aActive = !!selectedCrewAssignments[a.id]?.active;
-                                    const bActive = !!selectedCrewAssignments[b.id]?.active;
-                                    if (aActive && !bActive) return -1;
-                                    if (!aActive && bActive) return 1;
-                                    return a.name.localeCompare(b.name);
-                                  })
-                                  .map((member) => {
-                                    const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
+                            <CustomScrollbar direction="vertical" className="flex-1 min-h-0">
+                              <div className="space-y-2.5 pr-3 rounded-lg pb-4">
+                                {(() => {
+                                  return uniqueCrewList
+                                    .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                                    .sort((a, b) => {
+                                      const aActive = !!selectedCrewAssignments[a.id]?.active;
+                                      const bActive = !!selectedCrewAssignments[b.id]?.active;
+                                      if (aActive && !bActive) return -1;
+                                      if (!aActive && bActive) return 1;
+                                      return a.name.localeCompare(b.name);
+                                    })
+                                    .map((member) => {
+                                      const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
 
-                                    const overlaps = getOverlappingShifts(
-                                      member.id,
-                                      activeDropDay || '',
-                                      assignment.startHour,
-                                      assignment.endHour,
-                                      editingShiftId || undefined
-                                    );
-                                    const isOverlapping = overlaps.length > 0;
+                                      const overlaps = getOverlappingShifts(
+                                        member.id,
+                                        activeDropDay || '',
+                                        assignment.startHour,
+                                        assignment.endHour,
+                                        editingShiftId || undefined
+                                      );
+                                      const isOverlapping = overlaps.length > 0;
 
-                                    return (
-                                      <div
-                                        key={member.id}
-                                        className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
-                                          ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
-                                          : 'border border-transparent'
-                                          }`}
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <label className="flex items-center gap-3 select-none cursor-pointer w-full">
-                                            <SquishyToggle
-                                              id={`crew-assign-toggle-${member.id}`}
-                                              label={`Toggle assignment for ${member.name || member.id}`}
-                                              checked={!!assignment.active}
-                                              onChange={(checked) => {
-                                                setSelectedCrewAssignments(prev => ({
-                                                  ...prev,
-                                                  [member.id]: {
-                                                    active: checked,
-                                                    customized: false,
-                                                    role: assignment.role || dropRole || member.role || 'STAGE HAND',
-                                                    startHour: assignment.startHour || dropStartHour || 12,
-                                                    endHour: assignment.endHour || dropEndHour || 17,
-                                                    timeFrames: structuredClone(dropTimeFrames)
-                                                  }
-                                                }));
-                                              }}
-                                            />
-                                            <div className="flex items-center gap-2 flex-1">
-                                              {(() => {
-                                                const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
-                                                return avatarSrc ? (
-                                                  <img
-                                                    src={avatarSrc}
-                                                    alt={member.name}
-                                                    className="w-6 h-6 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
-                                                    onError={(e) => {
-                                                      (e.currentTarget as HTMLElement).style.display = 'none';
-                                                    }}
-                                                  />
-                                                ) : (
-                                                  <div
-                                                    className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
-                                                  >
-                                                    {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                                  </div>
-                                                );
-                                              })()}
-                                              <div className="flex-1 min-w-0">
-                                                <div className="flex items-center justify-between gap-2">
-                                                  <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
-                                                  {assignment.active && (
-                                                    <span className="bg-purple-500 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
-                                                      Selected
-                                                    </span>
-                                                  )}
-                                                </div>
-                                                <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
-                                                  {member.phone || 'No phone'} |  {member.email || 'No email'}
-                                                </span>
+                                      return (
+                                        <div
+                                          key={member.id}
+                                          className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
+                                            ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
+                                            : 'border border-transparent'
+                                            }`}
+                                        >
+                                          <div className="flex items-center justify-between">
+                                            <label className="flex items-center gap-3 select-none cursor-pointer w-full">
+                                              <SquishyToggle
+                                                id={`crew-assign-toggle-${member.id}`}
+                                                label={`Toggle assignment for ${member.name || member.id}`}
+                                                checked={!!assignment.active}
+                                                onChange={(checked) => {
+                                                  setSelectedCrewAssignments(prev => ({
+                                                    ...prev,
+                                                    [member.id]: {
+                                                      active: checked,
+                                                      customized: false,
+                                                      role: assignment.role || dropRole || member.role || 'STAGE HAND',
+                                                      startHour: assignment.startHour || dropStartHour || 12,
+                                                      endHour: assignment.endHour || dropEndHour || 17,
+                                                      timeFrames: structuredClone(dropTimeFrames)
+                                                    }
+                                                  }));
+                                                }}
+                                              />
+                                              <div className="flex items-center gap-2 flex-1">
                                                 {(() => {
-                                                  const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter(s => s.id !== editingShiftId);
-                                                  if (memberShifts.length === 0) return null;
-                                                  return (
-                                                    <div className="mt-1.5 flex flex-wrap gap-1">
-                                                      {memberShifts.map((s, idx) => (
-                                                        <span
-                                                          key={idx}
-                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
-                                                        >
-                                                          {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
-                                                        </span>
-                                                      ))}
+                                                  const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
+                                                  return avatarSrc ? (
+                                                    <img
+                                                      src={avatarSrc}
+                                                      alt={member.name}
+                                                      className="w-6 h-6 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                      onError={(e) => {
+                                                        (e.currentTarget as HTMLElement).style.display = 'none';
+                                                      }}
+                                                    />
+                                                  ) : (
+                                                    <div
+                                                      className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                    >
+                                                      {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                     </div>
                                                   );
                                                 })()}
-                                                {isOverlapping && (
-                                                  <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
-                                                    Overlaps: {overlaps[0].time}
+                                                <div className="flex-1 min-w-0">
+                                                  <div className="flex items-center justify-between gap-2">
+                                                    <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                                    {assignment.active && (
+                                                      <span className="bg-purple-500 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
+                                                        Selected
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
+                                                    {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                   </span>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </label>
-                                        </div>
-
-                                        {/* Inline Time Frames & Form Fields for Toggled Member */}
-                                        {assignment.active && (
-                                          <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
-                                            {dropTimeFrames.map((tf, index) => (
-                                              <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
-                                                <div className="flex items-center justify-between">
-                                                  <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                                  {dropTimeFrames.length > 1 && (
-                                                    <button
-                                                      type="button"
-                                                      onClick={() => {
-                                                        setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
-                                                      }}
-                                                      className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
-                                                      style={{ fontSize: '10px' }}
-                                                    >
-                                                      Remove
-                                                    </button>
-                                                  )}
-                                                </div>
-
-                                                <div className="grid grid-cols-2 gap-3">
-                                                  <div>
-                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
-                                                    <GooeyMessagesDropdown
-                                                      placeholder="Select Start Time"
-                                                      selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
-                                                      options={generateTimeOptions().map(opt => opt.label)}
-                                                      onChange={(selectedLabel) => {
-                                                        const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
-                                                        if (!found) return;
-                                                        const val = found.value;
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, startHour: val } : item));
-                                                        setSelectedCrewAssignments(prev => {
-                                                          const current = prev[member.id] || { active: true };
-                                                          const baseTfs = current.timeFrames || dropTimeFrames;
-                                                          const tfs = baseTfs.map((item, i) => i === index ? { ...item, startHour: val } : item);
-                                                          return { ...prev, [member.id]: { ...current, startHour: val, timeFrames: tfs } };
-                                                        });
-                                                      }}
-                                                      showAllOption={false}
-                                                      fullWidth={true}
-                                                      className="w-full"
-                                                    />
-                                                  </div>
-
-                                                  <div>
-                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
-                                                    <GooeyMessagesDropdown
-                                                      placeholder="Select End Time"
-                                                      selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
-                                                      options={generateTimeOptions().map(opt => opt.label)}
-                                                      onChange={(selectedLabel) => {
-                                                        const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
-                                                        if (!found) return;
-                                                        const val = found.value;
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
-                                                        setSelectedCrewAssignments(prev => {
-                                                          const current = prev[member.id] || { active: true };
-                                                          const baseTfs = current.timeFrames || dropTimeFrames;
-                                                          const tfs = baseTfs.map((item, i) => i === index ? { ...item, endHour: val } : item);
-                                                          return { ...prev, [member.id]: { ...current, endHour: val, timeFrames: tfs } };
-                                                        });
-                                                      }}
-                                                      showAllOption={false}
-                                                      fullWidth={true}
-                                                      className="w-full"
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="space-y-1">
-                                                  <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                                  <div className="input-glow-border rounded-lg w-full">
-                                                    <input
-                                                      id={`admin-drawer-role-${index}`}
-                                                      type="text"
-                                                      value={tf.role}
-                                                      onChange={e => {
-                                                        const val = e.target.value;
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
-                                                      }}
-                                                      placeholder="e.g. Audio Mix"
-                                                      className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
-                                                    />
-                                                  </div>
-                                                  <div className="flex flex-wrap gap-1 mt-1.5">
-                                                    {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                                      const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                                      const isSelected = currentRoles.includes(preset.toUpperCase());
-                                                      return (
-                                                        <button
-                                                          key={preset}
-                                                          type="button"
-                                                          onClick={() => {
-                                                            const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                                            const upperPreset = preset.toUpperCase();
-                                                            const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                                            let newRoles: string[];
-                                                            if (exists) {
-                                                              newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                                            } else {
-                                                              newRoles = [...rawRoles, preset];
-                                                            }
-                                                            const newRoleStr = newRoles.join(', ');
-                                                            setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
-                                                          }}
-                                                          className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
-                                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs  font-bold '
-                                                            : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                            }`}
-                                                        >
-                                                          {isSelected ? ` ${preset}` : preset}
-                                                        </button>
-                                                      );
-                                                    })}
-                                                  </div>
-                                                </div>
-
-                                                <div className="space-y-1">
-                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
-                                                  <GooeyMessagesDropdown
-                                                    placeholder="Select tags..."
-                                                    showAllOption={false}
-                                                    options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
-                                                    onChange={(val) => {
-                                                      setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
-                                                        if (i !== index) return item;
-                                                        const tagSet = new Set(item.tags || []);
-                                                        if (tagSet.has(val)) {
-                                                          tagSet.delete(val);
-                                                        } else {
-                                                          tagSet.add(val);
-                                                        }
-                                                        return { ...item, tags: Array.from(tagSet) };
-                                                      }));
-                                                    }}
-                                                    fullWidth
-                                                  />
-                                                  {tf.tags && tf.tags.length > 0 && (
-                                                    <div className="flex flex-wrap gap-1 mt-1.5">
-                                                      {tf.tags.map(tag => (
-                                                        <span
-                                                          key={tag}
-                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
-                                                        >
-                                                          {tag}
-                                                          <button
-                                                            type="button"
-                                                            aria-label={`Remove ${tag} tag`}
-                                                            onClick={() => {
-                                                              setDropTimeFrames(prev => prev.map((item, i) => {
-                                                                if (i === index) {
-                                                                  return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
-                                                                }
-                                                                return item;
-                                                              }));
-                                                            }}
-                                                            className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                  {(() => {
+                                                    const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter(s => s.id !== editingShiftId);
+                                                    if (memberShifts.length === 0) return null;
+                                                    return (
+                                                      <div className="mt-1.5 flex flex-wrap gap-1">
+                                                        {memberShifts.map((s, idx) => (
+                                                          <span
+                                                            key={idx}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
                                                           >
-                                                            ✕
-                                                          </button>
-                                                        </span>
-                                                      ))}
-                                                    </div>
+                                                            {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
+                                                          </span>
+                                                        ))}
+                                                      </div>
+                                                    );
+                                                  })()}
+                                                  {isOverlapping && (
+                                                    <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                                      Overlaps: {overlaps[0].time}
+                                                    </span>
                                                   )}
                                                 </div>
                                               </div>
-                                            ))}
-
-                                            {dropTimeFrames.length < 3 && (
-                                              <button
-                                                type="button"
-                                                onClick={() => {
-                                                  setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
-                                                }}
-                                                className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
-                                                style={{ fontSize: '11px' }}
-                                              >
-                                                Add Time Frame ({dropTimeFrames.length}/3)
-                                              </button>
-                                            )}
+                                            </label>
                                           </div>
-                                        )}
-                                      </div>
-                                    );
-                                  });
-                              })()}
-                            </div>
+
+                                          {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                          {assignment.active && (
+                                            <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
+                                              {dropTimeFrames.map((tf, index) => (
+                                                <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
+                                                  <div className="flex items-center justify-between">
+                                                    <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                                    {dropTimeFrames.length > 1 && (
+                                                      <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                          setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
+                                                        }}
+                                                        className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                                        style={{ fontSize: '10px' }}
+                                                      >
+                                                        Remove
+                                                      </button>
+                                                    )}
+                                                  </div>
+
+                                                  <div className="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                                      <GooeyMessagesDropdown
+                                                        placeholder="Select Start Time"
+                                                        selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
+                                                        options={generateTimeOptions().map(opt => opt.label)}
+                                                        onChange={(selectedLabel) => {
+                                                          const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                          if (!found) return;
+                                                          const val = found.value;
+                                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, startHour: val } : item));
+                                                          setSelectedCrewAssignments(prev => {
+                                                            const current = prev[member.id] || { active: true };
+                                                            const baseTfs = current.timeFrames || dropTimeFrames;
+                                                            const tfs = baseTfs.map((item, i) => i === index ? { ...item, startHour: val } : item);
+                                                            return { ...prev, [member.id]: { ...current, startHour: val, timeFrames: tfs } };
+                                                          });
+                                                        }}
+                                                        showAllOption={false}
+                                                        fullWidth={true}
+                                                        className="w-full"
+                                                      />
+                                                    </div>
+
+                                                    <div>
+                                                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                                      <GooeyMessagesDropdown
+                                                        placeholder="Select End Time"
+                                                        selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
+                                                        options={generateTimeOptions().map(opt => opt.label)}
+                                                        onChange={(selectedLabel) => {
+                                                          const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
+                                                          if (!found) return;
+                                                          const val = found.value;
+                                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
+                                                          setSelectedCrewAssignments(prev => {
+                                                            const current = prev[member.id] || { active: true };
+                                                            const baseTfs = current.timeFrames || dropTimeFrames;
+                                                            const tfs = baseTfs.map((item, i) => i === index ? { ...item, endHour: val } : item);
+                                                            return { ...prev, [member.id]: { ...current, endHour: val, timeFrames: tfs } };
+                                                          });
+                                                        }}
+                                                        showAllOption={false}
+                                                        fullWidth={true}
+                                                        className="w-full"
+                                                      />
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="space-y-1">
+                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                    <div className="input-glow-border rounded-lg w-full">
+                                                      <input
+                                                        id={`admin-drawer-role-${index}`}
+                                                        type="text"
+                                                        value={tf.role}
+                                                        onChange={e => {
+                                                          const val = e.target.value;
+                                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
+                                                        }}
+                                                        placeholder="e.g. Audio Mix"
+                                                        className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
+                                                      />
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1 mt-1.5">
+                                                      {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                                        const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                                        const isSelected = currentRoles.includes(preset.toUpperCase());
+                                                        return (
+                                                          <button
+                                                            key={preset}
+                                                            type="button"
+                                                            onClick={() => {
+                                                              const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                              const upperPreset = preset.toUpperCase();
+                                                              const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                              let newRoles: string[];
+                                                              if (exists) {
+                                                                newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                              } else {
+                                                                newRoles = [...rawRoles, preset];
+                                                              }
+                                                              const newRoleStr = newRoles.join(', ');
+                                                              setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
+                                                            }}
+                                                            className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
+                                                              ? 'bg-purple-600 text-white border-purple-500 shadow-xs  font-bold '
+                                                              : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                              }`}
+                                                          >
+                                                            {isSelected ? ` ${preset}` : preset}
+                                                          </button>
+                                                        );
+                                                      })}
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="space-y-1">
+                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                                    <GooeyMessagesDropdown
+                                                      placeholder="Select tags..."
+                                                      showAllOption={false}
+                                                      options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
+                                                      onChange={(val) => {
+                                                        setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
+                                                          if (i !== index) return item;
+                                                          const tagSet = new Set(item.tags || []);
+                                                          if (tagSet.has(val)) {
+                                                            tagSet.delete(val);
+                                                          } else {
+                                                            tagSet.add(val);
+                                                          }
+                                                          return { ...item, tags: Array.from(tagSet) };
+                                                        }));
+                                                      }}
+                                                      fullWidth
+                                                    />
+                                                    {tf.tags && tf.tags.length > 0 && (
+                                                      <div className="flex flex-wrap gap-1 mt-1.5">
+                                                        {tf.tags.map(tag => (
+                                                          <span
+                                                            key={tag}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
+                                                          >
+                                                            {tag}
+                                                            <button
+                                                              type="button"
+                                                              aria-label={`Remove ${tag} tag`}
+                                                              onClick={() => {
+                                                                setDropTimeFrames(prev => prev.map((item, i) => {
+                                                                  if (i === index) {
+                                                                    return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
+                                                                  }
+                                                                  return item;
+                                                                }));
+                                                              }}
+                                                              className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                            >
+                                                              ✕
+                                                            </button>
+                                                          </span>
+                                                        ))}
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              ))}
+
+                                              {dropTimeFrames.length < 3 && (
+                                                <button
+                                                  type="button"
+                                                  onClick={() => {
+                                                    setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
+                                                  }}
+                                                  className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                                                  style={{ fontSize: '11px' }}
+                                                >
+                                                  Add Time Frame ({dropTimeFrames.length}/3)
+                                                </button>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      );
+                                    });
+                                })()}
+                              </div>
+                            </CustomScrollbar>
                           </div>
                         )}
 

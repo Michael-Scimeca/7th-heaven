@@ -164,7 +164,7 @@ export default function FAQPage() {
 
       {/* Page Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200  rounded-lg  px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
           <SparklesIcon />
           Support Center
         </div>
@@ -195,7 +195,7 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${isActive
+              className={`flex items-center gap-2 px-4 py-2.5  rounded-lg  text-xs font-bold transition duration-200 border ${isActive
                 ? "bg-purple-600 border-purple-600 text-white shadow-md"
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
                 }`}
@@ -217,7 +217,7 @@ export default function FAQPage() {
             return (
               <div
                 key={faq.id}
-                className="bg-transparent overflow-hidden transition-colors duration-300 border-b  border-white/20 "
+                className="bg-transparent overflow-hidden transition-colors duration-300 border-b   border-white/10  "
                 style={{
                   borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
                 }}
@@ -237,7 +237,7 @@ export default function FAQPage() {
 
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
-                  className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                     }`}
                 >
                   <div className="overflow-hidden">
@@ -272,7 +272,7 @@ export default function FAQPage() {
         </div>
         <Link
           href="/contact"
-          className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
+          className="px-6 py-3  rounded-lg  bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
         >
           Contact Us
         </Link>

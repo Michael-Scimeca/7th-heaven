@@ -149,7 +149,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       <div className="absolute top-4 right-4 z-[3]">
                         <CosmicRadialButton
                           icon={false}
-                          className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110 border border-purple-300/40"
+                          className="w-10 h-10 ! rounded-lg  !p-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110 border border-purple-300/40"
                         >
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />

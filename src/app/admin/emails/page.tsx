@@ -71,7 +71,7 @@ export default function EmailPreviewPage() {
           <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
             {categories.map(c => (
               <button aria-label="Action button" key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover: text-white '
+                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest  rounded-lg  transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover: text-white '
                   }`}
               >{c}</button>
             ))}
@@ -90,7 +90,7 @@ export default function EmailPreviewPage() {
                   <span className={`text-sm font-bold ${activeId === t.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
                     {t.name}
                   </span>
-                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${t.status === 'live'
+                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5  rounded-lg  ${t.status === 'live'
                     ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30'
                     : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
                     }`}>
@@ -110,7 +110,7 @@ export default function EmailPreviewPage() {
           <div className="h-14 border-b border-white/5 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-bold text-white">{active.name}</h2>
-              <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${active.status === 'live'
+              <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5  rounded-lg  ${active.status === 'live'
                 ? 'bg-emerald-500/10 text-[var(--color-accent)]'
                 : 'bg-purple-600/10 text-purple-300'
                 }`}>{active.status}</span>

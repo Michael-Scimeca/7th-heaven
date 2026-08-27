@@ -17,102 +17,13 @@ import LazySection from "@/components/LazySection";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
-function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const phaseRef = useRef(0);
-
-  const draw = useCallback((phase: number, isHovered: boolean, isActive: boolean) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    const W = canvas.width;
-    const H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-
-    let s = seed + 1;
-    const rand = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
-
-    const grad = ctx.createLinearGradient(0, 0, W, 0);
-    if (isActive) {
-      // Site purple — always-on up-next show
-      grad.addColorStop(0, 'rgba(255,10,61,0)');
-      grad.addColorStop(0.1, 'rgba(160,40,255,0.85)');
-      grad.addColorStop(0.5, 'rgba(180,50,255,1)');
-      grad.addColorStop(0.9, 'rgba(160,40,255,0.85)');
-      grad.addColorStop(1, 'rgba(255,10,61,0)');
-    } else if (isHovered) {
-      grad.addColorStop(0, 'rgba(80,50,140,0)');
-      grad.addColorStop(0.1, 'rgba(120,60,200,0.75)');
-      grad.addColorStop(0.5, 'rgba(150,70,230,0.95)');
-      grad.addColorStop(0.9, 'rgba(120,60,200,0.75)');
-      grad.addColorStop(1, 'rgba(80,50,140,0)');
-    } else {
-      grad.addColorStop(0, 'rgba(60,40,100,0)');
-      grad.addColorStop(0.1, 'rgba(80,50,130,0.55)');
-      grad.addColorStop(0.5, 'rgba(100,60,160,0.7)');
-      grad.addColorStop(0.9, 'rgba(80,50,130,0.55)');
-      grad.addColorStop(1, 'rgba(60,40,100,0)');
-    }
-
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = (isActive || isHovered) ? 1.6 : 1.1;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-
-    const midY = H / 2;
-    const segments = 18;
-    const segW = W / segments;
-    const amp = isActive ? 5 : isHovered ? 4.5 : 2.5;
-
-    ctx.beginPath();
-    ctx.moveTo(0, midY + Math.sin(phase) * amp * 0.4 * (rand() - 0.5) * 2);
-    for (let i = 0; i < segments; i++) {
-      const x0 = i * segW;
-      const x1 = (i + 1) * segW;
-      const wave = Math.sin(phase + i * 0.45) * amp;
-      const cp1x = x0 + segW * 0.35;
-      const cp1y = midY + (rand() - 0.5) * 5 + wave;
-      const cp2x = x0 + segW * 0.65;
-      const cp2y = midY + (rand() - 0.5) * 5 + Math.sin(phase + i * 0.45 + 1.1) * amp;
-      const ex = x1;
-      const ey = midY + (rand() - 0.5) * 3 + Math.sin(phase + (i + 1) * 0.45) * amp * 0.6;
-      ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, ex, ey);
-    }
-    ctx.stroke();
-  }, [seed]);
-
-  // Static draw on mount
-  useEffect(() => { draw(0, false, false); }, [draw]);
-
-  // Animate when active (up-next) or hovered
-  useEffect(() => {
-    let animId: number | undefined;
-    const shouldAnimate = hovered || active;
-    if (shouldAnimate) {
-      const loop = () => {
-        phaseRef.current += active ? 0.05 : 0.07;
-        draw(phaseRef.current, hovered, active);
-        animId = requestAnimationFrame(loop);
-      };
-      animId = requestAnimationFrame(loop);
-    } else {
-      draw(phaseRef.current, false, false);
-    }
-    return () => {
-      if (animId) {
-        cancelAnimationFrame(animId);
-      }
-    };
-  }, [hovered, active, draw]);
-
+function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
-    <canvas
-      ref={canvasRef}
-      width={1200}
-      height={14}
-      className="w-full block transition-opacity duration-300"
-      style={{ height: 14, opacity: (active || hovered) ? 1 : 0.85 }}
+    <div
+      className={`w-full h-[1px] transition-colors duration-300 ${active
+        ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+        : "bg-white/10 group-hover:bg-purple-400/30"
+        }`}
       aria-hidden="true"
     />
   );
@@ -290,7 +201,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
-  const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
   const [sortBarOpacity, setSortBarOpacity] = useState(1);
 
@@ -347,25 +257,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   // Dynamically load Google Fonts when selected
   useEffect(() => {
-    if (tourFontFamily && !tourFontFamily.startsWith("var")) {
-      const fontId = `google-font-${tourFontFamily.replace(/\s+/g, '-').toLowerCase()}`;
-      if (!document.getElementById(fontId)) {
-        const link = document.createElement("link");
-        link.id = fontId;
-        link.rel = "stylesheet";
-        link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(tourFontFamily)}:wght@400;500;700;800;900&display=swap`;
-        document.head.appendChild(link);
-      }
-    }
   }, [tourFontFamily]);
   const [notifyPrefs, setNotifyPrefs] = useState({ proximity: true, thisShow: true, newsletter: false });
 
-  // Live ticking time for countdowns
+  // Live ticking time for countdowns (60s tick so parent table rows don't re-render every second)
   const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -762,48 +662,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       const sortBar = sortBarRef.current;
       if (!sortBar) return;
 
-      const docEl = document.documentElement;
-      const bodyEl = document.body;
-      const scrollHeight = Math.max(docEl.scrollHeight, bodyEl ? bodyEl.scrollHeight : 0);
-      const clientHeight = window.innerHeight || docEl.clientHeight;
-      const currentScrollPosition = window.scrollY || docEl.scrollTop || (bodyEl ? bodyEl.scrollTop : 0) || 0;
-
-      const maxScroll = Math.max(0, scrollHeight - clientHeight);
-      const docDistanceFromBottom = maxScroll - currentScrollPosition;
-
-      // Track distance to bottom of tour list container specifically
-      const container = tableRef.current;
-      const containerBottom = container ? container.getBoundingClientRect().bottom : 9999;
-      const stickyBarTop = 88;
-      const sortBarHeight = sortBar.offsetHeight || 50;
-      const tourListRemaining = containerBottom - (stickyBarTop + sortBarHeight);
-
-      // Leave opacity at 1.0 constantly once stuck so blur stays on at the end
-      const opacity = 1;
-      sortBarOpacityRef.current = opacity;
-
-      // Direct DOM style application
-      sortBar.style.opacity = "1";
-      sortBar.style.pointerEvents = "auto";
-
-      // Detect when sticky sort bar locks in via sentinel
+      // 1. READ ALL LAYOUT GEOMETRY FIRST (prevents forced reflow)
       const sentinel = sentinelRef.current;
       const headerEl = typeof document !== "undefined" ? document.querySelector("header") : null;
       const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 80;
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
       const isAboveSentinel = sentinelTop <= (headerBottom + 0.5);
 
+      // 2. WRITE DOM STYLES AND CLASSES LAST (clean render cycle)
+      sortBar.style.opacity = "1";
+      sortBar.style.pointerEvents = "auto";
+
       if (isStuckRef.current !== isAboveSentinel) {
         isStuckRef.current = isAboveSentinel;
         sortBar.classList.toggle("is-stuck", isAboveSentinel);
-        setIsSortBarStuck(isAboveSentinel);
-      }
-
-      // Keep tour-sort-stuck class active whenever bar is stuck so header blur stays on permanently as you scroll down
-      if (isAboveSentinel) {
-        document.documentElement.classList.add("tour-sort-stuck");
-      } else {
-        document.documentElement.classList.remove("tour-sort-stuck");
+        if (isAboveSentinel) {
+          document.documentElement.classList.add("tour-sort-stuck");
+        } else {
+          document.documentElement.classList.remove("tour-sort-stuck");
+        }
       }
     };
 
@@ -894,7 +771,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     if (activeCity !== "All") filterParts.push(activeCity);
     if (searchQuery) filterParts.push(`"${searchQuery}"`);
     const filterLine = filterParts.length > 0
-      ? `<p style="font-size:11px;color:#888;margin:0 0 16px;font-style:italic">Filtered by: ${filterParts.join(' · ')}</p>`
+      ? `<p style="font-size:11px;color:#888;margin:0 0 16px;font-style:  ">Filtered by: ${filterParts.join(' · ')}</p>`
       : '';
 
     const rows = showsToPrint.map((show: any) => {
@@ -915,9 +792,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 <html><head>
 <title>7th Heaven — Tour Dates</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Barlow', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
+  body { font-family: 'Switzer', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
   h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
   .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -1060,7 +936,7 @@ ${filterLine}
                   <div className="relative flex flex-col justify-between min-h-[140px]">
                     {/* UP NEXT label */}
                     <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+                      <span className={`w-1.5 h-1.5  rounded-lg  ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
                       <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : " text-[var(--color-accent)] font-extrabold"}>
                         {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
                       </span>
@@ -1181,9 +1057,9 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[80px] z-[90] flex flex-col gap-3.5 w-full ${isSortBarStuck ? 'is-stuck' : 'bg-transparent border-0'} text-white transition-opacity duration-300 ease-out`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className="relative sticky top-[80px] z-[90] flex flex-col gap-3.5 w-full bg-transparent border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
-              className={`absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px]  shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 transition-opacity duration-300 ease-out ${isSortBarStuck ? 'opacity-100' : 'opacity-0'}`}
+              className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
                 maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
@@ -1257,10 +1133,7 @@ ${filterLine}
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
-                <div key={`tour_row_${i}_${show.id || rowId}`} className="overflow-visible"
-                  onMouseEnter={() => setHoveredRowIdx(i)}
-                  onMouseLeave={() => setHoveredRowIdx(null)}
-                >
+                <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible">
                   {/* Desktop Row Layout */}
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
@@ -1299,7 +1172,7 @@ ${filterLine}
                                 }`}
                             >
                               {subscribingId === show._id ? (
-                                <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent  rounded-lg  animate-spin" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
                                 <Bell className="w-3.5 h-3.5" />
                               ) : (
@@ -1459,7 +1332,7 @@ ${filterLine}
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border  border-white/20  rounded-lg whitespace-nowrap">
+                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border   border-white/10   rounded-lg whitespace-nowrap">
                                 {show.time}
                               </span>
                             )}
@@ -1475,7 +1348,7 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div className="pt-0.5">
-                      <h4 className="text-2xl  font-bold  text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      <h4 className="text-2xl  font-bold  text-white leading-tight uppercase tracking-tight   " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {(show.city || show.state) && (
                         <p className="text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold">
                           <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
@@ -1488,7 +1361,7 @@ ${filterLine}
                     {!isPrivate && (
                       <div className="flex items-center gap-2 flex-wrap text-sm sm:text-base font-bold">
                         <span className="text-sm">{getShowIcon(show)}</span>
-                        {show.info && <span className="text-sm sm:text-base text-white/70 italic font-medium">{show.info}</span>}
+                        {show.info && <span className="text-sm sm:text-base text-white/70    font-medium">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                           <span className="text-xs sm:text-sm  font-bold  text-purple-300 uppercase">All Ages</span>
                         )}
@@ -1575,7 +1448,7 @@ ${filterLine}
                             className="p-2 w-9 h-9 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95"
                           >
                             {subscribingId === show._id ? (
-                              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent  rounded-lg  animate-spin" />
                             ) : (
                               <Bell className="w-4 h-4 text-white" />
                             )}
@@ -1589,7 +1462,7 @@ ${filterLine}
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2   border  border-white/20  rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px]  backdrop-blur-[45px] font-sans">
+                              <div className="absolute left-0 mt-2   border   border-white/10   rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px]  backdrop-blur-[45px] font-sans">
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
@@ -1620,7 +1493,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors  rounded-lg  text-center"
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover: border-white/10  transition-colors  rounded-lg  text-center"
                             >
                               <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}
@@ -1638,7 +1511,7 @@ ${filterLine}
                       </div>
                     )}
                   </div>
-                  <WavyDivider seed={i} hovered={hoveredRowIdx === i} active={isUpNext} />
+                  <WavyRowDivider seed={i} active={isUpNext} />
                 </div>
               );
             })}
@@ -1863,7 +1736,7 @@ ${filterLine}
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40  rounded-lg  flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5  text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                     </svg>
@@ -1873,7 +1746,7 @@ ${filterLine}
                     <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
-                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-[#e1e6ff29]   hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center  rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -1894,12 +1767,12 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow
                     ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4  rounded-lg  relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3  rounded-lg  bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1914,12 +1787,12 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity
                     ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4  rounded-lg  relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3  rounded-lg  bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1934,12 +1807,12 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter
                     ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4  rounded-lg  relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3  rounded-lg  bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1984,7 +1857,7 @@ ${filterLine}
               <h3 className="text-white font-bold text-sm uppercase tracking-wider">Font Tester</h3>
               <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="text-white/40 hover:text-white text-xs cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+                className="text-white/40 hover:text-white text-xs cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10  rounded-lg  w-6 h-6 flex items-center justify-center transition-colors"
               >
                 ✕
               </button>
@@ -1999,7 +1872,7 @@ ${filterLine}
                 onChange={(e) => setTourFontFamily(e.target.value)}
                 className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
               >
-                <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Barlow (Default)</option>
+                <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                 <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
                 <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
                 <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>

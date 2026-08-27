@@ -580,7 +580,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <button
             type="button"
             onClick={() => setShowSettings(!showSettings)}
-            className="px-4 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40 rounded-full text-xs  font-bold  uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+            className="px-4 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40  rounded-lg  text-xs  font-bold  uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
           >
             Timeline Path & Physics Tuning
           </button>
@@ -704,9 +704,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <div className="flex items-center gap-3">
             <div
               ref={startDotRef}
-              className="w-5 h-5 rounded-full bg-cyan-400 border-4 border-[#06060c] z-10"
+              className="w-5 h-5  rounded-lg  bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="text-[var(--font-size-3xs)] md:text-xs  font-bold  uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-full font-mono z-10">
+            <span className="text-[var(--font-size-3xs)] md:text-xs  font-bold  uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5  rounded-lg  font-mono z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -886,7 +886,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={hist.year || idx} className="relative group">
                 {/* Node Circle Box */}
                 <div
-                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
+                  className={`absolute left-[-25px] top-2 w-4 h-4  rounded-lg  border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
                     }`}
                 />
 
@@ -1167,7 +1167,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button aria-label="Action button"
                       key={col}
                       onClick={() => setTuning({ ...tuning, lineColor: col })}
-                      className={`w-7 h-7 rounded-full transition-transform cursor-pointer border-2 ${tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
+                      className={`w-7 h-7  rounded-lg  transition-transform cursor-pointer border-2 ${tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
                         }`}
                       style={{ backgroundColor: col }}
                     />

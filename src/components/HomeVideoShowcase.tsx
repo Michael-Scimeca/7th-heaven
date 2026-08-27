@@ -19,7 +19,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
 
   return (
     <div
-      className="smooothy-parallax-media absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] overflow-hidden transform-gpu"
+      className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -27,7 +27,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
           title={videoTitle}
-          className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover scale-[1.04] transform-gpu"
+          className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover transform-gpu"
           allow="autoplay; encrypted-media"
         />
       ) : (
@@ -36,7 +36,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
           alt={videoTitle}
           fill
           sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover pointer-events-none scale-[1.04] transform-gpu"
+          className="object-cover pointer-events-none transform-gpu"
         />
       )}
     </div>
@@ -133,7 +133,7 @@ interface SmooothyInstance {
 }
 
 export default function HomeVideoShowcase() {
-  const [activeModalVideo, setActiveModalVideo] = useState<ShowcaseCategoryVideo | null>(null);
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
@@ -151,7 +151,7 @@ export default function HomeVideoShowcase() {
   const isInViewRef = useRef(true);
 
   // ── PARALLAX + SPEED BOUNCY EFFECT STATE ──
-  const [isParallaxEnabled, setIsParallaxEnabled] = useState<boolean>(true);
+  const [isParallaxEnabled, setIsParallaxEnabled] = useState<boolean>(false);
   const [isSpeedBouncyEnabled, setIsSpeedBouncyEnabled] = useState<boolean>(true);
   const lerpedSpeedRef = useRef<number>(0);
 
@@ -160,10 +160,10 @@ export default function HomeVideoShowcase() {
   const [smooothySnap, setSmooothySnap] = useState<boolean>(false); // false = Free Mode continuous parallax scrolling
   const [smooothyVariableWidth, setSmooothyVariableWidth] = useState<boolean>(false);
   const [smooothyVertical, setSmooothyVertical] = useState<boolean>(false);
-  const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(false); // false = Vertical page scroll down passes through naturally without wheel trapping
+  const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(false);
   const [smooothyDragSensitivity, setSmooothyDragSensitivity] = useState<number>(0.005);
   const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.30);
-  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(1.00);
+  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(0);
   const [smooothySnapStrength, setSmooothySnapStrength] = useState<number>(0.00);
   const [smooothySpeedDecay, setSmooothySpeedDecay] = useState<number>(0.85);
   const [smooothyBounceLimit, setSmooothyBounceLimit] = useState<number>(2.5);
@@ -178,7 +178,7 @@ export default function HomeVideoShowcase() {
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[3/4]");
+  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[16/9]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
@@ -246,10 +246,10 @@ export default function HomeVideoShowcase() {
         snap: smooothySnap,
         variableWidth: smooothyVariableWidth,
         vertical: smooothyVertical,
-        scrollInput: smooothyScrollInput,
+        scrollInput: false,
         dragSensitivity: smooothyDragSensitivity,
         lerpFactor: smooothyLerpFactor,
-        scrollSensitivity: smooothyScrollSensitivity,
+        scrollSensitivity: 0,
         snapStrength: smooothySnapStrength,
         speedDecay: smooothySpeedDecay,
         bounceLimit: smooothyBounceLimit,
@@ -283,23 +283,7 @@ export default function HomeVideoShowcase() {
           );
 
           if (trackRef.current) {
-            const slides = trackRef.current.querySelectorAll(".smooothy-slide");
-            slides.forEach((slide, i) => {
-              const pVal = parallax[i] || 0;
-              const innerMedia = slide.querySelector(".smooothy-parallax-media") as HTMLElement | null;
-
-              if (innerMedia) {
-                const pOffset = isParallaxEnabledRef.current ? pVal * 12 : 0;
-                const skew = isSpeedBouncyEnabledRef.current ? Math.max(-8, Math.min(8, lerpedSpeedRef.current * -2.5)) : 0;
-                const scale = 1.22;
-
-                if (smooothyVertical) {
-                  innerMedia.style.transform = `scale(${scale}) translateY(${pOffset}%) skewY(${skew}deg)`;
-                } else {
-                  innerMedia.style.transform = `scale(${scale}) translateX(${pOffset}%) skewX(${skew}deg)`;
-                }
-              }
-            });
+            // Keep innerMedia stationary within rounded overflow-hidden container
           }
         },
       });
@@ -484,11 +468,11 @@ export default function HomeVideoShowcase() {
   const gapPx = getGapPx();
 
   return (
-    <section ref={sectionRef} id="video-slider" className={`py-section-fluid bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
+    <section ref={sectionRef} id="video-slider" className={`py-section-fluid bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-full select-none`}>
 
-      <div className="w-full relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header with Container Padding */}
-        <div className="site-container flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans text-white">
               Video &amp; Live Media
@@ -520,8 +504,7 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className={`smooothy-slide group flex flex-col shrink-0 transition-all duration-300 transform-gpu hover:scale-[1.035] active:scale-[1.05] ${activeModalVideo?.id === video.id ? "scale-[1.05] z-30" : "z-10"
-                  }`}
+                className="smooothy-slide group flex flex-col shrink-0 transition-all duration-300 transform-gpu z-10"
                 style={{
                   width: smooothyVertical
                     ? "100%"
@@ -532,89 +515,99 @@ export default function HomeVideoShowcase() {
                   paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
                 }}
               >
-                {/* Video Card Container */}
+                {/* Video Card Container — Whole Card Clickable */}
                 <div
                   style={{
-                    height: "clamp(450px, 48vw, 780px)",
                     WebkitMaskImage: "-webkit-radial-gradient(white, black)",
                     isolation: "isolate",
                   }}
-                  className={`relative ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 ${activeModalVideo?.id === video.id
+                  onClick={() => {
+                    if (playingVideoId !== video.id) {
+                      setPlayingVideoId(video.id);
+                    }
+                  }}
+                  className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id
                     ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
                     : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
                     }`}
                 >
-                  {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
-                  <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
-
-                  {/* YouTube On-Demand Autoplay Preview Frame — poster image by default, loads iframe on hover */}
-                  <ShowcaseMedia
-                    videoId={video.id}
-                    videoTitle={video.title}
-                    start={start}
-                    end={end}
-                    previewZoomPercent={previewZoomPercent}
-                  />
-
-                  {/* Interactive Play Button Overlay */}
-                  {playButtonVisibility !== "hidden" && (
-                    <div
-                      className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
-                        ? "opacity-100"
-                        : "opacity-90 sm:opacity-0 group-hover:opacity-100"
-                        }`}
-                    >
-                      <CosmicRadialButton
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveModalVideo(video);
-                        }}
-                        icon={false}
-                        className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40    transition-all cursor-pointer pointer-events-auto hover:scale-110`}
-                        aria-label={`Play full video for ${video.title}`}
-                        title="Play Full Video"
-                      >
-                        <Play className="w-6 h-6 fill-white ml-0.5" />
-                      </CosmicRadialButton>
+                  {playingVideoId === video.id ? (
+                    <div className="relative w-full h-full bg-black z-30">
+                      <InlineYTPlayer
+                        videoId={video.id}
+                        title={video.title}
+                        onClose={() => setPlayingVideoId(null)}
+                      />
                     </div>
-                  )}
+                  ) : (
+                    <>
+                      {/* Transparent Drag Capture Layer */}
+                      <div className="absolute inset-0 z-10 bg-transparent" />
 
-                  {/* Gradient shadow overlay for legibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
+                      {/* YouTube On-Demand Autoplay Preview Frame */}
+                      <ShowcaseMedia
+                        videoId={video.id}
+                        videoTitle={video.title}
+                        start={start}
+                        end={end}
+                        previewZoomPercent={previewZoomPercent}
+                      />
 
-                  {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                  <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
-                    {showBadges && (
-                      <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
-                        {video.badges.map((badge, bIdx) => (
-                          <span
-                            key={badge + bIdx}
-                            className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1  rounded-lg bg-white/20 border  border-white/10  backdrop-blur-md text-white   mb-1"
+                      {/* Interactive Play Button Overlay */}
+                      {playButtonVisibility !== "hidden" && (
+                        <div
+                          className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
+                            ? "opacity-100"
+                            : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+                            }`}
+                        >
+                          <CosmicRadialButton
+                            icon={false}
+                            className={`${playButtonSize} ! rounded-lg  !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
+                            aria-label={`Play full video for ${video.title}`}
+                            title="Play Full Video"
                           >
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                            <Play className="w-6 h-6 fill-white ml-0.5" />
+                          </CosmicRadialButton>
+                        </div>
+                      )}
 
-                    <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
-                      {video.title}
-                    </h3>
-                  </div>
+                      {/* Gradient shadow overlay for legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
+
+                      {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
+                      <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
+                        {showBadges && (
+                          <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
+                            {video.badges.map((badge, bIdx) => (
+                              <span
+                                key={badge + bIdx}
+                                className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
+                              >
+                                {badge}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
+                          {video.title}
+                        </h3>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-3.5 flex flex-col pointer-events-none">
-                    <div className="flex items-center justify-between text-sm sm:text-base text-white/70 font-semibold">
-                      <span className="flex items-center gap-1.5">
-                        Views <strong className="text-white font-mono text-base sm:text-lg">{video.viewCount}</strong>
-                      </span>
+                  <div className="pt-2.5 flex items-center justify-between gap-2 text-xs sm:text-sm text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                    <span className="shrink-0">
+                      Views <strong className="text-white font-mono ml-1">{video.viewCount}</strong>
+                    </span>
 
-                      <span className="flex items-center gap-1.5">
-                        Year <strong className="text-white font-mono text-base sm:text-lg">{video.year}</strong>
-                      </span>
-                    </div>
+                    <span className="shrink-0">
+                      Year <strong className="text-white font-mono ml-1">{video.year}</strong>
+                    </span>
                   </div>
                 )}
 
@@ -625,26 +618,6 @@ export default function HomeVideoShowcase() {
 
 
       </div>
-
-      {/* Full Video Modal Lightbox */}
-      {activeModalVideo && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg  overflow-hidden border  border-white/10    ">
-            <button
-              onClick={() => setActiveModalVideo(null)}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white border  border-white/10  flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Close Modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <InlineYTPlayer
-              videoId={activeModalVideo.id}
-              title={activeModalVideo.title}
-              onClose={() => setActiveModalVideo(null)}
-            />
-          </div>
-        </div>
-      )}
     </section>
   );
 }

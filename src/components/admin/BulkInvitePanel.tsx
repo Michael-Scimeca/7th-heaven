@@ -249,15 +249,17 @@ export default function BulkInvitePanel() {
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="text-xs uppercase tracking-[0.15em] text-black/70  font-bold ">Copy-Paste Contact List</label>
-            <textarea aria-label="Text input"
-              id="bulk-invite-text-input"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
-              rows={5}
-              className="w-full bg-white border border-black/15 text-black text-xs px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] font-mono resize-none placeholder:text-black/30 font-semibold"
-            />
+            <label htmlFor="bulk-invite-text-input" className="text-xs uppercase tracking-[0.15em] text-white/70 font-bold">Copy-Paste Contact List</label>
+            <div className="input-glow-border rounded-lg w-full">
+              <textarea aria-label="Text input"
+                id="bulk-invite-text-input"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
+                rows={5}
+                className="w-full bg-black/40 border-none outline-none text-white text-xs px-4 py-3 rounded-lg font-mono resize-none placeholder:text-white/40 font-semibold transition-colors"
+              />
+            </div>
             <CosmicRadialButton
               type="button"
               onClick={() => parseInvites(inputText)}
@@ -331,24 +333,24 @@ export default function BulkInvitePanel() {
                     <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="italic text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
-                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-full font-bold uppercase tracking-wider text-[0.55rem]">
+                        <span className="px-2.5 py-1 bg-black/5 text-black/60  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem]">
                           Pending
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="px-2.5 py-1 bg-[var(--color-accent)]  text-[var(--color-accent)] rounded-full font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
+                        <span className="px-2.5 py-1 bg-[var(--color-accent)]  text-[var(--color-accent)]  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
                           Sending…
                         </span>
                       )}
                       {inv.status === "success" && (
-                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
+                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
                           Sent
                         </span>
                       )}
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
+                          className="px-2.5 py-1 bg-rose-100 text-rose-800  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
                         >
                           Failed
                         </span>

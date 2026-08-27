@@ -20,8 +20,22 @@ const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItine
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
-import 'react-quill-new/dist/quill.snow.css';
+const ReactQuill = dynamic(
+  async () => {
+    if (typeof window !== "undefined") {
+      const id = "quill-snow-css";
+      if (!document.getElementById(id)) {
+        const link = document.createElement("link");
+        link.id = id;
+        link.rel = "stylesheet";
+        link.href = "https://cdn.jsdelivr.net/npm/react-quill-new@2.0.0/dist/quill.snow.css";
+        document.head.appendChild(link);
+      }
+    }
+    return import("react-quill-new");
+  },
+  { ssr: false }
+);
 
 type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
 type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
@@ -135,7 +149,7 @@ function PassengersWidget() {
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
-            <span className="text-white  font-bold  text-2xl italic tracking-wide">{totalFans}</span>
+            <span className="text-white  font-bold  text-2xl    tracking-wide">{totalFans}</span>
             <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
           </div>
         </div>
@@ -146,12 +160,12 @@ function PassengersWidget() {
           {AVATARS.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={initials} className={`w-10 h-10 rounded-full border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
+              <div key={initials} className={`w-10 h-10  rounded-lg  border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
                 <span className="text-xs  font-bold  text-white/90 tracking-widest">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-full border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md  text-[var(--color-accent)] font-bold text-xs relative z-0">
+          <div className="w-10 h-10  rounded-lg  border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md  text-[var(--color-accent)] font-bold text-xs relative z-0">
             +{totalFans - AVATARS.length}
           </div>
         </div>
@@ -502,8 +516,8 @@ export default function CruiseDashboard() {
     return (
       <div className="min-h-screen bg-[#f0f2f5] text-black pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
         {/* Subtle background elements */}
-        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5  rounded-lg  blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5  rounded-lg  blur-[100px] pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
@@ -541,7 +555,7 @@ export default function CruiseDashboard() {
                   {authError && <p className="text-rose-500 text-xs mt-2 text-center font-bold">{authError}</p>}
 
                   <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
+                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
@@ -590,7 +604,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Access Cruise Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
@@ -616,7 +630,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
                   )}
@@ -643,15 +657,15 @@ export default function CruiseDashboard() {
             {/* Member Avatar */}
             <div className="relative shrink-0">
               {effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:')) ? (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                   {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-sky-500 rounded-full shadow-md border border-sky-400/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-sky-500  rounded-lg  shadow-md border border-sky-400/50">
                 Cruise
               </span>
             </div>
@@ -678,12 +692,12 @@ export default function CruiseDashboard() {
           <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">
+                <div className="w-8 h-8  rounded-lg  bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className=" text-[12px]   font-bold  tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5 rounded-full border border-cyan-500/30">Priority Update</span>
+                    <span className=" text-[12px]   font-bold  tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5  rounded-lg  border border-cyan-500/30">Priority Update</span>
                   </div>
                   <h3 className="text-lg  font-bold  tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
@@ -732,7 +746,7 @@ export default function CruiseDashboard() {
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
-                <p className="text-white/40 text-sm italic">No priority news announcements posted yet.</p>
+                <p className="text-white/40 text-sm   ">No priority news announcements posted yet.</p>
               )}
             </div>
           </div>
@@ -790,7 +804,7 @@ export default function CruiseDashboard() {
                     <div>
                       <span className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] border  border-white/20   rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] border   border-white/10    rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
@@ -851,7 +865,7 @@ export default function CruiseDashboard() {
             <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="text-3xl md:text-5xl  font-bold  uppercase    tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">

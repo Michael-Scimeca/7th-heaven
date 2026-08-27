@@ -877,7 +877,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
                             }`}
                         >
-                          <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                          <div className="w-3.5 h-3.5  rounded-lg  shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                             {showLetter}
                           </div>
                           <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
@@ -913,7 +913,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1  text-[12px]  sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
+                    <span className="ml-1  text-[12px]  sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5  rounded-lg  border border-purple-400/50">
                       ({markerCount})
                     </span>
                   )}
@@ -1073,7 +1073,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <p className="text-white/40 text-xs">{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
             </div>
           ) : (
-            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
           )}
         </div>
       )}

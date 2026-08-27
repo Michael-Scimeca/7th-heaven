@@ -160,7 +160,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-3 py-1  rounded-lg  border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
@@ -281,7 +281,7 @@ export default function ProximityPanel() {
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2 text-xs  font-bold  uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
                         ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white/10 text-white  border-white/20  hover:bg-blue-500 hover:text-black hover:border-blue-500"
+                        : "bg-white/10 text-white   border-white/10   hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}
                     >
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
@@ -318,8 +318,8 @@ export default function ProximityPanel() {
                       ) : (
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
-                            <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)]">
+                            <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10  rounded-lg ">
+                              <div className="w-5 h-5  rounded-lg  bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-xs text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
@@ -331,7 +331,7 @@ export default function ProximityPanel() {
                             </div>
                           ))}
                           {attendees.length > 12 && (
-                            <div className="px-3 py-1.5 bg-white border border-black/10 rounded-full">
+                            <div className="px-3 py-1.5 bg-white border border-black/10  rounded-lg ">
                               <span className="text-xs text-black/50">+{attendees.length - 12} more</span>
                             </div>
                           )}

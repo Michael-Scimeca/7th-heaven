@@ -748,7 +748,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <span className="text-white font-mono text-xs">{order.tran_nbr}</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px]  font-bold  uppercase border ${statusStyles[order.status]}`}>
+              <span className={`px-2 py-0.5  rounded-lg  text-[10px]  font-bold  uppercase border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>
             </div>

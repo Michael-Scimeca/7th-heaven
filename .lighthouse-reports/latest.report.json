@@ -13976,7 +13976,7 @@
                 "width": 111,
                 "height": 48
               },
-              "snippet": "<button type=\"button\" aria-label=\"Action button\" class=\"flex items-center gap-2 px-6 h-12 rounded-full transition-colors duration-…\">",
+              "snippet": "<button type=\"button\" aria-label=\"Action button\" class=\"flex items-center gap-2 px-6 h-12  rounded-lg  transition-colors duration-…\">",
               "nodeLabel": "PAGES",
               "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
             }
@@ -16915,7 +16915,7 @@
               "width": 111,
               "height": 48
             },
-            "snippet": "<button type=\"button\" aria-label=\"Action button\" class=\"flex items-center gap-2 px-6 h-12 rounded-full transition-colors duration-…\">",
+            "snippet": "<button type=\"button\" aria-label=\"Action button\" class=\"flex items-center gap-2 px-6 h-12  rounded-lg  transition-colors duration-…\">",
             "nodeLabel": "PAGES"
           }
         ]

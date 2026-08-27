@@ -117,7 +117,7 @@ export default function TextColorTestPage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border  border-white/20  bg-[#e1e6ff29]   px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border   border-white/10   bg-[#e1e6ff29]   px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
 
@@ -142,7 +142,7 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border  border-white/20  bg-transparent"
+                      className="h-8 w-8 cursor-pointer rounded border   border-white/10   bg-transparent"
                     />
                     <span className="font-mono text-xs text-white/50">
                       {c}

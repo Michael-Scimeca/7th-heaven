@@ -827,7 +827,7 @@ export default function StyleGuidePage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold text-xs tracking-wider uppercase flex items-center gap-1.5">
+              <span className="px-3 py-1  rounded-lg  bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold text-xs tracking-wider uppercase flex items-center gap-1.5">
                 7th Heaven Design System
               </span>
             </div>
@@ -915,8 +915,8 @@ export default function StyleGuidePage() {
             return (
               <div className="relative overflow-hidden  rounded-lg border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
                 {/* Glow Backdrop */}
-                <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-purple-600/10 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-pink-600/10 blur-3xl" />
+                <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64  rounded-lg  bg-purple-600/10 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64  rounded-lg  bg-pink-600/10 blur-3xl" />
 
                 {/* Studio Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
@@ -927,7 +927,7 @@ export default function StyleGuidePage() {
                     <div>
                       <h3 className="text-lg  font-bold  uppercase tracking-wider text-white flex items-center gap-2">
                         Fluid Type Studio Controls
-                        <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5  rounded-lg ">
                           .text-{studioSelectedTier}
                         </span>
                       </h3>
@@ -994,7 +994,7 @@ export default function StyleGuidePage() {
                       max="128"
                       value={studioMinFs}
                       onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                      className="w-full h-2  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
                       Smallest font size rendered at or below Min Viewport Width ({studioMinVw}px).
@@ -1023,7 +1023,7 @@ export default function StyleGuidePage() {
                       max="128"
                       value={studioMaxFs}
                       onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                      className="w-full h-2  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
                       Largest font size rendered at or above Max Viewport Width ({studioMaxVw}px).
@@ -1053,7 +1053,7 @@ export default function StyleGuidePage() {
                       step="5"
                       value={studioMinVw}
                       onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                      className="w-full h-2  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
                       Screen width at which text hits Min Font Size ({studioMinFs}px).
@@ -1083,7 +1083,7 @@ export default function StyleGuidePage() {
                       step="5"
                       value={studioMaxVw}
                       onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
+                      className="w-full h-2  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
                       Screen width at which text hits Max Font Size ({studioMaxFs}px).
@@ -1319,11 +1319,11 @@ ${deskRules.join("\n")}
                             <span data-val="mMin">{remToPx(tier.mobMin)}px</span>
                             <span data-val="mMax">{remToPx(tier.mobMax)}px</span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40 rounded-full p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                          <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40  rounded-lg  p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1333,10 +1333,10 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1369,11 +1369,11 @@ ${deskRules.join("\n")}
                             <span data-val="tMin">{remToPx(tier.tabMin)}px</span>
                             <span data-val="tMax">{remToPx(tier.tabMax)}px</span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40 rounded-full p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                          <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40  rounded-lg  p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1393,10 +1393,10 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1429,11 +1429,11 @@ ${deskRules.join("\n")}
                             <span data-val="dMin">{remToPx(tier.deskMin)}px</span>
                             <span data-val="dMax">{remToPx(tier.deskMax)}px</span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] rounded-full p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                          <div className="flex items-center gap-2 bg-white/[0.02]  rounded-lg  p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1453,10 +1453,10 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10  rounded-lg  px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
-                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                className="w-full h-1.5  rounded-lg  appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg  [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                                 onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
@@ -1587,7 +1587,7 @@ ${deskRules.join("\n")}
                     <div className="relative w-full max-w-3xl bg-[#0d0914] border border-purple-500/30 rounded-lg  p-6 shadow-2xl space-y-4">
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
-                          <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
+                          <span className="w-3 h-3  rounded-lg  bg-emerald-400 animate-ping" />
                           <h3 className="text-lg  font-bold  uppercase tracking-wider text-white">
                             Global CSS Saved to Clipboard
                           </h3>
@@ -1677,7 +1677,7 @@ ${deskRules.join("\n")}
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="w-full h-20  rounded-lg border  border-white/20  overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  className="w-full h-20  rounded-lg border   border-white/10   overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -1971,7 +1971,7 @@ ${deskRules.join("\n")}
                               ? 'border-white/40 text-white'
                               : digit
                                 ? 'border-white/30 text-white/70'
-                                : 'border-white/20 text-white/40 hover:border-white/30'
+                                : ' border-white/10  text-white/40 hover:border-white/30'
                             }`}
                         />
                       </div>
@@ -2012,7 +2012,7 @@ ${deskRules.join("\n")}
                               ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                               : digit
                                 ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                                : 'border-white/20 text-white/40 hover:border-white/40'
+                                : ' border-white/10  text-white/40 hover:border-white/40'
                             }`}
                         />
                       </div>
@@ -2178,7 +2178,7 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className=" text-[12px]   font-bold  uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className=" text-[12px]   font-bold  uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30  rounded-lg  px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
                     <h4 className="text-white  font-bold  text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
                     <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
@@ -2195,8 +2195,8 @@ ${deskRules.join("\n")}
                       }}
                     >
                       {/* Progress bar */}
-                      <div className="w-full h-0.5 bg-white/10 rounded-full mb-5 overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300" style={{ width: "0%" }} />
+                      <div className="w-full h-0.5 bg-white/10  rounded-lg  mb-5 overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500  rounded-lg  transition-all duration-300" style={{ width: "0%" }} />
                       </div>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
@@ -2295,7 +2295,7 @@ ${deskRules.join("\n")}
                     }}
                   >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center  text-white  text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 w-7 h-7  rounded-lg  bg-white/10 flex items-center justify-center  text-white  text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
@@ -2399,7 +2399,7 @@ ${deskRules.join("\n")}
                     }}
                   >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center  text-white  text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 w-7 h-7  rounded-lg  bg-white/10 flex items-center justify-center  text-white  text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
@@ -3022,7 +3022,7 @@ ${deskRules.join("\n")}
                       }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`w-5 h-5 rounded-full border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode
+                      className={`w-5 h-5  rounded-lg  border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode
                         ? "border-white ring-2 ring-white/50 scale-110"
                         : "border-transparent opacity-80"
                         }`}
@@ -3310,12 +3310,12 @@ ${deskRules.join("\n")}
                 <button
                   onClick={() => setShowGlassModal(false)}
                   aria-label="Close modal"
-                  className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                  className="absolute top-3 right-3 w-7 h-7  rounded-lg  bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14  rounded-lg  bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
                 <h3 className="text-lg  font-bold  text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
@@ -3360,7 +3360,7 @@ ${deskRules.join("\n")}
                   border: "1px solid var(--color-border-main)",
                 }}
               >
-                <div className="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14  rounded-lg  bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
                 <h3 className="text-lg  font-bold  text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
@@ -3440,7 +3440,7 @@ ${deskRules.join("\n")}
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3  rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                      <div className="w-7 h-7 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300 shrink-0">{i + 1}</div>
+                      <div className="w-7 h-7  rounded-lg  bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300 shrink-0">{i + 1}</div>
                       <div>
                         <p className="text-xs font-bold text-white">List item {i + 1}</p>
                         <p className="text-[10px] text-white/30">Scroll down to see more items</p>
@@ -3460,7 +3460,7 @@ ${deskRules.join("\n")}
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div key={i} className="shrink-0 w-28 h-24  rounded-lg bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
-                        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300">{i + 1}</div>
+                        <div className="w-8 h-8  rounded-lg  bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px]  font-bold  text-purple-300">{i + 1}</div>
                         <span className="text-[10px] text-white/40">Card {i + 1}</span>
                       </div>
                     ))}
@@ -3550,7 +3550,7 @@ ${deskRules.join("\n")}
               </span>
               <h3 className="text-xl  font-bold  text-white flex items-center gap-2">
                 <code className="text-purple-300 font-mono bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
-                <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Active Globally</span>
+                <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5  rounded-lg  uppercase tracking-wider">Active Globally</span>
               </h3>
               <p className="text-xs  text-white  max-w-2xl mt-1">
                 The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="text-cyan-300">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
@@ -3742,7 +3742,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : "border-white/20"
+                      className={`w-6 h-6  rounded-lg  border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "
                         }`}
                     />
                   ))}
@@ -4080,8 +4080,8 @@ ${deskRules.join("\n")}
                     className="overflow-hidden rounded-lg  flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
                   >
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px]  font-bold  uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px]  font-bold  uppercase px-2.5 py-1  rounded-lg  tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
+                        <span className="w-1.5 h-1.5  rounded-lg  bg-white animate-pulse" />
                         <span>Popular</span>
                       </div>
                     )}
@@ -4145,7 +4145,7 @@ ${deskRules.join("\n")}
               <div className="booking-section-container border-0 bg-transparent p-0">
                 <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                   <span className="text-sm  font-bold  uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full   border-0">Primary</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-white bg-purple-600 px-3 py-1  rounded-lg    border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
@@ -4338,7 +4338,7 @@ ${deskRules.join("\n")}
                     <h3 className="text-sm  font-bold  uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
                     <p className="text-xs text-white/50">Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
+                  <span className="px-2.5 py-1  rounded-lg  bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
@@ -4372,7 +4372,7 @@ ${deskRules.join("\n")}
                   >
                     <div className="text-sm text-white/90  font-bold  uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
-                      <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-[#e1e6ff29]   rounded-full border border-white/10">3 saved</span>
+                      <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-[#e1e6ff29]    rounded-lg  border border-white/10">3 saved</span>
                     </div>
 
                     <div className="space-y-1.5">
@@ -4384,7 +4384,7 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3  rounded-lg hover:bg-white/10 text-sm text-white font-bold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3  rounded-lg hover:bg-white/10 text-sm text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10  flex items-center gap-3 bg-transparent"
                         >
                           <span className="w-7 h-7  rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono  font-bold  text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
@@ -4406,7 +4406,7 @@ ${deskRules.join("\n")}
                   <h3 className="text-sm  font-bold  uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
                   <p className="text-xs text-white/50">Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
+                <span className="px-2.5 py-1  rounded-lg  bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
               </div>
 
               {/* Modal Frame Mockup */}
@@ -4439,10 +4439,10 @@ ${deskRules.join("\n")}
                     <div className="p-3 bg-transparent border border-white/10  rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-4 bg-purple-600 rounded-full relative cursor-pointer">
-                            <div className="w-3.5 h-3.5 bg-white rounded-full absolute top-0.25 right-0.5  " />
+                          <div className="w-8 h-4 bg-purple-600  rounded-lg  relative cursor-pointer">
+                            <div className="w-3.5 h-3.5 bg-white  rounded-lg  absolute top-0.25 right-0.5  " />
                           </div>
-                          <div className="w-7 h-7 rounded-full bg-purple-600 border border-purple-400/40 text-[10px]  font-bold  text-white flex items-center justify-center">
+                          <div className="w-7 h-7  rounded-lg  bg-purple-600 border border-purple-400/40 text-[10px]  font-bold  text-white flex items-center justify-center">
                             AJ
                           </div>
                           <div>
@@ -4471,7 +4471,7 @@ ${deskRules.join("\n")}
                               return (
                                 <span
                                   key={preset}
-                                  className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border font-sans ${isSelected
+                                  className={`px-2 py-0.5  rounded-lg  text-[10.5px]  font-bold  uppercase tracking-wider border font-sans ${isSelected
                                     ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
                                     : 'bg-[#e1e6ff29]   border-white/10 text-white/70'
                                     }`}

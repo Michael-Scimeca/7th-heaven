@@ -210,7 +210,7 @@ export default function VinylHeroPlayer({
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(0.4);
   const [scale, setScale] = useState(1);
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(true);
   const [bufferPercent, setBufferPercent] = useState(0);
   const [tracklistScrollPct, setTracklistScrollPct] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -559,14 +559,13 @@ export default function VinylHeroPlayer({
           }}
         >
           <div className="relative" style={{ width: '777px' }}>
-            {/* Header Title anchored directly to x = 184px (the top-left corner of the 263px sleeve window box) */}
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[-1]">
-              <div className="fancy w-[263px] h-[263px] rounded-lg shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+              <div className="fancy w-[293px] h-[263px] rounded-lg shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
                     <div className="flex flex-col items-center gap-2 opacity-60 animate-pulse">
-                      <div className="w-7 h-7 rounded-full border-2 border-purple-400/40 border-t-purple-400 animate-spin" />
+                      <div className="w-7 h-7  rounded-lg  border-2 border-purple-400/40 border-t-purple-400 animate-spin" />
                     </div>
                   )}
                 </div>
@@ -610,7 +609,7 @@ export default function VinylHeroPlayer({
                         return (
                           <button
                             type="button"
-                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
+                            className={`relative  rounded-lg  flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging
                               ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
                               : "opacity-90 scale-90 z-0"
                               } ${isActive ? "vinyl-spinning" : ""}`}
@@ -635,19 +634,21 @@ export default function VinylHeroPlayer({
                               src={vinylSrc}
                               alt={`${album.title} vinyl`}
                               fill
+                              priority={isActive}
+                              fetchPriority={isActive ? "high" : "auto"}
                               sizes="165px"
-                              className="object-cover rounded-full"
+                              className="object-cover  rounded-lg "
                             />
                             {/* Center label with album art — sits on top of the vinyl image */}
                             <div className="relative z-10 flex items-center justify-center">
                               <div
-                                className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                                className="relative w-[60px] h-[60px]  rounded-lg  overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                                 style={{ backgroundColor: album.centerLabelColor }}
                               >
                                 <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
                                   <span className="text-[var(--font-size-5xs)]  font-bold  text-white uppercase tracking-tighter leading-none">{album.title}</span>
-                                  <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
+                                  <span className="w-2 h-2  rounded-lg  bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                                 </div>
                               </div>
                             </div>
@@ -661,17 +662,17 @@ export default function VinylHeroPlayer({
 
               {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-                <div className="relative w-[263px] h-[263px] flex flex-col justify-between p-4 pointer-events-none">
+                <div className="relative w-[293px] h-[263px] flex flex-col justify-between p-4 pointer-events-none">
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">
-                    <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1 rounded-full border  border-white/20  shadow w-full">
+                    <div className="flex items-center gap-2 bg-black /60  backdrop-blur-[45px] px-2.5 py-1  rounded-lg  border   border-white/10   shadow w-full">
                       <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                       </button>
-                      <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer    " title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
+                      <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6  rounded-lg  bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer    " title={isBuffering ? "Loading MP3..." : isPlaying ? "Pause" : "Play"}>
                         {isBuffering ? (
-                          <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent rounded-full animate-spin" />
+                          <span className="w-3.5 h-3.5 border-2 border-[#d946ef] border-t-transparent  rounded-lg  animate-spin" />
                         ) : isPlaying ? (
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                         ) : (
@@ -684,7 +685,7 @@ export default function VinylHeroPlayer({
                       <div className="w-[1px] h-3 bg-white/20 my-auto" />
                       <button aria-label="Toggle Playlist"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className={`p-1.5 rounded-full transition-all duration-300 cursor-pointer ${showTracklist
+                        className={`p-1.5  rounded-lg  transition-all duration-300 cursor-pointer ${showTracklist
                           ? "text-white bg-[#d946ef] border border-white shadow-[0_0_20px_#d946ef,0_0_10px_#ffffff] scale-110"
                           : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
                           }`}
@@ -729,15 +730,15 @@ export default function VinylHeroPlayer({
                         }}
                       >
                         {/* Track Background */}
-                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20  rounded-lg  overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                           <div
-                            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef]  rounded-lg  shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                             style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                           />
                         </div>
                         {/* Glowing Thumb Handle */}
                         <div
-                          className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                          className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5  rounded-lg  bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                           style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                         />
                         {/* Invisible Native Input for 100% accessible volume control */}
@@ -770,8 +771,8 @@ export default function VinylHeroPlayer({
                         <div className=" text-[12px]   font-bold  uppercase leading-tight flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
                           {isBuffering ? (
-                            <span className=" text-[12px]  font-bold text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1.5 py-0.5 rounded-full animate-pulse shrink-0 flex items-center gap-1">
-                              <span className="w-2 h-2 border border-[#d946ef] border-t-transparent rounded-full animate-spin" />
+                            <span className=" text-[12px]  font-bold text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1.5 py-0.5  rounded-lg  animate-pulse shrink-0 flex items-center gap-1">
+                              <span className="w-2 h-2 border border-[#d946ef] border-t-transparent  rounded-lg  animate-spin" />
                               LOADING {bufferPercent > 0 ? `${bufferPercent}%` : "SONG"}
                             </span>
                           ) : (
@@ -786,10 +787,11 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px]  font-bold  uppercase tracking-wider px-4 py-2 rounded-full   transition-colors hover:scale-105 w-fit"
+                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5  rounded-lg  shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all hover:scale-105 shrink-0 z-10"
+                        style={{ color: "#ffffff", fill: "#ffffff" }}
                       >
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
-                        Buy CD
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="#ffffff" style={{ color: "#ffffff", fill: "#ffffff" }} className="shrink-0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
+                        <span style={{ color: "#ffffff" }} className="text-white !text-white font-black">BUY CD</span>
                       </Link>
                     </div>
                     <SoundWaveCanvas isPlaying={isPlaying} />
@@ -799,16 +801,16 @@ export default function VinylHeroPlayer({
                   <div className="pointer-events-auto px-1 mt-2">
                     <div className="relative w-full h-4 flex items-center cursor-pointer group">
                       {/* Track Background */}
-                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20  rounded-lg  overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                         {/* Filled Progress Gradient Bar */}
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_10px_rgba(217,70,239,0.8)]"
+                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef]  rounded-lg  shadow-[0_0_10px_rgba(217,70,239,0.8)]"
                           style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
                         />
                       </div>
                       {/* Glowing Thumb Handle */}
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_12px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                        className="absolute top-1/2 -translate-y-1/2 -ml-2 w-4 h-4  rounded-lg  bg-white border-2 border-[#d946ef] shadow-[0_0_12px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                         style={{ left: `${Math.min(100, Math.max(0, progress))}%` }}
                       />
                       {/* Invisible Native Input for 100% accessible dragging/seeking */}
@@ -842,9 +844,9 @@ export default function VinylHeroPlayer({
             >
               <div className="relative border border-white/10 h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
                 {/* Always-Visible Glowing Purple Scrollbar Indicator Track */}
-                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10 rounded-full border border-white/20 overflow-hidden pointer-events-none z-50">
+                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10  rounded-lg  border  border-white/10  overflow-hidden pointer-events-none z-50">
                   <div
-                    className="w-full rounded-full bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-75"
+                    className="w-full  rounded-lg  bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-75"
                     style={{
                       height: '35%',
                       transform: `translateY(${tracklistScrollPct * 1.3}px)`

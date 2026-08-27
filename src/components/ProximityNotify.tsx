@@ -230,7 +230,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 borderRadiusPx={48}
                 className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end"
               >
-                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]  bg-black flex items-center justify-center transition-all duration-300">
+                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]  bg-black flex items-center justify-center transition-opacity duration-300">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}
@@ -317,7 +317,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {status === "success" ? (
                 <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8  rounded-lg text-center shadow-2xl">
                   <div className="flex items-center justify-center gap-2.5 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                    <div className="w-12 h-12  rounded-lg  bg-purple-500/20 flex items-center justify-center text-purple-400">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
                     <span className="text-white font-bold text-xl">Check your email!</span>
@@ -378,7 +378,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 key={opt.value}
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
-                                className={`h-[42px] px-2.5 py-1.5  rounded-lg text-xs font-bold transition-all cursor-pointer border ${active
+                                className={`h-[42px] px-2.5 py-1.5  rounded-lg text-xs font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${active
                                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
                                   : "bg-[#e1e6ff29]   text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
                                   }`}
@@ -410,7 +410,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
                               setSelectedShowTypes(next.length === 0 ? ["all"] : next);
                             }}
-                            className={`inline-flex items-center gap-1 px-2.5 py-1.5  rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${isSelected
+                            className={`inline-flex items-center gap-1 px-2.5 py-1.5  rounded-lg text-[11px] font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${isSelected
                               ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
                               : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white"
                               }`}
@@ -449,7 +449,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full py-3.5 text-sm uppercase tracking-wider font-bold shadow-lg shadow-purple-600/30  rounded-lg cursor-pointer hover:scale-[1.02] transition-all disabled:opacity-60"
+                    className="w-full py-3.5 text-sm uppercase tracking-wider font-bold shadow-lg shadow-purple-600/30  rounded-lg cursor-pointer hover:scale-[1.02] transition-transform disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>

@@ -232,7 +232,7 @@ export default function CustomVideoPlayer({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 animate-ping duration-500">
           <CosmicRadialButton
             icon={false}
-            className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40"
+            className="w-20 h-20 ! rounded-lg  !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40"
           >
             {centerAnim === "play" ? (
               <Play className="w-10 h-10 fill-white ml-1" />
@@ -271,21 +271,21 @@ export default function CustomVideoPlayer({
         <div
           ref={progressRef}
           onClick={handleProgressClick}
-          className="relative w-full h-1.5 bg-white/20 hover:h-2.5 transition-all duration-200 cursor-pointer rounded-full mb-3 group/timeline"
+          className="relative w-full h-1.5 bg-white/20 hover:h-2.5 transition-[height] duration-200 cursor-pointer  rounded-lg  mb-3 group/timeline"
         >
           {/* Buffered Progress */}
           <div
-            className="absolute top-0 left-0 h-full bg-white/30 rounded-full"
+            className="absolute top-0 left-0 h-full bg-white/30  rounded-lg "
             style={{ width: `${buffered}%` }}
           />
           {/* Played Progress */}
           <div
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 via-[var(--color-accent)] to-pink-500 rounded-full shadow-[0_0_12px_rgba(168,85,247,0.8)]"
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 via-[var(--color-accent)] to-pink-500  rounded-lg  shadow-[0_0_12px_rgba(168,85,247,0.8)]"
             style={{ width: `${progress}%` }}
           />
           {/* Scrubber Handle */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full opacity-0 scale-50 group-hover/timeline:opacity-100 group-hover/timeline:scale-100 transition-all duration-200 shadow-[0_0_10px_rgba(255,255,255,0.9)]"
+            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white  rounded-lg  opacity-0 scale-50 group-hover/timeline:opacity-100 group-hover/timeline:scale-100 transition-[opacity,transform] duration-200 shadow-[0_0_10px_rgba(255,255,255,0.9)]"
             style={{ left: `calc(${progress}% - 7px)` }}
           />
         </div>
@@ -298,7 +298,7 @@ export default function CustomVideoPlayer({
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className="w-10 h-10 !rounded-full !p-0 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
+              className="w-10 h-10 ! rounded-lg  !p-0 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -311,7 +311,7 @@ export default function CustomVideoPlayer({
             {/* Skip -10s */}
             <button
               onClick={() => seekRelative(-10)}
-              className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-2  rounded-lg  text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               title="Rewind 10s"
             >
               <RotateCcw className="w-4 h-4" />
@@ -320,7 +320,7 @@ export default function CustomVideoPlayer({
             {/* Skip +10s */}
             <button
               onClick={() => seekRelative(10)}
-              className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-2  rounded-lg  text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               title="Forward 10s"
             >
               <RotateCw className="w-4 h-4" />
@@ -342,7 +342,7 @@ export default function CustomVideoPlayer({
             >
               <button
                 onClick={toggleMute}
-                className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-2  rounded-lg  text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -353,7 +353,7 @@ export default function CustomVideoPlayer({
               </button>
 
               <div
-                className={`flex items-center transition-all duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
+                className={`flex items-center transition-[width,opacity] duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
                   }`}
               >
                 <input
@@ -370,7 +370,7 @@ export default function CustomVideoPlayer({
                       if (v > 0) playerRef.current.unMute();
                     }
                   }}
-                  className="w-full h-1 appearance-none bg-white/20 rounded-full cursor-pointer accent-[var(--color-accent)]"
+                  className="w-full h-1 appearance-none bg-white/20  rounded-lg  cursor-pointer accent-[var(--color-accent)]"
                 />
               </div>
             </div>
@@ -378,7 +378,7 @@ export default function CustomVideoPlayer({
             {/* Fullscreen Button */}
             <button
               onClick={toggleFullscreen}
-              className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-2  rounded-lg  text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Toggle Fullscreen"
             >
               {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}

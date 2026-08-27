@@ -526,7 +526,7 @@ export default function AudioPlayerSection() {
                 placeholder="Search 700+ songs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 backdrop-blur-xl border  border-white/20   rounded-lg px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
+                className="w-full bg-black/40 backdrop-blur-xl border   border-white/10    rounded-lg px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
               />
               {searchQuery && (
                 <button aria-label="Clear search"
@@ -555,11 +555,11 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleSidebarTrackClick}
-              className={`w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 ${sidebarThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
+              className={`w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30  rounded-lg  relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 ${sidebarThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
             >
               <div
                 onMouseDown={handleSidebarThumbMouseDown}
-                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
+                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700  rounded-lg  shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
                 style={{
                   height: `${sidebarThumbHeight}%`,
                   top: `${(sidebarScrollProgress * (100 - sidebarThumbHeight)) / 100}%`
@@ -598,7 +598,7 @@ export default function AudioPlayerSection() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-black/40 border  border-white/20  rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
+                    className="w-full bg-black/40 border   border-white/10   rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -688,11 +688,11 @@ export default function AudioPlayerSection() {
                 {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
                 <div
                   onClick={handleTracklistTrackClick}
-                  className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
+                  className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30  rounded-lg  relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
                 >
                   <div
                     onMouseDown={handleTracklistThumbMouseDown}
-                    className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
+                    className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700  rounded-lg  shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
                     style={{
                       height: `${tracklistThumbHeight}%`,
                       top: `${(tracklistScrollProgress * (100 - tracklistThumbHeight)) / 100}%`
@@ -717,7 +717,7 @@ export default function AudioPlayerSection() {
 
               {/* Animated gradient orb */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[300px] h-[300px] rounded-full opacity-10 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
+                <div className="w-[300px] h-[300px]  rounded-lg  opacity-10 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
                   style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
                 />
               </div>
@@ -728,7 +728,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border  border-white/20  rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
+              <div className="relative z-[2] w-[100px] h-[100px] border   border-white/10   rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}
@@ -864,7 +864,7 @@ export default function AudioPlayerSection() {
                 <div className="w-full h-full bg-[var(--color-bg-card)]" />
               )}
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100">
-                <div className="w-7 h-7 rounded-full border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm transform group-hover:scale-110 transition-transform">
+                <div className="w-7 h-7  rounded-lg  border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm transform group-hover:scale-110 transition-transform">
                   {isPlaying ? (
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
                   ) : (
@@ -908,15 +908,15 @@ export default function AudioPlayerSection() {
             {/* Progress Bar (Extends across all available space to the right!) */}
             <div className="relative flex-1 h-3 flex items-center cursor-pointer group mx-2 sm:mx-3 min-w-[100px]">
               {/* Track Background */}
-              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25  rounded-lg  overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef]  rounded-lg  shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
               {/* Glowing Thumb Indicator Dot */}
               <div
-                className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_10px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5  rounded-lg  bg-white border-2 border-[#d946ef] shadow-[0_0_10px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                 style={{ left: `${duration ? (currentTime / duration) * 100 : 0}%` }}
               />
               <input
@@ -966,15 +966,15 @@ export default function AudioPlayerSection() {
                   }}
                 >
                   {/* Track Background */}
-                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-full overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25  rounded-lg  overflow-hidden border border-white/10  backdrop-blur-[45px] transition-all duration-200">
                     <div
-                      className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-full shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                      className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef]  rounded-lg  shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                       style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                     />
                   </div>
                   {/* Glowing Thumb Handle */}
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
+                    className="absolute top-1/2 -translate-y-1/2 -ml-1.5 w-3.5 h-3.5  rounded-lg  bg-white border-2 border-[#d946ef] shadow-[0_0_8px_#d946ef] scale-90 group-hover:scale-125 transition-transform duration-150 pointer-events-none"
                     style={{ left: `${Math.min(100, Math.max(0, volume * 100))}%` }}
                   />
                   <input

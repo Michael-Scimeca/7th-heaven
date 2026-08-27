@@ -286,9 +286,9 @@ export default function ShowPageClient({
           }`}
       >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0  font-bold  text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
+        <div className={`w-11 h-11  rounded-lg  flex items-center justify-center shrink-0  font-bold  text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
-            <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-full" />
+            <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover  rounded-lg " />
           ) : isAnon ? "👤" : initials}
         </div>
 
@@ -324,8 +324,8 @@ export default function ShowPageClient({
               <Link key={feed.room} href={`/live/${feed.room}`} className="flex items-center justify-between gap-4 group">
                 <div className="flex items-center gap-3">
                   <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                    <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
+                    <span className="relative inline-flex  rounded-lg  h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
                   <span className="text-sm  font-bold  text-white uppercase tracking-wide">
                     🎥 {feed.host} is LIVE from the show
@@ -360,7 +360,7 @@ export default function ShowPageClient({
                   <span className="text-xs uppercase tracking-[0.2em] font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
                 ) : show.status === "live" ? (
                   <span className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> Happening Now
+                    <span className="w-1.5 h-1.5  rounded-lg  bg-red-500 animate-pulse" /> Happening Now
                   </span>
                 ) : (
                   <span className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
@@ -454,9 +454,9 @@ export default function ShowPageClient({
             <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
               {/* Notify Me Column */}
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5  rounded-lg  blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)] uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20  rounded-lg  text-[var(--font-size-2xs)]  font-bold   text-[var(--color-accent)] uppercase tracking-widest mb-4">
                     Missed this show?
                   </span>
                   <h3 className="text-xl  font-bold  text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
@@ -500,9 +500,9 @@ export default function ShowPageClient({
 
               {/* Video Embed Column */}
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] pointer-events-none" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5  rounded-lg  blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-[var(--font-size-2xs)]  font-bold  text-red-400 uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20  rounded-lg  text-[var(--font-size-2xs)]  font-bold  text-red-400 uppercase tracking-widest mb-4">
                     Live Performance
                   </span>
                   <h3 className="text-xl  font-bold  text-white uppercase tracking-wide mb-3">Live Show Clips</h3>

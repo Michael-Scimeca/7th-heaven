@@ -260,7 +260,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                         >
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold text-xs sm:text-sm text-[var(--muted-text)] flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
+                            <span className="w-2 h-2  rounded-lg  bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
                             {show.date || yGroup.year}
                           </div>
 

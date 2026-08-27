@@ -85,7 +85,7 @@ export default function LiveStreamInlineSubscribe({
     return (
       <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
+          <div className="w-12 h-12  rounded-lg  bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
             <Mail className="w-6 h-6" />
           </div>
           <div>
@@ -128,8 +128,8 @@ export default function LiveStreamInlineSubscribe({
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1  rounded-lg  text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
+            <span className="h-2 w-2  rounded-lg  bg-emerald-400 animate-ping" />
             100% Free Push Alerts
           </span>
         </div>

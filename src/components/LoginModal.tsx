@@ -593,7 +593,7 @@ export default function LoginModal() {
         {/* Close */}
         <button onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
+          className="absolute top-4 right-4 w-8 h-8  rounded-lg  bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
           <X className="w-4 h-4" />
         </button>
@@ -860,7 +860,7 @@ function LoginModalBodyContent(props: any) {
           </div>
         ) : confirmationRequired ? (
           <div className="flex flex-col items-center gap-4 my-6 text-center">
-            <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+            <div className="w-12 h-12  rounded-lg  bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
               <Mail className="w-6 h-6" />
             </div>
             <h3 className="text-lg  font-bold  uppercase text-white tracking-wider">Check Your Email</h3>

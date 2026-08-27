@@ -210,7 +210,7 @@ export function PageNav() {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}
-        className={`flex items-center gap-2 px-6 h-12 rounded-full transition-colors duration-300 font-bold uppercase tracking-widest text-sm cursor-pointer pointer-events-auto select-none ${isOpen
+        className={`flex items-center gap-2 px-6 h-12  rounded-lg  transition-colors duration-300 font-bold uppercase tracking-widest text-sm cursor-pointer pointer-events-auto select-none ${isOpen
           ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
           : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
           }`}

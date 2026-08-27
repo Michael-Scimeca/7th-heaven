@@ -205,7 +205,7 @@ export default function CustomScrollbar({
     el.scrollLeft = scrollRatio * (scrollWidth - clientWidth);
   }, []);
 
-  const thumbOpacity = isDragging ? 1 : isHovering ? 0.95 : 0.75;
+  const thumbOpacity = 1;
 
   const inner = (
     <div
@@ -262,14 +262,13 @@ export default function CustomScrollbar({
           style={{
             position: "absolute",
             top: 4 + topOffset,
-            right: 5,
+            right: 0,
             bottom: (showHorizontal && hasScrollableX) ? thumbWidth + 8 : 4,
-            width: 0,
+            width: 7,
             backdropFilter: "blur(12px)",
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-            boxShadow: "inset 0 0 8px rgba(88,28,135,0.3)",
           }}
         >
           <button
@@ -282,14 +281,16 @@ export default function CustomScrollbar({
               top: thumbPos,
               left: "50%",
               transform: "translateX(-50%)",
-              width: 8,
+              width: 5,
               height: thumbSize,
-              background: "linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%)",
+              background: "linear-gradient(180deg, #f0abfc 0%, #c084fc 50%, #9333ea 100%)",
               borderRadius: 9999,
               opacity: thumbOpacity,
               transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
               cursor: isDragging ? "grabbing" : "grab",
               pointerEvents: "auto",
+              backdropFilter: "blur(12px)",
+
             }}
           />
         </div>
@@ -321,12 +322,11 @@ export default function CustomScrollbar({
             position: "absolute",
             left: 4,
             right: (showVertical && hasScrollableY) ? thumbWidth + 8 : 4,
-            bottom: 1,
+            bottom: 0,
             height: 8,
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-            boxShadow: "inset 0 0 8px rgba(88,28,135,0.3)",
           }}
         >
           <button
@@ -339,7 +339,7 @@ export default function CustomScrollbar({
               top: "50%",
               transform: "translateY(-50%)",
               width: hThumbSize,
-              height: thumbWidth,
+              height: 6,
               background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
               borderRadius: 9999,
               opacity: thumbOpacity,

@@ -52,7 +52,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2 p-8 md:p-10  rounded-lg bg-[var(--color-surface-raised)] border   border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-[18px]  flex flex-col justify-between group hover:border-[var(--color-accent)] transition-colors">
             <div className="flex justify-between items-start mb-6">
-              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30">
+              <span className="px-3 py-1  rounded-lg  text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30">
                 {stats[0].badge}
               </span>
               <span className=" text-[var(--color-accent)] text-xl animate-pulse">✦</span>
@@ -93,7 +93,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               className={`relative p-7  rounded-lg   border border-cyan-500/30 backdrop-blur-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : ""
                 }`}
             >
-              <div className="absolute top-0 right-0 w-24 h-24    rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
+              <div className="absolute top-0 right-0 w-24 h-24     rounded-lg  blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
               <div className="flex justify-between items-center mb-4">
                 <span className="text-4xl  font-bold  text-cyan-400">
                   {s.number}
@@ -202,7 +202,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               key={s.label}
               className="relative p-8  rounded-lg   border border-[var(--color-accent)]/20 backdrop-blur-xl hover:border-[var(--color-accent)] shadow-[var(--shadow-brand)] hover:shadow-[var(--shadow-brand)] transition-colors group overflow-hidden"
             >
-              <div className="absolute -top-12 -left-12 w-32 h-32 bg-[var(--color-accent)]/15 rounded-full blur-3xl group-hover:bg-[var(--color-accent)]/15 transition-colors" />
+              <div className="absolute -top-12 -left-12 w-32 h-32 bg-[var(--color-accent)]/15  rounded-lg  blur-3xl group-hover:bg-[var(--color-accent)]/15 transition-colors" />
               <div className="text-5xl  font-bold   text-[var(--color-accent)] mb-3">
                 {s.number}
               </div>
@@ -314,7 +314,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="text-xs text-white/70 mt-1">{s.text}</p>
                 </div>
               </div>
-              <span className="px-3 py-1 rounded-full text-[var(--font-size-2xs)] font-mono font-bold bg-[#e1e6ff29]   border border-white/10  text-[var(--color-accent)] uppercase">
+              <span className="px-3 py-1  rounded-lg  text-[var(--font-size-2xs)] font-mono font-bold bg-[#e1e6ff29]   border border-white/10  text-[var(--color-accent)] uppercase">
                 {s.badge}
               </span>
             </div>
@@ -398,7 +398,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {stats.map((s) => (
             <div key={s.label} className="relative p-8  rounded-lg bg-[var(--color-surface-raised)] border border-white/8 shadow-[0_20px_40px_rgba(0,0,0,0.9)]backdrop-blur-[18px]  hover:-translate-y-2 hover:border-[var(--color-accent)]/40 transition-colors group">
-              <div className="w-3 h-3 rounded-full bg-[var(--color-accent)] mb-6 shadow-[var(--shadow-brand)]" />
+              <div className="w-3 h-3  rounded-lg  bg-[var(--color-accent)] mb-6 shadow-[var(--shadow-brand)]" />
               <div className="text-5xl  font-bold  text-white mb-2">{s.number}</div>
               <h4 className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] mb-2">{s.label}</h4>
               <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>

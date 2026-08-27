@@ -303,7 +303,7 @@ export default function FanUploadForm() {
                   <>
                     <div className="absolute inset-2.5 border-2 border-dashed  border-white/10   rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
                     <div className="text-center p-6 relative z-10 flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)] shadow-[0_0_25px_rgba(255,10,61,0.2)] group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12  rounded-lg  bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)] shadow-[0_0_25px_rgba(255,10,61,0.2)] group-hover:scale-110 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
@@ -315,7 +315,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
-                    <div className="w-10 h-10 border-2    border-white/10 border-t-emerald-500 rounded-full animate-spin mb-3" />
+                    <div className="w-10 h-10 border-2    border-white/10 border-t-emerald-500  rounded-lg  animate-spin mb-3" />
                     <p className="text-white  font-bold  text-sm uppercase tracking-widest">Safety Scan</p>
                     <p className="text-emerald-400 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>

@@ -19,7 +19,8 @@
     "doctor": "npx react-doctor@latest --verbose",
     "doctor:staged": "npx react-doctor@latest --staged --blocking warning",
     "check-deploy": "node scripts/check-function-size.js",
-    "predeploy": "netlify build"
+    "predeploy": "netlify build",
+    "lhci": "lhci autorun"
   },
   "browserslist": [
     "chrome >= 100",
@@ -66,6 +67,7 @@
     "react-leaflet": "^5.0.0",
     "react-qr-code": "^2.0.18",
     "react-quill-new": "^3.8.3",
+    "react-scan": "^0.5.7",
     "resend": "^6.12.2",
     "sanity": "^5.20.0",
     "sharp": "^0.33.5",
@@ -80,6 +82,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@next/bundle-analyzer": "^16.2.12",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/dompurify": "^3.0.5",
@@ -89,6 +92,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/web-push": "^3.6.4",
+    "beasties": "^0.4.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "netlify-cli": "^27.1.1",

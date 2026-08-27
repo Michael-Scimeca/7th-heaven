@@ -104,32 +104,29 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       );
     };
 
+    fillProgressRef.current = 0;
+    setFillPercent(0);
+
     const checkReadyLoop = () => {
       if (doneRef.current) return;
       const elapsed = performance.now() - startedAt;
-      const minVis = minVisibleMs();
+      const minVis = Math.max(600, minVisibleMs());
 
-      // Calculate target progress from real loading state + elapsed time
-      let targetProgress = Math.min(95, Math.floor((elapsed / minVis) * 85));
+      // Progress starts at 0% and ramps smoothly up to 92% based on elapsed duration
+      let timeRatio = Math.min(1, elapsed / minVis);
+      let targetProgress = Math.floor(timeRatio * 92);
 
-      if (typeof document !== "undefined") {
-        if (document.readyState === "interactive") {
-          targetProgress = Math.max(targetProgress, 65);
-        } else if (document.readyState === "complete") {
-          targetProgress = Math.max(targetProgress, 90);
-        }
-      }
-
-      if (pageReadyRef.current) {
+      if (pageReadyRef.current && elapsed >= minVis) {
         targetProgress = 100;
       }
 
-      // Smooth fast lerp fillProgressRef
-      fillProgressRef.current += (targetProgress - fillProgressRef.current) * 0.35;
+      // Smooth lerp from current progress to targetProgress
+      const lerpSpeed = pageReadyRef.current && elapsed >= minVis ? 0.3 : 0.18;
+      fillProgressRef.current += (targetProgress - fillProgressRef.current) * lerpSpeed;
       const currentFill = Math.min(100, Math.round(fillProgressRef.current));
-      setFillPercent(currentFill);
+      setFillPercent((prev) => (prev !== currentFill ? currentFill : prev));
 
-      if (pageReadyRef.current && elapsed >= minVis && currentFill >= 95) {
+      if (pageReadyRef.current && elapsed >= minVis && currentFill >= 98) {
         finish();
       } else {
         rafId = requestAnimationFrame(checkReadyLoop);
@@ -145,8 +142,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     timers.push(
       setTimeout(() => {
         pageReadyRef.current = true;
-        finish();
-      }, 1200)
+      }, 1500)
     );
 
     return () => {
@@ -249,10 +245,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           </div>
         </div>
 
-        {/* Loading Progress Percentage Text */}
-        <div className="text-[11px] font-mono font-bold tracking-widest text-white/50 uppercase">
-          {fillPercent}%
-        </div>
+
       </div>
     </div>
   );

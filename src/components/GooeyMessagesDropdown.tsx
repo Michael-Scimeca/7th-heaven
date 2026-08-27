@@ -151,12 +151,12 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border  border-white/20  min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
+        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border   border-white/10   min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"}  rounded-lg ${open
             ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
-            : "bg-[#a855f71f]  border-white/20  text-white/90 hover:bg-[#221547]"
+            : "bg-[#a855f71f]   border-white/10   text-white/90 hover:bg-[#221547]"
           } ${noBorder ? "!border-none" : ""
-          } flex items-center gap-3 cursor-pointer transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
+          } flex items-center gap-3 cursor-pointer transition-[background-color,border-color,transform,box-shadow] duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -189,7 +189,7 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40  rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)]backdrop-blur-[18px]  z-[99999] overflow-hidden transition-all duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40  rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)]backdrop-blur-[18px]  z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           role="listbox"
         >
           {(title || badge) && (
@@ -215,7 +215,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs  font-bold  uppercase tracking-wider transition-all duration-150 flex items-center justify-between cursor-pointer ${isSelected
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none text-xs  font-bold  uppercase tracking-wider transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected
                       ? "text-white bg-purple-500/20  "
                       : "text-white/80 hover:text-white hover:bg-purple-500/20"
                       }`}
@@ -230,7 +230,7 @@ export default function GooeyMessagesDropdown({
                       {c.name}
                     </span>
                     {isSelected && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2 animate-pulse" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,1)] shrink-0 ml-2 animate-pulse" />
                     )}
                   </button>
                 );
@@ -238,9 +238,9 @@ export default function GooeyMessagesDropdown({
             </div>
 
             {/* Permanent Custom React DOM Scrollbar Indicator */}
-            <div className="absolute right-0 top-1 bottom-1 w-1.5 bg-white/10 rounded-full pointer-events-none z-30">
+            <div className="absolute right-0 top-1 bottom-1 w-1.5 bg-white/10  rounded-lg  pointer-events-none z-30">
               <div
-                className="w-full bg-purple-600 rounded-full shadow-[0_0_10px_rgba(192,132,252,1)] transition-all duration-75"
+                className="w-full bg-purple-600  rounded-lg  shadow-[0_0_10px_rgba(192,132,252,1)] transition-[height,margin-top] duration-75"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
                   marginTop: `${scrollProgress *

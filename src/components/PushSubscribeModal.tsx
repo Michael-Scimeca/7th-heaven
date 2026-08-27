@@ -204,7 +204,7 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 shadow-lg">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center  rounded-lg  bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 shadow-lg">
               <Check className="w-8 h-8" />
             </div>
             <h3 className="text-2xl  font-bold  text-white mb-2">You&apos;re Subscribed! 🔔</h3>

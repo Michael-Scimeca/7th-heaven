@@ -149,7 +149,7 @@ export default function CruiseDashboardGate() {
     return (
       <div className="min-h-screen   text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400 rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400  rounded-lg  animate-spin mx-auto mb-4" />
           <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Redirecting to Dashboard...</p>
         </div>
       </div>
@@ -158,8 +158,8 @@ export default function CruiseDashboardGate() {
 
   return (
     <div className="min-h-screen   text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5  rounded-lg  blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5  rounded-lg  blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
         <div className="text-center mb-8">
@@ -197,7 +197,7 @@ export default function CruiseDashboardGate() {
                 {authError && <p className="text-rose-400 text-xs mt-2 text-center">{authError}</p>}
 
                 <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                  {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
+                  {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black  rounded-lg  animate-spin" /> : "Verify PIN & Access Hub →"}
                 </button>
 
                 <div className="text-center mt-4">
@@ -246,7 +246,7 @@ export default function CruiseDashboardGate() {
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                      {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Access Cruise Hub →"}
+                      {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black  rounded-lg  animate-spin" /> : "Access Cruise Hub →"}
                     </button>
                   </form>
                 ) : (
@@ -272,7 +272,7 @@ export default function CruiseDashboardGate() {
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                      {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
+                      {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Register & Access Hub →"}
                     </button>
                   </form>
                 )}

@@ -21,7 +21,6 @@ const leftNavLinks = [
   { href: "/payment-test", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
-  { href: "/sitemap", label: "SITEMAP" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -524,7 +523,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-center group transition-all duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
+            className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
               ? "!text-[#9333ea] active cursor-default"
               : "cursor-pointer"
               }`}
@@ -562,8 +561,8 @@ export function Header() {
                 }`}
             >
               {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px]  font-bold  uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
-                  <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px]  font-bold  uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px]  rounded-lg  whitespace-nowrap font-sans scale-90">
+                  <span className="w-1 h-1  rounded-lg  bg-white animate-pulse" />
                   LIVE
                 </span>
               )}
@@ -820,7 +819,6 @@ export function Header() {
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
-                      { href: "/sitemap", label: "SITEMAP" },
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },

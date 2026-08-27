@@ -137,7 +137,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
       {loading ? (
         <div className="py-10 flex items-center justify-center">
-          <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
           <span className="ml-3 text-sm text-black/40">Loading your collection...</span>
         </div>
       ) : (
@@ -252,7 +252,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border   border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
+                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1  rounded-lg  border   border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}
@@ -278,9 +278,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           </span>
                           <span className="text-[var(--font-size-2xs)] text-black/40">{lottery.endsIn}</span>
                         </div>
-                        <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
+                        <div className="w-full h-1.5 bg-black/10  rounded-lg  overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            className={`h-full  rounded-lg  transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
                             style={{ width: `${Math.min(100, lottery.progress)}%` }}
                           />
                         </div>

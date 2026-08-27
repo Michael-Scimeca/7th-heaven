@@ -133,12 +133,12 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-full bg-[#8b3dff] hover:bg-[#7b2cff] hover:scale-105 active:scale-95 text-white font-black text-base md:text-lg uppercase tracking-widest transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
+        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5  rounded-lg  bg-[#8b3dff] hover:bg-[#7b2cff] hover:scale-105 active:scale-95 text-white font-black text-base md:text-lg uppercase tracking-widest transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
         aria-label="Open Pages Directory"
       >
         <Menu className="w-6 h-6 md:w-7 md:h-7 text-white transition-transform group-hover:scale-110" />
         <span>PAGES</span>
-        <span className="ml-1 px-2.5 py-1 rounded-full bg-white/25 text-xs font-mono font-bold">
+        <span className="ml-1 px-2.5 py-1  rounded-lg  bg-white/25 text-xs font-mono font-bold">
           {ALL_SITE_ROUTES.length}
         </span>
       </button>
@@ -165,7 +165,7 @@ export default function PagesPillDrawer() {
                 <div>
                   <h2 className="text-2xl  font-bold  uppercase tracking-tight text-white flex items-center gap-2">
                     Pages Directory
-                    <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span className="text-xs font-mono font-bold px-2.5 py-0.5  rounded-lg  bg-purple-500/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -212,7 +212,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border  border-white/20   rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
+                    className="w-full bg-black/50 border   border-white/10    rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
                   />
                 </div>
               </div>

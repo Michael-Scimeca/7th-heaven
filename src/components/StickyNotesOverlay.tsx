@@ -233,7 +233,7 @@ export default function StickyNotesOverlay() {
           type="button"
           onClick={() => handleToggleWidgetHidden(false)}
           title="Show Sticky Notes Toolbar"
-          className="fixed bottom-5 right-5 z-[99999] flex items-center gap-1.5 bg-black/90 hover:bg-black backdrop-blur-xl border border-amber-500/40 p-2.5 rounded-full shadow-2xl text-amber-400 hover:text-amber-300 transition-all hover:scale-110 active:scale-95 cursor-pointer"
+          className="fixed bottom-5 right-5 z-[99999] flex items-center gap-1.5 bg-black/90 hover:bg-black backdrop-blur-xl border border-amber-500/40 p-2.5  rounded-lg  shadow-2xl text-amber-400 hover:text-amber-300 transition-all hover:scale-110 active:scale-95 cursor-pointer"
         >
           <StickyNote className="w-4 h-4 text-amber-400" />
           <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 pr-1">Sticky Notes</span>
@@ -262,11 +262,11 @@ export default function StickyNotesOverlay() {
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
           >
             <List className="w-4 h-4 text-amber-400" />
             <span className="hidden sm:inline">Notes</span>
-            <span className="bg-amber-400 text-black px-1.5 py-0.5 rounded-full text-[10px]  font-bold ">
+            <span className="bg-amber-400 text-black px-1.5 py-0.5  rounded-lg  text-[10px]  font-bold ">
               {notes.length}
             </span>
           </button>
@@ -285,7 +285,7 @@ export default function StickyNotesOverlay() {
       {/* Admin Notes Slide-Over Drawer */}
       {isDrawerOpen && (
         <div className="fixed inset-0 z-[100000] flex justify-end bg-black/70 backdrop-blur-md">
-          <div className="w-full max-w-md bg-[#0a0713] border-l  border-white/20  h-full flex flex-col p-6 shadow-2xl space-y-6 overflow-hidden">
+          <div className="w-full max-w-md bg-[#0a0713] border-l   border-white/10   h-full flex flex-col p-6 shadow-2xl space-y-6 overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
                 <StickyNote className="w-5 h-5" />
@@ -340,7 +340,7 @@ export default function StickyNotesOverlay() {
                       <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
                     </div>
 
-                    <p className="text-xs text-white/90 font-sans italic">{n.note_text || "(No text written yet)"}</p>
+                    <p className="text-xs text-white/90 font-sans   ">{n.note_text || "(No text written yet)"}</p>
 
                     <div className="flex items-center justify-between pt-2 border-t border-white/5">
                       <div className="flex items-center gap-3">
@@ -555,7 +555,7 @@ function SingleStickyCard({
 
         <div className="flex items-center gap-1.5 shrink-0">
           <span
-            className={` text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${note.status === "submitted"
+            className={` text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5  rounded-lg  whitespace-nowrap shrink-0 ${note.status === "submitted"
               ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
               : "bg-amber-500/20 text-amber-300 border border-amber-500/40"
               }`}

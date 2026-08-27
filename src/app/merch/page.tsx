@@ -275,7 +275,7 @@ function MerchDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs  font-bold  uppercase tracking-widest rounded-full animate-pulse">
+              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs  font-bold  uppercase tracking-widest  rounded-lg  animate-pulse">
                 {pendingPickups.length} Pickup{pendingPickups.length !== 1 ? 's' : ''} Pending
               </span>
             )}

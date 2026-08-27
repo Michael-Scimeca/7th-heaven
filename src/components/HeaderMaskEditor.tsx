@@ -69,7 +69,7 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white text-xs font-bold uppercase tracking-wider rounded-full border border-purple-500/40  backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white text-xs font-bold uppercase tracking-wider  rounded-lg  border border-purple-500/40  backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
       >
         <span className="text-purple-400 text-sm">🎛️</span>
         <span>Header Mask UI</span>

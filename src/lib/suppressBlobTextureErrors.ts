@@ -17,23 +17,13 @@
  * these specific GLTFLoader blob-URL messages. All other errors pass through.
  */
 
-import * as THREE from "three";
-
 let installed = false;
 
 export function suppressBlobTextureErrors() {
   if (installed || typeof window === "undefined") return;
   installed = true;
 
-  // ── Approach 1: LoadingManager (covers generic THREE loader errors) ──────
-  const mgr = THREE.DefaultLoadingManager;
-  const originalOnError = mgr.onError;
-  mgr.onError = (url: string) => {
-    if (url.startsWith("blob:")) return;
-    if (originalOnError) originalOnError(url);
-  };
-
-  // ── Approach 2: console.error patch (covers the GLTFLoader direct call) ──
+  // console.error patch (covers the GLTFLoader direct call)
   // GLTFLoader source: console.error("THREE.GLTFLoader: Couldn't load texture", sourceURI)
   const originalConsoleError = console.error.bind(console);
   console.error = (...args: unknown[]) => {

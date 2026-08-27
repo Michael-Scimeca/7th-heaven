@@ -1,22 +1,34 @@
 "use client";
-import { useState, useEffect, type ComponentType } from "react";
+import { useState, useEffect, useSyncExternalStore, type ComponentType } from "react";
 
 export default function ClientOnlyExtras() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
   const [DevGuide, setDevGuide] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
 
+  const [ReactScanComp, setReactScanComp] = useState<ComponentType | null>(null);
+
   useEffect(() => {
-    setMounted(true);
     let loaded = false;
+
+    if (typeof document !== "undefined" && !document.querySelector("link[rel='manifest']")) {
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = "/manifest.json";
+      document.head.appendChild(link);
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      import("@/components/ReactScan").then((m) => setReactScanComp(() => m.default)).catch(() => {});
+    }
 
     const loadExtras = () => {
       if (loaded) return;
       loaded = true;
-      import("@/components/DevGuideLine").then((m) => setDevGuide(() => m.default));
-      import("@/components/WebVitalsReporter").then((m) => setVitals(() => m.default));
-      import("@/components/StickyNotesOverlay").then((m) => setStickyNotes(() => m.default));
+      import("@/components/DevGuideLine").then((m) => setDevGuide(() => m.default)).catch(() => {});
+      import("@/components/WebVitalsReporter").then((m) => setVitals(() => m.default)).catch(() => {});
+      import("@/components/StickyNotesOverlay").then((m) => setStickyNotes(() => m.default)).catch(() => {});
       cleanup();
     };
 
@@ -45,6 +57,7 @@ export default function ClientOnlyExtras() {
 
   return (
     <>
+      {ReactScanComp && <ReactScanComp />}
       {DevGuide && <DevGuide />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}

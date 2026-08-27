@@ -105,7 +105,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
-          <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center  text-white  transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
+          <div className={`w-8 h-8  rounded-lg  border border-white/10 flex items-center justify-center  text-white  transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
 
           </div>
         </div>

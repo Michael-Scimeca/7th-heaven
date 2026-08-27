@@ -340,13 +340,13 @@ export default function AdminLegalPage() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-white/10">
           <div>
             <div className="flex items-center gap-3 mb-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 text-xs  font-bold  tracking-[0.2em] uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs  font-bold  tracking-[0.2em] uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10  rounded-lg  shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <span className="w-2 h-2  rounded-lg  bg-emerald-400 animate-pulse" />
                 100% Passed Legal Audit
               </span>
               <span className="text-white/40 text-xs font-mono">Website Inspection & Regulatory Framework</span>
             </div>
-            <h1 className="text-[clamp(2rem,4vw,3.2rem)]  font-bold  leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-white">
+            <h1 className="text-[clamp(2rem,4vw,3.2rem)]  font-bold  leading-tight tracking-tight uppercase    font-[var(--font-heading)] text-white">
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
             <p className=" text-white  text-sm mt-2 max-w-3xl font-sans leading-relaxed">
@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -395,9 +395,9 @@ export default function AdminLegalPage() {
                   aria-label={sec.title}
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-all duration-200 cursor-pointer ${isSelected
+                  className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
-                    : `border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-[#e1e6ff29]   text-white/70`
+                    : `border-white/10 bg-white/[0.02] hover: border-white/10  hover:bg-[#e1e6ff29]   text-white/70`
                     }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -410,7 +410,7 @@ export default function AdminLegalPage() {
                     </div>
                   </div>
                   {categoryPassed && (
-                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-400 text-[10px]  font-bold  flex items-center justify-center shrink-0 ml-2">
+                    <span className="w-5 h-5  rounded-lg  bg-emerald-500/20 border border-emerald-400/50 text-emerald-400 text-[10px]  font-bold  flex items-center justify-center shrink-0 ml-2">
                       ✓
                     </span>
                   )}
@@ -437,15 +437,15 @@ export default function AdminLegalPage() {
                   {active.icon}
                 </div>
                 <div>
-                  <h2 className="text-xl lg:text-2xl  font-bold  uppercase tracking-tight italic font-[var(--font-heading)] text-white">
+                  <h2 className="text-xl lg:text-2xl  font-bold  uppercase tracking-tight    font-[var(--font-heading)] text-white">
                     {active.title}
                   </h2>
                   <p className="text-xs  text-white  mt-1">{active.subtitle}</p>
                 </div>
               </div>
 
-              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs  font-bold  uppercase tracking-widest rounded-full flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Verified Compliant
+              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs  font-bold  uppercase tracking-widest  rounded-lg  flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-400 animate-pulse" /> Verified Compliant
               </span>
             </div>
 
@@ -471,8 +471,8 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`border rounded-lg  p-5 transition-all duration-200 ${isChecked
-                      ? 'bg-white/[0.02]  border-white/20 '
+                    className={`border rounded-lg  p-5 transition-[background-color,border-color] duration-200 ${isChecked
+                      ? 'bg-white/[0.02]   border-white/10  '
                       : 'bg-rose-950/10 border-rose-500/30'
                       }`}
                   >
@@ -495,7 +495,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.isCritical && (
-                        <span className="text-[0.55rem]  font-bold  uppercase tracking-widest bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-full shrink-0">
+                        <span className="text-[0.55rem]  font-bold  uppercase tracking-widest bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30  rounded-lg  shrink-0">
                           Critical Rule
                         </span>
                       )}
@@ -505,7 +505,7 @@ export default function AdminLegalPage() {
                     <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                       <div className="flex items-start gap-2">
                         <span className="text-emerald-400  font-bold  shrink-0">🛠️ DEV ACTION:</span>
-                        <p className="text-white/70 italic text-[11px] leading-relaxed">{req.actionItem}</p>
+                        <p className="text-white/70    text-[11px] leading-relaxed">{req.actionItem}</p>
                       </div>
 
                       {req.verifiedProof && (

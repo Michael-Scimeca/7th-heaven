@@ -80,10 +80,10 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
   };
 
   return (
-    <div className="w-full max-w-xl bg-black/75backdrop-blur-[18px]  border  border-white/20   rounded-lg p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
+    <div className="w-full max-w-xl bg-black/75backdrop-blur-[18px]  border   border-white/10    rounded-lg p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
 
       {/* Background Subtle Accent Glow */}
-      <div className="absolute -right-20 -top-20 w-64 h-64 bg-[var(--color-accent)]/20 rounded-full blur-3xl pointer-events-none group-hover:bg-[var(--color-accent)]/30 transition-colors duration-700" />
+      <div className="absolute -right-20 -top-20 w-64 h-64 bg-[var(--color-accent)]/20  rounded-lg  blur-3xl pointer-events-none group-hover:bg-[var(--color-accent)]/30 transition-colors duration-700" />
 
       {/* Hidden Audio Element */}
       <audio
@@ -99,12 +99,12 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       {/* Header Tag */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" />
+          <span className="w-2 h-2  rounded-lg  bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" />
           <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.25em] text-[var(--color-accent)]">
             Latest Album & Track
           </span>
         </div>
-        <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 bg-[#e1e6ff29]   px-2.5 py-1 rounded-full border border-white/10">
+        <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/40 bg-[#e1e6ff29]   px-2.5 py-1  rounded-lg  border border-white/10">
           {type} · {year}
         </span>
       </div>
@@ -129,7 +129,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           <div className="absolute inset-0 bg-black/40 group-hover/art:bg-black/20 flex items-center justify-center transition-colors">
             <CosmicRadialButton
               icon={false}
-              className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center   group-hover/art:scale-110 border border-purple-300/40"
+              className="w-10 h-10 ! rounded-lg  !p-0 flex items-center justify-center   group-hover/art:scale-110 border border-purple-300/40"
             >
               {isPlaying ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>

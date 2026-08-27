@@ -97,7 +97,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/15 accent-purple-500"
+        className="h-1.5 w-full cursor-pointer appearance-none  rounded-lg  bg-white/15 accent-purple-500"
       />
     </label>
   );
@@ -319,13 +319,13 @@ export default function FallingPicks() {
       <div className="pointer-events-auto absolute right-4 top-4 z-50 w-64 select-none">
         <button
           onClick={() => setPanelOpen((v) => !v)}
-          className="mb-2 rounded-full bg-purple-600/90 px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur transition hover:bg-purple-500"
+          className="mb-2  rounded-lg  bg-purple-600/90 px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur transition hover:bg-purple-500"
         >
           {panelOpen ? "Hide controls" : "Show controls"}
         </button>
 
         {panelOpen && (
-          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto  rounded-lg border border-white/10 bg-black/70 p-4 pr-3   backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]:bg-[#e1e6ff29]  ">
+          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto  rounded-lg border border-white/10 bg-black/70 p-4 pr-3   backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]: rounded-lg  [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]:bg-[#e1e6ff29]  ">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-white/40">
               Spawning
             </p>

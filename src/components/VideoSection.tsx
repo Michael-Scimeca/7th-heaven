@@ -59,7 +59,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
             />
             {/* YouTube-style hover overlay */}
             <div className="absolute inset-0 z-[2]  group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300   ">
+              <div className="w-12 h-12  rounded-lg  bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300   ">
                 <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function VideoSection() {
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover/thumb:bg-black/50 transition-colors duration-300 flex items-center justify-center">
                         <CosmicRadialButton
                           icon={false}
-                          className="w-16 h-16 !rounded-full !p-0 text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300 shadow-2xl border border-purple-300/40"
+                          className="w-16 h-16 ! rounded-lg  !p-0 text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300 shadow-2xl border border-purple-300/40"
                         >
                           <svg width="22" height="24" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
                         </CosmicRadialButton>
@@ -182,7 +182,7 @@ export default function VideoSection() {
                 <div className="mt-4">
                   <h3 className="text-xl  font-bold  text-white leading-tight mb-2 group-hover:text-[var(--color-accent)] transition-colors uppercase tracking-tight">{latest.title}</h3>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-xs  font-bold  text-white">7H</div>
+                    <div className="w-8 h-8  rounded-lg  bg-[var(--color-accent)] flex items-center justify-center text-xs  font-bold  text-white">7H</div>
                     <div className="flex flex-col">
                       <span className="text-sm  text-white  font-bold uppercase tracking-wide">7th Heaven Official</span>
                       <div className="flex items-center gap-2 text-sm text-white/40">
@@ -240,7 +240,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-full transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
+                className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6  rounded-lg  transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
                   ? "bg-white text-black"
                   : "bg-white/[0.05]  text-white  hover:bg-white/10 hover:text-white"
                   }`}
@@ -288,7 +288,7 @@ export default function VideoSection() {
                     <div className="absolute inset-0 z-[2] bg-black/10 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
                       <CosmicRadialButton
                         icon={false}
-                        className="w-12 h-12 !rounded-full !p-0 text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 border border-purple-300/40"
+                        className="w-12 h-12 ! rounded-lg  !p-0 text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 border border-purple-300/40"
                       >
                         <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
                       </CosmicRadialButton>
@@ -305,7 +305,7 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="w-9 h-9 shrink-0 rounded-full bg-[var(--color-accent)]/20 border   border-white/10 flex items-center justify-center text-xs  font-bold   text-[var(--color-accent)]">7H</div>
+                <div className="w-9 h-9 shrink-0  rounded-lg  bg-[var(--color-accent)]/20 border   border-white/10 flex items-center justify-center text-xs  font-bold   text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
                   <h3 className="text-base font-bold text-white leading-tight line-clamp-2 group-hover: text-[var(--color-accent)] transition-colors mb-1">
                     {video.title}

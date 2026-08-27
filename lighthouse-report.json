@@ -4764,7 +4764,7 @@
                 "width": 295,
                 "height": 44
               },
-              "snippet": "<button type=\"button\" class=\"px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600/30 via-black to-…\">",
+              "snippet": "<button type=\"button\" class=\"px-8 py-3.5  rounded-lg  bg-gradient-to-r from-purple-600/30 via-black to-…\">",
               "nodeLabel": "SHOW ALL TOUR DATES (25 MORE SHOWS)"
             },
             "subItems": {

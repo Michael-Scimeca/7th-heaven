@@ -135,7 +135,7 @@ export function LiveKitStream({
     return (
       <div className={`flex items-center justify-center bg-black/40 ${className}`}>
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin mx-auto mb-3" />
           <p className="text-white/40 text-sm">Connecting to stream...</p>
         </div>
       </div>
@@ -207,7 +207,7 @@ function PublisherView({ lk }: { lk: any }) {
           </div>
         ) : (
           <div className="h-full flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
           </div>
         )}
       </div>
@@ -239,7 +239,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       return (
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-4  rounded-lg  bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8 text-cyan-400" />
             </div>
             <p className=" text-white  text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
@@ -252,7 +252,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin mx-auto mb-3" />
           <p className="text-white/50 text-base font-medium">Connecting to stream...</p>
           <p className="text-white/20 text-xs font-mono mt-1 opacity-40">Room ID: {room}</p>
           <p className="text-white/20 text-sm mt-1">Crew members will appear when they go live</p>

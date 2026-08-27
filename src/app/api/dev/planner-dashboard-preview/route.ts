@@ -17,13 +17,13 @@ export async function GET() {
         {/* Top Navbar Header */}
         <div class="bg-[#0c0c16] border border-purple-500/30 rounded-lg  p-4 flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center  font-bold  text-purple-300 text-lg">
+            <div class="w-10 h-10  rounded-lg  bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center  font-bold  text-purple-300 text-lg">
               MR
             </div>
             <div>
               <div class="flex items-center gap-2">
                 <h1 class="text-xl  font-bold  text-white italic">Marcus Rivera</h1>
-                <span class="px-2.5 py-0.5 text-[10px]  font-bold  uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-full">
+                <span class="px-2.5 py-0.5 text-[10px]  font-bold  uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40  rounded-lg ">
                   📋 Event Planner
                 </span>
               </div>
@@ -32,7 +32,7 @@ export async function GET() {
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold rounded-lg flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="w-2 h-2  rounded-lg  bg-emerald-400 animate-pulse"></span>
               Active Session
             </span>
           </div>
@@ -40,7 +40,7 @@ export async function GET() {
 
         {/* Main Dashboard Banner */}
         <div class="bg-gradient-to-r from-purple-900/40 via-[#0f0c20] to-[#050508] border border-purple-500/30 rounded-lg  p-6 shadow-2xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10  rounded-lg  blur-3xl pointer-events-none"></div>
           <div class="flex items-center justify-between relative z-10">
             <div>
               <span class="text-xs font-bold uppercase tracking-widest text-purple-400">Planner Coordinator Portal</span>
@@ -61,7 +61,7 @@ export async function GET() {
           <div class="bg-[#0b0b14] border border-purple-500/30 rounded-lg  p-5 space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
               <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                <span class="w-2.5 h-2.5  rounded-lg  bg-purple-400"></span>
                 <span class="font-bold text-sm text-white">Full Band Concert</span>
               </div>
               <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold text-[10px]">

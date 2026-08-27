@@ -252,13 +252,13 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
       <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
-          <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="w-1 h-1  rounded-lg  bg-cyan-400 animate-pulse" />
           <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em] text-cyan-400">Now Playing</span>
         </div>
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-sm shrink-0">🔒</div>
+            <div className="w-10 h-10  rounded-lg  bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-sm shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="text-[var(--font-size-3xs)] font-bold  text-white  truncate">Exclusive Fan Drop</p>
               <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
@@ -268,9 +268,9 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border  border-white/20    flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0  rounded-lg  border   border-white/10     flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
-                <div className="relative z-10 w-4 h-4 rounded-full bg-black/80 flex items-center justify-center">
+                <div className="relative z-10 w-4 h-4  rounded-lg  bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                   ) : (
@@ -281,7 +281,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-xs  font-bold  text-white truncate leading-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h4 className="text-xs  font-bold  text-white truncate leading-tight uppercase   " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   {track.title}
                 </h4>
                 {currentSong && (
@@ -294,7 +294,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-[2px] rounded-full bg-[var(--color-accent)]/80"
+                    className="w-[2px]  rounded-lg  bg-[var(--color-accent)]/80"
                     style={{
                       animationName: isPlaying ? 'eqBarShort' : 'none',
                       animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
@@ -313,7 +313,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             {/* Mini progress bar */}
             <div className="mt-2 flex items-center gap-2">
               <span className="text-[var(--font-size-5xs)] font-mono font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
-              <div className="relative flex-1 h-[2px] bg-white/10 rounded-full">
+              <div className="relative flex-1 h-[2px] bg-white/10  rounded-lg ">
                 <input aria-label="Input field"
                   type="range"
                   min="0"
@@ -323,7 +323,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 />
                 <div
-                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full pointer-events-none"
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400  rounded-lg  pointer-events-none"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
@@ -377,7 +377,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   return (
     <section className="relative py-16 bg-[var(--color-bg-primary)] border-y border-white/5 overflow-hidden">
       {/* Visual background lights */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full opacity-[0.08] blur-[120px] pointer-events-none"
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px]  rounded-lg  opacity-[0.08] blur-[120px] pointer-events-none"
         style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
       />
 
@@ -385,17 +385,17 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 justify-center">
-            <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-ping" />
+            <span className="w-2 h-2  rounded-lg  bg-[var(--color-accent)] animate-ping" />
             <span className="text-xs  font-bold  uppercase tracking-[0.25em]  text-[var(--color-accent)]">Latest Track Drop</span>
           </div>
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 hover:border-white/20">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 hover: border-white/10 ">
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="text-2xl  font-bold  uppercase italic tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="text-2xl  font-bold  uppercase    tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
               <p className="text-white/45 text-sm leading-relaxed max-w-md mx-auto mb-8">
@@ -424,24 +424,24 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="flex flex-col md:flex-row items-center gap-6 justify-between">
 
                 {/* Visual Cover/Vinyl */}
-                <div className="relative w-20 h-20 shrink-0 rounded-full border-2  border-white/20    flex items-center justify-center overflow-hidden group">
+                <div className="relative w-20 h-20 shrink-0  rounded-lg  border-2   border-white/10     flex items-center justify-center overflow-hidden group">
                   <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
-                  <div className="relative z-10 w-6 h-6 rounded-full bg-[var(--color-bg-primary)] border border-white/10 flex items-center justify-center text-xs">
+                  <div className="relative z-10 w-6 h-6  rounded-lg  bg-[var(--color-bg-primary)] border border-white/10 flex items-center justify-center text-xs">
                     💿
                   </div>
                 </div>
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border   border-white/10 px-2 py-0.5 rounded-full font-bold">
+                  <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] border   border-white/10 px-2 py-0.5  rounded-lg  font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="text-xl sm:text-2xl  font-bold  text-white mt-2 truncate leading-tight tracking-tight uppercase italic" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h4 className="text-xl sm:text-2xl  font-bold  text-white mt-2 truncate leading-tight tracking-tight uppercase   " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     {track.title}
                   </h4>
                   {currentSong && (
                     <p className="text-xs font-semibold  text-[var(--color-accent)] mt-1.5 flex items-center gap-1.5 justify-center md:justify-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-cyan-400 animate-ping" />
                       Now Playing: <span className="text-white/80">{currentSong.title}</span>
                     </p>
                   )}
@@ -452,7 +452,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className={`w-[3px] rounded-full transition-colors duration-300 ${isCompressorActive
+                      className={`w-[3px]  rounded-lg  transition-colors duration-300 ${isCompressorActive
                         ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
                         : 'bg-[var(--color-accent)]/80'
                         }`}
@@ -477,7 +477,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   {formatTime(currentTime)}
                 </span>
 
-                <div className="relative flex-1 h-[4px] bg-white/10 rounded-full group">
+                <div className="relative flex-1 h-[4px] bg-white/10  rounded-lg  group">
                   <input aria-label="Input field"
                     type="range"
                     min="0"
@@ -487,10 +487,10 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full pointer-events-none"
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400  rounded-lg  pointer-events-none"
                     style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                   >
-                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white  rounded-lg  shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
 
@@ -506,7 +506,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <button aria-label="Action button"
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-colors   cursor-pointer"
+                    className="w-12 h-12  rounded-lg  bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-colors   cursor-pointer"
                   >
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
@@ -532,7 +532,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                       }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
+                    <span className={`w-1.5 h-1.5  rounded-lg  ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
                     Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
                   </button>
                 </div>
@@ -549,7 +549,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     )}
                   </button>
 
-                  <div className="relative flex-1 h-[3px] bg-white/10 rounded-full">
+                  <div className="relative flex-1 h-[3px] bg-white/10  rounded-lg ">
                     <input aria-label="Input field"
                       type="range"
                       min="0"
@@ -560,7 +560,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <div
-                      className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-full"
+                      className="absolute top-0 left-0 h-full bg-[var(--color-accent)]  rounded-lg "
                       style={{ width: `${volume * 100}%` }}
                     />
                   </div>
@@ -595,7 +595,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5 rounded-full  font-bold  animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="text-[0.55rem] uppercase tracking-widest bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5  rounded-lg   font-bold  animate-pulse border border-[var(--color-accent)]/30">Playing</span>
                             )}
                             <span className="text-[0.55rem] text-white/25 uppercase font-bold tracking-widest">MP3</span>
                           </div>

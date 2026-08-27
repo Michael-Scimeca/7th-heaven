@@ -87,7 +87,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
-            <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
+            <span className="w-1 h-1  rounded-lg  bg-[var(--color-accent)] animate-pulse" />
             <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
           <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
@@ -130,7 +130,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-[var(--color-accent)] animate-pulse" />
+          <span className="w-1 h-1  rounded-lg  bg-[var(--color-accent)] animate-pulse" />
           <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
         <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
@@ -149,7 +149,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
             <div className="flex items-center gap-1 text-[var(--font-size-5xs)]  font-bold  uppercase tracking-[0.15em]">
-              <span className={`w-0.5 h-0.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+              <span className={`w-0.5 h-0.5  rounded-lg  ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
               <span className={daysLabel === "Happening Now" ? "text-red-500  font-bold " : " text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>

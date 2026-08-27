@@ -177,7 +177,7 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border  border-white/20  text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors  rounded-lg cursor-pointer"
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors  rounded-lg cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -193,7 +193,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm  font-bold  text-[#c27aff]">{item.step}</div>
+                <div className="w-10 h-10 mx-auto mb-3  rounded-lg  bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm  font-bold  text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
                 <p className="text-xs  text-white  leading-relaxed">{item.desc}</p>
               </div>
@@ -245,8 +245,8 @@ export default function PlannerClient() {
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={step.label} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
-                        {step.active && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <div className={`w-5 h-5  rounded-lg  border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
+                        {step.active && <div className="w-2 h-2  rounded-lg  bg-white" />}
                       </div>
                       <span className={`text-sm font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
                     </div>
@@ -260,7 +260,7 @@ export default function PlannerClient() {
               <div className="mt-6">
                 <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
+                  <div className="w-7 h-7  rounded-lg  bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
                   <span className="text-xs text-white/80">{member?.name || 'Planner'}</span>
                 </div>
               </div>
@@ -271,11 +271,11 @@ export default function PlannerClient() {
           <div className="flex-1 min-w-0">
             {/* Hero Card */}
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-8 mb-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-[80px]" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5  rounded-lg  blur-[80px]" />
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${statusColor}`}>{statusLabel}</span>
+                    <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1  rounded-lg  border ${statusColor}`}>{statusLabel}</span>
                     <span className="text-xs text-white/40 font-mono">{booking.id}</span>
                   </div>
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-colors rounded-lg">+ New Booking</Link>
@@ -307,11 +307,11 @@ export default function PlannerClient() {
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold text-white">Event Notes</h3></div>
-                  {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-full border  border-[var(--color-accent)]/30">✓ Saved</span>}
+                  {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5  rounded-lg  border  border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
                 <div className="input-glow-border rounded-xl">
                   <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                    className="w-full bg-[#e1e6ff29]   border  border-white/20  px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                    className="w-full bg-[#e1e6ff29]   border   border-white/10   px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
                 </div>
                 <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
@@ -325,8 +325,8 @@ export default function PlannerClient() {
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold text-white">Readiness</h3></div>
                   <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
-                <div className="w-full h-2 bg-[#e1e6ff29]   rounded-full overflow-hidden mb-4">
-                  <div className={`h-full rounded-full transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                <div className="w-full h-2 bg-[#e1e6ff29]    rounded-lg  overflow-hidden mb-4">
+                  <div className={`h-full  rounded-lg  transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
                   {checklist.map((item, i) => {
@@ -418,7 +418,7 @@ export default function PlannerClient() {
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
                       <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg ">
-                        <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
+                        <div className={`w-2.5 h-2.5  rounded-lg  ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-white truncate">{pb.eventName}</h4>
                           <div className="flex items-center gap-3 text-xs text-white/50 mt-0.5">

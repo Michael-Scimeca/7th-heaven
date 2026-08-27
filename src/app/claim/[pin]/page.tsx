@@ -197,7 +197,7 @@ export default function ClaimPage() {
         {/* Loading */}
         {status === 'loading' && (
           <div className="text-center py-16">
-            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500 rounded-full animate-spin mx-auto mb-4" />
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500  rounded-lg  animate-spin mx-auto mb-4" />
             <p className="text-white/40 text-sm">Verifying...</p>
           </div>
         )}

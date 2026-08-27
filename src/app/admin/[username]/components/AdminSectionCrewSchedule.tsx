@@ -1549,7 +1549,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
         `}</style>
 
         {/* Section Header */}
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
           <div className="flex flex-col">
             <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -2535,300 +2535,302 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               />
                             </div>
 
-                            <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
-                              {(() => {
-                                return uniqueCrewList
-                                  .filter((m: any) => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
-                                  .sort((a: any, b: any) => {
-                                    const aActive = !!selectedCrewAssignments[a.id]?.active;
-                                    const bActive = !!selectedCrewAssignments[b.id]?.active;
-                                    if (aActive && !bActive) return -1;
-                                    if (!aActive && bActive) return 1;
-                                    return a.name.localeCompare(b.name);
-                                  })
-                                  .map((member: any) => {
-                                    const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
+                            <CustomScrollbar direction="vertical" className="flex-1 min-h-0">
+                              <div className="space-y-2.5 pr-3 rounded-lg pb-4">
+                                {(() => {
+                                  return uniqueCrewList
+                                    .filter((m: any) => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                                    .sort((a: any, b: any) => {
+                                      const aActive = !!selectedCrewAssignments[a.id]?.active;
+                                      const bActive = !!selectedCrewAssignments[b.id]?.active;
+                                      if (aActive && !bActive) return -1;
+                                      if (!aActive && bActive) return 1;
+                                      return a.name.localeCompare(b.name);
+                                    })
+                                    .map((member: any) => {
+                                      const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
 
-                                    const overlaps = getOverlappingShifts(
-                                      member.id,
-                                      activeDropDay || '',
-                                      assignment.startHour,
-                                      assignment.endHour,
-                                      editingShiftId || undefined
-                                    );
-                                    const isOverlapping = overlaps.length > 0;
+                                      const overlaps = getOverlappingShifts(
+                                        member.id,
+                                        activeDropDay || '',
+                                        assignment.startHour,
+                                        assignment.endHour,
+                                        editingShiftId || undefined
+                                      );
+                                      const isOverlapping = overlaps.length > 0;
 
-                                    return (
-                                      <div
-                                        key={member.id}
-                                        className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
-                                          ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
-                                          : 'border border-transparent'
-                                          }`}
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <label className="flex items-center gap-3 select-none cursor-pointer w-full">
-                                            <SquishyToggle
-                                              id={`crew-assign-toggle-${member.id}`}
-                                              label={`Toggle assignment for ${member.name || member.id}`}
-                                              checked={!!assignment.active}
-                                              onChange={(checked) => {
-                                                setSelectedCrewAssignments((prev: any) => ({
-                                                  ...prev,
-                                                  [member.id]: {
-                                                    active: checked,
-                                                    customized: false,
-                                                    role: assignment.role || dropRole || member.role || 'STAGE HAND',
-                                                    startHour: assignment.startHour || dropStartHour || 12,
-                                                    endHour: assignment.endHour || dropEndHour || 17,
-                                                    timeFrames: structuredClone(dropTimeFrames)
-                                                  }
-                                                }));
-                                              }}
-                                            />
-                                            <div className="flex items-center gap-2 flex-1">
-                                              {(() => {
-                                                const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
-                                                return avatarSrc ? (
-                                                  <img
-                                                    src={avatarSrc}
-                                                    alt={member.name}
-                                                    className="w-6 h-6 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
-                                                    onError={(e) => {
-                                                      (e.currentTarget as HTMLElement).style.display = 'none';
-                                                    }}
-                                                  />
-                                                ) : (
-                                                  <div
-                                                    className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
-                                                  >
-                                                    {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                                  </div>
-                                                );
-                                              })()}
-                                              <div className="flex-1 min-w-0">
-                                                <div className="flex items-center justify-between gap-2">
-                                                  <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
-                                                  {assignment.active && (
-                                                    <span className="bg-purple-500 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
-                                                      Selected
-                                                    </span>
-                                                  )}
-                                                </div>
-                                                <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
-                                                  {member.phone || 'No phone'} |  {member.email || 'No email'}
-                                                </span>
+                                      return (
+                                        <div
+                                          key={member.id}
+                                          className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active
+                                            ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
+                                            : 'border border-transparent'
+                                            }`}
+                                        >
+                                          <div className="flex items-center justify-between">
+                                            <label className="flex items-center gap-3 select-none cursor-pointer w-full">
+                                              <SquishyToggle
+                                                id={`crew-assign-toggle-${member.id}`}
+                                                label={`Toggle assignment for ${member.name || member.id}`}
+                                                checked={!!assignment.active}
+                                                onChange={(checked) => {
+                                                  setSelectedCrewAssignments((prev: any) => ({
+                                                    ...prev,
+                                                    [member.id]: {
+                                                      active: checked,
+                                                      customized: false,
+                                                      role: assignment.role || dropRole || member.role || 'STAGE HAND',
+                                                      startHour: assignment.startHour || dropStartHour || 12,
+                                                      endHour: assignment.endHour || dropEndHour || 17,
+                                                      timeFrames: structuredClone(dropTimeFrames)
+                                                    }
+                                                  }));
+                                                }}
+                                              />
+                                              <div className="flex items-center gap-2 flex-1">
                                                 {(() => {
-                                                  const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter((s: any) => s.id !== editingShiftId);
-                                                  if (memberShifts.length === 0) return null;
-                                                  return (
-                                                    <div className="mt-1.5 flex flex-wrap gap-1">
-                                                      {memberShifts.map((s: any, idx: number) => (
-                                                        <span
-                                                          key={idx}
-                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
-                                                        >
-                                                          {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
-                                                        </span>
-                                                      ))}
+                                                  const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
+                                                  return avatarSrc ? (
+                                                    <img
+                                                      src={avatarSrc}
+                                                      alt={member.name}
+                                                      className="w-6 h-6 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                      onError={(e) => {
+                                                        (e.currentTarget as HTMLElement).style.display = 'none';
+                                                      }}
+                                                    />
+                                                  ) : (
+                                                    <div
+                                                      className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                    >
+                                                      {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                     </div>
                                                   );
                                                 })()}
-                                                {isOverlapping && (
-                                                  <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
-                                                    Overlaps: {overlaps[0].time}
+                                                <div className="flex-1 min-w-0">
+                                                  <div className="flex items-center justify-between gap-2">
+                                                    <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                                    {assignment.active && (
+                                                      <span className="bg-purple-500 text-white  text-[12px]   font-bold  uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
+                                                        Selected
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
+                                                    {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                   </span>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </label>
-                                        </div>
-
-                                        {/* Inline Time Frames & Form Fields for Toggled Member */}
-                                        {assignment.active && (
-                                          <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
-                                            {dropTimeFrames.map((tf: any, index: number) => (
-                                              <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
-                                                <div className="flex items-center justify-between">
-                                                  <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                                  {dropTimeFrames.length > 1 && (
-                                                    <button
-                                                      type="button"
-                                                      onClick={() => {
-                                                        setDropTimeFrames((prev: any[]) => prev.filter((_: any, i: number) => i !== index));
-                                                      }}
-                                                      className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
-                                                      style={{ fontSize: '10px' }}
-                                                    >
-                                                      Remove
-                                                    </button>
-                                                  )}
-                                                </div>
-
-                                                <div className="grid grid-cols-2 gap-3">
-                                                  <div>
-                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
-                                                    <GooeyMessagesDropdown
-                                                      placeholder="Select Start Time"
-                                                      showAllOption={false}
-                                                      selected={String(tf.startHour)}
-                                                      options={generateTimeOptions().map(opt => ({ label: opt.label, value: String(opt.value) }))}
-                                                      onChange={(val) => {
-                                                        const num = parseFloat(val);
-                                                        if (isNaN(num)) return;
-                                                        setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, startHour: num } : item));
-                                                        setSelectedCrewAssignments((prev: any) => {
-                                                          const current = prev[member.id] || { active: true };
-                                                          const baseTfs = current.timeFrames || dropTimeFrames;
-                                                          const tfs = baseTfs.map((item: any, i: number) => i === index ? { ...item, startHour: num } : item);
-                                                          return { ...prev, [member.id]: { ...current, startHour: num, timeFrames: tfs } };
-                                                        });
-                                                      }}
-                                                      fullWidth
-                                                    />
-                                                  </div>
-
-                                                  <div>
-                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
-                                                    <GooeyMessagesDropdown
-                                                      placeholder="Select End Time"
-                                                      showAllOption={false}
-                                                      selected={String(tf.endHour)}
-                                                      options={generateTimeOptions().map(opt => ({ label: opt.label, value: String(opt.value) }))}
-                                                      onChange={(val) => {
-                                                        const num = parseFloat(val);
-                                                        if (isNaN(num)) return;
-                                                        setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, endHour: num } : item));
-                                                        setSelectedCrewAssignments((prev: any) => {
-                                                          const current = prev[member.id] || { active: true };
-                                                          const baseTfs = current.timeFrames || dropTimeFrames;
-                                                          const tfs = baseTfs.map((item: any, i: number) => i === index ? { ...item, endHour: num } : item);
-                                                          return { ...prev, [member.id]: { ...current, endHour: num, timeFrames: tfs } };
-                                                        });
-                                                      }}
-                                                      fullWidth
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="space-y-1">
-                                                  <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                                  <div className="input-glow-border rounded-lg w-full">
-                                                    <input
-                                                      id={`admin-drawer-role-${index}`}
-                                                      type="text"
-                                                      value={tf.role}
-                                                      onChange={e => {
-                                                        const val = e.target.value;
-                                                        setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, role: val } : item));
-                                                      }}
-                                                      placeholder="e.g. Audio Mix"
-                                                      className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
-                                                    />
-                                                  </div>
-                                                  <div className="flex flex-wrap gap-1 mt-1.5">
-                                                    {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                                      const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                                      const isSelected = currentRoles.includes(preset.toUpperCase());
-                                                      return (
-                                                        <button
-                                                          key={preset}
-                                                          type="button"
-                                                          onClick={() => {
-                                                            const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                                            const upperPreset = preset.toUpperCase();
-                                                            const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                                            let newRoles: string[];
-                                                            if (exists) {
-                                                              newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                                            } else {
-                                                              newRoles = [...rawRoles, preset];
-                                                            }
-                                                            const newRoleStr = newRoles.join(', ');
-                                                            setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, role: newRoleStr } : item));
-                                                          }}
-                                                          className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
-                                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs  font-bold '
-                                                            : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                            }`}
-                                                        >
-                                                          {isSelected ? ` ${preset}` : preset}
-                                                        </button>
-                                                      );
-                                                    })}
-                                                  </div>
-                                                </div>
-
-                                                <div className="space-y-1">
-                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
-                                                  <GooeyMessagesDropdown
-                                                    placeholder="Select tags..."
-                                                    showAllOption={false}
-                                                    options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
-                                                    onChange={(val) => {
-                                                      setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
-                                                        if (i !== index) return item;
-                                                        const tagSet = new Set(item.tags || []);
-                                                        if (tagSet.has(val)) {
-                                                          tagSet.delete(val);
-                                                        } else {
-                                                          tagSet.add(val);
-                                                        }
-                                                        return { ...item, tags: Array.from(tagSet) };
-                                                      }));
-                                                    }}
-                                                    fullWidth
-                                                  />
-                                                  {tf.tags && tf.tags.length > 0 && (
-                                                    <div className="flex flex-wrap gap-1 mt-1.5">
-                                                      {tf.tags.map((tag: string) => (
-                                                        <span
-                                                          key={tag}
-                                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
-                                                        >
-                                                          {tag}
-                                                          <button
-                                                            type="button"
-                                                            aria-label={`Remove ${tag} tag`}
-                                                            onClick={() => {
-                                                              setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
-                                                                if (i === index) {
-                                                                  return { ...item, tags: (item.tags || []).filter((t: string) => t !== tag) };
-                                                                }
-                                                                return item;
-                                                              }));
-                                                            }}
-                                                            className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                  {(() => {
+                                                    const memberShifts = (activeDayShiftsByCrew[member.id] || []).filter((s: any) => s.id !== editingShiftId);
+                                                    if (memberShifts.length === 0) return null;
+                                                    return (
+                                                      <div className="mt-1.5 flex flex-wrap gap-1">
+                                                        {memberShifts.map((s: any, idx: number) => (
+                                                          <span
+                                                            key={idx}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
                                                           >
-                                                            ✕
-                                                          </button>
-                                                        </span>
-                                                      ))}
-                                                    </div>
+                                                            {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
+                                                          </span>
+                                                        ))}
+                                                      </div>
+                                                    );
+                                                  })()}
+                                                  {isOverlapping && (
+                                                    <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                                      Overlaps: {overlaps[0].time}
+                                                    </span>
                                                   )}
                                                 </div>
                                               </div>
-                                            ))}
-
-                                            {dropTimeFrames.length < 3 && (
-                                              <button
-                                                type="button"
-                                                onClick={() => {
-                                                  setDropTimeFrames((prev: any[]) => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
-                                                }}
-                                                className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
-                                                style={{ fontSize: '11px' }}
-                                              >
-                                                Add Time Frame ({dropTimeFrames.length}/3)
-                                              </button>
-                                            )}
+                                            </label>
                                           </div>
-                                        )}
-                                      </div>
-                                    );
-                                  });
-                              })()}
-                            </div>
+
+                                          {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                          {assignment.active && (
+                                            <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
+                                              {dropTimeFrames.map((tf: any, index: number) => (
+                                                <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative  rounded-lg animate-[fadeIn_0.2s_ease]">
+                                                  <div className="flex items-center justify-between">
+                                                    <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                                    {dropTimeFrames.length > 1 && (
+                                                      <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                          setDropTimeFrames((prev: any[]) => prev.filter((_: any, i: number) => i !== index));
+                                                        }}
+                                                        className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                                        style={{ fontSize: '10px' }}
+                                                      >
+                                                        Remove
+                                                      </button>
+                                                    )}
+                                                  </div>
+
+                                                  <div className="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                                      <GooeyMessagesDropdown
+                                                        placeholder="Select Start Time"
+                                                        showAllOption={false}
+                                                        selected={String(tf.startHour)}
+                                                        options={generateTimeOptions().map(opt => ({ label: opt.label, value: String(opt.value) }))}
+                                                        onChange={(val) => {
+                                                          const num = parseFloat(val);
+                                                          if (isNaN(num)) return;
+                                                          setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, startHour: num } : item));
+                                                          setSelectedCrewAssignments((prev: any) => {
+                                                            const current = prev[member.id] || { active: true };
+                                                            const baseTfs = current.timeFrames || dropTimeFrames;
+                                                            const tfs = baseTfs.map((item: any, i: number) => i === index ? { ...item, startHour: num } : item);
+                                                            return { ...prev, [member.id]: { ...current, startHour: num, timeFrames: tfs } };
+                                                          });
+                                                        }}
+                                                        fullWidth
+                                                      />
+                                                    </div>
+
+                                                    <div>
+                                                      <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                                      <GooeyMessagesDropdown
+                                                        placeholder="Select End Time"
+                                                        showAllOption={false}
+                                                        selected={String(tf.endHour)}
+                                                        options={generateTimeOptions().map(opt => ({ label: opt.label, value: String(opt.value) }))}
+                                                        onChange={(val) => {
+                                                          const num = parseFloat(val);
+                                                          if (isNaN(num)) return;
+                                                          setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, endHour: num } : item));
+                                                          setSelectedCrewAssignments((prev: any) => {
+                                                            const current = prev[member.id] || { active: true };
+                                                            const baseTfs = current.timeFrames || dropTimeFrames;
+                                                            const tfs = baseTfs.map((item: any, i: number) => i === index ? { ...item, endHour: num } : item);
+                                                            return { ...prev, [member.id]: { ...current, endHour: num, timeFrames: tfs } };
+                                                          });
+                                                        }}
+                                                        fullWidth
+                                                      />
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="space-y-1">
+                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                    <div className="input-glow-border rounded-lg w-full">
+                                                      <input
+                                                        id={`admin-drawer-role-${index}`}
+                                                        type="text"
+                                                        value={tf.role}
+                                                        onChange={e => {
+                                                          const val = e.target.value;
+                                                          setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, role: val } : item));
+                                                        }}
+                                                        placeholder="e.g. Audio Mix"
+                                                        className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
+                                                      />
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1 mt-1.5">
+                                                      {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                                        const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                                        const isSelected = currentRoles.includes(preset.toUpperCase());
+                                                        return (
+                                                          <button
+                                                            key={preset}
+                                                            type="button"
+                                                            onClick={() => {
+                                                              const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                              const upperPreset = preset.toUpperCase();
+                                                              const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                              let newRoles: string[];
+                                                              if (exists) {
+                                                                newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                              } else {
+                                                                newRoles = [...rawRoles, preset];
+                                                              }
+                                                              const newRoleStr = newRoles.join(', ');
+                                                              setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, role: newRoleStr } : item));
+                                                            }}
+                                                            className={`px-2 py-0.5 rounded-full text-[10.5px]  font-bold  uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
+                                                              ? 'bg-purple-600 text-white border-purple-500 shadow-xs  font-bold '
+                                                              : 'bg-[#e1e6ff29]   border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                              }`}
+                                                          >
+                                                            {isSelected ? ` ${preset}` : preset}
+                                                          </button>
+                                                        );
+                                                      })}
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="space-y-1">
+                                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                                    <GooeyMessagesDropdown
+                                                      placeholder="Select tags..."
+                                                      showAllOption={false}
+                                                      options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
+                                                      onChange={(val) => {
+                                                        setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
+                                                          if (i !== index) return item;
+                                                          const tagSet = new Set(item.tags || []);
+                                                          if (tagSet.has(val)) {
+                                                            tagSet.delete(val);
+                                                          } else {
+                                                            tagSet.add(val);
+                                                          }
+                                                          return { ...item, tags: Array.from(tagSet) };
+                                                        }));
+                                                      }}
+                                                      fullWidth
+                                                    />
+                                                    {tf.tags && tf.tags.length > 0 && (
+                                                      <div className="flex flex-wrap gap-1 mt-1.5">
+                                                        {tf.tags.map((tag: string) => (
+                                                          <span
+                                                            key={tag}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-bold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
+                                                          >
+                                                            {tag}
+                                                            <button
+                                                              type="button"
+                                                              aria-label={`Remove ${tag} tag`}
+                                                              onClick={() => {
+                                                                setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
+                                                                  if (i === index) {
+                                                                    return { ...item, tags: (item.tags || []).filter((t: string) => t !== tag) };
+                                                                  }
+                                                                  return item;
+                                                                }));
+                                                              }}
+                                                              className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                            >
+                                                              ✕
+                                                            </button>
+                                                          </span>
+                                                        ))}
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              ))}
+
+                                              {dropTimeFrames.length < 3 && (
+                                                <button
+                                                  type="button"
+                                                  onClick={() => {
+                                                    setDropTimeFrames((prev: any[]) => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
+                                                  }}
+                                                  className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                                                  style={{ fontSize: '11px' }}
+                                                >
+                                                  Add Time Frame ({dropTimeFrames.length}/3)
+                                                </button>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      );
+                                    });
+                                })()}
+                              </div>
+                            </CustomScrollbar>
                           </div>
                         )}
 

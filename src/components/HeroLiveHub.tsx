@@ -178,9 +178,9 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-full flex items-center gap-2 transition-colors group"
+                  className="bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5  rounded-lg  flex items-center gap-2 transition-colors group"
                 >
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  <span className="w-1.5 h-1.5 bg-red-500  rounded-lg  animate-pulse" />
                   <span className="text-xs font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">
                     {room.title?.split(' — ')[0] || room.name}
                   </span>
@@ -210,7 +210,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/15">
+                    <div className="w-6 h-6  rounded-lg  flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/15">
                       {selectedMedia.member_avatar}
                     </div>
                     <span className="text-xs font-semibold text-white/80">{selectedMedia.member_name}</span>
@@ -229,11 +229,11 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
-                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-full text-sm  font-bold  uppercase tracking-widest shadow-red-600/20">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1  rounded-lg  text-sm  font-bold  uppercase tracking-widest shadow-red-600/20">
+                    <span className="w-2 h-2 bg-white  rounded-lg  animate-pulse" />
                     Live Now
                   </div>
-                  <h4 className="text-2xl  font-bold  text-white uppercase italic tracking-tighter mb-6">Join the Crew Live</h4>
+                  <h4 className="text-2xl  font-bold  text-white uppercase    tracking-tighter mb-6">Join the Crew Live</h4>
                   <Link href="/live" className="btn-primary flex items-center justify-center gap-3 px-8 py-4 text-sm shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Enter Live Stream ⚡
                   </Link>
@@ -255,7 +255,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   <button aria-label="Action button"
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
-                    className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:border-white/20"
+                    className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover: border-white/10 "
                       }`}
                   >
                     {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}

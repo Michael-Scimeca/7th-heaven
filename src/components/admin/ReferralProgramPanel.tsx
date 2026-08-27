@@ -509,7 +509,7 @@ export default function ReferralProgramPanel() {
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
-                                  <div className="h-1.5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
+                                  <div className="h-1.5 bg-[#e1e6ff29]    rounded-lg  overflow-hidden">
                                     <div
                                       className="h-full bg-purple-600 transition-colors"
                                       style={{

@@ -279,7 +279,7 @@ export default function PlannerDashboard() {
   if (!hasAccess) {
     return (
       <div className="min-h-screen   text-white flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px]  rounded-lg  pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
           <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
@@ -395,7 +395,7 @@ export default function PlannerDashboard() {
       {showCancelConfirm && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
           <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8  rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
+            <div className="w-12 h-12  rounded-lg  bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
               <History className="w-5 h-5 text-rose-500" />
             </div>
             <h3 className="text-xl font-bold text-white text-center mb-2">Cancel This Booking?</h3>
@@ -425,7 +425,7 @@ export default function PlannerDashboard() {
           <div className="bg-[#0b0c10] border   border-white/10 p-6 md:p-8  rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
+                <div className="w-10 h-10  rounded-lg  bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
@@ -435,7 +435,7 @@ export default function PlannerDashboard() {
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="w-8 h-8 rounded-full bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
+                className="w-8 h-8  rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
               >
                 ✕
               </button>
@@ -534,7 +534,7 @@ export default function PlannerDashboard() {
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className={`text-xs font-bold ${s.text} uppercase tracking-widest px-3 py-1 ${s.bg} ${s.border} border rounded-full`}>{s.label}</span>
+              <span className={`text-xs font-bold ${s.text} uppercase tracking-widest px-3 py-1 ${s.bg} ${s.border} border  rounded-lg `}>{s.label}</span>
               <span className="text-xs text-white/40 tracking-widest uppercase">ID: {booking.id}</span>
             </div>
 
@@ -804,7 +804,7 @@ export default function PlannerDashboard() {
                   <div key={b.id} className="flex gap-4 relative">
                     {/* Timeline dot */}
                     <div className="shrink-0 mt-5 z-10">
-                      <div className={`w-[10px] h-[10px] rounded-full ${sc.dot} ring-4 ring-[#050508]`} />
+                      <div className={`w-[10px] h-[10px]  rounded-lg  ${sc.dot} ring-4 ring-[#050508]`} />
                     </div>
 
                     {/* Card */}
@@ -817,7 +817,7 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`text-xs font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border rounded-full`}>
+                          <span className={`text-xs font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border  rounded-lg `}>
                             {sc.label}
                           </span>
                           <span className="text-xs text-white/30 font-mono">{b.id}</span>

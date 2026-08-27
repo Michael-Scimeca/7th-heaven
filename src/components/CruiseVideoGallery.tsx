@@ -192,7 +192,7 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1 rounded-full ">
+        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1  rounded-lg  ">
           Virtual Tours & Video Showcase
         </span>
         <h2
@@ -255,7 +255,7 @@ export default function CruiseVideoGallery() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-14 h-14 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    className="w-14 h-14 ! rounded-lg  !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
@@ -300,7 +300,7 @@ export default function CruiseVideoGallery() {
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3 rounded-full bg-white/15 border  border-white/10  text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-all duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3  rounded-lg  bg-white/15 border  border-white/10  text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-[background-color,border-color,transform] duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
           >
             <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
           </button>
@@ -323,7 +323,7 @@ export default function CruiseVideoGallery() {
                 type="button"
                 aria-label="Close player"
                 onClick={() => setActiveVideo(null)}
-                className="shrink-0 flex items-center gap-2 text-white  font-bold  text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:scale-105"
+                className="shrink-0 flex items-center gap-2 text-white  font-bold  text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
               >
                 <X className="w-4 h-4 text-white" />
                 <span>Close Player</span>

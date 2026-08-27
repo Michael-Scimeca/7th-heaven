@@ -4,7 +4,7 @@ export default function NotFound() {
     return (
         <main className="min-h-screen bg-[rgb(10,10,15)] flex items-center justify-center site-container relative overflow-hidden">
             {/* Background ambient */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-[0.04] blur-[120px]  rounded-lg  pointer-events-none" />
 
             <div className="text-center relative z-10 max-w-lg">
                 {/* Glitch 404 number */}
@@ -36,13 +36,13 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white  font-bold  text-sm uppercase tracking-[0.15em]  rounded-lg hover:brightness-110 transition-all shadow-lg"
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white  font-bold  text-sm uppercase tracking-[0.15em]  rounded-lg hover:brightness-110 transition-transform shadow-lg"
                     >
                         Back to Home
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border  border-white/20  text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+                        className="px-8 py-3.5 border   border-white/10   text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-colors"
                     >
                         View Tour Dates
                     </Link>

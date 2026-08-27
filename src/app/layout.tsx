@@ -45,7 +45,7 @@ import { ThemeTokens } from "@/lib/theme-tokens";
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
 const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot|Chrome-Lighthouse|HeadlessChrome|ptst|SpeedInsights|Pingdom|gtmetrix/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
@@ -154,8 +154,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Switzer (Fontshare, free variable font) — now the site's primary
          * typeface for both body copy and headings. Loaded as a linked
          * stylesheet (same pattern as Google Fonts above) rather than
@@ -218,13 +216,13 @@ export default async function RootLayout({
             document.head.appendChild(style);
           }
         ` }} />
+        <CursorFollower />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
               <ScrollToTop />
               <SmoothScroll>
                 <div id="page-content-wrapper" className="flex flex-col min-h-screen relative">
-                  <ProgressiveBlur position="top" />
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}

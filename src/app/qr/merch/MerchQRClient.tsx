@@ -281,8 +281,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] py-8 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3">
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full    border border-cyan-500/30 text-purple-400text-xs  font-bold  uppercase tracking-widest animate-pulse">
-            <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5  rounded-lg     border border-cyan-500/30 text-purple-400text-xs  font-bold  uppercase tracking-widest animate-pulse">
+            <span className="w-2 h-2  rounded-lg  bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
 

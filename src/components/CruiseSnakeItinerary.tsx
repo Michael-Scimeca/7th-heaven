@@ -7,6 +7,7 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState, Fragment, Suspense, useSyncExternalStore } from 'react';
 const emptySubscribe = () => () => { };
 import { createPortal } from 'react-dom';
+import { MapPin, Waves, Guitar, Ship, Palmtree, Compass, Anchor } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import Lenis from 'lenis';
@@ -112,7 +113,7 @@ function CircleVideoNode({
       muted
       playsInline
       preload="auto"
-      className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
+      className="w-full h-full object-cover  rounded-lg  pointer-events-none scale-125 transition-transform duration-500"
     >
       <track kind="captions" />
     </video>
@@ -1144,7 +1145,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           if (!day) return null;
           const topPct = (node.y / totalH) * 100;
           const leftPct = (node.x / SVG_W) * 100;
-          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
+          const themeColor = day.colorTheme || (node.isLeft ? '#fff' : '#fff');
           const dayImage = isAtSeaDay(day)
             ? '/images/cruise/at-sea.png'
             : (day?.photo || DAY_IMAGES[i % 6]);
@@ -1165,15 +1166,28 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               <div className="px-4 sm:px-6 md:px-8 pb-4 md:pb-6 pt-2">
                 <h3 className="snake-itinerary-cardTitle">{day.theme}</h3>
                 <ul className="snake-itinerary-eventsList">
-                  {day.events.map(ev => (
-                    <li key={ev.id} className="snake-itinerary-eventItem">
-                      <span className="snake-itinerary-eventTime" style={{ color: themeColor }}>{ev.time}</span>
-                      <div>
-                        <div className="snake-itinerary-eventTitle">{ev.title}</div>
-                        {ev.subtitle && <div className="snake-itinerary-eventSubtitle">{ev.subtitle}</div>}
-                      </div>
-                    </li>
-                  ))}
+                  {day.events.map(ev => {
+                    const isGuitar = ev.title.includes('🎸') || (ev as any).cat === 'band' || ev.title.toLowerCase().includes('concert') || ev.title.toLowerCase().includes('live') || ev.title.toLowerCase().includes('unplugged') || ev.title.toLowerCase().includes('jam') || ev.title.toLowerCase().includes('set');
+                    const isShip = ev.title.includes('🚢') || ev.title.toLowerCase().includes('check-in') || ev.title.toLowerCase().includes('boarding') || ev.title.toLowerCase().includes('sail');
+                    const isIsland = ev.title.includes('🏝️') || ev.title.toLowerCase().includes('cococay') || ev.title.toLowerCase().includes('beach') || ev.title.toLowerCase().includes('island') || ev.title.toLowerCase().includes('excursion');
+                    const cleanTitle = ev.title.replace(/^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u, '');
+
+                    return (
+                      <li key={ev.id} className="snake-itinerary-eventItem">
+                        <span className="snake-itinerary-eventTime" >{ev.time}</span>
+                        <div>
+                          <div className="snake-itinerary-eventTitle flex items-center gap-2">
+                            {isGuitar && <Guitar className="w-4 h-4 text-purple-400 shrink-0 inline-block" />}
+                            {!isGuitar && isShip && <Ship className="w-4 h-4 text-cyan-400 shrink-0 inline-block" />}
+                            {!isGuitar && !isShip && isIsland && <Palmtree className="w-4 h-4 text-emerald-400 shrink-0 inline-block" />}
+                            {!isGuitar && !isShip && !isIsland && <Compass className="w-4 h-4 text-purple-300 shrink-0 inline-block" />}
+                            <span>{cleanTitle}</span>
+                          </div>
+                          {ev.subtitle && <div className="snake-itinerary-eventSubtitle">{ev.subtitle}</div>}
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -1309,15 +1323,18 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   transform: 'none',
                   zIndex: 35,
                   pointerEvents: 'none',
-                  color: themeColor,
+
                   backgroundColor: '#060614',
-                  borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5 rounded-full  backdrop-blur-[45px] flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5  rounded-lg   backdrop-blur-[45px] flex items-center gap-1.5 bg-[#e1e6ff29] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
-                <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}
+                {isSea ? (
+                  <Waves className="w-3.5 h-3.5 text-cyan-400 shrink-0 inline-block" />
+                ) : (
+                  <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0 inline-block" />
+                )} {formatNodeBadgeText(day, i)}
               </div>
               {/* Circle Video Node — aligned flush with 0px margin */}
               <div

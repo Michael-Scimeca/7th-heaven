@@ -1213,7 +1213,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple
+          <div className={`w-14 h-14  rounded-lg  flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple
             ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
             : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
             }`}>
@@ -1224,7 +1224,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={`text-xs  font-bold  uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${isPurple
+          <span className={`text-xs  font-bold  uppercase tracking-[0.15em] px-2.5 py-1  rounded-lg  border backdrop-blur-sm ${isPurple
             ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
             : "bg-black/50  border-white/10  text-white/80"
             }`}>
@@ -1254,7 +1254,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
               </h3>
             </div>
             {/* Image */}
-            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : " border-white/20 "}`}>
+            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "  border-white/10  "}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized
                 src={src}
@@ -1277,7 +1277,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
   const isPurple = !!f.highlight;
 
   return (
-    <div className={`group relative flex flex-col  border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:border-white/20"}`}>
+    <div className={`group relative flex flex-col  border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover: border-white/10 "}`}>
       {/* accent top line */}
       <div className={`h-px w-full ${isPurple ? "bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent" : "bg-gradient-to-r from-white/10 to-transparent"}`} />
 
@@ -1287,7 +1287,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div className="flex items-start justify-between gap-3">
           <span className="text-5xl leading-none">{f.icon}</span>
           {isPurple && (
-            <span className="text-base px-3 py-1 rounded-full bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-widest shrink-0">✦ Flagship</span>
+            <span className="text-base px-3 py-1  rounded-lg  bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-widest shrink-0">✦ Flagship</span>
           )}
         </div>
 
@@ -1315,7 +1315,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
           <ul className="space-y-2">
             {f.bullets.map((b) => (
               <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg  text-white ">
-                <span className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
+                <span className={`mt-2 w-1.5 h-1.5  rounded-lg  shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
                 {b}
               </li>
             ))}
@@ -1335,7 +1335,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
-                  <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm  font-bold  mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#e1e6ff29]   text-white/30"}`}>{i + 1}</span>
+                  <span className={`shrink-0 w-5 h-5  rounded-lg  flex items-center justify-center text-sm  font-bold  mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#e1e6ff29]   text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -1346,7 +1346,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 pt-1">
           {f.tags.map((tag) => (
-            <span key={tag} className={`text-base px-3 py-1 rounded-full font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : "bg-[#e1e6ff29]   border-white/10 text-white/40"}`}>
+            <span key={tag} className={`text-base px-3 py-1  rounded-lg  font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : "bg-[#e1e6ff29]   border-white/10 text-white/40"}`}>
               {tag}
             </span>
           ))}
@@ -1377,12 +1377,12 @@ export default function FeaturesPage() {
       {/* ═══ HERO ═══════════════════════════════════════ */}
       <section className="relative pt-40 pb-28 px-6 md:px-12 lg:px-20 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full bg-[var(--color-accent)] opacity-[0.10] blur-[140px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[600px]  rounded-lg  bg-[var(--color-accent)] opacity-[0.10] blur-[140px]" />
           <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.6) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] text-sm font-bold uppercase tracking-[0.25em] mb-10">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2  rounded-lg  bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] text-sm font-bold uppercase tracking-[0.25em] mb-10">
             Full Platform Overview · All Features Live & Documented
           </div>
 
@@ -1396,17 +1396,17 @@ export default function FeaturesPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
-              <span key={p} className="px-3 py-1.5 rounded-full bg-[#e1e6ff29]   border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
+              <span key={p} className="px-3 py-1.5  rounded-lg  bg-[#e1e6ff29]   border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
             ))}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white  font-bold  text-base uppercase tracking-[0.12em]  rounded-lg  transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+              <span className="w-2 h-2  rounded-lg  bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
-            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)]  font-bold  text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em]  rounded-lg  transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.12em]  rounded-lg  transition-colors">Fan Dashboard →</Link>
+            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)]  font-bold  text-base uppercase tracking-[0.12em]  rounded-lg  transition-colors">View All Pages ↓</a>
           </div>
         </div>
       </section>
@@ -1425,7 +1425,7 @@ export default function FeaturesPage() {
       <section className="py-20 px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="w-2 h-2  rounded-lg  bg-red-500 animate-pulse" />
             <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Live Experience — What It Looks Like
             </h2>
@@ -1437,7 +1437,7 @@ export default function FeaturesPage() {
           {/* ── ROW 1: Fan Viewer ── */}
           <div className="mb-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 text-sm  font-bold  uppercase tracking-widest rounded-full">🎥 Fan Live Viewer</span>
+              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 text-sm  font-bold  uppercase tracking-widest  rounded-lg ">🎥 Fan Live Viewer</span>
               <span className="text-white/20 text-sm">— what fans see at /live/[room]</span>
             </div>
 
@@ -1445,12 +1445,12 @@ export default function FeaturesPage() {
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/live/live_michael</div>
                 <span className="text-white/20 text-xs">LIVE</span>
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="w-2 h-2  rounded-lg  bg-red-500 animate-pulse" />
               </div>
 
               {/* Main layout: video + chat */}
@@ -1461,15 +1461,15 @@ export default function FeaturesPage() {
                   {/* Simulated stage video */}
                   <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
                     {/* Stage lights */}
-                    <div className="absolute top-0 left-1/4 w-48 h-64 bg-[var(--color-accent)] opacity-20 blur-[80px] rounded-full" />
-                    <div className="absolute top-0 right-1/4 w-48 h-64 bg-blue-600 opacity-15 blur-[80px] rounded-full" />
+                    <div className="absolute top-0 left-1/4 w-48 h-64 bg-[var(--color-accent)] opacity-20 blur-[80px]  rounded-lg " />
+                    <div className="absolute top-0 right-1/4 w-48 h-64 bg-blue-600 opacity-15 blur-[80px]  rounded-lg " />
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-purple-700 opacity-25 blur-[60px]" />
                     {/* Performer silhouette */}
                     <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70">
-                      <div className="w-8 h-8 rounded-full bg-white/80 mb-1" />
+                      <div className="w-8 h-8  rounded-lg  bg-white/80 mb-1" />
                       <div className="w-16 h-28 bg-gradient-to-b from-white/60 to-white/10 rounded-t-full" style={{ clipPath: "polygon(30% 0%, 70% 0%, 90% 100%, 10% 100%)" }} />
                       {/* Guitar */}
-                      <div className="absolute top-8 -right-8 w-20 h-4 bg-purple-700/60 rounded-full -rotate-12" />
+                      <div className="absolute top-8 -right-8 w-20 h-4 bg-purple-700/60  rounded-lg  -rotate-12" />
                     </div>
                     {/* Crowd silhouettes */}
                     <div className="absolute bottom-0 left-0 right-0 flex justify-around items-end px-4">
@@ -1483,7 +1483,7 @@ export default function FeaturesPage() {
                   <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/70 to-transparent">
                     <div className="flex items-center gap-2">
                       <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white text-xs  font-bold  uppercase tracking-widest">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+                        <span className="w-1.5 h-1.5  rounded-lg  bg-white animate-pulse" />LIVE
                       </span>
                       <span className="text-white  font-bold  text-sm">Michael — 7th Heaven</span>
                     </div>
@@ -1512,8 +1512,8 @@ export default function FeaturesPage() {
                       <span className=" text-white  text-xs font-bold uppercase tracking-widest">Hype Meter</span>
                       <span className="text-[#c084fc] text-xs  font-bold ">87%</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-[#851DEF] to-[#c084fc] rounded-full animate-pulse" style={{ width: "87%" }} />
+                    <div className="h-2 bg-white/10  rounded-lg  overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-[#851DEF] to-[#c084fc]  rounded-lg  animate-pulse" style={{ width: "87%" }} />
                     </div>
                   </div>
 
@@ -1527,7 +1527,7 @@ export default function FeaturesPage() {
                   <div className="absolute top-24 right-4 flex flex-col gap-1.5">
                     {["Michael", "Ryan", "Sammy"].map((name, i) => (
                       <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)] text-white" : "bg-[#e1e6ff29]   text-white/40 hover:bg-white/10"}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-white animate-pulse" : "bg-white/30"}`} />
+                        <span className={`w-1.5 h-1.5  rounded-lg  ${i === 0 ? "bg-white animate-pulse" : "bg-white/30"}`} />
                         {name}
                       </div>
                     ))}
@@ -1582,7 +1582,7 @@ export default function FeaturesPage() {
             {/* Caption */}
             <div className="mt-4 flex flex-wrap gap-3">
               {["WebRTC via LiveKit", "Real-Time Supabase Chat", "Floating Emoji Reactions", "Hype Meter", "Pinned Crew Announcements", "Multi-Room Switcher", "PG Content Filter"].map(t => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[#851DEF]/20 text-[#c084fc]">{t}</span>
+                <span key={t} className="text-xs px-2.5 py-1  rounded-lg  bg-[var(--color-accent)]/10 border border-[#851DEF]/20 text-[#c084fc]">{t}</span>
               ))}
             </div>
           </div>
@@ -1590,16 +1590,16 @@ export default function FeaturesPage() {
           {/* ── ROW 2: Crew Dashboard ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] text-sm  font-bold  uppercase tracking-widest rounded-full">🎛️ Crew Broadcast Studio</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] text-sm  font-bold  uppercase tracking-widest  rounded-lg ">🎛️ Crew Broadcast Studio</span>
               <span className="text-white/20 text-sm">— what crew sees at /crew</span>
             </div>
 
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.10)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/crew</div>
               </div>
 
@@ -1609,14 +1609,14 @@ export default function FeaturesPage() {
                 <div className="flex flex-col gap-4">
                   {/* Camera preview */}
                   <div className="overflow-hidden border border-white/10 relative aspect-video bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[var(--color-accent)] opacity-20 blur-[40px] rounded-full" />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[var(--color-accent)] opacity-20 blur-[40px]  rounded-lg " />
                     {/* Performer */}
                     <div className="absolute inset-0 flex items-center justify-center flex-col opacity-80">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-white/60 to-white/20 mb-2" />
-                      <div className="w-6 h-6 bg-white/30 rounded-full" style={{ marginTop: "-12px" }} />
+                      <div className="w-14 h-14  rounded-lg  bg-gradient-to-br from-white/60 to-white/20 mb-2" />
+                      <div className="w-6 h-6 bg-white/30  rounded-lg " style={{ marginTop: "-12px" }} />
                     </div>
                     <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-red-600 px-2 py-0.5 rounded text-white text-xs  font-bold  uppercase">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-white animate-pulse" />LIVE
                     </div>
                     <div className="absolute bottom-2 right-2 text-white/50 text-xs">HD 1080p</div>
                   </div>
@@ -1679,7 +1679,7 @@ export default function FeaturesPage() {
                       ))}
                     </div>
                     <div className="px-3 py-2 border-t border-white/[0.05] bg-red-500/5 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-red-500" />
                       <span className="text-red-400 text-xs font-bold">PG filter blocked 1 message · SpamBot42 auto-flagged</span>
                     </div>
                   </div>
@@ -1712,7 +1712,7 @@ export default function FeaturesPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🎰</span>
                       <span className="text-white  font-bold  text-sm uppercase tracking-wide">Raffle Engine</span>
-                      <span className="ml-auto text-xs px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] rounded-full font-bold">LIVE</span>
+                      <span className="ml-auto text-xs px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)]  rounded-lg  font-bold">LIVE</span>
                     </div>
                     {/* Active raffle */}
                     <div className="bg-black/40 rounded-lg p-3 mb-3">
@@ -1774,7 +1774,7 @@ export default function FeaturesPage() {
             {/* Caption */}
             <div className="mt-4 flex flex-wrap gap-3">
               {["One-Click LiveKit Broadcast", "Chat Moderation + Mute Controls", "Live Raffle Engine", "Merch Flash Drop", "Batch Emoji Blasts", "Pinned Announcements", "Real-Time Viewer Stats", "SMS Fan Alerts"].map(t => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-[#e1e6ff29]   border border-white/10 text-white/40">{t}</span>
+                <span key={t} className="text-xs px-2.5 py-1  rounded-lg  bg-[#e1e6ff29]   border border-white/10 text-white/40">{t}</span>
               ))}
             </div>
           </div>
@@ -1782,16 +1782,16 @@ export default function FeaturesPage() {
           {/* ── ROW 3: Admin Dashboard ── */}
           <div className="mt-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-sm  font-bold  uppercase tracking-widest rounded-full">⚙️ Admin Dashboard</span>
+              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-sm  font-bold  uppercase tracking-widest  rounded-lg ">⚙️ Admin Dashboard</span>
               <span className="text-white/20 text-sm">— what admins see at /admin</span>
             </div>
 
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.08)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/admin</div>
                 <span className="text-blue-400 text-xs font-bold">🔐 Admin Only</span>
               </div>
@@ -1806,15 +1806,15 @@ export default function FeaturesPage() {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-400 shadow-[0_0_8px_#34d399]" />
                       <span className="text-emerald-400 text-xs font-bold">DB Connected · 12ms</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-red-500 animate-pulse" />
                       <span className="text-red-400 text-xs font-bold">2 Streams Live</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-purple-500" />
                       <span className="text-purple-300 text-xs font-bold">3 Pending Bookings</span>
                     </div>
                   </div>
@@ -1851,8 +1851,8 @@ export default function FeaturesPage() {
                         </div>
                         <div className="text-3xl  font-bold  tabular-nums" style={{ color: s.color }}>{s.val}</div>
                         <div className="text-white/25 text-xs uppercase tracking-widest mb-1">{s.label}</div>
-                        <div className="h-1 bg-[#e1e6ff29]   rounded-full overflow-hidden">
-                          <div className="h-full rounded-full" style={{ width: `${s.bar}%`, background: s.color, opacity: 0.5 }} />
+                        <div className="h-1 bg-[#e1e6ff29]    rounded-lg  overflow-hidden">
+                          <div className="h-full  rounded-lg " style={{ width: `${s.bar}%`, background: s.color, opacity: 0.5 }} />
                         </div>
                       </div>
                     ))}
@@ -1865,7 +1865,7 @@ export default function FeaturesPage() {
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📋 Booking Requests</span>
-                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">3 Pending</span>
+                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10  rounded-lg  border border-purple-500/20">3 Pending</span>
                       </div>
                       <div className="divide-y divide-white/[0.04]">
                         {[
@@ -1880,7 +1880,7 @@ export default function FeaturesPage() {
                                 <div className="text-white/85 text-xs font-bold">{b.name}</div>
                                 <div className="text-white/30 text-xs">{b.org} · {b.venue}</div>
                               </div>
-                              <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
+                              <span className={`shrink-0 text-xs font-bold px-2 py-0.5  rounded-lg  border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
                             </div>
                             <div className="flex items-center justify-between mt-2">
                               <div className="flex items-center gap-3 text-white/30 text-xs">
@@ -1905,7 +1905,7 @@ export default function FeaturesPage() {
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📸 Fan Photo Queue</span>
-                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10 rounded-full border border-purple-500/20">8 Awaiting</span>
+                        <span className="text-purple-300 text-xs font-bold px-2 py-0.5 bg-purple-600/10  rounded-lg  border border-purple-500/20">8 Awaiting</span>
                       </div>
                       <div className="p-3 grid grid-cols-3 gap-2">
                         {[
@@ -1918,16 +1918,16 @@ export default function FeaturesPage() {
                         ].map((p, i) => (
                           <div key={p.label} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
                             <div className="absolute inset-0">
-                              <div className="absolute top-0 left-1/3 w-6 h-12 rounded-full opacity-50" style={{ background: p.glow, filter: 'blur(8px)' }} />
+                              <div className="absolute top-0 left-1/3 w-6 h-12  rounded-lg  opacity-50" style={{ background: p.glow, filter: 'blur(8px)' }} />
                               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40">
-                                <div className="w-3 h-3 rounded-full bg-white/80 mb-0.5" />
+                                <div className="w-3 h-3  rounded-lg  bg-white/80 mb-0.5" />
                                 <div className="w-5 h-8 bg-white/40 rounded-t-lg" />
                               </div>
                             </div>
                             <div className="absolute bottom-0 left-0 right-0 px-1 py-0.5 bg-black/70">
                               <div className=" text-white  text-[var(--font-size-4xs)] font-bold truncate">{p.label}</div>
                             </div>
-                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] text-white  font-bold ">!</div>}
+                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500  rounded-lg  flex items-center justify-center text-[var(--font-size-4xs)] text-white  font-bold ">!</div>}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
                               <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white text-sm  font-bold  cursor-pointer">✓</button>
                               <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white text-sm  font-bold  cursor-pointer">✕</button>
@@ -1950,9 +1950,9 @@ export default function FeaturesPage() {
                             { name: "LaurenLive", tier: "Silver", time: "34m ago", color: "#a3e635" },
                           ].map((f, i) => (
                             <div key={f.name} className="flex items-center gap-2">
-                              <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs  font-bold  shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
+                              <div className="w-5 h-5  rounded-lg  flex items-center justify-center text-xs  font-bold  shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
                               <span className=" text-white  text-xs flex-1 font-bold">{f.name}</span>
-                              <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: `${f.color}15`, color: f.color, border: `1px solid ${f.color}30` }}>{f.tier}</span>
+                              <span className="text-xs px-1.5 py-0.5  rounded-lg  font-bold" style={{ background: `${f.color}15`, color: f.color, border: `1px solid ${f.color}30` }}>{f.tier}</span>
                               <span className="text-white/20 text-xs">{f.time}</span>
                             </div>
                           ))}
@@ -1965,7 +1965,7 @@ export default function FeaturesPage() {
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70  font-bold  text-xs uppercase tracking-widest">📡 Live Streams</span>
-                          <span className="flex items-center gap-1 text-red-400 text-xs font-bold"><span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />2 Active</span>
+                          <span className="flex items-center gap-1 text-red-400 text-xs font-bold"><span className="w-1.5 h-1.5  rounded-lg  bg-red-500 animate-pulse" />2 Active</span>
                         </div>
                         <div className="divide-y divide-white/[0.04]">
                           {[
@@ -1975,7 +1975,7 @@ export default function FeaturesPage() {
                             <div key={s.room} className="px-4 py-3">
                               <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                                  <span className="w-1.5 h-1.5  rounded-lg  bg-red-500 animate-pulse" />
                                   <span className="text-white/80 text-xs font-bold">{s.name}</span>
                                   <span className="text-white/20 text-xs font-mono">{s.room}</span>
                                 </div>
@@ -2038,7 +2038,7 @@ export default function FeaturesPage() {
             {/* Caption */}
             <div className="mt-4 flex flex-wrap gap-3">
               {["Booking Approval System", "Fan Photo Moderation", "AI Content Flagging", "SMS Blast Tool", "Live Stream Monitor", "Real-Time Stats", "Cruise Management", "Audit Log"].map(t => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-blue-500/5 border border-blue-500/15 text-blue-400/70">{t}</span>
+                <span key={t} className="text-xs px-2.5 py-1  rounded-lg  bg-blue-500/5 border border-blue-500/15 text-blue-400/70">{t}</span>
               ))}
             </div>
           </div>
@@ -2062,14 +2062,14 @@ export default function FeaturesPage() {
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border   border-white/10  text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border   border-white/10  text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest  rounded-lg ">⭐ Profile & Show Countdown</span>
               <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2080,14 +2080,14 @@ export default function FeaturesPage() {
           {/* Screenshot 2: Mid — Proximity + Shows */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
+              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm  font-bold  uppercase tracking-widest  rounded-lg ">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20 text-sm">— upcoming dates + location-based notifications</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2098,14 +2098,14 @@ export default function FeaturesPage() {
           {/* Screenshot 3: Lower — Memories + Referral */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm  font-bold  uppercase tracking-widest rounded-full">🎸 Show Memories & Referrals</span>
+              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm  font-bold  uppercase tracking-widest  rounded-lg ">🎸 Show Memories & Referrals</span>
               <span className="text-white/20 text-sm">— post-show engagement + fan-to-fan growth</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
-                <span className="w-3 h-3 rounded-full bg-red-500/60" />
-                <span className="w-3 h-3 rounded-full bg-purple-600/60" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-red-500/60" />
+                <span className="w-3 h-3  rounded-lg  bg-purple-600/60" />
+                <span className="w-3 h-3  rounded-lg  bg-emerald-500/60" />
                 <div className="flex-1 mx-4 bg-[#e1e6ff29]   rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2115,7 +2115,7 @@ export default function FeaturesPage() {
 
           {/* CTA */}
           <div className="text-center mt-12">
-            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  text-base uppercase tracking-[0.15em]  rounded-lg  transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Try the Fan Dashboard →
             </Link>
           </div>
@@ -2144,8 +2144,8 @@ export default function FeaturesPage() {
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-[#e1e6ff29]   border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
             ].map(l => (
-              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-bold ${l.color}`}>
-                <span className={`w-2 h-2 rounded-full ${l.dot}`} />
+              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5  rounded-lg  border text-sm font-bold ${l.color}`}>
+                <span className={`w-2 h-2  rounded-lg  ${l.dot}`} />
                 {l.label}
               </div>
             ))}
@@ -2267,7 +2267,7 @@ export default function FeaturesPage() {
                       className={`flex items-center gap-4 px-5 py-3 transition-colors duration-150 group ${page.access === "dev" ? "bg-white/[0.01]" : "hover:bg-white/[0.04]"
                         } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
                     >
-                      <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />
+                      <span className={`w-2 h-2  rounded-lg  shrink-0 ${accessDot[page.access]}`} />
 
                       <code className="text-sm font-mono text-white/50 group-hover:text-white/90 transition-colors w-[180px] md:w-[220px] shrink-0 truncate">
                         {page.path}
@@ -2281,7 +2281,7 @@ export default function FeaturesPage() {
                         {page.desc}
                       </span>
 
-                      <span className={`shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border whitespace-nowrap ${accessStyles[page.access]}`}>
+                      <span className={`shrink-0 text-xs font-bold px-2.5 py-1  rounded-lg  border whitespace-nowrap ${accessStyles[page.access]}`}>
                         {accessLabel[page.access]}
                       </span>
 
@@ -2325,9 +2325,9 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2  rounded-lg  text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs  font-bold  ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#e1e6ff29]   text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5  rounded-lg  text-xs  font-bold  ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#e1e6ff29]   text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -2349,7 +2349,7 @@ export default function FeaturesPage() {
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover: border-white/20  hover:bg-white/[0.04] transition-colors cursor-default">
+              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:  border-white/10   hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base  font-bold  uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
@@ -2382,8 +2382,8 @@ export default function FeaturesPage() {
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-[#e1e6ff29]   border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
             ].map(l => (
-              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold ${l.color}`}>
-                <span className={`w-2 h-2 rounded-full ${l.dot}`} />
+              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5  rounded-lg  border text-xs font-bold ${l.color}`}>
+                <span className={`w-2 h-2  rounded-lg  ${l.dot}`} />
                 {l.label}
               </div>
             ))}
@@ -2508,7 +2508,7 @@ export default function FeaturesPage() {
                         }`}
                     >
                       {/* access dot */}
-                      <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />
+                      <span className={`w-2 h-2  rounded-lg  shrink-0 ${accessDot[page.access]}`} />
 
                       {/* path */}
                       <code className="text-sm font-mono  text-white  group-hover:text-white transition-colors min-w-[200px] shrink-0">
@@ -2526,7 +2526,7 @@ export default function FeaturesPage() {
                       </span>
 
                       {/* access badge */}
-                      <span className={`shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border ${accessStyles[page.access]}`}>
+                      <span className={`shrink-0 text-xs font-bold px-2.5 py-1  rounded-lg  border ${accessStyles[page.access]}`}>
                         {accessLabel[page.access]}
                       </span>
 
@@ -2547,7 +2547,7 @@ export default function FeaturesPage() {
       <section className="relative py-32 px-6 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px] rounded-full bg-[var(--color-accent)] opacity-[0.07] blur-[130px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[400px]  rounded-lg  bg-[var(--color-accent)] opacity-[0.07] blur-[130px]" />
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
@@ -2564,10 +2564,10 @@ export default function FeaturesPage() {
             >
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border  border-white/20  hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em]  rounded-lg  transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em]  rounded-lg  transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em]  rounded-lg  transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   hover:border-white/30 text-white  font-bold  text-base uppercase tracking-[0.15em]  rounded-lg  transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

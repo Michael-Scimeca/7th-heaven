@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import CustomScrollbar from "@/components/CustomScrollbar";
 
 export interface RoleUser {
   id: string;
@@ -12,7 +13,61 @@ export interface RoleUser {
   phone?: string;
   status?: string;
   joinedDate?: string;
+  avatar?: string;
 }
+
+const getInitials = (name: string) => {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
+const getAvatarColor = (name: string) => {
+  const colors = [
+    "from-purple-600 to-indigo-600",
+    "from-pink-600 to-rose-600",
+    "from-cyan-600 to-blue-600",
+    "from-emerald-600 to-teal-600",
+    "from-amber-600 to-orange-600",
+    "from-violet-600 to-purple-600",
+  ];
+  let hash = 0;
+  for (let i = 0; i < (name || '').length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length];
+};
+
+const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
+  if (avatar && avatar.trim() && !avatar.includes('ui-avatars.com')) return avatar;
+  const lower = (name || '').toLowerCase();
+
+  if (lower.includes('adam')) return '/images/members/adam.png';
+  if (lower.includes('nick')) return '/images/members/nick.png';
+  if (lower.includes('mark')) return '/images/members/mark.png';
+  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/members/frankie.png';
+  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/members/dicky.png';
+
+  if (lower.includes('abbie')) return '/images/crew/abbie.png';
+  if (lower.includes('al') && lower.includes('hollie')) return '/images/crew/al.png';
+  if (lower.includes('andrea')) return '/images/crew/andrea.png';
+  if (lower.includes('arjun')) return '/images/crew/arjun.png';
+  if (lower.includes('chris')) return '/images/crew/chris.png';
+  if (lower.includes('colin') || lower.includes('farrell')) return '/images/crew/chris.png';
+  if (lower.includes('daniel')) return '/images/crew/daniel.png';
+  if (lower.includes('croke')) return '/images/crew/dave_croke.png';
+  if (lower.includes('maas')) return '/images/crew/dave_maas.png';
+  if (lower.includes('xu')) return '/images/crew/david_xu.png';
+  if (lower.includes('emily')) return '/images/crew/emily.png';
+  if (lower.includes('emma')) return '/images/crew/emma.png';
+  if (lower.includes('erin')) return '/images/crew/erin.png';
+  if (lower.includes('francesca')) return '/images/crew/francesca.png';
+  if (lower.includes('john') && lower.includes('wick')) return '/images/crew/john_wick.png';
+  if (lower.includes('john')) return '/images/crew/john_doe.png';
+
+  return '';
+};
 
 const STATIC_DIRECTORY: RoleUser[] = [
   // Admins
@@ -68,6 +123,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       phone: u.phone || "",
       status: u.status || "Active",
       joinedDate: u.created_at ? u.created_at.split("T")[0] : "Recent",
+      avatar: u.avatar || u.avatar_url || "",
     }));
 
     // Merge static and dynamic, deduplicating by email
@@ -152,7 +208,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2 text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg ${activeTab === tab
+              className={`px-3.5 py-2 text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg border border-white/10 ${activeTab === tab
                 ? "bg-[var(--color-accent)] text-white shadow-md"
                 : "bg-[#e1e6ff29]   text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
@@ -160,7 +216,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
+              <span className={`px-1.5 py-0.5  rounded-lg  text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
                 {counts[tab]}
               </span>
             </button>
@@ -198,57 +254,77 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
         ariaLabel="Search email directory"
       />
 
-      {/* Email Table */}
-      <div className="border-none overflow-hidden bg-transparent">
-        <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-transparent text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider text-white/50 sticky top-0  backdrop-blur-[45px] z-10 border-b border-white/10">
-                <th className="py-3 pr-4 pl-0">Name</th>
-                <th className="py-3 px-4">Email Address</th>
-                <th className="py-3 px-4">Role</th>
-                <th className="py-3 px-4">Phone Number</th>
-                <th className="pl-3  text-right">Quick Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/10 text-xs">
+      {/* Email List Container (Divs) */}
+      <div className="border-none overflow-hidden bg-transparent relative">
+        <CustomScrollbar height={480} direction="vertical">
+          <div className="w-full text-left">
+            {/* Header Row (Div) */}
+            <div className="sticky top-0 z-10  backdrop-blur-md [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)]">
+              <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-white/70 border-b border-white/10">
+                <div>Name</div>
+                <div>Email Address</div>
+                <div>Role</div>
+                <div>Phone Number</div>
+                <div className="text-right">Quick Action</div>
+              </div>
+            </div>
+
+            {/* Body Rows (Divs) */}
+            <div className="divide-y divide-white/10 text-xs">
               {filteredUsers.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="py-8 text-center text-white/40 opacity-60 italic font-semibold">
-                    No recipients found matching your search.
-                  </td>
-                </tr>
+                <div className="py-8 text-center text-white/40 opacity-60    font-semibold">
+                  No recipients found matching your search.
+                </div>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-[#e1e6ff29]   transition-colors border-b border-white/10">
-                    <td className="py-3 pr-4 pl-0 font-bold text-white">
-                      <span>{user.name}</span>
-                    </td>
-                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-bold select-all">
+                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover:bg-[#e1e6ff29] transition-colors border-b border-white/10">
+                    <div className="font-bold text-white truncate flex items-center gap-2.5">
+                      {(() => {
+                        const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
+                        return avatarSrc ? (
+                          <img
+                            src={avatarSrc}
+                            alt={user.name}
+                            className="w-7 h-7 rounded-full object-cover shrink-0 border border-white/20 shadow-xs"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className={`w-7 h-7 rounded-full bg-gradient-to-br ${getAvatarColor(user.name)} flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans shadow-xs border border-white/20`}
+                          >
+                            {getInitials(user.name)}
+                          </div>
+                        );
+                      })()}
+                      <span className="truncate">{user.name}</span>
+                    </div>
+                    <div className="text-white font-mono text-xs font-bold select-all truncate">
                       {user.email}
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)]  font-bold  uppercase tracking-wider ${getRoleBadgeStyle(user.role)}`}>
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 font-mono text-white/50 font-semibold">
+                    </div>
+                    <div className="py-1 text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider">
+                      {user.role}
+                    </div>
+                    <div className="font-mono text-white/50 font-semibold truncate">
                       {user.phone || "—"}
-                    </td>
-                    <td className="py-3 pl-4 text-right">
+                    </div>
+                    <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#e1e6ff29] border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 ))
               )}
-            </tbody>
-          </table>
-        </div>
+            </div>
+          </div>
+        </CustomScrollbar>
+        {/* Bottom smooth gradient mask blur overlay */}
+        <div className="absolute bottom-0 left-0 right-0 h-5 backdrop-blur-md pointer-events-none z-10 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]" />
       </div>
     </div>
   );

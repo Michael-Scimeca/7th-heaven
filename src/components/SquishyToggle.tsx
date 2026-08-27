@@ -71,15 +71,15 @@ export function SquishyToggle({
   const thumbClass = animState === 'in'
     ? 'animate-squish-in'
     : animState === 'out'
-    ? 'animate-squish-out'
-    : checked
-    ? 'translate-x-[24px]'
-    : 'translate-x-0';
+      ? 'animate-squish-out'
+      : checked
+        ? 'translate-x-[24px]'
+        : 'translate-x-0';
 
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden  rounded-full  border border-white/25 bg-black/50 shadow-inner ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
       <input
         id={id}
@@ -88,19 +88,19 @@ export function SquishyToggle({
         checked={checked}
         disabled={disabled}
         onChange={handleChange}
-        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
+        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none  rounded-full  border-none outline-none opacity-0 disabled:cursor-not-allowed"
       />
 
       {/* Base inactive track layer */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300" />
+      <div className="pointer-events-none absolute inset-0  rounded-full  bg-white/10 transition-opacity duration-300" />
 
       {/* Active linear-gradient track layer (fades smoothly in & out on check) */}
-      <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
+      <div className={`pointer-events-none absolute inset-0  rounded-full  bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
 
       {/* thumb */}
       <div
         onAnimationEnd={handleAnimationEnd}
-        className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
+        className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px]  rounded-full  bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
       />
     </div>
   );

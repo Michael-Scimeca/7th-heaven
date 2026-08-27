@@ -317,7 +317,7 @@ a:hover {
                 <button
                   aria-label="Close modal"
                   onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-8 h-8  rounded-lg  bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>

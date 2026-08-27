@@ -177,11 +177,11 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">WALL</span>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
               <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
                 Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!
@@ -258,7 +258,7 @@ export default function FansPage() {
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-[#e1e6ff29] text-white text-xs px-3 py-1 font-mono rounded-full  font-bold ">
+              <span className="ml-auto bg-[#e1e6ff29] text-white text-xs px-3 py-1 font-mono  rounded-lg  border  border-white/10    font-bold ">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -272,7 +272,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="p-3 bg-[#e1e6ff15] border  border-white/20  rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
+                    className="p-3 bg-[#e1e6ff15] border   border-white/10   rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
                   >
                     {/* Small Compact Thumbnail */}
                     <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border  border-white/10  bg-black/40">
@@ -313,7 +313,7 @@ export default function FansPage() {
                           </p>
                         )}
                         {photo.caption && (
-                          <p className="text-xs text-white/80 italic truncate mt-1">
+                          <p className="text-xs text-white/80    truncate mt-1">
                             "{photo.caption}"
                           </p>
                         )}
@@ -383,7 +383,7 @@ export default function FansPage() {
                   {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
                 </div>
                 {approvedPhotos[0].caption && (
-                  <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl italic drop-shadow">
+                  <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl    drop-shadow">
                     &ldquo;{approvedPhotos[0].caption}&rdquo;
                   </p>
                 )}
@@ -407,7 +407,8 @@ export default function FansPage() {
                 >
                   <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
                     <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-white/15 border  border-white/10  flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square  rounded-full  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 
+ flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
                         {photo.name
                           ? photo.name
                             .split(" ")
@@ -467,7 +468,7 @@ export default function FansPage() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                        <span className="text-white bg-white/10 border  border-white/10  px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest backdrop-blur-md">
+                        <span className="text-white bg-white/10 border  border-white/10  px-6 py-2  rounded-lg  font-bold text-xs uppercase tracking-widest backdrop-blur-md">
                           {isVideo ? "Play Video" : "Expand Photo"}
                         </span>
                       </div>
@@ -559,7 +560,7 @@ export default function FansPage() {
                     </p>
                   )}
                   {selectedPhoto.caption && (
-                    <p className="text-white/30 text-sm mt-2 italic text-left">
+                    <p className="text-white/30 text-sm mt-2    text-left">
                       &ldquo;{selectedPhoto.caption}&rdquo;
                     </p>
                   )}

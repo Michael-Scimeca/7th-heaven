@@ -219,7 +219,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-3">
                 <span className="text-xs font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
-                <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full" />
+                <span className="w-1.5 h-1.5 bg-cyan-400  rounded-lg " />
                 <span className="text-xs font-bold uppercase text-white/50">Band Announcement</span>
               </div>
               <h2 className="text-2xl md:text-4xl  font-bold  text-white leading-tight mb-4">{featured.title}</h2>

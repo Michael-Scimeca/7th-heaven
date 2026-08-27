@@ -21,9 +21,9 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mo
     fav7hSong: "Midwest Girls In The Summertime",
     favQuote: "Success is where preparation and opportunity meet",
     funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/members/desktop-frank.png",
-    desktopImage: "/images/members/desktop-frank.png",
-    mobileImage: "/images/members/frank-mobile.png"
+    image: "/images/members/desktop-frank.webp",
+    desktopImage: "/images/members/desktop-frank.webp",
+    mobileImage: "/images/members/frank-mobile.webp"
   },
   {
     name: "Nick Cox", role: "Guitars • Vocals • Piano",
@@ -34,9 +34,9 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mo
     favMovie: "American History X", fav7hSong: "Take Me With You",
     favQuote: "The universe is a pretty big place... seems like an awful waste of space.",
     funFact: "I love just staying home on my couch",
-    image: "/images/members/desktop-nick.png",
-    desktopImage: "/images/members/desktop-nick.png",
-    mobileImage: "/images/members/nick.png"
+    image: "/images/members/desktop-nick.webp",
+    desktopImage: "/images/members/desktop-nick.webp",
+    mobileImage: "/images/members/nick-mobile.webp"
   },
   {
     name: "Adam Heisler", role: "Lead Vocals",
@@ -46,9 +46,9 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mo
     favMovie: "Give me a good romantic comedy",
     fav7hSong: "You and I", favQuote: "I'm always happy and never satisfied",
     funFact: "I used to be a Jr. Black belt in Tae Kwon Do",
-    image: "/images/members/desktop-adam.png",
-    desktopImage: "/images/members/desktop-adam.png",
-    mobileImage: "/images/members/adam-mobile.png"
+    image: "/images/members/desktop-adam.webp",
+    desktopImage: "/images/members/desktop-adam.webp",
+    mobileImage: "/images/members/adam-mobile.webp"
   },
   {
     name: "Richard Hofherr", role: "Guitars • Keys • Vocals",
@@ -60,9 +60,9 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mo
     fav7hSong: "Sing, Diamonds, Midwest Girls",
     favQuote: "Life is all about perspectives. You can look at the glass half-empty and half-full.",
     funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/members/desktop-richy.png",
-    desktopImage: "/images/members/desktop-richy.png",
-    mobileImage: "/images/members/dicky-mobile.png"
+    image: "/images/members/desktop-richy.webp",
+    desktopImage: "/images/members/desktop-richy.webp",
+    mobileImage: "/images/members/dicky-mobile.webp"
   },
   {
     name: "Mark Kennetz", role: "Bass • Vocals • Uke • Guitar",
@@ -72,9 +72,9 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & { desktopImage?: string; mo
     favMovie: "Hot Fuzz, Anchorman", fav7hSong: "Ethereal",
     favQuote: "The past is in our heads, the future is in our hands",
     funFact: "Stage 2 carnivore — eat anything with 2 legs or less!",
-    image: "/images/members/desktop-mark.png",
-    desktopImage: "/images/members/desktop-mark.png",
-    mobileImage: "/images/members/mark-mobile.png"
+    image: "/images/members/desktop-mark.webp",
+    desktopImage: "/images/members/desktop-mark.webp",
+    mobileImage: "/images/members/mark-mobile.webp"
   },
 ];
 
@@ -180,27 +180,27 @@ const getStaggerDelay = (idx: number) => {
 };
 
 const getMemberDesktopImage = (m?: Partial<SanityBandMember> & { desktopImage?: string }): string => {
-  if (m?.desktopImage) return m.desktopImage;
+  if (m?.desktopImage) return m.desktopImage.replace(/\.png$/, '.webp');
   const nameLower = (m?.name || "").toLowerCase();
-  if (nameLower.includes("adam")) return "/images/members/desktop-adam.png";
-  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/desktop-richy.png";
-  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/desktop-frank.png";
-  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/desktop-mark.png";
-  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/desktop-nick.png";
-  if (typeof m?.image === 'string' && m.image) return m.image;
-  return "/images/members/desktop-adam.png";
+  if (nameLower.includes("adam")) return "/images/members/desktop-adam.webp";
+  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/desktop-richy.webp";
+  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/desktop-frank.webp";
+  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/desktop-mark.webp";
+  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/desktop-nick.webp";
+  if (typeof m?.image === 'string' && m.image) return m.image.replace(/\.png$/, '.webp');
+  return "/images/members/desktop-adam.webp";
 };
 
 const getMemberMobileImage = (m?: Partial<SanityBandMember> & { mobileImage?: string }): string => {
-  if (m?.mobileImage) return m.mobileImage;
+  if (m?.mobileImage) return m.mobileImage.replace(/\.png$/, '.webp');
   const nameLower = (m?.name || "").toLowerCase();
-  if (nameLower.includes("adam")) return "/images/members/adam-mobile.png";
-  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/dicky-mobile.png";
-  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/frank-mobile.png";
-  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/mark-mobile.png";
-  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/nick.png";
-  if (typeof m?.image === 'string' && m.image) return m.image;
-  return "/images/members/adam-mobile.png";
+  if (nameLower.includes("adam")) return "/images/members/adam-mobile.webp";
+  if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky") || nameLower.includes("richy") || nameLower.includes("hofherr")) return "/images/members/dicky-mobile.webp";
+  if (nameLower.includes("frankie") || nameLower.includes("frank") || nameLower.includes("harchut")) return "/images/members/frank-mobile.webp";
+  if (nameLower.includes("mark") || nameLower.includes("kennetz")) return "/images/members/mark-mobile.webp";
+  if (nameLower.includes("nick") || nameLower.includes("cox")) return "/images/members/nick-mobile.webp";
+  if (typeof m?.image === 'string' && m.image) return m.image.replace(/\.png$/, '.webp');
+  return "/images/members/adam-mobile.webp";
 };
 
 const getMemberImage = (m?: Partial<SanityBandMember> & { desktopImage?: string; mobileImage?: string }, isMobile?: boolean): string => {
@@ -903,7 +903,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
@@ -949,7 +949,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
@@ -981,7 +981,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/20  px-4 py-3 transition-opacity duration-300"
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>

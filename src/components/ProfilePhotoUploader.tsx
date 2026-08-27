@@ -159,8 +159,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-emerald-100 border border-emerald-300 text-emerald-800">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]  animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1  rounded-lg  text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest bg-emerald-100 border border-emerald-300 text-emerald-800">
+            <span className="w-1.5 h-1.5  rounded-lg  bg-[var(--color-accent)]  animate-pulse" />
             Photo Active
           </span>
         )}

@@ -5,7 +5,9 @@ export const BANDS_DATA = [
     desc: "Lead vocalist and guitarist performing high-energy rock sets, acoustic pool jams, and full-production theater concerts.", 
     website: "https://www.7thheavenband.com/", 
     logo: "🎸",
-    photo: "/images/members/nick.png"
+    photo: "/images/members/nick.webp",
+    desktopPhoto: "/images/members/nick.webp",
+    mobilePhoto: "/images/members/nick-mobile.webp"
   },
   { 
     name: "Rich Hofherr", 
@@ -13,7 +15,9 @@ export const BANDS_DATA = [
     desc: "Founder and guitarist of 7th Heaven leading high-energy performances and crowd favorites.", 
     website: "https://www.7thheavenband.com/", 
     logo: "🎸",
-    photo: "/images/members/dicky.png"
+    photo: "/images/members/dicky.webp",
+    desktopPhoto: "/images/members/dicky.webp",
+    mobilePhoto: "/images/members/dicky-mobile.webp"
   },
   { 
     name: "Tony Ocean", 
@@ -21,7 +25,9 @@ export const BANDS_DATA = [
     desc: "Classic Pop, standards, crooner pop, and high-energy crowd favorites performing live mixers and special events.", 
     website: "https://www.tonyoceanmusic.com/", 
     logo: "🎤",
-    photo: "/images/band-performance.png"
+    photo: "/images/band-performance.png",
+    desktopPhoto: "/images/band-performance.png",
+    mobilePhoto: "/images/band-performance.png"
   },
 ];
 

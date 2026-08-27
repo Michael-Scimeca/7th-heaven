@@ -398,7 +398,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
     return (
       <section className="site-container py-48 min-h-screen text-[var(--text-color)] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl  font-bold  italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
+          <h1 className="text-3xl  font-bold     tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="text-[var(--muted-text)] mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
           <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
@@ -424,12 +424,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Account Identity Header */}
         <div className="flex items-center justify-between mb-10 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl  font-bold   text-[var(--color-accent)] overflow-hidden shrink-0">
+            <div className="relative w-16 h-16  rounded-lg  bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl  font-bold   text-[var(--color-accent)] overflow-hidden shrink-0">
               {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
                 <Image width={200} height={200} unoptimized
                   src={effectiveMember?.avatar || member?.avatar}
                   alt={effectiveMember?.name || 'Profile'}
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover  rounded-lg "
                 />
               ) : (
                 effectiveMember?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'
@@ -437,7 +437,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-2xl  font-bold  italic tracking-tight">{effectiveMember?.name}</h1>
+                <h1 className="text-2xl  font-bold     tracking-tight">{effectiveMember?.name}</h1>
                 {(() => {
                   const role = effectiveMember?.role;
                   const isCruiseOnly = effectiveMember?.signup_source === 'cruise_member_signup';
@@ -446,11 +446,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   if (role === 'admin') {
                     return (
                       <>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-purple-500/10 text-purple-300 border-purple-400/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg  bg-purple-500/10 text-purple-300 border-purple-400/30">
                           ADMIN
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg     bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -461,11 +461,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   if (role === 'crew') {
                     return (
                       <>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-emerald-400/10 text-[var(--color-accent)]  border-[var(--color-accent)]/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg  bg-emerald-400/10 text-[var(--color-accent)]  border-[var(--color-accent)]/30">
                           CREW
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg     bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -476,11 +476,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   if (role === 'event_planner') {
                     return (
                       <>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg  bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/30">
                           EVENT PLANNER
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg     bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -490,7 +490,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                   if (isCruiseOnly) {
                     return (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg     bg-purple-600/15 text-purple-300 border-purple-500/30">
                         CRUISE MEMBER
                       </span>
                     );
@@ -502,7 +502,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                           FAN
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border  rounded-lg     bg-purple-600/15 text-purple-300 border-purple-500/30">
                           CRUISE MEMBER
                         </span>
                       </>
@@ -510,7 +510,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   }
 
                   return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em]  rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em]   rounded-lg  bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                       FAN
                     </span>
                   );
@@ -524,17 +524,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Cruise Hub Toggle */}
         {isCruiser && (
           <div className="flex justify-center mb-10 -mt-2">
-            <div className="bg-[#e1e6ff29]   border border-white/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-[#e1e6ff29]   border border-white/10  rounded-lg  p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button aria-label="Action button"
                 onClick={() => setDashboardView('fan')}
-                className={`px-6 py-2 rounded-full text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
+                className={`px-6 py-2  rounded-lg  text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
                   }`}
               >
                 Fan Dashboard
               </button>
               <button aria-label="Action button"
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-full text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
+                className={`px-6 py-2  rounded-lg  text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
                   }`}
               >
                 Cruise Hub
@@ -564,11 +564,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Captain's Log */}
             {cruiseAnnouncement && (
               <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 mb-8 shadow-md">
-                <div className="absolute top-0 right-0 w-64 h-64    rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64     rounded-lg  blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex items-center gap-3 mb-5">
-                    <h3 className="text-lg  font-bold  italic tracking-wider text-black uppercase">Captain&apos;s Log</h3>
+                    <h3 className="text-lg  font-bold     tracking-wider text-black uppercase">Captain&apos;s Log</h3>
                     <span className="ml-auto text-xs font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
@@ -590,13 +590,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                 {cruiseItinerary.length > 0 && (
                   <div>
-                    <h2 className="text-xl  font-bold  italic tracking-wide text-white uppercase mb-6 flex items-center gap-3">
-                      Official Itinerary <span className="text-xs font-bold text-white/40 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
+                    <h2 className="text-xl  font-bold     tracking-wide text-white uppercase mb-6 flex items-center gap-3">
+                      Official Itinerary <span className="text-xs font-bold text-white/40 tracking-widest not-   ml-2 uppercase">Subject to Change</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
                         <div key={day.id} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group transition-colors duration-300 rounded-lg " style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
-                          <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
+                          <div className="absolute top-0 right-0 w-48 h-48  rounded-lg  blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
@@ -627,12 +627,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
                   <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group rounded-lg ">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10  rounded-lg  blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
                         <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
                         <div className="flex items-center gap-2">
-                          <span className="text-white  font-bold  text-2xl italic tracking-wide">412</span>
+                          <span className="text-white  font-bold  text-2xl    tracking-wide">412</span>
                           <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Fans Onboard</span>
                         </div>
                       </div>
@@ -642,12 +642,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
                           const colors = ['bg-rose-500/20 text-rose-300', 'bg-purple-500/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
                           return (
-                            <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden  hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
+                            <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10  rounded-lg  border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden  hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="font-bold text-xs">{initials}</span>
                             </div>
                           );
                         })}
-                        <div className="w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] bg-[var(--color-accent)]/20 flex items-center justify-center  text-[var(--color-accent)] font-bold text-xs">
+                        <div className="w-10 h-10  rounded-lg  border-2 border-[var(--color-bg-surface)] bg-[var(--color-accent)]/20 flex items-center justify-center  text-[var(--color-accent)] font-bold text-xs">
                           +406
                         </div>
                       </div>
@@ -672,8 +672,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <div className="flex items-center justify-between px-6 py-4 bg-red-950/40 border border-red-500/40 hover:border-red-500/60 transition-colors">
                         <div className="flex items-center gap-4">
                           <span className="relative flex h-4 w-4">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+                            <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
+                            <span className="relative inline-flex  rounded-lg  h-4 w-4 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
                           </span>
                           <div>
                             <p className="text-sm  font-bold  text-white uppercase tracking-wide">{feed.host} is LIVE {feed.title ? `— ${feed.title}` : ''}</p>
@@ -689,17 +689,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 </div>
               ) : (
                 <Link href="/live" className="block group">
-                  <div className="flex items-center justify-between px-4 py-4 bg-[#e1e6ff29]   border border-white/10 rounded-lg hover:border-white/20 transition-colors">
+                  <div className="flex items-center justify-between px-4 py-4 bg-[#e1e6ff29]   border border-white/10 rounded-lg hover: border-white/10  transition-colors">
                     <div className="flex items-center gap-4">
                       <span className="relative flex h-4 w-4">
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-white/30" />
+                        <span className="relative inline-flex  rounded-lg  h-4 w-4 bg-white/30" />
                       </span>
                       <div>
                         <p className="text-sm font-bold text-white/80 uppercase tracking-wide">Backstage is Quiet</p>
                         <p className="text-xs text-white/50 mt-0.5">No crew feeds are live right now — check back during the next show</p>
                       </div>
                     </div>
-                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs  font-bold  uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border  border-white/20 ">Live Hub →</span>
+                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs  font-bold  uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border   border-white/10  ">Live Hub →</span>
                   </div>
                 </Link>
               )}
@@ -729,15 +729,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-start justify-between relative z-10">
                           <div>
                             {isClaimed ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border    border-white/10 rounded-full text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-widest mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border    border-white/10  rounded-lg  text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-widest mb-4">
                                 ✓ PRIZE CLAIMED
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-xs  font-bold  text-yellow-500 uppercase tracking-widest mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20  rounded-lg  text-xs  font-bold  text-yellow-500 uppercase tracking-widest mb-4">
                                 RAFFLE WINNER
                               </span>
                             )}
-                            <h3 className="text-2xl  font-bold  text-white italic tracking-tight mb-2">
+                            <h3 className="text-2xl  font-bold  text-white    tracking-tight mb-2">
                               {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
                             </h3>
                             <p className=" text-white  text-sm max-w-[280px] leading-relaxed mb-6">
@@ -787,14 +787,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="relative text-white mb-10">
                   <div className="relative z-10">
                     {isHappeningNow ? (
-                      <span className="inline-flex items-center gap-2 text-xs  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30">
-                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" /></span>
+                      <span className="inline-flex items-center gap-2 text-xs  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1  rounded-lg  border  border-[var(--color-accent)]/30">
+                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-emerald-400 opacity-75" /><span className="relative inline-flex  rounded-lg  h-1.5 w-1.5 bg-emerald-500" /></span>
                         Happening Now
                       </span>
                     ) : isEnded ? (
-                      <span className="text-xs  font-bold  text-white uppercase tracking-[0.2em] bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3 py-1 rounded-full">Show Completed</span>
+                      <span className="text-xs  font-bold  text-white uppercase tracking-[0.2em] bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3 py-1  rounded-lg ">Show Completed</span>
                     ) : (
-                      <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Next Show</span>
+                      <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white bg-[var(--color-accent)]/10 px-3 py-1  rounded-lg  border border-[var(--color-accent)]/20">Next Show</span>
                     )}
                     {nextShow ? (() => {
                       return (
@@ -811,8 +811,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {isHappeningNow ? (
                               <div className="flex items-center gap-3 px-5 py-3 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_25px_rgba(16,185,129,0.15)]">
                                 <span className="relative flex h-3 w-3">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                                  <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-emerald-400 opacity-75" />
+                                  <span className="relative inline-flex  rounded-lg  h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                                 </span>
                                 <span className="text-emerald-400 text-sm  font-bold  uppercase tracking-widest">Happening Now</span>
                               </div>
@@ -856,7 +856,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
                     <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-4 md:pb-3">
-                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-[#e1e6ff29]   border  border-white/20  rounded-lg shrink-0">
+                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-[#e1e6ff29]   border   border-white/10   rounded-lg shrink-0">
                         <span className="text-xs  font-bold  text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-lg  font-bold  text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
@@ -911,7 +911,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                       {PIN_ICON} Parking
                                     </button>
                                     {parkingNoteOpenIdx === i && (
-                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border  border-white/20  rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
+                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border   border-white/10   rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem]  font-bold  uppercase tracking-widest text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
@@ -935,7 +935,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                                     </button>
                                     {parkingNoteOpenIdx === i && (
-                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border  border-white/20  rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
+                                      <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border   border-white/10   rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem]  font-bold  uppercase tracking-widest text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
@@ -982,7 +982,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                 {loadingAlerts ? (
                   <div className="py-8 flex flex-col items-center">
-                    <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent  rounded-lg  animate-spin" />
                   </div>
                 ) : subscribedShows.length > 0 ? (
                   <div className="space-y-3">
@@ -1022,7 +1022,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-start gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-purple-400   px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
+                          <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-purple-400   px-2.5 py-1  rounded-lg  border border-cyan-500/20">Limited Spots</span>
                         </div>
                         <h3 className="text-lg  font-bold  text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className=" text-white  text-sm max-w-lg leading-relaxed">
@@ -1043,7 +1043,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 relative text-white">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white px-3 py-1 rounded-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]">Live Stream Alerts</span>
+                    <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white px-3 py-1  rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]">Live Stream Alerts</span>
                   </div>
                   <h3 className="text-xl  font-bold  text-white mb-1">Never Miss a Live Feed</h3>
                   <p className=" text-white  text-sm mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
@@ -1067,7 +1067,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           placeholder="(312) 555-0199"
                           value={liveAlertPhone}
                           onChange={(e) => setLiveAlertPhone(e.target.value)}
-                          className="bg-[#e1e6ff29]   border  border-white/20  rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
+                          className="bg-[#e1e6ff29]   border   border-white/10   rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
                         />
                       </div>
                       <CosmicRadialButton
@@ -1100,7 +1100,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 {/* Tour Memories Gallery & Upload */}
                 <div className="space-y-6 pt-4 border-t border-black/10">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-2xl  font-bold  italic tracking-tight">Tour Memories</h3>
+                    <h3 className="text-2xl  font-bold     tracking-tight">Tour Memories</h3>
                     <Link href="/fan-photo-wall" className="text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
                   </div>
 
@@ -1183,7 +1183,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         VIP Inbox
                       </span>
                       {inboxMessages.filter(m => m.isNew).length > 0 && (
-                        <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs uppercase tracking-widest font-bold rounded-full animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
+                        <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs uppercase tracking-widest font-bold  rounded-lg  animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
                       )}
                     </div>
                   </div>
@@ -1192,7 +1192,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     {inboxMessages.map((msg) => (
                       <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3  hover:bg-[#e1e6ff29]   transition-colors border border-transparent hover:border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">
-                          <div className={`w-8 h-8 rounded-full ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
+                          <div className={`w-8 h-8  rounded-lg  ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
                             <span className="text-[var(--font-size-3xs)]">{msg.icon}</span>
                           </div>
                           <div>
@@ -1241,7 +1241,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-sm font-bold text-white truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg  font-bold  text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/merch`} className="text-xs  font-bold  uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border  border-white/20  hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
+                          <Link href={`/merch`} className="text-xs  font-bold  uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border   border-white/10   hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
                     </div>

@@ -1,24 +1,31 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import lottie from "lottie-web";
-import waveData from "../../public/lottie/cruise-wave.json";
-
 export default function CruiseWaveAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    const anim = lottie.loadAnimation({
-      container: containerRef.current,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      animationData: waveData,
-    });
+    let anim: any = null;
+    let isMounted = true;
+
+    Promise.all([
+      import("lottie-web"),
+      fetch("/lottie/cruise-wave.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    ]).then(([lottieModule, waveData]) => {
+      if (!isMounted || !containerRef.current || !waveData) return;
+      const lottie = lottieModule.default || lottieModule;
+      anim = lottie.loadAnimation({
+        container: containerRef.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: waveData,
+      });
+    }).catch(() => {});
 
     return () => {
-      anim.destroy();
+      isMounted = false;
+      if (anim) anim.destroy();
     };
   }, []);
 

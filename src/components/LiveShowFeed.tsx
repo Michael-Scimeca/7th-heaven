@@ -178,8 +178,8 @@ export default function LiveShowFeed() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/40 px-3 py-1.5">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
+              <span className="relative inline-flex  rounded-lg  h-2 w-2 bg-red-500" />
             </span>
             <span className="text-xs  font-bold  uppercase tracking-[0.15em] text-red-400">Live</span>
           </div>
@@ -188,7 +188,7 @@ export default function LiveShowFeed() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+          <span className="w-1.5 h-1.5 bg-red-500  rounded-lg  animate-pulse" />
           <span className="text-xs font-bold text-white/30 tabular-nums">
             {viewerCount.toLocaleString()} watching
           </span>
@@ -221,7 +221,7 @@ export default function LiveShowFeed() {
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/15"
+                  className="w-7 h-7  rounded-lg  flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/15"
                 >
                   {selectedMedia.member_avatar}
                 </div>
@@ -257,7 +257,7 @@ export default function LiveShowFeed() {
                   ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                   : isNew
                     ? "border-red-500/50"
-                    : "border-white/[0.06] hover:border-white/20"
+                    : "border-white/[0.06] hover: border-white/10 "
                   }`}
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
               >
@@ -284,7 +284,7 @@ export default function LiveShowFeed() {
                 </div>
                 {/* New indicator */}
                 {isNew && (
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500  rounded-lg  animate-pulse" />
                 )}
               </button>
             );
@@ -304,7 +304,7 @@ export default function LiveShowFeed() {
                 className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]"
               >
                 <div
-                  className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40  text-[var(--color-accent)] bg-[var(--color-accent)]/10"
+                  className="w-7 h-7 shrink-0  rounded-lg  flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40  text-[var(--color-accent)] bg-[var(--color-accent)]/10"
                 >
                   {post.member_avatar}
                 </div>

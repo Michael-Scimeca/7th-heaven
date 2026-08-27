@@ -141,7 +141,7 @@ export default function DevRouteList() {
                 <h3 className="text-xl  font-bold  uppercase tracking-wide text-white">
                   Developer Route Directory
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="px-2.5 py-0.5  rounded-lg  text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   {ALL_ROUTES.length} Routes Pre-rendered
                 </span>
               </div>

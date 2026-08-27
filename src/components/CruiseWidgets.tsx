@@ -157,9 +157,9 @@ export function OriginStats() {
               <span className="text-white/70">{stat.location}</span>
               <span className=" text-[var(--color-accent)]">{stat.count} fans</span>
             </div>
-            <div className="w-full h-1.5   rounded-full overflow-hidden border border-white/5">
+            <div className="w-full h-1.5    rounded-lg  overflow-hidden border border-white/5">
               <div
-                className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
+                className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500  rounded-lg  opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
             </div>
@@ -505,7 +505,7 @@ export function BookingManager({ email }: { email?: string }) {
           disabled={registering}
           className="w-full mt-2 py-2.5 text-white  font-bold  tracking-wider text-xs rounded-lg disabled:opacity-50"
         >
-          {registering ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
+          {registering ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
       </form>
     </div>
@@ -748,7 +748,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
       <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-colors duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30  rounded-lg  flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
             <h3 className="text-lg  font-bold  uppercase tracking-widest text-white">Payment Successful</h3>
@@ -780,7 +780,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
 
             {processing ? (
               <div className="py-12 text-center space-y-4">
-                <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
+                <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent  rounded-lg  animate-spin mx-auto" />
                 <p className="text-xs font-bold text-purple-400uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
@@ -972,7 +972,7 @@ export function SongRequestLeaderboard() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center  text-[var(--color-accent)] text-sm">🎸</div>
+        <div className="w-8 h-8  rounded-lg  bg-purple-600/20 flex items-center justify-center  text-[var(--color-accent)] text-sm">🎸</div>
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
           <p className="text-white/40 text-xs uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
@@ -1030,7 +1030,7 @@ export function CaptainsLog() {
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button aria-label="Action button"
           onClick={() => setIsPlaying(!isPlaying)}
-          className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
+          className="w-12 h-12  rounded-lg  bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
@@ -1044,8 +1044,8 @@ export function CaptainsLog() {
             <span className="text-sm font-bold text-white truncate">Rehearsal Update!</span>
             <span className="text-xs  text-[var(--color-accent)]/80 font-mono">0:42</span>
           </div>
-          <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer">
-            <div className="h-full bg-[var(--color-accent)] rounded-full" style={{ width: `${progress}%` }} />
+          <div className="w-full h-1.5 bg-white/10  rounded-lg  overflow-hidden cursor-pointer">
+            <div className="h-full bg-[var(--color-accent)]  rounded-lg " style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>

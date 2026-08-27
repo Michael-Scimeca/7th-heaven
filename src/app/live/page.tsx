@@ -260,12 +260,12 @@ export default function LiveHubPage() {
         {/* ── HERO HEADER ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
           <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-400/40  backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg  bg-purple-950/70 border border-purple-400/40  backdrop-blur-[45px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
               <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
               <span>OFFICIAL BAND LIVE BROADCAST</span>
             </div>
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem]  font-bold  uppercase italic tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              LIVE <span className="inline-block pr-[0.15em] bg-gradient-to-r from-purple-300 via-pink-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(168,85,247,0.9)]">STREAM HUB</span>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
             </h1>
             <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
               {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
@@ -283,7 +283,7 @@ export default function LiveHubPage() {
               <div className="flex items-center gap-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                 <span className=" font-bold  uppercase tracking-widest text-sm" style={{ color: "#f87171" }}>Moderation Dashboard</span>
-                <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
+                <span className="px-2 py-0.5  rounded-lg  text-xs font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
                 <span className="flex items-center gap-1"><Eye className="w-3.5 h-3.5 text-white/50" /> {totalViewers.toLocaleString()} watching</span>
@@ -329,8 +329,8 @@ export default function LiveHubPage() {
                           sizes="(max-width: 768px) 100vw, 400px"
                           className="object-cover"
                         />
-                        <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold" style={{ background: "#dc2626" }}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1  rounded-lg  text-xs font-bold" style={{ background: "#dc2626" }}>
+                          <span className="w-1.5 h-1.5  rounded-lg  bg-white animate-pulse" />
                           LIVE
                         </div>
                         <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded text-xs font-bold" style={{ background: "rgba(0,0,0,0.7)", color: "rgba(255,255,255,0.7)" }}>
@@ -376,15 +376,15 @@ export default function LiveHubPage() {
                         }}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white  font-bold  text-xs shrink-0" style={{ background: fan.color }}>
+                          <div className="w-9 h-9  rounded-lg  flex items-center justify-center text-white  font-bold  text-xs shrink-0" style={{ background: fan.color }}>
                             {fan.avatar}
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5 flex-wrap">
                               <span className="text-sm font-bold truncate" style={{ color: fan.color }}>{fan.name}</span>
-                              {isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(239,68,68,0.2)", color: "#f87171", fontSize: 9 }}>BANNED</span>}
-                              {isMuted && !isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(156,163,175,0.15)", color: "#9ca3af", fontSize: 9 }}>MUTED</span>}
-                              {isWarned && !isBanned && <span className="px-1.5 rounded-full text-xs" style={{ background: "rgba(192, 132, 252,0.15)", color: "#c084fc", fontSize: 9 }}>WARNED</span>}
+                              {isBanned && <span className="px-1.5  rounded-lg  text-xs" style={{ background: "rgba(239,68,68,0.2)", color: "#f87171", fontSize: 9 }}>BANNED</span>}
+                              {isMuted && !isBanned && <span className="px-1.5  rounded-lg  text-xs" style={{ background: "rgba(156,163,175,0.15)", color: "#9ca3af", fontSize: 9 }}>MUTED</span>}
+                              {isWarned && !isBanned && <span className="px-1.5  rounded-lg  text-xs" style={{ background: "rgba(192, 132, 252,0.15)", color: "#c084fc", fontSize: 9 }}>WARNED</span>}
                             </div>
                             <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{fan.tier} · {fan.msgs} msgs</p>
                           </div>
@@ -475,7 +475,7 @@ export default function LiveHubPage() {
           {rooms.map((room, i) => (
             <div
               key={room.name}
-              className="group bg-black/40 border border-white/10 rounded-lg  overflow-hidden transition-all duration-300 hover:border-purple-500/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+              className="group rounded-lg  overflow-hidden "
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
@@ -493,14 +493,14 @@ export default function LiveHubPage() {
 
                   {/* LIVE badge */}
                   <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] flex items-center gap-1.5 px-3 py-1.5  rounded-lg " style={{ background: "#e1e6ff29" }}>
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span className="w-2 h-2  rounded-lg  bg-white animate-pulse" />
                     <span className="text-white text-xs font-bold uppercase tracking-widest">LIVE NOW</span>
                   </div>
 
                   {/* Viewer + time pills */}
                   <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
                     <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-400" />
                       {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
                     </div>
                     <div className="px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
@@ -510,7 +510,7 @@ export default function LiveHubPage() {
 
                   {/* Hover overlay */}
                   <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
+                    <div className="w-16 h-16  rounded-lg  flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
                       <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     </div>
                   </div>
@@ -518,10 +518,10 @@ export default function LiveHubPage() {
               </Link>
 
               {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-black/40  backdrop-blur-[45px] border-b border-white/10 text-white">
+              <div className="p-6 flex items-center justify-between relative bg-black/40  backdrop-blur-[45px]  text-white">
                 {/* Avatar badge */}
                 <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs  font-bold  ring-4 ring-white/20 shadow-md"
+                  className="absolute -top-5 right-6 w-10 h-10  rounded-lg  flex items-center justify-center text-white text-xs  font-bold  ring-4 ring-white/20 shadow-md"
                   style={{ background: room.gradient }}
                 >
                   {room.member}

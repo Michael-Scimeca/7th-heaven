@@ -143,7 +143,7 @@ export default function AwardPicksPanel() {
               onClick={() => setSelectedPick(pick.id)}
               className={`p-3 border text-center transition-colors cursor-pointer rounded-lg ${selectedPick === pick.id
                 ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]"
-                : "border-white/10 bg-white/[0.02] hover:border-white/20"
+                : "border-white/10 bg-white/[0.02] hover: border-white/10 "
                 }`}
             >
               <div
@@ -171,7 +171,7 @@ export default function AwardPicksPanel() {
               onClick={() => setSelectedReason(r.id)}
               className={`px-3 py-2 text-left border transition-colors cursor-pointer rounded-lg ${selectedReason === r.id
                 ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
-                : "border-white/10 bg-white/[0.02] hover:border-white/20"
+                : "border-white/10 bg-white/[0.02] hover: border-white/10 "
                 }`}
             >
               <span className="text-sm">{r.label}</span>
@@ -247,7 +247,7 @@ export default function AwardPicksPanel() {
           <div className="space-y-1.5">
             {recentAwards.map((a) => (
               <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg text-sm">
-                <span className="w-3 h-3 rounded-full" style={{ background: a.color }} />
+                <span className="w-3 h-3  rounded-lg " style={{ background: a.color }} />
                 <span className="text-white/70 font-bold">{a.fan}</span>
                 <span className="text-white/30">→</span>
                 <span className={`font-bold ${rarityColors[a.rarity]}`}>{a.pick}</span>

@@ -55,7 +55,7 @@ export default function PlannerDashboardPage() {
     return (
       <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-white/10 border-t-[var(--color-accent)] rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-8 h-8 border-2 border-white/10 border-t-[var(--color-accent)]  rounded-lg  animate-spin mx-auto mb-4" />
           <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Loading Planner Dashboard...</p>
         </div>
       </div>
@@ -107,15 +107,15 @@ export default function PlannerDashboardPage() {
             {/* Member Avatar */}
             <div className="relative shrink-0">
               {isAvatarUrl ? (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-[var(--color-accent)]/40 shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  overflow-hidden border-2 border-[var(--color-accent)]/40 shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={displayName} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   {initials}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-[var(--color-accent)] rounded-full shadow-md border border-[var(--color-accent)]/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-[var(--color-accent)]  rounded-lg  shadow-md border border-[var(--color-accent)]/50">
                 Planner
               </span>
             </div>

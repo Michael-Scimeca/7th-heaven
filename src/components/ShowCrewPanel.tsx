@@ -228,7 +228,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {Array.from(data.timeline, (event, i) => ({ event, i })).map(({ event, i }) => (
               <div key={event.label} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
                 <div className="relative flex flex-col items-center shrink-0">
-                  <div className={`w-3 h-3 rounded-full border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-transparent  border-white/20 '}`} />
+                  <div className={`w-3 h-3  rounded-lg  border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-transparent   border-white/10  '}`} />
                   {i < data.timeline.length - 1 && <div className="w-px h-6 bg-[#e1e6ff29]   absolute top-3.5" />}
                 </div>
                 <span className="text-sm font-bold text-white/50 w-24 shrink-0">{event.label}</span>
@@ -249,8 +249,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex-1 h-1.5 bg-[#e1e6ff29]   rounded-full overflow-hidden">
-                <div className={`h-full rounded-full transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
+              <div className="flex-1 h-1.5 bg-[#e1e6ff29]    rounded-lg  overflow-hidden">
+                <div className={`h-full  rounded-lg  transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
               <span className={`text-xs font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>

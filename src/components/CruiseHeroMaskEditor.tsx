@@ -201,7 +201,7 @@ export default function CruiseHeroMaskEditor() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-4 py-3 rounded-full shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all hover:scale-105"
+          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-4 py-3  rounded-lg  shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all hover:scale-105"
         >
           <Sliders className="w-5 h-5" />
           <span className="text-xs uppercase tracking-wider">PAGE & ITINERARY CSS STUDIO</span>

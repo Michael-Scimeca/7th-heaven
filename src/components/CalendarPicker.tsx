@@ -132,7 +132,7 @@ export function CalendarPicker({
             <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border  border-white/20  rounded-lg text-xs font-bold text-white hover:bg-white/20 transition-colors cursor-pointer  "
+              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border   border-white/10   rounded-lg text-xs font-bold text-white hover:bg-white/20 transition-colors cursor-pointer  "
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
               <span>Prev</span>
@@ -168,7 +168,7 @@ export function CalendarPicker({
             <button aria-label="Next"
               type="button"
               onClick={handleNextMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border  border-white/20  rounded-lg text-xs font-bold text-white hover:bg-white/20 transition-colors cursor-pointer  "
+              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border   border-white/10   rounded-lg text-xs font-bold text-white hover:bg-white/20 transition-colors cursor-pointer  "
             >
               <span>Next</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -231,10 +231,10 @@ export function CalendarPicker({
                 >
                   {date.getDate()}
                   {isBlocked && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2  rounded-lg  bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border  border-white/10  text-white text-[var(--font-size-3xs)]  font-bold  w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border  border-white/10  text-white text-[var(--font-size-3xs)]  font-bold  w-5 h-5  rounded-lg  flex items-center justify-center shadow-md animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -327,7 +327,7 @@ export function CalendarPicker({
                     className={`w-full text-left p-4  rounded-lg border transition-colors cursor-pointer flex gap-4 items-center group
                        ${isSelected
                         ? "border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
-                        : "border-white/10 bg-[#e1e6ff29]   hover:border-white/20 hover:bg-white/10 text-white/80"}
+                        : "border-white/10 bg-[#e1e6ff29]   hover: border-white/10  hover:bg-white/10 text-white/80"}
                      `}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>

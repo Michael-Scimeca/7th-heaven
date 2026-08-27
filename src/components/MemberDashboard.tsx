@@ -269,7 +269,7 @@ export default function MemberDashboard() {
                   const role = member?.role ?? 'fan';
                   const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border  rounded-lg  ${cfg.cls}`}>
                       {cfg.label}
                     </span>
                   );
@@ -305,7 +305,7 @@ export default function MemberDashboard() {
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
-            <span className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/20">Claim PINs</span>
+            <span className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1  rounded-lg  border border-[var(--color-accent)]/20">Claim PINs</span>
           </div>
 
           <div className="relative z-10">
@@ -332,7 +332,7 @@ export default function MemberDashboard() {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black  rounded-lg  shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="text-xs  text-white  max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
                             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>

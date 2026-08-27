@@ -165,7 +165,7 @@ export default function HomeMerch() {
               <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:  border-white/10 transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-2.5 py-1  rounded-lg  shadow-red-500/20">
                     Sale
                   </span>
                 </div>

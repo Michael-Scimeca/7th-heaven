@@ -273,7 +273,7 @@ export default function CustomYTPlayer({
           {/* Loading State */}
           {!isReady && (
             <div className="absolute inset-0 flex items-center justify-center   z-20">
-              <div className="w-12 h-12 border-2  border-white/10  border-t-[var(--color-accent)] rounded-full animate-spin" />
+              <div className="w-12 h-12 border-2  border-white/10  border-t-[var(--color-accent)]  rounded-lg  animate-spin" />
             </div>
           )}
 
@@ -284,7 +284,7 @@ export default function CustomYTPlayer({
           >
             <CosmicRadialButton
               icon={false}
-              className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl"
+              className="w-20 h-20 ! rounded-lg  !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl"
             >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
                 <polygon points="5 3 19 12 5 21 5 3" />
@@ -304,7 +304,7 @@ export default function CustomYTPlayer({
               }`}
           >
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-1 h-6 bg-[var(--color-accent)] rounded-full shrink-0" />
+              <div className="w-1 h-6 bg-[var(--color-accent)]  rounded-lg  shrink-0" />
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-white truncate">{title}</h3>
                 <p className="text-xs text-white/40">7th Heaven • {year}</p>
@@ -356,17 +356,17 @@ export default function CustomYTPlayer({
             >
               {/* Buffered */}
               <div
-                className="absolute top-0 left-0 h-full bg-white/15 rounded-full"
+                className="absolute top-0 left-0 h-full bg-white/15  rounded-lg "
                 style={{ width: `${buffered}%` }}
               />
               {/* Progress */}
               <div
-                className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-full transition-none"
+                className="absolute top-0 left-0 h-full bg-[var(--color-accent)]  rounded-lg  transition-none"
                 style={{ width: `${progress}%` }}
               />
               {/* Scrubber */}
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)]  rounded-lg  opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             </div>
@@ -389,7 +389,7 @@ export default function CustomYTPlayer({
                 {/* Play/Pause */}
                 <CosmicRadialButton onClick={togglePlay}
                   icon={false}
-                  className="w-10 h-10 !rounded-full !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
+                  className="w-10 h-10 ! rounded-lg  !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -452,7 +452,7 @@ export default function CustomYTPlayer({
                         playerRef.current?.setVolume(v);
                         if (v > 0) playerRef.current?.unMute();
                       }}
-                      className="w-full h-1 appearance-none bg-white/20 rounded-full cursor-pointer accent-[var(--color-accent)]"
+                      className="w-full h-1 appearance-none bg-white/20  rounded-lg  cursor-pointer accent-[var(--color-accent)]"
                     />
                   </div>
                 </div>

@@ -471,7 +471,7 @@ export default function CruiseChat({
   if (isLoading) {
     return (
       <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
-        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400  rounded-lg  animate-spin" />
         <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
@@ -482,7 +482,7 @@ export default function CruiseChat({
       <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
         <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-lg opacity-50">
+            <div className="w-8 h-8  rounded-lg  bg-black/5 flex items-center justify-center text-lg opacity-50">
               💬
             </div>
             <div>
@@ -512,18 +512,18 @@ export default function CruiseChat({
       {showHeader && (
         <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
+            <div className="w-7 h-7  rounded-lg  bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
               💬
             </div>
             <div>
               <h3 className=" font-bold  text-white text-xs tracking-wide flex items-center gap-1.5">
                 Passenger Lounge
-                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
+                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5  rounded-lg ">
                   LIVE
                 </span>
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
+                <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-500 animate-pulse shadow-xs" />
                 <span className=" text-[12px]  font-bold text-emerald-400 uppercase tracking-wider">
                   {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
                 </span>
@@ -538,7 +538,7 @@ export default function CruiseChat({
                 {onlineUsers.map((u) => (
                   <div key={u.name} className="flex items-center gap-1 group">
                     <div
-                      className="w-4 h-4 rounded-full flex items-center justify-center text-[7px]  font-bold  shrink-0 ring-1"
+                      className="w-4 h-4  rounded-lg  flex items-center justify-center text-[7px]  font-bold  shrink-0 ring-1"
                       style={{
                         background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
                         borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
@@ -552,7 +552,7 @@ export default function CruiseChat({
                     >
                       {u.name}
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                    <span className="w-1 h-1  rounded-lg  bg-emerald-400 shrink-0" />
                   </div>
                 ))}
               </div>
@@ -564,7 +564,7 @@ export default function CruiseChat({
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+          <div className="w-16 h-16  rounded-lg  bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
             <MessageSquare className="w-8 h-8" />
           </div>
 
@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border  border-white/20  transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -678,7 +678,7 @@ export default function CruiseChat({
 
                   return (
                     <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
-                      <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs  font-bold  mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
+                      <div className={`w-8 h-8  rounded-lg  shrink-0 flex items-center justify-center text-xs  font-bold  mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                         {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                       </div>
                       <div className="flex flex-col items-start flex-1 min-w-0">

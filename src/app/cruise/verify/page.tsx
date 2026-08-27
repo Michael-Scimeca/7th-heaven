@@ -128,7 +128,7 @@ function CruiseVerifyContent() {
             </p>
             <Link
               href="/cruise/dashboard"
-              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             >
               Access My Dashboard →
             </Link>
@@ -136,7 +136,7 @@ function CruiseVerifyContent() {
         ) : (
           <>
             {/* Eyebrow */}
-            <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4">
+            <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30  rounded-lg  mb-4">
               <span className="text-[10px] sm:text-xs  font-bold  uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
             </div>
 
@@ -164,9 +164,9 @@ function CruiseVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl  font-bold  text-white bg-black/60 border  rounded-lg outline-none transition-all ${d
+                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl  font-bold  text-white bg-black/60 border  rounded-lg outline-none transition-[border-color,background-color,box-shadow] ${d
                       ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
-                      : " border-white/20  focus:border-purple-400 focus:bg-purple-950/20"
+                      : "  border-white/10   focus:border-purple-400 focus:bg-purple-950/20"
                       } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
                   />
                 ))}
@@ -181,7 +181,7 @@ function CruiseVerifyContent() {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-[transform,opacity] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>
