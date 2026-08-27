@@ -7,8 +7,6 @@ export default function ClientOnlyExtras() {
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
 
-  const [ReactScanComp, setReactScanComp] = useState<ComponentType | null>(null);
-
   useEffect(() => {
     let loaded = false;
 
@@ -17,10 +15,6 @@ export default function ClientOnlyExtras() {
       link.rel = "manifest";
       link.href = "/manifest.json";
       document.head.appendChild(link);
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      import("@/components/ReactScan").then((m) => setReactScanComp(() => m.default)).catch(() => {});
     }
 
     const loadExtras = () => {
@@ -57,7 +51,6 @@ export default function ClientOnlyExtras() {
 
   return (
     <>
-      {ReactScanComp && <ReactScanComp />}
       {DevGuide && <DevGuide />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}
