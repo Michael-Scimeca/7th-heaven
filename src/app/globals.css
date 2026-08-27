@@ -4199,23 +4199,6 @@ textarea,
  * mix-blend-mode is deliberately left at the UA default (plus-lighter) here,
  * unlike the root rule above: plus-lighter is what stops a cross-fade dipping
  * through a muddy middle, and this pair genuinely is a cross-fade. */
-header {
-  view-transition-name: site-header;
-}
-
-::view-transition-group(site-header) {
-  animation-duration: 500ms;
-}
-
-::view-transition-old(site-header),
-::view-transition-new(site-header) {
-  animation-duration: 500ms;
-  animation-timing-function: ease;
-  isolation: isolate;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
 /* Respect a user's reduced-motion preference: keep the route swap instant
  * rather than sliding a full viewport height past them. */
 @media (prefers-reduced-motion: reduce) {
@@ -4223,9 +4206,7 @@ header {
   ::view-transition-old(root),
   ::view-transition-new(root),
   ::view-transition-old(page-body),
-  ::view-transition-new(page-body),
-  ::view-transition-old(site-header),
-  ::view-transition-new(site-header) {
+  ::view-transition-new(page-body) {
     animation: none;
   }
 }
