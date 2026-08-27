@@ -9,7 +9,7 @@ interface ProgressiveBlurProps {
 
 export default function ProgressiveBlur({ position = "both", className = "" }: ProgressiveBlurProps) {
   return (
-    <div className="blur" style={{ opacity: 1 }}>
+    <>
       {(position === "top" || position === "both") && (
         <div className={`progressive-blur is-top ${className}`} aria-hidden="true">
           <div className="progressive-blur__layer is--1" />
@@ -29,6 +29,6 @@ export default function ProgressiveBlur({ position = "both", className = "" }: P
           <div className="progressive-blur__layer is--5" />
         </div>
       )}
-    </div>
+    </>
   );
 }
