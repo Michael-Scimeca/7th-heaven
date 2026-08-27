@@ -107,6 +107,19 @@ const GRACE_MS = 180;
 const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 103%, 100% 100%, 0% 100%)";
 const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
+function isSamePathname(currentPathname: string, targetHref: string | null): boolean {
+  if (!targetHref) return true;
+  try {
+    const targetPath = new URL(targetHref, "http://localhost").pathname.replace(/\/$/, "") || "/";
+    const currentPath = currentPathname.replace(/\/$/, "") || "/";
+    return currentPath === targetPath;
+  } catch {
+    const cleanTarget = targetHref.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
+    const cleanCurrent = currentPathname.replace(/\/$/, "") || "/";
+    return cleanCurrent === cleanTarget;
+  }
+}
+
 function getPageIdFromPathname(pathname: string): string {
   if (!pathname || pathname === "/") return "home-page";
   const cleanPath = pathname.split("?")[0].replace(/^\/|\/$/g, "");
@@ -298,8 +311,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // a fixed branded pause (see the file-level comment above).
   useEffect(() => {
     if (mode !== "covering" && mode !== "covered") return;
-    if (isPending) return; // React hasn't finished rendering the new route yet
-    if (pendingHref && pathname !== pendingHref) return; // swap hasn't landed yet
+    if (pendingHref && !isSamePathname(pathname, pendingHref)) return; // swap hasn't landed yet
 
     let cancelled = false;
     waitForPageReady().then(() => {

@@ -98,6 +98,19 @@ const TransitionContext = createContext<TransitionContextValue>({
 // actually becomes ready (broken route, hung fetch), don't leave the
 // browser's transition promise — and the page underneath the frozen "old"
 // snapshot — hanging forever.
+function isSamePathname(currentPathname: string, targetHref: string | null): boolean {
+  if (!targetHref) return true;
+  try {
+    const targetPath = new URL(targetHref, "http://localhost").pathname.replace(/\/$/, "") || "/";
+    const currentPath = currentPathname.replace(/\/$/, "") || "/";
+    return currentPath === targetPath;
+  } catch {
+    const cleanTarget = targetHref.split("?")[0].split("#")[0].replace(/\/$/, "") || "/";
+    const cleanCurrent = currentPathname.replace(/\/$/, "") || "/";
+    return cleanCurrent === cleanTarget;
+  }
+}
+
 const MAX_TRANSITION_WAIT_MS = 6000;
 
 export function TransitionProvider({ children }: { children: ReactNode }) {
@@ -176,9 +189,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
           // state"), silently degrading to an instant, unanimated DOM swap.
           // Measured: with rAF-based polling this took ~6.9s and always
           // aborted; with setTimeout it resolves in ~1-2 ticks.
+
           const poll = () => {
             if (settled) return;
-            if (!isPendingRef.current && pathnameRef.current === href) {
+            if (!isPendingRef.current && isSamePathname(pathnameRef.current, href)) {
               waitForPageReady().then(settle);
               return;
             }
