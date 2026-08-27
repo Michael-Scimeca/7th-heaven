@@ -6074,7 +6074,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
 }
 
 .progressive-blur {
-  z-index: 9998;
+  z-index: 40;
   pointer-events: none;
   isolation: isolate;
   contain: paint;
@@ -6703,10 +6703,22 @@ section {
 
 /* ── Custom Cursor & Cursor Follower Styles ── */
 @media (pointer: fine) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     cursor: none !important;
   }
-  input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], input[type="tel"], input[type="url"], textarea, [contenteditable="true"] {
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  [contenteditable="true"] {
     cursor: text !important;
   }
 }
@@ -6714,7 +6726,8 @@ section {
 .cursor-tail-circle {
   border-radius: 50%;
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 2147483647;
   will-change: transform;
@@ -6722,28 +6735,51 @@ section {
 }
 
 @keyframes cursorScaleIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes cursorPickSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes cursorPickScrollLeft {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes cursorPickScrollRight {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .cursor-pick-pos {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 2147483647;
   will-change: transform;

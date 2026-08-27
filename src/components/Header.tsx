@@ -502,6 +502,7 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
       suppressHydrationWarning
     >
+      <ProgressiveBlur position="top" />
       <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"
