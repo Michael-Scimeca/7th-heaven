@@ -7098,16 +7098,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : filteredUsers.length === 0 ? (
               <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
             ) : (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10">
-                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">User</th>
-                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Role</th>
-                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Status</th>
-                    <th className="p-4 font-bold border-b border-black/10 dark:border-white/10 text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <div className="w-full text-left">
+                {/* Header Row */}
+                <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10 font-bold select-none">
+                  <div>User</div>
+                  <div>Role</div>
+                  <div>Status</div>
+                  <div className="text-right">Action</div>
+                </div>
+
+                {/* Body Rows */}
+                <div className="divide-y divide-black/10 dark:divide-white/5">
                   {filteredUsers.map((user) => {
                     const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
                     const acct = Object.values(accounts).find((a: any) =>
@@ -7116,9 +7117,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       (a.name && a.name.toLowerCase() === user.name.toLowerCase())
                     ) as any;
                     return (
-                      <React.Fragment key={user.id}>
-                        <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
-                          <td className="p-4 font-bold text-sm truncate max-w-[220px]">
+                      <div key={user.id} className="transition-colors">
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 p-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
+                          <div className="font-bold text-sm truncate max-w-[220px]">
                             <div className="flex items-center gap-2.5 truncate">
                               {(() => {
                                 const avatarSrc = resolveMemberAvatar(user.name, (user as any).avatar || (user as any).avatar_url);
@@ -7126,7 +7127,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <img
                                     src={avatarSrc}
                                     alt={user.name}
-                                    className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/30 shadow-xs"
+                                    className="w-9 h-9 rounded-full object-cover shrink-0 border border-purple-400/30 shadow-xs"
                                     onError={(e) => {
                                       (e.currentTarget as HTMLElement).style.display = 'none';
                                     }}
@@ -7142,13 +7143,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               })()}
                               <span className="truncate">{user.name}</span>
                             </div>
-                          </td>
-                          <td className="p-4 text-sm">
+                          </div>
+                          <div className="text-sm">
                             <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[#e1e6ff29]    text-white  border border-white/10'}`}>
                               {user.role}
                             </span>
-                          </td>
-                          <td className="p-4">
+                          </div>
+                          <div>
                             <div className="flex items-center gap-1.5">
                               <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
                                 : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
@@ -7156,8 +7157,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 }`} />
                               <span className="text-[0.6rem] uppercase tracking-wider text-white/50">{user.status}</span>
                             </div>
-                          </td>
-                          <td className="p-4 text-right">
+                          </div>
+                          <div className="text-right">
                             {user.role !== 'admin' ? (
                               <div className="flex items-center justify-end gap-2">
                                 <button
@@ -7178,61 +7179,58 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 Protected
                               </span>
                             )}
-                          </td>
-                        </tr>
+                          </div>
+                        </div>
                         {viewingUser === user.id && (
-                          <tr className="bg-white/[0.02]">
-                            <td colSpan={4} className="px-6 py-3">
-                              <div className="flex items-center gap-8 text-[0.7rem]">
-                                <div>
-                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
-                                  <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
-                                </div>
-                                <div>
-                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
-                                  <span className="text-purple-300 font-mono">
-                                    {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
-                                  </span>
-                                  {user.role === 'crew' && (
-                                    <button
-                                      onClick={async () => {
-                                        const res = await adminResetPassword(user.id, user.email);
-                                        if (res.success) {
-                                          const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-                                          accounts[user.email.toLowerCase()] = {
-                                            ...accounts[user.email.toLowerCase()],
-                                            id: user.id,
-                                            name: user.name,
-                                            email: user.email.toLowerCase(),
-                                            password: res.password,
-                                            role: 'crew'
-                                          };
-                                          localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
-                                          alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
-                                          window.location.reload();
-                                        }
-                                      }}
-                                      className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-colors"
-                                    >
-                                      Reset & Show
-                                    </button>
-                                  )}
-                                </div>
-                                {user.role === 'crew' && !acct?.password && (
-                                  <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
-                                    * Credentials lost (Check browser history or re-create account)
-                                  </p>
+                          <div className="bg-white/[0.02] px-6 py-3 border-b border-black/10 dark:border-white/5">
+                            <div className="flex items-center gap-8 text-[0.7rem]">
+                              <div>
+                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
+                                <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
+                              </div>
+                              <div>
+                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
+                                <span className="text-purple-300 font-mono">
+                                  {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
+                                </span>
+                                {user.role === 'crew' && (
+                                  <button
+                                    onClick={async () => {
+                                      const res = await adminResetPassword(user.id, user.email);
+                                      if (res.success) {
+                                        const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
+                                        accounts[user.email.toLowerCase()] = {
+                                          ...accounts[user.email.toLowerCase()],
+                                          id: user.id,
+                                          name: user.name,
+                                          email: user.email.toLowerCase(),
+                                          password: res.password,
+                                          role: 'crew'
+                                        };
+                                        localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
+                                        alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
+                                        window.location.reload();
+                                      }
+                                    }}
+                                    className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-colors"
+                                  >
+                                    Reset & Show
+                                  </button>
                                 )}
                               </div>
-                            </td>
-                          </tr>
+                              {user.role === 'crew' && !acct?.password && (
+                                <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
+                                  * Credentials lost (Check browser history or re-create account)
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         )}
-                      </React.Fragment>
+                      </div>
                     );
                   })}
-
-                </tbody>
-              </table>
+                </div>
+              </div>
             )}
           </div>
         </>)}
