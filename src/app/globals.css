@@ -2164,7 +2164,12 @@ html.tour-sort-stuck #tour-sort-bar {
   overflow: hidden;
 }
 
-/* Film-grain overlay remains permanently visible at all times */
+/* Hide film grain overlay during page transitions to prevent double-grain flickering */
+html.is-page-transitioning .grain-overlay,
+html.is-page-transitioning .grain-overlay::after {
+  opacity: 0 !important;
+  transition: opacity 0.15s ease;
+}
 
 .grain-overlay::after {
   content: "";
@@ -4201,6 +4206,9 @@ header {
 ::view-transition-new(site-header) {
   animation-duration: 500ms;
   animation-timing-function: ease;
+  isolation: isolate;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* Respect a user's reduced-motion preference: keep the route swap instant
