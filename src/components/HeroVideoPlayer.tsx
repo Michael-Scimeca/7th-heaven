@@ -67,6 +67,7 @@ const GRADIENT_PRESETS = [
 export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const [isVideoFading, setIsVideoFading] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
@@ -481,13 +482,14 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           onCanPlay={handleCanPlay}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
+          onPlaying={() => setVideoReady(true)}
           preload="auto"
           {...{ fetchpriority: "high" }}
           autoPlay
           muted
           loop
           playsInline
-          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
+          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
             }`}
         >
           <source src={videoSrc} type="video/mp4" />

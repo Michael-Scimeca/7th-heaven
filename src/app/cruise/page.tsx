@@ -153,6 +153,7 @@ export default function CruisePage() {
   const router = useRouter();
   const { isLoggedIn, member, openModal } = useMember();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const [heroVideoReady, setHeroVideoReady] = useState(false);
 
   const [heroMaskSettings, setHeroMaskSettings] = useState(() => {
     const defaults = {
@@ -685,12 +686,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             loop
             playsInline
             preload="auto"
+            onPlaying={() => setHeroVideoReady(true)}
             {...({ fetchPriority: "high" } as any)}
-            className="w-full h-full object-cover scale-[1.3]"
+            className="w-full h-full object-cover scale-[1.3] transition-opacity duration-500 ease-out"
             style={{
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
-              opacity: heroMaskSettings.videoOpacity / 100,
+              opacity: heroVideoReady ? heroMaskSettings.videoOpacity / 100 : 0,
             }}
           >
             <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
