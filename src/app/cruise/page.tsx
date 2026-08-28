@@ -186,8 +186,8 @@ export default function CruisePage() {
       topFadeEnd: 15,
       topGradientHeight: 240,
       topGradientOpacity: 85,
-      bottomFadeStart: 85,
-      bottomFadeEnd: 100,
+      bottomFadeStart: 60,
+      bottomFadeEnd: 98,
       videoBlur: 0,
       videoBrightness: 90,
       videoContrast: 100,
@@ -737,6 +737,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             height: `${heroMaskSettings.topGradientHeight ?? 240}px`,
             background: `linear-gradient(to bottom, rgba(6, 6, 12, ${(heroMaskSettings.topGradientOpacity ?? 85) / 100}) 0%, rgba(6, 6, 12, ${((heroMaskSettings.topGradientOpacity ?? 85) * 0.45) / 100}) 55%, transparent 100%)`,
           }}
+        />
+
+        {/* Bottom Dark Gradient Overlay for Smooth Blend Fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 pointer-events-none z-[1] h-48 bg-gradient-to-t from-black via-black/80 to-transparent"
         />
 
         {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts */}
