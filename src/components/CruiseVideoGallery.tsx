@@ -243,19 +243,19 @@ export default function CruiseVideoGallery() {
               type="button"
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer"
+              className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer "
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
                 <Image width={200} height={200} unoptimized
                   src={vid.poster || '/images/cruise-hero.png'}
                   alt={vid.title}
-                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 rounded-lg "
+                  className="w-full h-full object-cover opacity-90  overflow-hidden group-hover:opacity-100 rounded-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center rounded-lg">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-14 h-14 ! rounded-lg  !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    className="w-14 h-14 ! rounded-full  !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
@@ -293,7 +293,7 @@ export default function CruiseVideoGallery() {
       {activeVideo && (
         <div
           onClick={() => setActiveVideo(null)}
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in"
+          className="fixed inset-0 z-50  backdrop-blur[18px] flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in"
         >
           {/* Floating Top-Right Close Button for immediate screen dismiss */}
           <button
@@ -307,7 +307,7 @@ export default function CruiseVideoGallery() {
 
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-[#0b0518] border-2 border-cyan-400/80  rounded-lg p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.4)]"
+            className="relative w-full max-w-5xl bg-[#0b0518]  rounded-lg p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.4)]"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">

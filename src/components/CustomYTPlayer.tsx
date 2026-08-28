@@ -236,8 +236,8 @@ export default function CustomYTPlayer({
 
   return (
     <div
-      aria-label="YouTube Video Player"
-      className="fixed inset-0 z-[9999] bg-black/95  backdrop-blur-[45px] flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
+      ref={containerRef}
+      className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-2xl flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
     >
       <button
         type="button"

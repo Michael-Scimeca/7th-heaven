@@ -599,7 +599,7 @@ export default function PaymentTestShopPage() {
                       key={item.id}
                       className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08]  rounded-lg p-3"
                     >
-                      <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-black/40">
+                      <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-black/40">
                         <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">

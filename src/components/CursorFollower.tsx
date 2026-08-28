@@ -622,6 +622,60 @@ export default function CursorFollower() {
         ))}
       </div>
 
+      {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element */}
+      <div
+        ref={pickElRef}
+        className="cursor-pick-pos"
+        style={{
+          width: handActive ? HAND_W : PICK_W,
+          height: handActive ? HAND_H : PICK_H,
+          transform: "translate3d(-9999px, -9999px, 0)",
+        }}
+      >
+        <div
+          ref={pickSpinRef}
+          className={`cursor-pick-spin${((pickActive || songPlaying) && !handActive) ? " is-spinning" : ""}`}
+          style={{ clipPath: ((pickActive || songPlaying) && !handActive) ? PICK_CLIP : "none" }}
+        >
+          <svg
+            viewBox="0 0 100 122"
+            preserveAspectRatio="none"
+            style={{ width: "100%", height: "100%", display: handActive ? "none" : "block" }}
+          >
+            <path ref={pickPathRef} d={CIRCLE_PATH_D} style={{ fill: "#9333ea" }} />
+          </svg>
+          {handActive && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src="/images/hand.svg" className="w-full h-full object-contain pointer-events-none select-none drop-shadow-md" alt="" />
+          )}
+          <div
+            ref={pickTextRef}
+            style={{
+              position: "absolute",
+              left: "8%",
+              right: "8%",
+              top: "33%",
+              height: "26%",
+              display: handActive ? "none" : "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: 2,
+              ["--pick-font-size" as string]: songPlaying ? "10px" : "14px",
+            } as CSSProperties}
+          >
+            <div className="cursor-pick-row">
+              <div className="cursor-pick-track">
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{songPlaying ? SONG_PICK_LABEL : pickLabel}</span>)}
+              </div>
+            </div>
+            <div className="cursor-pick-row reverse">
+              <div className="cursor-pick-track">
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{songPlaying ? SONG_PICK_LABEL : pickLabel}</span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

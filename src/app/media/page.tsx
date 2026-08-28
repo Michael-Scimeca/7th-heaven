@@ -428,9 +428,9 @@ export default function MediaPage() {
         )}
       </div>
 
-      {/* Full Screen Video Player Modal */}
+      {/* ── VIDEO PLAYER LIGHTBOX OVERLAY ── */}
       {playingVideo && (
-        <div className="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 animate-[fade-in_0.2s_ease-out]">
+        <div className="fixed inset-0 z-[999999] bg-black/40 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-8 animate-[fade-in_0.2s_ease-out]">
           <div className="relative w-full max-w-5xl aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl border border-purple-500/30">
             <CustomVideoPlayer
               videoId={playingVideo.id}

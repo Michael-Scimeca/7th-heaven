@@ -6046,13 +6046,13 @@ section {
 }
 
 .cursor-pick-pos {
-  display: none !important;
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
   z-index: 2147483647;
   will-change: transform;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
