@@ -51,17 +51,6 @@ export default function PlannerDashboardPage() {
 
   if (!mounted) return null;
 
-  if (!hasAccess && !isDemoMode) {
-    return (
-      <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-white/10 border-t-[var(--color-accent)]  rounded-lg  animate-spin mx-auto mb-4" />
-          <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Loading Planner Dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
   const handleCreateNewEvent = () => {
     const p = new URLSearchParams();
     p.set("from", "planner");
