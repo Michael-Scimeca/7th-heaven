@@ -713,7 +713,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             loop
             playsInline
             preload="auto"
-            poster="/images/cruise/miami.png"
+            poster="/images/cruise/hero-video-poster.jpg"
             onPlaying={() => setHeroVideoReady(true)}
             {...({ fetchPriority: "high" } as any)}
             className="w-full h-full object-cover scale-[1.3] transition-opacity duration-500 ease-out"
