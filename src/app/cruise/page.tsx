@@ -42,45 +42,16 @@ function ViewportSection({
   className?: string;
   id?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    if (rect.top < (typeof window !== "undefined" ? window.innerHeight : 1000) + 1200) {
-      setShouldRender(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldRender(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "1000px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
       id={id}
-      ref={ref}
       className={className}
       style={{
-        minHeight: shouldRender ? "auto" : minHeight,
         contentVisibility: "auto",
         containIntrinsicSize: minHeight,
       }}
     >
-      {shouldRender ? children : null}
+      {children}
     </div>
   );
 }
@@ -207,7 +178,7 @@ export default function CruisePage() {
   const router = useRouter();
   const { isLoggedIn, member, openModal } = useMember();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [heroVideoReady, setHeroVideoReady] = useState(false);
+  const [heroVideoReady, setHeroVideoReady] = useState(true);
 
   const [heroMaskSettings, setHeroMaskSettings] = useState(() => {
     const defaults = {
@@ -301,16 +272,8 @@ export default function CruisePage() {
     triggerSelector: "#cruise-hero",
   });
 
-  // Progressive hydration: render Hero & Header instantly on frame 1 to eliminate navigation bottleneck,
-  // then hydrate below-the-fold sections immediately after initial paint.
-  const [showBelowFold, setShowBelowFold] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => setShowBelowFold(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const transitionDone = showBelowFold;
-  const renderTimeline = showBelowFold;
+  const transitionDone = true;
+  const renderTimeline = true;
 
   const itin2027Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2027), []);
   const itin2028Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2028), []);
