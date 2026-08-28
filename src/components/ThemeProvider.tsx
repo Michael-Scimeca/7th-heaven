@@ -41,8 +41,10 @@ export function ThemeProvider({
     applyThemeTokensToDocument(tokens);
   }, [tokens]);
 
-  // Fetch initial persisted tokens from API on mount
+  // Fetch persisted tokens from API only on admin routes to prevent full-page CSS variable flicker on public loads
   useEffect(() => {
+    if (typeof window === "undefined" || !window.location.pathname.startsWith("/admin")) return;
+
     async function fetchTokens() {
       try {
         const res = await fetch("/api/admin/theme");
