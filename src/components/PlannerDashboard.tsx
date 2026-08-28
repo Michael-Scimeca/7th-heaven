@@ -136,7 +136,6 @@ export default function PlannerDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [editDraft, setEditDraft] = useState<BookingData>(defaultBooking);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-  const [showContactModal, setShowContactModal] = useState(false);
   const [reviveTimeLeft, setReviveTimeLeft] = useState<string | null>(null);
   const [plannerNotes, setPlannerNotes] = useState('');
   const [notesSaving, setNotesSaving] = useState(false);
@@ -419,113 +418,7 @@ export default function PlannerDashboard() {
         </div>
       )}
 
-      {/* Band Event Contacts Modal */}
-      {showContactModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-[45px] z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
-          <div className="bg-[#0b0c10] border border-white/10 p-6 md:p-8 rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
-                  <PhoneCall className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white tracking-tight uppercase">Band Event Contacts</h3>
-                  <p className="font-mono">7th Heaven Direct Booking & Advance Team</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowContactModal(false)}
-                className="w-8 h-8 rounded-lg bg-[#00000029] hover:bg-white/10 flex items-center justify-center text-white hover:text-white transition-colors"
-              >
-                ✕
-              </button>
-            </div>
 
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
-                    <h4 className="font-bold text-white mt-1">Dickie (NTD Management)</h4>
-                    <p className="">Band Contracts, Scheduling & Event Operations</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Phone className="w-3.5 h-3.5" /> (847) 551-5363
-                  </a>
-                  <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Mail className="w-3.5 h-3.5" /> info@NTDManagement.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
-                    <h4 className="font-bold text-white mt-1">Jeff Dobbs</h4>
-                    <p className="">PA System, Stage Dimensions, Sound & Power</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Phone className="w-3.5 h-3.5" /> (847) 772-5333
-                  </a>
-                  <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Mail className="w-3.5 h-3.5" /> jeffdobbs64@yahoo.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
-                    <h4 className="font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
-                    <p className="">Hospitality, Parking Pass, Green Room & Itinerary</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Phone className="w-3.5 h-3.5" /> (630) 842-9129
-                  </a>
-                  <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Mail className="w-3.5 h-3.5" /> Alan@NTDManagement.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
-                    <h4 className="font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
-                    <p className="">Promotional Assets, Logos, Radio & Media Interviews</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Phone className="w-3.5 h-3.5" /> (847) 269-6200
-                  </a>
-                  <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
-                    <Mail className="w-3.5 h-3.5" /> LRago@NTDRecords.com
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-white/10 text-center">
-              <button
-                onClick={() => setShowContactModal(false)}
-                className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* BOOKING CARDS */}
       <div className="grid grid-cols-1 gap-6">
@@ -541,7 +434,7 @@ export default function PlannerDashboard() {
             {/* View Mode */}
             {!isEditing ? (
               <>
-                <h2 className={`font-bold text-white mb-2 tracking-tight ${booking.status ==='cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
+                <h2 className={`font-bold text-white mb-2 tracking-tight ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
                 <p className="font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -675,14 +568,6 @@ export default function PlannerDashboard() {
                 Sign in to manage
               </Link>
             )}
-            <button
-              type="button"
-              onClick={() => setShowContactModal(true)}
-              className="w-full py-3 flex items-center justify-center gap-2 text-white hover:text-white font-bold uppercase tracking-wider bg-[#00000029] hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg transition-all cursor-pointer"
-            >
-              <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
-              Contact 7th Heaven
-            </button>
           </div>
         </div>
 
@@ -692,7 +577,7 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8 rounded-lg shadow-lg">
+      <div className="mt-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
 
@@ -701,18 +586,12 @@ export default function PlannerDashboard() {
               <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
             </div>
           </div>
-          <button
-            onClick={() => setShowContactModal(true)}
-            className="px-4 py-2 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
-          >
-            Open Full Contact Directory
-          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
+          <div className="pb-4  flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest border border-white/20 bg-[#e1e6ff29] px-2 py-0.5  rounded-lg block w-fit mb-2">Booking & Management</span>
               <h4 className="font-bold text-white">Dickie</h4>
               <p className="mb-3">NTD Management</p>
             </div>
@@ -726,9 +605,9 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
+          <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg border bg-[#e1e6ff29] border-white/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="font-bold text-white">Jeff Dobbs</h4>
               <p className="mb-3">Production & Sound</p>
             </div>
@@ -742,9 +621,9 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
+          <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest rounded-lg border bg-[#e1e6ff29] border-white/20 px-2 py-0.5 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="font-bold text-white">Alan McRae</h4>
               <p className="mb-3">NTD Management</p>
             </div>
@@ -758,9 +637,9 @@ export default function PlannerDashboard() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
+          <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
               <h4 className="font-bold text-white">Lenny Rago</h4>
               <p className="mb-3">NTD Records</p>
             </div>
@@ -828,7 +707,7 @@ export default function PlannerDashboard() {
                           )}
                         </div>
                       </div>
-                      <h4 className={`font-bold tracking-tight mb-0.5 ${b.status ==='cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
+                      <h4 className={`font-bold tracking-tight mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
                         {b.eventName}
                       </h4>
                       <div className="flex items-center gap-4 text-white/40">

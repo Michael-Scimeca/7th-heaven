@@ -753,7 +753,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] ">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
             <span className="font-bold uppercase tracking-widest bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3.5 py-1.5 rounded-lg">
@@ -763,16 +763,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="font-bold uppercase tracking-tighter text-white  leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase tracking-widest text-white">
-            <span className="bg=[#e1e6ff29] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold backdrop-blur-[45px] flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+            <span className="bg-[#00000029] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold backdrop-blur-[45px] flex items-center gap-2.5 ">
               STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg font-bold border border-purple-400/40">2027</span>
             </span>
-            <span className="bg=[#e1e6ff29] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold broder border-white/10 backdrop-blur-[45px] flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
+            <span className="bg-[#00000029] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold broder border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
               LEGEND OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg font-bold border border-purple-400/40">2028</span>
             </span>
           </div>
