@@ -216,18 +216,6 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
       aria-label="Loading"
       aria-live="polite"
     >
-      {/* ── Liquid Moving Gradient Background (baunov/gradients-bg) ── */}
-      <div className="gradient-bg pointer-events-none">
-        <div className="gradients-container">
-          <div className="g1" />
-          <div className="g2" />
-          <div className="g3" />
-          <div className="g4" />
-          <div className="g5" />
-          <div ref={interRef} className="interactive" />
-        </div>
-      </div>
-
       {/* ── 7th Heaven Logo Progressive Bottom-To-Top Fill ── */}
       <div ref={logoRef} className="relative z-10 select-none flex flex-col items-center gap-3">
         <div className="relative inline-flex items-center justify-center">
