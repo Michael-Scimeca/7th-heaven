@@ -363,13 +363,13 @@ export default function RockNRollKidsPage() {
               <div key={char.name} className="flex flex-col justify-between pb-3.5 group  ">
                 <div>
                   {char.image && (
-                    <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-center p-2">
+                    <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
                       <Image
                         src={char.image}
                         alt={char.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-contain object-center group-hover:scale-105 transition-transform duration-300"
+                        className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   )}
