@@ -37,14 +37,14 @@ const GRADIENT_PALETTES = [
 
 function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: string; title: string; isHovered: boolean; index?: number }) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
-  const [imgSrc, setImgSrc] = useState<string>(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+  const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
 
   const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=20&end=35&playsinline=1&modestbranding=1`;
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
-      setImgSrc(`https://img.youtube.com/vi/${videoId}/0.jpg`);
+      setImgSrc(`https://i.ytimg.com/vi/${videoId}/0.jpg`);
     } else {
       setImgFailed(true);
     }
