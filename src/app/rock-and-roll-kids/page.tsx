@@ -397,10 +397,9 @@ export default function RockNRollKidsPage() {
                     href={st.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1 bg-cyan-950/40 hover:bg-cyan-500/20 border border-cyan-500/40 rounded-lg text-[10px] font-mono text-cyan-300 hover:text-white transition-all inline-flex items-center gap-1"
+                    className="px-3 py-1   border border-white/20 rounded-lg  font-mono  inline-flex items-center gap-1"
                   >
                     <span>{st.name}</span>
-                    <ExternalLink className="w-3 h-3 text-cyan-400" />
                   </a>
                 ))}
               </div>
@@ -494,7 +493,7 @@ export default function RockNRollKidsPage() {
                     href={p.amazonUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-1.5 bg-pink-600/20 hover:bg-pink-600 border border-pink-500/40 text-pink-300 hover:text-white text-[10px] font-mono font-bold uppercase rounded-lg text-center transition-all block"
+                    className="w-full py-1.5 btn-cosmic-radial-property  font-mono font-bold uppercase rounded-lg text-center transition-all block"
                   >
                     Amazon Link
                   </a>
@@ -536,7 +535,7 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono rounded inline-block">
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded-lg inline-block">
                     7th heaven · NTD Animation
                   </span>
                   <h3 className="font-mono text-amber-400 font-bold">Richard Hofherr</h3>
@@ -545,7 +544,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="py-2.5 px-5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
+                    className="py-2.5  font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Rich777@aol.com</span>
@@ -567,7 +566,7 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded inline-block">
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded-lg inline-block">
                     RNR Studios
                   </span>
                   <h3 className="font-mono text-purple-400 font-bold">Roy Adorjan</h3>
@@ -576,7 +575,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="py-2.5 px-5 bg-purple-500/20 hover:bg-purple-500 text-purple-300 hover:text-black border border-purple-500/40 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
+                    className="py-2.5  font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>info@minimartians.com</span>
