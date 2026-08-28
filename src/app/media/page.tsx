@@ -339,9 +339,9 @@ export default function MediaPage() {
         <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-12">
           <button
             onClick={() => handleFilterChange("ALL")}
-            className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border transform active:scale-95 ${activeFilter === "ALL"
-              ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105"
-              : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20 hover:scale-[1.02]"
+            className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border ${activeFilter === "ALL"
+              ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+              : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
               }`}
           >
             ALL
@@ -355,8 +355,9 @@ export default function MediaPage() {
               <button
                 key={cat.category}
                 onClick={() => handleFilterChange(catUpper)}
-                className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border transform active:scale-95 ${isActive ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105"
-                  : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20 hover:scale-[1.02]"
+                className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border ${isActive
+                  ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+                  : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
                   }`}
               >
                 {catUpper}
@@ -365,9 +366,9 @@ export default function MediaPage() {
           })}
         </div>
 
-        {/* ── TALL VERTICAL POSTER CARD GRID (Uniform Consistent Padding Layout with Smooth Transition) ── */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch transition-all duration-300 ease-out ${
-          isFilterSwitching ? "opacity-0 translate-y-3 scale-[0.98]" : "opacity-100 translate-y-0 scale-100"
+        {/* ── TALL VERTICAL POSTER CARD GRID (Pure Opacity Fade In / Fade Out Transition) ── */}
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch transition-opacity duration-300 ease-in-out ${
+          isFilterSwitching ? "opacity-0" : "opacity-100"
         }`}>
           {filteredVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
@@ -378,8 +379,8 @@ export default function MediaPage() {
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className="group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in-up_0.35s_cubic-bezier(0.16,1,0.3,1)_both]"
-                style={{ animationDelay: `${Math.min(index, 9) * 40}ms` }}
+                className="group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.4s_ease-out_both]"
+                style={{ animationDelay: `${Math.min(index, 9) * 35}ms` }}
               >
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
