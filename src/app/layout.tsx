@@ -154,7 +154,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=optional"
         />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
