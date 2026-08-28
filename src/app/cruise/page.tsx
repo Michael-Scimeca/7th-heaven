@@ -4,7 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Ship, Waves, Palmtree, Anchor, Wine, Music, PartyPopper, Compass, HelpCircle, CreditCard, Calendar as CalendarIcon, AlertTriangle, Check, Sun, Crown, DoorClosed, TreePine, Sparkles, Phone, Mail, Globe, Map, Video, FileText, Film, Flame } from "lucide-react";
@@ -247,9 +247,19 @@ export default function CruisePage() {
     triggerSelector: "#cruise-hero",
   });
 
-  // All sections render directly without delayed setTimeout layout jumps
-  const transitionDone = true;
-  const renderTimeline = true;
+  // Progressive hydration: render Hero & Header instantly on frame 1 to eliminate navigation bottleneck,
+  // then hydrate below-the-fold sections immediately after initial paint.
+  const [showBelowFold, setShowBelowFold] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowBelowFold(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const transitionDone = showBelowFold;
+  const renderTimeline = showBelowFold;
+
+  const itin2027Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2027), []);
+  const itin2028Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2028), []);
 
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
@@ -2007,7 +2017,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* 3D Snake Itinerary Timeline Component */}
               <div className="w-full">
                 <React.Suspense fallback={null}>
-                  <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+                  <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={activeItinYear === 2027 ? itin2027Mapped : itin2028Mapped} />
                 </React.Suspense>
               </div>
             </div>
