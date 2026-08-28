@@ -46,7 +46,7 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
     if (isHovered) {
       const timer = setTimeout(() => {
         setShouldPlayPreview(true);
-      }, 250);
+      }, 150);
       return () => clearTimeout(timer);
     } else {
       setShouldPlayPreview(false);
@@ -60,6 +60,8 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
       setImgFailed(true);
     }
   };
+
+  const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -96,12 +98,14 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
 
       {/* 3. Live Video Hover Preview Clip */}
       {shouldPlayPreview && (
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=15&playsinline=1&modestbranding=1&disablekb=1&iv_load_policy=3`}
-          title={title}
-          className="absolute inset-0 w-full h-full object-cover scale-[1.35] pointer-events-none transition-opacity duration-500 z-10 animate-[fade-in_0.5s_ease-out_both]"
-          allow="autoplay; encrypted-media"
-        />
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.4s_ease-out_both]">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=5&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`}
+            title={title}
+            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0"
+            allow="autoplay; encrypted-media"
+          />
+        </div>
       )}
 
       {/* 4. Hover Active Card Overlay */}
