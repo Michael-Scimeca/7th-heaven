@@ -1921,20 +1921,22 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {BANDS_DATA.map((band, idx) => (
                   <div key={band.name} className="relative overflow-hidden group aspect-[4/5] flex items-center justify-center rounded-2xl">
                     {band.photo ? (
-                      <picture className="w-full h-full block flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_55%,transparent_96%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_96%)]">
-                        {band.mobilePhoto && (
-                          <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
-                        )}
-                        <source media="(min-width: 769px)" srcSet={band.desktopPhoto || band.photo} />
-                        {/* eslint-disable-next-line react-doctor/nextjs-no-img-element, @next/next/no-img-element */}
-                        <img
-                          src={band.photo}
-                          alt={band.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </picture>
+                      <div className="w-full h-full relative flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_30%,transparent_92%)] [-webkit-mask-image:linear-gradient(to_bottom,black_30%,transparent_92%)]">
+                        <picture className="w-full h-full block">
+                          {band.mobilePhoto && (
+                            <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
+                          )}
+                          <source media="(min-width: 769px)" srcSet={band.desktopPhoto || band.photo} />
+                          {/* eslint-disable-next-line react-doctor/nextjs-no-img-element, @next/next/no-img-element */}
+                          <img
+                            src={band.photo}
+                            alt={band.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </picture>
+                      </div>
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
                         {band.logo}
@@ -1942,7 +1944,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     )}
 
                     {/* Bottom Gradient Mask Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 flex flex-col justify-end text-left pointer-events-none z-10">
+                    <div className="absolute inset-0 p-6 flex flex-col justify-end text-left pointer-events-none z-10">
                       <h3 className="font-bold text-white tracking-tight leading-none">
                         {band.name}
                       </h3>
