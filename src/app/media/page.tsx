@@ -299,11 +299,7 @@ export default function MediaPage() {
   return (
     <div className="min-h-screen bg-[#090514] text-white pt-20 pb-24 relative overflow-hidden">
 
-      {/* Background Radial Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-purple-900/30 via-indigo-900/10 to-transparent blur-3xl pointer-events-none" />
-
       <div className="site-container relative z-10">
-
         {/* ── TOP UTILITY BAR (Search & Add Video) ── */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pt-4">
           <div className="flex items-center gap-2">
