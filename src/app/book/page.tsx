@@ -10,7 +10,9 @@ import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
-import PlannerDashboard from "@/components/PlannerDashboard";
+import dynamic from "next/dynamic";
+
+const PlannerDashboard = dynamic(() => import("@/components/PlannerDashboard"));
 
 const eventTypes = [
   { id: "full_band", label: "Full Band", icon: Guitar, desc: "High energy, full 5-piece concert setup" },
