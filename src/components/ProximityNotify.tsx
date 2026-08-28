@@ -262,7 +262,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
                 Never Miss a Show
               </h2>
-              <p className="text-purple-200/70 text-base sm:text-lg max-w-xl">
+              <p className="text-purple-200/70 max-w-xl">
                 Get exclusives. Stay connected to the 7th Heaven community. Join 1,000s of fans getting proximity alerts &amp; show updates.
               </p>
             </div>
@@ -272,19 +272,19 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Left Column */}
               <div className="flex flex-col space-y-3 min-w-[110px]">
                 <div>
-                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
+                  <p className="text-amber-200/60 font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Countries
                   </p>
-                  <p className="text-xl sm:text-2xl  font-bold  text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 tracking-tight">
                     7
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
+                  <p className="text-amber-200/60 font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Impressions
                   </p>
-                  <p className="text-xl sm:text-2xl  font-bold  text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 tracking-tight">
                     2,100,000
                   </p>
                 </div>
@@ -293,19 +293,19 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Right Column */}
               <div className="flex flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
+                  <p className="text-amber-200/60 font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Followers &amp; Fans
                   </p>
-                  <p className="text-xl sm:text-2xl  font-bold  text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 tracking-tight">
                     +18,000
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold mb-0.5">
+                  <p className="text-amber-200/60 font-mono uppercase tracking-wider font-semibold mb-0.5">
                     Live Engagements
                   </p>
-                  <p className="text-xl sm:text-2xl  font-bold  text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 tracking-tight">
                     160,000
                   </p>
                 </div>
@@ -322,8 +322,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                     <span className="text-white font-bold text-xl">Check your email!</span>
                   </div>
-                  <p className="text-purple-200/70 text-base mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
-                  <p className="text-white/40 text-sm">Click the link to confirm your account and start getting show alerts.</p>
+                  <p className="text-purple-200/70 mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
+                  <p className="">Click the link to confirm your account and start getting show alerts.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="bg-transparent p-0 space-y-4">
@@ -458,7 +458,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   {Object.keys(fieldErrors).length > 0 && (
                     <div className="space-y-1 pt-1">
                       {Object.entries(fieldErrors).map(([field, errors]) => (
-                        <p key={field} className="text-red-400 text-xs text-center">
+                        <p key={field} className="text-red-400 text-center">
                           <span className="capitalize">{field}</span>: {errors.join(", ")}
                         </p>
                       ))}
@@ -466,7 +466,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   )}
 
                   {status === "error" && (
-                    <p className="text-red-400 text-xs text-center pt-1">{errorMsg || "Something went wrong. Try again."}</p>
+                    <p className="text-red-400 text-center pt-1">{errorMsg || "Something went wrong. Try again."}</p>
                   )}
                 </form>
               )}

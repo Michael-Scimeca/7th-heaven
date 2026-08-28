@@ -103,11 +103,11 @@ export const SidebarDateButton = React.memo(({
         <span className={`text-[9.5px]  font-bold  tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`text-[10px] font-bold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`font-bold truncate leading-tight ${isSelected ?'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="text-[8.5px] text-white/30 truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
     </button>

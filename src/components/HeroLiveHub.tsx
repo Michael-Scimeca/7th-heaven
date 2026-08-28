@@ -216,12 +216,12 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <span className="text-xs font-semibold text-white/80">{selectedMedia.member_name}</span>
                     <span className="text-xs text-white/30">{timeAgo(selectedMedia.created_at)}</span>
                   </div>
-                  <p className="text-sm text-white/90 leading-relaxed">{selectedMedia.content}</p>
+                  <p className="leading-relaxed">{selectedMedia.content}</p>
                 </div>
               </div>
             ) : (
               <div className="aspect-video bg-white/[0.03] border border-white/10 flex items-center justify-center">
-                <p className="text-white/20 text-sm">No live media yet</p>
+                <p className="">No live media yet</p>
               </div>
             )}
 

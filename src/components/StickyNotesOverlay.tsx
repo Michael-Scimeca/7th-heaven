@@ -340,7 +340,7 @@ export default function StickyNotesOverlay() {
                       <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
                     </div>
 
-                    <p className="text-xs text-white/90 font-sans   ">{n.note_text || "(No text written yet)"}</p>
+                    <p className="font-sans">{n.note_text || "(No text written yet)"}</p>
 
                     <div className="flex items-center justify-between pt-2 border-t border-white/5">
                       <div className="flex items-center gap-3">

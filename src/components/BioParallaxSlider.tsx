@@ -742,10 +742,10 @@ lerpSpeed: ${lerpSpeed}`;
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
-                    <p className="text-xs sm:text-sm md:text-base  font-bold  text-white leading-none tracking-tight drop-shadow-md">
+                    <p className="font-bold leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="font-bold mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>
@@ -777,10 +777,10 @@ lerpSpeed: ${lerpSpeed}`;
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
-                    <p className="text-xs sm:text-sm md:text-base  font-bold  text-white leading-none tracking-tight drop-shadow-md">
+                    <p className="font-bold leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="font-bold mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>

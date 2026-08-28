@@ -300,7 +300,7 @@ a:hover {
                 </div>
                 <div>
                   <h3 className="font-bold text-base uppercase tracking-wider text-cyan-300 leading-tight">Style Customization Studio</h3>
-                  <p className="text-xs text-white/50">Form inputs, checkboxes, headings, p tags & links</p>
+                  <p className="">Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
 
@@ -678,7 +678,7 @@ a:hover {
 
                     {/* Live Search Bar Preview */}
                     <div className="pt-3 border-t border-white/10">
-                      <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Search Bar Preview</p>
+                      <p className="font-bold uppercase tracking-wider mb-2">Live Search Bar Preview</p>
                       <div className="input-glow-border rounded-xl">
                         <div className="relative flex items-center">
                           <div
@@ -764,7 +764,7 @@ a:hover {
 
                     {/* Live Checkbox Preview */}
                     <div className="pt-3 border-t border-white/10">
-                      <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Checkbox Preview</p>
+                      <p className="font-bold uppercase tracking-wider mb-2">Live Checkbox Preview</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
                           <SquishyToggle id="editor-preview-1" label="Drop on ALL live streams" checked={true} onChange={() => { }} />
@@ -861,7 +861,7 @@ a:hover {
 
                     {/* Live Typography Preview */}
                     <div className="pt-3 border-t border-white/10 space-y-2">
-                      <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1">Live Typography Preview</p>
+                      <p className="font-bold uppercase tracking-wider mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
                       <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="text-cyan-400 font-bold underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>

@@ -145,7 +145,7 @@ export default function DevRouteList() {
                   {ALL_ROUTES.length} Routes Pre-rendered
                 </span>
               </div>
-              <p className="text-xs text-white/50 mt-0.5">
+              <p className="mt-0.5">
                 Explore every pre-built static page, SSG route, dashboard, and backend API endpoint.
               </p>
             </div>
@@ -234,7 +234,7 @@ export default function DevRouteList() {
                       <h4 className="text-xs font-bold text-white group-hover:text-purple-200 transition-colors line-clamp-1">
                         {item.label}
                       </h4>
-                      <p className="text-[11px] font-mono text-white/50 mt-1 truncate">
+                      <p className="font-mono mt-1 truncate">
                         {item.path}
                       </p>
                     </div>

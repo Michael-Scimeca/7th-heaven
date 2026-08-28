@@ -69,7 +69,7 @@ function NorthResultContent() {
     <div className="min-h-screen bg-transparent text-white pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="bg-white/[0.04]backdrop-blur-[18px]  border border-white/[0.12]  rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
-          {loading && <p className="text-white/50 text-sm">Loading payment result…</p>}
+          {loading && <p className="">Loading payment result…</p>}
 
           {!loading && (hadError || fetchError || !id) && (
             <>
@@ -79,7 +79,7 @@ function NorthResultContent() {
               <h1 className="text-xl  font-bold  uppercase text-white mb-2">
                 Couldn&apos;t Load Result
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed">
+              <p className="leading-relaxed">
                 {fetchError ||
                   "We couldn't find a record of this transaction. If a charge went through, check your bank statement and contact us."}
               </p>
@@ -105,7 +105,7 @@ function NorthResultContent() {
                   {result.maskedAccountNbr && <p>Account: {result.maskedAccountNbr}</p>}
                 </div>
               ) : (
-                <p className=" text-white  text-sm">
+                <p className="">
                   Reason: {result.authRespText || "Unknown error"}
                 </p>
               )}

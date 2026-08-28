@@ -250,7 +250,7 @@ export default function CrewFeed() {
                 <>Crew <span className="gradient-text">Feed</span></>
               )}
             </h2>
-            <p className="text-base text-white/40 mt-2">
+            <p className="mt-2">
               {liveStatus.live
                 ? "Real-time updates from the stage and backstage"
                 : "Behind the scenes with the 7th Heaven crew"}
@@ -341,7 +341,7 @@ export default function CrewFeed() {
                     </div>
 
                     {/* Content */}
-                    <p className="text-base text-white/70 leading-relaxed mb-4">{post.content}</p>
+                    <p className="leading-relaxed mb-4">{post.content}</p>
 
                     {/* Image attachment */}
                     {post.image_url && (

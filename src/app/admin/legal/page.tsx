@@ -349,7 +349,7 @@ export default function AdminLegalPage() {
             <h1 className="text-[clamp(2rem,4vw,3.2rem)]  font-bold  leading-tight tracking-tight uppercase    font-[var(--font-heading)] text-white">
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
-            <p className=" text-white  text-sm mt-2 max-w-3xl font-sans leading-relaxed">
+            <p className="mt-2 max-w-3xl font-sans leading-relaxed">
               Comprehensive regulatory audit panel covering TCPA SMS mandates, DMCA copyright safe harbor, ADA accessibility (WCAG 2.1 AA), GDPR/CCPA privacy rights, PCI-DSS e-commerce security, COPPA minor protections, and database RLS safeguards.
             </p>
           </div>
@@ -406,7 +406,7 @@ export default function AdminLegalPage() {
                     </div>
                     <div>
                       <h3 className="text-xs font-bold text-white leading-tight">{sec.title}</h3>
-                      <p className="text-[0.6rem] text-white/40 mt-1 line-clamp-1">{sec.subtitle}</p>
+                      <p className="mt-1 line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
                   {categoryPassed && (
@@ -421,7 +421,7 @@ export default function AdminLegalPage() {
             {/* Legal Disclaimer Box */}
             <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
               <span className="text-[0.6rem] font-bold uppercase tracking-widest text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
-              <p className="text-[0.65rem] leading-relaxed text-white/50">
+              <p className="leading-relaxed">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
               </p>
             </div>
@@ -440,7 +440,7 @@ export default function AdminLegalPage() {
                   <h2 className="text-xl lg:text-2xl  font-bold  uppercase tracking-tight    font-[var(--font-heading)] text-white">
                     {active.title}
                   </h2>
-                  <p className="text-xs  text-white  mt-1">{active.subtitle}</p>
+                  <p className="mt-1">{active.subtitle}</p>
                 </div>
               </div>
 
@@ -454,7 +454,7 @@ export default function AdminLegalPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
-              <p className="text-xs leading-relaxed text-white/80">{active.explanation}</p>
+              <p className="leading-relaxed">{active.explanation}</p>
             </div>
 
             {/* Requirement Checklist Items */}
@@ -490,7 +490,7 @@ export default function AdminLegalPage() {
                           <h4 className={`text-sm font-bold transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className="text-xs  text-white  mt-1 leading-relaxed">{req.description}</p>
+                          <p className="mt-1 leading-relaxed">{req.description}</p>
                         </div>
                       </div>
 
@@ -505,7 +505,7 @@ export default function AdminLegalPage() {
                     <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                       <div className="flex items-start gap-2">
                         <span className="text-emerald-400  font-bold  shrink-0">🛠️ DEV ACTION:</span>
-                        <p className="text-white/70    text-[11px] leading-relaxed">{req.actionItem}</p>
+                        <p className="leading-relaxed">{req.actionItem}</p>
                       </div>
 
                       {req.verifiedProof && (

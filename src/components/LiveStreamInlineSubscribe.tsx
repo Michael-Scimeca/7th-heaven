@@ -90,7 +90,7 @@ export default function LiveStreamInlineSubscribe({
           </div>
           <div>
             <h4 className="text-base  font-bold  text-white">Verification Email Sent to {email}! ✉️</h4>
-            <p className="text-xs text-gray-300 mt-0.5">
+            <p className="text-gray-300 mt-0.5">
               To prevent unauthorized signups, we sent a verification link to <strong className="text-white font-mono">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
           </div>
@@ -122,7 +122,7 @@ export default function LiveStreamInlineSubscribe({
               <h3 className="text-base sm:text-lg  font-bold  text-white uppercase tracking-wider">
                 Crew Member Live Stream Push & Email Alerts
               </h3>
-              <p className="text-xs text-purple-200/70">
+              <p className="text-purple-200/70">
                 Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!
               </p>
             </div>

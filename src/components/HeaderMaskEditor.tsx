@@ -86,7 +86,7 @@ export default function HeaderMaskEditor() {
               <h3 className="text-sm font-bold tracking-wide uppercase text-purple-200">
                 Header Mask Gradient Editor
               </h3>
-              <p className="text-[11px] text-purple-300/70">
+              <p className="text-purple-300/70">
                 Live mask gradient, height, blur & opacity control
               </p>
             </div>

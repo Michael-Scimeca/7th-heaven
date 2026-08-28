@@ -46,7 +46,7 @@ function CancelContent() {
             <span className="text-2xl">⚠️</span>
           </div>
           <h1 className="text-2xl font-bold text-white mb-3">Invalid Link</h1>
-          <p className="text-white/40 text-sm mb-8">This cancellation link is missing required information. Please use the link from your confirmation email.</p>
+          <p className="mb-8">This cancellation link is missing required information. Please use the link from your confirmation email.</p>
           <Link href="/" className="inline-flex items-center justify-center bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-sm py-3 px-8 transition-colors border border-white/10">
             Return to Homepage
           </Link>
@@ -65,10 +65,10 @@ function CancelContent() {
               <span className="text-2xl">🗓️</span>
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">Cancel Booking?</h1>
-            <p className="text-white/40 text-sm mb-2 leading-relaxed">
+            <p className="mb-2 leading-relaxed">
               You&apos;re about to cancel booking <span className=" text-[var(--color-accent)] font-bold">{bookingId}</span>.
             </p>
-            <p className="text-white/30 text-sm mb-8">This action cannot be undone. Our team will be notified.</p>
+            <p className="mb-8">This action cannot be undone. Our team will be notified.</p>
             <div className="flex flex-col gap-3">
               <button aria-label="Action button"
                 onClick={handleCancel}
@@ -98,10 +98,10 @@ function CancelContent() {
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">Booking Cancelled</h1>
-            <p className="text-white/40 text-sm mb-2">
+            <p className="mb-2">
               Booking <span className=" text-[var(--color-accent)] font-bold">{bookingId}</span> has been cancelled.
             </p>
-            <p className="text-white/30 text-sm mb-8">Our team has been notified. If you change your mind, you can submit a new booking request anytime.</p>
+            <p className="mb-8">Our team has been notified. If you change your mind, you can submit a new booking request anytime.</p>
             <div className="flex flex-col gap-3">
               <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 Book a New Show
@@ -119,7 +119,7 @@ function CancelContent() {
               <span className="text-2xl">❌</span>
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">Cancellation Failed</h1>
-            <p className="text-rose-400/70 text-sm mb-8">{errorMsg}</p>
+            <p className="text-rose-400/70 mb-8">{errorMsg}</p>
             <div className="flex flex-col gap-3">
               <button aria-label="Action button" onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors border border-white/10 cursor-pointer">
                 Try Again

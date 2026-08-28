@@ -483,18 +483,18 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {isLive && (
             <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20">
               <div className="text-center">
-                <p className="text-lg  font-bold  text-red-400">{viewerCount.toLocaleString()}</p>
-                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Viewers</p>
+                <p className="font-bold text-red-400">{viewerCount.toLocaleString()}</p>
+                <p className="uppercase tracking-widest">Viewers</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="text-lg  font-bold  text-white">{fmt(liveDuration)}</p>
-                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Duration</p>
+                <p className="font-bold">{fmt(liveDuration)}</p>
+                <p className="uppercase tracking-widest">Duration</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="text-lg  font-bold  text-yellow-400">{chatRate}/min</p>
-                <p className="text-[var(--font-size-4xs)] text-white/30 uppercase tracking-widest">Chat Rate</p>
+                <p className="font-bold text-yellow-400">{chatRate}/min</p>
+                <p className="uppercase tracking-widest">Chat Rate</p>
               </div>
             </div>
           )}
@@ -537,9 +537,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div>
-                <p className="text-2xl  font-bold  tracking-tight">{displayName}</p>
-                <p className="text-sm text-[var(--color-accent)] font-semibold">{member?.role || "Crew"}</p>
-                <p className="text-xs text-white/30 mt-0.5">{email}</p>
+                <p className="font-bold tracking-tight">{displayName}</p>
+                <p className="font-semibold">{member?.role || "Crew"}</p>
+                <p className="mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded">7th Heaven</span>
                   <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider rounded">Active Crew</span>
@@ -556,8 +556,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#9333ea" },
               ].map(({ label, value, icon, color }) => (
                 <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] min-w-[80px]">
-                  <p className="text-xl  font-bold " style={{ color }}>{value}</p>
-                  <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">{icon} {label}</p>
+                  <p className="font-bold" style={{ color }}>{value}</p>
+                  <p className="mt-0.5">{icon} {label}</p>
                 </div>
               ))}
             </div>
@@ -655,7 +655,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 {filteredMsgs.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full gap-3 text-white/20">
                     <span className="text-4xl">📭</span>
-                    <p className="text-sm">No messages yet</p>
+                    <p className="">No messages yet</p>
                   </div>
                 ) : (
                   filteredMsgs.map((msg) => {
@@ -696,7 +696,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                             {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-purple-300 font-bold">⚠️ warned</span>}
                             {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
                           </div>
-                          <p className="text-sm text-white/75 break-words">{msg.content}</p>
+                          <p className="break-words">{msg.content}</p>
                         </div>
 
                         {/* Action buttons — appear on hover */}
@@ -753,7 +753,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
                     <h3 className="text-sm  font-bold     tracking-wide text-white">Chat Moderation & Policies</h3>
-                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                    <p className="font-bold uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
 
@@ -761,7 +761,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
                       <h4 className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
-                      <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
+                      <p className="leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
 
@@ -783,10 +783,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="text-xs  font-bold  uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                      <p className="font-bold uppercase tracking-widest">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
-                          <p className="text-white/20 text-xs   ">No custom keywords configured.</p>
+                          <p className="">No custom keywords configured.</p>
                         </div>
                       ) : (
                         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
@@ -844,7 +844,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-xs text-white/30 mb-4 leading-relaxed">
+                  <p className="mb-4 leading-relaxed">
                     Launch your broadcast studio to go live, manage chat, run raffles, and drop merch in real-time.
                   </p>
                 )}
@@ -894,7 +894,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className=" font-bold  text-sm">📝 Notes for Admin</h3>
-                  <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">Saved to Supabase</p>
+                  <p className="mt-0.5">Saved to Supabase</p>
                 </div>
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}

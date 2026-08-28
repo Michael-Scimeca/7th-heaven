@@ -95,7 +95,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
         </div>
-        <p className="text-[var(--font-size-3xs)] text-white/40 py-2 text-center font-bold">No upcoming shows scheduled</p>
+        <p className="py-2 text-center font-bold">No upcoming shows scheduled</p>
       </div>
     );
   }
@@ -199,7 +199,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
             {nextShow.info && (
-              <p className="mt-1 text-[var(--font-size-5xs)] font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
+              <p className="mt-1 font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
                 <Guitar className="w-3 h-3" /> {nextShow.info}
               </p>
             )}
@@ -247,9 +247,9 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               <span className="text-[var(--font-size-2xs)]  font-bold  leading-none mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-white/90 truncate leading-tight">{show.venue}</p>
+              <p className="font-bold truncate leading-tight">{show.venue}</p>
               {(show.city || show.state) && (
-                <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5 flex items-center gap-1">
+                <p className="truncate mt-0.5 flex items-center gap-1">
                   <MapPin className="w-2.5 h-2.5 text-purple-400 shrink-0" />
                   {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
                 </p>

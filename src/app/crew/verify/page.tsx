@@ -161,7 +161,7 @@ export default function VerifyPage() {
             <Lock className="w-8 h-8" />
           </div>
           <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
-          <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
+          <p className="mb-6">Sign in with your crew account to access PIN verification.</p>
           <button aria-label="Action button"
             onClick={() => openModal()}
             className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
@@ -190,7 +190,7 @@ export default function VerifyPage() {
         >
 
           <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Crew Only</h2>
-          <p className="text-white/40 text-sm mb-5">This page is for 7th Heaven crew members only.</p>
+          <p className="mb-5">This page is for 7th Heaven crew members only.</p>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
             className="w-full py-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
@@ -208,9 +208,9 @@ export default function VerifyPage() {
 
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
-        <p className="text-xs  font-bold  uppercase tracking-[0.3em]  text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
+        <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
         <h1 className="text-white  font-bold  text-2xl uppercase tracking-widest">Crew PIN Verification</h1>
-        <p className="text-white/30 text-xs mt-1">Enter your 6-digit PIN to verify crew access</p>
+        <p className="mt-1">Enter your 6-digit PIN to verify crew access</p>
       </div>
 
       <div className="w-full max-w-sm relative z-10">
@@ -228,7 +228,7 @@ export default function VerifyPage() {
               boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
             }}
           >
-            <p className="text-xs  font-bold  uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
+            <p className="font-bold uppercase tracking-[0.2em] text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
@@ -328,7 +328,7 @@ export default function VerifyPage() {
             style={MODAL_GLASS_STYLE}
           >
             <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
-              <p className="text-white  font-bold  text-lg uppercase tracking-widest">✓ Valid Win</p>
+              <p className="font-bold uppercase tracking-widest">✓ Valid Win</p>
             </div>
             <div className="p-6 text-center">
               <div className="w-16 h-16 mx-auto mb-4  rounded-lg  bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
@@ -336,13 +336,13 @@ export default function VerifyPage() {
               </div>
 
               <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
-                <p className="text-purple-300/60 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] mb-1">Winner Account</p>
-                <p className="text-purple-300  font-bold  text-2xl">{winnerData.winner}</p>
+                <p className="text-purple-300/60 font-bold uppercase tracking-[0.2em] mb-1">Winner Account</p>
+                <p className="text-purple-300 font-bold">{winnerData.winner}</p>
               </div>
 
               <div className="bg-white/[0.03] border border-white/10 px-5 py-3 mb-4">
-                <p className="text-white/30 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] mb-1">Prize</p>
-                <p className="text-white  font-bold  text-lg">{winnerData.prize}</p>
+                <p className="font-bold uppercase tracking-[0.2em] mb-1">Prize</p>
+                <p className="font-bold">{winnerData.prize}</p>
               </div>
 
               {/* PIN confirmation */}
@@ -354,7 +354,7 @@ export default function VerifyPage() {
                 ))}
               </div>
 
-              <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
+              <p className="text-emerald-400/90 font-bold mb-6">Award the prize to this fan ✓</p>
 
               <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
                 Access My Dashboard →
@@ -377,7 +377,7 @@ export default function VerifyPage() {
               <XCircle className="w-8 h-8" />
             </div>
             <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
-            <p className="text-white/40 text-sm mb-5">
+            <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
             <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer">

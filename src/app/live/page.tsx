@@ -267,7 +267,7 @@ export default function LiveHubPage() {
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
             </h1>
-            <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+            <p className="font-medium mt-3 max-w-2xl leading-relaxed">
               {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
             </p>
           </div>
@@ -339,8 +339,8 @@ export default function LiveHubPage() {
                       </div>
                       {/* Card info */}
                       <div className="p-3">
-                        <p className="text-xs font-bold text-white/80 mb-0.5">{room.title}</p>
-                        <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
+                        <p className="font-bold mb-0.5">{room.title}</p>
+                        <p className="" style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
                             className="flex-1 text-center py-1.5 rounded-lg text-xs font-bold transition-colors hover:scale-105"
@@ -386,7 +386,7 @@ export default function LiveHubPage() {
                               {isMuted && !isBanned && <span className="px-1.5  rounded-lg  text-xs" style={{ background: "rgba(156,163,175,0.15)", color: "#9ca3af", fontSize: 9 }}>MUTED</span>}
                               {isWarned && !isBanned && <span className="px-1.5  rounded-lg  text-xs" style={{ background: "rgba(192, 132, 252,0.15)", color: "#c084fc", fontSize: 9 }}>WARNED</span>}
                             </div>
-                            <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{fan.tier} · {fan.msgs} msgs</p>
+                            <p className="" style={{ color: "rgba(255,255,255,0.25)" }}>{fan.tier} · {fan.msgs} msgs</p>
                           </div>
                         </div>
                         {!isBanned && (
@@ -413,7 +413,7 @@ export default function LiveHubPage() {
                   {/* Mod log */}
                   {modLog.length > 0 && (
                     <div className="col-span-full mt-4 p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                      <p className="text-xs  font-bold  uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
+                      <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
                       <div className="space-y-1">
                         {modLog.slice(0, 5).map(e => (
                           <div key={e.id} className="flex items-center justify-between text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -431,20 +431,20 @@ export default function LiveHubPage() {
               {adminTab === "policy" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
                   <div>
-                    <p className="text-xs  font-bold  uppercase tracking-widest mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
+                    <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
                     {[
                       { icon: "🔞", rule: "Adult / pornographic content", desc: "Explicit content, NSFW links, or adult platform promotion." },
                       { icon: "⚠️", rule: "Hate speech & slurs", desc: "Racist, homophobic, or discriminatory language." },
                       { icon: "🚨", rule: "Threats & violence", desc: "Any threats toward people, band, or venue staff." },
                     ].map(({ icon, rule, desc }) => (
                       <div key={rule} className="mb-2 p-3" style={{ background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.18)" }}>
-                        <p className="text-xs font-bold text-white/80">{icon} {rule}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
+                        <p className="font-bold">{icon} {rule}</p>
+                        <p className="mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
                       </div>
                     ))}
                   </div>
                   <div>
-                    <p className="text-xs  font-bold  uppercase tracking-widest mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
+                    <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
                     {[
                       { icon: "🏛️", rule: "Political commentary", desc: "No political debate, parties, or electoral content." },
                       { icon: "📢", rule: "Spam & self-promotion", desc: "Links, social handles, or money solicitation." },
@@ -452,13 +452,13 @@ export default function LiveHubPage() {
                       { icon: "💊", rule: "Drug references", desc: "Discussion of illegal substances during the event." },
                     ].map(({ icon, rule, desc }) => (
                       <div key={rule} className="mb-2 p-3" style={{ background: "rgba(192, 132, 252,0.06)", border: "1px solid rgba(192, 132, 252,0.15)" }}>
-                        <p className="text-xs font-bold text-white/80">{icon} {rule}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
+                        <p className="font-bold">{icon} {rule}</p>
+                        <p className="mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{desc}</p>
                       </div>
                     ))}
                     <div className="mt-2 p-3" style={{ background: "rgba(255,10,61,0.08)", border: "1px solid rgba(255,10,61,0.2)" }}>
-                      <p className="text-xs  font-bold   text-white  mb-1">✅ Keep It Positive</p>
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>This is a fan space for music lovers — keep the energy high! 🎸</p>
+                      <p className="font-bold mb-1">✅ Keep It Positive</p>
+                      <p className="" style={{ color: "rgba(255,255,255,0.35)" }}>This is a fan space for music lovers — keep the energy high! 🎸</p>
                     </div>
                   </div>
                 </div>
@@ -529,7 +529,7 @@ export default function LiveHubPage() {
 
                 <div>
                   <h3 className="text-lg  font-bold  text-white mb-1">{room.title}</h3>
-                  <p className="text-sm  text-white  font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                  <p className="font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 
                 <button aria-label="Action button"

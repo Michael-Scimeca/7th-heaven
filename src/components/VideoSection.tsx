@@ -147,7 +147,7 @@ export default function VideoSection() {
 
         return (
           <div className="px-8 mb-8">
-            <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/40 mb-4 px-1">Trending Releases</p>
+            <p className="font-bold uppercase tracking-[0.15em] mb-4 px-1">Trending Releases</p>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Big featured video — left */}
               <div className="group flex flex-col">

@@ -523,7 +523,7 @@ export default function CruiseDashboard() {
           <div className="text-center mb-8">
             <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
             <h1 className="text-2xl  font-bold  uppercase tracking-widest text-black">Cruise Hub</h1>
-            <p className="text-xs text-cyan-600 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
+            <p className="text-cyan-600 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
           </div>
 
           <div className="bg-white border border-black/10 overflow-hidden   ">
@@ -532,7 +532,7 @@ export default function CruiseDashboard() {
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
                   <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
-                  <p className="text-black/60 text-sm leading-relaxed">
+                  <p className="text-black/60 leading-relaxed">
                     We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
                   </p>
                 </div>
@@ -552,7 +552,7 @@ export default function CruiseDashboard() {
                     />
                   </div>
 
-                  {authError && <p className="text-rose-500 text-xs mt-2 text-center font-bold">{authError}</p>}
+                  {authError && <p className="text-rose-500 mt-2 text-center font-bold">{authError}</p>}
 
                   <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                     {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Verify PIN & Access Hub →"}
@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-4">📧</span>
                 <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
-                <p className="text-black/60 text-sm leading-relaxed mb-6">
+                <p className="text-black/60 leading-relaxed mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
                 <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
@@ -591,7 +591,7 @@ export default function CruiseDashboard() {
                 <div className="p-6 md:p-8">
                   {authTab === 'login' ? (
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
-                      <p className="text-black/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
+                      <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
                         <label htmlFor="cruise-hub-login-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address</label>
                         <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
@@ -601,7 +601,7 @@ export default function CruiseDashboard() {
                         <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
-                      {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
+                      {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Access Cruise Hub →"}
@@ -609,7 +609,7 @@ export default function CruiseDashboard() {
                     </form>
                   ) : (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                      <p className="text-black/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
+                      <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
                         <label htmlFor="cruise-hub-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
@@ -627,7 +627,7 @@ export default function CruiseDashboard() {
                         <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
-                      {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
+                      {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Register & Access Hub →"}
@@ -675,8 +675,8 @@ export default function CruiseDashboard() {
               <h1 className="text-2xl md:text-3xl  font-bold  uppercase tracking-widest text-white leading-none">
                 {effectiveMember?.name || 'Cruise Guest'}
               </h1>
-              <p className="text-cyan-400 font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Cruise Member Dashboard</p>
-              <p className="text-white/40 text-xs font-mono mt-1">{effectiveMember?.email || ''}</p>
+              <p className="text-cyan-400 font-bold tracking-widest uppercase mt-1.5">Cruise Member Dashboard</p>
+              <p className="font-mono mt-1">{effectiveMember?.email || ''}</p>
             </div>
           </div>
 
@@ -746,7 +746,7 @@ export default function CruiseDashboard() {
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
-                <p className="text-white/40 text-sm   ">No priority news announcements posted yet.</p>
+                <p className="">No priority news announcements posted yet.</p>
               )}
             </div>
           </div>
@@ -762,7 +762,7 @@ export default function CruiseDashboard() {
                   <span className="text-3xl">📋</span>
                   <div>
                     <h2 className="text-lg md:text-xl  font-bold  uppercase tracking-wider text-white">{guidelines.title}</h2>
-                    <p className="text-xs text-purple-400font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
+                    <p className="text-purple-400font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
                     <button aria-label="Action button"
@@ -868,7 +868,7 @@ export default function CruiseDashboard() {
             <h2 className="text-3xl md:text-5xl  font-bold  uppercase    tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
+            <p className="mt-4 leading-relaxed font-semibold">
               Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
             </p>
 

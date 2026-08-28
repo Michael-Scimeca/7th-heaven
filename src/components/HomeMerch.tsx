@@ -140,7 +140,7 @@ export default function HomeMerch() {
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
             <span className="text-purple-300 text-xs  font-bold  uppercase tracking-widest">Demo</span>
-            <p className="text-purple-200/50 text-xs">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
+            <p className="text-purple-200/50">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}

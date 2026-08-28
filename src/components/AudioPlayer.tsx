@@ -588,8 +588,8 @@ export default function AudioPlayerSection() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs  font-bold  uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
-                    <p className="text-[10px] text-white/50 font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
+                    <p className="font-bold uppercase truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
+                    <p className="font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
                   </div>
                 </div>
                 <div className="md:hidden relative w-full max-w-[144px] min-w-[88px] shrink">
@@ -876,8 +876,8 @@ export default function AudioPlayerSection() {
 
             {/* Song Title */}
             <div className="min-w-0 max-w-[180px] shrink-0 hidden md:block">
-              <p className="text-xs font-bold text-white truncate leading-tight">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
-              <p className="text-[10px] text-white/40 truncate leading-tight">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+              <p className="font-bold truncate leading-tight">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+              <p className="truncate leading-tight">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
             </div>
 
             {/* Prev / Next Controls */}
@@ -1010,7 +1010,7 @@ export default function AudioPlayerSection() {
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-lg font-bold text-white truncate">{trackTitle}</h3>
-                  <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
+                  <p className="uppercase tracking-widest mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
                 </div>
                 <button aria-label="Action button" onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -1029,7 +1029,7 @@ export default function AudioPlayerSection() {
                   Object.entries(songLyrics.lyrics).map(([section, text]: [string, string]) => (
                     <div key={section} className="mb-6">
                       <span className="text-xs font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
-                      <p className="text-base text-white/70 leading-relaxed whitespace-pre-line">{text}</p>
+                      <p className="leading-relaxed whitespace-pre-line">{text}</p>
                     </div>
                   ))
                 ) : null}

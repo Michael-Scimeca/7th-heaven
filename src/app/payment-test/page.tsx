@@ -73,7 +73,7 @@ function ProductCard({
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
           <h3 className="text-white  font-bold  text-base leading-tight">{product.title}</h3>
-          <p className="text-white/40 text-xs mt-1 leading-relaxed">{product.description}</p>
+          <p className="mt-1 leading-relaxed">{product.description}</p>
         </div>
 
         <div>
@@ -287,7 +287,7 @@ export default function PaymentTestShopPage() {
           <h1 className="text-3xl md:text-4xl  font-bold  uppercase text-white tracking-wide">
             7th Heaven Official Merch Store
           </h1>
-          <p className="text-white/40 text-sm mt-2 max-w-xl leading-relaxed">
+          <p className="mt-2 max-w-xl leading-relaxed">
             Get official 7th Heaven shirts, CDs, albums, hats, and exclusive band gear with secure direct checkout and fast shipping.
           </p>
 
@@ -322,7 +322,7 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
-                <p className="text-white/40 text-xs mt-1">
+                <p className="mt-1">
                   Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
                 </p>
               </div>
@@ -340,7 +340,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Real-Time Inventory Tracking
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Products and variants sync live with per-variant stock counts. Sold-out sizes/formats/colors disable themselves automatically.
                 </p>
               </div>
@@ -349,7 +349,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Checkout creates a pending order with full line-item snapshots. Once payment confirms, stock decrements automatically.
                 </p>
               </div>
@@ -358,7 +358,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   <Link href="/admin/shop-inventory" className="underline hover:text-white">
                     /admin/shop-inventory
                   </Link>{" "}
@@ -370,7 +370,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Streamlined Fast Checkout
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Direct guest payment gateway allowing fans to complete orders instantly without mandatory account creation or password friction.
                 </p>
               </div>
@@ -379,7 +379,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Direct Merchant Security
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Payment credentials route securely to merchant servers so sensitive card data is never stored locally on application servers.
                 </p>
               </div>
@@ -388,7 +388,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Instant Email Order Confirmation
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Every order generates an itemized receipt email for the buyer and alerts band staff for quick packing and shipping.
                 </p>
               </div>
@@ -397,7 +397,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-cyan-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Concertgoers can scan official QR codes at live shows to order apparel directly from their mobile phones for venue pickup or delivery.
                 </p>
               </div>
@@ -413,7 +413,7 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
-                <p className="text-white/40 text-xs mt-1 max-w-2xl">
+                <p className="mt-1 max-w-2xl">
                   This page only uses North&apos;s Browser Post API — one product in a larger
                   suite. North (EPX) also publishes a Recurring Billing API, Gateway Invoicing
                   API, Embedded Checkout, and reporting APIs. Combined with the inventory/order
@@ -435,7 +435,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   North&apos;s <strong className="text-white">Recurring Billing API</strong>{" "}
                   supports weekly/bi-weekly/monthly charges with pause, resume, and cancel at any
                   time. Could power a &quot;merch box of the month&quot; or paid fan-club tier —
@@ -447,7 +447,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   💳 Saved Cards &amp; Refunds
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Every transaction through North&apos;s Recurring Billing API is tokenized. That
                   token can issue refunds against a past charge and, longer-term, let a returning
                   fan skip re-entering their card. Refunds today would need to go through North&apos;s
@@ -459,7 +459,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   🧾 Custom / VIP Order Invoicing
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   North&apos;s <strong className="text-white">Gateway Invoicing API</strong> is
                   built for mail-order/telephone-order flows — send a fan a payment link for a
                   custom bundle, signed vinyl, or VIP package without them touching the storefront.
@@ -470,7 +470,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   📊 Real Sales Dashboard
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   North&apos;s Merchant Reporting and Gateway Business Reporting APIs expose
                   settlement and transaction data that could feed a revenue dashboard inside{" "}
                   <Link href="/admin/shop-inventory" className="underline hover:text-white">
@@ -484,7 +484,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   🖥️ Embedded Checkout Upgrade
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   North offers a hosted <strong className="text-white">Embedded Checkout</strong>{" "}
                   widget as an alternative to a raw Browser Post form — same PCI-scope benefit,
                   nicer built-in card-entry UI, without hand-rolling every field.
@@ -495,7 +495,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   🏬 In-Person + Online, One Inventory
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   North also does card-present/in-person payments. Ringing up merch-table sales
                   against the same Supabase stock table this shop already uses would keep online
                   and in-person inventory in sync — genuine Shopify POS parity.
@@ -506,7 +506,7 @@ export default function PaymentTestShopPage() {
                 <span className="text-yellow-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
                   🛠️ Not North — Custom-Built Only
                 </span>
-                <p className=" text-white  leading-relaxed">
+                <p className="leading-relaxed">
                   Customer accounts/order history (hook into the site&apos;s existing member
                   login), discount codes and sales tax (apply before requesting the TAC), and
                   abandoned-cart emails (the site already has Resend/Twilio wired up elsewhere)
@@ -547,11 +547,11 @@ export default function PaymentTestShopPage() {
 
         {/* Product grid */}
         {loadingProducts ? (
-          <p className="text-white/40 text-sm py-12 text-center">Loading products…</p>
+          <p className="py-12 text-center">Loading products…</p>
         ) : productsError ? (
-          <p className="text-rose-400 text-sm py-12 text-center">⚠️ {productsError}</p>
+          <p className="text-rose-400 py-12 text-center">⚠️ {productsError}</p>
         ) : filteredProducts.length === 0 ? (
-          <p className="text-white/40 text-sm py-12 text-center">
+          <p className="py-12 text-center">
             No products yet.{" "}
             <Link href="/admin/shop-inventory" className="underline hover:text-white">
               Add some in the inventory admin.
@@ -587,7 +587,7 @@ export default function PaymentTestShopPage() {
             </div>
 
             {cart.items.length === 0 ? (
-              <p className="text-white/50 text-sm py-8 text-center">Your cart is empty.</p>
+              <p className="py-8 text-center">Your cart is empty.</p>
             ) : (
               <div className="space-y-3">
                 {cart.items.map((item) => {
@@ -603,9 +603,9 @@ export default function PaymentTestShopPage() {
                         <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white font-bold text-sm truncate">{item.title}</p>
-                        <p className="text-white/40 text-xs">{item.variantLabel}</p>
-                        <p className="text-[var(--color-accent)] font-bold text-xs mt-0.5">
+                        <p className="font-bold truncate">{item.title}</p>
+                        <p className="">{item.variantLabel}</p>
+                        <p className="font-bold mt-0.5">
                           ${item.unitPrice.toFixed(2)} each
                         </p>
                       </div>

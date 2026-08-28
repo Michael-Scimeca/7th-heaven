@@ -44,7 +44,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white  font-bold     tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
-          <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
+          <p className="text-cyan-400 font-bold uppercase tracking-widest">Port of Miami</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export function DailyPoll() {
       </div>
 
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-2">Community Poll</h2>
-      <p className="text-white font-bold text-lg mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
+      <p className="font-bold mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
 
       <div className="space-y-3 relative z-10">
         {POLL_OPTIONS.map((opt) => {
@@ -127,7 +127,7 @@ export function DailyPoll() {
         })}
       </div>
 
-      <p className="text-xs text-white/30 uppercase tracking-widest mt-5 font-bold">
+      <p className="uppercase tracking-widest mt-5 font-bold">
         {totalVotes} Total Votes • Poll closes in 24h
       </p>
     </div>
@@ -187,7 +187,7 @@ export function PhotoWall() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="text-xl  font-bold     tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
-          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
+          <p className="font-bold uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
         <button aria-label="Action button" className="px-4 py-2  bg-[#00000029]    hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
           + Upload
@@ -456,7 +456,7 @@ export function BookingManager({ email }: { email?: string }) {
         <span className="text-8xl">🚢</span>
       </div>
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
-      <p className=" text-white  text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
+      <p className="mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
 
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10  p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -497,7 +497,7 @@ export function BookingManager({ email }: { email?: string }) {
           </div>
         </div>
 
-        {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
+        {regError && <p className="text-rose-400 mt-1">{regError}</p>}
 
         <CosmicRadialButton
           type="submit"
@@ -752,7 +752,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
               ✓
             </div>
             <h3 className="text-lg  font-bold  uppercase tracking-widest text-white">Payment Successful</h3>
-            <p className=" text-white  text-xs leading-relaxed">
+            <p className="leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
@@ -767,7 +767,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
                 <h3 className="text-sm  font-bold  uppercase tracking-widest text-white">Final Payment</h3>
-                <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
+                <p className="uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
                 <span className="text-rose-400  font-bold  text-lg">{balanceDue}</span>
@@ -775,13 +775,13 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             </div>
 
             {error && (
-              <p className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg">{error}</p>
+              <p className="text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg">{error}</p>
             )}
 
             {processing ? (
               <div className="py-12 text-center space-y-4">
                 <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent  rounded-lg  animate-spin mx-auto" />
-                <p className="text-xs font-bold text-purple-400uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
+                <p className="font-bold text-purple-400uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
               <>
@@ -927,7 +927,7 @@ export function ImportantLinksWidget() {
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-400mb-1">Quick Access</h2>
-          <p className="text-white font-bold text-lg">Important Links</p>
+          <p className="font-bold">Important Links</p>
         </div>
       </div>
 
@@ -975,7 +975,7 @@ export function SongRequestLeaderboard() {
         <div className="w-8 h-8  rounded-lg  bg-purple-600/20 flex items-center justify-center  text-[var(--color-accent)] text-sm">🎸</div>
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
-          <p className="text-white/40 text-xs uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
+          <p className="uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
 
@@ -1049,7 +1049,7 @@ export function CaptainsLog() {
           </div>
         </div>
       </div>
-      <p className="text-xs text-white/40 mt-3    text-center">
+      <p className="mt-3 text-center">
         "Hey everyone, Richard here! We are running through the 80s set right now..."
       </p>
     </div>

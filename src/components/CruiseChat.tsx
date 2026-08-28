@@ -472,7 +472,7 @@ export default function CruiseChat({
     return (
       <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
         <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400  rounded-lg  animate-spin" />
-        <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-3">Loading chat...</p>
+        <p className="font-bold uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
   }
@@ -494,7 +494,7 @@ export default function CruiseChat({
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-3xl mb-2 opacity-40">🔒</span>
           <h4 className="text-xs font-bold uppercase tracking-widest text-black/60 mb-1">Chat is Currently Offline</h4>
-          <p className="text-xs text-black/40 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
+          <p className="text-black/40 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
         </div>
       </div>
     );
@@ -572,7 +572,7 @@ export default function CruiseChat({
             <h3 className="text-xl  font-bold  text-white uppercase tracking-tight">
               Join the Live Chat
             </h3>
-            <p className="text-xs  text-white  leading-relaxed font-medium">
+            <p className="leading-relaxed font-medium">
               Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
             </p>
           </div>
@@ -607,7 +607,7 @@ export default function CruiseChat({
               <span className="text-purple-300 text-xs shrink-0">⚠️</span>
               <div className="flex-1">
                 <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
-                <p className="text-amber-100/90 text-xs font-medium leading-relaxed">
+                <p className="text-amber-100/90 font-medium leading-relaxed">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
               </div>
@@ -619,7 +619,7 @@ export default function CruiseChat({
               <span className="text-red-400 text-xs shrink-0">🚫</span>
               <div className="flex-1">
                 <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
-                <p className="text-red-100/90 text-xs font-medium leading-relaxed">
+                <p className="text-red-100/90 font-medium leading-relaxed">
                   You have been permanently banned from sending messages in this chat.
                 </p>
               </div>
@@ -646,8 +646,8 @@ export default function CruiseChat({
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-white/20">
                   <span className="text-3xl mb-2 opacity-50">👋</span>
-                  <p className="text-xs font-bold uppercase tracking-widest">Welcome to the lounge</p>
-                  <p className="text-xs mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
+                  <p className="font-bold uppercase tracking-widest">Welcome to the lounge</p>
+                  <p className="mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
                 </div>
               ) : (
                 messages.map((msg) => {

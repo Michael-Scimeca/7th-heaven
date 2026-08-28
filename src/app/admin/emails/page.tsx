@@ -64,7 +64,7 @@ export default function EmailPreviewPage() {
         <div className="w-[320px] border-r border-white/5 bg-[#08080c] flex flex-col shrink-0 min-h-0 overflow-hidden">
           <div className="p-6 border-b border-white/5">
             <h1 className="text-lg  font-bold  tracking-tight text-white mb-1">Email Templates</h1>
-            <p className="text-sm text-white/30">{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
+            <p className="">{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
           </div>
 
           {/* Category tabs */}
@@ -97,7 +97,7 @@ export default function EmailPreviewPage() {
                     {t.status}
                   </span>
                 </div>
-                <p className="text-sm text-white/30 leading-relaxed">{t.description}</p>
+                <p className="leading-relaxed">{t.description}</p>
                 <span className="text-xs  text-[var(--color-accent)]/60 font-bold uppercase tracking-widest mt-2 block">{t.category}</span>
               </button>
             ))}

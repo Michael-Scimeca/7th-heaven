@@ -202,7 +202,7 @@ export default function CruiseVideoGallery() {
         >
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>
-        <p className="text-white/45 mt-4 text-xs md:text-sm leading-relaxed">
+        <p className="mt-4 leading-relaxed">
           Watch official walkthroughs, entertainment previews, deck tours, and venue spotlights uploaded by our cruise team.
         </p>
 
@@ -273,7 +273,7 @@ export default function CruiseVideoGallery() {
                     {vid.title}
                   </h3>
                   {vid.description && (
-                    <p className="text-white/50 text-xs leading-relaxed mt-2 line-clamp-2">
+                    <p className="leading-relaxed mt-2 line-clamp-2">
                       {vid.description}
                     </p>
                   )}

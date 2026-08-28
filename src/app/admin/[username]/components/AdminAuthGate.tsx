@@ -34,7 +34,7 @@ export function AdminAuthGate({
         <h1 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
           {isWrongRole ? "Access Restricted" : "Admin Authorization"}
         </h1>
-        <p className="text-xs  text-white  mb-6">
+        <p className="mb-6">
           {isWrongRole
             ? "Your current account does not have Admin privileges."
             : "Sign in with an administrative account to view management console."}
@@ -67,7 +67,7 @@ export function AdminAuthGate({
           </div>
 
           {adminLoginError && (
-            <p className="text-xs text-rose-400 font-bold bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-lg text-center">
+            <p className="text-rose-400 font-bold bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-lg text-center">
               {adminLoginError}
             </p>
           )}

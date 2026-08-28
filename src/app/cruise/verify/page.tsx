@@ -122,7 +122,7 @@ function CruiseVerifyContent() {
         {status === "success" ? (
           <div className="py-4">
             <h1 className="text-2xl sm:text-3xl  font-bold  text-emerald-400 mb-2">Access Granted!</h1>
-            <p className="text-sm text-white/70 leading-relaxed mb-6">
+            <p className="leading-relaxed mb-6">
               Your Cruise Member account is confirmed.<br />
               Welcome aboard the 7th Heaven Caribbean Cruise.
             </p>
@@ -141,11 +141,11 @@ function CruiseVerifyContent() {
             </div>
 
             <h1 className="text-2xl sm:text-3xl  font-bold  text-white tracking-tight mb-2">Check Your Email</h1>
-            <p className="text-xs sm:text-sm  text-white  mb-2">
+            <p className="mb-2">
               We sent a 6-digit verification code to
             </p>
             <div className="mb-5 inline-block">
-              <p className="text-xs sm:text-sm font-bold text-purple-300 bg-purple-600/15 border border-purple-500/30 rounded-lg px-3.5 py-1.5 break-all">
+              <p className="font-bold text-purple-300 bg-purple-600/15 border border-purple-500/30 rounded-lg px-3.5 py-1.5 break-all">
                 {email || "your email address"}
               </p>
             </div>
@@ -189,9 +189,9 @@ function CruiseVerifyContent() {
 
             {/* Resend */}
             <div className="mt-5 pt-4 border-t border-white/10 flex flex-col items-center gap-1.5">
-              <p className="text-xs text-white/50">Didn&apos;t receive the code?</p>
+              <p className="">Didn&apos;t receive the code?</p>
               {resendStatus === "sent" ? (
-                <p className="text-xs font-bold text-emerald-400">
+                <p className="font-bold text-emerald-400">
                   ✓ Code resent! Check your inbox.
                 </p>
               ) : (

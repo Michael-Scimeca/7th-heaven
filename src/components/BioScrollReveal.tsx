@@ -119,7 +119,7 @@ export default function BioScrollReveal({
 
                 {member.description && (
                   <p
-                    className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
+                    className={`mt-3 leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ?"text-white/80 opacity-100" : "text-white/30 opacity-40"
                       }`}
                   >
                     {member.description}

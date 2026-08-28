@@ -114,8 +114,8 @@ export default function PlannerDashboardPage() {
               <h1 className="text-2xl md:text-3xl  font-bold  uppercase tracking-widest text-white leading-none">
                 {displayName}
               </h1>
-              <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>
-              <p className="text-white/40 text-xs font-mono mt-1">{effectiveMember?.email || ''}</p>
+              <p className="font-bold tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>
+              <p className="font-mono mt-1">{effectiveMember?.email || ''}</p>
             </div>
           </div>
 

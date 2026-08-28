@@ -171,7 +171,7 @@ export default function FAQPage() {
         <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
           Frequently Asked <span className="text-purple-600">Questions</span>
         </h1>
-        <p className="text-[var(--muted-text)] text-base max-w-xl mx-auto font-medium">
+        <p className="max-w-xl mx-auto font-medium">
           Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
         </p>
       </div>
@@ -255,7 +255,7 @@ export default function FAQPage() {
               <HelpIcon />
             </span>
             <h3 className="text-white font-bold text-lg mb-1">No matches found</h3>
-            <p className="text-white/50 text-sm max-w-xs mx-auto">
+            <p className="max-w-xs mx-auto">
               We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
             </p>
           </div>
@@ -266,7 +266,7 @@ export default function FAQPage() {
       <div className="mt-16  bg-[#00000029]  backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
         <div>
           <h4 className="text-white font-bold text-lg mb-1">Still need help?</h4>
-          <p className=" text-white  text-sm font-medium">
+          <p className="font-medium">
             Can't find the answer you are looking for? Reach out to our direct support.
           </p>
         </div>

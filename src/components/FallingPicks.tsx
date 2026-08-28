@@ -326,10 +326,10 @@ export default function FallingPicks() {
 
         {panelOpen && (
           <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto  rounded-lg border border-white/10 bg-black/70 p-4 pr-3   backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]: rounded-lg  [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]: bg-[#00000029]   ">
-            <p className="text-[10px] font-semibold uppercase tracking-wide text-white/40">
+            <p className="font-semibold uppercase tracking-wide">
               Spawning
             </p>
-            <p className="text-xs text-white/50">
+            <p className="">
               Size now alternates randomly between 120px and 150px per pick.
             </p>
             <Slider
@@ -359,7 +359,7 @@ export default function FallingPicks() {
               format={(v) => v.toFixed(2)}
             />
 
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-white/40">
+            <p className="mt-1 font-semibold uppercase tracking-wide">
               Forces
             </p>
             <Slider
@@ -388,7 +388,7 @@ export default function FallingPicks() {
               format={(v) => `${v.toFixed(2)}x`}
             />
 
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-white/40">
+            <p className="mt-1 font-semibold uppercase tracking-wide">
               Material
             </p>
             <Slider
@@ -437,7 +437,7 @@ export default function FallingPicks() {
               format={(v) => v.toFixed(4)}
             />
 
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-white/40">
+            <p className="mt-1 font-semibold uppercase tracking-wide">
               Interaction
             </p>
             <Slider

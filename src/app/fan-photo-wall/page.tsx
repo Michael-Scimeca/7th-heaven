@@ -183,7 +183,7 @@ export default function FansPage() {
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
-              <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+              <p className="font-medium mt-3 max-w-2xl leading-relaxed">
                 Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!
               </p>
 
@@ -254,7 +254,7 @@ export default function FansPage() {
                 <h3 className="text-lg font-bold text-white">
                   Pending Review Queue
                 </h3>
-                <p className="text-[var(--font-size-2xs)] text-white uppercase tracking-widest font-bold">
+                <p className="uppercase tracking-widest font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
@@ -308,12 +308,12 @@ export default function FansPage() {
                           <span className="truncate">{photo.name}</span>
                         </div>
                         {photo.venue && (
-                          <p className="text-[10px] font-bold tracking-wider uppercase text-white/70 truncate flex items-center gap-1 mt-0.5">
+                          <p className="font-bold tracking-wider uppercase truncate flex items-center gap-1 mt-0.5">
                             <MapPin className="w-3 h-3 text-purple-400 shrink-0" /> {photo.venue}
                           </p>
                         )}
                         {photo.caption && (
-                          <p className="text-xs text-white/80    truncate mt-1">
+                          <p className="truncate mt-1">
                             "{photo.caption}"
                           </p>
                         )}
@@ -383,7 +383,7 @@ export default function FansPage() {
                   {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
                 </div>
                 {approvedPhotos[0].caption && (
-                  <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl    drop-shadow">
+                  <p className="mt-2 max-w-xl drop-shadow">
                     &ldquo;{approvedPhotos[0].caption}&rdquo;
                   </p>
                 )}
@@ -420,11 +420,11 @@ export default function FansPage() {
                           : "FP"}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-white text-xs sm:text-sm md:text-base font-bold leading-tight truncate">
+                        <p className="font-bold leading-tight truncate">
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-white/80 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest font-bold mt-0.5 truncate">
+                          <p className="uppercase tracking-widest font-bold mt-0.5 truncate">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -476,7 +476,7 @@ export default function FansPage() {
                   </button>
                   {photo.caption && (
                     <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/5 flex-1 flex items-center">
-                      <p className="text-white/90 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                      <p className="leading-relaxed font-medium">
                         &ldquo;{photo.caption}&rdquo;
                       </p>
                     </div>
@@ -507,7 +507,7 @@ export default function FansPage() {
               </svg>
             </div>
             <h3 className="text-xl font-bold text-white/30 mb-3">No moments yet</h3>
-            <p className="text-white/15 text-base mb-8 max-w-sm mx-auto">
+            <p className="mb-8 max-w-sm mx-auto">
               Check back soon for moments from 7th Heaven shows!
             </p>
           </div>
@@ -549,18 +549,18 @@ export default function FansPage() {
               )}
               <div className="mt-4 flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-white font-bold text-base">
+                  <p className="font-bold">
                     {selectedPhoto.name}
                   </p>
                   {selectedPhoto.venue && (
-                    <p className="text-white/40 text-sm mt-0.5">
+                    <p className="mt-0.5">
                       {selectedPhoto.venue}
                       {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
                       {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
                     </p>
                   )}
                   {selectedPhoto.caption && (
-                    <p className="text-white/30 text-sm mt-2    text-left">
+                    <p className="mt-2 text-left">
                       &ldquo;{selectedPhoto.caption}&rdquo;
                     </p>
                   )}

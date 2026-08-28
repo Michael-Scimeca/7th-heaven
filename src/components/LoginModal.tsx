@@ -840,7 +840,7 @@ function LoginModalBodyContent(props: any) {
             </div>
 
             {error && (
-              <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
+              <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
             )}
 
             <button type="button"
@@ -864,7 +864,7 @@ function LoginModalBodyContent(props: any) {
               <Mail className="w-6 h-6" />
             </div>
             <h3 className="text-lg  font-bold  uppercase text-white tracking-wider">Check Your Email</h3>
-            <p className="text-xs text-white/80 max-w-sm leading-relaxed">
+            <p className="max-w-sm leading-relaxed">
               We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
             <button type="button"
@@ -1023,7 +1023,7 @@ function LoginModalBodyContent(props: any) {
             )}
 
             {error && (
-              <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
+              <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
             )}
 
             <CosmicRadialButton
@@ -1248,7 +1248,7 @@ function QuickLoginDemoButtons({
 }) {
   return (
     <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-      <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.2em] text-purple-400 font-bold  text-center">1-Click Quick Demo Login (Instant Live Access)</p>
+      <p className="uppercase tracking-[0.2em] text-purple-400 font-bold text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
           onClick={async () => {

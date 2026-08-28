@@ -477,7 +477,7 @@ export default function HomeVideoShowcase() {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans text-white">
               Video &amp; Live Media
             </h2>
-            <p className="text-purple-200/75 text-sm sm:text-base md:text-lg font-normal mb-5 leading-relaxed">
+            <p className="text-purple-200/75 font-normal mb-5 leading-relaxed">
               Explore 7th Heaven&apos;s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.
             </p>
           </div>

@@ -34,7 +34,7 @@ class LiveKitErrorBoundary extends React.Component<
       return this.props.fallback || (
         <div className="h-full flex items-center justify-center bg-black/40">
           <div className="text-center">
-            <p className="text-white/40 text-sm">Stream connection interrupted</p>
+            <p className="">Stream connection interrupted</p>
             <button aria-label="Action button"
               onClick={() => this.setState({ hasError: false, error: null })}
               className="mt-2 text-xs text-[var(--color-accent)] underline hover:text-[var(--color-accent)]"
@@ -124,8 +124,8 @@ export function LiveKitStream({
     return (
       <div className={`flex items-center justify-center bg-black/40 p-8 ${className}`}>
         <div className="text-center">
-          <p className="text-red-400 text-sm font-medium mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
-          <p className="text-white/30 text-xs max-w-sm">{error}</p>
+          <p className="text-red-400 font-medium mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
+          <p className="max-w-sm">{error}</p>
         </div>
       </div>
     );
@@ -136,7 +136,7 @@ export function LiveKitStream({
       <div className={`flex items-center justify-center bg-black/40 ${className}`}>
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin mx-auto mb-3" />
-          <p className="text-white/40 text-sm">Connecting to stream...</p>
+          <p className="">Connecting to stream...</p>
         </div>
       </div>
     );
@@ -242,8 +242,8 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
             <div className="w-24 h-24 mx-auto mb-4  rounded-lg   bg-[#00000029]    border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8 text-cyan-400" />
             </div>
-            <p className=" text-white  text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
-            <p className="text-white/30 text-sm mt-1">Camera is warming up or in audio-only mode</p>
+            <p className="font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
+            <p className="mt-1">Camera is warming up or in audio-only mode</p>
           </div>
         </div>
       );
@@ -253,9 +253,9 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin mx-auto mb-3" />
-          <p className="text-white/50 text-base font-medium">Connecting to stream...</p>
-          <p className="text-white/20 text-xs font-mono mt-1 opacity-40">Room ID: {room}</p>
-          <p className="text-white/20 text-sm mt-1">Crew members will appear when they go live</p>
+          <p className="font-medium">Connecting to stream...</p>
+          <p className="font-mono mt-1 opacity-40">Room ID: {room}</p>
+          <p className="mt-1">Crew members will appear when they go live</p>
         </div>
       </div>
     );

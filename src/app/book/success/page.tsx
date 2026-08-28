@@ -56,7 +56,7 @@ function SuccessContent() {
             </div>
           )}
 
-          <p className="text-white/50 text-lg leading-relaxed mb-2">
+          <p className="leading-relaxed mb-2">
             {sessionId
               ? "Your booking has been confirmed successfully. We'll be in touch within 24–48 hours with details."
               : "We've received your booking request. Check your email for a confirmation."
@@ -93,7 +93,7 @@ function SuccessContent() {
             </Link>
           </div>
 
-          <p className="text-white/20 text-xs mt-6">
+          <p className="mt-6">
             Redirecting in {countdown}s...
           </p>
         </div>

@@ -214,7 +214,7 @@ export default function AdminGatewayPage() {
       <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12  rounded-lg  border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
-          <p className="text-xs uppercase tracking-widest text-white/40 font-bold">Redirecting to dashboard...</p>
+          <p className="uppercase tracking-widest font-bold">Redirecting to dashboard...</p>
         </div>
       </div>
     );
@@ -258,7 +258,7 @@ export default function AdminGatewayPage() {
                 <h1 className="text-2xl sm:text-3xl  font-bold  tracking-tight text-white uppercase">
                   Admin <span className=" text-[var(--color-accent)]">Access</span>
                 </h1>
-                <p className="text-[0.65rem] uppercase tracking-[0.2em] text-white/40  font-bold  mt-2">
+                <p className="uppercase tracking-[0.2em] font-bold mt-2">
                   Restricted — Authorized personnel only
                 </p>
               </div>
@@ -266,8 +266,8 @@ export default function AdminGatewayPage() {
               {isWrongRole ? (
                 <div className="text-center">
                   <div className="p-5 bg-purple-600/10 border border-purple-500/30 mb-6">
-                    <p className="text-sm font-bold  text-[var(--color-accent)] mb-1">Access Denied</p>
-                    <p className="text-[0.7rem] text-white/70 font-semibold">
+                    <p className="font-bold mb-1">Access Denied</p>
+                    <p className="font-semibold">
                       You&apos;re logged in as <strong className="text-white font-extrabold">{member?.name}</strong> ({member?.role}).
                       Admin privileges are required to access this dashboard.
                     </p>
@@ -316,7 +316,7 @@ export default function AdminGatewayPage() {
                   </div>
 
                   {adminLoginError && (
-                    <p className="text-xs text-rose-400 bg-rose-500/10 px-3 py-2 border border-rose-500/20 font-bold rounded-lg text-center">{adminLoginError}</p>
+                    <p className="text-rose-400 bg-rose-500/10 px-3 py-2 border border-rose-500/20 font-bold rounded-lg text-center">{adminLoginError}</p>
                   )}
 
                   <button aria-label="Action button"
@@ -345,7 +345,7 @@ export default function AdminGatewayPage() {
                 </form>
               )}
 
-              <p className="mt-8 text-center text-[0.6rem] text-white/20 font-bold uppercase tracking-[0.2em]">
+              <p className="mt-8 text-center font-bold uppercase tracking-[0.2em]">
                 7th Heaven · System Administration
               </p>
             </div>
@@ -356,9 +356,9 @@ export default function AdminGatewayPage() {
         {step === "verify" && (
           <>
             <div className="text-center mb-8 relative z-10">
-              <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
+              <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
               <h1 className="text-white  font-bold  text-2xl uppercase tracking-widest">Admin 2FA Verification</h1>
-              <p className="text-white/30 text-xs mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
+              <p className="mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
             <div
@@ -372,7 +372,7 @@ export default function AdminGatewayPage() {
                 boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
               }}
             >
-              <p className="text-xs  font-bold  uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
+              <p className="font-bold uppercase tracking-[0.2em] text-center mb-5">Enter 6-Digit PIN</p>
 
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {[
@@ -412,7 +412,7 @@ export default function AdminGatewayPage() {
 
               {verifyError && (
                 <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-center">
-                  <p className="text-xs text-red-400 font-bold">{verifyError}</p>
+                  <p className="text-red-400 font-bold">{verifyError}</p>
                 </div>
               )}
 

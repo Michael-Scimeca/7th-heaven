@@ -143,7 +143,7 @@ function AvailabilityCardForm({
       <div className="flex items-center gap-3 mb-4">
         <div>
           <h3 className="text-sm  font-bold     tracking-wide text-white">Your Availability & Blackouts</h3>
-          <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
+          <p className="font-bold uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
         </div>
       </div>
       <div>
@@ -202,7 +202,7 @@ function AvailabilityCardForm({
 
         {myAvailabilities.length === 0 ? (
           <div className="text-center py-6 border rounded-lg border-dashed   border-white/10   bg-white/[0.01]">
-            <p className="text-white/40 text-xs   ">No availability blocks configured yet.</p>
+            <p className="">No availability blocks configured yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -228,7 +228,7 @@ function TimeOffCardForm({
       <div className="flex items-center gap-3 mb-4">
         <div>
           <h3 className="text-sm  font-bold     tracking-wide text-white">Time-Off Requests</h3>
-          <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
+          <p className="font-bold uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
         </div>
       </div>
       <div>
@@ -275,7 +275,7 @@ function TimeOffCardForm({
 
         {myTimeOffRequests.length === 0 ? (
           <div className="text-center py-6 rounded-lg border border-dashed   border-white/10   bg-white/[0.01]">
-            <p className="text-white/40 text-xs   ">No time-off requests submitted yet.</p>
+            <p className="">No time-off requests submitted yet.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -2703,7 +2703,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="text-sm  font-bold     tracking-wide text-white">
                     Live Broadcast & Feed Center
                   </h3>
-                  <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5 truncate">
+                  <p className="font-bold uppercase tracking-widest mt-0.5 truncate">
                     Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                   </p>
                 </div>
@@ -2768,11 +2768,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {isLive && (
                 <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
                   <div className="mb-4 sm:mb-0 text-center sm:text-left">
-                    <p className="text-xs flex flex-col sm:flex-row items-center gap-1.5  font-bold  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-1.5">
+                    <p className="flex flex-col sm:flex-row items-center gap-1.5 font-bold uppercase tracking-[0.2em] mb-1.5">
                       <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
                       Fan Watch Link — Share with your audience
                     </p>
-                    <p className="text-sm font-mono text-emerald-300/90 select-all relative z-10 block break-all">
+                    <p className="font-mono text-emerald-300/90 select-all relative z-10 block break-all">
                       {`http://localhost:3000/live/${defaultMemberId || memberSlug}`}
                     </p>
                   </div>
@@ -2819,7 +2819,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </svg>
                       </div>
                       <h3 className="text-white/70 font-bold tracking-widest uppercase text-sm mb-1">Camera Standby</h3>
-                      <p className="text-white/40 text-xs text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
+                      <p className="text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
                     </div>
                   )}
 
@@ -2906,10 +2906,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="px-4 py-3 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent shrink-0 relative group">
                       <div className="flex items-start gap-2.5 pr-6">
                         <div className="min-w-0 flex-1">
-                          <p className="text-black/90 text-sm leading-snug font-medium">
+                          <p className="text-black/90 leading-snug font-medium">
                             {activePinned.text}
                           </p>
-                          <p className="text-emerald-400/80 text-xs mt-1 font-bold uppercase tracking-widest">
+                          <p className="text-emerald-400/80 mt-1 font-bold uppercase tracking-widest">
                             PINNED BY {activePinned.by}
                           </p>
                         </div>
@@ -2973,7 +2973,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
-                              <p className="text-sm font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
+                              <p className="font-bold uppercase tracking-tight" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
                               {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
                                 <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-[#c084fc]">
                                   CREW
@@ -2990,7 +2990,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-black/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
+                            <p className="text-black/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
                           </div>
 
                           {/* Moderation Actions */}
@@ -3072,7 +3072,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex items-center gap-3 mb-4">
                     <div>
                       <h3 className="text-sm  font-bold     tracking-wide text-white">Flash Merch Drop</h3>
-                      <p className="text-xs font-bold  text-white  uppercase tracking-widest">Limited time, limited stock</p>
+                      <p className="font-bold uppercase tracking-widest">Limited time, limited stock</p>
                     </div>
                   </div>
                   <div>
@@ -3089,8 +3089,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Countdown timer */}
                         <div className="bg-black/40 border border-white/10 p-4 text-center">
-                          <p className="text-xs  font-bold  tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
-                          <p className="text-3xl  font-bold  font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
+                          <p className="font-bold tracking-widest uppercase mb-1">Time Remaining</p>
+                          <p className="font-bold font-mono tracking-wider animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
                           <div className="w-full  bg-[#00000029]    h-1.5  rounded-lg  mt-3 overflow-hidden">
@@ -3103,16 +3103,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Product List */}
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs  font-bold  tracking-widest uppercase text-white/40">Active Products</p>
+                          <p className="font-bold tracking-widest uppercase">Active Products</p>
                           {activeDrop.products.map(p => (
                             <div key={p.id} className="flex gap-3 p-2.5  bg-[#00000029]    border border-white/10 items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
-                                <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                <p className="font-bold truncate" title={p.title}>{p.title}</p>
+                                <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                               </div>
                               <div className="shrink-0 text-right">
-                                <p className="text-xs  font-bold  text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
+                                <p className="font-bold font-mono">${p.flashPrice}</p>
                               </div>
                             </div>
                           ))}
@@ -3170,7 +3170,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </div>
 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                          <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Selected Products & Flash Sale Prices</p>
+                          <p className="font-bold tracking-widest uppercase mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
                             <div className="text-center py-6 rounded-lg border   border-white/10    text-white     text-xs">
                               No products selected yet. Select a product above.
@@ -3180,8 +3180,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               <div key={p.id} className="flex gap-4 p-3 border   border-white/10   items-center justify-between text-white  bg-[#00000029]   ">
                                 <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
-                                  <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                  <p className="font-bold truncate pr-2" title={p.title}>{p.title}</p>
+                                  <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
                                   <div className="flex items-center bg-black/60 border   border-white/10   rounded-lg px-2 py-1 max-w-[90px]">
@@ -3210,7 +3210,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
-                            <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Total Products</p>
+                            <p className="font-bold tracking-widest uppercase mb-2">Total Products</p>
                             <button
                               type="button"
                               onClick={() => {
@@ -3229,7 +3229,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             </button>
                           </div>
                           <div>
-                            <p className="text-xs  font-bold  tracking-widest uppercase  text-white  mb-2">Duration</p>
+                            <p className="font-bold tracking-widest uppercase mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-1">
                               {['2m', '5m', '10m', '15m'].map((d) => (
                                 <button
@@ -3288,7 +3288,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex items-center gap-3">
                       <div>
                         <h3 className="text-sm  font-bold     tracking-wide text-white">Live Event Raffle</h3>
-                        <p className="text-xs font-bold  text-white  uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <p className="font-bold uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                       </div>
                     </div>
                     {raffleStatus !== 'idle' && (
@@ -3412,8 +3412,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {raffleStatus === 'open' && (
                       <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
-                        <p className="text-lg  font-bold  text-white    mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
-                        <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-widest mt-0.5">Fan entries collected</p>
+                        <p className="font-bold mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
+                        <p className="font-bold uppercase tracking-widest mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
                             <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border   border-white/10   rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
@@ -3455,7 +3455,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             ))}
                           </div>
                           {raffleAutoRestartCountdown !== null && (
-                            <p className="text-xs font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
+                            <p className="font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
                               Next raffle auto-starts in <span className=" text-[var(--color-accent)] font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
                             </p>
                           )}
@@ -3471,7 +3471,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="mb-4 flex items-center gap-3">
                   <div>
                     <h3 className="text-sm  font-bold     tracking-wide text-white">Chat Moderation & Policies</h3>
-                    <p className="text-xs font-bold  text-white  uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                    <p className="font-bold uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
 
@@ -3479,7 +3479,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="max-w-[600px] w-full space-y-2">
                       <h4 className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
-                      <p className=" text-white  text-xs leading-relaxed font-sans font-semibold">
+                      <p className="leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
 
@@ -3505,10 +3505,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="text-xs  font-bold  uppercase tracking-widest  text-white ">Active Custom Filters</p>
+                      <p className="font-bold uppercase tracking-widest">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center rounded-lg py-6 border border-dashed   border-white/10   bg-white/[0.01]">
-                          <p className="text-white/40 text-xs   ">No custom keywords configured.</p>
+                          <p className="">No custom keywords configured.</p>
                         </div>
                       ) : (
                         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
@@ -3540,7 +3540,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex items-center gap-3">
                     <div>
                       <h3 className="text-sm  font-bold     tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                      <p className="text-xs font-bold  text-white  uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                      <p className="font-bold uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
                     </div>
                   </div>
                   {isLive && (
@@ -3555,42 +3555,42 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* store sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Store Sales Revenue</p>
-                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
+                      <p className="font-bold uppercase tracking-widest">Store Sales Revenue</p>
+                      <p className="font-bold mt-1 font-mono">
                         ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
-                      <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">
+                      <p className="text-3xs font-bold uppercase tracking-wider mt-1">
                         {orders.filter(o => o.source === 'Store').length} purchases
                       </p>
                     </div>
 
                     {/* flash drop sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Flash Drop Sales</p>
-                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
+                      <p className="font-bold uppercase tracking-widest">Flash Drop Sales</p>
+                      <p className="font-bold mt-1 font-mono">
                         ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
-                      <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">
+                      <p className="text-3xs font-bold uppercase tracking-wider mt-1">
                         {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
                       </p>
                     </div>
 
                     {/* raffle claims card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white">Raffle Claims</p>
-                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">
+                      <p className="font-bold uppercase tracking-widest">Raffle Claims</p>
+                      <p className="font-bold mt-1 font-mono">
                         {orders.filter(o => o.source === 'Raffle').length}
                       </p>
-                      <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">prizes claimed by fans</p>
+                      <p className="text-3xs font-bold uppercase tracking-wider mt-1">prizes claimed by fans</p>
                     </div>
 
                     {/* viewers card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest text-white flex items-center gap-1.5">
+                      <p className="font-bold uppercase tracking-widest flex items-center gap-1.5">
                         <Users className="w-3.5 h-3.5 text-white inline" /> Live Viewers
                       </p>
-                      <p className="text-2xl  font-bold  mt-1 text-white font-mono">{viewerCount}</p>
-                      <p className="text-3xs font-bold  text-white  uppercase tracking-wider mt-1">{isLive ? "Watching live right now" : "Offline"}</p>
+                      <p className="font-bold mt-1 font-mono">{viewerCount}</p>
+                      <p className="text-3xs font-bold uppercase tracking-wider mt-1">{isLive ? "Watching live right now" : "Offline"}</p>
                     </div>
 
                   </div>
@@ -3612,7 +3612,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               <div>
                 <h3 className="text-sm  font-bold     tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
+                <p className="font-bold uppercase tracking-widest mt-0.5">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
@@ -3652,10 +3652,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex items-center gap-2 min-w-0">
 
                       <div className="min-w-0">
-                        <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
+                        <p className={`font-bold truncate ${song.isPlaying ?'text-[var(--color-accent)]' : 'text-white'}`}>
                           {song.title}
                         </p>
-                        <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
+                        <p className="font-semibold uppercase tracking-wider flex items-center gap-1 mt-0.5">
                           <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
                         </p>
                       </div>
@@ -3765,7 +3765,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   >
                     <div>
                       <h3 className="text-sm  font-bold     tracking-wide text-white">Your Work Schedule</h3>
-                      <p className="text-xs font-bold  text-white  uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
+                      <p className="font-bold uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
                     </div>
                   </button>
                   <div className="flex items-center gap-2">
@@ -3805,8 +3805,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="mb-6 p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-between gap-4 flex-col sm:flex-row">
                       <div className="flex items-start gap-3">
                         <div>
-                          <p className="text-xs font-bold  text-[var(--color-accent)]">Sync with Google & Apple Calendar</p>
-                          <p className="text-[var(--font-size-3xs)]  text-white  mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
+                          <p className="font-bold">Sync with Google & Apple Calendar</p>
+                          <p className="mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
                         </div>
                       </div>
                       <CosmicRadialButton
@@ -3866,7 +3866,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {activeScheduleTab === 'my_schedule' ? (
                       activeShifts.length === 0 ? (
                         <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
-                          <p className="text-white/40 text-xs   ">You have no upcoming work shifts scheduled.</p>
+                          <p className="">You have no upcoming work shifts scheduled.</p>
                         </div>
                       ) : (
                         <div className="flex flex-col font-sans">
@@ -4078,14 +4078,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   <div className="flex-1 md:max-w-[40%]  bg-[#00000029]    border border-white/10 p-2 rounded-lg space-y-0.5">
                                     {shift.notes && (
                                       <>
-                                        <p className="text-[8px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
-                                        <p className="text-[10px] text-white/70 leading-normal   ">“{shift.notes}”</p>
+                                        <p className="font-bold uppercase tracking-wider">Instructions:</p>
+                                        <p className="leading-normal">“{shift.notes}”</p>
                                       </>
                                     )}
                                     {shift.declineReason && (
                                       <>
-                                        <p className="text-[8px] text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
-                                        <p className="text-[10px] text-rose-300/80 leading-normal   ">“{shift.declineReason}”</p>
+                                        <p className="text-rose-400/60 font-bold uppercase tracking-wider">Decline Reason:</p>
+                                        <p className="text-rose-300/80 leading-normal">“{shift.declineReason}”</p>
                                       </>
                                     )}
                                   </div>
@@ -4098,7 +4098,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     ) : (
                       tourDates.length === 0 ? (
                         <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
-                          <p className="text-white/40 text-xs   ">No band tour events or shows loaded.</p>
+                          <p className="">No band tour events or shows loaded.</p>
                         </div>
                       ) : (
                         <div className="flex flex-col font-sans">
@@ -4173,7 +4173,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     </button>
                                   </div>
                                   {show.notes && (
-                                    <p className="text-[10px] text-white/40    mt-0.5 max-w-md truncate">“{show.notes}”</p>
+                                    <p className="mt-0.5 max-w-md truncate">“{show.notes}”</p>
                                   )}
                                 </div>
 
@@ -4297,7 +4297,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       <div className="w-10 h-10 bg-[var(--color-accent)]/20 border   border-white/10 flex items-center justify-center text-xl">🚨</div>
                       <div>
                         <h3 className="text-sm  font-bold     tracking-widetext-black">Available Shift Coverage Requests</h3>
-                        <p className="text-xs font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                        <p className="font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
                       </div>
                     </div>
                     <span className="px-3 py-1 bg-[var(--color-accent)]/10 border   border-white/10  text-[var(--color-accent)]  rounded-lg  text-xs  font-bold  uppercase tracking-widest animate-pulse">
@@ -4396,7 +4396,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
                   <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent  rounded-lg  animate-spin mb-4"></div>
                   <h3 className="text-emerald-400 font-bold uppercase tracking-widest text-sm">Processing & Saving...</h3>
-                  <p className="text-black/40 text-xs mt-2">Compressing VOD to Gallery</p>
+                  <p className="text-black/40 mt-2">Compressing VOD to Gallery</p>
                 </div>
               )}
 
@@ -4405,7 +4405,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /></svg>
                 </div>
                 <h2 className="text-2xl  font-bold     tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
-                <p className="text-sm text-black/60 leading-relaxed">
+                <p className="text-black/60 leading-relaxed">
                   You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
                 </p>
               </div>
@@ -4435,7 +4435,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <h3 className="text-sm  font-bold     tracking-wide text-black uppercase flex items-center gap-2">
                 <span className="text-rose-500">✗</span> Decline Work Shift
               </h3>
-              <p className="text-xs text-black/50 leading-relaxed">
+              <p className="text-black/50 leading-relaxed">
                 Please provide a reason for declining this shift. This will be saved to your shift history and shared with the planner/administrator to assist with scheduling.
               </p>
               <textarea
@@ -4555,7 +4555,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 {toast.title}
               </h4>
             )}
-            <p className="text-xs text-black/70 leading-relaxed font-semibold">
+            <p className="text-black/70 leading-relaxed font-semibold">
               {toast.message}
             </p>
           </div>
@@ -4582,7 +4582,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <h3 className="text-sm  font-bold     tracking-wide text-black uppercase leading-none">
                     {selectedVenuePopup.name}
                   </h3>
-                  <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
                     Venue Specifications
                   </p>
                 </div>
@@ -4657,7 +4657,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               {/* Stage Specs */}
               <div className="bg-white/[0.02] border border-black/10 p-3">
                 <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🎸 Stage & Power Specs</span>
-                <p className="text-xs text-black/80 leading-relaxed font-medium">
+                <p className="text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.stageSpecs}
                 </p>
               </div>
@@ -4665,7 +4665,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               {/* Parking & Load-In Notes */}
               <div className="bg-white/[0.02] border border-black/10 p-3">
                 <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1">🚛 Parking & Load-In Notes</span>
-                <p className="text-xs text-black/80 leading-relaxed font-medium">
+                <p className="text-black/80 leading-relaxed font-medium">
                   {selectedVenuePopup.parkingNotes}
                 </p>
               </div>
@@ -4697,7 +4697,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <h3 className="text-sm  font-bold     tracking-wide text-black uppercase leading-none">
                     Show Lineup & Gig Discuss
                   </h3>
-                  <p className="text-[var(--font-size-4xs)] text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="text-purple-300 font-mono tracking-wider mt-1.5 uppercase leading-none">
                     {new Date(activeDiscussionDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                   </p>
                 </div>
@@ -4720,7 +4720,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
-                    return <p className="text-[var(--font-size-2xs)] text-black/35   ">No lineup configured for this show date yet.</p>;
+                    return <p className="text-black/35">No lineup configured for this show date yet.</p>;
                   }
                   return lineup
                     .sort((a, b) => parseTimeToMinutes(a.startTime) - parseTimeToMinutes(b.startTime))
@@ -4777,7 +4777,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <span className="text-[var(--font-size-3xs)] font-bold text-black/80">{c.authorName}</span>
                                     <span className="text-[7.5px] text-black/30 font-mono">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                   </div>
-                                  <p className="text-[var(--font-size-2xs)] text-black/60 leading-normal">{c.text}</p>
+                                  <p className="text-black/60 leading-normal">{c.text}</p>
                                   <button
                                     type="button"
                                     onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
@@ -4835,7 +4835,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       <span className="text-[9.5px] font-bold text-black/70">{r.authorName}</span>
                                       <span className="text-[var(--font-size-5xs)] text-black/25 font-mono">{new Date(r.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
-                                    <p className="text-[var(--font-size-3xs)] text-black/50 leading-normal">{r.text}</p>
+                                    <p className="text-black/50 leading-normal">{r.text}</p>
                                   </div>
                                 </div>
                               ))}
@@ -4843,7 +4843,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           );
                         })}
                         {comments.length === 0 && (
-                          <p className="text-[var(--font-size-2xs)] text-black/25    text-center py-6">No discussions yet. Start the conversation!</p>
+                          <p className="text-black/25 text-center py-6">No discussions yet. Start the conversation!</p>
                         )}
                       </div>
 
@@ -4911,7 +4911,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <h3 className="text-sm  font-bold     tracking-wide text-black uppercase leading-none">
                     Request Coverage or Swap
                   </h3>
-                  <p className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-mono tracking-wider mt-1.5 uppercase leading-none">
+                  <p className="font-mono tracking-wider mt-1.5 uppercase leading-none">
                     Shift: {requestingCoverageShift.role} at {requestingCoverageShift.location}
                   </p>
                 </div>
@@ -4931,7 +4931,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
             {/* Content Body */}
             <div className="space-y-4 font-sans">
-              <p className="text-xs text-black/60 leading-relaxed">
+              <p className="text-black/60 leading-relaxed">
                 Choose whether you want to post this to the general pool for any qualified colleague to claim, or propose a direct swap with a specific colleague.
               </p>
 

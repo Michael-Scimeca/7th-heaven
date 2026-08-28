@@ -113,7 +113,7 @@ export default function PushAlertsCard({
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-gray-300/90 leading-relaxed mb-6">
+          <p className="text-gray-300/90 leading-relaxed mb-6">
             {subtitle || defaultSubtitle}
           </p>
 

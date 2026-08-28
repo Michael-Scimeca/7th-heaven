@@ -1629,7 +1629,7 @@ export default function VisualSitemapClient() {
                     ? "Cruise Reservation & Security PIN Flow"
                     : "Fan Account Signup & PIN Verification Flow"}
             </h1>
-            <p className="text-xs text-white/50">
+            <p className="">
               {activeTab === "ARCH"
                 ? "Direct Vertical Flow under Book Us: Form ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
                 : activeTab === "BOOKING"

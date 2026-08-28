@@ -979,7 +979,7 @@ ${filterLine}
                       )}
                     </div>
                     {upNext.info && (
-                      <p className="mt-3 text-[0.7rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)]">
+                      <p className="mt-3 font-bold uppercase tracking-[0.15em]">
                         {upNext.info}
                       </p>
                     )}
@@ -1350,7 +1350,7 @@ ${filterLine}
                     <div className="pt-0.5">
                       <h4 className="text-2xl  font-bold  text-white leading-tight uppercase tracking-tight   " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {(show.city || show.state) && (
-                        <p className="text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold">
+                        <p className="flex items-center gap-1.5 mt-1 font-semibold">
                           <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
                           {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}
                         </p>
@@ -1530,7 +1530,7 @@ ${filterLine}
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
-              <p className="text-lg">No shows match your filters.</p>
+              <p className="">No shows match your filters.</p>
               <button aria-label="Action button" onClick={clearAll} className="mt-4 text-sm  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
@@ -1743,7 +1743,7 @@ ${filterLine}
                   </div>
                   <div>
                     <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
-                    <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
+                    <p className="uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
                 <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center  rounded-lg   bg-[#00000029]    hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
@@ -1753,12 +1753,12 @@ ${filterLine}
 
               {/* Show info */}
               <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
-                <p className="text-xs  text-white  font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
-                <p className="text-[var(--font-size-3xs)] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
+                <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+                <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
               </div>
 
               {/* What would you like? */}
-              <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
+              <p className="uppercase tracking-[0.15em] mb-2 font-bold">What would you like to be notified about?</p>
 
               <div className="flex flex-col gap-2">
                 {/* This show */}
@@ -1776,8 +1776,8 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><Mic className="w-3.5 h-3.5 text-cyan-400" /> This specific show</p>
-                    <p className="text-[var(--font-size-3xs)] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
+                    <p className="font-bold flex items-center gap-1.5"><Mic className="w-3.5 h-3.5 text-cyan-400" /> This specific show</p>
+                    <p className="">Reminders & updates for {notifyPopupShow.venue}</p>
                   </div>
                 </button>
 
@@ -1796,8 +1796,8 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-cyan-400" /> Shows near me</p>
-                    <p className="text-[var(--font-size-3xs)] text-white/30">Get emailed when we book near your area</p>
+                    <p className="font-bold flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-cyan-400" /> Shows near me</p>
+                    <p className="">Get emailed when we book near your area</p>
                   </div>
                 </button>
 
@@ -1816,14 +1816,14 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-cyan-400" /> Newsletter & exclusives</p>
-                    <p className="text-[var(--font-size-3xs)] text-white/30">News, drops & merch updates</p>
+                    <p className="font-bold flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-cyan-400" /> Newsletter & exclusives</p>
+                    <p className="">News, drops & merch updates</p>
                   </div>
                 </button>
               </div>
 
               {/* Sending to email */}
-              <p className="text-[var(--font-size-3xs)] text-white/20 mt-3 text-center">
+              <p className="mt-3 text-center">
                 Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
               </p>
 

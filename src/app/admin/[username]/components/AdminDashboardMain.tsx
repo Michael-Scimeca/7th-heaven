@@ -253,11 +253,11 @@ const SidebarDateButton = React.memo(({
         <span className={`text-[9.5px]  font-bold  tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`text-[10px] font-bold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`font-bold truncate leading-tight ${isSelected ?'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="text-[8.5px] text-white/30 truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
     </button>
@@ -3142,7 +3142,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div className="mx-6 mt-4 p-3.5 bg-purple-500/10 border border-purple-500/15 text-purple-200/90 text-xs flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
         <span className="text-sm select-none">ℹ</span>
         <div>
-          <p className="font-bold uppercase tracking-wider text-[var(--font-size-4xs)] text-purple-300">About {title}</p>
+          <p className="font-bold uppercase tracking-wider text-purple-300">About {title}</p>
           <p className="mt-0.5 leading-normal opacity-80">{description}</p>
         </div>
       </div>
@@ -3159,7 +3159,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
               Emergency Show & Fan Alert Dispatcher
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Dispatch urgent show cancellations, time changes, or venue updates sitewide</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Dispatch urgent show cancellations, time changes, or venue updates sitewide</p>
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="SMS • Email • Fan Wall" color="rose" />
@@ -3184,7 +3184,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               Role-Based Email Lists & Subscriber Directory
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins</p>
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="Crew • Fans • Cruise • Planners • Admins" color="amber" />
@@ -3209,7 +3209,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
               Proximity & Web Push Alert Subscribers
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Manage browser push subscriptions, zip code locations, distance radii, and test show alerts</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Manage browser push subscriptions, zip code locations, distance radii, and test show alerts</p>
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="Web Push • Proximity • Supabase" color="pink" />
@@ -3232,7 +3232,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
               Band Announcements
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Post band updates, news, and urgent alerts across the public site</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Post band updates, news, and urgent alerts across the public site</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg  bg-[#00000029]    border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
@@ -3251,7 +3251,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
                     Global Alert Banner
                   </h3>
-                  <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Pin a band announcement or urgent notice sitewide</p>
+                  <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Pin a band announcement or urgent notice sitewide</p>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Main toggle — auto-saves */}
@@ -3384,7 +3384,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             Google Analytics GA4 Suite
           </h3>
-          <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Monitor sitewide visitor traffic, engagement, and conversion metrics</p>
+          <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Monitor sitewide visitor traffic, engagement, and conversion metrics</p>
         </div>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-[0.6rem] font-bold text-emerald-300 uppercase tracking-widest animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
@@ -3649,7 +3649,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
                     <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
                   </div>
-                  <p className="text-[var(--font-size-3xs)] text-[var(--muted-text)] font-bold uppercase tracking-wider">
+                  <p className="font-bold uppercase tracking-wider">
                     Real-time geographic fan heatmaps for tour routing optimization.
                   </p>
                 </div>
@@ -3661,8 +3661,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="flex items-start gap-3">
                 <span className="text-xl mt-1 sm:mt-0"></span>
                 <div>
-                  <p className="text-xs  font-bold  text-[var(--text-color)]">Google Analytics GA4 Active</p>
-                  <p className="text-[0.6rem] text-[var(--muted-text)] font-mono font-bold uppercase tracking-widest">
+                  <p className="font-bold">Google Analytics GA4 Active</p>
+                  <p className="font-mono font-bold uppercase tracking-widest">
                     Tracking Live Tag: <span className="text-emerald-400 font-bold">G-HS8X0ZD66V</span>
                   </p>
                 </div>
@@ -3672,8 +3672,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="flex items-start gap-2">
                   <span className="text-purple-300 text-sm"></span>
                   <div>
-                    <p className="text-[0.65rem]  font-bold  text-purple-300 uppercase tracking-widest">Shopify E-Commerce Link</p>
-                    <p className="text-[0.6rem] text-[var(--muted-text)] font-semibold leading-snug mt-1 max-w-[320px]">
+                    <p className="font-bold text-purple-300 uppercase tracking-widest">Shopify E-Commerce Link</p>
+                    <p className="font-semibold leading-snug mt-1 max-w-[320px]">
                       To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong className="text-[var(--text-color)]  font-bold ">G-HS8X0ZD66V</strong>.
                     </p>
                   </div>
@@ -3770,8 +3770,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : shopifyError ? (
               <div className="p-16 text-center">
                 <span className="text-4xl opacity-20 block mb-4"></span>
-                <p className="text-white/40 text-sm">{shopifyError}</p>
-                <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
+                <p className="">{shopifyError}</p>
+                <p className="mt-2">Check your Shopify Admin API credentials in .env.local</p>
               </div>
             ) : shopifyData?.mode === 'inventory' ? (
               <div className="py-6 pl-0">
@@ -3779,31 +3779,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
                     <span className="text-purple-300 text-lg"></span>
                     <div>
-                      <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
-                      <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
+                      <p className="font-bold text-purple-300">Orders Access Not Enabled</p>
+                      <p className="mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
                     </div>
                   </div>
                 )}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
-                    <p className="text-2xl  font-bold  text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
+                    <p className="font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
+                    <p className="font-bold">${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="mt-1 uppercase tracking-widest">Retail value on hand</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
-                    <p className="text-2xl  font-bold  text-white">{shopifyData.summary.totalProducts}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Products</p>
+                    <p className="font-bold">{shopifyData.summary.totalProducts}</p>
+                    <p className="mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
-                    <p className="text-2xl  font-bold  text-white">{shopifyData.summary.totalInventory}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Total Units</p>
+                    <p className="font-bold">{shopifyData.summary.totalInventory}</p>
+                    <p className="mt-1 uppercase tracking-widest">In stock</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
-                    <p className="text-2xl  font-bold  text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Avg Price</p>
+                    <p className="font-bold">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
+                    <p className="mt-1 uppercase tracking-widest">Per unit</p>
                   </div>
                 </div>
                 <div className="bg-black/20 border border-white/5 overflow-hidden">
@@ -3853,27 +3853,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Revenue Metrics Row */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
-                    <p className="text-2xl  font-bold  text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
+                    <p className="font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
+                    <p className="font-bold">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
-                    <p className="text-2xl  font-bold  text-white">{shopifyData.summary.totalOrders}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Orders</p>
+                    <p className="font-bold">{shopifyData.summary.totalOrders}</p>
+                    <p className="mt-1 uppercase tracking-widest">
                       {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
                     </p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
-                    <p className="text-2xl  font-bold  text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Avg Order Value</p>
+                    <p className="font-bold">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="mt-1 uppercase tracking-widest">Per transaction</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
-                    <p className="text-2xl  font-bold  text-[var(--color-accent)]">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="font-bold uppercase tracking-[0.15em] mb-2">Net Revenue</p>
+                    <p className="font-bold">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     {shopifyData.summary.totalRefunded > 0 && (
-                      <p className="text-[0.55rem] text-rose-400 mt-1 uppercase tracking-widest">
+                      <p className="text-rose-400 mt-1 uppercase tracking-widest">
                         -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
                       </p>
                     )}
@@ -4082,32 +4082,32 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Simulated Metrics Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-colors">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] mb-2">Simulated Revenue</p>
-                  <p className="text-2xl  font-bold  text-white font-mono">
+                  <p className="font-bold uppercase tracking-[0.15em] mb-2">Simulated Revenue</p>
+                  <p className="font-bold font-mono">
                     ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                   </p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
+                  <p className="mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
-                  <p className="text-2xl  font-bold  text-white font-mono">
+                  <p className="font-bold uppercase tracking-[0.15em] mb-2">Store Purchases</p>
+                  <p className="font-bold font-mono">
                     {simulatedOrders.filter(o => o.source === 'Store').length}
                   </p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
+                  <p className="mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
-                  <p className="text-2xl  font-bold  text-white font-mono">
+                  <p className="font-bold uppercase tracking-[0.15em] mb-2">Flash Drops</p>
+                  <p className="font-bold font-mono">
                     {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
                   </p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
+                  <p className="mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-colors">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
-                  <p className="text-2xl  font-bold  text-white font-mono">
+                  <p className="font-bold uppercase tracking-[0.15em] mb-2">Raffle Claims</p>
+                  <p className="font-bold font-mono">
                     {simulatedOrders.filter(o => o.source === 'Raffle').length}
                   </p>
-                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
+                  <p className="mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
                 </div>
               </div>
 
@@ -4288,7 +4288,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             {editingInlineLoadInId === b.bookingId ? (
                               <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
-                                <p className="text-[10px]  font-bold  text-purple-300 uppercase tracking-wider">Set Official Load-In / Out Time:</p>
+                                <p className="font-bold text-purple-300 uppercase tracking-wider">Set Official Load-In / Out Time:</p>
                                 <div className="input-glow-border rounded-lg w-full">
                                   <input
                                     type="text"
@@ -4411,52 +4411,52 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
                               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
                                 <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">
+                                  <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
+                                  <p className="font-semibold text-black dark:text-white">
                                     {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
                                   </p>
                                 </div>
                                 <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                                  <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
+                                  <p className="font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
+                                  <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
+                                  <p className="font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
-                                  <p className="text-sm font-semibold text-cyan-400">
+                                  <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
+                                  <p className="font-semibold text-cyan-400">
                                     {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
                                   </p>
                                 </div>
                                 <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
+                                  <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
                                   {b.ticketLink ? (
                                     <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
                                       {b.ticketLink}
                                     </a>
                                   ) : (
-                                    <p className="text-sm text-black/30 dark:text-white/20">—</p>
+                                    <p className="text-black/30 dark:text-white/20">—</p>
                                   )}
                                 </div>
                                 {b.details && (
                                   <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
-                                    <p className="text-xs text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
+                                    <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
+                                    <p className="text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
                                   </div>
                                 )}
                                 {b.plannerNotes && (
                                   <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
-                                    <p className="text-xs text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
+                                    <p className="uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
+                                    <p className="text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
                                   </div>
                                 )}
 
                                 {/* Official Load-In Setup Manager Widget */}
                                 <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30  rounded-lg space-y-3">
                                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                                    <p className="text-xs uppercase tracking-widest text-purple-300 font-bold flex items-center gap-2">
+                                    <p className="uppercase tracking-widest text-purple-300 font-bold flex items-center gap-2">
                                       <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
                                     </p>
                                     {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
@@ -4466,7 +4466,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     )}
                                   </div>
 
-                                  <p className="text-xs text-white/70">
+                                  <p className="">
                                     Set or update the official load-in setup time below. Clicking <strong>"Save & Email Planner"</strong> updates the record and sends an email confirmation directly to <strong>{b.plannerEmail || b.email}</strong>.
                                   </p>
 
@@ -4547,7 +4547,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
                       <div className="overflow-hidden">
                         <h4 className="font-bold text-white text-sm truncate">{planner.name || 'Unknown Planner'}</h4>
-                        <p className="text-[0.65rem] text-white/40 truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+                        <p className="truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
                       </div>
                     </div>
 
@@ -4603,7 +4603,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
             Fan Photo Moderation Queue
           </h3>
-          <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
+          <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
         </div>
         <div className="flex items-center gap-3">
           <div className={"w-7 h-7 rounded-lg  bg-[#00000029]    border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
@@ -4635,8 +4635,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className=" text-[var(--color-accent)]">@</span>
                         {photo.name}
                       </div>
-                      {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
-                      {photo.caption && <p className="text-sm text-white/70 italic border-l-2   border-white/10 pl-3 mt-2">"{photo.caption}"</p>}
+                      {photo.venue && <p className="font-bold tracking-widest uppercase truncate"> {photo.venue}</p>}
+                      {photo.caption && <p className="italic border-l-2 border-white/10 pl-3 mt-2">"{photo.caption}"</p>}
                     </div>
                     <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
                       <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.6rem]  font-bold  uppercase tracking-widest text-white bg-red-600 hover:bg-red-500 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
@@ -4695,9 +4695,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
                         <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
                       </div>
-                      <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
+                      <p className="italic mt-1">"{mem.text || mem.caption}"</p>
                       {mem.show_id && (
-                        <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
+                        <p className="mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
                       )}
                       {mem.photo_url && (
                         <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
@@ -4909,7 +4909,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           <div className="py-6 pl-0">
-            <p className="text-[0.7rem] text-white/40 mb-5">
+            <p className="mb-5">
               {smsAutoBlast
                 ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
                 : 'Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it.'}
@@ -5953,7 +5953,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Confirm / Send Button */}
                   <div className="pt-2">
                     {crewAlertResult && (
-                      <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <p className={`font-bold ${crewAlertResult.success ?'text-emerald-400' : 'text-rose-400'}`}>
                         {crewAlertResult.success
                           ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                           : ` ${crewAlertResult.error}`}
@@ -6111,7 +6111,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Confirm / Send Button */}
                 <div className="space-y-3 pt-2">
                   {crewAlertResult && (
-                    <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <p className={`font-bold ${crewAlertResult.success ?'text-emerald-400' : 'text-rose-400'}`}>
                       {crewAlertResult.success
                         ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                         : ` ${crewAlertResult.error}`}
@@ -6817,7 +6817,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="flex items-center justify-between">
                 <div>
                   {blastResult && (
-                    <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <p className={`font-bold ${blastResult.success ?'text-emerald-400' : 'text-rose-400'}`}>
                       {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
                       {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
                     </p>
@@ -6908,7 +6908,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ].map((email) => (
                       <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-colors">
                         <h4 className="text-[var(--font-size-2xs)] font-bold text-emerald-200">{email.name}</h4>
-                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                        <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
                   </div>
@@ -6931,7 +6931,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ].map((email) => (
                       <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
                         <h4 className="text-[var(--font-size-2xs)] font-bold text-purple-200">{email.name}</h4>
-                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                        <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
                   </div>
@@ -6956,7 +6956,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ].map((email) => (
                       <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-colors">
                         <h4 className="text-[var(--font-size-2xs)] font-bold text-pink-200">{email.name}</h4>
-                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                        <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
                   </div>
@@ -6978,7 +6978,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ].map((email) => (
                       <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
                         <h4 className="text-[var(--font-size-2xs)] font-bold text-cyan-200">{email.name}</h4>
-                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                        <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
                   </div>
@@ -7002,7 +7002,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ].map((email) => (
                       <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
                         <h4 className="text-[var(--font-size-2xs)] font-bold text-purple-200">{email.name}</h4>
-                        <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
+                        <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
                   </div>
@@ -7176,7 +7176,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </div>
                             </div>
                             {user.role === 'crew' && !acct?.password && (
-                              <p className="mt-1 text-[0.55rem] text-amber-400/70 italic font-mono">
+                              <p className="mt-1 text-amber-400/70 italic font-mono">
                                 * Credentials lost (Check browser history or re-create account)
                               </p>
                             )}
@@ -7299,7 +7299,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
               <span className="text-purple-300 text-sm mt-0.5"></span>
-              <p className="text-[0.65rem] text-white/40 leading-relaxed">
+              <p className="leading-relaxed">
                 A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
               </p>
             </div>
@@ -7312,8 +7312,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
                       <h4 className="text-sm font-bold text-[var(--color-accent)]">Crew Account Created</h4>
-                      <p className="text-[0.7rem]  text-white  mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
-                      {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
+                      <p className="mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
+                      {createdCrew.phone && <p className="mt-0.5"> {createdCrew.phone}</p>}
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
                         <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
                         <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
@@ -7340,7 +7340,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {crewError && (
               <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
                 <span className="text-rose-400"></span>
-                <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
+                <p className="text-rose-400 font-bold">{crewError}</p>
                 <button aria-label="Dismiss crew error" onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
               </div>
             )}
@@ -7447,7 +7447,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
               <span className="text-purple-300 text-sm mt-0.5"></span>
-              <p className="text-[0.65rem] text-white/40 leading-relaxed">
+              <p className="leading-relaxed">
                 A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
               </p>
             </div>
@@ -7460,7 +7460,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
                       <h4 className="text-sm font-bold text-purple-300">Admin Account Created</h4>
-                      <p className="text-[0.7rem]  text-white  mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
+                      <p className="mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
                         <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
                         <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdAdmin.password}</code>
@@ -7469,7 +7469,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
                         >Copy</button>
                       </div>
-                      <p className="text-[0.6rem] text-white/30 mt-2"> Welcome email sent to {createdAdmin.email}</p>
+                      <p className="mt-2"> Welcome email sent to {createdAdmin.email}</p>
                     </div>
                   </div>
                   <button aria-label="Dismiss created admin notification" onClick={() => setCreatedAdmin(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
@@ -7480,7 +7480,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {adminCreateError && (
               <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
                 <span className="text-rose-400"></span>
-                <p className="text-[0.7rem] text-rose-400 font-bold">{adminCreateError}</p>
+                <p className="text-rose-400 font-bold">{adminCreateError}</p>
                 <button aria-label="Dismiss admin error" onClick={() => setAdminCreateError('')} className="ml-auto text-white/30 hover:text-white">✕</button>
               </div>
             )}
@@ -7494,7 +7494,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 font-mono animate-pulse">Saving changes...</span>}
                     {savePermStatus === 'saved' && <span className="text-[0.65rem] text-[var(--color-accent)] font-mono"> Saved to database</span>}
                   </h4>
-                  <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
+                  <p className="mt-0.5">Control feature access for specific sub-admin accounts.</p>
                 </div>
               </div>
 
@@ -7683,20 +7683,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Summary stats bar */}
               <div className="grid grid-cols-4 gap-3 mb-6">
                 <div className="bg-black/30 p-3 border border-white/5 text-center">
-                  <p className="text-xl  font-bold  text-cyan-400">{signups.length}</p>
-                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
+                  <p className="font-bold text-cyan-400">{signups.length}</p>
+                  <p className="font-bold uppercase tracking-widest mt-0.5">Bookings</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/5 text-center">
-                  <p className="text-xl  font-bold  text-white">{cruiseStats.total}</p>
-                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
+                  <p className="font-bold">{cruiseStats.total}</p>
+                  <p className="font-bold uppercase tracking-widest mt-0.5">Total Pax</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/5 text-center">
-                  <p className="text-xl  font-bold  text-[var(--color-accent)]">{signups.filter((s: any) => s.depositPaid).length}</p>
-                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
+                  <p className="font-bold">{signups.filter((s: any) => s.depositPaid).length}</p>
+                  <p className="font-bold uppercase tracking-widest mt-0.5">Deposits</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/5 text-center">
-                  <p className="text-xl  font-bold  text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
-                  <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
+                  <p className="font-bold text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
+                  <p className="font-bold uppercase tracking-widest mt-0.5">Paid Full</p>
                 </div>
               </div>
 
@@ -7726,7 +7726,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
                 <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
                   <div className="flex items-center justify-between">
-                    <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
+                    <p className="font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
                     <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm">✕</button>
                   </div>
                   {/* Selected recipients preview */}
@@ -7767,7 +7767,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-center justify-between">
                     <div>
                       {cruiseEmailResult && (
-                        <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className={`font-bold ${cruiseEmailResult.success ?'text-emerald-400' : 'text-rose-400'}`}>
                           {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
                           {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
                         </p>
@@ -7790,7 +7790,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {signups.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-white/20 text-sm">No cruise signups yet.</p>
+                  <p className="">No cruise signups yet.</p>
                 </div>
               ) : (
                 <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
@@ -7823,15 +7823,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
                         {/* Name + Email */}
                         <div className="min-w-0">
-                          <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                          <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                          <p className="font-bold truncate">{s.name}</p>
+                          <p className="truncate">{s.email}</p>
                         </div>
                         {/* Phone */}
-                        <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
+                        <p className="font-mono truncate">{s.phone || '—'}</p>
                         {/* Party size + date */}
                         <div>
-                          <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                          <p className="text-[0.5rem] text-white/20">{s.date}</p>
+                          <p className="font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          <p className="">{s.date}</p>
                         </div>
                         {/* Checked off */}
                         <div className="flex justify-center">
@@ -9070,7 +9070,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <CrewAvatar member={member} />
                           <div className="min-w-0 wiw-tooltip-container flex-1">
                             <div className="flex items-center justify-between gap-1">
-                              <p className="text-xs  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
+                              <p className="font-bold truncate leading-tight">{member.name}</p>
                               {isWorkingOnActiveDate && (
                                 <span className="text-[7.5px]  font-bold  uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
@@ -9289,8 +9289,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const count = (schedulesByDate[day.dateStr] || []).length;
                 return (
                   <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
-                    <p className="text-[var(--font-size-3xs)] uppercase font-bold tracking-wider text-[var(--muted-text)]">{day.dayName}</p>
-                    <p className="text-xs font-bold text-[var(--text-color)] mt-0.5">{day.monthName} {day.dayOfMonth}</p>
+                    <p className="uppercase font-bold tracking-wider">{day.dayName}</p>
+                    <p className="font-bold mt-0.5">{day.monthName} {day.dayOfMonth}</p>
                     {(() => {
                       const dayShow = getDayShow(day.dateStr);
                       if (!dayShow) return null;
@@ -9585,7 +9585,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Crew Work Schedule Calendar
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg  bg-[#00000029]    border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
@@ -9655,7 +9655,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
-                      <p className="text-xs text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
+                      <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
 
@@ -9667,12 +9667,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="text-sm font-bold text-pink-300">
                       Shift: {coEditorConflictAlert.shiftTitle}
                     </div>
-                    <p className="text-white/80 leading-relaxed  bg-[#00000029]    p-2.5 rounded border border-white/5">
+                    <p className="leading-relaxed bg-[#00000029] p-2.5 rounded border border-white/5">
                       {coEditorConflictAlert.changeDesc}
                     </p>
                   </div>
 
-                  <p className="text-[11px] text-white/50 italic">
+                  <p className="italic">
                     Live presence prevents double-bookings & timeline mix-ups by automatically syncing modifications made by other admins.
                   </p>
 
@@ -9727,7 +9727,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       Conflict Prevention Active
                     </div>
-                    <p className="text-[11px] text-emerald-200/70">
+                    <p className="text-emerald-200/70">
                       If another team member edits a shift while you are viewing, real-time locks and notifications prevent scheduling mix-ups.
                     </p>
                   </div>
@@ -10297,7 +10297,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
-                          <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
+                          <p className="uppercase tracking-widest font-bold mt-1">
                             Assigning {(() => {
                               const found = crewMembers.find(c => c.id === draggedCrewMemberId);
                               return found ? found.name : draggedCrewMemberId;
@@ -10356,8 +10356,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <div className="flex items-center gap-2">
                                   <span className="text-sm"></span>
                                   <div>
-                                    <p className="text-xs  font-bold  uppercase tracking-wider">Coverage Requested</p>
-                                    <p className="text-[var(--font-size-3xs)]  text-white  mt-0.5">
+                                    <p className="font-bold uppercase tracking-wider">Coverage Requested</p>
+                                    <p className="mt-0.5">
                                       <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
                                     </p>
                                   </div>
@@ -10418,7 +10418,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                     if (candidates.length === 0) {
                                       return (
-                                        <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
+                                        <p className="italic py-1">
                                           {onlyShowFitRole
                                             ? `No other crew members have the role '${editingShift.role}'`
                                             : 'No other crew members available'}
@@ -10930,7 +10930,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                     <div>
                       <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
-                      <p className="text-xs text-white/80 mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
+                      <p className="mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
                       type="button"
@@ -10966,7 +10966,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase">Select Crew Group</h3>
-                          <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
+                          <p className="uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                           <span className="text-xs text-white/50 font-bold px-2.5 py-1  bg-[#00000029]  rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
@@ -11085,7 +11085,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                       <div>
                         <h3 className="text-sm  font-bold  italic tracking-wide text-white">Create New Crew Group</h3>
-                        <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                        <p className="uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
                         aria-label="Close create group modal"
@@ -11152,7 +11152,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                     </div>
                                     <div className="min-w-0">
-                                      <p className="text-xs font-bold text-white/80 group-hover:text-white truncate transition-colors">{m.name}</p>
+                                      <p className="font-bold group-hover:text-white truncate transition-colors">{m.name}</p>
                                       <span className="text-white/40 uppercase font-semibold tracking-wider block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
                                     </div>
                                   </div>
@@ -11393,7 +11393,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white">
                             Show Crew Roster
                           </h3>
-                          <p className="text-[0.65rem] text-purple-300 uppercase tracking-widest font-bold mt-1">
+                          <p className="text-purple-300 uppercase tracking-widest font-bold mt-1">
                             {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
                           </p>
                         </div>
@@ -12002,8 +12002,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 God Mode
               </span>
             </div>
-            <p className="text-xs font-mono text-[var(--muted-text)] font-semibold">{effectiveAdmin.email}</p>
-            <p className="text-[0.7rem] text-[var(--muted-text)] font-bold mt-0.5">
+            <p className="font-mono font-semibold">{effectiveAdmin.email}</p>
+            <p className="font-bold mt-0.5">
               {(member?.role || effectiveAdmin.role) === 'crew'
                 ? 'Manage setlists, live feeds, community updates, and crew tools.'
                 : 'Oversee activity, intercept live feeds, and manage community access in real-time.'}
@@ -12068,7 +12068,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {METRICS.map((metric) => (
               <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg  transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
-                <p className="text-[0.65rem]  font-bold  uppercase tracking-wider text-[var(--muted-text)] mb-2">{metric.label}</p>
+                <p className="font-bold uppercase tracking-wider mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
                   <span className="text-3xl  font-bold  text-white">{metric.value}</span>
                   <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${metric.color}`}>
@@ -12136,7 +12136,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className={`w-3.5 h-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white/80 leading-relaxed mb-1">{entry.text}</p>
+                      <p className="leading-relaxed mb-1">{entry.text}</p>
 
                       {entry.details && (
                         <div className="mt-1 mb-2">
@@ -12218,7 +12218,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       )}
 
-                      <p className="text-[0.65rem] uppercase tracking-widest text-white/30">{entry.time}</p>
+                      <p className="uppercase tracking-widest">{entry.time}</p>
                     </div>
                   </div>
                 ))}
@@ -12242,7 +12242,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
               <div>
                 <h2 className="text-xl  font-bold  italic tracking-wide text-white uppercase">Cruise Command Center</h2>
-                <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
+                <p className="font-bold uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
               </div>
             </div>
 
@@ -12255,7 +12255,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="w-10 h-10    border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
                     <div>
                       <h3 className="text-base md:text-lg  font-bold  italic tracking-wide text-white">Cruise Information & Guidelines</h3>
-                      <p className="text-[0.65rem] text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
+                      <p className="text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
                     </div>
                   </div>
                   {adminGuidelinesSaveStatus === 'saved' && (
@@ -12357,7 +12357,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="w-12 h-12 shrink-0    border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                       <div>
                         <h3 className="text-lg  font-bold  italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
-                        <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
+                        <p className="font-bold uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
                     <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
@@ -12518,30 +12518,30 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                   <div>
                     <h3 className="text-lg  font-bold  italic tracking-wide text-white">Cruise Roster</h3>
-                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
+                    <p className="font-bold uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
                   </div>
                 </div>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-2xl  font-bold  text-[var(--color-accent)]">{cruiseStats.signups || 0}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
+                    <p className="font-bold">{cruiseStats.signups || 0}</p>
+                    <p className="font-bold uppercase tracking-widest mt-0.5">Bookings</p>
                   </div>
                   <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-2xl  font-bold  text-white">{cruiseStats.total}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
+                    <p className="font-bold">{cruiseStats.total}</p>
+                    <p className="font-bold uppercase tracking-widest mt-0.5">Total Pax</p>
                   </div>
                   <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-lg  font-bold   text-white ">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
+                    <p className="font-bold">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
+                    <p className="font-bold uppercase tracking-widest mt-0.5">Adult / Child</p>
                   </div>
                 </div>
 
                 {/* Recent Signups */}
                 {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
-                    <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
+                    <p className="font-bold uppercase tracking-widest mb-2">Recent Signups</p>
                     <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5  border-white/10 transition-colors group/row">
@@ -12549,12 +12549,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                            <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                            <p className="font-bold truncate">{s.name}</p>
+                            <p className="truncate">{s.email}</p>
                           </div>
                           <div className="text-right shrink-0">
-                            <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
-                            <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                            <p className="font-mono">{s.phone || '—'}</p>
+                            <p className="">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
                           </div>
                         </div>
                       ))}
@@ -12567,7 +12567,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                   Download Full CSV
                 </button>
-                <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+                <p className="text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
               </div>
             </div>
           </div>
@@ -12636,7 +12636,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                   Print Merchandise QR Code
                 </h3>
-                <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
+                <p className="mt-1">Generate printable retail labels for the merch table</p>
               </div>
               <button
                 aria-label="Close QR product label modal"
@@ -12722,8 +12722,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
                       <div>
-                        <p className="text-xs font-bold text-white">Show Price Tag</p>
-                        <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
+                        <p className="font-bold">Show Price Tag</p>
+                        <p className="">Include product price at the bottom of the card</p>
                       </div>
                       <button
                         type="button"
@@ -12744,7 +12744,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
-                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
+                <p className="font-bold uppercase tracking-widest mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
 
                 <div className="print-tag-container">
                   <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
@@ -12774,7 +12774,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     <div className="text-center w-full">
-                      <p className="text-[0.55rem]  font-bold  uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
+                      <p className="font-bold uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
                       {qrIncludePrice && (
                         <div className="text-lg  font-bold  border-t border-black/10 pt-2 text-black">
                           ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
@@ -12808,8 +12808,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
           <div className="text-xl"></div>
           <div>
-            <p className="text-xs  font-bold  text-[var(--color-accent)] uppercase tracking-widest">{activeToast.title}</p>
-            <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
+            <p className="font-bold uppercase tracking-widest">{activeToast.title}</p>
+            <p className="font-medium mt-0.5">{activeToast.message}</p>
           </div>
         </div>
       )}

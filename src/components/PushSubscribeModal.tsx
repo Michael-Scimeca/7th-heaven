@@ -111,7 +111,7 @@ export default function PushSubscribeModal({
               </div>
             </div>
 
-            <p className="text-sm text-gray-300/90 leading-relaxed mb-6">
+            <p className="text-gray-300/90 leading-relaxed mb-6">
               Enter your details below to get instant push notifications whenever 7th Heaven or a crew member goes live!
             </p>
 
@@ -197,7 +197,7 @@ export default function PushSubscribeModal({
             </form>
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center">
-              <p className="text-[11px] text-white/40 leading-relaxed">
+              <p className="leading-relaxed">
                 🔒 100% Free · We value your privacy. Every alert email includes a 1-click unsubscribe link.
               </p>
             </div>
@@ -208,7 +208,7 @@ export default function PushSubscribeModal({
               <Check className="w-8 h-8" />
             </div>
             <h3 className="text-2xl  font-bold  text-white mb-2">You&apos;re Subscribed! 🔔</h3>
-            <p className="text-sm text-gray-300 max-w-sm mx-auto leading-relaxed mb-6">
+            <p className="text-gray-300 max-w-sm mx-auto leading-relaxed mb-6">
               We sent a welcome confirmation email to <strong className="text-white font-mono">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 

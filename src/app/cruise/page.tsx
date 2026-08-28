@@ -790,7 +790,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
                 </h2>
-                <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
+                <p className="mt-4 leading-relaxed font-semibold">
                   Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms.
                 </p>
 
@@ -828,7 +828,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <Ship className="w-6 h-6 text-purple-400 shrink-0" />
                       <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Ship Resources</h3>
                     </div>
-                    <p className="text-xs  font-bold  text-purple-400 uppercase tracking-widest mb-4">
+                    <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                       Official Links &amp; Media
                     </p>
                     <ul className="space-y-2 text-xs font-bold uppercase tracking-wider text-white">
@@ -904,7 +904,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </li>
                     </ul>
                   </div>
-                  <p className="mt-3 text-[10px] font-semibold text-white/50 uppercase tracking-wider">
+                  <p className="mt-3 font-semibold uppercase tracking-wider">
                     Legend of the Seas is an exact sister-ship duplicate.
                   </p>
                 </div>
@@ -915,10 +915,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                     <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Booking Policy</h3>
                   </div>
-                  <p className="text-xs  font-bold  text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Book through us to participate &amp; lock in best rates
                   </p>
-                  <p className="text-xs text-white/80 leading-relaxed mb-4">
+                  <p className="leading-relaxed mb-4">
                     To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
                   </p>
                   <ul className="space-y-2.5 text-xs text-white/80 leading-relaxed mb-6">
@@ -944,16 +944,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </li>
                   </ul>
                   <div className="pt-3 border-t border-white/10 space-y-1.5 text-xs">
-                    <p className="text-white/80">
+                    <p className="">
                       <strong>Email:</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                     </p>
-                    <p className="text-white/80">
+                    <p className="">
                       <strong>Call Us:</strong> (877) 683-9753 - opt 5 • (877) NTD-WRLD - opt 5
                     </p>
-                    <p className="text-white/80">
+                    <p className="">
                       <CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> $250/person ($500/room).
                     </p>
-                    <p className="text-white/80">
+                    <p className="">
                       <CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "Oct 1, 2026" : "Oct 1, 2027"}.
                     </p>
                   </div>
@@ -965,7 +965,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Passport Guidelines</h3>
                   </div>
-                  <p className="text-xs  font-bold  text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Essential travel document guidelines
                   </p>
                   <div className="space-y-4 text-xs text-white/80 leading-relaxed">
@@ -987,7 +987,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="text-lg  font-bold  uppercase text-white tracking-wide">Cancellation Policy</h3>
                   </div>
-                  <p className="text-xs  font-bold  text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Refund terms before booking
                   </p>
                   <div className="space-y-4 text-xs text-white/80 leading-relaxed">
@@ -1015,7 +1015,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                     <div>
                       <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-1">Prevailing Rate:</h4>
-                      <p className="text-xs text-white/80">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
+                      <p className="">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                     </div>
                   </div>
                 </div>
@@ -1023,7 +1023,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
               {/* NTD Vacations Official Cruise Support Team Banner */}
               <div className="py-section-fluid text-center">
-                <p className="text-xs font-mono uppercase tracking-[0.25em] text-purple-300 font-bold mb-1">
+                <p className="font-mono uppercase tracking-[0.25em] text-purple-300 font-bold mb-1">
                   Official Cruise Concierge &amp; Booking Team
                 </p>
                 <h4 className="text-xl md:text-2xl  font-bold  uppercase text-white tracking-wide mb-2">
@@ -1032,7 +1032,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     info@NTDVacations.com
                   </a>
                 </h4>
-                <p className="text-xs md:text-sm font-bold text-white/80 tracking-wide mb-6">
+                <p className="font-bold tracking-wide mb-6">
                   Call us at: <span className="text-white font-extrabold">(877) 683-9753 - option 5</span> &nbsp;•&nbsp; <span className="text-white font-extrabold">(877) NTD-WRLD - option 5</span>
                 </p>
 
@@ -1092,8 +1092,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h4 className="text-base  font-bold  text-white uppercase tracking-tight">
                       Richard Hofherr
                     </h4>
-                    <p className="text-xs text-white/70 font-semibold mt-1">CEO / Booking / Bands</p>
-                    <p className="text-xs text-white/50 font-medium">Marketing / Media</p>
+                    <p className="font-semibold mt-1">CEO / Booking / Bands</p>
+                    <p className="font-medium">Marketing / Media</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:8475515363" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
@@ -1121,8 +1121,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h4 className="text-base  font-bold  text-white uppercase tracking-tight">
                       Mary Grivas
                     </h4>
-                    <p className="text-xs text-white/70 font-semibold mt-1">Group Excursions / Group Hotels</p>
-                    <p className="text-xs text-white/50 font-medium">Group Air / Charters / Shuttles</p>
+                    <p className="font-semibold mt-1">Group Excursions / Group Hotels</p>
+                    <p className="font-medium">Group Air / Charters / Shuttles</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:8776839753" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
@@ -1150,8 +1150,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h4 className="text-base  font-bold  text-white uppercase tracking-tight">
                       Alan McRae
                     </h4>
-                    <p className="text-xs text-white/70 font-semibold mt-1">Schedule</p>
-                    <p className="text-xs text-white/50 font-medium">Activities / Logistics</p>
+                    <p className="font-semibold mt-1">Schedule</p>
+                    <p className="font-medium">Activities / Logistics</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:6308429129" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
@@ -1226,7 +1226,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                         <div className="px-0 pt-0 pb-5 text-left">
                           {room.price === "Prevailing" ? (
-                            <p className="text-[var(--font-size-2xs)] text-white/50 italic font-medium">Prevailing Rates Only</p>
+                            <p className="italic font-medium">Prevailing Rates Only</p>
                           ) : (
                             <div className="flex items-baseline gap-1.5">
                               <span className="text-xl  font-bold  text-white">{room.price}</span>
@@ -1355,7 +1355,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               }`}
                           >
                             <h4 className="text-sm font-bold text-white uppercase tracking-wider">{tab.label}</h4>
-                            <p className="text-xs text-white/70 mt-1 leading-relaxed">{tab.desc}</p>
+                            <p className="mt-1 leading-relaxed">{tab.desc}</p>
                           </button>
                         ))}
                       </div>
@@ -1531,7 +1531,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h2 className="text-2xl  font-bold  uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                       Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
                     </h2>
-                    <p className="text-white/70 text-sm font-semibold">
+                    <p className="font-semibold">
                       Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-purple-400">Group ID: 3325680</strong>
                     </p>
                   </div>
@@ -1543,8 +1543,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* Header Banner representing the PDF top section */}
                           <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
                             <h2 className="text-sm  font-bold  uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                            <p className="text-xs text-purple-400 font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                            <p className="text-[var(--font-size-3xs)]  text-white  font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
+                            <p className="text-purple-400 font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                            <p className="font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                           </div>
 
                           {/* GUEST 1 (Primary Booker) */}
@@ -1762,8 +1762,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               onChange={(checked) => setFormData((f: any) => ({ ...f, joinCommunity: checked }))}
                             />
                             <label htmlFor="join-community-toggle" className="flex-1 cursor-pointer">
-                              <p className="text-xs text-white font-bold transition-colors">Join the 7th Heaven Cruise Community</p>
-                              <p className="text-[var(--font-size-3xs)]  text-white  font-semibold !m-0">Get early access to chatroom, update news, deck plans, and pre-cruise passenger chat rooms.</p>
+                              <p className="font-bold transition-colors">Join the 7th Heaven Cruise Community</p>
+                              <p className="font-semibold !m-0">Get early access to chatroom, update news, deck plans, and pre-cruise passenger chat rooms.</p>
                             </label>
                           </div>
 
@@ -1775,8 +1775,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               onChange={(checked) => setFormData((f: any) => ({ ...f, cruiseNotifications: checked }))}
                             />
                             <label htmlFor="cruise-notifications-toggle" className="flex-1 cursor-pointer">
-                              <p className="text-xs text-white font-bold transition-colors">Cruise Notifications</p>
-                              <p className="text-[var(--font-size-3xs)]  text-white  font-semibold !m-0">Get push alerts for cruise announcements, itinerary changes, and exclusive passenger updates.</p>
+                              <p className="font-bold transition-colors">Cruise Notifications</p>
+                              <p className="font-semibold !m-0">Get push alerts for cruise announcements, itinerary changes, and exclusive passenger updates.</p>
                             </label>
                           </div>
 
@@ -1807,10 +1807,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </CosmicRadialButton>
                           </div>
 
-                          <p className="text-[var(--font-size-3xs)]  text-white  font-semibold text-center leading-relaxed">
+                          <p className="font-semibold text-center leading-relaxed">
                             By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="text-white font-bold underline hover:text-white/80 transition-colors">Privacy Policy</Link> and <Link href="/terms" className="text-white font-bold underline hover:text-white/80 transition-colors">Terms of Service</Link>. You'll receive a confirmation email.
                           </p>
-                          {signupStatus === "error" && <p className="text-rose-400 text-xs font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
+                          {signupStatus === "error" && <p className="text-rose-400 font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
                         </div>
                       </form>
                     </div>
@@ -1820,7 +1820,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {/* Online Payment Portal Link */}
                       <div className="p-0 border-0 bg-transparent text-left relative w-full">
                         <h4 className="text-sm  font-bold  text-white uppercase tracking-wider">Already Booked?</h4>
-                        <p className="text-[var(--font-size-2xs)] text-white/70 font-semibold mt-1 leading-normal">
+                        <p className="font-semibold mt-1 leading-normal">
                           Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
                         </p>
                         <a
@@ -1844,8 +1844,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           ].map((coord, idx) => (
                             <div key={coord.name} className="leading-normal pb-4 border-b border-white/10 last:border-0 last:pb-0">
                               <h4 className="text-lg  font-bold  text-white">{coord.name}</h4>
-                              <p className="text-xs  text-white  font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
-                              <p className="text-sm text-white/80 font-mono mt-1 font-bold">{coord.phone}</p>
+                              <p className="font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                              <p className="font-mono mt-1 font-bold">{coord.phone}</p>
                               <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-purple-400  font-bold  hover:underline block mt-1 tracking-wide">{coord.email}</a>
                             </div>
                           ))}
@@ -1857,12 +1857,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <h3 className="text-xs  font-bold  uppercase tracking-widest text-white border-b border-white/10 pb-3">Voyage Tracker</h3>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-2 text-left">
-                            <p className="text-3xl  font-bold  text-white">{signupCount}</p>
-                            <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/50 mt-1">Cabins</p>
+                            <p className="font-bold">{signupCount}</p>
+                            <p className="font-bold uppercase tracking-[0.2em] mt-1">Cabins</p>
                           </div>
                           <div className="p-2 text-left">
-                            <p className="text-3xl  font-bold  text-white">{totalGuests}</p>
-                            <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-white/50 mt-1">Passengers</p>
+                            <p className="font-bold">{totalGuests}</p>
+                            <p className="font-bold uppercase tracking-[0.2em] mt-1">Passengers</p>
                           </div>
                         </div>
                       </div>
@@ -1916,7 +1916,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Featured <span className="accent-gradient-text">Artists</span>
                 </h2>
-                <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
                   Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
                 </p>
               </div>
@@ -1952,11 +1952,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {band.name}
                       </h3>
                       {band.role && (
-                        <p className=" text-[var(--color-accent)] font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
+                        <p className="font-bold tracking-wide mt-1.5">
                           {band.role}
                         </p>
                       )}
-                      <p className="text-white/70 text-xs mt-2 line-clamp-2 leading-relaxed font-medium">
+                      <p className="mt-2 line-clamp-2 leading-relaxed font-medium">
                         {band.desc}
                       </p>
 
@@ -2009,7 +2009,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Day-by-Day <span className="accent-gradient-text">Schedules</span>
                   </h2>
-                  <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
+                  <p className="mt-4 leading-relaxed font-semibold">
                     Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
                   </p>
 
@@ -2074,7 +2074,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="pt-4 flex-1 flex flex-col justify-between">
                           <div>
                             <h4 className="text-base  font-bold  uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
-                            <p className="text-xs leading-relaxed font-semibold text-white/70">{port.desc}</p>
+                            <p className="leading-relaxed font-semibold">{port.desc}</p>
 
                             {/* Port Highlights */}
                             {port.highlights && (
@@ -2124,7 +2124,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <h3 className="text-2xl md:text-4xl  font-bold  uppercase text-white tracking-tight mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
-                        <p className="text-white/70 text-sm md:text-base leading-relaxed mb-4">
+                        <p className="leading-relaxed mb-4">
                           {PORTS_DATA[activeSpotlightPort].desc}
                         </p>
 
@@ -2237,7 +2237,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
                           <div className="p-6 relative z-20 -mt-8">
                             <h4 className="text-base font-bold text-white uppercase tracking-tight mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
-                            <p className="text-white/50 text-xs leading-relaxed">{port.desc}</p>
+                            <p className="leading-relaxed">{port.desc}</p>
 
                             {/* Highlights */}
                             {port.highlights && (
@@ -2271,7 +2271,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="flex items-center gap-3 mb-1">
                             <h4 className="text-lg  font-bold  uppercase text-white tracking-tight">{port.name}</h4>
                           </div>
-                          <p className="text-white/50 text-xs md:text-sm leading-relaxed">{port.desc}</p>
+                          <p className="leading-relaxed">{port.desc}</p>
 
                           {/* Highlights */}
                           {port.highlights && (
@@ -2306,7 +2306,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
                 </h2>
-                <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
                   Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.
                 </p>
               </div>
@@ -2332,7 +2332,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <h3 className="text-xl md:text-3xl  font-bold  uppercase text-white tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
                   </h3>
-                  <p className="text-xs md:text-sm text-white/70 font-semibold mt-1">
+                  <p className="font-semibold mt-1">
                     Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
                   </p>
                 </div>
@@ -2365,7 +2365,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <span className="text-[10px]  font-bold  uppercase tracking-widest text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  px-2.5 py-1  rounded-lg  self-start mb-1.5 ">
                           {item.category}
                         </span>
-                        <p className="font-bold text-white text-base md:text-lg leading-snug">{item.title}</p>
+                        <p className="font-bold leading-snug">{item.title}</p>
                       </div>
                     </div>
                   ))}
@@ -2377,7 +2377,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
                     <h3 className="text-xl  font-bold  uppercase text-white">Dining Explorer Guide</h3>
-                    <p className="text-xs text-white/70 font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
+                    <p className="font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
                   </div>
                   <div className="rounded-lg flex  bg-[#00000029]    p-1 border border-white/10 shrink-0 self-center">
                     <button aria-label="Action button"
@@ -2448,7 +2448,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1  rounded-lg   font-bold  self-start mb-1.5  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] ">{food.tag}</span>
-                          <p className="font-bold text-white text-base md:text-lg leading-snug">{food.name}</p>
+                          <p className="font-bold leading-snug">{food.name}</p>
                         </div>
                       </div>
                     );
@@ -2465,7 +2465,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
                   <div className="w-full lg:w-auto">
                     <h3 className="text-xl sm:text-2xl  font-bold  uppercase text-white">Bars & Entertainment Explorer</h3>
-                    <p className="text-xs text-white/70 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+                    <p className="font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
                   </div>
                   <div className="flex  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">
                     <button aria-label="Action button"
@@ -2544,7 +2544,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                           <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1  rounded-lg   font-bold  text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]   self-start mb-1.5">{item.tag}</span>
-                          <p className="font-bold text-white text-base md:text-lg leading-snug">{item.name}</p>
+                          <p className="font-bold leading-snug">{item.name}</p>
                         </div>
                       </div>
                     );
@@ -2567,7 +2567,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Frequently Asked <span className="accent-gradient-text">Questions</span>
                 </h2>
-                <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
                   Find answers to important passport requirements, dining configurations, payment plans, and booking rules.
                 </p>
               </div>
@@ -2586,7 +2586,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </button>
                     {openFaq === i && (
                       <div className="px-5 py-4 bg-[#59595929] border  border-white/10  backdrop-blur-[16px]">
-                        <p className="text-xs md:text-sm text-white/80 font-medium leading-relaxed">{faq.a}</p>
+                        <p className="font-medium leading-relaxed">{faq.a}</p>
                       </div>
                     )}
                   </div>

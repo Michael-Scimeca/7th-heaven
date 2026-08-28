@@ -117,7 +117,7 @@ export default function ShopInventoryAdminPage() {
       <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12]  rounded-lg p-8 text-center">
           <h1 className="text-xl  font-bold  uppercase text-white mb-2">Admin Access Required</h1>
-          <p className="text-white/50 text-sm mb-6">
+          <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin, crew, or merch
             account to continue.
           </p>
@@ -152,7 +152,7 @@ export default function ShopInventoryAdminPage() {
               Inventory Management
             </h1>
             {lowStockCount > 0 && (
-              <p className="text-yellow-300 text-xs font-bold mt-1">
+              <p className="text-yellow-300 font-bold mt-1">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or below its low-stock threshold
               </p>
             )}
@@ -190,7 +190,7 @@ export default function ShopInventoryAdminPage() {
         )}
 
         {loading ? (
-          <p className="text-white/40 text-sm py-12 text-center">Loading…</p>
+          <p className="py-12 text-center">Loading…</p>
         ) : activeTab === "products" ? (
           <ProductsTab products={products} onChanged={loadProducts} />
         ) : (
@@ -217,7 +217,7 @@ export default function ShopInventoryAdminPage() {
 
 function ProductsTab({ products, onChanged }: { products: Product[]; onChanged: () => void }) {
   if (products.length === 0) {
-    return <p className="text-white/40 text-sm py-12 text-center">No products yet — add one above.</p>;
+    return <p className="py-12 text-center">No products yet — add one above.</p>;
   }
   return (
     <div className="space-y-4">
@@ -276,7 +276,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
                 {product.category}
               </span>
             </div>
-            <p className="text-white/40 text-xs truncate">{product.description || "No description."}</p>
+            <p className="truncate">{product.description || "No description."}</p>
           </div>
         </div>
 
@@ -545,7 +545,7 @@ function AddVariantForm({
       <button type="button" onClick={onCancel} className="px-3 py-1.5  bg-[#00000029]     text-white  text-[10px]  font-bold  uppercase rounded-md">
         Cancel
       </button>
-      {error && <p className="text-rose-400 text-[10px] font-bold w-full">{error}</p>}
+      {error && <p className="text-rose-400 font-bold w-full">{error}</p>}
     </div>
   );
 }
@@ -738,7 +738,7 @@ function formatOrderDate(dateStr: string) {
 
 function OrdersTab({ orders }: { orders: Order[] }) {
   if (orders.length === 0) {
-    return <p className="text-white/40 text-sm py-12 text-center">No orders yet.</p>;
+    return <p className="py-12 text-center">No orders yet.</p>;
   }
 
   return (

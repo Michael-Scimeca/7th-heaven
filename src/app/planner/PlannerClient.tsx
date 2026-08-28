@@ -163,7 +163,7 @@ export default function PlannerClient() {
               <h1 className="text-3xl sm:text-5xl  font-bold  tracking-tight text-white">
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
-              <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+              <p className="leading-relaxed">
                 Manage your event bookings, view contracts, coordinate load-in setup times, and communicate directly with 7th Heaven management.
               </p>
               <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
@@ -195,7 +195,7 @@ export default function PlannerClient() {
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
                 <div className="w-10 h-10 mx-auto mb-3  rounded-lg  bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm  font-bold  text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
-                <p className="text-xs  text-white  leading-relaxed">{item.desc}</p>
+                <p className="leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -254,11 +254,11 @@ export default function PlannerClient() {
                 </div>
               </div>
               <div className="mt-10 pt-6 border-t border-white/10">
-                <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2">Booking ID</p>
-                <p className="text-sm font-mono  text-[var(--color-accent)]">{booking.id}</p>
+                <p className="uppercase tracking-widest font-bold mb-2">Booking ID</p>
+                <p className="font-mono">{booking.id}</p>
               </div>
               <div className="mt-6">
-                <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2">Planner</p>
+                <p className="uppercase tracking-widest font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7  rounded-lg  bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
                   <span className="text-xs text-white/80">{member?.name || 'Planner'}</span>
@@ -283,8 +283,8 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-1">
                   <h1 className="text-3xl  font-bold  tracking-tight text-white">{booking.eventName}</h1>
                 </div>
-                <p className=" text-[var(--color-accent)] text-sm font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
-                <p className="text-white/40 text-xs mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>
+                <p className="font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
+                <p className="mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
                     { label: "Date", value: booking.date },
@@ -293,8 +293,8 @@ export default function PlannerClient() {
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
                     <div key={item.label}>
-                      <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-1">{item.label}</p>
-                      <p className="text-sm font-bold text-white">{item.value}</p>
+                      <p className="uppercase tracking-widest font-bold mb-1">{item.label}</p>
+                      <p className="font-bold">{item.value}</p>
                     </div>
                   ))}
                 </div>
@@ -355,7 +355,7 @@ export default function PlannerClient() {
                               <button aria-label="Action button" type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
                             </div>
                           ) : (
-                            item.done && item.val && <p className="text-xs text-[var(--color-accent)]/60 truncate">{item.val}</p>
+                            item.done && item.val && <p className="text-[var(--color-accent)]/60 truncate">{item.val}</p>
                           )}
                         </div>
                         {!isEditing && (

@@ -571,7 +571,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         >
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>
-        <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
+        <p className="mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
 
@@ -855,7 +855,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                               {hist.ship}
                             </h4>
                             <p
-                              className="text-white/50 mt-2 leading-relaxed font-sans"
+                              className="mt-2 leading-relaxed font-sans"
                               style={{ fontSize: 'clamp(0.65rem, 0.85vw, 0.75rem)' }}
                             >
                               {hist.details}
@@ -914,7 +914,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     </span>
                   </div>
                   <h4 className="text-sm  font-bold  text-white uppercase">{hist.ship}</h4>
-                  <p className="text-xs text-white/50 mt-1 leading-relaxed">{hist.details}</p>
+                  <p className="mt-1 leading-relaxed">{hist.details}</p>
                 </div>
               </div>
             );
@@ -970,7 +970,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, startScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/40 mt-1">Size at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
+                <p className="mt-1">Size at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
               </div>
 
               {/* 2. End Ship Scale */}
@@ -988,7 +988,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, endScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/40 mt-1">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
+                <p className="mt-1">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
               </div>
 
               {/* 3. Year Scaling Curve Mode */}
@@ -1008,7 +1008,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     </button>
                   ))}
                 </div>
-                <p className="text-[var(--font-size-3xs)] text-white/50">
+                <p className="">
                   {tuning.scalingCurve === 'stepped'
                     ? 'Steps size discretely as each year milestone is passed.'
                     : tuning.scalingCurve === 'exponential'
@@ -1033,7 +1033,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     onChange={e => setTuning({ ...tuning, growthCurveExp: parseFloat(e.target.value) })}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
-                  <p className="text-[var(--font-size-3xs)] text-white/40 mt-1">Lower = early growth, Higher = rapid late growth.</p>
+                  <p className="mt-1">Lower = early growth, Higher = rapid late growth.</p>
                 </div>
               )}
 
@@ -1052,7 +1052,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, shipOffsetX: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Nudge ship left or right on the path (-200px to +200px).</p>
+                <p className="mt-1">Nudge ship left or right on the path (-200px to +200px).</p>
               </div>
 
               {/* 4. Ship Y Position Offset */}
@@ -1070,7 +1070,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, shipOffsetY: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Nudge ship up or down on the path (-200px to +200px).</p>
+                <p className="mt-1">Nudge ship up or down on the path (-200px to +200px).</p>
               </div>
 
               {/* 5. Bow Offset / Ship Stop Position */}
@@ -1088,7 +1088,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, bowOffsetPx: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Live tunes where the 3D ship and solid blue line stop on the timeline relative to 2026 (0px to 400px).</p>
+                <p className="mt-1">Live tunes where the 3D ship and solid blue line stop on the timeline relative to 2026 (0px to 400px).</p>
               </div>
 
               {/* 6. Scroll Start Target */}
@@ -1106,7 +1106,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrollStartMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Controls when the timeline scrub starts scrolling into view (10% to 95%).</p>
+                <p className="mt-1">Controls when the timeline scrub starts scrolling into view (10% to 95%).</p>
               </div>
 
               {/* 7. Scroll End Target */}
@@ -1124,7 +1124,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrollEndMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Controls vertically where row 2026 sits on screen when the timeline finishes (10% to 95%).</p>
+                <p className="mt-1">Controls vertically where row 2026 sits on screen when the timeline finishes (10% to 95%).</p>
               </div>
 
               {/* 8. Scrub Damping / Smoothness */}
@@ -1142,7 +1142,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrubDamping: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="text-[var(--font-size-3xs)] text-white/50 mt-1">Adjusts how smoothly the 3D ship responds to your scroll wheel (0.1s snappy to 2.0s ultra-smooth).</p>
+                <p className="mt-1">Adjusts how smoothly the 3D ship responds to your scroll wheel (0.1s snappy to 2.0s ultra-smooth).</p>
               </div>
 
               {/* 6. Line Width */}

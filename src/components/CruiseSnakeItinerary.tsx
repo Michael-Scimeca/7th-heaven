@@ -765,7 +765,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               <span className="text-xl">⚙️</span>
               <div>
                 <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
-                <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
+                <p className="">All real-time physics tuning parameters</p>
               </div>
             </div>
             <button aria-label="Action button"

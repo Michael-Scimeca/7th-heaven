@@ -85,7 +85,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </h2>
 
               {/* Subtitle */}
-              <p className=" text-white  text-lg max-w-[500px] mb-10 leading-relaxed">
+              <p className="max-w-[500px] mb-10 leading-relaxed">
                 {featured.subtitle}
               </p>
 
@@ -105,10 +105,10 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
 
               {/* Director credit */}
               <div className="mt-10 border-t border-white/10 pt-6">
-                <p className="text-sm font-bold tracking-[0.15em] uppercase text-white/30 mb-1">
+                <p className="font-bold tracking-[0.15em] uppercase mb-1">
                   Directed by
                 </p>
-                <p className="text-xl font-bold text-white tracking-tight">
+                <p className="font-bold tracking-tight">
                   {featured.director}
                 </p>
               </div>
@@ -120,7 +120,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
       {/* BTS Grid — additional clips */}
       {btsVideos.length > 1 && (
         <div className="px-8 md:px-16 py-16">
-          <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/40 mb-6">
+          <p className="font-bold uppercase tracking-[0.15em] mb-6">
             More Behind the Scenes
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -168,7 +168,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       <span>{video.year}</span>
                     </div>
                   </div>
-                  <p className="text-xs text-white/40 mt-1 line-clamp-1">{video.subtitle}</p>
+                  <p className="mt-1 line-clamp-1">{video.subtitle}</p>
                 </div>
               </div>
             ))}

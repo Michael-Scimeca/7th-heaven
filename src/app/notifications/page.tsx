@@ -107,7 +107,7 @@ export default function NotificationsPage() {
         <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
-        <p className="text-[var(--muted-text)] text-base font-medium">
+        <p className="font-medium">
           7th Heaven can push an alert straight to your phone the moment we post one &mdash;
           new shows, ticket drops, cruise news, whatever the group needs. It doesn&apos;t
           use text messages or carrier fees; it rides on{" "}
@@ -146,12 +146,12 @@ export default function NotificationsPage() {
 
       {/* Main Card */}
       <div className="max-w-3xl mx-auto  bg-[#00000029]    backdrop-blur-xl border border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
-        <p className=" text-white  text-sm font-medium text-center mb-8">{activeMeta.blurb}</p>
+        <p className="font-medium text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">
-            <p className="text-white font-bold mb-1">Not set up yet</p>
-            <p className="text-white/50 text-sm">
+            <p className="font-bold mb-1">Not set up yet</p>
+            <p className="">
               This alert channel hasn&apos;t been configured on the server yet. Check back soon,
               or reach out on the{" "}
               <Link href="/contact" className="underline hover:text-white transition-colors">
@@ -167,7 +167,7 @@ export default function NotificationsPage() {
               <div className="bg-white p-3 rounded-2xl shadow-lg">
                 <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
               </div>
-              <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest text-center max-w-[160px]">
+              <p className="font-bold uppercase tracking-widest text-center max-w-[160px]">
                 Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
               </p>
             </div>
@@ -177,7 +177,7 @@ export default function NotificationsPage() {
               <div className="flex gap-3">
                 <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">1</span>
                 <div>
-                  <p className="text-white font-bold text-sm mb-2">Get the free ntfy app (or skip it and use your browser)</p>
+                  <p className="font-bold mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
                     <a
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
               <div className="flex gap-3">
                 <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">2</span>
                 <div className="flex-1">
-                  <p className="text-white font-bold text-sm mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
+                  <p className="font-bold mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
                       icon={false}
@@ -226,7 +226,7 @@ export default function NotificationsPage() {
               <div className="flex gap-3">
                 <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">3</span>
                 <div>
-                  <p className="text-white font-bold text-sm">
+                  <p className="font-bold">
                     Done. You&apos;ll get a push notification the moment we send one to this channel &mdash;
                     nothing to reply to, nothing that costs you anything.
                   </p>
@@ -248,7 +248,7 @@ export default function NotificationsPage() {
 
       {/* How it works */}
       <div className="max-w-3xl mx-auto mt-10 text-center">
-        <p className="text-white/40 text-xs leading-relaxed">
+        <p className="leading-relaxed">
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that
           exact name gets it, with no accounts, ads, or per-message cost on either end.

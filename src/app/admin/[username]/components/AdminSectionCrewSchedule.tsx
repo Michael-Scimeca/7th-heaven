@@ -1040,7 +1040,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <CrewAvatar member={member} />
                           <div className="min-w-0 wiw-tooltip-container flex-1">
                             <div className="flex items-center justify-between gap-1">
-                              <p className="text-xs  font-bold  text-[var(--text-color)] truncate leading-tight">{member.name}</p>
+                              <p className="font-bold truncate leading-tight">{member.name}</p>
                               {isWorkingOnActiveDate && (
                                 <span className="text-[7.5px]  font-bold  uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
@@ -1259,8 +1259,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                 const count = (schedulesByDate[day.dateStr] || []).length;
                 return (
                   <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
-                    <p className="text-[var(--font-size-3xs)] uppercase font-bold tracking-wider text-[var(--muted-text)]">{day.dayName}</p>
-                    <p className="text-xs font-bold text-[var(--text-color)] mt-0.5">{day.monthName} {day.dayOfMonth}</p>
+                    <p className="uppercase font-bold tracking-wider">{day.dayName}</p>
+                    <p className="font-bold mt-0.5">{day.monthName} {day.dayOfMonth}</p>
                     {(() => {
                       const dayShow = getDayShow(day.dateStr);
                       if (!dayShow) return null;
@@ -1555,7 +1555,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Crew Work Schedule Calendar
             </h3>
-            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
+            <p className="uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg  bg-[#00000029]    border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
@@ -1624,7 +1624,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
-                      <p className="text-xs text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
+                      <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
 
@@ -1636,12 +1636,12 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     <div className="text-sm font-bold text-pink-300">
                       Shift: {coEditorConflictAlert.shiftTitle}
                     </div>
-                    <p className="text-white/80 leading-relaxed  bg-[#00000029]    p-2.5 rounded border border-white/5">
+                    <p className="leading-relaxed bg-[#00000029] p-2.5 rounded border border-white/5">
                       {coEditorConflictAlert.changeDesc}
                     </p>
                   </div>
 
-                  <p className="text-[11px] text-white/50 italic">
+                  <p className="italic">
                     Live presence prevents double-bookings & timeline mix-ups by automatically syncing modifications made by other admins.
                   </p>
 
@@ -1696,7 +1696,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       Conflict Prevention Active
                     </div>
-                    <p className="text-[11px] text-emerald-200/70">
+                    <p className="text-emerald-200/70">
                       If another team member edits a shift while you are viewing, real-time locks and notifications prevent scheduling mix-ups.
                     </p>
                   </div>
@@ -2265,7 +2265,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
-                          <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
+                          <p className="uppercase tracking-widest font-bold mt-1">
                             Assigning {(() => {
                               const found = crewMembers.find((c: any) => c.id === draggedCrewMemberId);
                               return found ? found.name : draggedCrewMemberId;
@@ -2324,8 +2324,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 <div className="flex items-center gap-2">
                                   <span className="text-sm"></span>
                                   <div>
-                                    <p className="text-xs  font-bold  uppercase tracking-wider">Coverage Requested</p>
-                                    <p className="text-[var(--font-size-3xs)]  text-white  mt-0.5">
+                                    <p className="font-bold uppercase tracking-wider">Coverage Requested</p>
+                                    <p className="mt-0.5">
                                       <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
                                     </p>
                                   </div>
@@ -2386,7 +2386,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                                     if (candidates.length === 0) {
                                       return (
-                                        <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
+                                        <p className="italic py-1">
                                           {onlyShowFitRole
                                             ? `No other crew members have the role '${editingShift.role}'`
                                             : 'No other crew members available'}
@@ -2893,7 +2893,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     </div>
                     <div>
                       <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
-                      <p className="text-xs text-white/80 mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
+                      <p className="mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
                       type="button"
@@ -2929,7 +2929,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white uppercase">Select Crew Group</h3>
-                          <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
+                          <p className="uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                           <span className="text-xs text-white/50 font-bold px-2.5 py-1  bg-[#00000029]  rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
@@ -3048,7 +3048,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                       <div>
                         <h3 className="text-sm  font-bold  italic tracking-wide text-white">Create New Crew Group</h3>
-                        <p className="text-sm text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
+                        <p className="uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
                         aria-label="Close create group modal"
@@ -3115,7 +3115,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                       {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                     </div>
                                     <div className="min-w-0">
-                                      <p className="text-xs font-bold text-white/80 group-hover:text-white truncate transition-colors">{m.name}</p>
+                                      <p className="font-bold group-hover:text-white truncate transition-colors">{m.name}</p>
                                       <span className="text-white/40 uppercase font-semibold tracking-wider block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
                                     </div>
                                   </div>
@@ -3355,7 +3355,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <h3 className="text-sm  font-bold  italic tracking-wide text-white">
                             Show Crew Roster
                           </h3>
-                          <p className="text-[0.65rem] text-purple-300 uppercase tracking-widest font-bold mt-1">
+                          <p className="text-purple-300 uppercase tracking-widest font-bold mt-1">
                             {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
                           </p>
                         </div>

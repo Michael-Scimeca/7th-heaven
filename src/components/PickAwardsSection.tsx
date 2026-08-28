@@ -163,8 +163,8 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     </span>
                   )}
                 </div>
-                <p className="text-xs font-bold text-black/80 truncate">{pick.name}</p>
-                <p className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
+                <p className="font-bold text-black/80 truncate">{pick.name}</p>
+                <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     <span className="text-xs font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded shadow-xs">Locked</span>
@@ -185,13 +185,13 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
                     <div>
                       <h3 className="font-bold text-black">{pick.name}</h3>
-                      <p className={`text-xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
+                      <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
                   <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-xs text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
+                  <p className="text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
                   {pick.picks.slice(0, 5).map((p: any) => (
                     <div key={p.id || p.created_at} className="flex items-center gap-2 text-xs text-black/70 bg-gray-50 px-3 py-1.5 rounded">
                       <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5 text-purple-600" /> {REASON_LABELS[p.awarded_reason] || "Awarded"}</span>
@@ -209,23 +209,23 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Collection Stats */}
           <div className="flex items-center gap-6 mb-6 p-3 bg-gray-50 border border-black/10 rounded-lg">
             <div>
-              <p className="text-xs uppercase tracking-[0.15em] text-black/40 font-bold">Total Picks</p>
-              <p className="text-xl font-bold  text-[var(--color-accent)]">{totalOwned}</p>
+              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">Total Picks</p>
+              <p className="font-bold">{totalOwned}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.15em] text-black/40 font-bold">Unique Types</p>
-              <p className="text-xl font-bold text-black">{uniqueTypes}/{totalTypes}</p>
+              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">Unique Types</p>
+              <p className="font-bold text-black">{uniqueTypes}/{totalTypes}</p>
             </div>
             <div className="ml-auto text-right">
-              <p className="text-xs uppercase tracking-[0.15em] text-black/40 font-bold">How to earn</p>
-              <p className="text-xs text-black/60">Attend shows · Merch purchases · Social shares · Referrals</p>
+              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">How to earn</p>
+              <p className="text-black/60">Attend shows · Merch purchases · Social shares · Referrals</p>
             </div>
           </div>
 
           {/* Visit Merch Table CTA */}
           <div className="mb-6 p-4 border border-black/10 bg-gray-50 rounded-lg flex items-center gap-3 border-dashed">
             <Dices className="w-6 h-6 text-purple-600 shrink-0" />
-            <p className="text-xs text-black/60 uppercase tracking-[0.15em] font-bold">
+            <p className="text-black/60 uppercase tracking-[0.15em] font-bold">
               Visit the merch table at any show to enter your picks into the lottery
             </p>
           </div>
@@ -248,7 +248,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     <div className="flex items-center justify-between mb-2">
                       <div>
                         <h4 className="font-bold text-black">{lottery.name}</h4>
-                        <p className="text-xs text-black/50">{lottery.prize}</p>
+                        <p className="text-black/50">{lottery.prize}</p>
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (

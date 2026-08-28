@@ -229,7 +229,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2 className="text-xl font-bold text-[var(--text-color)]">Submit to <span className="gradient-text">Fan Wall</span></h2>
-          <p className="text-xs text-[var(--muted-text)] mt-1 uppercase tracking-widest font-bold">Share your concert moments</p>
+          <p className="mt-1 uppercase tracking-widest font-bold">Share your concert moments</p>
         </div>
       </div>
 
@@ -239,7 +239,7 @@ export default function FanUploadForm() {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">Moments Submitted!</h3>
-          <p className="text-[var(--muted-text)] text-base mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
+          <p className="mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
           <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className=" text-[var(--color-accent)] text-sm font-bold hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
             Upload Another
           </button>
@@ -308,16 +308,16 @@ export default function FanUploadForm() {
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="text-white  font-bold  tracking-widest uppercase mb-1 text-sm group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
-                      <p className="text-xs text-white/50 uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
+                      <p className="font-bold tracking-widest uppercase mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
+                      <p className="uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-10 h-10 border-2    border-white/10 border-t-emerald-500  rounded-lg  animate-spin mb-3" />
-                    <p className="text-white  font-bold  text-sm uppercase tracking-widest">Safety Scan</p>
-                    <p className="text-emerald-400 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
+                    <p className="font-bold uppercase tracking-widest">Safety Scan</p>
+                    <p className="text-emerald-400 uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>
                 )}
                 <input aria-label="Input field" ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />

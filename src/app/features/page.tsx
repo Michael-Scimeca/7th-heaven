@@ -1294,14 +1294,14 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Titles */}
         <div>
           <h3 className="text-3xl  font-bold  text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
-          <p className={`text-lg font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
+          <p className={`font-semibold ${isPurple ?"text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
         {/* Demo Preview */}
         {f.demo && <DemoPreview src={f.demo} title={f.title} isPurple={isPurple} />}
 
         {/* Description */}
-        <p className=" text-white  text-lg leading-relaxed">{f.description}</p>
+        <p className="leading-relaxed">{f.description}</p>
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base leading-relaxed ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
@@ -1311,7 +1311,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Bullets */}
         <div>
-          <p className="text-sm  font-bold  uppercase tracking-widest text-white/30 mb-3">What it does</p>
+          <p className="font-bold uppercase tracking-widest mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
               <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg  text-white ">
@@ -1390,7 +1390,7 @@ export default function FeaturesPage() {
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 
-          <p className="text-white/45 text-3xl md:text-4xl max-w-3xl mx-auto leading-relaxed mb-6">
+          <p className="max-w-3xl mx-auto leading-relaxed mb-6">
             A production-grade digital platform for 7th Heaven. Every feature is live, documented, and explained in full — from live-stream raffles to proximity SMS alerts to AI photo moderation.
           </p>
 
@@ -1430,7 +1430,7 @@ export default function FeaturesPage() {
               Live Experience — What It Looks Like
             </h2>
           </div>
-          <p className="text-white/35 text-xl mb-14 max-w-2xl">
+          <p className="mb-14 max-w-2xl">
             Below are pixel-accurate previews of the Fan Live Viewer and the Crew Broadcast Dashboard — both running on the real platform.
           </p>
 
@@ -2055,7 +2055,7 @@ export default function FeaturesPage() {
               Fan Dashboard — What It Looks Like
             </h2>
           </div>
-          <p className="text-white/35 text-xl mb-14 max-w-3xl">
+          <p className="mb-14 max-w-3xl">
             Every registered fan gets a personalized dashboard at <code className=" text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded text-sm font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
           </p>
 
@@ -2132,7 +2132,7 @@ export default function FeaturesPage() {
               All Pages — Site Directory
             </h2>
           </div>
-          <p className="text-white/35 mb-4 max-w-3xl">
+          <p className="mb-4 max-w-3xl">
             Every page on the site — all {55} routes. Click any row to open it in a new tab. Pages marked <span className="text-emerald-400 font-bold">Public</span> work without any login.
           </p>
 
@@ -2304,7 +2304,7 @@ export default function FeaturesPage() {
             <span className=" text-[var(--color-accent)]">✦</span>
             <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
-          <p className="text-white/35 mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
+          <p className="mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {highlights.map((f) => <FeatureCardUI key={f.title} f={f} />)}
           </div>
@@ -2318,7 +2318,7 @@ export default function FeaturesPage() {
             <span className="text-white/30">◈</span>
             <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
-          <p className="text-white/35 mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
+          <p className="mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
           <div className="flex flex-wrap gap-2 mb-10">
             {CATEGORIES.map(cat => {
@@ -2346,14 +2346,14 @@ export default function FeaturesPage() {
             <span className="text-white/30">◈</span>
             <h2 className="text-4xl  font-bold  uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
           </div>
-          <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
+          <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:  border-white/10   hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg  bg-[#00000029]    border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base  font-bold  uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
-                  <p className="text-sm text-white/40 leading-relaxed mt-0.5">{t.desc}</p>
+                  <p className="leading-relaxed mt-0.5">{t.desc}</p>
                 </div>
               </div>
             ))}
@@ -2370,7 +2370,7 @@ export default function FeaturesPage() {
               Site Directory
             </h2>
           </div>
-          <p className="text-white/35 mb-4 max-w-2xl">
+          <p className="mb-4 max-w-2xl">
             Every page on the site — click any row to open it directly. Pages marked <span className="text-emerald-400 font-bold">Public</span> are accessible without logging in. Pages marked <span className="text-purple-300 font-bold">Login Required</span> need an account.
           </p>
 
@@ -2554,8 +2554,8 @@ export default function FeaturesPage() {
           <h2 className="text-6xl md:text-8xl  font-bold  uppercase text-white mb-4 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
-          <p className="text-white/40 text-2xl mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
-          <p className="text-white/20 text-base mb-12">Questions? Reach out via the contact page.</p>
+          <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
+          <p className="mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <CosmicRadialButton
               icon={false}

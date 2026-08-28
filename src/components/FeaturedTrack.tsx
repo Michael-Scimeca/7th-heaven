@@ -260,7 +260,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           <div className="flex items-center gap-2">
             <div className="w-10 h-10  rounded-lg  bg-[var(--color-accent)]/15 border   border-white/10 flex items-center justify-center text-sm shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
-              <p className="text-[var(--font-size-3xs)] font-bold  text-white  truncate">Exclusive Fan Drop</p>
+              <p className="font-bold truncate">Exclusive Fan Drop</p>
               <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
@@ -285,7 +285,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   {track.title}
                 </h4>
                 {currentSong && (
-                  <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5">{currentSong.title}</p>
+                  <p className="truncate mt-0.5">{currentSong.title}</p>
                 )}
               </div>
 
@@ -398,7 +398,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <h3 className="text-2xl  font-bold  uppercase    tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
-              <p className="text-white/45 text-sm leading-relaxed max-w-md mx-auto mb-8">
+              <p className="leading-relaxed max-w-md mx-auto mb-8">
                 The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
               </p>
               <div className="flex justify-center gap-4">
@@ -440,7 +440,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     {track.title}
                   </h4>
                   {currentSong && (
-                    <p className="text-xs font-semibold  text-[var(--color-accent)] mt-1.5 flex items-center gap-1.5 justify-center md:justify-start">
+                    <p className="font-semibold mt-1.5 flex items-center gap-1.5 justify-center md:justify-start">
                       <span className="w-1.5 h-1.5  rounded-lg  bg-cyan-400 animate-ping" />
                       Now Playing: <span className="text-white/80">{currentSong.title}</span>
                     </p>

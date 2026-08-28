@@ -294,7 +294,7 @@ export default function ShowPageClient({
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-sm text-white truncate">
+          <p className="font-bold truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
             {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest  text-[var(--color-accent)]  font-bold ">You</span>}
           </p>
@@ -368,8 +368,8 @@ export default function ShowPageClient({
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-none mb-3">{show.venue_name}</h1>
-              <p className="text-lg text-white/50">{show.city}{show.state ? `, ${show.state}` : ""}</p>
-              <p className="text-sm text-white/35 mt-1">{dateStr}</p>
+              <p className="">{show.city}{show.state ? `, ${show.state}` : ""}</p>
+              <p className="mt-1">{dateStr}</p>
 
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
@@ -460,15 +460,15 @@ export default function ShowPageClient({
                     Missed this show?
                   </span>
                   <h3 className="text-xl  font-bold  text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
-                  <p className="text-white/40 text-sm leading-relaxed mb-6">
+                  <p className="leading-relaxed mb-6">
                     Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
                   </p>
                 </div>
                 <div>
                   {notifySuccess ? (
                     <div className="p-4 bg-emerald-500/10 border    border-white/10 text-center">
-                      <p className="text-emerald-400 font-bold text-sm">✓ Successfully subscribed!</p>
-                      <p className="text-white/40 text-xs mt-1">We will alert you when new dates are announced.</p>
+                      <p className="text-emerald-400 font-bold">✓ Successfully subscribed!</p>
+                      <p className="mt-1">We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
@@ -492,7 +492,7 @@ export default function ShowPageClient({
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </CosmicRadialButton>
                       </div>
-                      {notifyError && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
+                      {notifyError && <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
                     </form>
                   )}
                 </div>
@@ -529,20 +529,20 @@ export default function ShowPageClient({
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
-                <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-1">Fans Going</p>
-                <p className="text-3xl font-bold text-white">{goingCount}</p>
+                <p className="uppercase tracking-widest font-bold mb-1">Fans Going</p>
+                <p className="font-bold">{goingCount}</p>
               </div>
               {thereCount > 0 && (
                 <>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="text-xs uppercase tracking-widest text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
-                    <p className="text-3xl font-bold text-[var(--color-accent)]">{thereCount}</p>
+                    <p className="uppercase tracking-widest text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
+                    <p className="font-bold">{thereCount}</p>
                   </div>
                 </>
               )}
               {totalCount === 0 && (
-                <p className="text-white/30 text-sm font-bold">Be the first to RSVP!</p>
+                <p className="font-bold">Be the first to RSVP!</p>
               )}
             </div>
             <div className="flex items-center gap-3">
@@ -580,11 +580,11 @@ export default function ShowPageClient({
               {totalCount === 0 ? (
                 <div className="py-16 flex flex-col items-center">
                   <span className="text-5xl mb-4 opacity-20">🎸</span>
-                  <p className="text-white/40 font-bold text-lg">Nobody&apos;s RSVPed yet.</p>
-                  <p className="text-white/20 text-sm mt-2">Be the first — hit &ldquo;I&apos;m Going&rdquo; above!</p>
+                  <p className="font-bold">Nobody&apos;s RSVPed yet.</p>
+                  <p className="mt-2">Be the first — hit &ldquo;I&apos;m Going&rdquo; above!</p>
                 </div>
               ) : filteredAttendees.length === 0 ? (
-                <p className="text-white/25 text-sm py-8 text-center">No fans in this category yet.</p>
+                <p className="py-8 text-center">No fans in this category yet.</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {filteredAttendees.map(renderAttendee)}
@@ -592,7 +592,7 @@ export default function ShowPageClient({
               )}
 
               {/* Anonymous note */}
-              <p className="text-xs text-white/20 mt-4 text-center">
+              <p className="mt-4 text-center">
                 Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;
               </p>
             </div>
@@ -601,8 +601,8 @@ export default function ShowPageClient({
           {/* Share CTA */}
           {!isPast && (
             <div className="mt-12 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
-              <p className="text-white/40 text-sm mb-1">Know someone who might be going?</p>
-              <p className="text-white font-bold text-lg mb-6">Share this show page</p>
+              <p className="mb-1">Know someone who might be going?</p>
+              <p className="font-bold mb-6">Share this show page</p>
 
               {/* QR Code */}
               <div className="flex flex-col items-center mb-8">
@@ -615,7 +615,7 @@ export default function ShowPageClient({
                     level="M"
                   />
                 </div>
-                <p className="text-xs uppercase tracking-widest text-white/25 font-bold">Scan to open the show page</p>
+                <p className="uppercase tracking-widest font-bold">Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">

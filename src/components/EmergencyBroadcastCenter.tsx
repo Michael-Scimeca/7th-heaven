@@ -383,7 +383,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           {/* SMS Bubble */}
           <div className="p-3 bg-transparent border border-white/10 text-[11px] leading-relaxed space-y-1  ">
             <span className="text-[11px]  font-bold  text-rose-400 block">{activeTitle}</span>
-            <p className="text-white font-semibold text-[11px] leading-relaxed">{activeBody}</p>
+            <p className="font-semibold leading-relaxed">{activeBody}</p>
             <span className="text-[8px] text-white/50 block text-right font-mono font-bold pt-1">7th Heaven Emergency Alerts • Reply STOP to unsubscribe</span>
           </div>
 
@@ -428,7 +428,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             <span className="block  font-bold  uppercase text-[11px] mb-0.5">
               {dispatchResult.success ? "Broadcast Dispatched Successfully!" : "Dispatch Failed"}
             </span>
-            <p className="font-normal opacity-90 text-[10px]">{dispatchResult.message || dispatchResult.error}</p>
+            <p className="font-normal opacity-90">{dispatchResult.message || dispatchResult.error}</p>
           </div>
           <button aria-label="Action button"
             type="button"

@@ -67,7 +67,7 @@ export default function NorthCheckoutPage() {
     return (
       <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24 flex items-center justify-center">
         <div className="max-w-md text-center px-6">
-          <p className=" text-white  text-sm mb-4">
+          <p className="mb-4">
             No active checkout found. Head back to the shop and add something to your cart first.
           </p>
           <Link
@@ -100,12 +100,12 @@ export default function NorthCheckoutPage() {
               Card Payment
             </h1>
             {mockMode ? (
-              <p className="text-yellow-300 text-xs mt-1 leading-relaxed">
+              <p className="text-yellow-300 mt-1 leading-relaxed">
                 🧪 Test mode: no real North credentials are configured, so this won&apos;t
                 contact EPX. Use the simulate buttons below instead of a real submit.
               </p>
             ) : (
-              <p className="text-white/40 text-xs mt-1 leading-relaxed">
+              <p className="mt-1 leading-relaxed">
                 Submitting this form sends your card details directly to North&apos;s servers —
                 they never pass through this site. This uses North&apos;s sandbox test card by
                 default.

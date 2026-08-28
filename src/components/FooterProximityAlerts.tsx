@@ -211,7 +211,7 @@ export default function FooterProximityAlerts() {
             <h3 className="font-[var(--font-heading)] text-lg sm:text-xl  font-bold  uppercase tracking-tight text-white flex items-center gap-2">
               Proximity & Show Alert Filters
             </h3>
-            <p className="text-xs text-purple-300/90 font-bold uppercase tracking-wider">
+            <p className="text-purple-300/90 font-bold uppercase tracking-wider">
               Get notified only for shows within your distance & preferences
             </p>
           </div>
@@ -355,7 +355,7 @@ export default function FooterProximityAlerts() {
           </CosmicRadialButton>
         )}
 
-        <p className="text-xs text-white/50 font-bold uppercase tracking-wider">
+        <p className="font-bold uppercase tracking-wider">
           {permission === "granted"
             ? "Your notifications are enabled. Update filters above and save anytime."
             : "Click to enable instant browser & proximity alerts for nearby shows."}

@@ -181,7 +181,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <Globe className="w-5 h-5 text-cyan-200" />
         <span>Home Page (/)</span>
       </h2>
-      <p className="text-[10px] font-normal text-white/90 mt-1">
+      <p className="font-normal mt-1">
         7th Heaven Official Band Website Root Entry
       </p>
       <Handle type="source" position={Position.Bottom} className="!w-3.5 !h-3.5 !bg-cyan-300 !border-2 !border-black" />
@@ -315,7 +315,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
           </h4>
 
           {data.details?.emailSubject && (
-            <p className=" text-[12px]     text-amber-200/90 truncate mt-0.5">
+            <p className="text-amber-200/90 truncate mt-0.5">
               &quot;{data.details.emailSubject}&quot;
             </p>
           )}
@@ -589,7 +589,7 @@ export default function UserFlowMap() {
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/40 block">
                 Technical Summary
               </span>
-              <p className="text-xs text-white/80 leading-relaxed bg-white/[0.03] p-3  rounded-lg border border-white/10">
+              <p className="leading-relaxed bg-white/[0.03] p-3 rounded-lg border border-white/10">
                 {selectedNode.data.details?.summary || `Interactive ${selectedNode.data.label} node step in the 7th Heaven web app.`}
               </p>
             </div>

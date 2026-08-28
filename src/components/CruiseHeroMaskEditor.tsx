@@ -222,7 +222,7 @@ export default function CruiseHeroMaskEditor() {
               </div>
               <div>
                 <h3 className="text-sm  font-bold  uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
-                <p className="text-[10px] text-gray-400">Controls for Hero Video & Official Itinerary</p>
+                <p className="text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>
             <div className="flex items-center gap-1.5">

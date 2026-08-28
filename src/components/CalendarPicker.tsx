@@ -113,7 +113,7 @@ export function CalendarPicker({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white font-bold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className=" text-white  text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
+          <p className="mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
 

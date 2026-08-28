@@ -152,8 +152,8 @@ export default function DirectMessageChat() {
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-4">
                 <span className="text-2xl mb-1.5 opacity-25">💬</span>
-                <p className="text-[var(--font-size-3xs)] text-white/40 font-bold uppercase tracking-wider">No messages yet</p>
-                <p className="text-[var(--font-size-4xs)] text-white/20 mt-1 max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
+                <p className="font-bold uppercase tracking-wider">No messages yet</p>
+                <p className="mt-1 max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
               </div>
             ) : (
               messages.map((msg) => {

@@ -163,7 +163,7 @@ export default function ProximitySubscriberAdminPanel() {
             <h2 className="font-[var(--font-heading)] text-xl  font-bold  uppercase tracking-tight text-white flex items-center gap-2">
               Proximity Push Subscriber Controls
             </h2>
-            <p className="text-xs text-purple-300 font-bold uppercase tracking-wider">
+            <p className="text-purple-300 font-bold uppercase tracking-wider">
               Manage fan notification preferences, distance radii & targeted broadcasts
             </p>
           </div>

@@ -150,7 +150,7 @@ export default function CruiseDashboardGate() {
       <div className="min-h-screen   text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400  rounded-lg  animate-spin mx-auto mb-4" />
-          <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Redirecting to Dashboard...</p>
+          <p className="font-bold uppercase tracking-widest">Redirecting to Dashboard...</p>
         </div>
       </div>
     );
@@ -165,7 +165,7 @@ export default function CruiseDashboardGate() {
         <div className="text-center mb-8">
           <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
           <h1 className="text-2xl  font-bold  uppercase tracking-widest text-white">Cruise Hub</h1>
-          <p className="text-xs text-purple-400font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
+          <p className="text-purple-400font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
         </div>
 
         <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 overflow-hidden">
@@ -174,7 +174,7 @@ export default function CruiseDashboardGate() {
               <div className="text-center mb-6">
                 <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
                 <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
-                <p className=" text-white  text-sm leading-relaxed">
+                <p className="leading-relaxed">
                   We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
                 </p>
               </div>
@@ -194,7 +194,7 @@ export default function CruiseDashboardGate() {
                   />
                 </div>
 
-                {authError && <p className="text-rose-400 text-xs mt-2 text-center">{authError}</p>}
+                {authError && <p className="text-rose-400 mt-2 text-center">{authError}</p>}
 
                 <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                   {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black  rounded-lg  animate-spin" /> : "Verify PIN & Access Hub →"}
@@ -211,7 +211,7 @@ export default function CruiseDashboardGate() {
             <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
               <span className="text-4xl block mb-4">📧</span>
               <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
-              <p className=" text-white  text-sm leading-relaxed mb-6">
+              <p className="leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
               <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5  bg-[#00000029]    border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
@@ -233,7 +233,7 @@ export default function CruiseDashboardGate() {
               <div className="p-6 md:p-8">
                 {authTab === 'login' ? (
                   <form onSubmit={handleLoginSubmit} className="space-y-4">
-                    <p className="text-white/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
+                    <p className="mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
                       <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
                       <input aria-label="Input field" id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
@@ -243,7 +243,7 @@ export default function CruiseDashboardGate() {
                       <input aria-label="Input field" id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
-                    {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
+                    {authError && <p className="text-rose-400 mt-2">{authError}</p>}
 
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black  rounded-lg  animate-spin" /> : "Access Cruise Hub →"}
@@ -251,7 +251,7 @@ export default function CruiseDashboardGate() {
                   </form>
                 ) : (
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                    <p className="text-white/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
+                    <p className="mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
                       <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
                       <input aria-label="Input field" id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
@@ -269,7 +269,7 @@ export default function CruiseDashboardGate() {
                       <input aria-label="Input field" id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
-                    {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
+                    {authError && <p className="text-rose-400 mt-2">{authError}</p>}
 
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Register & Access Hub →"}

@@ -169,7 +169,7 @@ export default function PagesPillDrawer() {
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
-                  <p className="text-xs text-white/50 mt-0.5">
+                  <p className="mt-0.5">
                     Click any page link below to navigate directly across the 7th Heaven web application.
                   </p>
                 </div>
@@ -254,7 +254,7 @@ export default function PagesPillDrawer() {
                       <h3 className="text-xs font-bold text-white group-hover:text-purple-200 transition-colors">
                         {item.label}
                       </h3>
-                      <p className="text-[11px] font-mono text-white/50 mt-1 truncate">
+                      <p className="font-mono mt-1 truncate">
                         {item.path}
                       </p>
                     </div>

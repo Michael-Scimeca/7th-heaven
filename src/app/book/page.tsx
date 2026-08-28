@@ -859,7 +859,7 @@ function BookPageContent() {
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
           <h1 className="text-3xl font-bold text-white mb-3 tracking-tight">Request Received</h1>
-          <p className="text-white/50 text-lg leading-relaxed mb-8">
+          <p className="leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
             <br /><span className="text-base text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
@@ -919,7 +919,7 @@ function BookPageContent() {
                           )}
                         </button>
                       </div>
-                      <p className="text-white/40 text-sm mt-2">We will send a 6-digit verification code to your email.</p>
+                      <p className="mt-2">We will send a 6-digit verification code to your email.</p>
                     </div>
                   ) : (
                     <div>
@@ -1026,7 +1026,7 @@ function BookPageContent() {
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             BOOK <span className="inline-block pr-[0.15em]">7TH HEAVEN</span>
           </h1>
-          <p className=" text-white  text-base md:text-lg font-medium mt-3 max-w-2xl leading-relaxed">
+          <p className="font-medium mt-3 max-w-2xl leading-relaxed">
             Select your dates, preferred show format, and venue details to reserve 7th Heaven for your festival, private event, venue, or concert.
           </p>
         </div>
@@ -1043,8 +1043,8 @@ function BookPageContent() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
               <div>
-                <p className="text-purple-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                <p className=" text-white  text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                <p className="text-purple-300 font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
+                <p className="">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
               </div>
             </div>
           )}
@@ -1054,8 +1054,8 @@ function BookPageContent() {
               <div className="flex items-center gap-3">
                 <ClipboardList className="w-6 h-6 text-purple-300 shrink-0" />
                 <div>
-                  <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
-                  <p className=" text-white  text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
+                  <p className="font-bold">Re-fill with details from your last booking?</p>
+                  <p className="mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
                 </div>
               </div>
               <button aria-label="Action button"
@@ -1077,7 +1077,7 @@ function BookPageContent() {
               <Lightbulb className="w-5 h-5 text-yellow-300 shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
-                <p className="text-white/70 text-sm mt-1">You can select <strong>multiple dates</strong> on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
+                <p className="mt-1">You can select <strong>multiple dates</strong> on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
               </div>
             </div>
             <div className="mb-6">
@@ -1103,7 +1103,7 @@ function BookPageContent() {
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
                     <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
-                    <p className="text-base  text-white ">Increase your chances — we&apos;ll try your preferred date first</p>
+                    <p className="">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1138,7 +1138,7 @@ function BookPageContent() {
               <div className="text-center p-6 rounded-lg border-2 border-dashed   border-white/10   bg-white/[0.02] rounded-lg ">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
-                <p className=" text-white  text-base max-w-md mx-auto">
+                <p className="max-w-md mx-auto">
                   Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                 </p>
               </div>
@@ -1147,7 +1147,7 @@ function BookPageContent() {
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                   <div>
                     <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
-                    <p className="text-base  text-white  mt-1 uppercase">Configure individual times and formats for each show below</p>
+                    <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
                   <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1  rounded-lg  border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
@@ -1323,7 +1323,7 @@ function BookPageContent() {
                                   )}
                                 </span>
                               </div>
-                              <p className="text-[var(--font-size-4xs)] text-cyan-300 font-bold tracking-wide    mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
+                              <p className="text-cyan-300 font-bold tracking-wide mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
                                 <span>🔗 Link Active: Shares contact & venue data</span>
                               </p>
                             </div>
@@ -1548,7 +1548,7 @@ function BookPageContent() {
                   />
                 </div>
               </div>
-              <p className="text-[11px] text-purple-300/80 font-medium    flex items-center gap-1 leading-tight mt-1.5 justify-end">
+              <p className="text-purple-300/80 font-medium flex items-center gap-1 leading-tight mt-1.5 justify-end">
                 Band load-in is usually ~2 hours before band start time.
               </p>
 
@@ -1732,7 +1732,7 @@ function BookPageContent() {
                 <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Production & Extras
                 </h2>
-                <p className=" text-white  text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+                <p className="mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(() => {
                     const addOnsSet = new Set(addOns);
@@ -1782,7 +1782,7 @@ function BookPageContent() {
                 <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Notes & Questions
                 </h2>
-                <p className=" text-white  text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+                <p className="mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
                 <div className="input-glow-border rounded-lg">
                   <textarea aria-label="Text input"
                     name="details"
@@ -1900,7 +1900,7 @@ function BookPageContent() {
                       "Submit Booking Request"
                     )}
                   </CosmicRadialButton>
-                  <p className="text-base text-white/50 text-center mt-4">
+                  <p className="text-center mt-4">
                     By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
                   </p>
                 </div>

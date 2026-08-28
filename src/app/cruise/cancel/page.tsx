@@ -37,7 +37,7 @@ function CancelContent() {
       <div className="text-center">
         <span className="text-4xl block mb-4">⚠️</span>
         <h2 className="text-xl font-bold text-white mb-2">Invalid Link</h2>
-        <p className="text-white/40 text-sm mb-6">This cancel link is missing a token. Please use the link from your confirmation email.</p>
+        <p className="mb-6">This cancel link is missing a token. Please use the link from your confirmation email.</p>
         <Link href="/cruise" className=" text-[var(--color-accent)] text-sm font-bold uppercase tracking-widest hover:text-white transition-colors">
           ← Back to Cruise Page
         </Link>
@@ -51,10 +51,10 @@ function CancelContent() {
         <>
           <span className="text-4xl block mb-4">✅</span>
           <h2 className="text-2xl  font-bold  text-white mb-2">Signup Cancelled</h2>
-          <p className="text-white/50 text-sm mb-2">
+          <p className="mb-2">
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
           </p>
-          <p className="text-white/30 text-sm mb-8">A confirmation email has been sent. If you change your mind, you can always sign up again.</p>
+          <p className="mb-8">A confirmation email has been sent. If you change your mind, you can always sign up again.</p>
           <Link href="/cruise" className="inline-block px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-colors">
             Back to Cruise Page
           </Link>
@@ -63,7 +63,7 @@ function CancelContent() {
         <>
           <span className="text-4xl block mb-4">❌</span>
           <h2 className="text-xl font-bold text-white mb-2">Couldn&apos;t Cancel</h2>
-          <p className="text-white/40 text-sm mb-6">{errorMsg || "This link may have already been used or expired."}</p>
+          <p className="mb-6">{errorMsg || "This link may have already been used or expired."}</p>
           <Link href="/cruise" className=" text-[var(--color-accent)] text-sm font-bold uppercase tracking-widest hover:text-white transition-colors">
             ← Back to Cruise Page
           </Link>
@@ -72,7 +72,7 @@ function CancelContent() {
         <>
           <span className="text-4xl block mb-4">🚢</span>
           <h2 className="text-2xl  font-bold  text-white mb-2">Cancel Your Cruise Signup?</h2>
-          <p className="text-white/50 text-sm mb-8">
+          <p className="mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>
           <div className="flex flex-col gap-3">

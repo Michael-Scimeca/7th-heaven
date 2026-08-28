@@ -293,7 +293,7 @@ export default function PlannerDashboard() {
                 <h1 className="text-2xl  font-bold  tracking-tight">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
                 </h1>
-                <p className="text-xs uppercase tracking-[0.2em] text-white/30 mt-2">
+                <p className="uppercase tracking-[0.2em] mt-2">
                   Event planner accounts only
                 </p>
               </div>
@@ -332,7 +332,7 @@ export default function PlannerDashboard() {
                 )}
 
                 {plannerLoginError && (
-                  <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{plannerLoginError}</p>
+                  <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{plannerLoginError}</p>
                 )}
 
                 <button aria-label="Action button" type="submit" disabled={plannerLoginLoading}
@@ -346,7 +346,7 @@ export default function PlannerDashboard() {
                 </button>
               </form>
 
-              <p className="mt-8 text-center text-xs text-white/15 uppercase tracking-[0.2em]">
+              <p className="mt-8 text-center uppercase tracking-[0.2em]">
                 7th Heaven · Event Planning Portal
               </p>
             </div>
@@ -399,8 +399,8 @@ export default function PlannerDashboard() {
               <History className="w-5 h-5 text-rose-500" />
             </div>
             <h3 className="text-xl font-bold text-white text-center mb-2">Cancel This Booking?</h3>
-            <p className="text-white/40 text-base text-center mb-2">{booking.eventName}</p>
-            <p className="text-white/30 text-sm text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
+            <p className="text-center mb-2">{booking.eventName}</p>
+            <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
@@ -430,7 +430,7 @@ export default function PlannerDashboard() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white tracking-tight uppercase">Band Event Contacts</h3>
-                  <p className="text-xs text-white/40 font-mono">7th Heaven Direct Booking & Advance Team</p>
+                  <p className="font-mono">7th Heaven Direct Booking & Advance Team</p>
                 </div>
               </div>
               <button
@@ -447,7 +447,7 @@ export default function PlannerDashboard() {
                   <div>
                     <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
                     <h4 className="text-lg font-bold text-white mt-1">Dickie (NTD Management)</h4>
-                    <p className="text-xs text-white/50">Band Contracts, Scheduling & Event Operations</p>
+                    <p className="">Band Contracts, Scheduling & Event Operations</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -465,7 +465,7 @@ export default function PlannerDashboard() {
                   <div>
                     <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Jeff Dobbs</h4>
-                    <p className="text-xs text-white/50">PA System, Stage Dimensions, Sound & Power</p>
+                    <p className="">PA System, Stage Dimensions, Sound & Power</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -483,7 +483,7 @@ export default function PlannerDashboard() {
                   <div>
                     <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
-                    <p className="text-xs text-white/50">Hospitality, Parking Pass, Green Room & Itinerary</p>
+                    <p className="">Hospitality, Parking Pass, Green Room & Itinerary</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -501,7 +501,7 @@ export default function PlannerDashboard() {
                   <div>
                     <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
                     <h4 className="text-lg font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
-                    <p className="text-xs text-white/50">Promotional Assets, Logos, Radio & Media Interviews</p>
+                    <p className="">Promotional Assets, Logos, Radio & Media Interviews</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -542,24 +542,24 @@ export default function PlannerDashboard() {
             {!isEditing ? (
               <>
                 <h2 className={`text-2xl font-bold text-white mb-2 tracking-tight ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
-                <p className="text-sm  text-[var(--color-accent)] font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
+                <p className="font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
-                    <p className="text-xs text-white/30 uppercase tracking-[0.1em] font-bold mb-1">Date</p>
-                    <p className="text-sm text-white font-bold">{booking.date}</p>
+                    <p className="uppercase tracking-[0.1em] font-bold mb-1">Date</p>
+                    <p className="font-bold">{booking.date}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-white/30 uppercase tracking-[0.1em] font-bold mb-1">Time Window</p>
-                    <p className="text-sm text-white font-bold">{booking.startTime} - {booking.endTime}</p>
+                    <p className="uppercase tracking-[0.1em] font-bold mb-1">Time Window</p>
+                    <p className="font-bold">{booking.startTime} - {booking.endTime}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-white/30 uppercase tracking-[0.1em] font-bold mb-1">Venue</p>
-                    <p className="text-sm text-white font-bold truncate">{booking.venueName}</p>
+                    <p className="uppercase tracking-[0.1em] font-bold mb-1">Venue</p>
+                    <p className="font-bold truncate">{booking.venueName}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-white/30 uppercase tracking-[0.1em] font-bold mb-1">City</p>
-                    <p className="text-sm text-white font-bold truncate">{booking.venueCity}, {booking.venueState}</p>
+                    <p className="uppercase tracking-[0.1em] font-bold mb-1">City</p>
+                    <p className="font-bold truncate">{booking.venueCity}, {booking.venueState}</p>
                   </div>
                 </div>
               </>
@@ -640,7 +640,7 @@ export default function PlannerDashboard() {
                           className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
                           Revive Booking
                         </button>
-                        <p className="text-center text-white/30 text-xs font-mono">
+                        <p className="text-center font-mono">
                           ⏱ Revive expires in <span className="text-purple-300 font-bold">{reviveTimeLeft}</span>
                         </p>
                       </>
@@ -698,7 +698,7 @@ export default function PlannerDashboard() {
 
             <div>
               <h3 className="text-lg font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
-              <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
+              <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
             </div>
           </div>
           <button
@@ -714,7 +714,7 @@ export default function PlannerDashboard() {
             <div>
               <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
               <h4 className="text-base font-bold text-white">Dickie</h4>
-              <p className="text-xs text-white/40 mb-3">NTD Management</p>
+              <p className="mb-3">NTD Management</p>
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
               <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
@@ -730,7 +730,7 @@ export default function PlannerDashboard() {
             <div>
               <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
-              <p className="text-xs text-white/40 mb-3">Production & Sound</p>
+              <p className="mb-3">Production & Sound</p>
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
               <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
@@ -746,7 +746,7 @@ export default function PlannerDashboard() {
             <div>
               <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="text-base font-bold text-white">Alan McRae</h4>
-              <p className="text-xs text-white/40 mb-3">NTD Management</p>
+              <p className="mb-3">NTD Management</p>
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
               <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
@@ -762,7 +762,7 @@ export default function PlannerDashboard() {
             <div>
               <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
               <h4 className="text-base font-bold text-white">Lenny Rago</h4>
-              <p className="text-xs text-white/40 mb-3">NTD Records</p>
+              <p className="mb-3">NTD Records</p>
             </div>
             <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
               <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
@@ -783,7 +783,7 @@ export default function PlannerDashboard() {
 
             <div>
               <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
-              <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
+              <p className="uppercase tracking-[0.2em] font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
             </div>
           </div>
 

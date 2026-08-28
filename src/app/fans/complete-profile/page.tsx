@@ -118,7 +118,7 @@ export default function CompleteProfilePage() {
       <div className="min-h-screen   text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
-          <p className="text-sm font-bold uppercase tracking-widest text-white/40">Loading your profile...</p>
+          <p className="font-bold uppercase tracking-widest">Loading your profile...</p>
         </div>
       </div>
     );
@@ -142,7 +142,7 @@ export default function CompleteProfilePage() {
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+              <p className="uppercase tracking-[0.2em]">
                 Let&apos;s finish setting up your profile
               </p>
             </div>
@@ -177,7 +177,7 @@ export default function CompleteProfilePage() {
                     required
                   />
                 </div>
-                <p className="text-[var(--font-size-3xs)] text-white/20 mt-1">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p className="mt-1">This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}
@@ -244,13 +244,13 @@ export default function CompleteProfilePage() {
 
               {/* Info callout */}
               <div className="bg-white/[0.02] border border-white/5 rounded-lg px-4 py-3">
-                <p className="text-[var(--font-size-3xs)] text-white/30 leading-relaxed">
+                <p className="leading-relaxed">
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>
               </div>
 
               {error && (
-                <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
+                <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
               )}
 
               <button aria-label="Action button"
@@ -261,7 +261,7 @@ export default function CompleteProfilePage() {
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 
-              <p className="text-[var(--font-size-3xs)] text-white/25 text-center leading-relaxed">
+              <p className="text-center leading-relaxed">
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</Link> &amp;{" "}
                 <Link href="/terms" className="underline hover:text-white/40 transition-colors">Terms</Link>.

@@ -90,7 +90,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0 bg-transparent"
       >
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] mb-0.5">Show Promotions</p>
+          <p className="uppercase tracking-[0.2em] font-bold mb-0.5">Show Promotions</p>
           <h3 className="text-white  font-bold  text-lg flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
@@ -99,7 +99,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
               </span>
             )}
           </h3>
-          <p className="text-white/30 text-xs mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
+          <p className="mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
@@ -140,8 +140,8 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   {/* Enable toggle */}
                   <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05]">
                     <div>
-                      <p className="text-sm font-bold text-white">Enable challenge for this show</p>
-                      <p className="text-xs text-white/30 mt-0.5">Fans will see this on the show page</p>
+                      <p className="font-bold">Enable challenge for this show</p>
+                      <p className="mt-0.5">Fans will see this on the show page</p>
                     </div>
                     <SquishyToggle
                       id="challenge-enabled"
@@ -204,19 +204,19 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Preview */}
                       <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
-                        <p className="text-xs uppercase tracking-widest  text-[var(--color-accent)] font-bold mb-2">Fan-facing preview</p>
+                        <p className="uppercase tracking-widest font-bold mb-2">Fan-facing preview</p>
                         <div className="flex items-start gap-3">
                           <span className="text-2xl"></span>
                           <div>
-                            <p className="text-white text-sm font-bold">
+                            <p className="font-bold">
                               Invite {challenge.threshold} fans → get a free{" "}
                               <span className=" text-[var(--color-accent)]">{challenge.reward_name || "merch item"}</span>
                             </p>
-                            <p className="text-white/40 text-xs mt-0.5">{challenge.reward_description}</p>
+                            <p className="mt-0.5">{challenge.reward_description}</p>
                             <div className="mt-2 h-1.5 bg-white/10 w-48">
                               <div className="h-full bg-[var(--color-accent)] w-[30%]" />
                             </div>
-                            <p className="text-[var(--font-size-2xs)] text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
+                            <p className="mt-0.5">6 / {challenge.threshold} fans invited</p>
                           </div>
                         </div>
                       </div>

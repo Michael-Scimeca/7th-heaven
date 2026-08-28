@@ -117,10 +117,10 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs  font-bold  uppercase tracking-wider text-white truncate">
+          <p className="font-bold uppercase tracking-wider truncate">
             {member?.name || "Official Profile Photo"}
           </p>
-          <p className="text-[var(--font-size-3xs)] text-white/40">
+          <p className="">
             {isAvatarUrl ? "Photo active for scheduling & site" : "No photo set — upload one below"}
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <h3 className="text-base  font-bold  uppercase tracking-tight text-black">
               Official Profile & Scheduling Photo
             </h3>
-            <p className="text-xs text-black/70 font-semibold">
+            <p className="text-black/70 font-semibold">
               Required photo used for site scheduling, roster displays, and member avatar.
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           ) : (
             <div className="text-center p-1">
               <span className="text-xs  font-bold  text-[var(--color-accent)] tracking-wider block">{initials}</span>
-              <p className=" text-[12px]  font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
+              <p className="font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
           <button aria-label="Action button"
@@ -232,7 +232,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             </form>
           )}
 
-          <p className="text-[var(--font-size-2xs)] text-black/60 font-semibold leading-relaxed">
+          <p className="text-black/60 font-semibold leading-relaxed">
             Supported formats: JPG, PNG, WebP (max 5MB). Photo syncs automatically across your scheduling profile and header avatar.
           </p>
         </div>

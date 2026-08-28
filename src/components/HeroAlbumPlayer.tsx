@@ -145,7 +145,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           <h3 className="text-white  font-bold  text-lg sm:text-xl leading-tight truncate uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
             {title}
           </h3>
-          <p className="text-xs font-bold text-white/50 uppercase tracking-widest mt-0.5">
+          <p className="font-bold uppercase tracking-widest mt-0.5">
             7th Heaven
           </p>
 

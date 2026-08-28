@@ -12,7 +12,7 @@ export default function PrivacyPage() {
                 <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
                     Privacy <span className="text-[var(--color-accent)]">Policy</span>
                 </h1>
-                <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold">
+                <p className="uppercase tracking-[0.15em] font-bold">
                     Last Updated: April 12, 2026
                 </p>
             </div>
@@ -34,23 +34,23 @@ export default function PrivacyPage() {
                 {/* 2 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">2. Information We Collect</h2>
-                    <p className="mb-3 text-[var(--muted-text)]">We may collect the following types of information:</p>
+                    <p className="mb-3">We may collect the following types of information:</p>
                     <div className="flex flex-col gap-3">
                         <div className="py-2 border-0 bg-transparent shadow-none">
-                            <p className="text-[var(--text-color)] font-bold text-sm mb-1">Account Information</p>
-                            <p className="text-sm text-[var(--muted-text)]">Name, email address, and password when you create a member account.</p>
+                            <p className="font-bold mb-1">Account Information</p>
+                            <p className="">Name, email address, and password when you create a member account.</p>
                         </div>
                         <div className="py-2 border-0 bg-transparent shadow-none">
-                            <p className="text-[var(--text-color)] font-bold text-sm mb-1">SMS Alert Information</p>
-                            <p className="text-sm text-[var(--muted-text)]">Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
+                            <p className="font-bold mb-1">SMS Alert Information</p>
+                            <p className="">Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
                         </div>
                         <div className="py-2 border-0 bg-transparent shadow-none">
-                            <p className="text-[var(--text-color)] font-bold text-sm mb-1">Location Data</p>
-                            <p className="text-sm text-[var(--muted-text)]">Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
+                            <p className="font-bold mb-1">Location Data</p>
+                            <p className="">Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
                         </div>
                         <div className="py-2 border-0 bg-transparent shadow-none">
-                            <p className="text-[var(--text-color)] font-bold text-sm mb-1">Usage Data</p>
-                            <p className="text-sm text-[var(--muted-text)]">Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
+                            <p className="font-bold mb-1">Usage Data</p>
+                            <p className="">Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
                             <li><strong className="text-[var(--text-color)] font-bold">Web Push & Browser Control:</strong> Browser push notifications are delivered directly to your device when permissions are granted. You may grant or block push notifications at any time via your browser settings.</li>
                             <li><strong className="text-[var(--text-color)] font-bold">Opt-Out & Preference Updates:</strong> You can modify your distance radius, toggle show types, or unsubscribe from alerts at any time via the alert preferences panel in the site footer or fan dashboard.</li>
                         </ul>
-                        <p className="mt-3 text-sm text-[var(--muted-text)]">Your consent to receive alerts is not a condition of any purchase.</p>
+                        <p className="mt-3">Your consent to receive alerts is not a condition of any purchase.</p>
                     </div>
                 </div>
 
@@ -96,13 +96,13 @@ export default function PrivacyPage() {
                 {/* 6 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">6. Data Security</h2>
-                    <p className="text-[var(--muted-text)]">We implement reasonable security measures to protect your information, including encrypted connections (HTTPS), secure password hashing, and restricted access to personal data. However, no method of electronic transmission or storage is 100% secure.</p>
+                    <p className="">We implement reasonable security measures to protect your information, including encrypted connections (HTTPS), secure password hashing, and restricted access to personal data. However, no method of electronic transmission or storage is 100% secure.</p>
                 </div>
 
                 {/* 7 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">7. Data Retention</h2>
-                    <p className="text-[var(--muted-text)]">We retain your information for as long as your account is active or as needed to provide services. SMS opt-in records (including consent timestamps) are retained for a minimum of 5 years as required by TCPA regulations. You may request deletion of your account and personal data at any time by contacting us.</p>
+                    <p className="">We retain your information for as long as your account is active or as needed to provide services. SMS opt-in records (including consent timestamps) are retained for a minimum of 5 years as required by TCPA regulations. You may request deletion of your account and personal data at any time by contacting us.</p>
                 </div>
 
                 {/* 8 */}
@@ -119,29 +119,29 @@ export default function PrivacyPage() {
                 {/* 9 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">9. Cookies & Tracking</h2>
-                    <p className="text-[var(--muted-text)]">Our site uses essential cookies and localStorage to maintain your login session and preferences. We do not use third-party advertising trackers. YouTube embeds on our video pages may set their own cookies per Google&apos;s privacy policy.</p>
+                    <p className="">Our site uses essential cookies and localStorage to maintain your login session and preferences. We do not use third-party advertising trackers. YouTube embeds on our video pages may set their own cookies per Google&apos;s privacy policy.</p>
                 </div>
 
                 {/* 10 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">10. Children&apos;s Privacy</h2>
-                    <p className="text-[var(--muted-text)]">Our website, member portal, and SMS alert service are not intended for individuals under 13 years of age. We do not knowingly collect personal information from children under 13. If we discover we have collected such information, we will delete it promptly.</p>
+                    <p className="">Our website, member portal, and SMS alert service are not intended for individuals under 13 years of age. We do not knowingly collect personal information from children under 13. If we discover we have collected such information, we will delete it promptly.</p>
                 </div>
 
                 {/* 11 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">11. Changes to This Policy</h2>
-                    <p className="text-[var(--muted-text)]">We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated &quot;Last Updated&quot; date. Continued use of the Site or SMS service after changes constitutes acceptance of the updated policy.</p>
+                    <p className="">We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated &quot;Last Updated&quot; date. Continued use of the Site or SMS service after changes constitutes acceptance of the updated policy.</p>
                 </div>
 
                 {/* 12 */}
                 <div>
                     <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">12. Contact Us</h2>
-                    <p className="mb-2 text-[var(--muted-text)]">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
+                    <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
                     <div className="py-2 border-0 bg-transparent shadow-none">
-                        <p className="text-[var(--text-color)] font-bold text-sm">7th Heaven</p>
-                        <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-                        <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+                        <p className="font-bold">7th Heaven</p>
+                        <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
+                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>
                 </div>
 

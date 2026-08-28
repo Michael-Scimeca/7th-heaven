@@ -86,7 +86,7 @@ export default function CookieConsentBanner() {
             </div>
             <div className="flex-1">
               <h2 className="text-white font-bold text-base leading-tight mb-0.5">Your Privacy</h2>
-              <p className="text-white/40 text-sm leading-snug">
+              <p className="leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
                 <a href="/privacy" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
                   Privacy Policy
@@ -105,8 +105,8 @@ export default function CookieConsentBanner() {
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-white/80">Essential Cookies</p>
-                  <p className="text-xs text-white/30 mt-0.5">Required for the site to function. Cannot be disabled.</p>
+                  <p className="font-semibold">Essential Cookies</p>
+                  <p className="mt-0.5">Required for the site to function. Cannot be disabled.</p>
                 </div>
                 <div className="w-9 h-5 bg-[var(--color-accent)]/30  rounded-lg  flex items-center justify-end px-0.5 shrink-0">
                   <div className="w-4 h-4  rounded-lg  bg-[var(--color-accent)]  " />
@@ -116,8 +116,8 @@ export default function CookieConsentBanner() {
               {/* Analytics */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-white/80">Analytics</p>
-                  <p className="text-xs text-white/30 mt-0.5">Helps us understand how fans use the site (Google Analytics).</p>
+                  <p className="font-semibold">Analytics</p>
+                  <p className="mt-0.5">Helps us understand how fans use the site (Google Analytics).</p>
                 </div>
                 <GradientToggle
                   id="cookie-analytics-toggle"
@@ -129,8 +129,8 @@ export default function CookieConsentBanner() {
               {/* Marketing */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-white/80">Marketing</p>
-                  <p className="text-xs text-white/30 mt-0.5">Personalised show recommendations and fan engagement.</p>
+                  <p className="font-semibold">Marketing</p>
+                  <p className="mt-0.5">Personalised show recommendations and fan engagement.</p>
                 </div>
                 <GradientToggle
                   id="cookie-marketing-toggle"

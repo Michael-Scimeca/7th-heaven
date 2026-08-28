@@ -244,7 +244,7 @@ function MerchDashboard() {
       <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
-        <p className="text-white/40 text-sm mb-6">Sign in with your merch team account.</p>
+        <p className="mb-6">Sign in with your merch team account.</p>
         <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors">Sign In</button>
       </div>
     </div>
@@ -255,7 +255,7 @@ function MerchDashboard() {
       <div className="bg-[var(--color-bg-surface)] border border-red-500/20 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🚫</span>
         <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
-        <p className="text-white/40 text-sm">This page is only accessible to 7th Heaven merch staff.</p>
+        <p className="">This page is only accessible to 7th Heaven merch staff.</p>
       </div>
     </div>
   );
@@ -270,7 +270,7 @@ function MerchDashboard() {
       <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-pink-500  font-bold  uppercase tracking-[0.3em]">7th Heaven</p>
+            <p className="text-pink-500 font-bold uppercase tracking-[0.3em]">7th Heaven</p>
             <h1 className="text-white  font-bold  text-lg uppercase tracking-widest">Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
@@ -291,7 +291,7 @@ function MerchDashboard() {
         <h2 className="text-3xl  font-bold  uppercase tracking-widest text-white   ">
           Coming Soon
         </h2>
-        <p className="text-white/40 text-sm max-w-sm mt-2 font-medium">
+        <p className="max-w-sm mt-2 font-medium">
           The 7th Heaven Merch Table portal is currently under maintenance and will be live soon.
         </p>
       </div>

@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const FanUploadForm = dynamic(() => import("./FanUploadForm"), {
   ssr: false,
-  loading: () => <p className="text-white/40 animate-pulse">Loading upload form...</p>,
+  loading: () => <p className="animate-pulse">Loading upload form...</p>,
 });
 
 import PickAwardsSection from "./PickAwardsSection";
@@ -212,7 +212,7 @@ export default function MemberDashboard() {
                 <h1 className="text-3xl font-bold tracking-tight mb-3">
                   Join the <span className=" text-[var(--color-accent)]">Family</span>
                 </h1>
-                <p className="text-white/40 text-sm">
+                <p className="">
                   Create a Fan Account to access exclusive rewards, secure priority merchandise, and get proximity text alerts when we play in your city.
                 </p>
               </div>
@@ -275,7 +275,7 @@ export default function MemberDashboard() {
                   );
                 })()}
               </div>
-              <p className="text-[var(--font-size-sm)] text-white/40">{member!.email}</p>
+              <p className="">{member!.email}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -313,8 +313,8 @@ export default function MemberDashboard() {
               if (localInbox.length === 0) {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/5  bg-[#00000029]    border-dashed">
-                    <p className="text-sm text-white/50 font-bold">Your wallet is currently empty.</p>
-                    <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
+                    <p className="font-bold">Your wallet is currently empty.</p>
+                    <p className="mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -334,8 +334,8 @@ export default function MemberDashboard() {
                               <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
                               {msg.isNew && <span className="text-[var(--font-size-2xs)]  font-bold  uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black  rounded-lg  shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
-                            <p className="text-xs  text-white  max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest font-bold text-white/20 mt-1">{msg.time}</p>
+                            <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
+                            <p className="uppercase tracking-widest font-bold mt-1">{msg.time}</p>
                           </div>
                         </div>
 
@@ -348,7 +348,7 @@ export default function MemberDashboard() {
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
-                                <p className="text-xs font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
+                                <p className="font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
                                 <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white  font-bold  text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
@@ -386,8 +386,8 @@ export default function MemberDashboard() {
 
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/5  bg-[#00000029]    border-dashed">
-              <p className="text-sm text-white/50 font-bold">No photo submissions found.</p>
-              <p className="text-xs text-white/30 mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
+              <p className="font-bold">No photo submissions found.</p>
+              <p className="mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -428,7 +428,7 @@ export default function MemberDashboard() {
 
                   <div className="p-4 flex flex-col gap-2">
                     {photo.caption && (
-                      <p className="text-xs text-white/70    border-l-2   border-white/10 pl-2 line-clamp-2">
+                      <p className="border-l-2 border-white/10 pl-2 line-clamp-2">
                         "{photo.caption}"
                       </p>
                     )}
@@ -436,10 +436,10 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-[0.6rem] text-red-400 font-bold uppercase tracking-widest mb-1">
+                        <p className="text-red-400 font-bold uppercase tracking-widest mb-1">
                           Reason for Decline
                         </p>
-                        <p className="text-[var(--font-size-2xs)] text-red-200/80 leading-normal font-medium">
+                        <p className="text-red-200/80 leading-normal font-medium">
                           {photo.rejection_reason || "Content does not meet community guidelines."}
                         </p>
                       </div>
@@ -463,8 +463,8 @@ export default function MemberDashboard() {
             { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "America/Chicago" }) },
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
-              <p className="text-xs uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>
-              <p className={`text-2xl font-bold ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
+              <p className="uppercase tracking-[0.2em] mb-1">{s.label}</p>
+              <p className={`font-bold ${s.accent ?" text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
             </div>
@@ -518,8 +518,8 @@ export default function MemberDashboard() {
                           <div className="flex items-center gap-3">
                             <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
                             <div>
-                              <p className="text-sm font-semibold text-white/80">{item.name}</p>
-                              <p className="text-xs text-white/25 uppercase tracking-[0.1em]">{item.type}</p>
+                              <p className="font-semibold">{item.name}</p>
+                              <p className="uppercase tracking-[0.1em]">{item.type}</p>
                             </div>
                           </div>
                           <span className="text-sm font-bold text-white/50">{item.price}</span>
@@ -548,7 +548,7 @@ export default function MemberDashboard() {
        `}</style>
           <div className="  p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
             <h1 className="text-5xl sm:text-7xl  font-bold  text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
-            <p className="text-xl sm:text-3xl font-bold text-white mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
+            <p className="font-bold mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
           </div>
         </div>
       )}

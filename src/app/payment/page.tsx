@@ -82,7 +82,7 @@ function PaymentTestContent() {
             <h1 className="text-2xl  font-bold  uppercase text-white tracking-wide">
               Payment Test Page
             </h1>
-            <p className="text-[var(--font-size-2xs)] text-white/40 mt-1 leading-relaxed">
+            <p className="mt-1 leading-relaxed">
               Runs a real Stripe Checkout session in test mode. Card details are entered on
               Stripe&apos;s hosted page and never touch this server. Use test card{" "}
               <span className="text-white/70 font-mono">4242 4242 4242 4242</span>, any future

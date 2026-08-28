@@ -308,7 +308,7 @@ export default function CustomYTPlayer({
               <div className="w-1 h-6 bg-[var(--color-accent)]  rounded-lg  shrink-0" />
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-white truncate">{title}</h3>
-                <p className="text-xs text-white/40">7th Heaven • {year}</p>
+                <p className="">7th Heaven • {year}</p>
               </div>
             </div>
             <button aria-label="Close"

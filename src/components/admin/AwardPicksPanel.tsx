@@ -152,8 +152,8 @@ export default function AwardPicksPanel() {
               >
                 7H
               </div>
-              <p className="text-xs font-bold text-white/70 truncate">{pick.name}</p>
-              <p className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>
+              <p className="font-bold truncate">{pick.name}</p>
+              <p className={`font-bold uppercase tracking-[0.1em] ${rarityColors[pick.rarity]}`}>
                 {pick.rarity}
               </p>
             </button>
@@ -195,7 +195,7 @@ export default function AwardPicksPanel() {
 
         <div className="max-h-48 overflow-y-auto border border-white/5 rounded-lg">
           {filteredFans.length === 0 ? (
-            <p className="text-xs text-white/30 text-center py-4">No fans found</p>
+            <p className="text-center py-4">No fans found</p>
           ) : (
             filteredFans.slice(0, 20).map((fan) => (
               <button aria-label="Action button"

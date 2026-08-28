@@ -231,8 +231,8 @@ export default function BulkInvitePanel() {
               className="hidden"
             />
             <span className="text-3xl mb-3 block"></span>
-            <p className="text-black text-xs  font-bold  uppercase tracking-wider">Drag & Drop CSV File</p>
-            <p className="text-black/60 text-[var(--font-size-2xs)] mt-1.5 leading-relaxed max-w-xs font-semibold">
+            <p className="text-black font-bold uppercase tracking-wider">Drag & Drop CSV File</p>
+            <p className="text-black/60 mt-1.5 leading-relaxed max-w-xs font-semibold">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
             <CosmicRadialButton
@@ -278,8 +278,8 @@ export default function BulkInvitePanel() {
             <div className="flex items-center gap-3">
               <span className="text-2xl"></span>
               <div>
-                <p className="text-black text-xs  font-bold  uppercase tracking-widest">Parsed Invite Roster</p>
-                <p className="text-black/60 text-[var(--font-size-2xs)] mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
+                <p className="text-black font-bold uppercase tracking-widest">Parsed Invite Roster</p>
+                <p className="text-black/60 mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
               </div>
             </div>
 
@@ -310,7 +310,7 @@ export default function BulkInvitePanel() {
               : "bg-emerald-50 border-emerald-200 text-emerald-800"
               }`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
-              <p className="text-xs  font-bold  uppercase tracking-widest">
+              <p className="font-bold uppercase tracking-widest">
                 Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
               </p>
             </div>

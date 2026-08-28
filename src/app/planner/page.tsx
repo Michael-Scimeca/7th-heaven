@@ -29,7 +29,7 @@ export default function PlannerRedirectPage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="w-8 h-8 border-2 border-white/10 border-t-[var(--color-accent)]  rounded-lg  animate-spin mx-auto mb-4" />
-        <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Redirecting to Planner Dashboard...</p>
+        <p className="font-bold uppercase tracking-widest">Redirecting to Planner Dashboard...</p>
       </div>
     </div>
   );

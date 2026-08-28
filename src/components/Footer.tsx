@@ -129,7 +129,7 @@ export function Footer() {
 
         {/* Endorsements */}
         <div className=" py-8 text-left">
-          <p className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--muted-text)] mb-6 sm:mb-8">Official Gear Endorsements</p>
+          <p className="font-bold uppercase tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized

@@ -119,7 +119,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             <h1 className="text-[clamp(2rem,4vw,3rem)]  font-bold  uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
               Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
             </h1>
-            <p className="text-base sm:text-lg text-[var(--muted-text)] max-w-2xl font-medium">
+            <p className="max-w-2xl font-medium">
               A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985.
             </p>
           </div>
@@ -204,7 +204,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-12 text-center my-8">
           <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
-          <p className="text-sm text-[var(--muted-text)] max-w-md mx-auto mb-6">
+          <p className="max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>
           <button aria-label="Search"

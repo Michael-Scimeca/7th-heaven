@@ -29,7 +29,7 @@ export default function NotFound() {
                     Page Not <span className=" text-[var(--color-accent)]">Found</span>
                 </h2>
 
-                <p className="text-white/40 text-sm md:text-base mb-10 max-w-sm mx-auto leading-relaxed">
+                <p className="mb-10 max-w-sm mx-auto leading-relaxed">
                     The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back on track.
                 </p>
 
@@ -48,7 +48,7 @@ export default function NotFound() {
                     </Link>
                 </div>
 
-                <p className="mt-16 text-xs uppercase tracking-[0.25em] text-white/15 font-bold">
+                <p className="mt-16 uppercase tracking-[0.25em] font-bold">
                     7th Heaven — Lost in the mix
                 </p>
             </div>

@@ -165,15 +165,15 @@ export default function ProximityPanel() {
           </span>
         </div>
         <h3 className="text-xl  font-bold  text-white mb-1">Shows Near You</h3>
-        <p className=" text-white  text-sm mb-6 max-w-md">
+        <p className="mb-6 max-w-md">
           Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
         </p>
 
         {/* Notification Toggle */}
         <div className="flex items-center justify-between py-3 border-b border-white/10 mb-4">
           <div>
-            <p className="text-sm font-bold text-white">Enable Proximity Notifications</p>
-            <p className="text-xs text-white/40 mt-0.5">SMS & email alerts for nearby shows</p>
+            <p className="font-bold">Enable Proximity Notifications</p>
+            <p className="mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
           <SquishyToggle
             id="proximity-notifications-toggle"
@@ -244,8 +244,8 @@ export default function ProximityPanel() {
             </div>
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10  bg-[#00000029]    border-dashed">
-              <p className="text-sm  text-white  font-bold">No shows in your area yet.</p>
-              <p className="text-xs text-white/40 mt-1">We&apos;ll alert you the moment one is booked near you!</p>
+              <p className="font-bold">No shows in your area yet.</p>
+              <p className="mt-1">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -269,11 +269,11 @@ export default function ProximityPanel() {
                         </span>
                       </div>
                       <div>
-                        <p className="text-base font-bold text-white group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
-                        <p className="text-xs text-white/50">
+                        <p className="font-bold group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
+                        <p className="">
                           {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state || ""}
                         </p>
-                        <p className="text-xs text-blue-400 font-bold mt-0.5">{show.distanceMiles} miles away</p>
+                        <p className="text-blue-400 font-bold mt-0.5">{show.distanceMiles} miles away</p>
                       </div>
                     </button>
                     <button aria-label="Action button"
@@ -292,7 +292,7 @@ export default function ProximityPanel() {
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs uppercase tracking-widest text-white/50 font-bold">
+                        <p className="uppercase tracking-widest font-bold">
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
@@ -314,7 +314,7 @@ export default function ProximityPanel() {
                       {attendeeLoading ? (
                         <span className="text-xs text-black/40 animate-pulse">Loading…</span>
                       ) : attendees.length === 0 ? (
-                        <p className="text-xs text-black/40">Be the first to say you&apos;re going!</p>
+                        <p className="text-black/40">Be the first to say you&apos;re going!</p>
                       ) : (
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (

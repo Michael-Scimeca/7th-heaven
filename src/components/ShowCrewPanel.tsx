@@ -179,7 +179,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
-                <p className="text-white/20 text-sm mb-3">No crew assigned yet</p>
+                <p className="mb-3">No crew assigned yet</p>
                 <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
@@ -298,7 +298,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {data.notes.map((note) => (
                   <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
-                    <p className="text-sm text-white/70 leading-relaxed">{note.text}</p>
+                    <p className="leading-relaxed">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-[var(--font-size-2xs)] font-bold  text-[var(--color-accent)]/50">{note.author}</span>
                       <span className="text-[var(--font-size-2xs)] text-white/15">·</span>

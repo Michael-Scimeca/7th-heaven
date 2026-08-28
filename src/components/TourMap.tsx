@@ -1069,8 +1069,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black">
           {mapLoadError ? (
             <div className="text-center px-6">
-              <p className="text-white/70 text-sm font-semibold mb-1">Map couldn't load</p>
-              <p className="text-white/40 text-xs">{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
+              <p className="font-semibold mb-1">Map couldn't load</p>
+              <p className="">{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
             </div>
           ) : (
             <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />

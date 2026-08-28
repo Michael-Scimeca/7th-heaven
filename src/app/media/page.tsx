@@ -417,7 +417,7 @@ export default function MediaPage() {
         {filteredVideos.length === 0 && (
           <div className="py-24 text-center bg-white/5 rounded-3xl border border-white/10">
             <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-4" />
-            <p className="text-white text-base font-semibold">No media found matching &quot;{searchQuery}&quot;</p>
+            <p className="font-semibold">No media found matching &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
               className="mt-4 px-6 py-2.5  rounded-lg  bg-purple-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-purple-500 transition-colors cursor-pointer"
@@ -463,7 +463,7 @@ export default function MediaPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold uppercase tracking-wider text-white">Add Video to Media Vault</h3>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest font-mono">Syncs to Sanity CMS & Media Hub</p>
+                  <p className="uppercase tracking-widest font-mono">Syncs to Sanity CMS & Media Hub</p>
                 </div>
               </div>
               <button
@@ -510,7 +510,7 @@ export default function MediaPage() {
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Valid Video Link Detected</span>
                         </div>
-                        <p className="text-[10px] text-white/50 font-mono mt-0.5">ID: {parsed}</p>
+                        <p className="font-mono mt-0.5">ID: {parsed}</p>
                       </div>
                     </div>
                   );

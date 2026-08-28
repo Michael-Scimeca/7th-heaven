@@ -45,13 +45,13 @@ export default function TextColorTestPage() {
     <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh] text-white">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+          <p className="uppercase tracking-[0.2em]">
             /textcolor test page
           </p>
           <h1 className="text-2xl font-semibold text-white/80">
             Aurora Text playground
           </h1>
-          <p className="max-w-xl text-sm text-white/50">
+          <p className="max-w-xl">
             Testing MagicUI&apos;s{" "}
             <a
               className="underline decoration-white/30 underline-offset-4 hover:decoration-white/60"
@@ -87,12 +87,12 @@ export default function TextColorTestPage() {
                 key={preset.name}
                 className="flex flex-col gap-2 rounded-lg border border-white/10 p-6"
               >
-                <p className="text-3xl font-extrabold">
+                <p className="font-extrabold">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
                     {text}
                   </AuroraText>
                 </p>
-                <p className="text-xs text-white/40">{preset.name}</p>
+                <p className="">{preset.name}</p>
               </div>
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function TextColorTestPage() {
           </h3>
 
           <div className="flex flex-col gap-6 rounded-lg border border-white/10 p-6">
-            <p className="text-4xl font-bold sm:text-5xl">
+            <p className="font-bold">
               <AuroraText colors={colors} speed={speed}>
                 {text || " "}
               </AuroraText>
