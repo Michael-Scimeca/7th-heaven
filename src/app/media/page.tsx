@@ -358,10 +358,11 @@ export default function MediaPage() {
           })}
         </div>
 
-        {/* ── TALL VERTICAL POSTER CARD GRID (Clean Instant Category Switch with Card Fade-In Animation) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pt-6 pb-6">
           {filteredVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
+            const isMiddleCol = index % 3 === 1;
 
             return (
               <div
@@ -369,7 +370,9 @@ export default function MediaPage() {
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className="group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both]"
+                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${
+                  isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
+                }`}
                 style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
               >
                 {/* Full Bleed Visual Media Player Preview */}
