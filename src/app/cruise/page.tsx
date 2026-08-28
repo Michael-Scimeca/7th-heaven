@@ -1919,9 +1919,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Bands/Artists Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {BANDS_DATA.map((band, idx) => (
-                  <div key={band.name} className="relative rounded-2xl overflow-hidden group border border-white/10 aspect-[4/5] bg-[#05030a] flex items-center justify-center">
+                  <div key={band.name} className="relative overflow-hidden group aspect-[4/5] flex items-center justify-center rounded-2xl">
                     {band.photo ? (
-                      <picture className="w-full h-full block flex items-center justify-center">
+                      <picture className="w-full h-full block flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_55%,transparent_96%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_96%)]">
                         {band.mobilePhoto && (
                           <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
                         )}
@@ -1942,7 +1942,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     )}
 
                     {/* Bottom Gradient Mask Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-transparent p-6 flex flex-col justify-end text-left pointer-events-none z-10">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 flex flex-col justify-end text-left pointer-events-none z-10">
                       <h3 className="font-bold text-white tracking-tight leading-none">
                         {band.name}
                       </h3>
