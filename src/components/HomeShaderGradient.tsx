@@ -387,15 +387,7 @@ function HomeShaderGradientComponent() {
     };
   }, []);
 
-  return (
-    <>
-      {/* Background Shader Canvas Container */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
-        <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
-        <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none transition-opacity duration-300" />
-      </div>
-    </>
-  );
+  return null;
 }
 
 const HomeShaderGradient = React.memo(HomeShaderGradientComponent);
