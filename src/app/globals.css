@@ -3555,50 +3555,7 @@ textarea,
    * ~2.7x too fast. Corroborated independently by inspecting exoape.com's
    * live GSAP: their own page-push timeline tweens run duration:1 (1000ms)
    * with a custom easeInOut. 1030ms matches both. */
-  --page-transition-duration: 400ms;
-}
-
-::view-transition-group(root) {
-  animation: none !important;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-  backface-visibility: hidden;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-  animation: page-fade-out var(--page-transition-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-::view-transition-new(root) {
-  z-index: 2;
-  animation: page-fade-in var(--page-transition-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes page-fade-out {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-}
-
-@keyframes page-fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  --page-transition-duration: 0ms;
 }
 
 /* OUTGOING page: travels only ~45% as far as the incoming page (measured
