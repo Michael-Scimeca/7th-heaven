@@ -264,7 +264,7 @@ export default function FAQPage() {
       {/* Live Support Banner */}
       <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
         <div>
-          <h4 className="text-white font-bold text-lg mb-1">Still need help?</h4>
+          <h4 className="text-white font-bold mb-1">Still need help?</h4>
           <p className="font-medium">
             Can't find the answer you are looking for? Reach out to our direct support.
           </p>

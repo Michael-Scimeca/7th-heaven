@@ -233,7 +233,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <span className="w-2 h-2 bg-white rounded-lg animate-pulse" />
                     Live Now
                   </div>
-                  <h4 className="text-2xl font-bold text-white uppercase tracking-tighter mb-6">Join the Crew Live</h4>
+                  <h4 className="font-bold text-white uppercase tracking-tighter mb-6">Join the Crew Live</h4>
                   <Link href="/live" className="btn-primary flex items-center justify-center gap-3 px-8 py-4 shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Enter Live Stream ⚡
                   </Link>

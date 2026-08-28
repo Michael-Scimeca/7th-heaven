@@ -406,7 +406,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   </span>
                   <span className="text-white/40">Order #{activeOrder.id.slice(-6)}</span>
                 </div>
-                <h4 className="text-white font-bold text-base mt-0.5">{activeOrder.productTitle}</h4>
+                <h4 className="text-white font-bold mt-0.5">{activeOrder.productTitle}</h4>
                 {activeOrder.size && <p className="">Size: <strong className="text-white">{activeOrder.size}</strong></p>}
               </div>
             </div>

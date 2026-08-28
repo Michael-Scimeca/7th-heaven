@@ -3445,7 +3445,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       ) : (
                         <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
                           <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
-                          <h4 className="text-lg font-bold text-black">Winner Selected</h4>
+                          <h4 className="font-bold text-black">Winner Selected</h4>
                           <div className="flex flex-col gap-2 justify-center mt-3">
                             {drawnWinners.map((w, i) => (
                               <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
@@ -3478,7 +3478,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="max-w-[600px] w-full space-y-2">
-                      <h4 className="font-bold uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
+                      <h4 className="font-bold uppercase tracking-widest">Custom Flagged Keywords</h4>
                       <p className="leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>

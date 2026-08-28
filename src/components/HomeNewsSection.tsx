@@ -87,7 +87,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                     Read →
                   </span>
                 </div>
-                <h4 className="font-bold text-base text-[var(--text-color)] group-hover: text-[var(--color-accent)] transition-colors line-clamp-1">
+                <h4 className="font-bold group-hover: transition-colors line-clamp-1">
                   {item.title}
                 </h4>
                 <p className="leading-relaxed line-clamp-2 mt-1">

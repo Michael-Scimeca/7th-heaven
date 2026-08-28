@@ -171,7 +171,7 @@ export default function BioScrollReveal({
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
                       {member.role}
                     </span>
-                    <h4 className="text-xl font-bold uppercase tracking-tight text-white mt-2 drop-shadow-md">
+                    <h4 className="font-bold uppercase tracking-tight text-white mt-2 drop-shadow-md">
                       {member.name}
                     </h4>
                   </div>

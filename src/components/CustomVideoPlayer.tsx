@@ -253,7 +253,7 @@ export default function CustomVideoPlayer({
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 px-2 py-0.5 rounded border border-white/10">
             Now Playing
           </span>
-          <h4 className="md:text-base font-bold text-white tracking-wide truncate drop-shadow">
+          <h4 className="font-bold text-white tracking-wide truncate drop-shadow">
             {title}
           </h4>
         </div>

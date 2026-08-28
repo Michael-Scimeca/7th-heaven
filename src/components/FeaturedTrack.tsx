@@ -435,7 +435,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="text-xl sm:text-2xl font-bold text-white mt-2 truncate leading-tight tracking-tight uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h4 className="font-bold text-white mt-2 truncate leading-tight tracking-tight uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     {track.title}
                   </h4>
                   {currentSong && (

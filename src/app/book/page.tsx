@@ -1100,7 +1100,7 @@ function BookPageContent() {
                 <div className="flex items-center gap-3 mb-4">
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
-                    <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
+                    <h4 className="font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
                     <p className="">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
@@ -1135,7 +1135,7 @@ function BookPageContent() {
             {bookingSlots.length === 0 ? (
               <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] rounded-lg">
                 <span className="text-4xl block mb-4">📅</span>
-                <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
+                <h4 className="font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className="max-w-md mx-auto">
                   Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                 </p>
@@ -1144,7 +1144,7 @@ function BookPageContent() {
               <>
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                   <div>
-                    <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
+                    <h4 className="font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
                     <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
                   <span className="font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">

@@ -331,7 +331,7 @@ export default function MemberDashboard() {
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029]    border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-bold text-base text-white tracking-wide">{msg.title}</h4>
+                              <h4 className="font-bold text-white tracking-wide">{msg.title}</h4>
                               {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>

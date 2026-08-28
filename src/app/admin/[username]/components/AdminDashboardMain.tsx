@@ -3441,7 +3441,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Acquisition Channels */}
               <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
-                <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+                <h4 className="font-bold uppercase tracking-wider mb-4 flex items-center justify-between">
                   <span> Traffic Acquisition Channels</span>
                   <span className="font-mono text-[var(--muted-text)]">GA4 Attribution</span>
                 </h4>
@@ -3502,7 +3502,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Device & Browser Hardware */}
               <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs flex flex-col justify-between">
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+                  <h4 className="font-bold uppercase tracking-wider mb-4 flex items-center justify-between">
                     <span> User Devices & Browsers</span>
                     <span className="font-mono text-[var(--muted-text)]">Device Category</span>
                   </h4>
@@ -3551,7 +3551,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* 3. Top Performing Sitewide Pages Table */}
             <div className="bg-[var(--card-bg)] shadow-xs">
-              <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+              <h4 className="font-bold uppercase tracking-wider mb-4 flex items-center justify-between">
                 <span> Top Performing Site Pages (Screen Views)</span>
                 <span className="font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
               </h4>
@@ -3620,7 +3620,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
             <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
-              <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
+              <h4 className="font-bold uppercase tracking-wider mb-4 flex items-center justify-between">
                 <span> Visitor Geo Demographics & Fan Density</span>
                 <span className="font-mono text-[var(--muted-text)]">Top Cities</span>
               </h4>
@@ -6895,7 +6895,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-colors">
-                        <h4 className="text-[var(--font-size-2xs)] font-bold text-emerald-200">{email.name}</h4>
+                        <h4 className="font-bold text-emerald-200">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -6918,7 +6918,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                        <h4 className="text-[var(--font-size-2xs)] font-bold text-purple-200">{email.name}</h4>
+                        <h4 className="font-bold text-purple-200">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -6943,7 +6943,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-colors">
-                        <h4 className="text-[var(--font-size-2xs)] font-bold text-pink-200">{email.name}</h4>
+                        <h4 className="font-bold text-pink-200">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -6965,7 +6965,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
-                        <h4 className="text-[var(--font-size-2xs)] font-bold text-cyan-200">{email.name}</h4>
+                        <h4 className="font-bold text-cyan-200">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -6989,7 +6989,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                        <h4 className="text-[var(--font-size-2xs)] font-bold text-purple-200">{email.name}</h4>
+                        <h4 className="font-bold text-purple-200">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -7299,7 +7299,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
-                      <h4 className="font-bold text-[var(--color-accent)]">Crew Account Created</h4>
+                      <h4 className="font-bold">Crew Account Created</h4>
                       <p className="mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
                       {createdCrew.phone && <p className="mt-0.5"> {createdCrew.phone}</p>}
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
@@ -12623,7 +12623,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
+                  <h4 className="font-bold uppercase tracking-wider mb-4">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
                       <span className="block text-[0.65rem] font-bold text-white uppercase tracking-widest mb-1.5">Link Destination Type</span>
@@ -12679,7 +12679,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
+                  <h4 className="font-bold uppercase tracking-wider mb-4">2. Customize Tag Label</h4>
                   <div className="space-y-4">
                     <div>
                       <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold text-white uppercase tracking-widest mb-1.5">Sub-label Text</label>

@@ -2080,7 +2080,7 @@ ${deskRules.join("\n")}
                   {/* ── Crew Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
-                    <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
+                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">Crew PIN Verification</h4>
                     <p className="mb-4">Enter your 6-digit PIN to verify crew access</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2122,7 +2122,7 @@ ${deskRules.join("\n")}
 
                   {/* ── Planner Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
+                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">Planner Access PIN</h4>
                     <p className="mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2170,7 +2170,7 @@ ${deskRules.join("\n")}
                     <div className="mb-2">
                       <span className="text-[12px] font-bold uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
-                    <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
+                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">Check Your Email</h4>
                     <p className="mb-1">We sent a 6-digit verification code to</p>
                     <p className="text-purple-400 font-bold bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
                     <div
@@ -2217,7 +2217,7 @@ ${deskRules.join("\n")}
                   {/* ── Admin 2FA Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-                    <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
+                    <h4 className="text-white font-bold uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
                     <p className="mb-4">Enter your 6-digit PIN after login</p>
                     <div
                       className=" rounded-lg px-4 py-6 w-full no-glow"
@@ -2271,7 +2271,7 @@ ${deskRules.join("\n")}
                 {/* ── Sign In Modal Card ── */}
                 <div className="flex flex-col items-center">
                   <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Sign In Modal</h4>
+                  <h4 className="text-white font-bold uppercase tracking-widest mb-1">Sign In Modal</h4>
                   <p className="mb-4">Existing member login interface</p>
                   <div
                     className=" rounded-lg p-6 w-full no-glow relative"
@@ -2374,7 +2374,7 @@ ${deskRules.join("\n")}
                 {/* ── Sign Up Modal Card ── */}
                 <div className="flex flex-col items-center">
                   <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white font-bold text-lg uppercase tracking-widest mb-1">Sign Up Modal</h4>
+                  <h4 className="text-white font-bold uppercase tracking-widest mb-1">Sign Up Modal</h4>
                   <p className="mb-4">New fan registration interface</p>
                   <div
                     className=" rounded-lg p-6 w-full no-glow relative"
@@ -3127,7 +3127,7 @@ ${deskRules.join("\n")}
             {/* Glass Card Container */}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
               <span className="font-mono font-bold text-purple-400 uppercase">Glassmorphism Card</span>
-              <h4 className="text-lg font-bold text-white">House of Blues Chicago</h4>
+              <h4 className="font-bold text-white">House of Blues Chicago</h4>
               <p className="">
                 Standard container card with 1px border <code className="text-purple-300 font-mono">rgba(255,255,255,0.08)</code>.
               </p>
@@ -3150,7 +3150,7 @@ ${deskRules.join("\n")}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="font-mono font-bold text-emerald-400 uppercase">Interactive Modal</span>
-                <h4 className="text-lg font-bold text-white">Login & Authentication Modal</h4>
+                <h4 className="font-bold text-white">Login & Authentication Modal</h4>
                 <p className="mt-1">
                   Trigger the site-wide login/signup modal dialog.
                 </p>
@@ -3183,7 +3183,7 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="font-mono font-bold text-cyan-400 uppercase">Glass Shell</span>
-                <h4 className="text-lg font-bold text-white">Glassmorphism Modal</h4>
+                <h4 className="font-bold text-white">Glassmorphism Modal</h4>
                 <p className="mt-1">
                   The frosted-glass card used for verify screens, PIN entry, and success states.
                 </p>
@@ -3200,7 +3200,7 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="font-mono font-bold text-amber-400 uppercase">Confirm / Alert</span>
-                <h4 className="text-lg font-bold text-white">Confirmation Dialog</h4>
+                <h4 className="font-bold text-white">Confirmation Dialog</h4>
                 <p className="mt-1">
                   Destructive action confirmation with cancel/confirm buttons.
                 </p>
@@ -3222,7 +3222,7 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="font-mono font-bold text-emerald-400 uppercase">Auth Modal</span>
-                <h4 className="text-lg font-bold text-white">Login & Signup Modal</h4>
+                <h4 className="font-bold text-white">Login & Signup Modal</h4>
                 <p className="mt-1">
                   Site-wide auth modal with login/signup toggle, form validation, and role selection.
                 </p>
@@ -4068,7 +4068,7 @@ ${deskRules.join("\n")}
                             }`}>{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
-                        <h4 className="text-base font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                        <h4 className="font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                       </div>
                     </div>
 

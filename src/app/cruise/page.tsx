@@ -799,7 +799,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2027)}
-                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2027 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -808,7 +808,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2028)}
-                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2028 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -990,7 +990,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </p>
                   <div className="space-y-4 text-white/80 leading-relaxed">
                     <div>
-                      <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-1">Group Rate Rooms:</h4>
+                      <h4 className="font-bold text-white uppercase tracking-wider mb-1">Group Rate Rooms:</h4>
                       {activePriceYear === 2027 ? (
                         <ul className="list-disc pl-4 space-y-1 text-white/80">
                           <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
@@ -1012,7 +1012,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                     </div>
                     <div>
-                      <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-1">Prevailing Rate:</h4>
+                      <h4 className="font-bold text-white uppercase tracking-wider mb-1">Prevailing Rate:</h4>
                       <p className="">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                     </div>
                   </div>
@@ -1024,7 +1024,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <p className="font-mono uppercase tracking-[0.25em] text-purple-300 font-bold mb-1">
                   Official Cruise Concierge &amp; Booking Team
                 </p>
-                <h4 className="text-xl md:text-2xl font-bold uppercase text-white tracking-wide mb-2">
+                <h4 className="font-bold uppercase text-white tracking-wide mb-2">
                   Email is the best way to reach us:{" "}
                   <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">
                     info@NTDVacations.com
@@ -1087,7 +1087,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     >
                       <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain" />
                     </div>
-                    <h4 className="text-base font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase tracking-tight">
                       Richard Hofherr
                     </h4>
                     <p className="font-semibold mt-1">CEO / Booking / Bands</p>
@@ -1116,7 +1116,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     >
                       <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain" />
                     </div>
-                    <h4 className="text-base font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase tracking-tight">
                       Mary Grivas
                     </h4>
                     <p className="font-semibold mt-1">Group Excursions / Group Hotels</p>
@@ -1145,7 +1145,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     >
                       <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain" />
                     </div>
-                    <h4 className="text-base font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase tracking-tight">
                       Alan McRae
                     </h4>
                     <p className="font-semibold mt-1">Schedule</p>
@@ -1212,13 +1212,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-xl">{room.icon}</span>}
-                              <span className={`bg-[#00000029] border border-white/10 backdrop-blur-[16px] font-bold uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status ==="soldout" ? "" :
+                              <span className={`bg-[#00000029] border border-white/10 backdrop-blur-[16px] font-bold uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status === "soldout" ? "" :
                                 room.status === "warning" ? "bg-[#e1e5ff29] text-white" :
                                   "text-white"
                                 }`}>{room.badge}</span>
                             </div>
                             <span className="font-bold text-white/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
-                            <h4 className="text-base font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
+                            <h4 className="font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
                           </div>
                         </div>
 
@@ -1286,11 +1286,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <div className="px-0 py-5 text-left">
                                 <div className="flex justify-between items-start gap-2 mb-3 text-left">
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
-                                  <span className={`rounded-lg text-[var(--font-size-4xs)] font-bold uppercase px-2.5 py-0.5 rounded tracking-wider bg-[#00000029] border border-white/10 backdrop-blur-[16px] ${isYo ?'' : ''
+                                  <span className={`backdrop-blur-[16px] bg-[#00000029] bg-[#e1e5ff29] border border-white/10 font-bold px-2.5 py-1 rounded-lg text-white tracking-wider uppercase ${isYo ? '' : ''
                                     }`}>{room.label}</span>
                                 </div>
                                 <span className="font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
-                                <h4 className="text-base font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                                <h4 className="font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>
 
@@ -1301,7 +1301,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               </div>
                               <span className="text-[var(--font-size-4xs)] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                               <span
-                                className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo ?'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
+                                className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo ? 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
                                   : 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
                                   }`}
                               >
@@ -1325,7 +1325,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span className="inline-block font-bold tracking-[0.2em] uppercase text-purple-400 mb-3 px-4 py-1 rounded-lg bg-purple-500/10 border border-purple-400/20">
                     Accommodations Guide
                   </span>
-                  <h3 className="text-2xl md:text-3xl font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Stateroom Catalog & Suite Perks
                   </h3>
                 </div>
@@ -1346,7 +1346,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             key={tab.id}
                             type="button"
                             onClick={() => setStateroomTab(tab.id as any)}
-                            className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ?"bg-purple-600/30 text-white"
+                            className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
                               : " bg-[#00000029]    hover:bg-white/10 text-white/80"
                               }`}
                           >
@@ -1409,7 +1409,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               key={perk}
                               type="button"
                               onClick={() => setSuiteTab(perk)}
-                              className={`px-4 py-2 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                              className={`px-4 py-2 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                                 : "bg-transparent  text-white  hover:text-white"
                                 }`}
                             >
@@ -1838,7 +1838,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
                           ].map((coord, idx) => (
                             <div key={coord.name} className="leading-normal pb-4 border-b border-white/10 last:border-0 last:pb-0">
-                              <h4 className="text-lg font-bold text-white">{coord.name}</h4>
+                              <h4 className="font-bold text-white">{coord.name}</h4>
                               <p className="font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
                               <p className="font-mono mt-1 font-bold">{coord.phone}</p>
                               <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-purple-400 font-bold hover:underline block mt-1 tracking-wide">{coord.email}</a>
@@ -2013,7 +2013,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2027)}
-                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >
@@ -2022,7 +2022,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2028)}
-                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >
@@ -2066,7 +2066,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                         <div className="pt-4 flex-1 flex flex-col justify-between">
                           <div>
-                            <h4 className="text-base font-bold uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                            <h4 className="font-bold uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="leading-relaxed font-semibold">{port.desc}</p>
 
                             {/* Port Highlights */}
@@ -2166,7 +2166,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           key={`spotlight-${port.name}`}
                           type="button"
                           onClick={() => setActiveSpotlightPort(idx)}
-                          className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx ?"  bg-[#00000029]    border-white/10  backdrop-blur-[16px]"
+                          className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx ? "  bg-[#00000029]    border-white/10  backdrop-blur-[16px]"
                             : "  bg-[#00000029]    border-white/10  backdrop-blur-[16px]"
                             }`}
                         >
@@ -2174,7 +2174,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className={`font-bold uppercase truncate ${activeSpotlightPort === idx ?"text-purple-300" : "text-white"}`}>
+                            <h4 className={`font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
                               {port.name}
                             </h4>
                             <span className="text-white/35 font-mono">Port #{idx + 1}</span>
@@ -2228,7 +2228,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </span>
                           </div>
                           <div className="p-6 relative z-20 -mt-8">
-                            <h4 className="text-base font-bold text-white uppercase tracking-tight mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                            <h4 className="font-bold text-white uppercase tracking-tight mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="leading-relaxed">{port.desc}</p>
 
                             {/* Highlights */}
@@ -2261,7 +2261,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-1">
-                            <h4 className="text-lg font-bold uppercase text-white tracking-tight">{port.name}</h4>
+                            <h4 className="font-bold uppercase text-white tracking-tight">{port.name}</h4>
                           </div>
                           <p className="leading-relaxed">{port.desc}</p>
 
@@ -2375,7 +2375,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("included")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab ==="included" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
                         }`}
                     >
                       Included (Free)
@@ -2383,7 +2383,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("paid")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab ==="paid" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
                         }`}
                     >
                       Specialty (With Fee)
@@ -2463,20 +2463,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("bars")}
-                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab ==="bars" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
+                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
                         }`}
                     >
                       <span>Bars & Clubs</span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-lg font-mono font-bold ${barTab ==="bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-lg font-mono font-bold ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
                     </button>
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("entertainment")}
-                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab ==="entertainment" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
+                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
                         }`}
                     >
                       <span>Entertainment</span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-lg font-mono font-bold ${barTab ==="entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-lg font-mono font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
                     </button>
                   </div>
                 </div>
@@ -2574,7 +2574,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer rounded-none border-none bg-transparent"
                     >
                       <span className="font-bold text-white pr-4">{faq.q}</span>
-                      <span className={`text-white/70 transition-transform font-bold shrink-0 ${openFaq === i ?'rotate-45 text-rose-400' : ''}`}>+</span>
+                      <span className={`text-white/70 transition-transform font-bold shrink-0 ${openFaq === i ? 'rotate-45 text-rose-400' : ''}`}>+</span>
                     </button>
                     {openFaq === i && (
                       <div className="px-5 py-4 bg-[#59595929] border border-white/10 backdrop-blur-[16px]">

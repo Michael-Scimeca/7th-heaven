@@ -194,7 +194,7 @@ export default function PlannerClient() {
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
-                <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
+                <h4 className="font-bold mb-1 text-white">{item.title}</h4>
                 <p className="leading-relaxed">{item.desc}</p>
               </div>
             ))}

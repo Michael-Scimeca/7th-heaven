@@ -756,7 +756,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="p-4 space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
-                      <h4 className="font-bold uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
+                      <h4 className="font-bold uppercase tracking-widest">🔍 Custom Flagged Keywords</h4>
                       <p className="leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>

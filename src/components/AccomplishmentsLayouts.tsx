@@ -75,7 +75,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/40">0{i + 2}</span>
               </div>
               <div>
-                <h4 className="text-[var(--font-size-2xs)] font-bold uppercase tracking-wider text-[var(--color-accent)] mb-1">{s.label}</h4>
+                <h4 className="font-bold uppercase tracking-wider mb-1">{s.label}</h4>
                 <p className="leading-relaxed">{s.text}</p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 </div>
               </div>
               <div className="text-3xl font-bold text-white mb-2">{s.number}</div>
-              <h4 className="font-bold uppercase tracking-wide text-[var(--color-accent)] mb-2">{s.label}</h4>
+              <h4 className="font-bold uppercase tracking-wide mb-2">{s.label}</h4>
               <p className="leading-relaxed">{s.text}</p>
             </div>
           ))}
@@ -167,7 +167,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <div className="text-4xl font-bold text-white mb-2">{s.number}</div>
               </div>
               <div>
-                <h4 className="font-bold uppercase text-[var(--color-accent)] mb-1">{s.label}</h4>
+                <h4 className="font-bold uppercase mb-1">{s.label}</h4>
                 <p className="line-clamp-2">{s.text}</p>
               </div>
             </div>
@@ -263,7 +263,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div className="text-5xl font-bold text-white tracking-tight mb-3 group-hover:scale-110 transition-transform origin-left">
                 {s.number}
               </div>
-              <h4 className="font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2">{s.label}</h4>
+              <h4 className="font-bold uppercase tracking-widest mb-2">{s.label}</h4>
               <p className="leading-relaxed">{s.text}</p>
             </div>
           ))}
@@ -278,7 +278,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div>
                 <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase text-[var(--color-accent)] block mb-3">0{i + 1} / 06</span>
                 <div className="text-5xl font-bold text-white mb-2">{s.number}</div>
-                <h4 className="font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">{s.label}</h4>
+                <h4 className="font-bold uppercase tracking-wider mb-4">{s.label}</h4>
               </div>
               <p className="leading-relaxed">{s.text}</p>
             </div>
@@ -385,7 +385,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s) => (
             <div key={s.label} className="p-6 border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-colors">
               <div className="text-4xl font-bold text-white mb-1 group-hover:scale-110 transition-transform">{s.number}</div>
-              <h4 className="text-[var(--font-size-2xs)] font-bold uppercase text-[var(--color-accent)] tracking-wider mb-2">{s.label}</h4>
+              <h4 className="font-bold uppercase tracking-wider mb-2">{s.label}</h4>
               <p className="leading-snug line-clamp-2">{s.text}</p>
             </div>
           ))}
@@ -399,7 +399,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <div key={s.label} className="relative p-8 rounded-lg bg-[var(--color-surface-raised)] border border-white/8 shadow-[0_20px_40px_rgba(0,0,0,0.9)]backdrop-blur-[18px] hover:-translate-y-2 hover:border-[var(--color-accent)]/40 transition-colors group">
               <div className="w-3 h-3 rounded-lg bg-[var(--color-accent)] mb-6 shadow-[var(--shadow-brand)]" />
               <div className="text-5xl font-bold text-white mb-2">{s.number}</div>
-              <h4 className="font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2">{s.label}</h4>
+              <h4 className="font-bold uppercase tracking-widest mb-2">{s.label}</h4>
               <p className="leading-relaxed">{s.text}</p>
             </div>
           ))}
