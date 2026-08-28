@@ -84,14 +84,21 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Live Video Hover Preview Clip (Instant Zero-Latency Mount) */}
+      {/* 3. Live Video Hover Preview Clip (Instant Zero-Latency Animated Clip + Iframe) */}
       {isHovered && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.25s_ease-out_both]">
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.2s_ease-out_both]">
+          {/* Instant 0ms Animated Video Motion Clip */}
+          {/* eslint-disable-next-line react-doctor/nextjs-no-img-element, @next/next/no-img-element */}
+          <img
+            src={`https://i.ytimg.com/an_webp/${videoId}/mqdefault_6s.webp`}
+            alt={title}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=5&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`}
             title={title}
             loading="eager"
-            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0"
+            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10 opacity-90"
             allow="autoplay; encrypted-media"
           />
         </div>
