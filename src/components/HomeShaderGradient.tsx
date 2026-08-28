@@ -105,17 +105,18 @@ function HomeShaderGradientComponent() {
 
   useEffect(() => {
     if (!canvasRef.current) return;
+    if ((canvasRef.current as any).__neatInitialized) return;
+    (canvasRef.current as any).__neatInitialized = true;
 
     // Initialize WebGL background canvas across all screen sizes
     let neatInstance: any = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
-    let idleId: any = null;
-    let deferTimer: NodeJS.Timeout | null = null;
 
     const initNeat = async () => {
       if (!canvasRef.current) return;
       try {
         const { NeatGradient } = await import("@firecms/neat");
+        if (neatInstance) return;
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
           colors: GRADIENT_SETTINGS.colors,
@@ -170,10 +171,7 @@ function HomeShaderGradientComponent() {
       }
     };
 
-    // Initialize WebGL gradient background immediately on frame 1 to prevent 1.5s delayed canvas snap flicker
-    requestAnimationFrame(() => {
-      initNeat();
-    });
+    initNeat();
 
     // ── Position Overlay Animation ──
     let animFrameId: number;
@@ -285,11 +283,6 @@ function HomeShaderGradientComponent() {
       generateGrainTile();
 
       const cleanupWebGL = () => {
-        if (deferTimer) clearTimeout(deferTimer);
-        if (idleId) {
-          if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
-          else clearTimeout(idleId);
-        }
         if (watermarkTimeout) {
           clearTimeout(watermarkTimeout);
         }
@@ -319,11 +312,6 @@ function HomeShaderGradientComponent() {
     }
 
     const cleanupWebGL = () => {
-      if (deferTimer) clearTimeout(deferTimer);
-      if (idleId) {
-        if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
-        else clearTimeout(idleId);
-      }
       if (watermarkTimeout) {
         clearTimeout(watermarkTimeout);
       }
