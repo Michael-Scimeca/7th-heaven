@@ -335,10 +335,9 @@ export default function MediaPage() {
         <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-12">
           <button
             onClick={() => setActiveFilter("ALL")}
-            style={{ backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}
             className={`px-5 py-2.5 !rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${activeFilter === "ALL"
               ? "bg-white text-black border-white shadow-lg scale-100"
-              : "bg-white/10 text-white/80 hover:text-white hover:bg-white/20  border-white/10 "
+              : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
               }`}
           >
             ALL
@@ -352,10 +351,9 @@ export default function MediaPage() {
               <button
                 key={cat.category}
                 onClick={() => setActiveFilter(catUpper)}
-                style={{ backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}
                 className={`px-5 py-2.5 !rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${isActive
                   ? "bg-white text-black border-white shadow-lg scale-100"
-                  : "bg-white/10 text-white/80 hover:text-white hover:bg-white/20  border-white/10 "
+                  : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
                   }`}
               >
                 {catUpper}
