@@ -388,22 +388,7 @@ export default function RockNRollKidsPage() {
         <div className="site-container space-y-16">
           {/* ── UNIFIED HERO SHOWCASE: ABOUT & CONCEPT (LEFT) + VIDEO MATRIX (RIGHT) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
 
-              <div className="flex flex-wrap gap-2">
-                {ABOUT_DATA.studios.map((st) => (
-                  <a
-                    key={st.name}
-                    href={st.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1   border border-white/20 rounded-lg  font-mono  inline-flex items-center gap-1"
-                  >
-                    <span>{st.name}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
@@ -423,7 +408,7 @@ export default function RockNRollKidsPage() {
                         key={single.id}
                         type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border ${selectedVideo === single.id ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white border-purple-400/50 shadow-md shadow-purple-600/30 scale-105 cursor-default"
+                        className={`px-4 py-2 rounded-lg font-bold btn-cosmic-radial-property font-sans tracking-wide transition-all ${selectedVideo === single.id ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white border-purple-400/50 shadow-md shadow-purple-600/30 scale-105 cursor-default"
                           : "bg-white/10 text-white border-white/20 hover:bg-white/20 cursor-pointer"
                           }`}
                       >
