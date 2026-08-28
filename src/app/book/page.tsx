@@ -70,9 +70,21 @@ const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
   }
 ];
 
+function BookPageSkeleton() {
+  return (
+    <div className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="h-10 w-64 bg-white/10 rounded-lg mb-8" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 h-[600px] bg-white/5 rounded-2xl border border-white/10" />
+        <div className="h-[400px] bg-white/5 rounded-2xl border border-white/10" />
+      </div>
+    </div>
+  );
+}
+
 export default function BookPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen" />}>
+    <Suspense fallback={<BookPageSkeleton />}>
       <BookPageContent />
     </Suspense>
   );
@@ -269,6 +281,7 @@ function BookPageContent() {
   const [activeTab, setActiveTab] = useState<'book' | 'planner'>(
     tabParam === 'planner' || tabParam === 'dashboard' ? 'planner' : 'book'
   );
+
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const [formData, setFormData] = useState(() => ({
