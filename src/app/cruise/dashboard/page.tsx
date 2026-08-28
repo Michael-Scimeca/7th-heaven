@@ -214,7 +214,7 @@ export default function CruiseDashboardGate() {
               <p className=" text-white  text-sm leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
-              <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-[#e1e6ff29]   border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
+              <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5  bg-[#00000029]    border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
                 Go to Log In
               </button>
             </div>

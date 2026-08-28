@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3  bg-[#00000029]    hover:bg-white/10 border   border-white/10   rounded-lg  text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -397,11 +397,11 @@ export default function AdminLegalPage() {
                   onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
-                    : `border-white/10 bg-white/[0.02] hover: border-white/10  hover:bg-[#e1e6ff29]   text-white/70`
+                    : `border-white/10 bg-white/[0.02] hover: border-white/10  hover: bg-[#00000029]    text-white/70`
                     }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className={`p-2.5  rounded-lg bg-[#e1e6ff29]   ${sec.color} shrink-0`}>
+                    <div className={`p-2.5  rounded-lg  bg-[#00000029]    ${sec.color} shrink-0`}>
                       {sec.icon}
                     </div>
                     <div>
@@ -433,7 +433,7 @@ export default function AdminLegalPage() {
             {/* Active Header Info */}
             <div className="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10 flex-wrap">
               <div className="flex items-center gap-4">
-                <div className={`p-4 rounded-lg  bg-[#e1e6ff29]   ${active.color} shrink-0`}>
+                <div className={`p-4 rounded-lg   bg-[#00000029]    ${active.color} shrink-0`}>
                   {active.icon}
                 </div>
                 <div>
@@ -509,7 +509,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="px-2.5 py-1 bg-[#e1e6ff29]   border border-white/10 text-purple-300 font-mono text-[10px] rounded-lg shrink-0 flex items-center gap-1">
+                        <span className="px-2.5 py-1  bg-[#00000029]    border border-white/10 text-purple-300 font-mono text-[10px] rounded-lg shrink-0 flex items-center gap-1">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

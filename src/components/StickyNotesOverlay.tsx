@@ -262,7 +262,7 @@ export default function StickyNotesOverlay() {
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="px-3 py-2  rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 border   border-white/10   text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-2  rounded-lg  bg-[#00000029]    hover:bg-white/10 border   border-white/10   text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
           >
             <List className="w-4 h-4 text-amber-400" />
             <span className="hidden sm:inline">Notes</span>
@@ -301,7 +301,7 @@ export default function StickyNotesOverlay() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-1.5 p-1 bg-[#e1e6ff29]    rounded-lg border border-white/10 text-xs font-bold">
+            <div className="flex gap-1.5 p-1  bg-[#00000029]     rounded-lg border border-white/10 text-xs font-bold">
               {(["open", "resolved", "all"] as const).map((f) => (
                 <button
                   key={f}
@@ -590,7 +590,7 @@ function SingleStickyCard({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type your sticky note message or feedback here..."
-          className="w-full bg-[#e1e6ff29]   border border-white/10  rounded-lg p-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
+          className="w-full  bg-[#00000029]    border border-white/10  rounded-lg p-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
         />
 
         <div className="flex items-center justify-between pt-1">

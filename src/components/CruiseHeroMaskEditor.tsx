@@ -229,13 +229,13 @@ export default function CruiseHeroMaskEditor() {
               <button
                 onClick={handleReset}
                 title="Reset to Defaults"
-                className="p-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>

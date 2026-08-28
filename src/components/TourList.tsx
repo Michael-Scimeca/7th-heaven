@@ -1314,7 +1314,7 @@ ${filterLine}
                     {/* Header Row: Date Badge & Time */}
                     <div className="flex items-center justify-between gap-2 ">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  tracking-wider uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  tracking-wider uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1322,7 +1322,7 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className=" text-white  text-[11px] font-medium px-2 py-0.5 bg-[#e1e6ff29]   border border-white/10 rounded0lg whitespace-nowrap">
+                              <span className=" text-white  text-[11px] font-medium px-2 py-0.5  bg-[#00000029]    border border-white/10 rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
@@ -1712,7 +1712,7 @@ ${filterLine}
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
                   <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer">
+                    className="flex-1 py-3  bg-[#00000029]    hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button aria-label="Action button" type="submit" disabled={submitting}
@@ -1746,7 +1746,7 @@ ${filterLine}
                     <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
-                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center  rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center  rounded-lg   bg-[#00000029]    hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -1831,7 +1831,7 @@ ${filterLine}
               <div className="flex gap-2 mt-4">
                 <button aria-label="Action button"
                   onClick={() => setNotifyPopupShow(null)}
-                  className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10  text-white  font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                  className="flex-1 py-2.5  bg-[#00000029]    hover:bg-white/10  text-white  font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1857,7 +1857,7 @@ ${filterLine}
               <h3 className="text-white font-bold text-sm uppercase tracking-wider">Font Tester</h3>
               <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="text-white/40 hover:text-white text-xs cursor-pointer bg-[#e1e6ff29]   hover:bg-white/10  rounded-lg  w-6 h-6 flex items-center justify-center transition-colors"
+                className="text-white/40 hover:text-white text-xs cursor-pointer  bg-[#00000029]    hover:bg-white/10  rounded-lg  w-6 h-6 flex items-center justify-center transition-colors"
               >
                 ✕
               </button>
@@ -1870,7 +1870,7 @@ ${filterLine}
                 id="tour-font-style"
                 value={tourFontFamily}
                 onChange={(e) => setTourFontFamily(e.target.value)}
-                className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+                className="w-full  bg-[#00000029]    border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
               >
                 <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                 <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
@@ -2134,7 +2134,7 @@ ${filterLine}
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="py-2.5 bg-[#e1e6ff29]   border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors animate-all"
+                className="py-2.5  bg-[#00000029]    border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors animate-all"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>

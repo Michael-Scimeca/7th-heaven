@@ -9,7 +9,7 @@ const emptySubscribe = () => () => { };
 import { createPortal } from 'react-dom';
 import { MapPin, Waves, Guitar, Ship, Palmtree, Compass, Anchor } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { StatsGl, useGLTF } from '@react-three/drei';
 import Lenis from 'lenis';
 import type * as THREE from 'three';
 
@@ -927,7 +927,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                         className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
-                          : 'bg-[#e1e6ff29]    text-white  hover:bg-white/10'
+                          : ' bg-[#00000029]     text-white  hover:bg-white/10'
                           }`}
                       >
                         {act.label}
@@ -1056,7 +1056,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40  backdrop-blur-[45px] pb-1 z-10">
             <button aria-label="Action button"
               onClick={handleResetTuning}
-              className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
+              className="px-4 py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
             >
               🔄 Reset to Defaults
             </button>
@@ -1270,6 +1270,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
+            {process.env.NODE_ENV === "development" && (
+              <StatsGl className="r3f-gpu-stats" />
+            )}
             <ambientLight intensity={1.5} />
             <directionalLight position={[5, 10, 5]} intensity={2} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
@@ -1327,7 +1330,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   backgroundColor: '#060614',
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5  rounded-lg   backdrop-blur-[45px] flex items-center gap-1.5 bg-[#e1e6ff29] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5  rounded-lg   backdrop-blur-[45px] flex items-center gap-1.5  bg-[#00000029]  transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 {isSea ? (

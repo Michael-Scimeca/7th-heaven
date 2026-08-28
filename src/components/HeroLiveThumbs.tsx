@@ -153,7 +153,7 @@ export default function HeroLiveThumbs() {
           }}
         >
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="w-[220px] h-[250px] bg-[#e1e6ff29]   shrink-0" />
+            <div key={i} className="w-[220px] h-[250px]  bg-[#00000029]    shrink-0" />
           ))}
         </div>
       </div>

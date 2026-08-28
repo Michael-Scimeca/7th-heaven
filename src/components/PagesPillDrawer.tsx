@@ -177,7 +177,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2.5 rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
+                className="p-2.5 rounded-lg   bg-[#00000029]    hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
                 aria-label="Close Pages Modal"
               >
                 <X className="w-6 h-6" />
@@ -196,7 +196,7 @@ export default function PagesPillDrawer() {
                       onClick={() => setActiveCategory(cat)}
                       className={`px-3 py-1.5  rounded-lg text-xs font-bold transition-all ${activeCategory === cat
                         ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
-                        : "bg-[#e1e6ff29]   hover:bg-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
                         }`}
                     >
                       {cat}

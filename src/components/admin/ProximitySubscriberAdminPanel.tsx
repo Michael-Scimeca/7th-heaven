@@ -240,7 +240,7 @@ export default function ProximitySubscriberAdminPanel() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-[#e1e6ff29]   text-[11px]  font-bold  uppercase tracking-wider text-purple-300">
+            <tr className="border-b border-white/10  bg-[#00000029]    text-[11px]  font-bold  uppercase tracking-wider text-purple-300">
               <th className="py-3.5 px-4">Fan / Device</th>
               <th className="py-3.5 px-4">Zip Code</th>
               <th className="py-3.5 px-4">Radius</th>
@@ -266,7 +266,7 @@ export default function ProximitySubscriberAdminPanel() {
                 const isEditing = editingId === sub.id;
 
                 return (
-                  <tr key={sub.id} className="hover:bg-[#e1e6ff29]   transition-colors">
+                  <tr key={sub.id} className="hover: bg-[#00000029]    transition-colors">
                     {/* Fan / Device */}
                     <td className="py-4 px-4 font-medium">
                       {isEditing ? (

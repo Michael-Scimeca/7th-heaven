@@ -110,7 +110,7 @@ export default function HeroParallaxCustomizer({
                   onClick={() => updatePxRange(preset.range)}
                   className={`px-2 py-1 text-[var(--font-size-4xs)]  font-bold  uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
                     ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
-                    : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
+                    : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
                 >
                   {preset.name}
@@ -161,7 +161,7 @@ export default function HeroParallaxCustomizer({
             onClick={() => updatePxForeground(!pxForeground)}
             className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground
               ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
-              : "bg-[#e1e6ff29]   border-white/5  text-white  hover:bg-white/10"
+              : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10"
               }`}
           >
             <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider">Foreground Counter-Drift</span>

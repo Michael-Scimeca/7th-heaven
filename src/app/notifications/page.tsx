@@ -135,7 +135,7 @@ export default function NotificationsPage() {
               onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5  rounded-lg  text-xs font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive
                 ? "bg-purple-600 border-purple-600 text-white shadow-md"
-                : "bg-[#e1e6ff29]     border-white/10   text-white/70 hover:text-white hover:border-white/30"
+                : " bg-[#00000029]      border-white/10   text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
               {tab.label}
@@ -145,7 +145,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="max-w-3xl mx-auto bg-[#e1e6ff29]   backdrop-blur-xl border border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
+      <div className="max-w-3xl mx-auto  bg-[#00000029]    backdrop-blur-xl border border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
         <p className=" text-white  text-sm font-medium text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (

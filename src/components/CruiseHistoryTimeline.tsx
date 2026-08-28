@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState, useCallback, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { StatsGl, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 const emptySubscribe = () => () => { };
@@ -615,6 +615,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             camera={{ left: -600, right: 600, top: 600, bottom: -600, zoom: 1, position: [0, 350, 0], up: [0, 0, -1] }}
             style={{ width: '100%', height: '100%', overflow: 'visible' }}
           >
+            {process.env.NODE_ENV === "development" && (
+              <StatsGl className="r3f-gpu-stats" />
+            )}
             <ambientLight intensity={1.8} />
             <directionalLight position={[5, 12, 5]} intensity={2.5} />
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
@@ -836,7 +839,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                               <span
                                 className={` font-bold  uppercase tracking-widest font-mono rounded-lg transition-colors ${isReached
                                   ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
-                                  : 'text-white/40 bg-[#e1e6ff29]   border border-white/10'
+                                  : 'text-white/40  bg-[#00000029]    border border-white/10'
                                   }`}
                                 style={{ fontSize: 'clamp(0.55rem, 0.75vw, 0.65rem)', padding: '0.125rem 0.5rem' }}
                               >
@@ -998,7 +1001,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
                       className={`py-1.5 px-2  text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
                         ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-                        : 'bg-[#e1e6ff29]   text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                        : ' bg-[#00000029]    text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}
                     >
                       {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}

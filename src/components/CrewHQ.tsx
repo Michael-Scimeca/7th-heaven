@@ -596,7 +596,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       onClick={toggleSimulator}
                       className={`ml-2 px-2.5 py-1 rounded-lg  font-bold  text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
-                        : "bg-[#e1e6ff29]   border border-white/10 text-white/40 hover: text-white "
+                        : " bg-[#00000029]    border border-white/10 text-white/40 hover: text-white "
                         }`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
@@ -727,7 +727,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           <button aria-label="Action button"
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
-                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover:bg-[#e1e6ff29]   transition-colors cursor-pointer"
+                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover: bg-[#00000029]    transition-colors cursor-pointer"
                           >🗑</button>
                         </div>
                       </div>
@@ -793,7 +793,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-[#e1e6ff29]   border border-white/10 text-xs font-bold text-white/80"
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1  bg-[#00000029]    border border-white/10 text-xs font-bold text-white/80"
                             >
                               <span>{word}</span>
                               <button aria-label="Action button"
@@ -898,7 +898,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-[#e1e6ff29]   text-white/40 border border-white/[0.08] hover:text-white"
+                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029]    text-white/40 border border-white/[0.08] hover:text-white"
                     }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}

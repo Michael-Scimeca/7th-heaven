@@ -102,9 +102,9 @@ export default function HomeMerch() {
               <div key={i} className="bg-white/[0.02] border border-white/5 overflow-hidden animate-pulse">
                 <div className="aspect-square bg-white/[0.03]" />
                 <div className="p-4 space-y-2">
-                  <div className="h-2 w-16 bg-[#e1e6ff29]   rounded" />
-                  <div className="h-3 w-24 bg-[#e1e6ff29]   rounded" />
-                  <div className="h-3 w-12 bg-[#e1e6ff29]   rounded" />
+                  <div className="h-2 w-16  bg-[#00000029]    rounded" />
+                  <div className="h-3 w-24  bg-[#00000029]    rounded" />
+                  <div className="h-3 w-12  bg-[#00000029]    rounded" />
                 </div>
               </div>
             ))}

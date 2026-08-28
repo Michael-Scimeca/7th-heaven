@@ -118,7 +118,7 @@ export default function PushAlertsCard({
           </p>
 
           {loading ? (
-            <div className="h-12 w-full animate-pulse  rounded-lg bg-[#e1e6ff29]   border border-white/10" />
+            <div className="h-12 w-full animate-pulse  rounded-lg  bg-[#00000029]    border border-white/10" />
           ) : (
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border   border-white/10   bg-[#e1e6ff29]   px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border   border-white/10    bg-[#00000029]    px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

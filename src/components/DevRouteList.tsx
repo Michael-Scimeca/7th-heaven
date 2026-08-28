@@ -175,7 +175,7 @@ export default function DevRouteList() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeCategory === cat
                       ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
-                      : "bg-[#e1e6ff29]   hover:bg-white/10  text-white  hover:text-white"
+                      : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
                       }`}
                   >
                     {cat}

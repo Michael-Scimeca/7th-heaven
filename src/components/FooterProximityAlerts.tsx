@@ -256,7 +256,7 @@ export default function FooterProximityAlerts() {
           <label className="block text-[11px]  font-bold  uppercase tracking-wider text-purple-300/80 mb-2 flex items-center gap-1.5">
             <Sliders className="w-3.5 h-3.5 text-cyan-400" /> Maximum Distance Radius
           </label>
-          <div className="inline-flex flex-wrap gap-1.5 p-1 rounded-lg bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] w-fit max-w-full">
+          <div className="inline-flex flex-wrap gap-1.5 p-1 rounded-lg  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] w-fit max-w-full">
             {RADIUS_OPTIONS.map((opt) => {
               const isSelected = radius === opt.value;
               return (
@@ -266,7 +266,7 @@ export default function FooterProximityAlerts() {
                   onClick={() => setRadius(opt.value)}
                   className={`px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer ${isSelected
                     ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                    : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
+                    : " text-white  hover:text-white hover: bg-[#00000029]   "
                     }`}
                 >
                   {opt.label}
@@ -291,7 +291,7 @@ export default function FooterProximityAlerts() {
                 onClick={() => toggleType(type.id)}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-2  rounded-lg text-xs font-bold transition-all cursor-pointer border ${isSelected
                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white-white/10 "
-                  : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white"
+                  : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10 hover:text-white"
                   }`}
               >
                 <span>{type.icon}</span>

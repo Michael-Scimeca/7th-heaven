@@ -20,7 +20,7 @@ interface ChatInputBarProps {
 
 /**
  * Global chat input bar — single source of truth for chat input styling.
- * Square corners, border-y only, bg-[#e1e6ff29]  , dim purple send button.
+ * Square corners, border-y only,  bg-[#00000029]   , dim purple send button.
  */
 export default function ChatInputBar({
   value,
@@ -52,7 +52,7 @@ export default function ChatInputBar({
             disabled={disabled}
             placeholder={placeholder}
             maxLength={maxLength}
-            className={`w-full bg-[#e1e6ff29]   !border-0 !border-t  pl-3.5 py-3 text-xs text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
+            className={`w-full  bg-[#00000029]    !border-0 !border-t  pl-3.5 py-3 text-xs text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
           />
         </div>
 
@@ -63,7 +63,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="w-7 h-7 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 flex items-center justify-center text-sm transition-colors cursor-pointer"
+              className="w-7 h-7 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-white/70 flex items-center justify-center text-sm transition-colors cursor-pointer"
             >
               😀
             </button>

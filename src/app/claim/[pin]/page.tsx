@@ -264,7 +264,7 @@ export default function ClaimPage() {
 
                   return (
                     <div key={item.productId || item.variantId || item.name} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
-                      <div className="w-12 h-12 bg-[#e1e6ff29]   rounded-lg flex items-center justify-center p-1 relative shrink-0">
+                      <div className="w-12 h-12  bg-[#00000029]    rounded-lg flex items-center justify-center p-1 relative shrink-0">
                         <Image width={200} height={200} unoptimized src={displayImage} alt={displayTitle} className="w-full h-full object-contain mix-blend-screen" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                       </div>
                       <div className="flex-1 min-w-0">

@@ -423,7 +423,7 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-[#e1e6ff29]  ">
+                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg  bg-[#00000029]   ">
                       <GradientToggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"

@@ -165,7 +165,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             >
               <TabIcon className="w-3.5 h-3.5" />
               {tab.label}
-              <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] font-bold ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)]' : 'bg-[#e1e6ff29]   text-white/30'}`}>{tab.count}</span>
+              <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] font-bold ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)]' : ' bg-[#00000029]    text-white/30'}`}>{tab.count}</span>
             </button>
           );
         })}
@@ -229,7 +229,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div key={event.label} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
                 <div className="relative flex flex-col items-center shrink-0">
                   <div className={`w-3 h-3  rounded-lg  border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-transparent   border-white/10  '}`} />
-                  {i < data.timeline.length - 1 && <div className="w-px h-6 bg-[#e1e6ff29]   absolute top-3.5" />}
+                  {i < data.timeline.length - 1 && <div className="w-px h-6  bg-[#00000029]    absolute top-3.5" />}
                 </div>
                 <span className="text-sm font-bold text-white/50 w-24 shrink-0">{event.label}</span>
                 <input aria-label="Input field"
@@ -249,7 +249,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex-1 h-1.5 bg-[#e1e6ff29]    rounded-lg  overflow-hidden">
+              <div className="flex-1 h-1.5  bg-[#00000029]     rounded-lg  overflow-hidden">
                 <div className={`h-full  rounded-lg  transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
               <span className={`text-xs font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>

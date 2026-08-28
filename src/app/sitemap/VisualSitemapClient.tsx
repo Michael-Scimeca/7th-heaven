@@ -1647,7 +1647,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("ARCH")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
           >
             <Layers className="w-3.5 h-3.5 text-purple-300" />
@@ -1658,7 +1658,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("BOOKING")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
           >
             <Calendar className="w-3.5 h-3.5 text-cyan-300" />
@@ -1669,7 +1669,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("CRUISE")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
@@ -1680,7 +1680,7 @@ export default function VisualSitemapClient() {
             onClick={() => setActiveTab("FAN_SIGNUP")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-              : " text-white  hover:text-white hover:bg-[#e1e6ff29]  "
+              : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
           >
             <UserPlus className="w-3.5 h-3.5 text-pink-300" />
@@ -1691,7 +1691,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg border   border-white/10   bg-[#e1e6ff29]   text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
+            className="px-3 py-1.5 rounded-lg border   border-white/10    bg-[#00000029]    text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
           >
             <span>XML</span>
             <ExternalLink className="w-3 h-3" />

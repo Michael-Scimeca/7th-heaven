@@ -178,7 +178,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="bg-[#e1e6ff29]   hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5  rounded-lg  flex items-center gap-2 transition-colors group"
+                  className=" bg-[#00000029]    hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5  rounded-lg  flex items-center gap-2 transition-colors group"
                 >
                   <span className="w-1.5 h-1.5 bg-red-500  rounded-lg  animate-pulse" />
                   <span className="text-xs font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">

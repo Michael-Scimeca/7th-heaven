@@ -404,7 +404,7 @@ export default function PlannerDashboard() {
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3 bg-[#e1e6ff29]   hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
+                className="flex-1 py-3  bg-[#00000029]    hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
               >
                 Keep Booking
               </button>
@@ -435,7 +435,7 @@ export default function PlannerDashboard() {
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="w-8 h-8  rounded-lg  bg-[#e1e6ff29]   hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
+                className="w-8 h-8  rounded-lg   bg-[#00000029]    hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
               >
                 ✕
               </button>
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
             <button
               type="button"
               onClick={() => setShowContactModal(true)}
-              className="w-full py-3 flex items-center justify-center gap-2  text-white  hover:text-white font-bold text-sm uppercase tracking-wider bg-[#e1e6ff29]   hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
+              className="w-full py-3 flex items-center justify-center gap-2  text-white  hover:text-white font-bold text-sm uppercase tracking-wider  bg-[#00000029]    hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
             >
               <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
               Contact 7th Heaven
@@ -703,7 +703,7 @@ export default function PlannerDashboard() {
           </div>
           <button
             onClick={() => setShowContactModal(true)}
-            className="px-4 py-2 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
+            className="px-4 py-2  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
           >
             Open Full Contact Directory
           </button>
@@ -789,7 +789,7 @@ export default function PlannerDashboard() {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-[#e1e6ff29]  " />
+            <div className="absolute top-0 bottom-0 left-[19px] w-[2px]  bg-[#00000029]   " />
 
             <div className="flex flex-col gap-4">
               {allBookings.map((b, i) => {

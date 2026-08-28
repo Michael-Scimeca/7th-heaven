@@ -1398,7 +1398,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div className="w-16 h-16  rounded-lg  bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16  rounded-lg   bg-[#00000029]    border border-white/10 flex items-center justify-center mb-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                       <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -2122,7 +2122,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#e1e6ff29]   border   border-white/10   rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full  bg-[#00000029]    border   border-white/10   rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <button aria-label="Action button"
@@ -2513,7 +2513,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
                       }}
-                      className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
+                      className="w-full py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
                     >
                       Sign In to Account
                     </button>

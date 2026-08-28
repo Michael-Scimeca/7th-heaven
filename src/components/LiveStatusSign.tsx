@@ -60,7 +60,7 @@ export default function LiveStatusSign() {
             <span className="text-xs font-bold  text-white  tracking-wide uppercase">
               {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
             </span>
-            <div className="flex items-center justify-center w-6 h-6  rounded-lg  bg-[#e1e6ff29]   border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">
+            <div className="flex items-center justify-center w-6 h-6  rounded-lg   bg-[#00000029]    border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>

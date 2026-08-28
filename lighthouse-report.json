@@ -4494,7 +4494,7 @@
                 "width": 364,
                 "height": 43
               },
-              "snippet": "<input aria-label=\"Full name\" required=\"\" placeholder=\"Full name\" class=\"w-full bg-[#e1e6ff29]   border border-white/10  rounded-lg px-4 py-3 text-sm text…\" type=\"text\" value=\"\">",
+              "snippet": "<input aria-label=\"Full name\" required=\"\" placeholder=\"Full name\" class=\"w-full  bg-[#00000029]    border border-white/10  rounded-lg px-4 py-3 text-sm text…\" type=\"text\" value=\"\">",
               "nodeLabel": "Full name"
             },
             "subItems": {
@@ -4521,7 +4521,7 @@
                 "width": 364,
                 "height": 43
               },
-              "snippet": "<input aria-label=\"Phone number\" placeholder=\"Phone number\" class=\"w-full bg-[#e1e6ff29]   border border-white/10  rounded-lg px-4 py-3 text-sm text…\" type=\"tel\" value=\"\">",
+              "snippet": "<input aria-label=\"Phone number\" placeholder=\"Phone number\" class=\"w-full  bg-[#00000029]    border border-white/10  rounded-lg px-4 py-3 text-sm text…\" type=\"tel\" value=\"\">",
               "nodeLabel": "Phone number"
             },
             "subItems": {

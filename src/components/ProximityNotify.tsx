@@ -380,7 +380,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 onClick={() => setRadius(opt.value)}
                                 className={`h-[42px] px-2.5 py-1.5  rounded-lg text-xs font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${active
                                   ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                                  : "bg-[#e1e6ff29]   text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                                  : " bg-[#00000029]    text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
                                   }`}
                               >
                                 {opt.label}
@@ -412,7 +412,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             }}
                             className={`inline-flex items-center gap-1 px-2.5 py-1.5  rounded-lg text-[11px] font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${isSelected
                               ? "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                              : "bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white"
+                              : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10 hover:text-white"
                               }`}
                           >
                             <span>{type.icon}</span>

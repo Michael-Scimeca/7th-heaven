@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
+              className="w-full py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -789,7 +789,7 @@ export default function CruiseChat({
                       key={s.tag}
                       type="button"
                       onClick={() => insertTag(s.tag)}
-                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-xs text-white transition-colors text-left cursor-pointer"
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg  bg-[#00000029]    hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-xs text-white transition-colors text-left cursor-pointer"
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">

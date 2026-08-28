@@ -267,7 +267,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg  group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover:bg-[#e1e6ff29]  "
+                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg  group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029]   "
                   }`}
               >
                 {previews.length > 0 ? (
@@ -330,7 +330,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-venue" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
-                      className="w-full bg-[#e1e6ff29]   !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -339,7 +339,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-date" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
-                      className="w-full bg-[#e1e6ff29]   !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
+                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -348,7 +348,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-caption" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
-                      className="w-full bg-[#e1e6ff29]   !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>

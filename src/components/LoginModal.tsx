@@ -793,7 +793,7 @@ function LoginModalBodyContent(props: any) {
                   }}
                   className={`py-1.5 px-1.5 text-[10px] sm:text-xs  font-bold  uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
                     ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                    : "text-white/50 hover:text-white/90 hover:bg-[#e1e6ff29]  "
+                    : "text-white/50 hover:text-white/90 hover: bg-[#00000029]   "
                     }`}
                 >
                   {role.label}

@@ -33,7 +33,7 @@ const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short',
 function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) => void }) {
   const reqDate = new Date(req.date + 'T12:00:00');
   return (
-    <div key={req.id} className="p-4 bg-[#e1e6ff29]   border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10  transition-colors">
+    <div key={req.id} className="p-4  bg-[#00000029]    border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10  transition-colors">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
           <span className="text-[7.5px] text-rose-400  font-bold  uppercase tracking-wider">
@@ -92,7 +92,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
 function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: string) => void }) {
   const itemDate = new Date(item.date + 'T12:00:00');
   return (
-    <div key={item.id} className="p-3 bg-[#e1e6ff29]   border border-white/10 flex items-center justify-between gap-3 hover: border-white/10  transition-colors">
+    <div key={item.id} className="p-3  bg-[#00000029]    border border-white/10 flex items-center justify-between gap-3 hover: border-white/10  transition-colors">
       <div className="flex items-center gap-3">
         <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
           <span className="text-[7.5px]  font-bold  uppercase tracking-wider">
@@ -2709,7 +2709,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1  rounded-lg  flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-[#e1e6ff29]     border-white/10    text-white '}`}>
+                <div className={`px-3 py-1  rounded-lg  flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
                   <span className={`w-1.5 h-1.5  rounded-lg  ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
@@ -2735,7 +2735,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="appearance-none bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 text-xs font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                      className="appearance-none  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 text-xs font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
                       onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -2750,7 +2750,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest  flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest  flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2812,7 +2812,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     />
                   ) : (
                     <div className="absolute inset-0 bg-transparent flex flex-col items-center justify-center">
-                      <div className="w-16 h-16  rounded-lg  bg-[#e1e6ff29]   border border-white/10 flex items-center justify-center mb-4">
+                      <div className="w-16 h-16  rounded-lg   bg-[#00000029]    border border-white/10 flex items-center justify-center mb-4">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                           <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                           <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -3093,7 +3093,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <p className="text-3xl  font-bold  font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="w-full bg-[#e1e6ff29]   h-1.5  rounded-lg  mt-3 overflow-hidden">
+                          <div className="w-full  bg-[#00000029]    h-1.5  rounded-lg  mt-3 overflow-hidden">
                             <div
                               className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
                               style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
@@ -3105,7 +3105,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                           <p className="text-xs  font-bold  tracking-widest uppercase text-white/40">Active Products</p>
                           {activeDrop.products.map(p => (
-                            <div key={p.id} className="flex gap-3 p-2.5 bg-[#e1e6ff29]   border border-white/10 items-center justify-between">
+                            <div key={p.id} className="flex gap-3 p-2.5  bg-[#00000029]    border border-white/10 items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
@@ -3138,7 +3138,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-lg text-[var(--font-size-4xs)] !text-white font-bold uppercase tracking-wider flex items-center gap-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-2 py-0.5 rounded"
+                              className="rounded-lg text-[var(--font-size-4xs)] !text-white font-bold uppercase tracking-wider flex items-center gap-1   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] px-2 py-0.5 rounded"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -3177,7 +3177,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             </div>
                           ) : (
                             selectedProducts.map(p => (
-                              <div key={p.id} className="flex gap-4 p-3 border   border-white/10   items-center justify-between text-white bg-[#e1e6ff29]  ">
+                              <div key={p.id} className="flex gap-4 p-3 border   border-white/10   items-center justify-between text-white  bg-[#00000029]   ">
                                 <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded  object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
@@ -3219,7 +3219,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   selectEl.focus();
                                 }
                               }}
-                              className="w-full bg-[#e1e6ff29] h-[36px] border  border-white/10  hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                              className="w-full  bg-[#00000029]  h-[36px] border  border-white/10  hover:border-purple-400/60 rounded-lg p-2 text-center text-xs font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                               title="Click to select products from the dropdown above"
                             >
                               <span className="font-mono text-purple-300 font-extrabold">{selectedProducts.length}</span>
@@ -3236,7 +3236,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-[#e1e6ff29]     border-white/10    text-white  hover:bg-white/10'}`}
+                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : ' bg-[#00000029]      border-white/10    text-white  hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3325,7 +3325,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className={`w-full bg-[#e1e6ff29] border  border-white/10  rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
+                                    className={`w-full  bg-[#00000029]  border  border-white/10  rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
                                   />
                                 </div>
                               </div>
@@ -3341,7 +3341,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.min || ''}
                                     onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29] border  border-white/10  px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
+                                    className={`w-full  bg-[#00000029]  border  border-white/10  px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
                                   />
                                 </div>
                                 {/* Floating counter during active raffle */}
@@ -3363,7 +3363,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.qty || ''}
                                     onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#e1e6ff29] border  border-white/10   px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
+                                    className={`w-full  bg-[#00000029]  border  border-white/10   px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
                                   />
                                 </div>
                               </div>
@@ -3403,7 +3403,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed  border-white/10  text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:border-white/50 hover:bg-[#e1e6ff29]   transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed  border-white/10  text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:border-white/50 hover: bg-[#00000029]    transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3491,7 +3491,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newCustomWord}
                             onChange={e => setNewCustomWord(e.target.value)}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#e1e6ff29]   border   border-white/10   px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full  bg-[#00000029]    border   border-white/10   px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <CosmicRadialButton
@@ -3621,7 +3621,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest rounded-lg transition-colors border bg-[#e1e6ff29]    text-white  border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
+                className="px-4 py-2 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest rounded-lg transition-colors border  bg-[#00000029]     text-white  border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
               >
                 Reset Likes
               </button>
@@ -3686,7 +3686,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       value={newSongTitle}
                       onChange={e => setNewSongTitle(e.target.value)}
                       rows={4}
-                      className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
+                      className="w-full  bg-[#00000029]    border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
                     />
                     <div className="flex justify-between items-center">
                       <button
@@ -3715,7 +3715,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         value={newSongTitle}
                         onChange={e => setNewSongTitle(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                        className="flex-1 bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
+                        className="flex-1  bg-[#00000029]    border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                       />
                       <CosmicRadialButton
                         type="button"
@@ -3777,7 +3777,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                         setIsEmailModalOpen(true);
                       }}
-                      className="px-3 py-1 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white  rounded-lg  text-xs  font-bold  uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
+                      className="px-3 py-1  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white  rounded-lg  text-xs  font-bold  uppercase tracking-widest cursor-pointer  transition-colors flex items-center gap-1"
                     >
                       Contact Admins
                     </button>
@@ -3786,7 +3786,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         {pendingShifts.length} Pending
                       </span>
                     )}
-                    <span className="px-3 py-1 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px  rounded-lg  text-xs  font-bold  uppercase tracking-widest">
+                    <span className="px-3 py-1  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px  rounded-lg  text-xs  font-bold  uppercase tracking-widest">
                       {activeShifts.length} Shifts
                     </span>
                     <button
@@ -3823,7 +3823,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                    <div className="grid grid-cols-2 gap-2 bg-[#e1e6ff29] p-1 border border-white/10 mb-6 shrink-0 font-sans rounded-xl">
+                    <div className="grid grid-cols-2 gap-2  bg-[#00000029]  p-1 border border-white/10 mb-6 shrink-0 font-sans rounded-xl">
                       {activeScheduleTab === 'my_schedule' ? (
                         <CosmicRadialButton
                           type="button"
@@ -4075,7 +4075,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
                                 {/* Instructions/Notes Column */}
                                 {shift.notes || shift.declineReason ? (
-                                  <div className="flex-1 md:max-w-[40%] bg-[#e1e6ff29]   border border-white/10 p-2 rounded-lg space-y-0.5">
+                                  <div className="flex-1 md:max-w-[40%]  bg-[#00000029]    border border-white/10 p-2 rounded-lg space-y-0.5">
                                     {shift.notes && (
                                       <>
                                         <p className="text-[8px] text-white/40 font-bold uppercase tracking-wider">Instructions:</p>
@@ -4124,7 +4124,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
                                   <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift
                                     ? 'bg-purple-600/10 border-purple-500/30'
-                                    : 'bg-[#e1e6ff29]     border-white/10  '
+                                    : ' bg-[#00000029]      border-white/10  '
                                     }`}>
                                     <span className={`text-[8px]  font-bold  uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
                                     <span className="text-xs  font-bold  text-white leading-none mt-0.5">{dayNum}</span>

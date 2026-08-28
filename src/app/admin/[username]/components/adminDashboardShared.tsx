@@ -92,9 +92,9 @@ export const SidebarDateButton = React.memo(({
       type="button"
       onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${isSelected
-        ? 'bg-[#e1e6ff29] !rounded-none'
+        ? ' bg-[#00000029]  !rounded-none'
         : isActiveWeek
-          ? 'bg-[#e1e6ff29]'
+          ? ' bg-[#00000029] '
           : 'bg-transparent'
         }`}
     >

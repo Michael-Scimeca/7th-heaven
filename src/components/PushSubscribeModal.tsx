@@ -90,7 +90,7 @@ export default function PushSubscribeModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10"
+          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg  bg-[#00000029]    hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>

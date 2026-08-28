@@ -4,6 +4,7 @@ import { Play, X } from "lucide-react";
 import CosmicRadialButton from "./CosmicRadialButton";
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import type { CruiseVideoItem } from '@/app/api/cruise/videos/route';
 
 const FALLBACK_VIDEOS: CruiseVideoItem[] = [
@@ -192,7 +193,7 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1  rounded-lg  ">
+        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1  rounded-lg  ">
           Virtual Tours & Video Showcase
         </span>
         <h2
@@ -261,7 +262,7 @@ export default function CruiseVideoGallery() {
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-[10px] font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
+                <span className="absolute top-3 left-3  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  text-[10px] font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
                   {vid.category}
                 </span>
               </div>
@@ -289,33 +290,33 @@ export default function CruiseVideoGallery() {
         </div>
       )}
 
-      {/* Full-screen Video Player Modal */}
-      {activeVideo && (
+      {/* Full-screen Video Player Modal Portaled to Body for Unclipped Viewport Blur */}
+      {activeVideo && typeof window !== "undefined" && createPortal(
         <div
           onClick={() => setActiveVideo(null)}
           style={{ backdropFilter: "blur(45px)", WebkitBackdropFilter: "blur(45px)" }}
-          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in"
+          className="fixed inset-0 z-[999999] bg-black/60 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in"
         >
           {/* Floating Top-Right Close Button for immediate screen dismiss */}
           <button
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60] p-3  rounded-lg  bg-white/15 border  border-white/10  text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-[background-color,border-color,transform] duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 rounded-lg bg-white/15 border border-white/10 text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-[background-color,border-color,transform] duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
           >
             <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
           </button>
 
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden"
+            className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e] border border-purple-500/30 shadow-[0_0_90px_rgba(168,85,247,0.4)]"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
-                <span className="text-[var(--font-size-3xs)]  font-bold  uppercase text-purple-400 tracking-widest block mb-1">
+                <span className="text-[var(--font-size-3xs)] font-bold uppercase text-purple-400 tracking-widest block mb-1">
                   {activeVideo.category}
                 </span>
-                <h3 className="text-white  font-bold  text-base md:text-xl uppercase tracking-wide truncate">
+                <h3 className="text-white font-bold text-base md:text-xl uppercase tracking-wide truncate">
                   {activeVideo.title}
                 </h3>
               </div>
@@ -324,7 +325,7 @@ export default function CruiseVideoGallery() {
                 type="button"
                 aria-label="Close player"
                 onClick={() => setActiveVideo(null)}
-                className="shrink-0 flex items-center gap-2 text-white  font-bold  text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
+                className="shrink-0 flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
               >
                 <X className="w-4 h-4 text-white" />
                 <span>Close Player</span>
@@ -359,7 +360,8 @@ export default function CruiseVideoGallery() {
               })()}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

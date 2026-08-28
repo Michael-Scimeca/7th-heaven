@@ -718,7 +718,7 @@ export default function CruiseDashboard() {
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
@@ -728,7 +728,7 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
@@ -788,7 +788,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -798,13 +798,13 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
                       <span className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] border   border-white/10    rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className=" bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] border   border-white/10    rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">

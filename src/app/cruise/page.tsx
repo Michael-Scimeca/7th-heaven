@@ -718,10 +718,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)]">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
-            <span className="text-xs  font-bold  uppercase tracking-widest bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3.5 py-1.5  rounded-lg ">
+            <span className="text-xs  font-bold  uppercase tracking-widest  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] px-3.5 py-1.5  rounded-lg ">
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
 
@@ -1060,7 +1060,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">CEO / Booking / Bands</p>
                     <p className="text-xs text-white/50 font-medium">Marketing / Media</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:8475515363" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:8475515363" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(847) 551-5363</span>
                       </a>
@@ -1089,7 +1089,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">Group Excursions / Group Hotels</p>
                     <p className="text-xs text-white/50 font-medium">Group Air / Charters / Shuttles</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:8776839753" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:8776839753" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(877) 683-9753 - Ext 5</span>
                       </a>
@@ -1118,7 +1118,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <p className="text-xs text-white/70 font-semibold mt-1">Schedule</p>
                     <p className="text-xs text-white/50 font-medium">Activities / Logistics</p>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                      <a href="tel:6308429129" className="text-xs font-bold !text-white hover:text-white/80 transition-colors bg-[#e1e6ff29] px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
+                      <a href="tel:6308429129" className="text-xs font-bold !text-white hover:text-white/80 transition-colors  bg-[#00000029]  px-3.5 py-1.5  rounded-lg  border  border-white/10  hover:border-white/60 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(630) 842-9129</span>
                       </a>
@@ -1179,7 +1179,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-xl">{room.icon}</span>}
-                              <span className={` bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-[var(--font-size-3xs)]  font-bold  uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status === "soldout" ? "" :
+                              <span className={`  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-[var(--font-size-3xs)]  font-bold  uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status === "soldout" ? "" :
                                 room.status === "warning" ? "bg-[#e1e5ff29] text-white" :
                                   "text-white"
                                 }`}>{room.badge}</span>
@@ -1240,7 +1240,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             className="w-full text-left overflow-hidden rounded-lg  flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
-                              <div className="absolute top-3 right-3  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] text-white text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-1  rounded-lg  tracking-widest shadow-md flex items-center gap-1 z-10">
+                              <div className="absolute top-3 right-3   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-1  rounded-lg  tracking-widest shadow-md flex items-center gap-1 z-10">
                                 <span>Popular</span>
                               </div>
                             )}
@@ -1253,7 +1253,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <div className="px-0 py-5 text-left">
                                 <div className="flex justify-between items-start gap-2 mb-3 text-left">
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
-                                  <span className={` rounded-lg text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-0.5 rounded tracking-wider bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] ${isYo ? '' : ''
+                                  <span className={` rounded-lg text-[var(--font-size-4xs)]  font-bold  uppercase px-2.5 py-0.5 rounded tracking-wider  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] ${isYo ? '' : ''
                                     }`}>{room.label}</span>
                                 </div>
                                 <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
@@ -1316,7 +1316,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             onClick={() => setStateroomTab(tab.id as any)}
                             className={`w-full p-4  rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id
                               ? "bg-purple-600/30 text-white"
-                              : "bg-[#e1e6ff29]   hover:bg-white/10 text-white/80"
+                              : " bg-[#00000029]    hover:bg-white/10 text-white/80"
                               }`}
                           >
                             <h4 className="text-sm font-bold text-white uppercase tracking-wider">{tab.label}</h4>
@@ -1372,7 +1372,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-xs  font-bold  uppercase tracking-[0.25em] text-purple-400">VIP Experiences</span>
                           <h3 className="text-2xl md:text-3xl  font-bold  uppercase text-white mt-1">Suite Class Perks</h3>
                         </div>
-                        <div className="flex gap-1.5  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]p-1.5 rounded-xl">
+                        <div className="flex gap-1.5   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]p-1.5 rounded-xl">
                           {(["sea", "sky", "star"] as const).map(perk => (
                             <button aria-label="Action button"
                               key={perk}
@@ -1516,7 +1516,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="text-sm  font-bold  uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] px-3 py-1  rounded-lg ">Primary</span>
+                              <span className="text-xs font-bold uppercase tracking-widest text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] px-3 py-1  rounded-lg ">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
@@ -1841,15 +1841,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               {joinedFans.slice(0, 8).map((fan, i) => (
                                 <div
                                   key={i}
-                                  className="w-8 h-8  rounded-lg  flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-xs transition-transform hover:scale-110"
-                                  style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length] }}
+                                  className="w-8 h-8  border border-white/10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5  flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-xs transition-transform hover:scale-110"
+
                                   title={fan.anonymous ? 'Anonymous Fan' : fan.name}
                                 >
                                   {fan.anonymous ? '?' : fan.name.charAt(0).toUpperCase()}
                                 </div>
                               ))}
                               {joinedFans.length > 8 && (
-                                <div className="w-8 h-8  rounded-lg  flex items-center justify-center text-xs font-bold text-white/80 bg-white/10 shrink-0">
+                                <div className="w-8 h-8  rounded-full flex items-center justify-center text-xs font-bold text-white/80 bg-white/10 shrink-0">
                                   +{joinedFans.length - 8}
                                 </div>
                               )}
@@ -2032,7 +2032,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group  rounded-2xl overflow-hidden ">
                         <div className="h-48 w-full relative overflow-hidden  rounded-lg bg-black">
                           {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-3 left-3 z-20 px-3 py-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg  text-[10px] font-bold  uppercase tracking-widest text-white">
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  rounded-lg  text-[10px] font-bold  uppercase tracking-widest text-white">
                             Port Call #{idx + 1}
                           </span>
                         </div>
@@ -2045,7 +2045,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             {port.highlights && (
                               <div className="flex flex-wrap gap-1.5 mt-3">
                                 {port.highlights.map(h => (
-                                  <span key={h} className="text-[10px] font-bold uppercase tracking-wider  px-2 py-0.5  rounded-lg  text-white border  border-white/10   bg-[#e1e6ff29]">
+                                  <span key={h} className="text-[10px] font-bold uppercase tracking-wider  px-2 py-0.5  rounded-lg  text-white border  border-white/10    bg-[#00000029] ">
                                     {h}
                                   </span>
                                 ))}
@@ -2075,7 +2075,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "spotlight" && (
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                     {/* Main Featured Hero Card */}
-                    <div className="lg:col-span-2 bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]  rounded-lg overflow-hidden relative shadow-2xl">
+                    <div className="lg:col-span-2  bg-[#00000029]    border-white/10  backdrop-blur-[16px]  rounded-lg overflow-hidden relative shadow-2xl">
                       <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent z-10" />
                         {PORTS_DATA[activeSpotlightPort].image && (
@@ -2139,8 +2139,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           type="button"
                           onClick={() => setActiveSpotlightPort(idx)}
                           className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx
-                            ? " bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]"
-                            : " bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]"
+                            ? "  bg-[#00000029]    border-white/10  backdrop-blur-[16px]"
+                            : "  bg-[#00000029]    border-white/10  backdrop-blur-[16px]"
                             }`}
                         >
                           <div className="w-12 h-12  rounded-lg overflow-hidden shrink-0 bg-black border  border-white/10 ">
@@ -2168,7 +2168,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10  rounded-lg  bg-[#00000029]    border-white/10  backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ◀
                       </button>
@@ -2177,7 +2177,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10  rounded-lg bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10  rounded-lg  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ▶
                       </button>
@@ -2191,7 +2191,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA.map((port, idx) => (
                         <div
                           key={`carousel-${port.name}`}
-                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px]   rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
+                          className="w-[320px] md:w-[380px] shrink-0 snap-start  bg-[#00000029]    border-white/10  backdrop-blur-[16px]   rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
                         >
                           <div className="h-52 w-full relative overflow-hidden bg-black/60">
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
@@ -2225,7 +2225,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "list" && (
                   <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                     {PORTS_DATA.map((port, idx) => (
-                      <div key={`list-${port.name}`} className="bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
+                      <div key={`list-${port.name}`} className=" bg-[#00000029]    border-white/10  backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
                         <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden  rounded-lg relative shrink-0">
                           {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
                           <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)]  font-bold  text-purple-300 uppercase border border-white/10">
@@ -2252,7 +2252,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                          className="shrink-0 px-4 py-2 bg-[#e1e6ff29]   border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+                          className="shrink-0 px-4 py-2  bg-[#00000029]    border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
                         >
                           Book →
                         </button>
@@ -2327,7 +2327,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                        <span className="text-[10px]  font-bold  uppercase tracking-widest text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-2.5 py-1  rounded-lg  self-start mb-1.5 ">
+                        <span className="text-[10px]  font-bold  uppercase tracking-widest text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  px-2.5 py-1  rounded-lg  self-start mb-1.5 ">
                           {item.category}
                         </span>
                         <p className="font-bold text-white text-base md:text-lg leading-snug">{item.title}</p>
@@ -2344,7 +2344,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h3 className="text-xl  font-bold  uppercase text-white">Dining Explorer Guide</h3>
                     <p className="text-xs text-white/70 font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
                   </div>
-                  <div className="rounded-lg flex bg-[#e1e6ff29]   p-1 border border-white/10 shrink-0 self-center">
+                  <div className="rounded-lg flex  bg-[#00000029]    p-1 border border-white/10 shrink-0 self-center">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("included")}
@@ -2412,7 +2412,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1  rounded-lg   font-bold  self-start mb-1.5 bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] ">{food.tag}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1  rounded-lg   font-bold  self-start mb-1.5  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] ">{food.tag}</span>
                           <p className="font-bold text-white text-base md:text-lg leading-snug">{food.name}</p>
                         </div>
                       </div>
@@ -2432,7 +2432,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <h3 className="text-xl sm:text-2xl  font-bold  uppercase text-white">Bars & Entertainment Explorer</h3>
                     <p className="text-xs text-white/70 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
                   </div>
-                  <div className="flex bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">
+                  <div className="flex  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("bars")}
@@ -2508,7 +2508,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1  rounded-lg   font-bold  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]   self-start mb-1.5">{item.tag}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1  rounded-lg   font-bold  text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]   self-start mb-1.5">{item.tag}</span>
                           <p className="font-bold text-white text-base md:text-lg leading-snug">{item.name}</p>
                         </div>
                       </div>

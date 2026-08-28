@@ -66,7 +66,7 @@ export default function Home() {
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
         <div className="container mx-auto px-4 mb-6 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 bg-[#e1e6ff29] border   border-white/10   px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
+          <div className="inline-flex items-center gap-2  bg-[#00000029]  border   border-white/10   px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
             <span className="text-[11px] font-black uppercase tracking-widest text-white/95">
               WHO WE&apos;VE PLAYED WITH &amp; WHERE WE&apos;VE BEEN FEATURED
             </span>

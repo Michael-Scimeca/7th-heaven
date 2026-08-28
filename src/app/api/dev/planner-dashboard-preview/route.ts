@@ -92,7 +92,7 @@ export async function GET() {
               <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition">
                 Manage Details
               </button>
-              <button class="py-2 px-3 bg-[#e1e6ff29]   border border-white/10 text-white/70 font-bold text-xs rounded-xl">
+              <button class="py-2 px-3  bg-[#00000029]    border border-white/10 text-white/70 font-bold text-xs rounded-xl">
                 Stage Rider
               </button>
             </div>

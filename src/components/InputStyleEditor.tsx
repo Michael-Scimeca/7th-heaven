@@ -308,7 +308,7 @@ a:hover {
                 <button
                   aria-label="Reset to defaults"
                   onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
-                  className="px-3 py-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-white/10 text-white/70 hover:text-white text-xs font-bold transition-colors flex items-center gap-1.5 border border-white/10"
+                  className="px-3 py-1.5 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-white/70 hover:text-white text-xs font-bold transition-colors flex items-center gap-1.5 border border-white/10"
                   title="Reset to defaults"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -333,7 +333,7 @@ a:hover {
                 <button
                   key={p.name}
                   onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
-                  className="px-3 py-1.5 rounded-lg bg-[#e1e6ff29]   hover:bg-cyan-500/20 text-white/80 hover:text-cyan-300 border border-white/10 hover:border-cyan-400/40 text-xs font-bold transition-all shrink-0 cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg  bg-[#00000029]    hover:bg-cyan-500/20 text-white/80 hover:text-cyan-300 border border-white/10 hover:border-cyan-400/40 text-xs font-bold transition-all shrink-0 cursor-pointer"
                 >
                   {p.name}
                 </button>
@@ -344,42 +344,42 @@ a:hover {
             <div className="flex border-b border-white/10  text-xs font-bold">
               <button
                 onClick={() => setActiveTab("controls")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Search className="w-3.5 h-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400 text-cyan-300 bg-[#e1e6ff29]  " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Layers className="w-3.5 h-3.5" /> CSS
@@ -391,7 +391,7 @@ a:hover {
               {activeTab === "controls" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Background & Blur */}
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
@@ -441,7 +441,7 @@ a:hover {
                   </div>
 
                   {/* Border & Geometry */}
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📐 Border & Geometry
                     </h4>
@@ -485,7 +485,7 @@ a:hover {
                   </div>
 
                   {/* Focus Glow & Colors */}
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
@@ -514,7 +514,7 @@ a:hover {
                   </div>
 
                   {/* Padding & Spacing */}
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
@@ -549,7 +549,7 @@ a:hover {
 
               {activeTab === "search" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
@@ -713,7 +713,7 @@ a:hover {
 
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
@@ -782,7 +782,7 @@ a:hover {
 
               {activeTab === "typography" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 p-4 bg-[#e1e6ff29]   rounded-lg  border border-white/10">
+                  <div className="space-y-4 p-4  bg-[#00000029]    rounded-lg  border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>

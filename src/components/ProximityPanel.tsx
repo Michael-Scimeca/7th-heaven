@@ -160,7 +160,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  px-3 py-1  rounded-lg  border border-[var(--color-accent)]/30">
+          <span className="text-xs  font-bold  uppercase tracking-[0.2em]  text-white  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  px-3 py-1  rounded-lg  border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
@@ -243,7 +243,7 @@ export default function ProximityPanel() {
               <span className="text-white/40 text-sm animate-pulse">Checking nearby shows…</span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#e1e6ff29]   border-dashed">
+            <div className="py-8 flex flex-col items-center rounded-lg border border-white/10  bg-[#00000029]    border-dashed">
               <p className="text-sm  text-white  font-bold">No shows in your area yet.</p>
               <p className="text-xs text-white/40 mt-1">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
@@ -252,7 +252,7 @@ export default function ProximityPanel() {
               {nearbyShows.map(show => (
                 <div
                   key={show.id}
-                  className="p-4 bg-[#e1e6ff29]   border border-white/10 hover:border-blue-500/40 transition-colors group"
+                  className="p-4  bg-[#00000029]    border border-white/10 hover:border-blue-500/40 transition-colors group"
                 >
                   <div className="flex items-center justify-between">
                     <button

@@ -164,7 +164,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : 'bg-[#e1e6ff29]   hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -192,7 +192,7 @@ const InputField = ({ label, labelRight, required, id, className = "", ...props 
       </div>
       <div className="input-glow-border rounded-lg w-full">
         <input aria-label="Input field" id={inputId} {...props} required={required}
-          className="w-full bg-[#e1e6ff29]   border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
+          className="w-full  bg-[#00000029]    border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
         />
       </div>
     </div>
@@ -206,7 +206,7 @@ const TextAreaField = ({ label, required, id, ...props }: { label: string; requi
       <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-2">{label}{required && " *"}</label>
       <div className="input-glow-border rounded-lg">
         <textarea id={textareaId} {...props} required={required}
-          className="w-full bg-[#e1e6ff29]   border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
+          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
         />
       </div>
     </div>
@@ -244,7 +244,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
             ${value === o
               ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
-              : "bg-[#e1e6ff29]    backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover: border-white/10  hover:text-white"
+              : " bg-[#00000029]     backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover: border-white/10  hover:text-white"
             }
           `}
         >
@@ -1020,7 +1020,7 @@ function BookPageContent() {
 
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -1159,7 +1159,7 @@ function BookPageContent() {
                     return (
                       <div
                         key={slot.id}
-                        className="bg-[#e1e6ff29]   border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg  relative group transition-colors shadow-lg"
+                        className=" bg-[#00000029]    border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg  relative group transition-colors shadow-lg"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1221,7 +1221,7 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5 bg-[#e1e6ff29]    backdrop-blur-[45px] border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                className="w-full mt-1.5  bg-[#00000029]     backdrop-blur-[45px] border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                               />
                             )}
                           </div>
@@ -1391,7 +1391,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1405,7 +1405,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1421,7 +1421,7 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
@@ -1437,7 +1437,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1451,7 +1451,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1677,7 +1677,7 @@ function BookPageContent() {
                           value={formData.parkingAddress}
                           onChange={handleChange}
                           placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                          className="w-full bg-[#e1e6ff29]   border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+                          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
                         />
                       </div>
                     </div>
@@ -1694,7 +1694,7 @@ function BookPageContent() {
                           onChange={handleChange}
                           rows={3}
                           placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                          className="w-full bg-[#e1e6ff29]   border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
+                          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
                         />
                       </div>
                     </div>
@@ -1746,7 +1746,7 @@ function BookPageContent() {
                           className={`w-full text-left p-4  rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group
                           ${isActive
                               ? 'border-cyan-400 bg-cyan-500/20 shadow-md'
-                              : 'border-white/10 bg-[#e1e6ff29]   hover: border-white/10  hover:bg-white/10'
+                              : 'border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10'
                             }`}
                         >
                           <span className="text-xl mt-0.5">{option.icon}</span>
@@ -1790,7 +1790,7 @@ function BookPageContent() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-[#e1e6ff29]   border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
+                    className="w-full  bg-[#00000029]    border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
                   />
                 </div>
                 {formData.details && (
@@ -1967,7 +1967,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
@@ -1981,7 +1981,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#e1e6ff29]    backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -2046,7 +2046,7 @@ function MapPickerModal({
               {savedAddresses.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 hover:border-purple-400/50  rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
+                  className="p-3  bg-[#00000029]    hover:bg-white/10 border border-white/10 hover:border-purple-400/50  rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -2111,7 +2111,7 @@ function MapPickerModal({
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 bg-[#e1e6ff29]   border   border-white/10   rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1  bg-[#00000029]    border   border-white/10   rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
@@ -2142,7 +2142,7 @@ function MapPickerModal({
             <button aria-label="Cancel button"
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 rounded-lg text-xs font-bold  text-white  hover:text-white uppercase tracking-wider transition-colors"
+              className="px-4 py-2.5  bg-[#00000029]    hover:bg-white/10 rounded-lg text-xs font-bold  text-white  hover:text-white uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>

@@ -100,14 +100,14 @@ export function DailyPoll() {
               className={`w-full relative overflow-hidden  border text-left transition-colors ${voted === opt.id
                 ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
-                  ? 'border-white/5 bg-[#e1e6ff29]   cursor-default'
-                  : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover:bg-[#e1e6ff29]   cursor-pointer'
+                  ? 'border-white/5  bg-[#00000029]    cursor-default'
+                  : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029]    cursor-pointer'
                 }`}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
-                  className={`absolute top-0 left-0 bottom-0 transition-colors duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : 'bg-[#e1e6ff29]  '}`}
+                  className={`absolute top-0 left-0 bottom-0 transition-colors duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : ' bg-[#00000029]   '}`}
                   style={{ width: `${percent}%` }}
                 />
               )}
@@ -189,7 +189,7 @@ export function PhotoWall() {
           <h2 className="text-xl  font-bold     tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
-        <button aria-label="Action button" className="px-4 py-2 bg-[#e1e6ff29]   hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
+        <button aria-label="Action button" className="px-4 py-2  bg-[#00000029]    hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
           + Upload
         </button>
       </div>
@@ -198,7 +198,7 @@ export function PhotoWall() {
         {MOCK_PHOTOS.map((src, i) => (
           <div
             key={i}
-            className="aspect-square bg-[#e1e6ff29]   border border-white/10 overflow-hidden group cursor-pointer relative"
+            className="aspect-square  bg-[#00000029]    border border-white/10 overflow-hidden group cursor-pointer relative"
           >
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-colors z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
@@ -462,11 +462,11 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
-            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full  bg-[#00000029]    border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</span>
-            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-[#e1e6ff29]   border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full  bg-[#00000029]    border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
@@ -875,7 +875,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Close"
                     type="button"
                     onClick={onClose}
-                    className="flex-1 py-2.5 bg-[#e1e6ff29]   hover:bg-white/10 text-white/80 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer"
+                    className="flex-1 py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/80 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -938,7 +938,7 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3.5 bg-[#e1e6ff29]   border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-lg  transition-colors text-left group/item"
+            className="w-full flex items-center justify-between p-3.5  bg-[#00000029]    border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-lg  transition-colors text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
@@ -991,7 +991,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button aria-label="Action button"
               onClick={() => handleVote(song.id)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-[#e1e6ff29]   flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
+              className="w-8 h-8 rounded-lg border border-white/10  bg-[#00000029]    flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
             >
               ▲
             </button>

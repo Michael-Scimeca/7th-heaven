@@ -210,7 +210,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-2 text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg border border-white/10 ${activeTab === tab
                 ? "bg-[var(--color-accent)] text-white shadow-md"
-                : "bg-[#e1e6ff29]   text-white/70 hover:bg-white/10 hover:text-white"
+                : " bg-[#00000029]    text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>
@@ -238,7 +238,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-[#e1e6ff29]   hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
+            className="px-3.5 py-2  bg-[#00000029]    hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
           >
             <span></span> Export CSV
           </button>
@@ -275,7 +275,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </div>
               ) : (
                 filteredUsers.map(user => (
-                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover:bg-[#e1e6ff29] transition-colors border-b border-white/10">
+                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover: bg-[#00000029]  transition-colors border-b border-white/10">
                     <div className="font-bold text-white truncate flex items-center gap-2.5">
                       {(() => {
                         const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
@@ -310,7 +310,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#e1e6ff29] border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1  bg-[#00000029]  border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

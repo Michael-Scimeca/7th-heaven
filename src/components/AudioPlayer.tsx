@@ -373,7 +373,7 @@ export default function AudioPlayerSection() {
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
-                    <div className="relative w-7 h-7 shrink-0 bg-[#e1e6ff29]   border border-white/10   rounded overflow-hidden">
+                    <div className="relative w-7 h-7 shrink-0  bg-[#00000029]    border border-white/10   rounded overflow-hidden">
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}
@@ -624,7 +624,7 @@ export default function AudioPlayerSection() {
                           <button
                             type="button"
                             key={`${albumIdx}-${trackIdx}`}
-                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover:bg-[#e1e6ff29] cursor-pointer'}`} onClick={() => {
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover: bg-[#00000029]  cursor-pointer'}`} onClick={() => {
                               setActiveAlbumIndex(albumIdx);
                               setActiveTrackIndex(trackIdx);
                               setIsPlaying(true);
@@ -659,7 +659,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover:bg-[#e1e6ff29] cursor-pointer'}`} onClick={() => {
+                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover: bg-[#00000029]  cursor-pointer'}`} onClick={() => {
                             if (isActive) togglePlay();
                             else {
                               setActiveTrackIndex(idx);
@@ -728,7 +728,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border   border-white/10   rounded-sm mb-3 flex items-center justify-center bg-[#e1e6ff29]   overflow-hidden shrink-0    ">
+              <div className="relative z-[2] w-[100px] h-[100px] border   border-white/10   rounded-sm mb-3 flex items-center justify-center  bg-[#00000029]    overflow-hidden shrink-0    ">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}
