@@ -3558,24 +3558,24 @@ textarea,
   --page-transition-duration: 1030ms;
 }
 
-.content-area {
-  view-transition-name: page-body;
+::view-transition-group(root) {
+  animation: none !important;
 }
 
-::view-transition-old(page-body),
-::view-transition-new(page-body) {
+::view-transition-old(root),
+::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
   backface-visibility: hidden;
 }
 
-::view-transition-old(page-body) {
+::view-transition-old(root) {
   z-index: 1;
   animation: page-push-out var(--page-transition-duration) linear forwards,
     page-push-out-filter var(--page-transition-duration) linear forwards;
 }
 
-::view-transition-new(page-body) {
+::view-transition-new(root) {
   z-index: 2;
   transform-origin: 50% 50%;
   animation: page-push-in var(--page-transition-duration) linear forwards;
