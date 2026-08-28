@@ -262,7 +262,7 @@ export default function ReferralProgramPanel() {
                     min={1}
                     value={newThreshold || ""}
                     onChange={(e) => setNewThreshold(parseInt(e.target.value) || 0)}
-                    className="w-20 bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-purple-500/50"
+                    className="w-20 bg-white/[0.04] border border-white/10 text-white px-3 py-2 focus:outline-none focus:border-purple-500/50"
                   />
                 </div>
                 <div className="flex-1">
@@ -275,7 +275,7 @@ export default function ReferralProgramPanel() {
                     value={newReward}
                     onChange={(e) => setNewReward(e.target.value)}
                     placeholder="e.g. Free Band Tee + Album"
-                    className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20"
+                    className="w-full bg-white/[0.04] border border-white/10 text-white px-3 py-2 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20"
                   />
                 </div>
                 <div>
@@ -305,7 +305,7 @@ export default function ReferralProgramPanel() {
           <button aria-label="Action button"
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer ${saved ?"bg-[var(--color-accent)]  text-white"
+            className={`w-full mt-3 py-3 font-bold uppercase tracking-widest transition-colors cursor-pointer ${saved ?"bg-[var(--color-accent)]  text-white"
               : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
               }`}
           >
@@ -443,7 +443,7 @@ export default function ReferralProgramPanel() {
                                   {milestonesHit.map((m, mi) => (
                                     <span
                                       key={mi}
-                                      className="text-sm"
+                                      className=""
                                       title={`${m.threshold}: ${m.reward}`}
                                     >
                                       {m.emoji}

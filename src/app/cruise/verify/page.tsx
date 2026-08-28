@@ -128,7 +128,7 @@ function CruiseVerifyContent() {
             </p>
             <Link
               href="/cruise/dashboard"
-              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest rounded-lg transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold sm:text-base uppercase tracking-widest rounded-lg transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             >
               Access My Dashboard →
             </Link>
@@ -180,7 +180,7 @@ function CruiseVerifyContent() {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold sm:text-sm uppercase tracking-[0.15em] rounded-lg transition-[transform,opacity] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold uppercase tracking-[0.15em] rounded-lg transition-[transform,opacity] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>

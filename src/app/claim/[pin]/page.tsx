@@ -240,7 +240,7 @@ export default function ClaimPage() {
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
-              <span className="text-black font-bold text-sm uppercase tracking-widest font-sans">✓ PIN Verified</span>
+              <span className="text-black font-bold uppercase tracking-widest font-sans">✓ PIN Verified</span>
             </div>
 
             <div className="p-8 text-center">

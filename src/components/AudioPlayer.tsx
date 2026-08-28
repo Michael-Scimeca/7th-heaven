@@ -634,7 +634,7 @@ export default function AudioPlayerSection() {
                               <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] shrink-0">
                                 {album.title.split(' ')[0]}
                               </span>
-                              <span className={`text-sm font-bold truncate ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                              <span className={`font-bold truncate ${isActive ?' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
                                 {cleanName}
                               </span>
                             </div>
@@ -671,7 +671,7 @@ export default function AudioPlayerSection() {
                             <span className={`font-bold tracking-widest w-6 text-left ${isActive ?' text-[var(--color-accent)]' : 'text-white/40'}`}>
                               {trackNumber}
                             </span>
-                            <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
+                            <span className={`font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ?' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
                               {cleanName}
                             </span>
                           </div>
@@ -748,7 +748,7 @@ export default function AudioPlayerSection() {
               {/* Album Title */}
               <span className="relative z-[2] uppercase tracking-[0.2em] text-white text-center font-bold px-4 max-w-full">
                 {activeAlbum ? (
-                  <span className="block text-white font-bold text-sm truncate max-w-[220px]">
+                  <span className="block text-white font-bold truncate max-w-[220px]">
                     {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
                   </span>
                 ) : (
@@ -786,7 +786,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
                       <button aria-label="Action button"
                         onClick={() => setShowLyrics(true)}
-                        className="text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-bold transition-colors cursor-pointer text-left mt-2 block"
+                        className="text-[var(--color-accent)] hover: text-[var(--color-accent)] font-bold transition-colors cursor-pointer text-left mt-2 block"
                       >
                         Lyrics
                       </button>

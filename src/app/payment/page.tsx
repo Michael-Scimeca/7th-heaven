@@ -123,7 +123,7 @@ function PaymentTestContent() {
                 required
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
 
@@ -136,14 +136,14 @@ function PaymentTestContent() {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-sm py-3.5 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider py-3.5 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Redirecting to Stripe…" : "Pay with Stripe (Test Mode)"}
             </button>

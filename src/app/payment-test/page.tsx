@@ -318,7 +318,7 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <h3 className="text-white font-bold text-sm uppercase tracking-wide">
+                <h3 className="text-white font-bold uppercase tracking-wide">
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
                 <p className="mt-1">
@@ -409,7 +409,7 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <h3 className="text-white font-bold text-sm uppercase tracking-wide">
+                <h3 className="text-white font-bold uppercase tracking-wide">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
                 <p className="mt-1 max-w-2xl">
@@ -611,18 +611,18 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white font-bold"
                         >
                           −
                         </button>
-                        <span className="w-5 text-center text-sm font-bold text-white">
+                        <span className="w-5 text-center font-bold text-white">
                           {item.quantity}
                         </span>
                         <button
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           +
                         </button>
@@ -630,7 +630,7 @@ export default function PaymentTestShopPage() {
                       <button
                         type="button"
                         onClick={() => cart.deleteItemFromCart(item.id)}
-                        className="text-white/30 hover:text-rose-400 text-sm px-1"
+                        className="text-white/30 hover:text-rose-400 px-1"
                         aria-label={`Remove ${item.title}`}
                       >
                         ✕
@@ -648,7 +648,7 @@ export default function PaymentTestShopPage() {
             )}
 
             <div className="border-t border-white/10 pt-4 flex items-center justify-between">
-              <span className="text-white/50 text-sm font-bold uppercase tracking-wider">Total</span>
+              <span className="text-white/50 font-bold uppercase tracking-wider">Total</span>
               <span className="text-2xl font-bold text-[var(--color-accent)]">
                 ${cart.getTotalCost().toFixed(2)}
               </span>

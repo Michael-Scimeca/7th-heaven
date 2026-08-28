@@ -282,7 +282,7 @@ export default function LiveHubPage() {
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <span className="font-bold uppercase tracking-widest text-sm" style={{ color: "#f87171" }}>Moderation Dashboard</span>
+                <span className="font-bold uppercase tracking-widest" style={{ color: "#f87171" }}>Moderation Dashboard</span>
                 <span className="px-2 py-0.5 rounded-lg font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4" style={{ color: "rgba(255,255,255,0.35)" }}>
@@ -381,7 +381,7 @@ export default function LiveHubPage() {
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="text-sm font-bold truncate" style={{ color: fan.color }}>{fan.name}</span>
+                              <span className="font-bold truncate" style={{ color: fan.color }}>{fan.name}</span>
                               {isBanned && <span className="px-1.5 rounded-lg" style={{ background: "rgba(239,68,68,0.2)", color: "#f87171", fontSize: 9 }}>BANNED</span>}
                               {isMuted && !isBanned && <span className="px-1.5 rounded-lg" style={{ background: "rgba(156,163,175,0.15)", color: "#9ca3af", fontSize: 9 }}>MUTED</span>}
                               {isWarned && !isBanned && <span className="px-1.5 rounded-lg" style={{ background: "rgba(192, 132, 252,0.15)", color: "#c084fc", fontSize: 9 }}>WARNED</span>}
@@ -393,16 +393,16 @@ export default function LiveHubPage() {
                           <div className="flex items-center gap-1 shrink-0">
                             {!isWarned && (
                               <button aria-label="Action button" onClick={() => { setWarnedUsers(s => new Set(s).add(fan.id)); addLog("⚠️ Warned", fan.name); }} title="Warn"
-                                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
+                                className="w-8 h-8 rounded-lg flex items-center justify-center hover:scale-110 transition-transform"
                                 style={{ background: "rgba(192, 132, 252,0.1)" }}>⚠️</button>
                             )}
                             {!isMuted && (
                               <button aria-label="Action button" onClick={() => { setMutedUsers(s => new Set(s).add(fan.id)); addLog("🔇 Muted", fan.name); }} title="Mute"
-                                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
+                                className="w-8 h-8 rounded-lg flex items-center justify-center hover:scale-110 transition-transform"
                                 style={{ background: "rgba(156,163,175,0.08)" }}>🔇</button>
                             )}
                             <button aria-label="Action button" onClick={() => { setBannedUsers(s => new Set(s).add(fan.id)); addLog("🚫 Banned", fan.name); }} title="Ban"
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
+                              className="w-8 h-8 rounded-lg flex items-center justify-center hover:scale-110 transition-transform"
                               style={{ background: "rgba(239,68,68,0.12)" }}>🚫</button>
                           </div>
                         )}

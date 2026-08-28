@@ -86,7 +86,7 @@ export default function EmailPreviewPage() {
                   }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`text-sm font-bold ${activeId === t.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
+                  <span className={`font-bold ${activeId === t.id ?'text-white' : 'text-white/70 group-hover:text-white'}`}>
                     {t.name}
                   </span>
                   <span className={`font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg ${t.status ==='live'
@@ -108,7 +108,7 @@ export default function EmailPreviewPage() {
           {/* Toolbar */}
           <div className="h-14 border-b border-white/5 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center gap-3">
-              <h2 className="text-sm font-bold text-white">{active.name}</h2>
+              <h2 className="font-bold text-white">{active.name}</h2>
               <span className={`font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg ${active.status ==='live'
                 ? 'bg-emerald-500/10 text-[var(--color-accent)]'
                 : 'bg-purple-600/10 text-purple-300'
@@ -123,7 +123,7 @@ export default function EmailPreviewPage() {
                   placeholder="test@example.com"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  className="bg-transparent text-sm text-white placeholder:text-white/20 outline-none w-[180px]"
+                  className="bg-transparent text-white placeholder:text-white/20 outline-none w-[180px]"
                 />
                 <button aria-label="Action button"
                   onClick={handleSendTest}
@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-sm text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {html}
               </pre>
             )}

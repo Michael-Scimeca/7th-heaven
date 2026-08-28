@@ -134,7 +134,7 @@ export default function PushSubscribeModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -155,7 +155,7 @@ export default function PushSubscribeModal({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -189,7 +189,7 @@ export default function PushSubscribeModal({
                 <CosmicRadialButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 text-white text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2"
+                  className="w-full py-3.5 text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2"
                 >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS 🔔"}
                 </CosmicRadialButton>

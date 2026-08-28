@@ -486,7 +486,7 @@ export default function AdminLegalPage() {
                           />
                         </div>
                         <div>
-                          <h4 className={`text-sm font-bold transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
+                          <h4 className={`font-bold transition-colors ${isChecked ?'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
                           <p className="mt-1 leading-relaxed">{req.description}</p>

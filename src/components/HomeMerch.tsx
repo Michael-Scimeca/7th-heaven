@@ -182,10 +182,10 @@ export default function HomeMerch() {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="text-sm font-bold text-white truncate mb-1 group-hover: text-[var(--color-accent)] transition-colors">{product.title}</h3>
+                  <h3 className="font-bold text-white truncate mb-1 group-hover: text-[var(--color-accent)] transition-colors">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className=" text-[var(--color-accent)] font-bold text-sm">{price}</span>
+                      <span className="text-[var(--color-accent)] font-bold">{price}</span>
                       {compareAt && (
                         <span className="text-white/25 line-through">{compareAt}</span>
                       )}

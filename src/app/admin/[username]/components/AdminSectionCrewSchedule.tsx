@@ -1546,7 +1546,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
         {/* Section Header */}
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-sm font-bold italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+            <h3 className="font-bold italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Crew Work Schedule Calendar
             </h3>
@@ -1628,7 +1628,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <span>Editor: <strong className="text-white">{coEditorConflictAlert.editorName}</strong></span>
                       <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
                     </div>
-                    <div className="text-sm font-bold text-pink-300">
+                    <div className="font-bold text-pink-300">
                       Shift: {coEditorConflictAlert.shiftTitle}
                     </div>
                     <p className="leading-relaxed bg-[#00000029] p-2.5 rounded border border-white/5">
@@ -2254,7 +2254,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       {/* Modal Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                         <div>
-                          <h3 className="text-sm font-bold italic tracking-wide text-white">
+                          <h3 className="font-bold italic tracking-wide text-white">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
                           <p className="uppercase tracking-widest font-bold mt-1">
@@ -2271,7 +2271,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             setDraggedCrewMemberId(null);
                             setEditingShiftId(null);
                           }}
-                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
                         >✕
 
                         </button>
@@ -2314,7 +2314,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
                               <div className="flex items-center justify-between gap-3 text-red-400">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm"></span>
+                                  <span className=""></span>
                                   <div>
                                     <p className="font-bold uppercase tracking-wider">Coverage Requested</p>
                                     <p className="mt-0.5">
@@ -2879,7 +2879,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
+                      <h3 className="font-bold italic tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
                       <p className="mt-2 font-medium leading-relaxed font-sans whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
@@ -2915,7 +2915,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       {/* Drawer Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
-                          <h3 className="text-sm font-bold italic tracking-wide text-white uppercase">Select Crew Group</h3>
+                          <h3 className="font-bold italic tracking-wide text-white uppercase">Select Crew Group</h3>
                           <p className="uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
@@ -2923,7 +2923,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <button
                             aria-label="Close select group drawer"
                             onClick={() => setCellGroupPopover(null)}
-                            className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                            className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
                           >
                             ✕
                           </button>
@@ -2934,7 +2934,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
                         {crewGroups.length === 0 ? (
                           <div className="py-12 text-center space-y-4">
-                            <span className="text-sm text-white/50 italic block">No saved crew groups yet</span>
+                            <span className="text-white/50 italic block">No saved crew groups yet</span>
                             <button
                               type="button"
                               onClick={() => {
@@ -2965,12 +2965,12 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                   handleAddGroupToDay(dateStr, g);
                                   setCellGroupPopover(null);
                                 }}
-                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 text-sm text-white font-bold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
+                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
                                 title={`Apply Group: ${g.name}`}
                               >
                                 <div className="flex items-center gap-3 min-w-0">
-                                  <span className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-bold text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
-                                  <span className="truncate text-sm tracking-wide font-bold text-white">{g.name}</span>
+                                  <span className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-bold flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
+                                  <span className="truncate tracking-wide font-bold text-white">{g.name}</span>
                                 </div>
                                 <span className="font-bold text-purple-400 group-hover:text-purple-300 uppercase tracking-wider shrink-0">Apply →</span>
                               </button>
@@ -3034,7 +3034,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     {/* Modal Header */}
                     <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                       <div>
-                        <h3 className="text-sm font-bold italic tracking-wide text-white">Create New Crew Group</h3>
+                        <h3 className="font-bold italic tracking-wide text-white">Create New Crew Group</h3>
                         <p className="uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
@@ -3043,7 +3043,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
-                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
                       >✕
 
                       </button>
@@ -3338,7 +3338,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       {/* Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                         <div>
-                          <h3 className="text-sm font-bold italic tracking-wide text-white">
+                          <h3 className="font-bold italic tracking-wide text-white">
                             Show Crew Roster
                           </h3>
                           <p className="text-purple-300 uppercase tracking-widest font-bold mt-1">
@@ -3348,7 +3348,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <button
                           aria-label="Close selected show crew date modal"
                           onClick={() => setSelectedShowCrewDate(null)}
-                          className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                          className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
                         >✕</button>
                       </div>
 
@@ -3358,15 +3358,15 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
                           <div>
                             <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
-                            <span className="text-sm font-bold text-white">{dayShifts.length}</span>
+                            <span className="font-bold text-white">{dayShifts.length}</span>
                           </div>
                           <div>
                             <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
-                            <span className="text-sm font-bold text-[var(--color-accent)]">{filledShifts.length}</span>
+                            <span className="font-bold text-[var(--color-accent)]">{filledShifts.length}</span>
                           </div>
                           <div>
                             <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
-                            <span className="text-sm font-bold text-purple-300">{openShifts.length}</span>
+                            <span className="font-bold text-purple-300">{openShifts.length}</span>
                           </div>
                         </div>
 

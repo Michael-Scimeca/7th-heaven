@@ -221,7 +221,7 @@ export default function CruiseHeroMaskEditor() {
                 <Sliders className="w-4 h-4 text-cyan-400" />
               </div>
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
+                <h3 className="font-bold uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
                 <p className="text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>

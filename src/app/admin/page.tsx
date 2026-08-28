@@ -296,7 +296,7 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -310,7 +310,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>

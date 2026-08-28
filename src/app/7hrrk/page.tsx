@@ -381,7 +381,7 @@ export default function RockNRollKidsPage() {
                     <char.icon className="w-3.5 h-3.5" />
                     <span className="text-[10px] font-mono text-white uppercase">{char.role}</span>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-1">{char.name}</h4>
+                  <h4 className="font-bold text-white mb-1">{char.name}</h4>
                   <p className="leading-relaxed">{char.desc}</p>
                 </div>
               </div>
@@ -428,7 +428,7 @@ export default function RockNRollKidsPage() {
                         key={single.id}
                         type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg sm:text-sm font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ?"text-black shadow-lg font-bold scale-105"
+                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ?"text-black shadow-lg font-bold scale-105"
                           : "text-white"
                           }`}
                       >

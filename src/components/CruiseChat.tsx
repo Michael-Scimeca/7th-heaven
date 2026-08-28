@@ -486,7 +486,7 @@ export default function CruiseChat({
               💬
             </div>
             <div>
-              <h3 className="font-bold text-black text-sm tracking-wide">Passenger Lounge</h3>
+              <h3 className="font-bold text-black tracking-wide">Passenger Lounge</h3>
               <span className="text-[var(--font-size-3xs)] text-black/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
             </div>
           </div>
@@ -583,7 +583,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="btn-cosmic-radial-property w-full py-3 text-white font-bold sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
+              className="btn-cosmic-radial-property w-full py-3 text-white font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
             >
               <span>Sign Up as a Fan</span>
             </button>
@@ -662,7 +662,7 @@ export default function CruiseChat({
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";
                     return (
                       <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${bgClass} font-medium animate-[slideIn_0.3s_ease-out]`}>
-                        <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
+                        <span className="shrink-0">{msg.sender_avatar || '🛡️'}</span>
                         <div className="flex-1 leading-relaxed">
                           {msg.content}
                         </div>
@@ -827,7 +827,7 @@ export default function CruiseChat({
           </div>
 
           {isArchived ? (
-            <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
+            <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
               <span>🔒</span> This cruise chat has been archived.
             </div>
           ) : (

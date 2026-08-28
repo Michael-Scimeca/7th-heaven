@@ -695,7 +695,7 @@ a:hover {
                             type="search"
                             aria-label="Search questions, keywords, or topics"
                             placeholder="Search questions, keywords, or topics..."
-                            className="form-input w-full text-sm font-semibold"
+                            className="form-input w-full font-semibold"
                             style={{
                               paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
                               paddingRight: `${settings.searchPaddingRight ?? 48}px`,

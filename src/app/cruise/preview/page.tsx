@@ -193,7 +193,7 @@ function VersionF() {
         </div>
       ))}
       <button aria-label="Action button" type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
-        className="text-sm font-bold text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
+        className="font-bold text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
     </div>
   );
 }
@@ -227,9 +227,9 @@ export default function CruisePreviewPage() {
           {VERSIONS.map(({ label, title, desc, Component }) => (
             <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-sm font-bold text-white">{label}</span>
+                <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">{label}</span>
                 <div>
-                  <h2 className="text-sm font-bold text-white">{title}</h2>
+                  <h2 className="font-bold text-white">{title}</h2>
                   <p className="">{desc}</p>
                 </div>
               </div>

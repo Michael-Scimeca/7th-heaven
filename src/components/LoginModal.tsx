@@ -713,7 +713,7 @@ function LoginModalBodyContent(props: any) {
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tighter uppercase">
             <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-  ">HEAVEN</span>
           </h2>
-          <div className="sm:text-sm uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
+          <div className="uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
             {modalMode === "forgot" ? (
               "Reset Your Password"
             ) : modalMode === "login" ? (
@@ -744,7 +744,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 py-2.5 px-4 sm:text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="login"
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="login"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -757,7 +757,7 @@ function LoginModalBodyContent(props: any) {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
-              className={`relative z-10 py-2.5 px-4 sm:text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="signup"
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="signup"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -834,7 +834,7 @@ function LoginModalBodyContent(props: any) {
                 value={pinCode}
                 onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-bold text-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-bold text-xl"
                 required
               />
             </div>
@@ -846,7 +846,7 @@ function LoginModalBodyContent(props: any) {
             <button type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-bold sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
             >
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
@@ -869,7 +869,7 @@ function LoginModalBodyContent(props: any) {
             </p>
             <button type="button"
               onClick={() => { setConfirmationRequired(false); setError(""); }}
-              className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
+              className="w-full py-3 border border-black/10 text-black font-bold uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
             >
               Got it, thanks
             </button>
@@ -916,7 +916,7 @@ function LoginModalBodyContent(props: any) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                         required
                       />
                     </div>
@@ -936,7 +936,7 @@ function LoginModalBodyContent(props: any) {
                           value={forgotPinCode}
                           onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-bold rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-bold rounded-xl"
                           required
                         />
                       </div>
@@ -950,7 +950,7 @@ function LoginModalBodyContent(props: any) {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                           required
                         />
                       </div>
@@ -977,7 +977,7 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ?'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ?'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
@@ -993,7 +993,7 @@ function LoginModalBodyContent(props: any) {
                       autoComplete="new-password"
                       data-lpignore="true"
                       data-form-type="other"
-                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   {modalMode === "login" && (
@@ -1016,7 +1016,7 @@ function LoginModalBodyContent(props: any) {
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={`sm:text-sm font-bold leading-snug cursor-pointer ${isAgeConfirmed ?'text-white' : 'text-white/80'}`}>
+                <label htmlFor="modal-age-confirmed-toggle" className={`font-bold leading-snug cursor-pointer ${isAgeConfirmed ?'text-white' : 'text-white/80'}`}>
                   I confirm that I am <span className="text-[#c27aff] font-bold">18 years of age or older</span>
                 </label>
               </div>
@@ -1030,7 +1030,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white font-bold sm:text-sm tracking-wider disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-bold tracking-wider disabled:opacity-50"
             >
               {loading
                 ? "Processing..."
@@ -1199,7 +1199,7 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
     <>
       <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-white/20" />
-        <span className="sm:text-sm font-bold uppercase tracking-widest text-white/70 px-1">Or continue with</span>
+        <span className="font-bold uppercase tracking-widest text-white/70 px-1">Or continue with</span>
         <div className="flex-1 h-px bg-white/20" />
       </div>
 
@@ -1356,7 +1356,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1369,7 +1369,7 @@ function SignUpExtraFields({
                 id="signup-company-name"
                 type="text"
                 placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1387,7 +1387,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1400,7 +1400,7 @@ function SignUpExtraFields({
                 id="signup-cabin-no"
                 type="text"
                 placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1421,7 +1421,7 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ?'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ?'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -1437,7 +1437,7 @@ function SignUpExtraFields({
                   onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
-                  className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                 />
               </div>
             </div>
@@ -1483,7 +1483,7 @@ function SignUpExtraFields({
                       onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
-                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   <div className="shrink-0 relative z-30">

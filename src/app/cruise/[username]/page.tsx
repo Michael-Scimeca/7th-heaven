@@ -594,11 +594,11 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
                         <label htmlFor="cruise-hub-login-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address</label>
-                        <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-login-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Password</label>
-                        <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
@@ -612,19 +612,19 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
                         <label htmlFor="cruise-hub-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
@@ -692,7 +692,7 @@ export default function CruiseDashboard() {
           <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <div className="flex-1">
@@ -728,7 +728,7 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
@@ -742,7 +742,7 @@ export default function CruiseDashboard() {
                 </div>
               ) : sanitizedAnnouncement ? (
                 <div
-                  className="text-white/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
+                  className="text-white/80 leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
@@ -788,7 +788,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -818,7 +818,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 text-sm md:text-base leading-relaxed tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-400 [&_a]:hover:text-cyan-300 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+                    className="space-y-4 text-white/80 md:text-base leading-relaxed tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-400 [&_a]:hover:text-cyan-300 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
                     dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
                   />
                 )}

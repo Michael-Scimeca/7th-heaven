@@ -218,7 +218,7 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
@@ -355,7 +355,7 @@ export default function MemberDashboard() {
                                 <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -521,7 +521,7 @@ export default function MemberDashboard() {
                               <p className="uppercase tracking-[0.1em]">{item.type}</p>
                             </div>
                           </div>
-                          <span className="text-sm font-bold text-white/50">{item.price}</span>
+                          <span className="font-bold text-white/50">{item.price}</span>
                         </div>
                       ))}
                     </div>

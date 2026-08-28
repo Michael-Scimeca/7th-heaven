@@ -233,10 +233,10 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-bold rounded-lg">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white font-bold rounded-lg">
                       {yGroup.year}
                     </span>
-                    <span className="text-sm font-bold text-[var(--text-color)]">
+                    <span className="font-bold text-[var(--text-color)]">
                       {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
                   </div>
@@ -258,13 +258,13 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
                         >
                           {/* Date & Day */}
-                          <div className="w-full sm:w-48 shrink-0 font-semibold sm:text-sm text-[var(--muted-text)] flex items-center gap-2">
+                          <div className="w-full sm:w-48 shrink-0 font-semibold text-[var(--muted-text)] flex items-center gap-2">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
                             {show.date || yGroup.year}
                           </div>
 
                           {/* Venue Name */}
-                          <div className="flex-1 font-bold text-sm sm:text-base text-[var(--text-color)] leading-snug">
+                          <div className="flex-1 font-bold sm:text-base text-[var(--text-color)] leading-snug">
                             {show.venue}
                           </div>
 

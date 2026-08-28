@@ -240,7 +240,7 @@ export default function FanUploadForm() {
           </div>
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">Moments Submitted!</h3>
           <p className="mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
-          <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className=" text-[var(--color-accent)] text-sm font-bold hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
+          <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className="text-[var(--color-accent)] font-bold hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
             Upload Another
           </button>
         </div>
@@ -330,7 +330,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-venue" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
-                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -339,7 +339,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-date" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
-                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -348,7 +348,7 @@ export default function FanUploadForm() {
                   <label htmlFor="fan-upload-caption" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
-                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -363,7 +363,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white font-bold text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white font-bold uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
               >
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </CosmicRadialButton>

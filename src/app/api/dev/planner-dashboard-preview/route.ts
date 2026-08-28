@@ -62,7 +62,7 @@ export async function GET() {
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-lg bg-purple-400"></span>
-                <span class="font-bold text-sm text-white">Full Band Concert</span>
+                <span class="font-bold text-white">Full Band Concert</span>
               </div>
               <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold text-[10px]">
                 CONFIRMED
@@ -101,7 +101,7 @@ export async function GET() {
           {/* Quick Actions Card */}
           <div class="bg-[#0b0b14] border border-white/10 rounded-lg p-5 space-y-4">
             <div class="pb-3 border-b border-white/10">
-              <span class="font-bold text-sm text-white">Planner Coordinator Tools</span>
+              <span class="font-bold text-white">Planner Coordinator Tools</span>
               <p class="mt-0.5">Quick actions for your upcoming events</p>
             </div>
 

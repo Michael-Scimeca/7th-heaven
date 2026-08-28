@@ -64,7 +64,7 @@ function SuccessContent() {
           </p>
 
           {sessionId && (
-            <div className="flex items-center justify-center gap-2 text-[var(--color-accent)]/80 text-sm mb-6">
+            <div className="flex items-center justify-center gap-2 text-[var(--color-accent)]/80 mb-6">
               <span className="w-2 h-2 rounded-lg bg-emerald-400 animate-pulse" />
               Confirmation sent to your email
             </div>

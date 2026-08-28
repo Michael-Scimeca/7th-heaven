@@ -581,7 +581,7 @@ export default function HomeVideoShowcase() {
                             {video.badges.map((badge, bIdx) => (
                               <span
                                 key={badge + bIdx}
-                                className="sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
+                                className="font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
                               >
                                 {badge}
                               </span>
@@ -599,7 +599,7 @@ export default function HomeVideoShowcase() {
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2 sm:text-sm text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                  <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
                     <span className="shrink-0">
                       Views <strong className="text-white font-mono ml-1">{video.viewCount}</strong>
                     </span>

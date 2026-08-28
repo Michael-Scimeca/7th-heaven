@@ -112,7 +112,7 @@ export function DailyPoll() {
               )}
 
               <div className="relative z-10 flex items-center justify-between p-4">
-                <span className={`text-sm font-medium ${voted === opt.id ? 'text-emerald-400' : 'text-white/80'}`}>
+                <span className={`font-medium ${voted === opt.id ?'text-emerald-400' : 'text-white/80'}`}>
                   {opt.text}
                 </span>
                 {voted !== null && (
@@ -461,11 +461,11 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
-            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</span>
-            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
@@ -473,19 +473,19 @@ export function BookingManager({ email }: { email?: string }) {
           <div>
             <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
             <div className="input-glow-border rounded-lg">
-              <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors" />
+              <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
             </div>
           </div>
           <div>
             <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
             <div className="input-glow-border rounded-lg">
-              <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors" />
+              <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
             </div>
           </div>
           <div>
             <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
             <div className="input-glow-border rounded-lg">
-              <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors cursor-pointer">
+              <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors cursor-pointer">
                 <option value="group_n5">Ocean View</option>
                 <option value="group_if">Infinite Central Park</option>
                 <option value="group_d4">Ocean View Balcony</option>
@@ -548,7 +548,7 @@ export function BookingManager({ email }: { email?: string }) {
             <span>⏳</span> Balance Owed
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-rose-400 font-bold text-sm">{booking.balance_due || "$350.00"}</span>
+            <span className="text-rose-400 font-bold">{booking.balance_due || "$350.00"}</span>
             {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
               <button aria-label="Action button"
                 onClick={() => setIsPayModalOpen(true)}
@@ -616,7 +616,7 @@ export function BookingManager({ email }: { email?: string }) {
       {/* Cruising Power Travel Agent Portal Hook */}
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white text-left">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-sm">🚢</span>
+          <span className="">🚢</span>
           <span className="font-bold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
         </div>
         <p>
@@ -765,7 +765,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
           <form onSubmit={handlePaymentSubmit} className="p-6 md:p-8 space-y-6">
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-white">Final Payment</h3>
+                <h3 className="font-bold uppercase tracking-widest text-white">Final Payment</h3>
                 <p className="uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
@@ -941,7 +941,7 @@ export function ImportantLinksWidget() {
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">
+              <span className="font-medium text-white group-hover/item:text-cyan-300 transition-colors">
                 {link.title}
               </span>
             </div>
@@ -971,7 +971,7 @@ export function SongRequestLeaderboard() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)] text-sm">🎸</div>
+        <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)]">🎸</div>
         <div>
           <h2 className="font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
           <p className="uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
@@ -981,11 +981,11 @@ export function SongRequestLeaderboard() {
       <div className="space-y-4">
         {songs.map((song, i) => (
           <div key={song.id} className="flex items-center gap-4 group">
-            <span className={`text-sm font-bold w-4 text-center ${i < 3 ?' text-[var(--color-accent)]' : 'text-white/20'}`}>
+            <span className={`font-bold w-4 text-center ${i < 3 ?' text-[var(--color-accent)]' : 'text-white/20'}`}>
               {i + 1}
             </span>
             <div className="flex-1">
-              <div className="text-white/90 font-medium text-sm">{song.title}</div>
+              <div className="text-white/90 font-medium">{song.title}</div>
               <div className="text-white/30">{song.votes} votes</div>
             </div>
             <button aria-label="Action button"
@@ -1040,7 +1040,7 @@ export function CaptainsLog() {
 
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-end mb-2">
-            <span className="text-sm font-bold text-white truncate">Rehearsal Update!</span>
+            <span className="font-bold text-white truncate">Rehearsal Update!</span>
             <span className="text-[var(--color-accent)]/80 font-mono">0:42</span>
           </div>
           <div className="w-full h-1.5 bg-white/10 rounded-lg overflow-hidden cursor-pointer">
@@ -1072,7 +1072,7 @@ export function ExcursionTeasers() {
         {EXCURSIONS.map((ex, i) => (
           <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
-              <div className="text-sm font-bold text-white mb-0.5">{ex.title}</div>
+              <div className="font-bold text-white mb-0.5">{ex.title}</div>
               <div className="text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">

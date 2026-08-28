@@ -120,7 +120,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
               id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
-              className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
+              className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
             >
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
@@ -166,9 +166,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                             max={500}
                             value={challenge.threshold}
                             onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
-                            className="w-24 bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
+                            className="w-24 bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
                           />
-                          <span className="text-white/30 text-sm">fans invited to unlock reward</span>
+                          <span className="text-white/30">fans invited to unlock reward</span>
                         </div>
                       </div>
 
@@ -183,7 +183,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           value={challenge.reward_name}
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
                           placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                          className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
+                          className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
                         />
                       </div>
 
@@ -198,7 +198,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
                           rows={2}
                           placeholder="e.g. Claim at the merch table, night of show"
-                          className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
+                          className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
                         />
                       </div>
 
@@ -227,7 +227,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button aria-label="Action button"
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 text-sm font-bold uppercase tracking-widest transition-colors ${saved ?"bg-[var(--color-accent)]  text-white"
+                    className={`w-full py-3.5 font-bold uppercase tracking-widest transition-colors ${saved ?"bg-[var(--color-accent)]  text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                       }`}
                   >

@@ -764,7 +764,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="flex items-center gap-2">
               <span className="text-xl">⚙️</span>
               <div>
-                <h3 className="text-white font-bold text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
+                <h3 className="text-white font-bold uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
                 <p className="">All real-time physics tuning parameters</p>
               </div>
             </div>
@@ -781,7 +781,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
             {/* SECTION 1: Velocity & Viewport Triggers */}
             <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <div className="flex justify-between items-center text-cyan-300 font-bold text-sm">
+              <div className="flex justify-between items-center text-cyan-300 font-bold">
                 <span>⚡ Cruise Boat & Line Travel Speed</span>
                 <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
               </div>

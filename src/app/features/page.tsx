@@ -1175,7 +1175,7 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
       <div className="text-base font-bold uppercase tracking-[0.15em] text-white mt-2">{label}</div>
-      {sublabel && <div className="text-sm text-white/30 mt-1 max-w-[180px] mx-auto leading-tight">{sublabel}</div>}
+      {sublabel && <div className="text-white/30 mt-1 max-w-[180px] mx-auto leading-tight">{sublabel}</div>}
     </div>
   );
 }
@@ -1240,7 +1240,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             {/* Close Button */}
             <button aria-label="Action button"
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 text-white hover:text-white text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-colors cursor-pointer"
+              className="absolute -top-12 right-0 text-white hover:text-white font-bold uppercase tracking-widest flex items-center gap-2 transition-colors cursor-pointer"
             >
               Close <span className="text-lg">✕</span>
             </button>
@@ -1302,7 +1302,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base leading-relaxed ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
-          <span className="font-bold uppercase tracking-widest text-white/50 block mb-1.5 text-sm">Why it matters</span>
+          <span className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Why it matters</span>
           {f.whyItMatters}
         </div>
 
@@ -1332,7 +1332,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
-                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center text-sm font-bold mt-0.5 ${isPurple ?"bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029]    text-white/30"}`}>{i + 1}</span>
+                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center font-bold mt-0.5 ${isPurple ?"bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029]    text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -1379,7 +1379,7 @@ export default function FeaturesPage() {
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] text-sm font-bold uppercase tracking-[0.25em] mb-10">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-[0.25em] mb-10">
             Full Platform Overview · All Features Live & Documented
           </div>
 
@@ -1393,7 +1393,7 @@ export default function FeaturesPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
-              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40 text-sm font-semibold">{p}</span>
+              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40 font-semibold">{p}</span>
             ))}
           </div>
 
@@ -1434,8 +1434,8 @@ export default function FeaturesPage() {
           {/* ── ROW 1: Fan Viewer ── */}
           <div className="mb-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 text-sm font-bold uppercase tracking-widest rounded-lg">🎥 Fan Live Viewer</span>
-              <span className="text-white/20 text-sm">— what fans see at /live/[room]</span>
+              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 font-bold uppercase tracking-widest rounded-lg">🎥 Fan Live Viewer</span>
+              <span className="text-white/20">— what fans see at /live/[room]</span>
             </div>
 
             {/* Outer chrome */}
@@ -1482,7 +1482,7 @@ export default function FeaturesPage() {
                       <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white font-bold uppercase tracking-widest">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />LIVE
                       </span>
-                      <span className="text-white font-bold text-sm">Michael — 7th Heaven</span>
+                      <span className="text-white font-bold">Michael — 7th Heaven</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-white">👁 1,247 watching</span>
@@ -1535,7 +1535,7 @@ export default function FeaturesPage() {
                 <div className="w-72 flex flex-col border-l border-white/[0.07] bg-[#0d0d0d]">
                   {/* Chat header */}
                   <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
-                    <span className="text-white text-sm font-bold uppercase tracking-widest">Live Chat</span>
+                    <span className="text-white font-bold uppercase tracking-widest">Live Chat</span>
                     <span className="text-white/30">1,247 online</span>
                   </div>
 
@@ -1568,7 +1568,7 @@ export default function FeaturesPage() {
                   {/* Input */}
                   <div className="px-3 pb-3">
                     <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2">
-                      <span className="text-white/20 text-sm flex-1">Say something...</span>
+                      <span className="text-white/20 flex-1">Say something...</span>
                       <button aria-label="Action button" className="text-[var(--color-accent)] font-bold uppercase">Send</button>
                     </div>
                   </div>
@@ -1587,8 +1587,8 @@ export default function FeaturesPage() {
           {/* ── ROW 2: Crew Dashboard ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] text-sm font-bold uppercase tracking-widest rounded-lg">🎛️ Crew Broadcast Studio</span>
-              <span className="text-white/20 text-sm">— what crew sees at /crew</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-widest rounded-lg">🎛️ Crew Broadcast Studio</span>
+              <span className="text-white/20">— what crew sees at /crew</span>
             </div>
 
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.10)]">
@@ -1636,14 +1636,14 @@ export default function FeaturesPage() {
 
                   {/* A/V controls */}
                   <div className="flex gap-2">
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       🎤 Mic On
                     </button>
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       📹 Cam On
                     </button>
                   </div>
-                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer">
                     ⏹ End Stream
                   </button>
                 </div>
@@ -1651,7 +1651,7 @@ export default function FeaturesPage() {
                 {/* Col 2: Chat moderation */}
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-white text-sm font-bold uppercase tracking-widest">Fan Chat</h3>
+                    <h3 className="text-white font-bold uppercase tracking-widest">Fan Chat</h3>
                     <span className="text-emerald-400">Live · 1,247 online</span>
                   </div>
 
@@ -1708,16 +1708,16 @@ export default function FeaturesPage() {
                   <div className="bg-gradient-to-br from-[#851DEF]/15 to-black border border-[#851DEF]/30 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🎰</span>
-                      <span className="text-white font-bold text-sm uppercase tracking-wide">Raffle Engine</span>
+                      <span className="text-white font-bold uppercase tracking-wide">Raffle Engine</span>
                       <span className="ml-auto px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] rounded-lg font-bold">LIVE</span>
                     </div>
                     {/* Active raffle */}
                     <div className="bg-black/40 rounded-lg p-3 mb-3">
                       <div className="text-white/50 mb-1">Current Prize</div>
-                      <div className="text-white font-bold text-sm mb-2">Signed 7th Heaven Vinyl 🎵</div>
+                      <div className="text-white font-bold mb-2">Signed 7th Heaven Vinyl 🎵</div>
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-white/40">Entries</span>
-                        <span className="text-[#c084fc] font-bold text-sm">347</span>
+                        <span className="text-[#c084fc] font-bold">347</span>
                       </div>
                       {/* countdown */}
                       <div className="text-center py-2 bg-[var(--color-accent)]/20 rounded-lg border border-[#851DEF]/30">
@@ -1738,7 +1738,7 @@ export default function FeaturesPage() {
                   <div className="bg-gradient-to-br from-amber-500/10 to-black border border-purple-500/25 p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🔥</span>
-                      <span className="text-white font-bold text-sm uppercase tracking-wide">Merch Flash Drop</span>
+                      <span className="text-white font-bold uppercase tracking-wide">Merch Flash Drop</span>
                     </div>
                     <div className="space-y-2 mb-3">
                       <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
@@ -1748,7 +1748,7 @@ export default function FeaturesPage() {
                       </div>
                       <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
                     </div>
-                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black font-bold uppercase tracking-widest transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
                     </button>
                   </div>
@@ -1757,7 +1757,7 @@ export default function FeaturesPage() {
                   <div className="bg-white/[0.02] border border-white/[0.07] p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">📱</span>
-                      <span className="text-white/70 font-bold text-sm uppercase tracking-wide">SMS Fan Alert</span>
+                      <span className="text-white/70 font-bold uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 mb-2">Blast to all subscribers within 50mi</div>
                     <button aria-label="Action button" className="w-full py-2 bg-[#00000029] border border-white/10 rounded-lg text-white/50 font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
@@ -1779,8 +1779,8 @@ export default function FeaturesPage() {
           {/* ── ROW 3: Admin Dashboard ── */}
           <div className="mt-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-sm font-bold uppercase tracking-widest rounded-lg">⚙️ Admin Dashboard</span>
-              <span className="text-white/20 text-sm">— what admins see at /admin</span>
+              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 font-bold uppercase tracking-widest rounded-lg">⚙️ Admin Dashboard</span>
+              <span className="text-white/20">— what admins see at /admin</span>
             </div>
 
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.08)]">
@@ -1799,7 +1799,7 @@ export default function FeaturesPage() {
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.05]">
                   <div className="flex items-center gap-3">
                     <span className="text-white font-bold text-lg uppercase tracking-widest" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
-                    <span className="text-white/20 text-sm">Admin Control Center</span>
+                    <span className="text-white/20">Admin Control Center</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
@@ -1825,7 +1825,7 @@ export default function FeaturesPage() {
                     { label: "🛒 Merch", active: false },
                     { label: "📣 Alerts", active: false },
                   ].map(t => (
-                    <div key={t.label} className={`px-5 py-2 rounded-lg text-sm font-bold uppercase tracking-widest cursor-pointer transition-colors ${t.active ?"bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
+                    <div key={t.label} className={`px-5 py-2 rounded-lg font-bold uppercase tracking-widest cursor-pointer transition-colors ${t.active ?"bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
                       {t.label}
                     </div>
                   ))}
@@ -1926,8 +1926,8 @@ export default function FeaturesPage() {
                             </div>
                             {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-lg flex items-center justify-center text-[var(--font-size-4xs)] text-white font-bold">!</div>}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
-                              <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white text-sm font-bold cursor-pointer">✓</button>
-                              <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white text-sm font-bold cursor-pointer">✕</button>
+                              <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white font-bold cursor-pointer">✓</button>
+                              <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white font-bold cursor-pointer">✕</button>
                             </div>
                           </div>
                         ))}
@@ -2053,14 +2053,14 @@ export default function FeaturesPage() {
             </h2>
           </div>
           <p className="mb-14 max-w-3xl">
-            Every registered fan gets a personalized dashboard at <code className=" text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded text-sm font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
+            Every registered fan gets a personalized dashboard at <code className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
           </p>
 
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-white/10 text-[var(--color-accent)] text-sm font-bold uppercase tracking-widest rounded-lg">⭐ Profile & Show Countdown</span>
-              <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-white/10 text-[var(--color-accent)] font-bold uppercase tracking-widest rounded-lg">⭐ Profile & Show Countdown</span>
+              <span className="text-white/20">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
@@ -2077,8 +2077,8 @@ export default function FeaturesPage() {
           {/* Screenshot 2: Mid — Proximity + Shows */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm font-bold uppercase tracking-widest rounded-lg">📍 Proximity Alerts & Shows</span>
-              <span className="text-white/20 text-sm">— upcoming dates + location-based notifications</span>
+              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase tracking-widest rounded-lg">📍 Proximity Alerts & Shows</span>
+              <span className="text-white/20">— upcoming dates + location-based notifications</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
@@ -2095,8 +2095,8 @@ export default function FeaturesPage() {
           {/* Screenshot 3: Lower — Memories + Referral */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 text-sm font-bold uppercase tracking-widest rounded-lg">🎸 Show Memories & Referrals</span>
-              <span className="text-white/20 text-sm">— post-show engagement + fan-to-fan growth</span>
+              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 font-bold uppercase tracking-widest rounded-lg">🎸 Show Memories & Referrals</span>
+              <span className="text-white/20">— post-show engagement + fan-to-fan growth</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
@@ -2141,7 +2141,7 @@ export default function FeaturesPage() {
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: " bg-[#00000029]    border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
             ].map(l => (
-              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-bold ${l.color}`}>
+              <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border font-bold ${l.color}`}>
                 <span className={`w-2 h-2 rounded-lg ${l.dot}`} />
                 {l.label}
               </div>
@@ -2252,7 +2252,7 @@ export default function FeaturesPage() {
                 <h3 className="text-base font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
                   <span>{group.group}</span>
                   <span className="h-px flex-1 bg-white/[0.06]" />
-                  <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
+                  <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>
                 </h3>
 
                 <div className="border border-white/[0.07] overflow-hidden divide-y divide-white/[0.04]">
@@ -2266,15 +2266,15 @@ export default function FeaturesPage() {
                     >
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />
 
-                      <code className="text-sm font-mono text-white/50 group-hover:text-white/90 transition-colors w-[180px] md:w-[220px] shrink-0 truncate">
+                      <code className="font-mono text-white/50 group-hover:text-white/90 transition-colors w-[180px] md:w-[220px] shrink-0 truncate">
                         {page.path}
                       </code>
 
-                      <span className="text-sm font-bold text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="font-bold text-white/80 group-hover:text-white transition-colors w-[130px] md:w-[160px] shrink-0 truncate uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
-                      <span className="text-sm text-white/30 group-hover:text-white/50 transition-colors flex-1 min-w-0 truncate hidden lg:block">
+                      <span className="text-white/30 group-hover:text-white/50 transition-colors flex-1 min-w-0 truncate hidden lg:block">
                         {page.desc}
                       </span>
 
@@ -2322,7 +2322,7 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ?"bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ?"bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
                   <span className={`ml-1 px-1.5 py-0.5 rounded-lg font-bold ${activeCategory === cat.key ?"bg-white/20 text-white" : " bg-[#00000029]    text-white/30"}`}>{count}</span>
                 </button>
@@ -2489,7 +2489,7 @@ export default function FeaturesPage() {
                 <h3 className="text-base font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
                   {group.group}
                   <span className="h-px flex-1 bg-white/[0.06]" />
-                  <span className="text-white/20 text-sm font-normal normal-case">{group.pages.length} pages</span>
+                  <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>
                 </h3>
 
                 <div className="border border-white/[0.07] overflow-hidden">
@@ -2508,17 +2508,17 @@ export default function FeaturesPage() {
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />
 
                       {/* path */}
-                      <code className="text-sm font-mono text-white group-hover:text-white transition-colors min-w-[200px] shrink-0">
+                      <code className="font-mono text-white group-hover:text-white transition-colors min-w-[200px] shrink-0">
                         {page.path}
                       </code>
 
                       {/* label */}
-                      <span className="text-sm font-bold text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+                      <span className="font-bold text-white/80 group-hover:text-white transition-colors uppercase tracking-wide shrink-0" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                         {page.label}
                       </span>
 
                       {/* desc */}
-                      <span className="text-sm text-white/30 group-hover:text-white/50 transition-colors flex-1 min-w-0 truncate hidden md:block">
+                      <span className="text-white/30 group-hover:text-white/50 transition-colors flex-1 min-w-0 truncate hidden md:block">
                         — {page.desc}
                       </span>
 
@@ -2529,7 +2529,7 @@ export default function FeaturesPage() {
 
                       {/* arrow */}
                       {!page.path.includes("[") && (
-                        <span className="text-white/20 group-hover: text-white transition-colors shrink-0 text-sm">↗</span>
+                        <span className="text-white/20 group-hover: text-white transition-colors shrink-0">↗</span>
                       )}
                     </Link>
                   ))}

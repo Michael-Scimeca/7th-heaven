@@ -1069,7 +1069,7 @@ ${filterLine}
             <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0">
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-lg no-bg-icon pr-5 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1305,7 +1305,7 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-sm text-[var(--color-text-secondary)] ${isHighlighted ? " animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-[var(--color-text-secondary)] ${isHighlighted ?" animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
@@ -1357,20 +1357,20 @@ ${filterLine}
 
                     {/* Tags Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2 flex-wrap text-sm sm:text-base font-bold">
-                        <span className="text-sm">{getShowIcon(show)}</span>
-                        {show.info && <span className="text-sm sm:text-base text-white/70 font-medium">{show.info}</span>}
+                      <div className="flex items-center gap-2 flex-wrap sm:text-base font-bold">
+                        <span className="">{getShowIcon(show)}</span>
+                        {show.info && <span className="sm:text-base text-white/70 font-medium">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="sm:text-sm font-bold text-purple-300 uppercase">All Ages</span>
+                          <span className="font-bold text-purple-300 uppercase">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="sm:text-sm font-bold text-red-400 uppercase">21+</span>
+                          <span className="font-bold text-red-400 uppercase">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
                           let tagColors = "text-[var(--color-accent)]";
                           return (
-                            <span key={tag} className={`sm:text-sm font-bold uppercase ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`font-bold uppercase ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>
@@ -1529,7 +1529,7 @@ ${filterLine}
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
               <p className="">No shows match your filters.</p>
-              <button aria-label="Action button" onClick={clearAll} className="mt-4 text-sm text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
+              <button aria-label="Action button" onClick={clearAll} className="mt-4 text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
             </div>
@@ -1565,12 +1565,12 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
                     <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
                     <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1578,12 +1578,12 @@ ${filterLine}
                   <div className="sm:col-span-2">
                     <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
                     <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
                     <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1591,22 +1591,22 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
                     <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
                     <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
                     <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
                     <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1614,12 +1614,12 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions / Google Maps (URL)</label>
                     <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1627,19 +1627,19 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Directions Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Info / Notes</label>
                     <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
-                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
                   <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
+                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
@@ -1710,11 +1710,11 @@ ${filterLine}
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
                   <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer">
+                    className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase tracking-wider transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button aria-label="Action button" type="submit" disabled={submitting}
-                    className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
+                    className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white font-bold uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
                     {submitting ? "Saving..." : "Save Show"}
                   </button>
                 </div>
@@ -1740,7 +1740,7 @@ ${filterLine}
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
+                    <h3 className="text-white font-bold">Set Up Alerts</h3>
                     <p className="uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
@@ -1849,7 +1849,7 @@ ${filterLine}
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-              <h3 className="text-white font-bold text-sm uppercase tracking-wider">Font Tester</h3>
+              <h3 className="text-white font-bold uppercase tracking-wider">Font Tester</h3>
               <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
                 className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors"

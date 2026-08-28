@@ -340,7 +340,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🛍️</span>
                 <div>
-                  <h3 className="text-white font-bold text-sm uppercase tracking-wide">Shopify Storefront Integration Blueprint</h3>
+                  <h3 className="text-white font-bold uppercase tracking-wide">Shopify Storefront Integration Blueprint</h3>
                   <p className="">How this page connects live to your Shopify Storefront API</p>
                 </div>
               </div>
@@ -619,7 +619,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="e.g. Alex Miller"
                     value={customerName}
                     onChange={e => setCustomerName(e.target.value)}
-                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
+                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-cyan-500 outline-none"
                   />
                 </div>
 
@@ -632,7 +632,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="alex@example.com"
                     value={customerEmail}
                     onChange={e => setCustomerEmail(e.target.value)}
-                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none"
+                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-cyan-500 outline-none"
                   />
                 </div>
               </div>
@@ -648,7 +648,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                       placeholder="Street Address"
                       value={street}
                       onChange={e => setStreet(e.target.value)}
-                      className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-sm text-white focus:border-purple-500 outline-none mb-2"
+                      className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-purple-500 outline-none mb-2"
                     />
                     <div className="grid grid-cols-3 gap-2">
                       <input aria-label="Input field"
@@ -684,7 +684,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <button aria-label="Action button"
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black font-bold text-sm uppercase tracking-widest transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
+                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black font-bold uppercase tracking-widest transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
               >
                 {isSubmitting ? "Processing Order..." : `Complete Purchase — $${selectedProduct.price}`}
               </button>
@@ -704,7 +704,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
                 <div>
-                  <h3 className="text-white font-bold text-sm uppercase tracking-wide">Left the Show? Switch to Shipping</h3>
+                  <h3 className="text-white font-bold uppercase tracking-wide">Left the Show? Switch to Shipping</h3>
                   <p className="">Enter your delivery address below</p>
                 </div>
               </div>
@@ -722,7 +722,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 placeholder="Street Address"
                 value={street}
                 onChange={e => setStreet(e.target.value)}
-                className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-sm text-white focus:border-yellow-400 outline-none"
+                className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-yellow-400 outline-none"
               />
 
               <div className="grid grid-cols-3 gap-2">

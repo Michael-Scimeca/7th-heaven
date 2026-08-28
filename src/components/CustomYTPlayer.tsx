@@ -307,7 +307,7 @@ export default function CustomYTPlayer({
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-lg shrink-0" />
               <div className="min-w-0">
-                <h3 className="text-sm font-bold text-white truncate">{title}</h3>
+                <h3 className="font-bold text-white truncate">{title}</h3>
                 <p className="">7th Heaven • {year}</p>
               </div>
             </div>
@@ -459,7 +459,7 @@ export default function CustomYTPlayer({
                 </div>
 
                 {/* Time */}
-                <span className="text-sm text-white/40 font-mono tabular-nums hidden sm:inline">
+                <span className="text-white/40 font-mono tabular-nums hidden sm:inline">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
               </div>

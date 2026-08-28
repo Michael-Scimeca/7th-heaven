@@ -225,7 +225,7 @@ export default function LiveShowFeed() {
                 >
                   {selectedMedia.member_avatar}
                 </div>
-                <span className="text-sm font-semibold text-white/80">{selectedMedia.member_name}</span>
+                <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
                 <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
               <p className="leading-relaxed">{selectedMedia.content}</p>
@@ -309,7 +309,7 @@ export default function LiveShowFeed() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-sm font-semibold text-white/70">{post.member_name}</span>
+                    <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>
                   <p className="leading-relaxed truncate">{post.content}</p>

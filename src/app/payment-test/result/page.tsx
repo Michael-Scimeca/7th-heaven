@@ -99,7 +99,7 @@ function NorthResultContent() {
                 {succeeded ? "Payment Succeeded" : "Payment Failed"}
               </h1>
               {succeeded ? (
-                <div className="text-white text-sm space-y-1">
+                <div className="text-white space-y-1">
                   <p>Amount paid: ${result.amount}</p>
                   {result.maskedAccountNbr && <p>Account: {result.maskedAccountNbr}</p>}
                 </div>

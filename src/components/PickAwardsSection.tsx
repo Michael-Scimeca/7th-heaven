@@ -138,7 +138,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
       {loading ? (
         <div className="py-10 flex items-center justify-center">
           <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <span className="ml-3 text-sm text-black/40">Loading your collection...</span>
+          <span className="ml-3 text-black/40">Loading your collection...</span>
         </div>
       ) : (
         <>
@@ -186,7 +186,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
-                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer"><X className="w-4 h-4" /></button>
+                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
@@ -231,7 +231,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Active Lotteries */}
           {lotteries.length > 0 && (
             <div>
-              <h3 className="text-sm font-bold text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
+              <h3 className="font-bold text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
               <div className="space-y-3">
                 {lotteries.map((lottery: any) => (
                   <div
@@ -296,7 +296,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
               {/* Lottery result message */}
               {lotteryMsg && (
-                <div className={`mt-3 p-3 rounded-lg border text-sm font-bold ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
+                <div className={`mt-3 p-3 rounded-lg border font-bold ${lotteryMsg.ok ?"border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
                   {lotteryMsg.msg}
                 </div>
               )}

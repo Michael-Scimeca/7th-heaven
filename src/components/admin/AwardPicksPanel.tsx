@@ -172,7 +172,7 @@ export default function AwardPicksPanel() {
                 : "border-white/10 bg-white/[0.02] hover: border-white/10 "
                 }`}
             >
-              <span className="text-sm">{r.label}</span>
+              <span className="">{r.label}</span>
             </button>
           ))}
         </div>
@@ -203,7 +203,7 @@ export default function AwardPicksPanel() {
                   : "hover:bg-white/[0.03]  text-white "
                   }`}
               >
-                <span className="text-sm font-bold">{fan.full_name || "Unnamed"}</span>
+                <span className="font-bold">{fan.full_name || "Unnamed"}</span>
                 <span className="text-white/30 ml-2">{fan.email}</span>
                 {fan.username && <span className="text-[var(--color-accent)]/50 ml-2">@{fan.username}</span>}
               </button>
@@ -217,7 +217,7 @@ export default function AwardPicksPanel() {
         <button aria-label="Action button"
           onClick={handleAward}
           disabled={!selectedFan || awarding}
-          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest hover:brightness-110 transition-colors disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold uppercase tracking-widest hover:brightness-110 transition-colors disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
         >
           {awarding ? "Awarding..." : `Award to ${selectedFan?.full_name?.split(" ")[0] || "Fan"}`}
         </button>
@@ -232,7 +232,7 @@ export default function AwardPicksPanel() {
 
       {/* Result */}
       {result && (
-        <div className={`p-3 rounded-lg border text-sm font-bold ${result.ok ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"}`}>
+        <div className={`p-3 rounded-lg border font-bold ${result.ok ?"border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"}`}>
           {result.msg}
         </div>
       )}
@@ -243,7 +243,7 @@ export default function AwardPicksPanel() {
           <span className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Recent Awards</span>
           <div className="space-y-1.5">
             {recentAwards.map((a) => (
-              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg text-sm">
+              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg">
                 <span className="w-3 h-3 rounded-lg" style={{ background: a.color }} />
                 <span className="text-white/70 font-bold">{a.fan}</span>
                 <span className="text-white/30">→</span>

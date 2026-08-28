@@ -193,7 +193,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-bold text-[#c27aff]">{item.step}</div>
+                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
                 <p className="leading-relaxed">{item.desc}</p>
               </div>
@@ -248,7 +248,7 @@ export default function PlannerClient() {
                       <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ?'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
                         {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
-                      <span className={`text-sm font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
+                      <span className={`font-semibold ${step.active ?'text-white' : 'text-white/40'}`}>{step.label}</span>
                     </div>
                   ))}
                 </div>
@@ -306,7 +306,7 @@ export default function PlannerClient() {
               {/* Notes */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold text-white">Event Notes</h3></div>
+                  <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="font-bold text-white">Event Notes</h3></div>
                   {notesSaved && <span className="font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
                 <div className="input-glow-border rounded-xl">
@@ -322,7 +322,7 @@ export default function PlannerClient() {
               {/* Checklist — editable */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold text-white">Readiness</h3></div>
+                  <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="font-bold text-white">Readiness</h3></div>
                   <span className={`font-bold ${pct === 100 ?'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-4">
@@ -349,7 +349,7 @@ export default function PlannerClient() {
                                 defaultValue={item.val || ''}
                                 autoFocus
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
-                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
+                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-white focus:border-purple-500 outline-none"
                               />
                               <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
                               <button aria-label="Action button" type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
@@ -379,7 +379,7 @@ export default function PlannerClient() {
 
               {/* Quick Actions */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
-                <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold text-white">Quick Actions</h3></div>
+                <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="font-bold text-white">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
                     className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase tracking-wider transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20 text-[var(--color-accent)] hover:bg-purple-600 hover:text-white rounded-lg">
@@ -406,7 +406,7 @@ export default function PlannerClient() {
               <div className="mt-8">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-base">📜</span>
-                  <h3 className="text-sm font-bold text-white">Past Events</h3>
+                  <h3 className="font-bold text-white">Past Events</h3>
                   <span className="font-bold text-white/50 bg-[#00000029] px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -420,7 +420,7 @@ export default function PlannerClient() {
                       <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg ">
                         <div className={`w-2.5 h-2.5 rounded-lg ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-white truncate">{pb.eventName}</h4>
+                          <h4 className="font-bold text-white truncate">{pb.eventName}</h4>
                           <div className="flex items-center gap-3 text-white/50 mt-0.5">
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>

@@ -286,7 +286,7 @@ export default function ShowPageClient({
           }`}
       >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 font-bold text-sm border-2 ${isAnon ?"border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
+        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 font-bold border-2 ${isAnon ?"border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-lg" />
           ) : isAnon ? "👤" : initials}
@@ -327,7 +327,7 @@ export default function ShowPageClient({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
-                  <span className="text-sm font-bold text-white uppercase tracking-wide">
+                  <span className="font-bold text-white uppercase tracking-wide">
                     🎥 {feed.host} is LIVE from the show
                     {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
                   </span>
@@ -405,7 +405,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 text-sm font-bold uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                      className="px-8 py-4 font-bold uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -415,7 +415,7 @@ export default function ShowPageClient({
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
-                      className="px-8 py-4 text-sm font-bold uppercase tracking-widest disabled:opacity-50"
+                      className="px-8 py-4 font-bold uppercase tracking-widest disabled:opacity-50"
                     >
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </CosmicRadialButton>
@@ -434,10 +434,10 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-bold uppercase tracking-widest border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 font-bold uppercase tracking-widest border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-bold uppercase tracking-widest border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 font-bold uppercase tracking-widest border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -480,7 +480,7 @@ export default function ShowPageClient({
                             placeholder="yourname@domain.com"
                             value={notifyEmail}
                             onChange={(e) => setNotifyEmail(e.target.value)}
-                            className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                            className="w-full bg-black/40 border border-white/10 px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                           />
                         </div>
                         <CosmicRadialButton
@@ -622,13 +622,13 @@ export default function ShowPageClient({
                 <CosmicRadialButton
                   onClick={copyLink}
                   icon={false}
-                  className="px-6 py-3 text-white text-sm font-bold tracking-wider rounded-lg"
+                  className="px-6 py-3 text-white font-bold tracking-wider rounded-lg"
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </CosmicRadialButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"
+                  className="px-6 py-3 border border-white/10 text-white/50 font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"
                 >
                   💬 Text a Friend
                 </a>

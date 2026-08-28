@@ -240,7 +240,7 @@ export default function ProximityPanel() {
 
           {loadingShows ? (
             <div className="py-8 flex items-center justify-center">
-              <span className="text-white/40 text-sm animate-pulse">Checking nearby shows…</span>
+              <span className="text-white/40 animate-pulse">Checking nearby shows…</span>
             </div>
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">

@@ -621,23 +621,23 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
 
         <div>
           <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Title</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white text-sm" />
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div>
           <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Description</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white text-sm" />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div>
           <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Image URL</label>
-          <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="/images/merch/logo-tee.png" className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white text-sm" />
+          <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="/images/merch/logo-tee.png" className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Category</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white text-sm">
+            <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -647,7 +647,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           </div>
           <div>
             <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Variant Type</label>
-            <select value={variantKind} onChange={(e) => setVariantKind(e.target.value as typeof variantKind)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white text-sm">
+            <select value={variantKind} onChange={(e) => setVariantKind(e.target.value as typeof variantKind)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
               {VARIANT_KINDS.map((k) => (
                 <option key={k} value={k}>
                   {k}
@@ -707,7 +707,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors disabled:opacity-50"
+          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>
@@ -756,7 +756,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
               <span className="text-white/40">
                 {order.formatted_date || order.created_at}
               </span>
-              <span className="text-[var(--color-accent)] font-bold text-sm">
+              <span className="text-[var(--color-accent)] font-bold">
                 ${Number(order.total_amount).toFixed(2)}
               </span>
             </div>

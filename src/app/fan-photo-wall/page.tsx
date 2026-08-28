@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase tracking-widest text-sm">
+    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase tracking-widest">
       Loading Upload Form...
     </div>
   ),
@@ -375,7 +375,7 @@ export default function FansPage() {
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white leading-none drop-shadow-md">
                   {approvedPhotos[0].name}
                 </h3>
-                <div className="flex items-center gap-2 sm:text-sm text-white/70 font-semibold mt-2">
+                <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">
                   {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
                   {approvedPhotos[0].venue && approvedPhotos[0].date && (
                     <span>·</span>

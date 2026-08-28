@@ -165,7 +165,7 @@ export default function CompleteProfilePage() {
                   Choose Your Username
                 </label>
                 <div className="relative input-glow-border rounded-xl">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-sm z-10">@</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 z-10">@</span>
                   <input aria-label="Input field"
                     id="complete-profile-username"
                     type="text"
@@ -173,7 +173,7 @@ export default function CompleteProfilePage() {
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
@@ -199,7 +199,7 @@ export default function CompleteProfilePage() {
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
                   />
-                  <span className="text-sm text-white/90 font-bold leading-tight text-left">
+                  <span className="text-white/90 font-bold leading-tight text-left">
                     📍 Email me when 7th Heaven books a show near me
                   </span>
                 </div>
@@ -215,7 +215,7 @@ export default function CompleteProfilePage() {
                         value={zipCode}
                         onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
                         placeholder="e.g. 60601"
-                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                       />
                     </div>
                   </div>
@@ -234,7 +234,7 @@ export default function CompleteProfilePage() {
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
                   />
-                  <span className="text-sm text-white/90 font-bold leading-tight text-left">
+                  <span className="text-white/90 font-bold leading-tight text-left">
                     📧 Send me news, show updates &amp; exclusive drops
                   </span>
                 </div>
@@ -254,7 +254,7 @@ export default function CompleteProfilePage() {
               <button aria-label="Action button"
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                className="w-full py-3 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>

@@ -910,7 +910,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       VOYAGE #{idx + 1}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-white uppercase">{hist.ship}</h4>
+                  <h4 className="font-bold text-white uppercase">{hist.ship}</h4>
                   <p className="mt-1 leading-relaxed">{hist.details}</p>
                 </div>
               </div>
@@ -939,7 +939,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3 mb-5">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-cyan-300">
+                <h3 className="font-bold uppercase tracking-widest text-cyan-300">
                   History Timeline & 3D Ship Controls
                 </h3>
               </div>
@@ -1038,7 +1038,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">↔️ Ship X Position Offset (Horizontal)</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{tuning.shipOffsetX ?? 0}px</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetX ?? 0}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1056,7 +1056,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">↕️ Ship Y Position Offset (Vertical)</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{tuning.shipOffsetY ?? 0}px</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.shipOffsetY ?? 0}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1074,7 +1074,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🎯 Ship & Blue Line Timeline Stop Position</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{tuning.bowOffsetPx}px</span>
+                  <span className="text-cyan-400 font-mono font-bold">{tuning.bowOffsetPx}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1092,7 +1092,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🚀 Scroll Start Trigger (% Viewport)</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1110,7 +1110,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🏁 2026 Finish Viewport Position (% Viewport)</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1128,7 +1128,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">⚡ Scroll Scrub Smoothness (Damping)</span>
-                  <span className="text-cyan-400 font-mono font-bold text-sm">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
+                  <span className="text-cyan-400 font-mono font-bold">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"

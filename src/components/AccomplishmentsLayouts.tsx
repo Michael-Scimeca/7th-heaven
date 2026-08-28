@@ -186,7 +186,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <span className="text-[var(--font-size-2xs)] font-semibold uppercase tracking-widest text-white/40 block mb-4">Achievement 0{i + 1}</span>
               <div className="text-5xl font-bold text-white tracking-tight mb-3">{s.number}</div>
-              <h4 className="text-sm font-bold text-white mb-2">{s.label}</h4>
+              <h4 className="font-bold text-white mb-2">{s.label}</h4>
               <p className="leading-relaxed">{s.text}</p>
             </div>
           ))}
@@ -309,7 +309,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div className="flex items-center gap-6">
                 <span className="text-4xl md:text-5xl font-bold text-[var(--color-accent)] group-hover:scale-110 transition-transform">{s.number}</span>
                 <div>
-                  <h4 className="text-sm font-bold uppercase text-white tracking-wide">{s.label}</h4>
+                  <h4 className="font-bold uppercase text-white tracking-wide">{s.label}</h4>
                   <p className="mt-1">{s.text}</p>
                 </div>
               </div>

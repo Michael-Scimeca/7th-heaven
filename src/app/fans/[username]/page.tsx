@@ -400,7 +400,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
-          <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
+          <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
           </button>
         </div>
@@ -414,7 +414,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
           <div className="mb-8 flex items-start gap-3 px-5 py-3 bg-purple-600/10 border border-purple-500/30">
-            <span className="text-purple-300 text-sm font-bold uppercase tracking-widest shrink-0">⚠ DEMO MODE</span>
+            <span className="text-purple-300 font-bold uppercase tracking-widest shrink-0">⚠ DEMO MODE</span>
             <p className="text-purple-200/60 leading-relaxed">This is a preview of the Fan Dashboard with simulated data. Fans will need to create a free account to access their personal dashboard at <code className="text-purple-200/80">/fans/username</code>.</p>
           </div>
         )}
@@ -572,7 +572,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <span className="ml-auto font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
-                    className="text-black/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
+                    className="text-black/80 leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
                   />
                 </div>
@@ -608,7 +608,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 <li key={ev.id} className="flex items-start gap-4">
                                   <span className="font-mono font-bold tracking-wider mt-0.5" style={{ color: day.colorTheme }}>{ev.time}</span>
                                   <div>
-                                    <strong className="block text-white text-sm tracking-wide">{ev.title}</strong>
+                                    <strong className="block text-white tracking-wide">{ev.title}</strong>
                                     <span className="text-white/50">{ev.subtitle}</span>
                                   </div>
                                 </li>
@@ -814,11 +814,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                   <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-75" />
                                   <span className="relative inline-flex rounded-lg h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                                 </span>
-                                <span className="text-emerald-400 text-sm font-bold uppercase tracking-widest">Happening Now</span>
+                                <span className="text-emerald-400 font-bold uppercase tracking-widest">Happening Now</span>
                               </div>
                             ) : isEnded ? (
                               <div className="flex items-center gap-3 px-5 py-3 bg-[#00000029] rounded-lg border border-white/10">
-                                <span className="text-white/40 text-sm font-bold uppercase tracking-widest">Thanks for coming!</span>
+                                <span className="text-white/40 font-bold uppercase tracking-widest">Thanks for coming!</span>
                               </div>
                             ) : (
                               <div className="flex items-center gap-3">
@@ -1067,7 +1067,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           placeholder="(312) 555-0199"
                           value={liveAlertPhone}
                           onChange={(e) => setLiveAlertPhone(e.target.value)}
-                          className="bg-[#00000029] border border-white/10 rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
+                          className="bg-[#00000029] border border-white/10 rounded-lg px-4 py-3.5 outline-none text-white w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
                         />
                       </div>
                       <CosmicRadialButton

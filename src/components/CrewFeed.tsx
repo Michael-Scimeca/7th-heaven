@@ -321,7 +321,7 @@ export default function CrewFeed() {
                               </span>
                             )}
                           </div>
-                          <span className="text-sm text-white/30">{post.member_role}</span>
+                          <span className="text-white/30">{post.member_role}</span>
                         </div>
                       </div>
 
@@ -354,7 +354,7 @@ export default function CrewFeed() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {Object.entries(reactions).map(([emoji, count], ri) => (
-                          <span key={ri} className="flex items-center gap-1 text-sm text-white/40 hover:text-white/70 transition-colors cursor-pointer">
+                          <span key={ri} className="flex items-center gap-1 text-white/40 hover:text-white/70 transition-colors cursor-pointer">
                             <span>{emoji}</span>
                             <span className="tabular-nums">{count as number}</span>
                           </span>
@@ -370,7 +370,7 @@ export default function CrewFeed() {
 
         {/* Load More */}
         <div className="text-center mt-8">
-          <button aria-label="Action button" className="btn-outline btn-outline-hover text-sm py-2.5 px-8">
+          <button aria-label="Action button" className="btn-outline btn-outline-hover py-2.5 px-8">
             Load More Posts
           </button>
         </div>

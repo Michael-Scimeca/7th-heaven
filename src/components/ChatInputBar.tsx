@@ -63,7 +63,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 flex items-center justify-center text-sm transition-colors cursor-pointer"
+              className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 flex items-center justify-center transition-colors cursor-pointer"
             >
               😀
             </button>

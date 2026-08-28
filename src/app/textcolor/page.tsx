@@ -78,7 +78,7 @@ export default function TextColorTestPage() {
 
         {/* Presets */}
         <section className="flex flex-col gap-6">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-white/40">
+          <h3 className="font-semibold uppercase tracking-wide text-white/40">
             Presets
           </h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -100,7 +100,7 @@ export default function TextColorTestPage() {
 
         {/* Playground */}
         <section className="flex flex-col gap-6">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-white/40">
+          <h3 className="font-semibold uppercase tracking-wide text-white/40">
             Playground
           </h3>
 
@@ -111,7 +111,7 @@ export default function TextColorTestPage() {
               </AuroraText>
             </p>
 
-            <label className="flex flex-col gap-2 text-sm text-white">
+            <label className="flex flex-col gap-2 text-white">
               Text
               <input
                 type="text"
@@ -121,7 +121,7 @@ export default function TextColorTestPage() {
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-sm text-white">
+            <label className="flex flex-col gap-2 text-white">
               Speed ({speed.toFixed(1)}x)
               <input
                 type="range"
@@ -133,7 +133,7 @@ export default function TextColorTestPage() {
               />
             </label>
 
-            <div className="flex flex-col gap-2 text-sm text-white">
+            <div className="flex flex-col gap-2 text-white">
               Gradient stops
               <div className="flex flex-wrap gap-3">
                 {colors.map((c, i) => (

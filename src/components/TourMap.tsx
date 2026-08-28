@@ -924,7 +924,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="flex items-center gap-2">
                       <span className="text-xl">📅</span>
                       <div className="flex flex-col">
-                        <span className="font-bold text-sm text-purple-300 uppercase tracking-wide">Date Range Zoom</span>
+                        <span className="font-bold text-purple-300 uppercase tracking-wide">Date Range Zoom</span>
                         <span className="text-[10px] text-white/50">Filter map markers by timeframe</span>
                       </div>
                     </div>

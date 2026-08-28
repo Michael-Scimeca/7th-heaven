@@ -36,13 +36,13 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform shadow-lg"
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform shadow-lg"
                     >
                         Back to Home
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 font-bold uppercase tracking-[0.15em] transition-colors"
                     >
                         View Tour Dates
                     </Link>

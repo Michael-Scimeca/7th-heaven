@@ -192,7 +192,7 @@ export default function EmailMapPage() {
         {/* Logic Cards */}
         <div className="grid md:grid-cols-2 gap-4 mt-20">
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-blue-500" />
               The API Bridge
             </h3>
@@ -204,7 +204,7 @@ export default function EmailMapPage() {
             </div>
           </div>
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h3 className="font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-cyan-500" />
               Token Security
             </h3>

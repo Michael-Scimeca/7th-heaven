@@ -92,7 +92,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               {/* Play CTA */}
               <button aria-label="Action button"
                 onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex items-center gap-3 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer"
+                className="group inline-flex items-center gap-3 bg-white text-black font-bold uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer"
               >
                 <svg width="14" height="16" viewBox="0 0 20 22" fill="none" className="transition-colors">
                   <path d="M19 11L1 21V1L19 11Z" fill="currentColor" strokeLinejoin="round" />
@@ -161,7 +161,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                 </div>
                 <div className="mt-2.5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-sm font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
+                    <h3 className="font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
                       {video.title}
                     </h3>
                     <div className="flex items-center gap-1.5 shrink-0 text-white/40 tabular-nums">

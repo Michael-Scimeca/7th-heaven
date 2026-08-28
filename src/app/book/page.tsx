@@ -944,7 +944,7 @@ function BookPageContent() {
                           )}
                         </button>
                       </div>
-                      <div className="flex justify-between items-center text-sm mt-2">
+                      <div className="flex justify-between items-center mt-2">
                         <button aria-label="Action button"
                           type="button"
                           onClick={handleSendPin}
@@ -966,7 +966,7 @@ function BookPageContent() {
                   )}
 
                   {pinError && (
-                    <div className="mt-3 p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm font-bold text-left animate-[fade-in-up_0.15s_ease-out_both]">
+                    <div className="mt-3 p-3 bg-rose-500/10 border border-rose-500/20 text-rose-300 font-bold text-left animate-[fade-in-up_0.15s_ease-out_both]">
                       ⚠️ {pinError}
                     </div>
                   )}
@@ -1074,7 +1074,7 @@ function BookPageContent() {
             <div className="mb-6 p-0 bg-transparent border-0 flex items-start gap-3">
               <Lightbulb className="w-5 h-5 text-yellow-300 shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
+                <h4 className="font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
                 <p className="mt-1">You can select <strong>multiple dates</strong> on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
               </div>
             </div>
@@ -1675,7 +1675,7 @@ function BookPageContent() {
                           value={formData.parkingAddress}
                           onChange={handleChange}
                           placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
                         />
                       </div>
                     </div>
@@ -1692,7 +1692,7 @@ function BookPageContent() {
                           onChange={handleChange}
                           rows={3}
                           placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
                         />
                       </div>
                     </div>
@@ -1870,7 +1870,7 @@ function BookPageContent() {
                   {validationErrors.length > 0 && (
                     <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-4 rounded-xl">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-rose-400 text-sm">⚠</span>
+                        <span className="text-rose-400">⚠</span>
                         <span className="text-rose-300 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
                       </div>
                       <ul className="space-y-1">
@@ -2107,7 +2107,7 @@ function MapPickerModal({
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-cyan-400 focus:outline-none"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}

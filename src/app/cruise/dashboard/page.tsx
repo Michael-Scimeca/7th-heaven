@@ -236,11 +236,11 @@ export default function CruiseDashboardGate() {
                     <p className="mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
                       <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
-                      <input aria-label="Input field" id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-login-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                      <input aria-label="Input field" id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
@@ -254,19 +254,19 @@ export default function CruiseDashboardGate() {
                     <p className="mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
                       <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                      <input aria-label="Input field" id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
-                      <input aria-label="Input field" id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                      <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                      <input aria-label="Input field" id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input aria-label="Input field" id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}

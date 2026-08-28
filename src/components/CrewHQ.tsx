@@ -471,7 +471,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-sm">{displayName}</span>
+                <span className="font-bold">{displayName}</span>
                 <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)] font-bold uppercase tracking-widest rounded">Crew HQ</span>
                 {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-bold uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
               </div>
@@ -587,7 +587,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm">📡 Site-Wide Chat Monitor</span>
+                    <span className="font-bold">📡 Site-Wide Chat Monitor</span>
                     <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-lg bg-emerald-500 animate-pulse" title="Live" />
                     <button aria-label="Action button"
@@ -748,7 +748,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
                   <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
-                    <h3 className="text-sm font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
+                    <h3 className="font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
                     <p className="font-bold uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
@@ -827,15 +827,15 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <div className="space-y-3 mb-4">
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Viewers</span>
-                      <span className="text-sm font-bold text-red-400">{viewerCount.toLocaleString()}</span>
+                      <span className="font-bold text-red-400">{viewerCount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Duration</span>
-                      <span className="text-sm font-bold font-mono">{fmt(liveDuration)}</span>
+                      <span className="font-bold font-mono">{fmt(liveDuration)}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Chat Rate</span>
-                      <span className="text-sm font-bold text-yellow-400">{chatRate}/min</span>
+                      <span className="font-bold text-yellow-400">{chatRate}/min</span>
                     </div>
                   </div>
                 ) : (
@@ -846,7 +846,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3 font-bold text-sm uppercase tracking-widest transition-colors ${isLive ?"bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
+                  className={`w-full flex items-center justify-center gap-2 py-3 font-bold uppercase tracking-widest transition-colors ${isLive ?"bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
                     : "bg-white text-black hover:bg-white/90"
                     }`}
                 >
@@ -877,7 +877,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025]">
                     <span className="text-white/40">{label}</span>
-                    <span className="text-sm font-bold" style={{ color }}>{value}</span>
+                    <span className="font-bold" style={{ color }}>{value}</span>
                   </div>
                 ))}
               </div>
@@ -887,7 +887,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className="  border border-white/[0.07] p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="font-bold text-sm">📝 Notes for Admin</h3>
+                  <h3 className="font-bold">📝 Notes for Admin</h3>
                   <p className="mt-0.5">Saved to Supabase</p>
                 </div>
                 <button aria-label="Action button"

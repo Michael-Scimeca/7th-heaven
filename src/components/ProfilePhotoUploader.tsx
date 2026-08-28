@@ -113,7 +113,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-[var(--color-accent)] font-bold text-sm">{initials}</span>
+            <span className="text-[var(--color-accent)] font-bold">{initials}</span>
           )}
         </div>
         <div className="flex-1 min-w-0">

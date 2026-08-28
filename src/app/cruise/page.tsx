@@ -768,7 +768,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 sm:text-sm md:text-base font-bold uppercase tracking-widest text-white">
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase tracking-widest text-white">
             <span className="bg=[#e1e6ff29] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold backdrop-blur-[45px] flex items-center gap-2.5 shadow-2xl hover:border-purple-400/80 transition-all scale-100 hover:scale-105">
               STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg font-bold border border-purple-400/40">2027</span>
             </span>
@@ -1350,7 +1350,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               : " bg-[#00000029]    hover:bg-white/10 text-white/80"
                               }`}
                           >
-                            <h4 className="text-sm font-bold text-white uppercase tracking-wider">{tab.label}</h4>
+                            <h4 className="font-bold text-white uppercase tracking-wider">{tab.label}</h4>
                             <p className="mt-1 leading-relaxed">{tab.desc}</p>
                           </button>
                         ))}
@@ -1360,7 +1360,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="mt-8 bg-transparent border-0 p-0">
                       <h4 className="font-bold uppercase text-white tracking-widest mb-3">Available layouts:</h4>
                       {stateroomTab === "suites" && (
-                        <div className="space-y-2 text-sm text-white/80 font-medium">
+                        <div className="space-y-2 text-white/80 font-medium">
                           <p>• Ultimate Family Townhouse</p>
                           <p>• Royal Loft Suite</p>
                           <p>• Owner&apos;s Suite</p>
@@ -1370,7 +1370,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       )}
                       {stateroomTab === "balcony" && (
-                        <div className="space-y-2 text-sm text-white/80 font-medium">
+                        <div className="space-y-2 text-white/80 font-medium">
                           <p>• Infinite Ocean View Balcony</p>
                           <p>• Infinite Central Park Balcony</p>
                           <p>• Ocean View Balcony</p>
@@ -1379,13 +1379,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       )}
                       {stateroomTab === "ocean" && (
-                        <div className="space-y-2 text-sm text-white/80 font-medium">
+                        <div className="space-y-2 text-white/80 font-medium">
                           <p>• Panoramic Ocean View</p>
                           <p>• Ocean View</p>
                         </div>
                       )}
                       {stateroomTab === "interior" && (
-                        <div className="space-y-2 text-sm text-white/80 font-medium">
+                        <div className="space-y-2 text-white/80 font-medium">
                           <p>• Interior</p>
                           <p>• Spacious Interior</p>
                           <p>• Central Park View Interior</p>
@@ -1420,7 +1420,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
 
                       {/* Benefits List */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-white/90 font-medium leading-relaxed">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium leading-relaxed">
                         {suiteTab === "sea" && [
                           "Dedicated check-in line",
                           "Priority boarding",
@@ -1537,7 +1537,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="booking-form-card bg-transparent border-0 rounded-lg overflow-hidden shadow-none p-0 text-left">
                           {/* Header Banner representing the PDF top section */}
                           <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
-                            <h2 className="text-sm font-bold uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                            <h2 className="font-bold uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                             <p className="text-purple-400 font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                             <p className="font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                           </div>
@@ -1545,7 +1545,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* GUEST 1 (Primary Booker) */}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
-                              <span className="text-sm font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                              <span className="font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
                               <span className="font-bold uppercase tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
@@ -1620,7 +1620,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                     checked={g.active}
                                     onChange={(checked) => toggleGuestActive(i, checked)}
                                   />
-                                  <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-bold uppercase tracking-wider text-white cursor-pointer select-none">
+                                  <label htmlFor={`guest-active-${guestNum}`} className="font-bold uppercase tracking-wider text-white cursor-pointer select-none">
                                     Include Guest {guestNum} in Cabin Reservation
                                   </label>
                                 </div>
@@ -1814,7 +1814,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="lg:col-span-1 text-left space-y-8 w-full">
                       {/* Online Payment Portal Link */}
                       <div className="p-0 border-0 bg-transparent text-left relative w-full">
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">Already Booked?</h4>
+                        <h4 className="font-bold text-white uppercase tracking-wider">Already Booked?</h4>
                         <p className="font-semibold mt-1 leading-normal">
                           Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
                         </p>
@@ -1830,7 +1830,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Travel coordinators list */}
                       <div className="p-0 border-0 bg-transparent space-y-6 w-full">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Travel Coordinators</h3>
+                        <h3 className="font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Travel Coordinators</h3>
                         <div className="space-y-6">
                           {[
                             { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
@@ -2573,8 +2573,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer rounded-none border-none bg-transparent"
                     >
-                      <span className="font-bold md:text-sm text-white pr-4">{faq.q}</span>
-                      <span className={`text-white/70 text-sm transition-transform font-bold shrink-0 ${openFaq === i ?'rotate-45 text-rose-400' : ''}`}>+</span>
+                      <span className="font-bold text-white pr-4">{faq.q}</span>
+                      <span className={`text-white/70 transition-transform font-bold shrink-0 ${openFaq === i ?'rotate-45 text-rose-400' : ''}`}>+</span>
                     </button>
                     {openFaq === i && (
                       <div className="px-5 py-4 bg-[#59595929] border border-white/10 backdrop-blur-[16px]">

@@ -133,7 +133,7 @@ export default function NorthCheckoutPage() {
           )}
 
           <div className="flex items-center justify-between mb-6 pt-4 border-t border-white/10">
-            <span className="text-white/50 text-sm font-bold uppercase tracking-wider">
+            <span className="text-white/50 font-bold uppercase tracking-wider">
               Amount Due
             </span>
             <span className="text-2xl font-bold text-[var(--color-accent)]">${amount}</span>
@@ -152,7 +152,7 @@ export default function NorthCheckoutPage() {
                 required
                 value={accountNbr}
                 onChange={(e) => setAccountNbr(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
 
@@ -167,7 +167,7 @@ export default function NorthCheckoutPage() {
                   placeholder="YYMM"
                   value={expDate}
                   onChange={(e) => setExpDate(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
                 />
               </div>
               <div>
@@ -180,7 +180,7 @@ export default function NorthCheckoutPage() {
                   placeholder="123"
                   value={cvv2}
                   onChange={(e) => setCvv2(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
                 />
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors"
               >
                 Submit Payment — ${amount}
               </button>

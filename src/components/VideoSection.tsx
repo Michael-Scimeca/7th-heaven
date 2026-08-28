@@ -75,8 +75,8 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
       <div className="mt-3">
         <h3 className="text-base font-bold text-white leading-tight line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
         <div className="flex flex-col gap-0.5">
-          <span className="text-sm text-white/40 font-medium">7th Heaven</span>
-          <div className="flex items-center gap-1.5 text-sm text-white/40">
+          <span className="text-white/40 font-medium">7th Heaven</span>
+          <div className="flex items-center gap-1.5 text-white/40">
             {video.viewCount && <span>{video.viewCount} views</span>}
             <span className="text-white/10">•</span>
             <span>{video.year}</span>
@@ -184,8 +184,8 @@ export default function VideoSection() {
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">7H</div>
                     <div className="flex flex-col">
-                      <span className="text-sm text-white font-bold uppercase tracking-wide">7th Heaven Official</span>
-                      <div className="flex items-center gap-2 text-sm text-white/40">
+                      <span className="text-white font-bold uppercase tracking-wide">7th Heaven Official</span>
+                      <div className="flex items-center gap-2 text-white/40">
                         {latest.viewCount && <span>{latest.viewCount} views</span>}
                         <span className="text-white/10">•</span>
                         <span>{latest.year}</span>
@@ -239,7 +239,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ?"bg-white text-black"
+                className={`font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ?"bg-white text-black"
                   : "bg-white/[0.05]  text-white  hover:bg-white/10 hover:text-white"
                   }`}
               >
@@ -309,8 +309,8 @@ export default function VideoSection() {
                     {video.title}
                   </h3>
                   <div className="flex flex-col">
-                    <span className="text-sm text-white/40 font-medium hover:text-white transition-colors cursor-pointer">7th Heaven Official</span>
-                    <div className="flex items-center gap-1.5 text-sm text-white/40">
+                    <span className="text-white/40 font-medium hover:text-white transition-colors cursor-pointer">7th Heaven Official</span>
+                    <div className="flex items-center gap-1.5 text-white/40">
                       {video.viewCount && <span>{video.viewCount} views</span>}
                       <span className="text-white/10">•</span>
                       <span>{video.year}</span>
@@ -327,7 +327,7 @@ export default function VideoSection() {
           <div className="flex justify-center mt-16">
             <button aria-label="Previous"
               onClick={() => setVisibleCount(prev => prev + 15)}
-              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-[0.1em] py-3 px-8 transition-colors"
+              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-[0.1em] py-3 px-8 transition-colors"
             >
               Load More <span className="text-white/50 font-normal">({filteredVideos.length - visibleCount} remaining)</span>
             </button>

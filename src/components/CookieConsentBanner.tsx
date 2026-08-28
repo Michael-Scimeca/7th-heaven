@@ -146,7 +146,7 @@ export default function CookieConsentBanner() {
             <button aria-label="Action button"
               id="cookie-accept-all"
               onClick={acceptAll}
-              className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5 transition-colors duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
+              className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold uppercase tracking-[0.12em] px-5 py-2.5 transition-colors duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
             >
               Accept All
             </button>
@@ -155,14 +155,14 @@ export default function CookieConsentBanner() {
                 <button aria-label="Action button"
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
+                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
                 >
                   Reject All
                 </button>
                 <button aria-label="Action button"
                   id="cookie-customize"
                   onClick={() => setExpanded(true)}
-                  className="text-white/30 hover: text-white text-sm font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
+                  className="text-white/30 hover: text-white font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
                 >
                   Customize
                 </button>
@@ -171,7 +171,7 @@ export default function CookieConsentBanner() {
               <button aria-label="Action button"
                 id="cookie-save-custom"
                 onClick={saveCustom}
-                className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
+                className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
               >
                 Save Preferences
               </button>

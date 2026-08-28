@@ -178,7 +178,7 @@ export default function AdminFeedPost() {
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border transition-colors duration-200 ${postType === t.value ?" border-white/10  bg-white/[0.06]"
+                  className={`flex items-center gap-1.5 px-3 py-2 font-medium border transition-colors duration-200 ${postType === t.value ?" border-white/10  bg-white/[0.06]"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                   style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}
@@ -232,7 +232,7 @@ export default function AdminFeedPost() {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://..."
-                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none transition-colors"
+                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors"
                 />
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function AdminFeedPost() {
           <button aria-label="Action button"
             type="submit"
             disabled={!content.trim() || isPosting}
-            className={`w-full py-3 text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ?"btn-primary btn-primary-hover"
+            className={`w-full py-3 font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ?"btn-primary btn-primary-hover"
               : "bg-white/[0.05] text-white/20 cursor-not-allowed"
               }`}
           >
@@ -260,7 +260,7 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 p-3 text-sm font-medium text-center border transition-colors duration-300 ${status.type === "success"
+            className={`mt-4 p-3 font-medium text-center border transition-colors duration-300 ${status.type ==="success"
               ? "bg-green-500/10 border-green-500/30 text-green-400"
               : "bg-red-500/10 border-red-500/30 text-red-400"
               }`}
@@ -275,7 +275,7 @@ export default function AdminFeedPost() {
             <h3 className="font-bold uppercase tracking-[0.15em] text-white/30 mb-3">Recently Posted</h3>
             <div className="space-y-2">
               {recentPosts.map((p) => (
-                <div key={p.content || p.member} className="p-3 border border-white/[0.06] bg-white/[0.02] text-sm text-white/50">
+                <div key={p.content || p.member} className="p-3 border border-white/[0.06] bg-white/[0.02] text-white/50">
                   <span className="text-white/70 font-medium">{p.member}:</span> {p.content.slice(0, 80)}
                   {p.content.length > 80 ? "…" : ""}{" "}
                   <span className="text-white/20">· {p.time}</span>

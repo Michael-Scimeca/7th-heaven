@@ -63,7 +63,7 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
             <Play className="w-8 h-8 text-white fill-white ml-1" />
           </div>
         </div>
-        <h4 className="text-white/90 font-bold text-sm uppercase tracking-wider line-clamp-2 px-2 drop-shadow-md">
+        <h4 className="text-white/90 font-bold uppercase tracking-wider line-clamp-2 px-2 drop-shadow-md">
           {title}
         </h4>
       </div>

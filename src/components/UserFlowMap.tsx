@@ -209,7 +209,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
-        <h3 className="font-bold text-sm text-white uppercase tracking-wider truncate">
+        <h3 className="font-bold text-white uppercase tracking-wider truncate">
           {data.label}
         </h3>
       </div>

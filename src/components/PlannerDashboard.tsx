@@ -303,18 +303,18 @@ export default function PlannerDashboard() {
                   <div>
                     <label htmlFor="planner-full-name" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input aria-label="Input field" id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
-                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
                   <label htmlFor="planner-login-email" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                   <input aria-label="Input field" id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
-                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
                   <label htmlFor="planner-login-password" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
                   <input aria-label="Input field" id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
-                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
                 {plannerMode === 'signup' && (
@@ -336,7 +336,7 @@ export default function PlannerDashboard() {
                 )}
 
                 <button aria-label="Action button" type="submit" disabled={plannerLoginLoading}
-                  className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
+                  className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
                   {plannerLoginLoading ? 'Authenticating...' : plannerMode === 'signup' ? 'Create Planner Account' : 'Sign In as Planner'}
                 </button>
 
@@ -404,13 +404,13 @@ export default function PlannerDashboard() {
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase tracking-wider transition-colors"
               >
                 Keep Booking
               </button>
               <button aria-label="Action button"
                 onClick={handleCancelRequest}
-                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm uppercase tracking-wider transition-colors"
+                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold uppercase tracking-wider transition-colors"
               >
                 Yes, Cancel
               </button>
@@ -617,11 +617,11 @@ export default function PlannerDashboard() {
                   /* Edit mode actions */
                   <>
                     <button aria-label="Action button" onClick={handleEditSave}
-                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
+                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors">
                       Save Changes
                     </button>
                     <button aria-label="Action button" onClick={handleEditCancel}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase tracking-wider transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -630,14 +630,14 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     {reviveTimeLeft && (
                       <>
                         <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
+                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors">
                           Revive Booking
                         </button>
                         <p className="text-center font-mono">
@@ -651,16 +651,16 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     <button aria-label="Action button" onClick={handleEditStart}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase tracking-wider transition-colors border border-white/5">
                       Edit Logistics
                     </button>
                     <button aria-label="Action button" onClick={() => setShowCancelConfirm(true)}
-                      className="w-full py-3 text-rose-400 font-bold text-sm uppercase tracking-wider hover:bg-rose-500/10 transition-colors">
+                      className="w-full py-3 text-rose-400 font-bold uppercase tracking-wider hover:bg-rose-500/10 transition-colors">
                       Cancel Request
                     </button>
                   </>
@@ -669,7 +669,7 @@ export default function PlannerDashboard() {
             ) : (
               <Link
                 href="/planner"
-                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/10 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase tracking-wider transition-colors border border-white/10 flex items-center justify-center gap-2"
               >
                 <History className="w-4 h-4" />
                 Sign in to manage
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
             <button
               type="button"
               onClick={() => setShowContactModal(true)}
-              className="w-full py-3 flex items-center justify-center gap-2 text-white hover:text-white font-bold text-sm uppercase tracking-wider bg-[#00000029] hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg transition-all cursor-pointer"
+              className="w-full py-3 flex items-center justify-center gap-2 text-white hover:text-white font-bold uppercase tracking-wider bg-[#00000029] hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg transition-all cursor-pointer"
             >
               <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
               Contact 7th Heaven
@@ -828,7 +828,7 @@ export default function PlannerDashboard() {
                           )}
                         </div>
                       </div>
-                      <h4 className={`text-sm font-bold tracking-tight mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
+                      <h4 className={`font-bold tracking-tight mb-0.5 ${b.status ==='cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
                         {b.eventName}
                       </h4>
                       <div className="flex items-center gap-4 text-white/40">

@@ -225,7 +225,7 @@ export default function FAQPage() {
                   onClick={() => toggleExpand(faq.id)}
                   className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
                 >
-                  <span className="font-bold text-sm sm:text-base text-white transition duration-200">
+                  <span className="font-bold sm:text-base text-white transition duration-200">
                     {faq.question}
                   </span>
                   <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
@@ -240,7 +240,7 @@ export default function FAQPage() {
                     }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="pb-6 text-sm md:text-base text-white/80 leading-relaxed bg-transparent">
+                    <div className="pb-6 md:text-base text-white/80 leading-relaxed bg-transparent">
                       {faq.answer}
                     </div>
                   </div>
@@ -271,7 +271,7 @@ export default function FAQPage() {
         </div>
         <Link
           href="/contact"
-          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
+          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold transition duration-200 whitespace-nowrap shadow-md"
         >
           Contact Us
         </Link>

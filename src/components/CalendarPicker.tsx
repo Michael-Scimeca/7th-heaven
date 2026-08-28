@@ -112,7 +112,7 @@ export function CalendarPicker({
     <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-bold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
+          <h3 className="text-white font-bold tracking-wider uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
           <p className="mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
@@ -343,7 +343,7 @@ export function CalendarPicker({
                         value={customDetails || ""}
                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                         autoFocus
-                        className="w-full bg-[#0c0817]/80 backdrop-blur-[45px] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
+                        className="w-full bg-[#0c0817]/80 backdrop-blur-[45px] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
                       />
                     </div>
                   )}

@@ -1702,7 +1702,7 @@ ${deskRules.join("\n")}
 
           {/* Inline Theme Token Editor */}
           <div className="p-5 rounded-lg bg-black/40 border border-purple-500/30 space-y-4">
-            <h3 className="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+            <h3 className="font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
               <Sliders className="w-4 h-4 text-purple-400" /> Quick Theme Token Overrides
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -3567,7 +3567,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Full-Page Film Grain Controls */}
             <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-6">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <h3 className="font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
                 Film Grain Controls
               </h3>
               <p className="">
@@ -3663,7 +3663,7 @@ ${deskRules.join("\n")}
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
             <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h3 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
               <p className="">All sliders update the WebGL canvas shader in real-time via <code className="text-purple-300 font-mono">window.__neatInstance</code>.</p>
@@ -3864,7 +3864,7 @@ ${deskRules.join("\n")}
                         : " bg-[#00000029]    hover:bg-white/10 text-white/80"
                         }`}
                     >
-                      <h4 className="text-sm font-bold text-white uppercase tracking-wider">{tab.label}</h4>
+                      <h4 className="font-bold text-white uppercase tracking-wider">{tab.label}</h4>
                       <p className="mt-1 leading-relaxed">{tab.desc}</p>
                     </button>
                   ))}
@@ -3874,7 +3874,7 @@ ${deskRules.join("\n")}
               <div className="mt-8 bg-transparent border-0 p-0">
                 <h4 className="font-bold uppercase text-white tracking-widest mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
-                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                  <div className="space-y-2 text-white/80 font-medium">
                     <p>• Ultimate Family Townhouse</p>
                     <p>• Royal Loft Suite</p>
                     <p>• Owner&apos;s Suite</p>
@@ -3884,7 +3884,7 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "balcony" && (
-                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                  <div className="space-y-2 text-white/80 font-medium">
                     <p>• Infinite Ocean View Balcony</p>
                     <p>• Infinite Central Park Balcony</p>
                     <p>• Ocean View Balcony</p>
@@ -3893,13 +3893,13 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "ocean" && (
-                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                  <div className="space-y-2 text-white/80 font-medium">
                     <p>• Panoramic Ocean View</p>
                     <p>• Ocean View</p>
                   </div>
                 )}
                 {stateroomTab === "interior" && (
-                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                  <div className="space-y-2 text-white/80 font-medium">
                     <p>• Interior</p>
                     <p>• Spacious Interior</p>
                     <p>• Central Park View Interior</p>
@@ -3934,7 +3934,7 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Benefits List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-white/90 font-medium leading-relaxed">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium leading-relaxed">
                   {suiteTab === "sea" && [
                     "Dedicated check-in line",
                     "Priority boarding",
@@ -4106,7 +4106,7 @@ ${deskRules.join("\n")}
             <div className="booking-form-card bg-transparent border-0 rounded-lg overflow-hidden shadow-none p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                <h2 className="font-bold uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                 <p className="text-purple-400font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                 <p className="font-bold uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
               </div>
@@ -4114,7 +4114,7 @@ ${deskRules.join("\n")}
               {/* GUEST 1 (Primary Booker) */}
               <div className="booking-section-container border-0 bg-transparent p-0">
                 <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
-                  <span className="text-sm font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                  <span className="font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
                   <span className="font-bold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-lg border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
@@ -4305,7 +4305,7 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                   <div>
-                    <h3 className="text-sm font-bold uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
+                    <h3 className="font-bold uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
                     <p className="">Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
@@ -4340,7 +4340,7 @@ ${deskRules.join("\n")}
                     className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg shadow-2xl p-4 flex flex-col gap-2 font-sans"
                     style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
                   >
-                    <div className="text-sm text-white/90 font-bold uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                    <div className="text-white/90 font-bold uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
                       <span className="text-white/50 font-bold px-2 py-0.5 bg-[#00000029] rounded-lg border border-white/10">3 saved</span>
                     </div>
@@ -4354,11 +4354,11 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-sm text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center gap-3 bg-transparent"
                         >
-                          <span className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-bold text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
+                          <span className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-bold flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
-                            <span className="truncate text-sm tracking-wide font-extrabold">{grp.name}</span>
+                            <span className="truncate tracking-wide font-extrabold">{grp.name}</span>
                             <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
                           </div>
                         </button>
@@ -4373,7 +4373,7 @@ ${deskRules.join("\n")}
             <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 className="text-sm font-bold uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
+                  <h3 className="font-bold uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
                   <p className="">Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
                 <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
@@ -4384,10 +4384,10 @@ ${deskRules.join("\n")}
                 {/* Header */}
                 <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                   <div>
-                    <h3 className="text-sm font-bold italic tracking-wide text-white">Create New Crew Group</h3>
+                    <h3 className="font-bold italic tracking-wide text-white">Create New Crew Group</h3>
                     <p className="uppercase tracking-widest font-bold mt-0.5">Select members and customize their shift slots</p>
                   </div>
-                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm">✕</button>
+                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent">✕</button>
                 </div>
 
                 {/* Body */}
