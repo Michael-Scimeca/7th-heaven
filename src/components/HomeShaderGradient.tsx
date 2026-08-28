@@ -170,13 +170,10 @@ function HomeShaderGradientComponent() {
       }
     };
 
-    deferTimer = setTimeout(() => {
-      if ("requestIdleCallback" in window) {
-        idleId = (window as any).requestIdleCallback(initNeat);
-      } else {
-        idleId = setTimeout(initNeat, 500);
-      }
-    }, 1500);
+    // Initialize WebGL gradient background immediately on frame 1 to prevent 1.5s delayed canvas snap flicker
+    requestAnimationFrame(() => {
+      initNeat();
+    });
 
     // ── Position Overlay Animation ──
     let animFrameId: number;
