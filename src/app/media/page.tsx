@@ -39,8 +39,7 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
-
-  const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=20&end=35&playsinline=1&modestbranding=1`;
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -55,11 +54,11 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
       {/* 1. Base Stylized Poster Layer (Paints immediately on frame 0) */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-lg blur-3xl opacity-40 pointer-events-none"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl opacity-40 pointer-events-none"
           style={{ background: palette.glow }}
         />
-        <div className="w-20 h-20 rounded-lg bg-gradient-to-tr from-purple-500 to-indigo-500 p-0.5 shadow-2xl mb-4 group-hover:scale-110 transition-transform duration-500">
-          <div className="w-full h-full rounded-lg bg-black/80 backdrop-blur-md flex items-center justify-center border border-white/10">
+        <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 p-0.5 shadow-2xl mb-4 group-hover:scale-110 transition-transform duration-500">
+          <div className="w-full h-full rounded-full bg-black/80 backdrop-blur-md flex items-center justify-center border border-white/10">
             <Play className="w-8 h-8 text-white fill-white ml-1" />
           </div>
         </div>
@@ -68,7 +67,7 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         </h4>
       </div>
 
-      {/* 2. Cover Image Layer (Overlays base poster when available) */}
+      {/* 2. Cover Image Layer (Overlays base poster when available with smooth fade-in) */}
       {!imgFailed && (
         <Image
           src={imgSrc}
@@ -76,8 +75,9 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
           fill
           loading="eager"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-transform duration-300 ${isHovered ? "scale-105" : "scale-100"}`}
+          className={`object-cover transition-all duration-500 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
+          onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
         />
       )}
@@ -383,7 +383,7 @@ export default function MediaPage() {
               >
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
-                  <VideoCardVisual videoId={video.id} title={video.title} isHovered={isHovered} index={index} />
+                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} />
                 </div>
 
                 {/* Dark Gradient Overlay at Bottom */}
