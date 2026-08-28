@@ -52,8 +52,23 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
+      {/* 1. Base Stylized Poster Layer (Paints immediately on frame 0) */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-lg blur-3xl opacity-40 pointer-events-none"
+          style={{ background: palette.glow }}
+        />
+        <div className="w-20 h-20 rounded-lg bg-gradient-to-tr from-purple-500 to-indigo-500 p-0.5 shadow-2xl mb-4 group-hover:scale-110 transition-transform duration-500">
+          <div className="w-full h-full rounded-lg bg-black/80 backdrop-blur-md flex items-center justify-center border border-white/10">
+            <Play className="w-8 h-8 text-white fill-white ml-1" />
+          </div>
+        </div>
+        <h4 className="text-white/90 font-bold text-sm uppercase tracking-wider line-clamp-2 px-2 drop-shadow-md">
+          {title}
+        </h4>
+      </div>
 
-      {/* 1. Static Image Visual Layer (Cover Image) */}
+      {/* 2. Cover Image Layer (Overlays base poster when available) */}
       {!imgFailed && (
         <Image
           src={imgSrc}
@@ -67,7 +82,7 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 2. Hover Video Player Visual Layer */}
+      {/* 3. Hover Video Player Visual Layer */}
       {isHovered && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.3s_ease-out]">
           <iframe
@@ -76,24 +91,6 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
             allow="autoplay; encrypted-media"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177.77vh] min-h-[56.25vw] w-[180%] h-[180%] max-w-none pointer-events-none border-0 opacity-100 transition-opacity duration-500"
           />
-        </div>
-      )}
-
-      {/* 3. Fallback Custom Stylized Poster if Image fails */}
-      {imgFailed && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64  rounded-lg  blur-3xl opacity-40 pointer-events-none"
-            style={{ background: palette.glow }}
-          />
-          <div className="w-20 h-20  rounded-lg  bg-gradient-to-tr from-purple-500 to-indigo-500 p-0.5 shadow-2xl mb-4 group-hover:scale-110 transition-transform duration-500">
-            <div className="w-full h-full  rounded-lg  bg-black/80 backdrop-blur-md flex items-center justify-center border  border-white/10 ">
-              <Play className="w-8 h-8 text-white fill-white ml-1" />
-            </div>
-          </div>
-          <h4 className="text-white/90 font-bold text-sm uppercase tracking-wider line-clamp-2 px-2 drop-shadow-md">
-            {title}
-          </h4>
         </div>
       )}
     </div>
