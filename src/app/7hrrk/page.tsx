@@ -339,11 +339,7 @@ export default function RockNRollKidsPage() {
       <div className="animate-fadeIn">
         {/* Hero Header */}
         <section className="relative site-container py-8 text-center space-y-6">
-          <span className="px-3 py-1 bg-cyan-500 text-black font-mono text-[10px] font-bold uppercase tracking-widest rounded-full inline-block shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-            Official Animated Series & Comic Matrix
-          </span>
           <h1 className="text-3xl sm:text-5xl font-bold uppercase text-white font-mono">{ABOUT_DATA.headline}</h1>
-
           <p className="font-mono max-w-2xl mx-auto leading-relaxed">
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
@@ -428,7 +424,7 @@ export default function RockNRollKidsPage() {
                         key={single.id}
                         type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ?"text-black shadow-lg font-bold scale-105"
+                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ? "text-black shadow-lg font-bold scale-105"
                           : "text-white"
                           }`}
                       >
@@ -447,7 +443,7 @@ export default function RockNRollKidsPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {videosList.map((v) => (
-                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all border border-white/20 rounded-lg text-white ${selectedVideo === v.id ?" "
+                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all border border-white/20 rounded-lg text-white ${selectedVideo === v.id ? " "
                       : " "
                       }`}>
                       <span className="text-[9px] font-mono text-pink-400 block">{v.tag}</span>
