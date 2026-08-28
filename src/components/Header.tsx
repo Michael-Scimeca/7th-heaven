@@ -17,7 +17,6 @@ import ProgressiveBlur from "@/components/ProgressiveBlur";
 const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
-  { href: "/features", label: "FEATURES" },
   { href: "/payment-test", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
@@ -813,7 +812,6 @@ export function Header() {
 
                   <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:'Switzer', var(--font-barlow-condensed)]">
                     {[
-                      { href: "/features", label: "FEATURES" },
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },

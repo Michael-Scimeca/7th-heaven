@@ -48,7 +48,7 @@ export async function GET() {
               <p class="text-xs  text-white  mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
             <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2  rounded-lg text-right">
-              <span class="text-[10px] font-mono text-purple-300 uppercase block">Booking Reference</span>
+              <span class="text-[10px] font-mono  uppercase block">Booking Reference</span>
               <span class="text-lg  font-bold  text-white font-mono tracking-wider">7H-BK-4821</span>
             </div>
           </div>
