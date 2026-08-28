@@ -111,18 +111,10 @@ export default function MediaPage() {
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isFilterSwitching, setIsFilterSwitching] = useState(false);
 
   const handleFilterChange = useCallback((newFilter: string) => {
-    if (newFilter.toUpperCase() === activeFilter.toUpperCase()) return;
-    setIsFilterSwitching(true);
-    setTimeout(() => {
-      setActiveFilter(newFilter.toUpperCase());
-      setTimeout(() => {
-        setIsFilterSwitching(false);
-      }, 30);
-    }, 120);
-  }, [activeFilter]);
+    setActiveFilter(newFilter.toUpperCase());
+  }, []);
 
   // Add Video Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -366,10 +358,8 @@ export default function MediaPage() {
           })}
         </div>
 
-        {/* ── TALL VERTICAL POSTER CARD GRID (Pure Opacity Fade In / Fade Out Transition) ── */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch transition-opacity duration-300 ease-in-out ${
-          isFilterSwitching ? "opacity-0" : "opacity-100"
-        }`}>
+        {/* ── TALL VERTICAL POSTER CARD GRID (Clean Instant Category Switch with Card Fade-In Animation) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {filteredVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
 
@@ -379,8 +369,8 @@ export default function MediaPage() {
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className="group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.4s_ease-out_both]"
-                style={{ animationDelay: `${Math.min(index, 9) * 35}ms` }}
+                className="group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both]"
+                style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
               >
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
