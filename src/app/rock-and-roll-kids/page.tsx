@@ -423,8 +423,8 @@ export default function RockNRollKidsPage() {
                         key={single.id}
                         type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ? "text-black shadow-lg font-bold scale-105"
-                          : "text-white"
+                        className={`px-4 py-2 rounded-lg font-bold font-sans tracking-wide transition-all border ${selectedVideo === single.id ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white border-purple-400/50 shadow-md shadow-purple-600/30 scale-105 cursor-default"
+                          : "bg-white/10 text-white border-white/20 hover:bg-white/20 cursor-pointer"
                           }`}
                       >
                         {single.title}
