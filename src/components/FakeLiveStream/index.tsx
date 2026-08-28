@@ -1267,7 +1267,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             {/* Stream identity — updates with active cam */}
             <div className="flex items-center gap-2 min-w-0">
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-black font-bold shrink-0 transition-colors duration-300"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-black font-bold shrink-0 transition-colors duration-300"
                 style={{ background: activeFeedCrew.gradient }}
               >{activeFeedCrew.avatar}</div>
               <div className="min-w-0">
@@ -1313,7 +1313,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     setNotifyingFans(false);
                   }
                 }}
-                className={`flex items-center gap-1.5 font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess ?'bg-emerald-600 text-white border-emerald-400'
+                className={`flex items-center gap-1.5 font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess ? 'bg-emerald-600 text-white border-emerald-400'
                   : 'bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white border-white/25 shadow-[0_0_20px_rgba(217,70,239,0.5)] hover:scale-105'
                   }`}
                 title="Broadcast push alert to all subscribed fans"
@@ -1334,7 +1334,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               className="flex items-center gap-2 font-bold uppercase tracking-wider text-purple-300 hover:text-white transition-colors no-underline"
             >
               <div
-                className="w-5 h-5 rounded-lg flex items-center justify-center text-black font-bold shrink-0"
+                className="w-5 h-5 rounded-full flex items-center justify-center text-black font-bold shrink-0"
                 style={{ background: activeFeedCrew.gradient, fontSize: 8 }}
               >
                 {activeFeedCrew.avatar}
@@ -1397,7 +1397,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div className="w-16 h-16 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                       <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -1615,11 +1615,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               const isMine = isCurrentUserWinner && i === 0;
                               return (
                                 <div key={wObj?.name || wObj?.id || i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
-                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-center ${isMine ?'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
+                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
                                     {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                                   </div>
                                   <div className={`px-4 py-3 text-center ${isMine ? 'bg-purple-500/10' : ''}`}>
-                                    <p className={`font-bold leading-tight ${isMine ?'text-purple-300' : 'text-black'}`}>{w}</p>
+                                    <p className={`font-bold leading-tight ${isMine ? 'text-purple-300' : 'text-black'}`}>{w}</p>
                                     {isMine && (
                                       <button aria-label="Action button" onClick={() => setShowClaimModal(true)}
                                         className="mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest rounded-lg transition-colors">
@@ -2452,13 +2452,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <div className="flex gap-4">
                     <button aria-label="Action button"
                       onClick={() => setActiveSidebarTab('chat')}
-                      className={`font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab ==='chat' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
+                      className={`font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'chat' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
                       <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> Chat
                     </button>
                     <button aria-label="Action button"
                       onClick={() => setActiveSidebarTab('setlist')}
-                      className={`font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab ==='setlist' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
+                      className={`font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'setlist' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
                       <Music className="w-3.5 h-3.5 text-purple-400" /> Setlist
                     </button>
@@ -2470,7 +2470,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <div
                         key={c.id}
                         title={`${c.displayName} is live`}
-                        className="w-6 h-6 rounded-lg flex items-center justify-center font-bold ring-2 ring-white/20"
+                        className="w-6 h-6 rounded-full flex items-center justify-center font-bold ring-2 ring-white/20"
                         style={{ background: c.color, fontSize: 9 }}
                       >
                         {c.avatar}
@@ -2483,7 +2483,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               {!isSignedInUser ? (
                 /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
                     <MessageSquare className="w-8 h-8" />
                   </div>
 
@@ -2526,14 +2526,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div className="flex gap-1.5">
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort ==='order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
                           }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort ==='likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white  border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white  border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -2556,13 +2556,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         return (
                           <div
                             key={song.id}
-                            className={`p-3 flex items-center justify-between gap-3 transition-colors ${song.isPlaying ?'bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
+                            className={`p-3 flex items-center justify-between gap-3 transition-colors ${song.isPlaying ? 'bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
                               : 'hover:bg-white/[0.03]'
                               }`}
                             style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}
                           >
                             <div className="min-w-0 flex-1">
-                              <p className={`font-bold truncate ${song.isPlaying ?'text-purple-300  font-bold ' : 'text-white/90'}`}>
+                              <p className={`font-bold truncate ${song.isPlaying ? 'text-purple-300  font-bold ' : 'text-white/90'}`}>
                                 {song.title}
                               </p>
                               {song.isPlaying && (
@@ -2579,7 +2579,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               <button aria-label="Action button"
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
-                                className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ?'bg-red-500/10 text-red-500 cursor-not-allowed'
+                                className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
                                   : 'bg-white/10 border   border-white/10   hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
@@ -2886,7 +2886,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod ==='merch_table'
+                            className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table'
                               ? 'bg-white text-black border-white'
                               : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
                               }`}
@@ -2897,7 +2897,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod ==='shipping'
+                            className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping'
                               ? 'bg-white text-black border-white'
                               : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
                               }`}
@@ -2926,7 +2926,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={size}
                                   type="button"
                                   onClick={() => setCheckoutSelectedSize(size)}
-                                  className={`px-3 py-1.5 rounded-lg border font-bold uppercase tracking-wider transition-colors cursor-pointer ${checkoutSelectedSize === size ?'bg-white text-black border-white'
+                                  className={`px-3 py-1.5 rounded-lg border font-bold uppercase tracking-wider transition-colors cursor-pointer ${checkoutSelectedSize === size ? 'bg-white text-black border-white'
                                     : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
                                     }`}
                                 >
@@ -2960,7 +2960,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={c.name}
                                   type="button"
                                   onClick={() => setCheckoutSelectedColor(c.name)}
-                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border font-bold uppercase tracking-wider transition-colors cursor-pointer ${checkoutSelectedColor === c.name ?'bg-gray-100 text-black border-white'
+                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border font-bold uppercase tracking-wider transition-colors cursor-pointer ${checkoutSelectedColor === c.name ? 'bg-gray-100 text-black border-white'
                                     : 'bg-transparent text-black/50 border-black/10 hover:border-black/15'
                                     }`}
                                 >

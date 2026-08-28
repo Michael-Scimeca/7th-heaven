@@ -109,7 +109,7 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
               {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
               {SHORT_DAY_FORMATTER.format(itemDate)}
             </span>
-            <span className={`px-1.5 py-0.2 rounded text-[12px] font-bold uppercase tracking-wider border ${item.type ==='available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+            <span className={`px-1.5 py-0.2 rounded text-[12px] font-bold uppercase tracking-wider border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
               {item.type}
             </span>
           </div>
@@ -2709,8 +2709,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ?'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
-                  <span className={`w-1.5 h-1.5 rounded-lg ${isLive ?'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
+                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
+                  <span className={`w-1.5 h-1.5 rounded-lg ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
               </div>
@@ -2719,7 +2719,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <span className="font-bold text-white uppercase tracking-wider hidden sm:inline whitespace-nowrap">
                 {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
               </span>
-              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ?'rotate-180' : ''}`}>
+              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
                 ▼
               </div>
             </div>
@@ -2812,7 +2812,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     />
                   ) : (
                     <div className="absolute inset-0 bg-transparent flex flex-col items-center justify-center">
-                      <div className="w-16 h-16 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                           <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                           <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -3236,7 +3236,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded-lg border font-bold ${dropDurationStr === d ?'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : ' bg-[#00000029]      border-white/10    text-white  hover:bg-white/10'}`}
+                                  className={`text-center py-2 rounded-lg border font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : ' bg-[#00000029]      border-white/10    text-white  hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3375,7 +3375,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
                                   disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-[39px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus ==='idle' || raffleStatus === 'complete')
+                                  className={`h-[39px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
@@ -3629,7 +3629,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isSetlistCollapsed ?'rotate-180' : ''}`}
+                className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
               >
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -3644,14 +3644,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 {setlist.map((song, idx) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying ?''
+                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying ? ''
                       : ''
                       } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
 
                       <div className="min-w-0">
-                        <p className={`font-bold truncate ${song.isPlaying ?'text-[var(--color-accent)]' : 'text-white'}`}>
+                        <p className={`font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
                           {song.title}
                         </p>
                         <p className="font-semibold uppercase tracking-wider flex items-center gap-1 mt-0.5">
@@ -3792,7 +3792,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       type="button"
                       aria-label="Toggle schedule"
                       onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                      className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isScheduleCollapsed ?'rotate-180' : ''}`}
+                      className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}
                     >
                       ▼
                     </button>
@@ -3889,7 +3889,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     ? 'bg-yellow-500/10 border-yellow-500/30'
                                     : 'bg-purple-600/10 border-purple-500/20'
                                     }`}>
-                                    <span className={`text-[8px] font-bold uppercase tracking-wider leading-none ${shift.approvalStatus ==='pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
+                                    <span className={`text-[8px] font-bold uppercase tracking-wider leading-none ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
                                     <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
@@ -4121,10 +4121,10 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               >
                                 {/* Date Column */}
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
-                                  <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ?'bg-purple-600/10 border-purple-500/30'
+                                  <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ? 'bg-purple-600/10 border-purple-500/30'
                                     : ' bg-[#00000029]      border-white/10  '
                                     }`}>
-                                    <span className={`text-[8px] font-bold uppercase tracking-wider leading-none ${userShift ?'text-purple-300' : 'text-white/50'}`}>{month}</span>
+                                    <span className={`text-[8px] font-bold uppercase tracking-wider leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
                                     <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
@@ -4548,7 +4548,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-[45px] animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
           <div className="flex-1 text-left font-sans">
             {toast.title && (
-              <h4 className={`uppercase tracking-widest font-bold mb-1 ${toast.type ==='success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
+              <h4 className={`uppercase tracking-widest font-bold mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
                 }`}>
                 {toast.title}
               </h4>
@@ -4938,7 +4938,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
-                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
+                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >
@@ -4947,7 +4947,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
+                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ? 'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >

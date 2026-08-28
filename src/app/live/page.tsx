@@ -260,10 +260,7 @@ export default function LiveHubPage() {
         {/* ── HERO HEADER ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
           <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-purple-950/70 border border-purple-400/40 backdrop-blur-[45px] text-white font-bold uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-              <span>OFFICIAL BAND LIVE BROADCAST</span>
-            </div>
+
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
             </h1>
@@ -492,9 +489,9 @@ export default function LiveHubPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                   {/* LIVE badge */}
-                  <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#e1e6ff29" }}>
+                  <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] border border-white/10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#e1e6ff29" }}>
                     <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />
-                    <span className="text-white font-bold uppercase tracking-widest">LIVE NOW</span>
+                    <span className="text-white font-bold tracking-widest">Live Now</span>
                   </div>
 
                   {/* Viewer + time pills */}
@@ -510,7 +507,7 @@ export default function LiveHubPage() {
 
                   {/* Hover overlay */}
                   <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
-                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
                       <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     </div>
                   </div>
@@ -521,7 +518,7 @@ export default function LiveHubPage() {
               <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
                 {/* Avatar badge */}
                 <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold ring-4 ring-white/20 shadow-md"
+                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 shadow-md"
                   style={{ background: room.gradient }}
                 >
                   {room.member}
@@ -537,9 +534,9 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
+                  className="ml-4 px-4 py-2 font-bold tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
                 >
-                  COPY LINK
+                  Copy Link
                 </button>
               </div>
             </div>

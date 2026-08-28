@@ -29,7 +29,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ?'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
+          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
@@ -564,7 +564,7 @@ export default function CruiseChat({
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
-          <div className="w-16 h-16 rounded-lg bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
             <MessageSquare className="w-8 h-8" />
           </div>
 
