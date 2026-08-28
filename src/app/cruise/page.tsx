@@ -721,7 +721,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               opacity: heroVideoReady ? heroMaskSettings.videoOpacity / 100 : 0,
-              transform: `translateY(-${heroParallax.pxRange}%) scale(${parallaxScaleFor(heroParallax.pxRange)})`,
+              transform: `translate3d(0px, -${heroParallax.pxRange}%, 0px) scale(${parallaxScaleFor(heroParallax.pxRange)})`,
             }}
           >
             <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
@@ -747,7 +747,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           ref={heroForegroundRef}
           className="relative z-10 text-left site-container mb-4 pt-4"
           style={{
-            transform: heroParallax.pxForeground ? `translateY(${heroParallax.pxRange / 2}%)` : "none",
+            transform: heroParallax.pxForeground ? `translate3d(0px, ${heroParallax.pxRange / 2}%, 0px)` : "none",
           }}
         >
 
