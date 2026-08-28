@@ -312,7 +312,7 @@ export default function MediaPage() {
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-purple-300/70">7TH HEAVEN MEDIA VAULT</span>
           </div>
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex items-center gap-3 w-full sm:w-auto min-h-[38px] justify-end">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
@@ -322,7 +322,7 @@ export default function MediaPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add Video</span>
