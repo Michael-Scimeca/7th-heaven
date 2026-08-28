@@ -192,7 +192,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
           const poll = () => {
             if (settled) return;
-            if (!isPendingRef.current && isSamePathname(pathnameRef.current, href)) {
+            if (isSamePathname(pathnameRef.current, href)) {
               waitForPageReady().then(settle);
               return;
             }
@@ -200,11 +200,8 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
           };
           setTimeout(poll, 16);
 
-          // Belt-and-suspenders: same reasoning as MAX_PENDING_WAIT_MS in
-          // PageTransition.tsx — don't let a broken destination hang this
-          // forever (which, on the View Transition path, would leave the
-          // browser showing a frozen "old" snapshot indefinitely).
-          setTimeout(settle, MAX_TRANSITION_WAIT_MS);
+          // 1.2s max safety backstop: don't let slow route resolution hang the transition
+          setTimeout(settle, 1200);
         });
 
       if (supportsViewTransition()) {
