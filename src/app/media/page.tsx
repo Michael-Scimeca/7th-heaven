@@ -82,17 +82,14 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Hover Video Player Visual Layer */}
-      {isHovered && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.3s_ease-out]">
-          <iframe
-            src={previewUrl}
-            title={`${title} Preview`}
-            allow="autoplay; encrypted-media"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[177.77vh] min-h-[56.25vw] w-[180%] h-[180%] max-w-none pointer-events-none border-0 opacity-100 transition-opacity duration-500"
-          />
+      {/* 3. Hover Active Card Overlay */}
+      <div
+        className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/40 ${isHovered ? "opacity-100" : "opacity-0"}`}
+      >
+        <div className="w-16 h-16 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-2xl scale-100 group-hover:scale-110 transition-transform duration-300 border border-white/20">
+          <Play className="w-7 h-7 fill-white ml-1 text-white" />
         </div>
-      )}
+      </div>
     </div>
   );
 }
