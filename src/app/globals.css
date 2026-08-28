@@ -36,7 +36,7 @@ h2 {
 }
 
 h3 {
-  font-size: clamp(1.25rem, 3.2vw, 2rem);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   line-height: 1.2;
 }
 
