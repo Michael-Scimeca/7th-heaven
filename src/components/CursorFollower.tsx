@@ -229,6 +229,7 @@ export default function CursorFollower() {
         circlesRef.current.forEach(c => { c.x = e.clientX; c.y = e.clientY; });
         setIsVisible(true);
       }
+      wakeLoop();
     };
     const onLeave = () => { setIsVisible(false); setPickActive(false); };
     const onEnter = (e: MouseEvent) => {

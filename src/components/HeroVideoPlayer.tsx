@@ -483,8 +483,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
           onPlaying={() => setVideoReady(true)}
-          preload="auto"
-          {...{ fetchpriority: "high" }}
+          preload="metadata"
           autoPlay
           muted
           loop

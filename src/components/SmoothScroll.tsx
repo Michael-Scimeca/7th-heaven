@@ -27,26 +27,25 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
     rafId = requestAnimationFrame(raf);
 
-    // Batch lenis.resize inside requestAnimationFrame to prevent forced reflows
-    let resizeRaf: number | null = null;
+    // Debounce lenis.resize to prevent forced synchronous layout reflows during mount
+    let resizeTimer: NodeJS.Timeout | null = null;
     const safeResize = () => {
-      if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
-      resizeRaf = requestAnimationFrame(() => {
-        lenis.resize();
-        resizeRaf = null;
-      });
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        requestAnimationFrame(() => {
+          lenis.resize();
+        });
+      }, 150);
     };
 
-    const t1 = setTimeout(safeResize, 100);
-    const t2 = setTimeout(safeResize, 400);
+    const t1 = setTimeout(safeResize, 500);
 
     const ro = new ResizeObserver(safeResize);
     if (document.body) ro.observe(document.body);
 
     return () => {
       clearTimeout(t1);
-      clearTimeout(t2);
-      if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
+      if (resizeTimer) clearTimeout(resizeTimer);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       lenis.destroy();
