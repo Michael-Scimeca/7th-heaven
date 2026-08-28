@@ -1923,9 +1923,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {band.photo ? (
                       <picture className="w-full h-full block">
                         {band.mobilePhoto && (
-                          <source media="(max-width: 768px)" srcSet={band.mobilePhoto} type="image/webp" />
+                          <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
                         )}
-                        <source media="(min-width: 769px)" srcSet={band.desktopPhoto || band.photo} type="image/webp" />
+                        <source media="(min-width: 769px)" srcSet={band.desktopPhoto || band.photo} />
                         {/* eslint-disable-next-line react-doctor/nextjs-no-img-element, @next/next/no-img-element */}
                         <img
                           src={band.photo}

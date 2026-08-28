@@ -25,9 +25,9 @@ export const BANDS_DATA = [
     desc: "Classic Pop, standards, crooner pop, and high-energy crowd favorites performing live mixers and special events.", 
     website: "https://www.tonyoceanmusic.com/", 
     logo: "🎤",
-    photo: "/images/band-performance.png",
-    desktopPhoto: "/images/band-performance.png",
-    mobilePhoto: "/images/band-performance.png"
+    photo: "/images/desktop-tony.png",
+    desktopPhoto: "/images/desktop-tony.png",
+    mobilePhoto: "/images/tony-mobile.png"
   },
 ];
 
