@@ -344,7 +344,7 @@ export default function RockNRollKidsPage() {
           </span>
           <h1 className="text-3xl sm:text-5xl font-bold uppercase text-white font-mono">{ABOUT_DATA.headline}</h1>
 
-          <p className="text-cyan-200 text-xs sm:text-sm font-mono max-w-2xl mx-auto leading-relaxed">
+          <p className="text-cyan-200 font-mono max-w-2xl mx-auto leading-relaxed">
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
 
@@ -382,7 +382,7 @@ export default function RockNRollKidsPage() {
                     <span className="text-[10px] font-mono text-white uppercase">{char.role}</span>
                   </div>
                   <h4 className="text-sm font-bold text-white mb-1">{char.name}</h4>
-                  <p className="text-[11px] text-white/70 leading-relaxed">{char.desc}</p>
+                  <p className="text-white/70 leading-relaxed">{char.desc}</p>
                 </div>
               </div>
             ))}
@@ -413,10 +413,10 @@ export default function RockNRollKidsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
               <div className="lg:col-span-5 space-y-6">
-                <p className="text-base sm:text-lg md:text-xl font-medium text-cyan-100 leading-relaxed font-mono py-4 ">
+                <p className="font-medium text-cyan-100 leading-relaxed font-mono py-4">
                   {ABOUT_DATA.paragraph1}
                 </p>
-                <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed font-normal">
+                <p className="text-white/90 leading-relaxed font-normal">
                   {ABOUT_DATA.paragraph2}
                 </p>
 
@@ -494,7 +494,7 @@ export default function RockNRollKidsPage() {
                     </div>
                     <span className="text-[9px] font-mono text-pink-400 block mb-0.5">{p.badge}</span>
                     <h3 className="text-xs font-bold text-white line-clamp-1 mb-1">{p.title}</h3>
-                    <p className="text-white/50 text-[10px] line-clamp-2 mb-3">{p.desc}</p>
+                    <p className="text-white/50 line-clamp-2 mb-3">{p.desc}</p>
                   </div>
                   <a
                     href={p.amazonUrl}
@@ -546,7 +546,7 @@ export default function RockNRollKidsPage() {
                     7th heaven · NTD Animation
                   </span>
                   <h3 className="text-2xl font-mono text-amber-400 font-bold">Richard Hofherr</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">
+                  <p className="text-white/80 leading-relaxed">
                     Founder and songwriter of 7th heaven. Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
                   </p>
                   <a
@@ -577,7 +577,7 @@ export default function RockNRollKidsPage() {
                     RNR Studios
                   </span>
                   <h3 className="text-2xl font-mono text-purple-400 font-bold">Roy Adorjan</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">
+                  <p className="text-white/80 leading-relaxed">
                     Lead animator and character designer at RNR Studios. Co-creator and art director for 7th Heaven & The Rock &apos;n&apos; Roll Kids.
                   </p>
                   <a
