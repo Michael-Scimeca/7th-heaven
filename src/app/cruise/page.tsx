@@ -1238,7 +1238,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             className="mt-3 w-full py-2.5 px-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-bold text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg border-0"
                           >
                             <span>Select & Book Cabin</span>
-                            <span>→</span>
+
                           </span>
                         </div>
                       </button>
@@ -1306,7 +1306,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   }`}
                               >
                                 <span>Select Prevailing Rate</span>
-                                <span>→</span>
+
                               </span>
                             </div>
                           </button>
@@ -1879,7 +1879,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 </div>
                               ))}
                               {joinedFans.length > 8 && (
-                                <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white/80 bg-white/10 shrink-0">
+                                <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[10px] text-white/80 bg-white/10 shrink-0 border border-white/10">
                                   +{joinedFans.length - 8}
                                 </div>
                               )}
@@ -1921,7 +1921,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {BANDS_DATA.map((band, idx) => (
                   <div key={band.name} className="relative overflow-hidden group aspect-[4/5] flex items-center justify-center rounded-2xl">
                     {band.photo ? (
-                      <div className="w-full h-full relative flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_30%,transparent_92%)] [-webkit-mask-image:linear-gradient(to_bottom,black_30%,transparent_92%)]">
+                      <div className="w-full h-full relative flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)]">
                         <picture className="w-full h-full block">
                           {band.mobilePhoto && (
                             <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />

@@ -165,7 +165,7 @@ function PassengersWidget() {
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] font-bold relative z-0">
+          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] text-xs font-bold relative z-0">
             +{totalFans - AVATARS.length}
           </div>
         </div>

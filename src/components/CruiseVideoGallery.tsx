@@ -280,7 +280,7 @@ export default function CruiseVideoGallery() {
 
                 <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
                   <span>Watch Video Tour</span>
-                  <span>→</span>
+
                 </div>
               </div>
             </div>
