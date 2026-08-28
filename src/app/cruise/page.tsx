@@ -1954,23 +1954,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <p className="mt-2 line-clamp-2 leading-relaxed font-medium">
                         {band.desc}
                       </p>
-
-                      <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                        <a
-                          href={band.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-purple-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline"
-                        >
-                          Visit Site →
-                        </a>
-                        <a
-                          href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request"
-                          className="text-white/50 uppercase tracking-widest hover:text-white transition-colors font-bold"
-                        >
-                          Inquiries
-                        </a>
-                      </div>
                     </div>
                   </div>
                 ))}
@@ -2060,7 +2043,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl overflow-hidden">
                         <div className="h-48 w-full relative overflow-hidden rounded-lg bg-black">
                           {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-3 left-3 z-20 px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[10px] font-bold uppercase tracking-widest text-white">
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg  font-bold  tracking-widest text-white">
                             Port Call #{idx + 1}
                           </span>
                         </div>
@@ -2073,7 +2056,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             {port.highlights && (
                               <div className="flex flex-wrap gap-1.5 mt-3">
                                 {port.highlights.map(h => (
-                                  <span key={h} className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-lg text-white border border-white/10 bg-[#00000029]">
+                                  <span key={h} className="font-bold  tracking-wider px-2 py-0.5 rounded-lg text-white border border-white/10 bg-[#00000029]">
                                     {h}
                                   </span>
                                 ))}
@@ -2354,7 +2337,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2.5 py-1 rounded-lg self-start mb-1.5">
+                        <span className="font-bold tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2.5 py-1 rounded-lg self-start mb-1.5">
                           {item.category}
                         </span>
                         <p className="font-bold leading-snug">{item.title}</p>
@@ -2439,7 +2422,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white px-2.5 py-1 rounded-lg font-bold self-start mb-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]">{food.tag}</span>
+                          <span className="font-mono tracking-widest text-white px-2.5 py-1 rounded-lg font-bold self-start mb-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]">{food.tag}</span>
                           <p className="font-bold leading-snug">{food.name}</p>
                         </div>
                       </div>
@@ -2535,7 +2518,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-lg font-bold text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] self-start mb-1.5">{item.tag}</span>
+                          <span className=" font-mono  tracking-widest px-2.5 py-1 rounded-lg font-bold text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] self-start mb-1.5">{item.tag}</span>
                           <p className="font-bold leading-snug">{item.name}</p>
                         </div>
                       </div>
