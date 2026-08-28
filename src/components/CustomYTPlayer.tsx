@@ -237,7 +237,8 @@ export default function CustomYTPlayer({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-2xl flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
+      style={{ backdropFilter: "blur(45px)", WebkitBackdropFilter: "blur(45px)" }}
+      className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-[45px] flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
     >
       <button
         type="button"

@@ -2032,7 +2032,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group  rounded-2xl overflow-hidden ">
                         <div className="h-48 w-full relative overflow-hidden  rounded-lg bg-black">
                           {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-3 left-3 z-20 px-3 py-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg  text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-white">
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1  bg-[#e1e6ff29] border  border-white/10  backdrop-blur-[16px]  rounded-lg  text-[10px] font-bold  uppercase tracking-widest text-white">
                             Port Call #{idx + 1}
                           </span>
                         </div>
