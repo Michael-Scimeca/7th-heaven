@@ -40,6 +40,18 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [shouldPlayPreview, setShouldPlayPreview] = useState(false);
+
+  useEffect(() => {
+    if (isHovered) {
+      const timer = setTimeout(() => {
+        setShouldPlayPreview(true);
+      }, 250);
+      return () => clearTimeout(timer);
+    } else {
+      setShouldPlayPreview(false);
+    }
+  }, [isHovered]);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -82,9 +94,19 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Hover Active Card Overlay */}
+      {/* 3. Live Video Hover Preview Clip */}
+      {shouldPlayPreview && (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=15&playsinline=1&modestbranding=1&disablekb=1&iv_load_policy=3`}
+          title={title}
+          className="absolute inset-0 w-full h-full object-cover scale-[1.35] pointer-events-none transition-opacity duration-500 z-10 animate-[fade-in_0.5s_ease-out_both]"
+          allow="autoplay; encrypted-media"
+        />
+      )}
+
+      {/* 4. Hover Active Card Overlay */}
       <div
-        className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/40 ${isHovered ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
       >
         <div className="w-16 h-16 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-2xl scale-100 group-hover:scale-110 transition-transform duration-300 border border-white/20">
           <Play className="w-7 h-7 fill-white ml-1 text-white" />
@@ -370,9 +392,8 @@ export default function MediaPage() {
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden border border-white/10 hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.35)] cursor-pointer bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${
-                  isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
-                }`}
+                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden  transition-all duration-500  bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
+                  }`}
                 style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
               >
                 {/* Full Bleed Visual Media Player Preview */}
