@@ -787,7 +787,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 2: CABINS & PRICING ── */}
             <section id="pricing" className="pt-4 sm:pt-8 pb-16 relative z-20">
               <div className="text-left max-w-3xl mb-6">
-                <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
                 </h2>
                 <p className="mt-4 leading-relaxed font-semibold">
@@ -1523,7 +1523,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   {/* Section Header */}
                   <div className="mb-8 text-left">
-                    <h2 className="text-2xl font-bold uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    <h2 className="font-bold uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                       Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
                     </h2>
                     <p className="font-semibold">
@@ -1908,7 +1908,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <section id="artists" className="py-section-fluid">
               <div className="text-left w-full mb-10">
                 <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
-                <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Featured <span className="accent-gradient-text">Artists</span>
                 </h2>
                 <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
@@ -1962,8 +1962,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND WITH SMOOTH TOP MASK) ── */}
-          <ViewportSection id="itinerary" minHeight="900px" className="py-section-fluid w-full max-w-none px-0 overflow-x-clip relative">
+          <ViewportSection id="itinerary" minHeight="900px" className="w-full max-w-none px-0 overflow-x-clip relative">
             <div
+              className="py-section-fluid"
               style={{
                 position: "relative",
                 left: "50%",
@@ -1974,8 +1975,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 maxWidth: "100vw",
                 backgroundColor: "transparent",
                 backgroundImage: "linear-gradient(180deg, transparent 0%, #060b18 90px, #0a142c 50%, #060b18 calc(100% - 160px), transparent 100%)",
-                maskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
+                maskImage: "linear-gradient(to bottom, transparent 0px, black 70px, black calc(100% - 140px), transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 70px, black calc(100% - 140px), transparent 100%)",
               }}
             >
               {/* Top mask blend overlay for smooth edge feathering */}
@@ -1984,7 +1985,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Inner div with site container padding */}
               <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
                 <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-                  <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h2 className="font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Day-by-Day <span className="accent-gradient-text">Schedules</span>
                   </h2>
                   <p className="mt-4 leading-relaxed font-semibold">
@@ -2278,7 +2279,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 4: SHIP EXPLORER ── */}
             <ViewportSection id="ship-explorer" minHeight="800px" className="py-[32px] md:py-20">
               <div className="text-left w-full mb-10">
-                <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
                 </h2>
                 <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
@@ -2539,7 +2540,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 5: FAQS & HISTORY ── */}
             <ViewportSection id="faqs" minHeight="600px" className="pt-20 pb-10">
               <div className="text-left w-full mb-10">
-                <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Frequently Asked <span className="accent-gradient-text">Questions</span>
                 </h2>
                 <p className="mt-3 leading-relaxed font-semibold max-w-2xl">

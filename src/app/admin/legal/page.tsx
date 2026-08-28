@@ -437,7 +437,7 @@ export default function AdminLegalPage() {
                   {active.icon}
                 </div>
                 <div>
-                  <h2 className="text-xl lg:text-2xl font-bold uppercase tracking-tight font-[var(--font-heading)] text-white">
+                  <h2 className="font-bold uppercase tracking-tight font-[var(--font-heading)] text-white">
                     {active.title}
                   </h2>
                   <p className="mt-1">{active.subtitle}</p>

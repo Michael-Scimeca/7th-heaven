@@ -177,7 +177,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
           PUBLIC HUB
         </span>
       </div>
-      <h2 className="text-lg uppercase tracking-wider font-bold flex items-center justify-center gap-2">
+      <h2 className="uppercase tracking-wider font-bold flex items-center justify-center gap-2">
         <Globe className="w-5 h-5 text-cyan-200" />
         <span>Home Page (/)</span>
       </h2>

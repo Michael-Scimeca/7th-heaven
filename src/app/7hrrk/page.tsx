@@ -463,7 +463,7 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 border- pb-3">
               <div>
-                <h2 className="text-2xl font-mono text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
+                <h2 className="font-mono text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
               </div>
               <a
                 href="https://www.amazon.com/dp/B096TJNDWR"
@@ -511,7 +511,7 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 pb-3">
               <div>
-                <h2 className="text-2xl font-mono text-white font-bold uppercase">Series Founders & Contact</h2>
+                <h2 className="font-mono text-white font-bold uppercase">Series Founders & Contact</h2>
               </div>
 
             </div>

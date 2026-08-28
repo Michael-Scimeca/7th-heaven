@@ -79,7 +79,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </span>
 
               {/* Heading */}
-              <h2 className="text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] tracking-tight mb-6">
+              <h2 className="leading-[0.95] tracking-tight mb-6">
                 Explore Behind the{" "}
                 <span className="gradient-text">Scenes</span>
               </h2>

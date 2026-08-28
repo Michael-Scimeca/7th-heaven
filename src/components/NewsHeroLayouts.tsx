@@ -74,7 +74,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Featured Article</span>
                 <span className="font-mono text-white/50">{featured.date}</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
+              <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
           </div>
@@ -106,7 +106,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   </span>
                   <span className="font-mono text-cyan-300 font-bold">{featured.date}</span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
+                <h2 className="font-bold text-white mb-4">{featured.title}</h2>
                 <p className="leading-relaxed mb-6">{featured.content}</p>
                 <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-lg shadow-purple-600/30">
                   Read Full Story →
@@ -129,7 +129,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </span>
                 <span className="font-mono text-white/50">{featured.date}</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
+              <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
 
@@ -168,7 +168,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] font-bold uppercase">Featured</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
+              <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
           </div>
@@ -195,7 +195,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
               <span className="font-mono text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
+              <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
           </div>
@@ -221,7 +221,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-lg" />
                 <span className="font-bold uppercase text-white/50">Band Announcement</span>
               </div>
-              <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4">{featured.title}</h2>
+              <h2 className="font-bold text-white leading-tight mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
           </div>

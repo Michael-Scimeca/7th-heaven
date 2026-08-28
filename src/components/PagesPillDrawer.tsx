@@ -163,7 +163,7 @@ export default function PagesPillDrawer() {
                   <Menu className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold uppercase tracking-tight text-white flex items-center gap-2">
+                  <h2 className="font-bold uppercase tracking-tight text-white flex items-center gap-2">
                     Pages Directory
                     <span className="font-mono font-bold px-2.5 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes

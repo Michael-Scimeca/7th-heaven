@@ -160,7 +160,7 @@ export default function VerifyPage() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
+          <h2 className="text-white font-bold uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="mb-6">Sign in with your crew account to access PIN verification.</p>
           <button aria-label="Action button"
             onClick={() => openModal()}
@@ -189,7 +189,7 @@ export default function VerifyPage() {
           style={MODAL_GLASS_STYLE}
         >
 
-          <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Crew Only</h2>
+          <h2 className="text-white font-bold uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="mb-5">This page is for 7th Heaven crew members only.</p>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
@@ -374,7 +374,7 @@ export default function VerifyPage() {
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
+            <h2 className="text-white font-bold uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>

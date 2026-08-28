@@ -301,7 +301,7 @@ export default function MemberDashboard() {
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
               <Ticket className="w-6 h-6 text-cyan-400" />
-              <h2 className="text-xl font-bold tracking-tight">
+              <h2 className="font-bold tracking-tight">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
@@ -378,7 +378,7 @@ export default function MemberDashboard() {
         {/* My Photo Submissions */}
         <div className="mb-10 p-6 bg-white/[0.02] border border-white/10">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold">
+            <h2 className="font-bold">
               My Photo <span className="gradient-text">Submissions</span>
             </h2>
             <span className="uppercase tracking-[0.15em] text-white/25">Fan Wall Activity</span>
@@ -480,7 +480,7 @@ export default function MemberDashboard() {
         {/* My Purchases */}
         <div className="mt-6 p-6 bg-white/[0.02] border border-white/10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">
+            <h2 className="font-bold">
               My <span className="gradient-text">Purchases</span>
             </h2>
             <span className="uppercase tracking-[0.15em] text-white/25">Order History</span>

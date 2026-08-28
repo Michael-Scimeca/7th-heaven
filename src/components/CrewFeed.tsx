@@ -243,7 +243,7 @@ export default function CrewFeed() {
               <span className="text-white/20">·</span>
               <span className="font-bold uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
             </div>
-            <h2 className="text-[clamp(1.8rem,3.5vw,2.5rem)] leading-tight tracking-tight">
+            <h2 className="leading-tight tracking-tight">
               {liveStatus.live ? (
                 <>Live from <span className="gradient-text">{liveStatus.venue || "the show"}</span></>
               ) : (

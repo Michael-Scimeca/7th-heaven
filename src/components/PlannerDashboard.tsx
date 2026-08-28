@@ -541,7 +541,7 @@ export default function PlannerDashboard() {
             {/* View Mode */}
             {!isEditing ? (
               <>
-                <h2 className={`text-2xl font-bold text-white mb-2 tracking-tight ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
+                <h2 className={`font-bold text-white mb-2 tracking-tight ${booking.status ==='cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
                 <p className="font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

@@ -710,7 +710,7 @@ function LoginModalBodyContent(props: any) {
       >
         {/* Logo */}
         <div className="text-center mb-5">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tighter uppercase">
+          <h2 className="font-bold tracking-tighter uppercase">
             <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-  ">HEAVEN</span>
           </h2>
           <div className="uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">

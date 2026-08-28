@@ -4402,7 +4402,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /></svg>
                 </div>
-                <h2 className="text-2xl font-bold tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
+                <h2 className="font-bold tracking-tighter uppercase mb-2text-black">End Broadcast?</h2>
                 <p className="text-black/60 leading-relaxed">
                   You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
                 </p>

@@ -574,7 +574,7 @@ export default function PaymentTestShopPage() {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
           <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <h2 className="text-white font-bold text-lg uppercase tracking-wide">My Cart</h2>
+              <h2 className="text-white font-bold uppercase tracking-wide">My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}

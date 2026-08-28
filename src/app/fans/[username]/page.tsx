@@ -590,7 +590,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                 {cruiseItinerary.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-bold tracking-wide text-white uppercase mb-6 flex items-center gap-3">
+                    <h2 className="font-bold tracking-wide text-white uppercase mb-6 flex items-center gap-3">
                       Official Itinerary <span className="font-bold text-white/40 tracking-widest not- ml-2 uppercase">Subject to Change</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

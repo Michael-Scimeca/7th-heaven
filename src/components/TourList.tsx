@@ -942,7 +942,7 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)] font-bold text-white leading-[1] mb-4 uppercase">
+                    <h2 className="font-[var(--font-heading)] font-bold text-white leading-[1] mb-4 uppercase">
                       {upNext.venue}
                     </h2>
 

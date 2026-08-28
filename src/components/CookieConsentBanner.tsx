@@ -85,7 +85,7 @@ export default function CookieConsentBanner() {
               </svg>
             </div>
             <div className="flex-1">
-              <h2 className="text-white font-bold text-base leading-tight mb-0.5">Your Privacy</h2>
+              <h2 className="text-white font-bold leading-tight mb-0.5">Your Privacy</h2>
               <p className="leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
                 <a href="/privacy" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">

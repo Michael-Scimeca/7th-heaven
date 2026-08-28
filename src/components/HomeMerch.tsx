@@ -91,7 +91,7 @@ export default function HomeMerch() {
           <div className="flex items-center justify-between mb-10">
             <div>
               <span className="font-bold text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
-              <h2 className="text-2xl font-bold tracking-tight text-white uppercase">On Sale Now</h2>
+              <h2 className="font-bold tracking-tight text-white uppercase">On Sale Now</h2>
             </div>
             <Link href="/merch" className="font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
               Shop All →
@@ -147,7 +147,7 @@ export default function HomeMerch() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="font-bold text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
-            <h2 className="text-2xl font-bold tracking-tight text-white uppercase">On Sale Now</h2>
+            <h2 className="font-bold tracking-tight text-white uppercase">On Sale Now</h2>
           </div>
           <Link href="/merch" className="font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
             Shop All →

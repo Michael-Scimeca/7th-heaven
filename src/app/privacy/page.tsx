@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
                 {/* 1 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">1. Introduction</h2>
+                    <h2 className="font-bold mb-3">1. Introduction</h2>
                     <p>
                         7th Heaven (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy and is committed to protecting
                         your personal information. This Privacy Policy explains how we collect, use, disclose, and
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
 
                 {/* 2 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">2. Information We Collect</h2>
+                    <h2 className="font-bold mb-3">2. Information We Collect</h2>
                     <p className="mb-3">We may collect the following types of information:</p>
                     <div className="flex flex-col gap-3">
                         <div className="py-2 border-0 bg-transparent shadow-none">
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
 
                 {/* 3 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">3. How We Use Your Information</h2>
+                    <h2 className="font-bold mb-3">3. How We Use Your Information</h2>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>To send you SMS show alerts when 7th Heaven is playing near your area</li>
                         <li>To operate and maintain your member account, including rewards and tier tracking</li>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
 
                 {/* 4 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. Proximity Alerts & Web Push Program</h2>
+                    <h2 className="font-bold mb-3">4. Proximity Alerts & Web Push Program</h2>
                     <div className="py-2 border-0 bg-transparent shadow-none">
                         <p className="mb-3">By subscribing to 7th Heaven Proximity & Show Alerts, you consent to receive automated notifications regarding nearby concerts and show updates. Key details:</p>
                         <ul className="list-disc pl-5 space-y-2 text-base">
@@ -85,7 +85,7 @@ export default function PrivacyPage() {
 
                 {/* 5 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">5. How We Share Your Information</h2>
+                    <h2 className="font-bold mb-3">5. How We Share Your Information</h2>
                     <p className="mb-3">We do <strong className="text-[var(--text-color)]">not</strong> sell, rent, or trade your personal information. We may share data with:</p>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li><strong className="text-[var(--text-color)]">Service Providers:</strong> Third-party services that help us operate (e.g., Twilio for SMS delivery, payment processors for merchandise). These providers only access data necessary to perform their services.</li>
@@ -95,19 +95,19 @@ export default function PrivacyPage() {
 
                 {/* 6 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">6. Data Security</h2>
+                    <h2 className="font-bold mb-3">6. Data Security</h2>
                     <p className="">We implement reasonable security measures to protect your information, including encrypted connections (HTTPS), secure password hashing, and restricted access to personal data. However, no method of electronic transmission or storage is 100% secure.</p>
                 </div>
 
                 {/* 7 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">7. Data Retention</h2>
+                    <h2 className="font-bold mb-3">7. Data Retention</h2>
                     <p className="">We retain your information for as long as your account is active or as needed to provide services. SMS opt-in records (including consent timestamps) are retained for a minimum of 5 years as required by TCPA regulations. You may request deletion of your account and personal data at any time by contacting us.</p>
                 </div>
 
                 {/* 8 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">8. Your Rights</h2>
+                    <h2 className="font-bold mb-3">8. Your Rights</h2>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li><strong className="text-[var(--text-color)]">Access:</strong> Request a copy of the personal data we hold about you.</li>
                         <li><strong className="text-[var(--text-color)]">Correction:</strong> Request correction of inaccurate information.</li>
@@ -118,25 +118,25 @@ export default function PrivacyPage() {
 
                 {/* 9 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">9. Cookies & Tracking</h2>
+                    <h2 className="font-bold mb-3">9. Cookies & Tracking</h2>
                     <p className="">Our site uses essential cookies and localStorage to maintain your login session and preferences. We do not use third-party advertising trackers. YouTube embeds on our video pages may set their own cookies per Google&apos;s privacy policy.</p>
                 </div>
 
                 {/* 10 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">10. Children&apos;s Privacy</h2>
+                    <h2 className="font-bold mb-3">10. Children&apos;s Privacy</h2>
                     <p className="">Our website, member portal, and SMS alert service are not intended for individuals under 13 years of age. We do not knowingly collect personal information from children under 13. If we discover we have collected such information, we will delete it promptly.</p>
                 </div>
 
                 {/* 11 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">11. Changes to This Policy</h2>
+                    <h2 className="font-bold mb-3">11. Changes to This Policy</h2>
                     <p className="">We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated &quot;Last Updated&quot; date. Continued use of the Site or SMS service after changes constitutes acceptance of the updated policy.</p>
                 </div>
 
                 {/* 12 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">12. Contact Us</h2>
+                    <h2 className="font-bold mb-3">12. Contact Us</h2>
                     <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
                     <div className="py-2 border-0 bg-transparent shadow-none">
                         <p className="font-bold">7th Heaven</p>

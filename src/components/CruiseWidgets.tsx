@@ -43,7 +43,7 @@ export function EmbarkationCountdown() {
     <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
-          <h2 className="text-white font-bold tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
+          <h2 className="text-white font-bold tracking-wide leading-normal py-0.5">Embarkation</h2>
           <p className="text-cyan-400 font-bold uppercase tracking-widest">Port of Miami</p>
         </div>
       </div>
@@ -83,7 +83,7 @@ export function DailyPoll() {
         <span className="text-8xl">🗳️</span>
       </div>
 
-      <h2 className="font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-2">Community Poll</h2>
+      <h2 className="font-bold tracking-[0.2em] uppercase mb-2">Community Poll</h2>
       <p className="font-bold mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
 
       <div className="space-y-3 relative z-10">
@@ -185,7 +185,7 @@ export function PhotoWall() {
     <div className="mt-16">
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-xl font-bold tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
+          <h2 className="font-bold tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="font-bold uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
         <button aria-label="Action button" className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold text-white transition-colors uppercase tracking-widest">
@@ -1024,7 +1024,7 @@ export function CaptainsLog() {
 
   return (
     <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative">
-      <h2 className="font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4">Captain's Log</h2>
+      <h2 className="font-bold tracking-[0.2em] uppercase mb-4">Captain's Log</h2>
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button aria-label="Action button"

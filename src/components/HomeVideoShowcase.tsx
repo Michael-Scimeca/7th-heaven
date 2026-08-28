@@ -474,7 +474,7 @@ export default function HomeVideoShowcase() {
         {/* Section Header with Container Padding */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2.5 font-sans text-white">
+            <h2 className="font-bold tracking-tight mb-2.5 font-sans text-white">
               Video &amp; Live Media
             </h2>
             <p className="text-purple-200/75 font-normal mb-5 leading-relaxed">

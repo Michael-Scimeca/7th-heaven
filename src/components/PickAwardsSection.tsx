@@ -129,7 +129,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
   return (
     <div className="mb-6 p-6 bg-white border border-black/10 shadow-md text-black">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-lg font-bold text-black">
+        <h2 className="font-bold text-black">
           Pick <span className="gradient-text">Awards</span>
         </h2>
         <span className="uppercase tracking-[0.15em] text-black/40">Collect Picks · Enter Lotteries</span>

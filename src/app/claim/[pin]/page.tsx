@@ -206,7 +206,7 @@ export default function ClaimPage() {
         {status === 'not_logged_in' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">🔐</span>
-            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Sign In Required</h2>
+            <h2 className="text-white font-bold uppercase tracking-wide mb-2">Sign In Required</h2>
             <p className="mb-6">
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
@@ -224,7 +224,7 @@ export default function ClaimPage() {
         {status === 'wrong_user' && (
           <div className="bg-[var(--color-bg-surface)] border border-red-500/30 p-8 text-center">
             <span className="text-5xl block mb-4">🚫</span>
-            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Not Your Claim</h2>
+            <h2 className="text-white font-bold uppercase tracking-wide mb-2">Not Your Claim</h2>
             <p className="mb-4">
               This PIN belongs to a different account. You must be signed in as the winning account to verify.
             </p>
@@ -321,7 +321,7 @@ export default function ClaimPage() {
         {status === 'invalid' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">❌</span>
-            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">PIN Not Found</h2>
+            <h2 className="text-white font-bold uppercase tracking-wide mb-2">PIN Not Found</h2>
             <p className="mb-6">
               This PIN doesn't match an active raffle winner, or the raffle has ended.
             </p>

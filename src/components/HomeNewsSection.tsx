@@ -44,7 +44,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           <span className="font-mono font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] block mb-2">
             Official Bulletins & Updates
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight text-[var(--text-color)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="font-bold uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
             Latest Band <span className=" text-[var(--color-accent)]">News</span>
           </h2>
         </div>

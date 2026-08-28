@@ -68,10 +68,10 @@ export default function TextColorTestPage() {
 
         {/* Hero replica */}
         <section className="flex flex-col items-start gap-4">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">
+          <h2 className="font-bold tracking-tight sm:text-6xl">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
-          <h2 className="text-2xl font-bold tracking-tight text-white/90 sm:text-3xl">
+          <h2 className="font-bold tracking-tight text-white/90">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
         </section>

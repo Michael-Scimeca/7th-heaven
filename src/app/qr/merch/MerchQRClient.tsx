@@ -776,7 +776,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
             <div className="p-6 bg-gradient-to-b from-[#091a28] to-[#0a0a12] border-2 border-cyan-400 relative">
               <span className="font-bold uppercase tracking-[0.3em] text-cyan-300 block mb-1">7th Heaven Band</span>
-              <h2 className="text-2xl font-bold uppercase text-white tracking-wider mb-1">Scan for Express Merch</h2>
+              <h2 className="font-bold uppercase text-white tracking-wider mb-1">Scan for Express Merch</h2>
               <p className="mb-5">Pick Up at Band Table or Ship to Your Door</p>
 
               {/* Scannable QR Code Image */}

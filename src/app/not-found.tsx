@@ -25,7 +25,7 @@ export default function NotFound() {
                     </h1>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-white mb-3">
+                <h2 className="font-bold uppercase tracking-tight text-white mb-3">
                     Page Not <span className=" text-[var(--color-accent)]">Found</span>
                 </h2>
 

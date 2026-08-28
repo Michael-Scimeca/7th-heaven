@@ -22,7 +22,7 @@ export default function TermsPage() {
 
                 {/* 1 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">1. Acceptance of Terms</h2>
+                    <h2 className="font-bold mb-3">1. Acceptance of Terms</h2>
                     <p>
                         By accessing or using the 7th Heaven website at{" "}
                         <span className="text-[var(--color-accent)] font-bold">7thheavenband.com</span> (the &quot;Site&quot;),
@@ -33,7 +33,7 @@ export default function TermsPage() {
 
                 {/* 2 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">2. Services Provided</h2>
+                    <h2 className="font-bold mb-3">2. Services Provided</h2>
                     <p className="mb-3">7th Heaven provides the following through the Site:</p>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>Band information, tour dates, music, videos, and news content</li>
@@ -45,7 +45,7 @@ export default function TermsPage() {
 
                 {/* 3 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">3. Member Accounts</h2>
+                    <h2 className="font-bold mb-3">3. Member Accounts</h2>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>You must provide accurate information when creating an account.</li>
                         <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
@@ -57,7 +57,7 @@ export default function TermsPage() {
 
                 {/* 4 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. Proximity Alerts & Web Push Notifications</h2>
+                    <h2 className="font-bold mb-3">4. Proximity Alerts & Web Push Notifications</h2>
                     <div className="py-5 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg px-5">
                         <p className="mb-4">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
 
@@ -92,13 +92,13 @@ export default function TermsPage() {
 
                 {/* 5 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">5. Intellectual Property</h2>
+                    <h2 className="font-bold mb-3">5. Intellectual Property</h2>
                     <p className="">All content on the Site — including music, lyrics, logos, graphics, text, images, audio clips, and software — is the property of 7th Heaven or its content suppliers and is protected by US and international copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without express written permission.</p>
                 </div>
 
                 {/* 6 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">6. User Content & Conduct</h2>
+                    <h2 className="font-bold mb-3">6. User Content & Conduct</h2>
                     <p className="mb-3">If you submit content (such as fan photos, setlist votes, chat messages, or reviews), you grant 7th Heaven a non-exclusive, royalty-free, perpetual license to use, display, and distribute that content on the Site and associated media. You agree not to submit content that is:</p>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>Unlawful, defamatory, harassing, abusive, or hateful</li>
@@ -109,7 +109,7 @@ export default function TermsPage() {
 
                 {/* 7 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">7. E-Commerce & Merch Purchases</h2>
+                    <h2 className="font-bold mb-3">7. E-Commerce & Merch Purchases</h2>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>All prices are displayed in USD and are subject to change without notice.</li>
                         <li>We reserve the right to refuse or cancel orders at our discretion.</li>
@@ -119,7 +119,7 @@ export default function TermsPage() {
 
                 {/* 8 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">8. Prohibited Activities</h2>
+                    <h2 className="font-bold mb-3">8. Prohibited Activities</h2>
                     <p className="mb-3">You agree not to:</p>
                     <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                         <li>Attempt to gain unauthorized access to the Site, member accounts, or server infrastructure</li>
@@ -131,7 +131,7 @@ export default function TermsPage() {
 
                 {/* 9 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">9. Disclaimers</h2>
+                    <h2 className="font-bold mb-3">9. Disclaimers</h2>
                     <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg shadow-xs text-base">
                         <p className="">The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
                     </div>
@@ -139,25 +139,25 @@ export default function TermsPage() {
 
                 {/* 10 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">10. Limitation of Liability</h2>
+                    <h2 className="font-bold mb-3">10. Limitation of Liability</h2>
                     <p className="">To the fullest extent permitted by law, 7th Heaven and its members, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Site, SMS service, or any related services.</p>
                 </div>
 
                 {/* 11 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">11. Changes to These Terms</h2>
+                    <h2 className="font-bold mb-3">11. Changes to These Terms</h2>
                     <p className="">We may update these Terms from time to time. Changes will be posted on this page with an updated date. Your continued use of the Site after changes are posted constitutes acceptance of the updated Terms.</p>
                 </div>
 
                 {/* 12 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">12. Governing Law</h2>
+                    <h2 className="font-bold mb-3">12. Governing Law</h2>
                     <p className="">These Terms are governed by the laws of the State of Illinois, without regard to conflict of law principles. Any disputes shall be resolved in the courts of Cook County, Illinois.</p>
                 </div>
 
                 {/* 13 */}
                 <div>
-                    <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">13. Contact</h2>
+                    <h2 className="font-bold mb-3">13. Contact</h2>
                     <p className="mb-2">For questions about these Terms of Service:</p>
                     <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg">
                         <p className="font-bold">7th Heaven</p>

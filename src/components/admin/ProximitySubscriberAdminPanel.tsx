@@ -160,7 +160,7 @@ export default function ProximitySubscriberAdminPanel() {
         <div className="flex items-center gap-3">
 
           <div>
-            <h2 className="font-[var(--font-heading)] text-xl font-bold uppercase tracking-tight text-white flex items-center gap-2">
+            <h2 className="font-[var(--font-heading)] font-bold uppercase tracking-tight text-white flex items-center gap-2">
               Proximity Push Subscriber Controls
             </h2>
             <p className="text-purple-300 font-bold uppercase tracking-wider">

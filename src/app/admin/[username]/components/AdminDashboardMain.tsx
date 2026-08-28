@@ -9732,7 +9732,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
                 {/* Left: Date Range & Nav */}
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
+                  <h2 className="font-bold text-white tracking-tight mr-2 min-w-[180px]">
                     {getWeekRangeLabel(currentWeekStart)}
                   </h2>
                   <div className="flex items-center border border-white/10 bg-black/40 rounded-lg overflow-hidden">
@@ -12214,7 +12214,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-bold italic tracking-wide text-white uppercase">Cruise Command Center</h2>
+                <h2 className="font-bold italic tracking-wide text-white uppercase">Cruise Command Center</h2>
                 <p className="font-bold uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
               </div>
             </div>

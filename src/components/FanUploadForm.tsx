@@ -228,7 +228,7 @@ export default function FanUploadForm() {
     <div className="text-[var(--text-color)]">
       <div className="flex items-center gap-3 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-[var(--text-color)]">Submit to <span className="gradient-text">Fan Wall</span></h2>
+          <h2 className="font-bold">Submit to <span className="gradient-text">Fan Wall</span></h2>
           <p className="mt-1 uppercase tracking-widest font-bold">Share your concert moments</p>
         </div>
       </div>

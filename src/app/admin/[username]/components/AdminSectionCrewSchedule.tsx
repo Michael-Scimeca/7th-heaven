@@ -1714,7 +1714,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
                 {/* Left: Date Range & Nav */}
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
+                  <h2 className="font-bold text-white tracking-tight mr-2 min-w-[180px]">
                     {getWeekRangeLabel(currentWeekStart)}
                   </h2>
                   <div className="flex items-center border border-white/10 bg-black/40 rounded-lg overflow-hidden">

@@ -1068,7 +1068,7 @@ function BookPageContent() {
 
           {/* Step 1: Event Schedule & Format */}
           <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
+            <h2 className="font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
               Event Schedule & Format
             </h2>
             <div className="mb-6 p-0 bg-transparent border-0 flex items-start gap-3">
@@ -1481,7 +1481,7 @@ function BookPageContent() {
 
           {/* Step 2: Contact Information */}
           <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
+            <h2 className="font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
               Contact Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1494,7 +1494,7 @@ function BookPageContent() {
 
           {/* Step 3: Venue Details & Event Schedule */}
           <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
+            <h2 className="font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
               <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
             </h2>
 
@@ -1708,7 +1708,7 @@ function BookPageContent() {
 
               {/* Step 4: Technical & Logistics */}
               <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
-                <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
+                <h2 className="font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
                   Technical & Logistics
                 </h2>
                 <div className="flex flex-col gap-8">
@@ -1727,7 +1727,7 @@ function BookPageContent() {
 
               {/* Step 5: Additional Options */}
               <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
-                <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
+                <h2 className="font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Production & Extras
                 </h2>
                 <p className="mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
@@ -1775,7 +1775,7 @@ function BookPageContent() {
 
               {/* Step 6: Notes & Questions */}
               <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid">
-                <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
+                <h2 className="font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                   Notes & Questions
                 </h2>
                 <p className="mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>

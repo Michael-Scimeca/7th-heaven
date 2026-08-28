@@ -77,7 +77,7 @@ export default function BioScrollReveal({
           {subtitle}
         </span>
         <h2
-          className="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white"
+          className="md:text-6xl font-bold uppercase tracking-tighter text-white"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           {title}

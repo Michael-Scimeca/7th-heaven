@@ -36,7 +36,7 @@ function CancelContent() {
     return (
       <div className="text-center">
         <span className="text-4xl block mb-4">⚠️</span>
-        <h2 className="text-xl font-bold text-white mb-2">Invalid Link</h2>
+        <h2 className="font-bold text-white mb-2">Invalid Link</h2>
         <p className="mb-6">This cancel link is missing a token. Please use the link from your confirmation email.</p>
         <Link href="/cruise" className="text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">
           ← Back to Cruise Page
@@ -50,7 +50,7 @@ function CancelContent() {
       {status === "success" ? (
         <>
           <span className="text-4xl block mb-4">✅</span>
-          <h2 className="text-2xl font-bold text-white mb-2">Signup Cancelled</h2>
+          <h2 className="font-bold text-white mb-2">Signup Cancelled</h2>
           <p className="mb-2">
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
           </p>
@@ -62,7 +62,7 @@ function CancelContent() {
       ) : status === "error" ? (
         <>
           <span className="text-4xl block mb-4">❌</span>
-          <h2 className="text-xl font-bold text-white mb-2">Couldn&apos;t Cancel</h2>
+          <h2 className="font-bold text-white mb-2">Couldn&apos;t Cancel</h2>
           <p className="mb-6">{errorMsg || "This link may have already been used or expired."}</p>
           <Link href="/cruise" className="text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">
             ← Back to Cruise Page
@@ -71,7 +71,7 @@ function CancelContent() {
       ) : (
         <>
           <span className="text-4xl block mb-4">🚢</span>
-          <h2 className="text-2xl font-bold text-white mb-2">Cancel Your Cruise Signup?</h2>
+          <h2 className="font-bold text-white mb-2">Cancel Your Cruise Signup?</h2>
           <p className="mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>

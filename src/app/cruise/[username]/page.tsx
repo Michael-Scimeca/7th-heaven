@@ -761,7 +761,7 @@ export default function CruiseDashboard() {
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="text-lg md:text-xl font-bold uppercase tracking-wider text-white">{guidelines.title}</h2>
+                    <h2 className="font-bold uppercase tracking-wider text-white">{guidelines.title}</h2>
                     <p className="text-purple-400font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
@@ -865,7 +865,7 @@ export default function CruiseDashboard() {
             <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="font-bold uppercase tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="mt-4 leading-relaxed font-semibold">

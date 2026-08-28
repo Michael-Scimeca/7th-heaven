@@ -880,7 +880,7 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section id="typography" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
             <p className="mt-1">
@@ -1632,7 +1632,7 @@ ${deskRules.join("\n")}
         <section id="colors" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
               </h2>
               <p className="mt-1">
@@ -1740,7 +1740,7 @@ ${deskRules.join("\n")}
         {/* SECTION 3: BUTTONS */}
         <section id="buttons" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
               <MousePointer className="w-6 h-6" /> 3. Button Variants & States
             </h2>
             <p className="mt-1">
@@ -1833,7 +1833,7 @@ ${deskRules.join("\n")}
         {/* SECTION 4: FORM ELEMENTS */}
         <section id="form-elements" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
             </h2>
             <p className="mt-1">
@@ -2289,7 +2289,7 @@ ${deskRules.join("\n")}
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="text-2xl font-bold tracking-tighter uppercase italic text-white">
+                      <h2 className="font-bold tracking-tighter uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
                       <div className="uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-1">
@@ -2392,7 +2392,7 @@ ${deskRules.join("\n")}
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="text-2xl font-bold tracking-tighter uppercase italic text-white">
+                      <h2 className="font-bold tracking-tighter uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
                       <div className="uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-1 flex items-center justify-center gap-1 flex-wrap">
@@ -2650,7 +2650,7 @@ ${deskRules.join("\n")}
         {/* SECTION 5: DROPDOWNS */}
         <section id="dropdowns" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
             <p className="mt-1">
@@ -2690,7 +2690,7 @@ ${deskRules.join("\n")}
         <section id="chat" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
               </h2>
               <p className="mt-1">
@@ -3090,7 +3090,7 @@ ${deskRules.join("\n")}
         {/* SECTION 7: CARDS & BADGES */}
         <section id="components" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
             <p className="mt-1">
@@ -3169,7 +3169,7 @@ ${deskRules.join("\n")}
         {/* SECTION 8: MODALS & DIALOGS */}
         <section id="modals" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
             </h2>
             <p className="mt-1">
@@ -3367,7 +3367,7 @@ ${deskRules.join("\n")}
         {/* SECTION 9: BORDERS & GLASS */}
         <section id="borders" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
             <p className="mt-1">
@@ -3400,7 +3400,7 @@ ${deskRules.join("\n")}
         {/* SCROLLBAR SHOWCASE */}
         <section id="scrollbars" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Sliders className="w-6 h-6" /> Custom Scrollbars
             </h2>
             <p className="mt-1">
@@ -3492,7 +3492,7 @@ ${deskRules.join("\n")}
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section id="spacing" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
             <p className="mt-1">
@@ -3546,7 +3546,7 @@ ${deskRules.join("\n")}
         <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <h2 className="text-2xl font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <h2 className="font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
                 <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
               </h2>
               <p className="mt-1">
@@ -3736,7 +3736,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
         <section id="global-containers" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
               <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
             </h2>
             <p className="mt-1">
@@ -3836,7 +3836,7 @@ ${deskRules.join("\n")}
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-6 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
             <p className="mt-1">
@@ -4290,7 +4290,7 @@ ${deskRules.join("\n")}
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section id="crew-scheduling" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-8 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="text-2xl font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+            <h2 className="font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
             </h2>
             <p className="mt-1">

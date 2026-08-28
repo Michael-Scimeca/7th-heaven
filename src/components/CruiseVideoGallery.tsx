@@ -197,7 +197,7 @@ export default function CruiseVideoGallery() {
           Virtual Tours & Video Showcase
         </span>
         <h2
-          className="text-4xl md:text-6xl font-bold uppercase tracking-tight text-white leading-none"
+          className="md:text-6xl font-bold uppercase tracking-tight text-white leading-none"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Explore <span className="accent-gradient-text">Ship Videos</span>

@@ -20,7 +20,7 @@ export default function ReturnsPage() {
 
           {/* Section 1 */}
           <div>
-            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
+            <h2 className="font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
             <p className="">
               All merchandise purchases completed in person at our live concert venues and tour stops are <strong className="text-[var(--text-color)]">final sale</strong>.
               We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables.
@@ -31,7 +31,7 @@ export default function ReturnsPage() {
 
           {/* Section 2 */}
           <div>
-            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">2. Online Store Orders (Shipped to Home)</h2>
+            <h2 className="font-bold mb-3">2. Online Store Orders (Shipped to Home)</h2>
             <p className="mb-3">
               For merchandise purchased directly through our online store (processed via the Shopify Storefront API) and shipped to your home:
             </p>
@@ -53,7 +53,7 @@ export default function ReturnsPage() {
 
           {/* Section 3 */}
           <div>
-            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">3. Merch Table Pickups (Pre-Ordered Online)</h2>
+            <h2 className="font-bold mb-3">3. Merch Table Pickups (Pre-Ordered Online)</h2>
             <p className="mb-3">
               For orders pre-purchased online and designated for pickup at our concert merch tables:
             </p>
@@ -72,7 +72,7 @@ export default function ReturnsPage() {
 
           {/* Section 4 */}
           <div>
-            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. Damaged or Defective Items</h2>
+            <h2 className="font-bold mb-3">4. Damaged or Defective Items</h2>
             <p className="">
               If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
             </p>
@@ -80,7 +80,7 @@ export default function ReturnsPage() {
 
           {/* Section 5 */}
           <div>
-            <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">5. Contact Information</h2>
+            <h2 className="font-bold mb-3">5. Contact Information</h2>
             <p className="mb-2">
               If you have any questions about returns, exchanges, or refunds, please reach out to us:
             </p>

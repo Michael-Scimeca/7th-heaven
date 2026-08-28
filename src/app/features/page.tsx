@@ -1423,7 +1423,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-lg bg-red-500 animate-pulse" />
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Live Experience — What It Looks Like
             </h2>
           </div>
@@ -2048,7 +2048,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🏆</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Fan Dashboard — What It Looks Like
             </h2>
           </div>
@@ -2125,7 +2125,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               All Pages — Site Directory
             </h2>
           </div>
@@ -2299,7 +2299,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2313,7 +2313,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -2341,7 +2341,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2363,7 +2363,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="text-4xl font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Site Directory
             </h2>
           </div>

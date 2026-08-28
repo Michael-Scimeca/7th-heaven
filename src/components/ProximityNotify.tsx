@@ -259,7 +259,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
+              <h2 className="lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
                 Never Miss a Show
               </h2>
               <p className="text-purple-200/70 max-w-xl">
