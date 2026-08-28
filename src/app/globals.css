@@ -4298,7 +4298,9 @@ html.is-preloading.is-revealing #page-content-wrapper {
   opacity: 1 !important;
   pointer-events: auto !important;
   transform-origin: 50% 50%;
-  animation: page-push-in var(--preloader-reveal-duration) linear forwards !important;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: page-fade-in var(--preloader-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
 .preloader.is-leaving {
