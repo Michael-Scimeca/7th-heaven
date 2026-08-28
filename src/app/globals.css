@@ -5403,93 +5403,21 @@ textarea,
   overflow: hidden;
 }
 
+/* Progressive Blur Setup — Single lightweight GPU-accelerated layer for 60fps scrolling & instant navigation */
 .progressive-blur.is-top {
   top: 0;
   bottom: auto;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.3) 60%, transparent 100%);
 }
 
 .progressive-blur.is-bottom {
   bottom: 0;
   top: auto;
-}
-
-.progressive-blur__layer {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-
-/* Top progressive blur layers (smooth gradient blur fading out downwards) */
-.progressive-blur.is-top .progressive-blur__layer.is--1 {
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
-  -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 100%);
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 100%);
-}
-
-.progressive-blur.is-top .progressive-blur__layer.is--2 {
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 90%);
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 90%);
-}
-
-.progressive-blur.is-top .progressive-blur__layer.is--3 {
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 80%);
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 80%);
-}
-
-.progressive-blur.is-top .progressive-blur__layer.is--4 {
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0) 70%);
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0) 70%);
-}
-
-.progressive-blur.is-top .progressive-blur__layer.is--5 {
-  -webkit-backdrop-filter: blur(32px);
-  backdrop-filter: blur(32px);
-  -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0) 60%);
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0) 60%);
-}
-
-/* Bottom progressive blur layers (smooth gradient blur fading out upwards) */
-.progressive-blur.is-bottom .progressive-blur__layer.is--1 {
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
-  -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.progressive-blur.is-bottom .progressive-blur__layer.is--2 {
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%);
-  mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%);
-}
-
-.progressive-blur.is-bottom .progressive-blur__layer.is--3 {
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 60%);
-  mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 60%);
-}
-
-.progressive-blur.is-bottom .progressive-blur__layer.is--4 {
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 40%);
-  mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 40%);
-}
-
-.progressive-blur.is-bottom .progressive-blur__layer.is--5 {
-  -webkit-backdrop-filter: blur(32px);
-  backdrop-filter: blur(32px);
-  -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%);
-  mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 20%);
+  background: linear-gradient(to top, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.3) 60%, transparent 100%);
 }
 
 /* Ensure active navigation items or logos never display click pointer */
