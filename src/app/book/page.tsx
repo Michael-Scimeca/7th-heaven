@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
@@ -70,24 +69,8 @@ const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
   }
 ];
 
-function BookPageSkeleton() {
-  return (
-    <div className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="h-10 w-64 bg-white/10 rounded-lg mb-8" />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 h-[600px] bg-white/5 rounded-2xl border border-white/10" />
-        <div className="h-[400px] bg-white/5 rounded-2xl border border-white/10" />
-      </div>
-    </div>
-  );
-}
-
 export default function BookPage() {
-  return (
-    <Suspense fallback={<BookPageSkeleton />}>
-      <BookPageContent />
-    </Suspense>
-  );
+  return <BookPageContent />;
 }
 
 const M_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -274,12 +257,21 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
 
 function BookPageContent() {
   const { member, isLoggedIn, openModal, signup, login } = useMember();
-  const searchParams = useSearchParams();
-  const fromParam = searchParams.get("from");
-  const tabParam = searchParams.get("tab");
+  const [urlParams] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        from: params.get("from"),
+        tab: params.get("tab")
+      };
+    }
+    return { from: null, tab: null };
+  });
+
+  const fromParam = urlParams.from;
   const isFromPlanner = fromParam === "planner" || fromParam === "rebook";
   const [activeTab, setActiveTab] = useState<'book' | 'planner'>(
-    tabParam === 'planner' || tabParam === 'dashboard' ? 'planner' : 'book'
+    urlParams.tab === 'planner' || urlParams.tab === 'dashboard' || isFromPlanner ? 'planner' : 'book'
   );
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -497,58 +489,61 @@ function BookPageContent() {
       } catch { }
 
       // URL params override localStorage (for specific field overrides)
-      const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "parkingAddress", "parkingNotes", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
-      setFormData(prev => {
-        const updated = { ...prev };
-        allFields.forEach(f => {
-          const val = searchParams.get(f);
-          if (val) (updated as any)[f] = val;
+      if (typeof window !== "undefined") {
+        const searchParams = new URLSearchParams(window.location.search);
+        const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "parkingAddress", "parkingNotes", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
+        setFormData(prev => {
+          const updated = { ...prev };
+          allFields.forEach(f => {
+            const val = searchParams.get(f);
+            if (val) (updated as any)[f] = val;
+          });
+          if (isFromPlanner) {
+            if (!updated.venueName) updated.venueName = searchParams.get("venueName") || "Bridges Scoreboard";
+            if (!updated.venueCity) updated.venueCity = searchParams.get("venueCity") || "Chicago";
+            if (!updated.venueState) updated.venueState = searchParams.get("venueState") || "IL";
+            if (!updated.organization) updated.organization = searchParams.get("organization") || "Scoreboard Entertainment";
+          }
+          if (fromParam === 'rebook') {
+            updated.eventDate = '';
+            updated.startTime = '';
+            updated.endTime = '';
+            updated.eventStartTime = '';
+            updated.eventEndTime = '';
+          }
+          return updated;
         });
-        if (isFromPlanner) {
-          if (!updated.venueName) updated.venueName = searchParams.get("venueName") || "Bridges Scoreboard";
-          if (!updated.venueCity) updated.venueCity = searchParams.get("venueCity") || "Chicago";
-          if (!updated.venueState) updated.venueState = searchParams.get("venueState") || "IL";
-          if (!updated.organization) updated.organization = searchParams.get("organization") || "Scoreboard Entertainment";
-        }
-        if (fromParam === 'rebook') {
-          updated.eventDate = '';
-          updated.startTime = '';
-          updated.endTime = '';
-          updated.eventStartTime = '';
-          updated.eventEndTime = '';
-        }
-        return updated;
-      });
-      const eventType = searchParams.get("eventType");
-      if (eventType) setSelectedType(eventType);
+        const eventType = searchParams.get("eventType");
+        if (eventType) setSelectedType(eventType);
 
-      if (fromParam === 'rebook') {
-        setBookingSlots([]);
-        setAltDate1('');
-        setAltDate2('');
-      } else {
-        const dateParam = searchParams.get("eventDate");
-        const datesParam = searchParams.get("eventDates");
-        if (datesParam) {
-          setBookingSlots(datesParam.split(",").map((d: string) => ({
-            id: Math.random().toString(36).substring(2, 9),
-            date: d,
-            startTime: searchParams.get("startTime") || "7:00 PM",
-            endTime: searchParams.get("endTime") || "10:00 PM",
-            eventType: searchParams.get("eventType") || "full_band",
-          })));
-        } else if (dateParam) {
-          setBookingSlots([{
-            id: Math.random().toString(36).substring(2, 9),
-            date: dateParam,
-            startTime: searchParams.get("startTime") || "7:00 PM",
-            endTime: searchParams.get("endTime") || "10:00 PM",
-            eventType: searchParams.get("eventType") || "full_band",
-          }]);
+        if (fromParam === 'rebook') {
+          setBookingSlots([]);
+          setAltDate1('');
+          setAltDate2('');
+        } else {
+          const dateParam = searchParams.get("eventDate");
+          const datesParam = searchParams.get("eventDates");
+          if (datesParam) {
+            setBookingSlots(datesParam.split(",").map((d: string) => ({
+              id: Math.random().toString(36).substring(2, 9),
+              date: d,
+              startTime: searchParams.get("startTime") || "7:00 PM",
+              endTime: searchParams.get("endTime") || "10:00 PM",
+              eventType: searchParams.get("eventType") || "full_band",
+            })));
+          } else if (dateParam) {
+            setBookingSlots([{
+              id: Math.random().toString(36).substring(2, 9),
+              date: dateParam,
+              startTime: searchParams.get("startTime") || "7:00 PM",
+              endTime: searchParams.get("endTime") || "10:00 PM",
+              eventType: searchParams.get("eventType") || "full_band",
+            }]);
+          }
         }
       }
     }
-  }, [isFromPlanner, searchParams, fromParam]);
+  }, [isFromPlanner, fromParam]);
 
   // Auto-fill details if user is already logged in
   useEffect(() => {
