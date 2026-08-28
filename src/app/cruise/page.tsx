@@ -799,7 +799,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2027)}
-                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -808,7 +808,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2028)}
-                    className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -1997,7 +1997,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2027)}
-                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >
@@ -2006,7 +2006,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2028)}
-                      className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >

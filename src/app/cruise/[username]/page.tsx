@@ -877,7 +877,7 @@ export default function CruiseDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activeItinYear === 2027 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
+                className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >
@@ -886,7 +886,7 @@ export default function CruiseDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${activeItinYear === 2028 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
+                className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >
