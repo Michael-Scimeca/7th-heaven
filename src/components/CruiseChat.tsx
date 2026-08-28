@@ -569,7 +569,7 @@ export default function CruiseChat({
           </div>
 
           <div className="space-y-2 max-w-xs">
-            <h3 className="text-xl font-bold text-white uppercase tracking-tight">
+            <h3 className="font-bold text-white uppercase tracking-tight">
               Join the Live Chat
             </h3>
             <p className="leading-relaxed font-medium">

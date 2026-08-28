@@ -73,7 +73,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
         )}
       </div>
       <div className="mt-3">
-        <h3 className="text-base font-bold text-white leading-tight line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
+        <h3 className="font-bold text-white leading-tight line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
         <div className="flex flex-col gap-0.5">
           <span className="text-white/40 font-medium">7th Heaven</span>
           <div className="flex items-center gap-1.5 text-white/40">
@@ -180,7 +180,7 @@ export default function VideoSection() {
                   )}
                 </div>
                 <div className="mt-4">
-                  <h3 className="text-xl font-bold text-white leading-tight mb-2 group-hover:text-[var(--color-accent)] transition-colors uppercase tracking-tight">{latest.title}</h3>
+                  <h3 className="font-bold text-white leading-tight mb-2 group-hover:text-[var(--color-accent)] transition-colors uppercase tracking-tight">{latest.title}</h3>
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">7H</div>
                     <div className="flex flex-col">
@@ -305,7 +305,7 @@ export default function VideoSection() {
               <div className="mt-3 flex gap-3">
                 <div className="w-9 h-9 shrink-0 rounded-lg bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
-                  <h3 className="text-base font-bold text-white leading-tight line-clamp-2 group-hover: text-[var(--color-accent)] transition-colors mb-1">
+                  <h3 className="font-bold text-white leading-tight line-clamp-2 group-hover: transition-colors mb-1">
                     {video.title}
                   </h3>
                   <div className="flex flex-col">

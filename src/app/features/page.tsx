@@ -1246,7 +1246,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             </button>
             {/* Title */}
             <div className="mb-4">
-              <h3 className="text-2xl font-bold text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+              <h3 className="font-bold text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -1290,7 +1290,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Titles */}
         <div>
-          <h3 className="text-3xl font-bold text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
+          <h3 className="font-bold text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
           <p className={`font-semibold ${isPurple ?"text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
@@ -2249,7 +2249,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-6">
-                <h3 className="text-base font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
+                <h3 className="font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
                   <span>{group.group}</span>
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>
@@ -2486,7 +2486,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-8">
-                <h3 className="text-base font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
+                <h3 className="font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
                   {group.group}
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>

@@ -238,7 +238,7 @@ export default function FanUploadForm() {
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 flex items-center justify-center border border-[var(--color-accent)]/30">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
-          <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">Moments Submitted!</h3>
+          <h3 className="font-bold mb-2">Moments Submitted!</h3>
           <p className="mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
           <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className="text-[var(--color-accent)] font-bold hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
             Upload Another

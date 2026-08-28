@@ -531,7 +531,7 @@ export default function CruiseDashboard() {
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
+                  <h3 className="font-bold text-black uppercase tracking-wider mb-2">Verify Your Email</h3>
                   <p className="text-black/60 leading-relaxed">
                     We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
                   </p>
@@ -568,7 +568,7 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-4">📧</span>
-                <h3 className="font-bold text-black text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
+                <h3 className="font-bold text-black uppercase tracking-wider mb-2">Check Your Email</h3>
                 <p className="text-black/60 leading-relaxed mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
@@ -699,7 +699,7 @@ export default function CruiseDashboard() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-[12px] font-bold tracking-[0.15em] uppercase text-cyan-300 px-2 py-0.5 rounded-lg border border-cyan-500/30">Priority Update</span>
                   </div>
-                  <h3 className="text-lg font-bold tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
+                  <h3 className="font-bold tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
                   <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">

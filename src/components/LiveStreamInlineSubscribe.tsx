@@ -119,7 +119,7 @@ export default function LiveStreamInlineSubscribe({
               <Bell className="w-5 h-5 animate-bounce" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider">
+              <h3 className="font-bold text-white uppercase tracking-wider">
                 Crew Member Live Stream Push & Email Alerts
               </h3>
               <p className="text-purple-200/70">

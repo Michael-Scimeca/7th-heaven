@@ -394,7 +394,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="text-2xl font-bold uppercase tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="font-bold uppercase tracking-tighter text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
               <p className="leading-relaxed max-w-md mx-auto mb-8">

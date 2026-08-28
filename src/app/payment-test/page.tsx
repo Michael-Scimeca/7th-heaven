@@ -72,7 +72,7 @@ function ProductCard({
 
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="text-white font-bold text-base leading-tight">{product.title}</h3>
+          <h3 className="text-white font-bold leading-tight">{product.title}</h3>
           <p className="mt-1 leading-relaxed">{product.description}</p>
         </div>
 

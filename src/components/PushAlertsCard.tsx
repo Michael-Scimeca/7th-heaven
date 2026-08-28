@@ -103,7 +103,7 @@ export default function PushAlertsCard({
               <BellIcon />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-white tracking-wide">
+              <h3 className="font-bold text-white tracking-wide">
                 {title || defaultTitle}
               </h3>
               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-purple-400">

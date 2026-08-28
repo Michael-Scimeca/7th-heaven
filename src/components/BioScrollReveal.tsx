@@ -108,7 +108,7 @@ export default function BioScrollReveal({
                 </div>
 
                 <h3
-                  className={`text-4xl sm:text-5xl md:text-7xl font-bold uppercase tracking-tight transition-all duration-300 ${isActive ?"text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
+                  className={`md:text-7xl font-bold uppercase tracking-tight transition-all duration-300 ${isActive ?"text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                     : "text-white/30 group-hover:text-white/70"
                     }`}
                   style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}

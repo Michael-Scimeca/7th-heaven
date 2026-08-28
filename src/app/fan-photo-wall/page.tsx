@@ -251,7 +251,7 @@ export default function FansPage() {
             <div className="flex items-center gap-3 mb-6">
 
               <div>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="font-bold text-white">
                   Pending Review Queue
                 </h3>
                 <p className="uppercase tracking-widest font-bold">
@@ -372,7 +372,7 @@ export default function FansPage() {
                 <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                   Featured Moment
                 </span>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white leading-none drop-shadow-md">
+                <h3 className="font-bold uppercase tracking-tight text-white leading-none drop-shadow-md">
                   {approvedPhotos[0].name}
                 </h3>
                 <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">
@@ -505,7 +505,7 @@ export default function FansPage() {
                 <polyline points="21 15 16 10 5 21" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-white/30 mb-3">No moments yet</h3>
+            <h3 className="font-bold text-white/30 mb-3">No moments yet</h3>
             <p className="mb-8 max-w-sm mx-auto">
               Check back soon for moments from 7th Heaven shows!
             </p>

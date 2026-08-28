@@ -135,7 +135,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
                   {/* Name & Title / Note */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="text-[clamp(1.1rem,2vh,1.5rem)] font-bold text-white tracking-tight leading-snug">
+                    <h3 className="font-bold text-white tracking-tight leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>

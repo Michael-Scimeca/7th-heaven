@@ -202,7 +202,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
           <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
+          <h3 className="font-bold mb-2">No Past Shows Found</h3>
           <p className="max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>

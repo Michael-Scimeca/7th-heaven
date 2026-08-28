@@ -566,7 +566,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           25+ Years Legacy Pathway
         </span>
         <h3
-          className="text-3xl md:text-5xl font-bold uppercase text-white tracking-tight"
+          className="font-bold uppercase text-white tracking-tight"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Cruising <span className="accent-gradient-text">History & Milestones</span>

@@ -589,7 +589,7 @@ export default function HomeVideoShowcase() {
                           </div>
                         )}
 
-                        <h3 className="text-[20px] sm:text-[26px] md:text-[32px] lg:text-[32px] font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
+                        <h3 className="font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
                           {video.title}
                         </h3>
                       </div>

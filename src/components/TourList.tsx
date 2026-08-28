@@ -1544,7 +1544,7 @@ ${filterLine}
             <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
             <div className="p-6 md:p-8 text-left">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <h3 className="font-bold tracking-tight text-white flex items-center gap-2">
                   <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
                 </h3>
                 <button aria-label="Action button"

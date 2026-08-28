@@ -150,7 +150,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
-            <h3 className="text-base font-bold uppercase tracking-tight text-black">
+            <h3 className="font-bold uppercase tracking-tight text-black">
               Official Profile & Scheduling Photo
             </h3>
             <p className="text-black/70 font-semibold">

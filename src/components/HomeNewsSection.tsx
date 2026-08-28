@@ -62,7 +62,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                   {featured.date}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-color)] leading-tight mb-4 group-hover: text-[var(--color-accent)] transition-colors">
+              <h3 className="font-bold leading-tight mb-4 group-hover: transition-colors">
                 {featured.title}
               </h3>
               <p className="leading-relaxed font-normal">
@@ -118,7 +118,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                 ✕
               </button>
             </div>
-            <h3 className="text-2xl font-bold text-[var(--text-color)] mb-4 leading-tight">
+            <h3 className="font-bold mb-4 leading-tight">
               {selectedArticle.title}
             </h3>
             <p className="leading-relaxed whitespace-pre-line">

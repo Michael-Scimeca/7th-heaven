@@ -395,7 +395,7 @@ export default function MediaPage() {
                   {/* Poster Title Container with Responsive Height */}
                   <div className="h-10 sm:h-14 flex items-center justify-center mb-1">
                     <h3
-                      className="text-lg sm:text-3xl font-bold uppercase tracking-tight text-white drop-shadow-md leading-tight line-clamp-2"
+                      className="font-bold uppercase tracking-tight text-white drop-shadow-md leading-tight line-clamp-2"
                       style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), sans-serif" }}
                     >
                       {video.title}
@@ -461,7 +461,7 @@ export default function MediaPage() {
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold uppercase tracking-wider text-white">Add Video to Media Vault</h3>
+                  <h3 className="font-bold uppercase tracking-wider text-white">Add Video to Media Vault</h3>
                   <p className="uppercase tracking-widest font-mono">Syncs to Sanity CMS & Media Hub</p>
                 </div>
               </div>

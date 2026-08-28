@@ -750,7 +750,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
-            <h3 className="text-lg font-bold uppercase tracking-widest text-white">Payment Successful</h3>
+            <h3 className="font-bold uppercase tracking-widest text-white">Payment Successful</h3>
             <p className="leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>

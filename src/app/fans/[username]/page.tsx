@@ -568,7 +568,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex items-center gap-3 mb-5">
-                    <h3 className="text-lg font-bold tracking-wider text-black uppercase">Captain&apos;s Log</h3>
+                    <h3 className="font-bold tracking-wider text-black uppercase">Captain&apos;s Log</h3>
                     <span className="ml-auto font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
@@ -602,7 +602,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               <span className="font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
                               <span className="font-bold text-white/50 uppercase tracking-widest">{day.location}</span>
                             </div>
-                            <h3 className="text-lg font-bold uppercase tracking-wide text-white mb-2">{day.theme}</h3>
+                            <h3 className="font-bold uppercase tracking-wide text-white mb-2">{day.theme}</h3>
                             <ul className="space-y-4 mt-5 border-t border-white/10 pt-5">
                               {day.events.map(ev => (
                                 <li key={ev.id} className="flex items-start gap-4">
@@ -737,7 +737,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 RAFFLE WINNER
                               </span>
                             )}
-                            <h3 className="text-2xl font-bold text-white tracking-tight mb-2">
+                            <h3 className="font-bold text-white tracking-tight mb-2">
                               {win.title.replace('You Won the Raffle!', '').trim() || 'Prize Claim'}
                             </h3>
                             <p className="max-w-[280px] leading-relaxed mb-6">
@@ -801,7 +801,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <>
                           <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border    border-white/10 bg-emerald-500/[0.03]  p-4 -mx-1' : ''}`}>
                             <div>
-                              <h3 className="text-2xl font-bold text-white mb-1">{nextShow.venue}</h3>
+                              <h3 className="font-bold text-white mb-1">{nextShow.venue}</h3>
                               <p className="">
                                 {nextShow.city ? `${nextShow.city}${nextShow.state ? `, ${nextShow.state}` : ''} · ` : nextShow.state ? `${nextShow.state} · ` : ''}
                                 {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}
@@ -1024,7 +1024,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-center gap-2 mb-2">
                           <span className="font-bold uppercase tracking-[0.2em] text-purple-400 px-2.5 py-1 rounded-lg border border-cyan-500/20">Limited Spots</span>
                         </div>
-                        <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
+                        <h3 className="font-bold text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="max-w-lg leading-relaxed">
                           7 nights, 3 islands, 6 live shows. Sign up for the cruise and unlock your <span className="text-cyan-400 font-bold">Cruise Hub</span> right here on your dashboard.
                         </p>
@@ -1045,7 +1045,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   <div className="flex items-center gap-2 mb-4">
                     <span className="font-bold uppercase tracking-[0.2em] text-white px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px]">Live Stream Alerts</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-1">Never Miss a Live Feed</h3>
+                  <h3 className="font-bold text-white mb-1">Never Miss a Live Feed</h3>
                   <p className="mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
                   {liveAlertSubscribed ? (
@@ -1100,7 +1100,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 {/* Tour Memories Gallery & Upload */}
                 <div className="space-y-6 pt-4 border-t border-black/10">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-2xl font-bold tracking-tight">Tour Memories</h3>
+                    <h3 className="font-bold tracking-tight">Tour Memories</h3>
                     <Link href="/fan-photo-wall" className="text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
                   </div>
 

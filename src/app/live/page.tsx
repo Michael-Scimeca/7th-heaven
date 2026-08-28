@@ -528,7 +528,7 @@ export default function LiveHubPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-1">{room.title}</h3>
+                  <h3 className="font-bold text-white mb-1">{room.title}</h3>
                   <p className="font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 

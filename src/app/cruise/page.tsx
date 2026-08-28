@@ -824,7 +824,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <Ship className="w-6 h-6 text-purple-400 shrink-0" />
-                      <h3 className="text-lg font-bold uppercase text-white tracking-wide">Ship Resources</h3>
+                      <h3 className="font-bold uppercase text-white tracking-wide">Ship Resources</h3>
                     </div>
                     <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                       Official Links &amp; Media
@@ -911,7 +911,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="relative text-left rounded-2xl px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-                    <h3 className="text-lg font-bold uppercase text-white tracking-wide">Booking Policy</h3>
+                    <h3 className="font-bold uppercase text-white tracking-wide">Booking Policy</h3>
                   </div>
                   <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Book through us to participate &amp; lock in best rates
@@ -961,7 +961,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="relative text-left rounded-2xl px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-                    <h3 className="text-lg font-bold uppercase text-white tracking-wide">Passport Guidelines</h3>
+                    <h3 className="font-bold uppercase text-white tracking-wide">Passport Guidelines</h3>
                   </div>
                   <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Essential travel document guidelines
@@ -983,7 +983,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="relative text-left px-4 sm:px-6 py-2">
                   <div className="flex items-center gap-3 mb-4">
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-                    <h3 className="text-lg font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
+                    <h3 className="font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
                   </div>
                   <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                     Refund terms before booking
@@ -1171,7 +1171,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                     <div>
                       <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Exclusive Group Deal</span>
-                      <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
+                      <h3 className="font-bold uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                     </div>
                   </div>
 
@@ -1252,7 +1252,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-2">
                       <div>
                         <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Variable Market Pricing</span>
-                        <h3 className="text-xl md:text-3xl font-bold uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
+                        <h3 className="font-bold uppercase text-white mt-1">Prevailing Rate Cabins (2027)</h3>
                       </div>
                     </div>
 
@@ -1325,7 +1325,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span className="inline-block font-bold tracking-[0.2em] uppercase text-purple-400 mb-3 px-4 py-1 rounded-lg bg-purple-500/10 border border-purple-400/20">
                     Accommodations Guide
                   </span>
-                  <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Stateroom Catalog & Suite Perks
                   </h3>
                 </div>
@@ -1334,7 +1334,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Stateroom Categories Tab Column — borderless & unpadded */}
                   <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
                     <div>
-                      <h3 className="text-base font-bold uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
+                      <h3 className="font-bold uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
                       <div className="flex flex-col gap-2.5">
                         {[
                           { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -1401,7 +1401,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                         <div>
                           <span className="font-bold uppercase tracking-[0.25em] text-purple-400">VIP Experiences</span>
-                          <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mt-1">Suite Class Perks</h3>
+                          <h3 className="font-bold uppercase text-white mt-1">Suite Class Perks</h3>
                         </div>
                         <div className="flex gap-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]p-1.5 rounded-xl">
                           {(["sea", "sky", "star"] as const).map(perk => (
@@ -1943,7 +1943,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     {/* Bottom Gradient Overlay matching user screenshot */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end text-left">
-                      <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-none">
+                      <h3 className="font-bold text-white tracking-tight leading-none">
                         {band.name}
                       </h3>
                       {band.role && (
@@ -2032,7 +2032,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div>
                 <div className="text-center md:text-left mb-10">
                   <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
-                  <h3 className="text-2xl md:text-3xl font-bold uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Ports of Call Catalog
                   </h3>
                 </div>
@@ -2098,7 +2098,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       </div>
                       <div className="p-8 relative z-20 -mt-16">
-                        <h3 className="text-2xl md:text-4xl font-bold uppercase text-white tracking-tight mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                        <h3 className="font-bold uppercase text-white tracking-tight mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
                         <p className="leading-relaxed mb-4">
@@ -2305,7 +2305,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
               <div className="mb-16">
                 <div className="mb-6 text-left">
-                  <h3 className="text-xl md:text-3xl font-bold uppercase text-white tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase text-white tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
                   </h3>
                   <p className="font-semibold mt-1">
@@ -2352,7 +2352,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="bg-transparent p-0 text-left mb-16">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
-                    <h3 className="text-xl font-bold uppercase text-white">Dining Explorer Guide</h3>
+                    <h3 className="font-bold uppercase text-white">Dining Explorer Guide</h3>
                     <p className="font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
                   </div>
                   <div className="rounded-lg flex bg-[#00000029] p-1 border border-white/10 shrink-0 self-center">
@@ -2440,7 +2440,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {/* Segmented Tab Header — Stacks vertically on mobile & tablet for full text width */}
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
                   <div className="w-full lg:w-auto">
-                    <h3 className="text-xl sm:text-2xl font-bold uppercase text-white">Bars & Entertainment Explorer</h3>
+                    <h3 className="font-bold uppercase text-white">Bars & Entertainment Explorer</h3>
                     <p className="font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
                   </div>
                   <div className="flex bg-[#00000029] border border-white/10 backdrop-blur-[16px] p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto rounded-lg">

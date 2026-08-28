@@ -1808,7 +1808,7 @@ function BookPageContent() {
             <div>
               <div className="sticky top-32">
                 <div className="bg-transparent border-0 p-0 shadow-none">
-                  <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
+                  <h3 className="font-bold tracking-[0.2em] uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                   <div className="flex flex-col gap-4 mb-8">
                     <div className="flex justify-between items-start">
@@ -2020,7 +2020,7 @@ function MapPickerModal({
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
-            <h3 className="text-lg font-bold uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
+            <h3 className="font-bold uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
             type="button"

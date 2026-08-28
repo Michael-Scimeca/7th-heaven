@@ -54,7 +54,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
           <>
             <div className="text-center mb-5 flex flex-col items-center">
               <Trophy className="w-10 h-10 text-yellow-500 mb-2" />
-              <h3 className="text-xl font-bold text-black uppercase tracking-wider">You Won!</h3>
+              <h3 className="font-bold text-black uppercase tracking-wider">You Won!</h3>
               {raffleState.prizes?.[winnerIdx]?.name && (
                 <p className="font-bold mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>
               )}
@@ -108,7 +108,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-4">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
             </div>
-            <h3 className="text-lg font-bold text-black uppercase tracking-wider mb-2">Shipping Claim</h3>
+            <h3 className="font-bold text-black uppercase tracking-wider mb-2">Shipping Claim</h3>
             <p className="text-black/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
             <button aria-label="Close"
               onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); handleClose(); }}
@@ -120,7 +120,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
           </div>
         ) : (
           <div className="text-center py-4">
-            <h3 className="text-lg font-bold text-[var(--color-accent)] uppercase tracking-wider mb-1">Merch Table Pickup</h3>
+            <h3 className="font-bold uppercase tracking-wider mb-1">Merch Table Pickup</h3>
             <p className="text-black/40 mb-5 uppercase tracking-widest">Show this PIN or page to the crew</p>
             {pin && (
               <div className="bg-purple-500/5 border border-purple-500/30 p-4 mb-4">

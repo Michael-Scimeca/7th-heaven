@@ -398,7 +398,7 @@ export default function PlannerDashboard() {
             <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
               <History className="w-5 h-5 text-rose-500" />
             </div>
-            <h3 className="text-xl font-bold text-white text-center mb-2">Cancel This Booking?</h3>
+            <h3 className="font-bold text-white text-center mb-2">Cancel This Booking?</h3>
             <p className="text-center mb-2">{booking.eventName}</p>
             <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
             <div className="flex gap-3">
@@ -429,7 +429,7 @@ export default function PlannerDashboard() {
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white tracking-tight uppercase">Band Event Contacts</h3>
+                  <h3 className="font-bold text-white tracking-tight uppercase">Band Event Contacts</h3>
                   <p className="font-mono">7th Heaven Direct Booking & Advance Team</p>
                 </div>
               </div>
@@ -697,7 +697,7 @@ export default function PlannerDashboard() {
           <div className="flex items-center gap-3">
 
             <div>
-              <h3 className="text-lg font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
+              <h3 className="font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
               <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
             </div>
           </div>
@@ -782,7 +782,7 @@ export default function PlannerDashboard() {
           <div className="flex items-center gap-3 mb-6">
 
             <div>
-              <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
+              <h3 className="font-bold text-white tracking-tight">Booking History</h3>
               <p className="uppercase tracking-[0.2em] font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
             </div>
           </div>

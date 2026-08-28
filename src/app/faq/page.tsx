@@ -253,7 +253,7 @@ export default function FAQPage() {
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
-            <h3 className="text-white font-bold text-lg mb-1">No matches found</h3>
+            <h3 className="text-white font-bold mb-1">No matches found</h3>
             <p className="max-w-xs mx-auto">
               We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
             </p>

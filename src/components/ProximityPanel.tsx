@@ -164,7 +164,7 @@ export default function ProximityPanel() {
             Show Proximity Alerts
           </span>
         </div>
-        <h3 className="text-xl font-bold text-white mb-1">Shows Near You</h3>
+        <h3 className="font-bold text-white mb-1">Shows Near You</h3>
         <p className="mb-6 max-w-md">
           Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
         </p>

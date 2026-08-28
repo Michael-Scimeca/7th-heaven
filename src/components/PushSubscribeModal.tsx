@@ -102,7 +102,7 @@ export default function PushSubscribeModal({
                 <Bell className="w-6 h-6 text-yellow-300 animate-bounce" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white tracking-wide">
+                <h3 className="font-bold text-white tracking-wide">
                   Live Stream Push Alerts
                 </h3>
                 <span className="font-bold uppercase tracking-wider text-purple-400">
@@ -207,7 +207,7 @@ export default function PushSubscribeModal({
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 shadow-lg">
               <Check className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-2">You&apos;re Subscribed! 🔔</h3>
+            <h3 className="font-bold text-white mb-2">You&apos;re Subscribed! 🔔</h3>
             <p className="text-gray-300 max-w-sm mx-auto leading-relaxed mb-6">
               We sent a welcome confirmation email to <strong className="text-white font-mono">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>

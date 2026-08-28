@@ -459,7 +459,7 @@ export default function ShowPageClient({
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase tracking-widest mb-4">
                     Missed this show?
                   </span>
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
+                  <h3 className="font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
                   <p className="leading-relaxed mb-6">
                     Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
                   </p>
@@ -505,7 +505,7 @@ export default function ShowPageClient({
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-red-400 uppercase tracking-widest mb-4">
                     Live Performance
                   </span>
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
+                  <h3 className="font-bold text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
                 </div>
                 <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
                   <iframe

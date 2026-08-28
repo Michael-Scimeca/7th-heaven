@@ -182,7 +182,7 @@ export default function HomeMerch() {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="font-bold text-white truncate mb-1 group-hover: text-[var(--color-accent)] transition-colors">{product.title}</h3>
+                  <h3 className="font-bold text-white truncate mb-1 group-hover: transition-colors">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-[var(--color-accent)] font-bold">{price}</span>

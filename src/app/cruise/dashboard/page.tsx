@@ -173,7 +173,7 @@ export default function CruiseDashboardGate() {
             <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
               <div className="text-center mb-6">
                 <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Verify Your Email</h3>
+                <h3 className="font-bold text-white uppercase tracking-wider mb-2">Verify Your Email</h3>
                 <p className="leading-relaxed">
                   We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
                 </p>
@@ -210,7 +210,7 @@ export default function CruiseDashboardGate() {
           ) : regSuccess ? (
             <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
               <span className="text-4xl block mb-4">📧</span>
-              <h3 className="font-bold text-white text-lg uppercase tracking-wider mb-2">Check Your Email</h3>
+              <h3 className="font-bold text-white uppercase tracking-wider mb-2">Check Your Email</h3>
               <p className="leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>

@@ -91,7 +91,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       >
         <div>
           <p className="uppercase tracking-[0.2em] font-bold mb-0.5">Show Promotions</p>
-          <h3 className="text-white font-bold text-lg flex items-center gap-2">
+          <h3 className="text-white font-bold flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
               <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">

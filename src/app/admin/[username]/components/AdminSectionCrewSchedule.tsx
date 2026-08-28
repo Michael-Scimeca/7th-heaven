@@ -1618,7 +1618,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
+                      <h3 className="font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
                       <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
@@ -1658,7 +1658,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
                 <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <h3 className="font-bold text-white flex items-center gap-2">
                       <span></span> Active Co-Editors & Lock Status
                     </h3>
                     <button aria-label="Close co-editor modal" onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg">✕</button>

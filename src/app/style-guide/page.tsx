@@ -921,7 +921,7 @@ export default function StyleGuidePage() {
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                      <h3 className="font-bold uppercase tracking-wider text-white flex items-center gap-2">
                         Fluid Type Studio Controls
                         <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-lg">
                           .text-{studioSelectedTier}
@@ -1582,7 +1582,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
                           <span className="w-3 h-3 rounded-lg bg-emerald-400 animate-ping" />
-                          <h3 className="text-lg font-bold uppercase tracking-wider text-white">
+                          <h3 className="font-bold uppercase tracking-wider text-white">
                             Global CSS Saved to Clipboard
                           </h3>
                         </div>
@@ -1647,7 +1647,7 @@ ${deskRules.join("\n")}
               <span className="font-mono font-bold text-purple-400uppercase tracking-widest block mb-1">
                 Standardized White Palette Rules
               </span>
-              <h3 className="text-lg font-bold text-white">The Two White Palette: Solid White & 0.5 White</h3>
+              <h3 className="font-bold text-white">The Two White Palette: Solid White & 0.5 White</h3>
               <p className="mt-1">
                 Our site design strictly uses only two shades of white: <strong className="text-white">Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
               </p>
@@ -3296,7 +3296,7 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
+                <h3 className="font-bold text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
                 <p className="mb-6">
                   This is the standard frosted-glass modal card used across verify screens, PIN entry, and success states.
                 </p>
@@ -3341,7 +3341,7 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
+                <h3 className="font-bold text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
                 <p className="text-center mb-6">
                   This action cannot be undone. The item will be permanently removed from your account.
                 </p>
@@ -3526,7 +3526,7 @@ ${deskRules.join("\n")}
               <span className="font-mono font-bold text-purple-400 uppercase tracking-widest block">
                 Primary Layout Wrapper Class
               </span>
-              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <h3 className="font-bold text-white flex items-center gap-2">
                 <code className="text-purple-300 font-mono bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
                 <span className="font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg uppercase tracking-wider">Active Globally</span>
               </h3>
@@ -3848,7 +3848,7 @@ ${deskRules.join("\n")}
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
             <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
               <div>
-                <h3 className="text-base font-bold uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
+                <h3 className="font-bold uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
                 <div className="flex flex-col gap-2.5">
                   {[
                     { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -3915,7 +3915,7 @@ ${deskRules.join("\n")}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
                     <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
-                    <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mt-1">Suite Class Perks</h3>
+                    <h3 className="font-bold uppercase text-white mt-1">Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
@@ -4034,7 +4034,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Prevailing Market Pricing Cards</span>
-                <h3 className="text-xl md:text-2xl font-bold uppercase text-white mt-1">Stateroom & Cabin Rate Cards</h3>
+                <h3 className="font-bold uppercase text-white mt-1">Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
@@ -4099,7 +4099,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
-                <h3 className="text-xl md:text-2xl font-bold uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
+                <h3 className="font-bold uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
@@ -4182,7 +4182,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Policies & Terms Component</span>
-                <h3 className="text-xl md:text-2xl font-bold uppercase text-white mt-1">Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <h3 className="font-bold uppercase text-white mt-1">Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
@@ -4191,7 +4191,7 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-                  <h3 className="text-lg font-bold uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
+                  <h3 className="font-bold uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
                 </div>
                 <p className="font-bold text-amber-400 uppercase tracking-widest mb-4">
                   Book through us to participate & lock in best rates
@@ -4238,7 +4238,7 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Compass className="w-6 h-6 text-purple-400shrink-0" />
-                  <h3 className="text-lg font-bold uppercase text-white tracking-wide">Passport Requirements</h3>
+                  <h3 className="font-bold uppercase text-white tracking-wide">Passport Requirements</h3>
                 </div>
                 <p className="font-bold text-purple-400uppercase tracking-widest mb-4">
                   Essential travel document guidelines
@@ -4260,7 +4260,7 @@ ${deskRules.join("\n")}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
-                  <h3 className="text-lg font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
+                  <h3 className="font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
                 </div>
                 <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
                   Refund terms before booking

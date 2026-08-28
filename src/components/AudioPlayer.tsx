@@ -762,7 +762,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="text-[14px] font-bold tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
+                        <h3 className="font-bold tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -773,7 +773,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="text-[14px] font-bold tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
+                        <h3 className="font-bold tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -1009,7 +1009,7 @@ export default function AudioPlayerSection() {
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
-                  <h3 className="text-lg font-bold text-white truncate">{trackTitle}</h3>
+                  <h3 className="font-bold text-white truncate">{trackTitle}</h3>
                   <p className="uppercase tracking-widest mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
                 </div>
                 <button aria-label="Action button" onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">

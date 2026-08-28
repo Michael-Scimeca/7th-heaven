@@ -142,7 +142,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
 
         {/* Info & Progress Bar */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-lg sm:text-xl leading-tight truncate uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
+          <h3 className="text-white font-bold leading-tight truncate uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
             {title}
           </h3>
           <p className="font-bold uppercase tracking-widest mt-0.5">

@@ -3694,7 +3694,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       >
         <div className="flex items-center">
 
-          <h3 className="text-left text-lg font-bold tracking-tight flex items-center gap-2 text-white cursor-pointer">
+          <h3 className="text-left font-bold tracking-tight flex items-center gap-2 text-white cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
             Shopify
             {renderInfoToggle("shopify")}
@@ -4228,7 +4228,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
             Booking Requests
             {renderInfoToggle('bookings')}
@@ -4512,7 +4512,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Event Planners Directory
             {renderInfoToggle('planners')}
@@ -4657,7 +4657,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
-          <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+          <h3 className="font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" /><path d="M12 8v4l3 3" /></svg>
             Memory Moderation Queue
             {renderInfoToggle('memorymod')}
@@ -4732,7 +4732,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] !rounded-none cursor-pointer">
         <div className="flex items-center">
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
             Active Live Streams
             {renderInfoToggle('livealerts')}
@@ -4824,7 +4824,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       >
         <div className="flex items-center">
 
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          <h3 className="font-bold tracking-tight text-white flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS Proximity Blast
             {renderInfoToggle('smsblast')}
@@ -5501,7 +5501,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex items-center">
 
-            <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
               Crew SMS Alert & Group Setup
             </h3>
@@ -6352,7 +6352,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex items-center">
 
-            <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
+            <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2 text-white">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
               Band Member SMS Text
             </h3>
@@ -6758,7 +6758,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
             Newsletter Blast
             {renderInfoToggle('newsletter')}
@@ -6860,7 +6860,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2 shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
             Email Template Flows
             {renderInfoToggle('emailflow')}
@@ -7008,7 +7008,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="bg-transparent overflow-hidden">
       <div className="py-6 pl-0 flex items-center justify-between select-none">
         <div className="flex items-center">
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
+          <h3 className="cursor-pointer font-bold tracking-tight flex items-center gap-2 shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Community Registry
             {renderInfoToggle('registry')}
@@ -7187,7 +7187,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          <h3 className="cursor-pointer font-bold tracking-tight text-white flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
             Create Crew Account
             {renderInfoToggle('crewcreation')}
@@ -7367,7 +7367,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
 
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          <h3 className="font-bold tracking-tight text-white flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             Create Admin Account
             {renderInfoToggle('admincreation')}
@@ -7547,7 +7547,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex items-center">
 
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+          <h3 className="font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             Bulk Invites
             {renderInfoToggle('bulkinvites')}
@@ -7648,7 +7648,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex items-center">
-            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+            <h3 className="font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"></circle><line x1="12" y1="22" x2="12" y2="8"></line><path d="M5 12H2a10 10 0 0 0 20 0h-3"></path></svg>
               Cruise Signups
               {renderInfoToggle('cruisesignups')}
@@ -9636,7 +9636,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
+                      <h3 className="font-bold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
                       <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
@@ -9676,7 +9676,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
                 <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <h3 className="font-bold text-white flex items-center gap-2">
                       <span></span> Active Co-Editors & Lock Status
                     </h3>
                     <button aria-label="Close co-editor modal" onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg">✕</button>
@@ -12093,7 +12093,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="flex flex-col gap-4 w-full mt-4">
             <div className="bg-transparent overflow-hidden h-full flex flex-col">
               <div className="admin-section-header py-6 pr-6 pl-0 flex items-center justify-between bg-transparent shrink-0">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
+                <h3 className="font-bold tracking-tight flex items-center gap-2 text-white">
                   Audit Log
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </h3>
@@ -12227,7 +12227,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
                     <div>
-                      <h3 className="text-base md:text-lg font-bold italic tracking-wide text-white">Cruise Information & Guidelines</h3>
+                      <h3 className="font-bold italic tracking-wide text-white">Cruise Information & Guidelines</h3>
                       <p className="text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
                     </div>
                   </div>
@@ -12329,7 +12329,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 shrink-0 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                       <div>
-                        <h3 className="text-lg font-bold italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
+                        <h3 className="font-bold italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
                         <p className="font-bold uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
@@ -12490,7 +12490,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                   <div>
-                    <h3 className="text-lg font-bold italic tracking-wide text-white">Cruise Roster</h3>
+                    <h3 className="font-bold italic tracking-wide text-white">Cruise Roster</h3>
                     <p className="font-bold uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
                   </div>
                 </div>
@@ -12605,7 +12605,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
               <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="font-bold text-white flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                   Print Merchandise QR Code
                 </h3>

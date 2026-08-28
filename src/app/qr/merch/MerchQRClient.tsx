@@ -498,7 +498,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
                 {/* Info */}
                 <div className="p-5 space-y-2">
-                  <h3 className="text-white font-bold text-base group-hover:text-cyan-300 transition-colors line-clamp-1">
+                  <h3 className="text-white font-bold group-hover:text-cyan-300 transition-colors line-clamp-1">
                     {product.title}
                   </h3>
                   <p className="line-clamp-2 leading-relaxed">
@@ -537,7 +537,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="flex items-center gap-3">
                 <Image width={200} height={200} unoptimized src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-12 h-12 object-cover border border-white/10" />
                 <div>
-                  <h3 className="text-white font-bold text-base line-clamp-1">{selectedProduct.title}</h3>
+                  <h3 className="text-white font-bold line-clamp-1">{selectedProduct.title}</h3>
                   <p className="text-cyan-400 font-bold">${selectedProduct.price}</p>
                 </div>
               </div>

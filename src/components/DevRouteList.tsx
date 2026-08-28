@@ -138,7 +138,7 @@ export default function DevRouteList() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold uppercase tracking-wide text-white">
+                <h3 className="font-bold uppercase tracking-wide text-white">
                   Developer Route Directory
                 </h3>
                 <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">

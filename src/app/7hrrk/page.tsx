@@ -543,7 +543,7 @@ export default function RockNRollKidsPage() {
                   <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono rounded inline-block">
                     7th heaven · NTD Animation
                   </span>
-                  <h3 className="text-2xl font-mono text-amber-400 font-bold">Richard Hofherr</h3>
+                  <h3 className="font-mono text-amber-400 font-bold">Richard Hofherr</h3>
                   <p className="leading-relaxed">
                     Founder and songwriter of 7th heaven. Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
                   </p>
@@ -574,7 +574,7 @@ export default function RockNRollKidsPage() {
                   <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded inline-block">
                     RNR Studios
                   </span>
-                  <h3 className="text-2xl font-mono text-purple-400 font-bold">Roy Adorjan</h3>
+                  <h3 className="font-mono text-purple-400 font-bold">Roy Adorjan</h3>
                   <p className="leading-relaxed">
                     Lead animator and character designer at RNR Studios. Co-creator and art director for 7th Heaven & The Rock &apos;n&apos; Roll Kids.
                   </p>

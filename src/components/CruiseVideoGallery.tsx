@@ -268,7 +268,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="py-6 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <h3 className="text-lg font-bold text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                  <h3 className="font-bold text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                     {vid.title}
                   </h3>
                   {vid.description && (
@@ -314,7 +314,7 @@ export default function CruiseVideoGallery() {
                 <span className="font-bold uppercase text-purple-400 tracking-widest block mb-1">
                   {activeVideo.category}
                 </span>
-                <h3 className="text-white font-bold text-base md:text-xl uppercase tracking-wide truncate">
+                <h3 className="text-white font-bold uppercase tracking-wide truncate">
                   {activeVideo.title}
                 </h3>
               </div>

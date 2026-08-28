@@ -569,7 +569,7 @@ export default function UserFlowMap() {
                 <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[12px] font-bold uppercase tracking-wider">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="text-lg font-bold uppercase tracking-wider text-white mt-1">
+                <h3 className="font-bold uppercase tracking-wider text-white mt-1">
                   {selectedNode.data.label}
                 </h3>
                 <code className="font-mono text-cyan-300 block mt-0.5">

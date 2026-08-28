@@ -299,7 +299,7 @@ a:hover {
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base uppercase tracking-wider text-cyan-300 leading-tight">Style Customization Studio</h3>
+                  <h3 className="font-bold uppercase tracking-wider text-cyan-300 leading-tight">Style Customization Studio</h3>
                   <p className="">Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>

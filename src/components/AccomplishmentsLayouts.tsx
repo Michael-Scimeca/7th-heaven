@@ -60,7 +60,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div className="text-6xl md:text-7xl font-bold text-white mb-2">
                 {stats[0].number}
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">{stats[0].label}</h3>
+              <h3 className="font-bold text-white mb-2 uppercase tracking-wide">{stats[0].label}</h3>
               <p className="text-[var(--color-accent)]/80 leading-relaxed">{stats[0].text}</p>
             </div>
           </div>
@@ -417,7 +417,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 </span>
                 <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase tracking-widest text-white/40">[ {s.badge} ]</span>
               </div>
-              <h3 className="text-base font-bold uppercase text-white mb-2 tracking-wide">{s.label}</h3>
+              <h3 className="font-bold uppercase text-white mb-2 tracking-wide">{s.label}</h3>
               <p className="leading-relaxed">{s.text}</p>
             </div>
           ))}

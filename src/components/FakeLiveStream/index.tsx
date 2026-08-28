@@ -2488,7 +2488,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
 
                   <div className="space-y-2 max-w-xs">
-                    <h3 className="text-xl font-bold text-white uppercase tracking-tight">
+                    <h3 className="font-bold text-white uppercase tracking-tight">
                       Join the Live Chat
                     </h3>
                     <p className="leading-relaxed font-medium">
@@ -2865,7 +2865,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
                         <ShoppingBag className="w-3.5 h-3.5 inline" /> LIVE DROP MERCH
                       </span>
-                      <h3 className="text-lg font-bold text-black uppercase tracking-wider mt-2 leading-tight">
+                      <h3 className="font-bold text-black uppercase tracking-wider mt-2 leading-tight">
                         {activeMerchDrop.product.name}
                       </h3>
                       {activeMerchDrop.product.description && (
@@ -3090,7 +3090,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-black uppercase tracking-wider font-sans">Purchase Successful!</h3>
+                        <h3 className="font-bold text-black uppercase tracking-wider font-sans">Purchase Successful!</h3>
                         <p className="text-black/50 mt-1 max-w-[240px] mx-auto font-sans">
                           {checkoutDeliveryMethod === 'merch_table' ? (
                             <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed. Please check your email for your single-use QR code to claim your item.</span>

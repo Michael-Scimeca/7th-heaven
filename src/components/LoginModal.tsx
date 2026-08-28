@@ -863,7 +863,7 @@ function LoginModalBodyContent(props: any) {
             <div className="w-12 h-12 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
               <Mail className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold uppercase text-white tracking-wider">Check Your Email</h3>
+            <h3 className="font-bold uppercase text-white tracking-wider">Check Your Email</h3>
             <p className="max-w-sm leading-relaxed">
               We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
