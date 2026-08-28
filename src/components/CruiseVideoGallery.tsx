@@ -240,11 +240,10 @@ export default function CruiseVideoGallery() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredVideos.map(vid => (
-            <button aria-label="Action button"
-              type="button"
+            <div
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer "
+              className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer group"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden rounded-lg">
@@ -280,12 +279,12 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs  font-bold  uppercase text-purple-400tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1.5 text-xs  font-bold  uppercase text-purple-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
                   <span>Watch Video Tour</span>
                   <span>→</span>
                 </div>
               </div>
-            </button>
+            </div>
           ))}
         </div>
       )}

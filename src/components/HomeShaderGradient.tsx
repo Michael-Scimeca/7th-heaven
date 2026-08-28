@@ -284,7 +284,8 @@ function HomeShaderGradientComponent() {
       };
       generateGrainTile();
 
-      return () => {
+      const cleanupWebGL = () => {
+        if (deferTimer) clearTimeout(deferTimer);
         if (idleId) {
           if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
           else clearTimeout(idleId);
@@ -302,11 +303,22 @@ function HomeShaderGradientComponent() {
         if (animFrameId) {
           cancelAnimationFrame(animFrameId);
         }
-        neatInstance?.destroy?.();
+        try {
+          neatInstance?.destroy?.();
+          if (canvasRef.current) {
+            const gl = canvasRef.current.getContext("webgl2") || canvasRef.current.getContext("webgl");
+            if (gl) {
+              const loseCtx = gl.getExtension("WEBGL_lose_context");
+              if (loseCtx) loseCtx.loseContext();
+            }
+          }
+        } catch { }
       };
+
+      return cleanupWebGL;
     }
 
-    return () => {
+    const cleanupWebGL = () => {
       if (deferTimer) clearTimeout(deferTimer);
       if (idleId) {
         if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
@@ -324,8 +336,19 @@ function HomeShaderGradientComponent() {
       if (animFrameId) {
         cancelAnimationFrame(animFrameId);
       }
-      neatInstance?.destroy?.();
+      try {
+        neatInstance?.destroy?.();
+        if (canvasRef.current) {
+          const gl = canvasRef.current.getContext("webgl2") || canvasRef.current.getContext("webgl");
+          if (gl) {
+            const loseCtx = gl.getExtension("WEBGL_lose_context");
+            if (loseCtx) loseCtx.loseContext();
+          }
+        }
+      } catch { }
     };
+
+    return cleanupWebGL;
   }, []);
 
   // Static Film Grain & Real-time Canvas Studio Sync
