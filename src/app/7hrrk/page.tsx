@@ -105,13 +105,6 @@ const mainCharacters = [
   },
 ];
 
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
 export default function RockNRollKidsPage() {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
 
@@ -148,49 +141,22 @@ export default function RockNRollKidsPage() {
 
           {/* Quick Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <button aria-label="Action button"
-              type="button"
-              onClick={() => scrollToSection("videos")}
+            <a
+              href="#videos"
               className="px-6 py-3 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-purple-600/30 flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
             >
               <Play className="w-4 h-4 fill-white" />
               <span>Watch Animated Promo</span>
-            </button>
+            </a>
 
-            <button aria-label="Action button"
-              type="button"
-              onClick={() => scrollToSection("comics")}
+            <a
+              href="#comics"
               className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
             >
               <BookOpen className="w-4 h-4 text-cyan-300" />
               <span>Explore Comic Books</span>
-            </button>
+            </a>
           </div>
-        </div>
-
-        {/* Anchor Jump Links Bar */}
-        <div className="mt-14 flex flex-wrap justify-center gap-2 border-b border-white/10 pb-6 sticky top-20 z-30 bg-[#05030a]/80 backdrop-blur-md py-3">
-          {[
-            { id: "overview", label: "Overview & Vision", icon: Heart },
-            { id: "comics", label: "Comic Books (4)", icon: BookOpen },
-            { id: "videos", label: "Video Gallery", icon: Tv },
-            { id: "characters", label: "Characters & Cast", icon: Users },
-            { id: "games", label: "Games & Apps", icon: Gamepad2 },
-            { id: "contact", label: "Creators & Contact", icon: Mail },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button aria-label="Action button"
-                type="button"
-                key={tab.id}
-                onClick={() => scrollToSection(tab.id)}
-                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-white/5 text-white/70 hover:text-white hover:bg-purple-600/30 border border-white/10 transition-all cursor-pointer hover:border-purple-500/40"
-              >
-                <Icon className="w-3.5 h-3.5 text-purple-400" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
         </div>
       </section>
 
