@@ -105,8 +105,14 @@ const mainCharacters = [
   },
 ];
 
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 export default function RockNRollKidsPage() {
-  const [activeTab, setActiveTab] = useState<"overview" | "comics" | "videos" | "characters" | "games" | "contact">("overview");
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
 
   return (
@@ -144,7 +150,7 @@ export default function RockNRollKidsPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <button aria-label="Action button"
               type="button"
-              onClick={() => setActiveTab("videos")}
+              onClick={() => scrollToSection("videos")}
               className="px-6 py-3 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-purple-600/30 flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
             >
               <Play className="w-4 h-4 fill-white" />
@@ -153,7 +159,7 @@ export default function RockNRollKidsPage() {
 
             <button aria-label="Action button"
               type="button"
-              onClick={() => setActiveTab("comics")}
+              onClick={() => scrollToSection("comics")}
               className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
             >
               <BookOpen className="w-4 h-4 text-cyan-300" />
@@ -162,8 +168,8 @@ export default function RockNRollKidsPage() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="mt-14 flex flex-wrap justify-center gap-2 border-b border-white/10 pb-4">
+        {/* Anchor Jump Links Bar */}
+        <div className="mt-14 flex flex-wrap justify-center gap-2 border-b border-white/10 pb-6 sticky top-20 z-30 bg-[#05030a]/80 backdrop-blur-md py-3">
           {[
             { id: "overview", label: "Overview & Vision", icon: Heart },
             { id: "comics", label: "Comic Books (4)", icon: BookOpen },
@@ -173,18 +179,14 @@ export default function RockNRollKidsPage() {
             { id: "contact", label: "Creators & Contact", icon: Mail },
           ].map((tab) => {
             const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
             return (
               <button aria-label="Action button"
                 type="button"
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${isActive
-                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 border border-purple-400/40"
-                  : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10 border border-white/5"
-                  }`}
+                onClick={() => scrollToSection(tab.id)}
+                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-white/5 text-white/70 hover:text-white hover:bg-purple-600/30 border border-white/10 transition-all cursor-pointer hover:border-purple-500/40"
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-purple-400"}`} />
+                <Icon className="w-3.5 h-3.5 text-purple-400" />
                 <span>{tab.label}</span>
               </button>
             );
@@ -192,299 +194,288 @@ export default function RockNRollKidsPage() {
         </div>
       </section>
 
-      {/* ── SECTION CONTENT ── */}
-      <div className="site-container py-8">
-        {/* 1. OVERVIEW & VISION */}
-        {activeTab === "overview" && (
-          <div className="space-y-12 animate-fadeIn max-w-4xl mx-auto">
-            {/* Story Card */}
-            <div className="bg-[#0f0a1c]/80 border border-purple-500/20 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-3xl pointer-events-none rounded-full" />
+      {/* ── ALL SECTIONS CONTINUOUS SINGLE PAGE ── */}
+      <div className="site-container space-y-24 py-8">
 
-              <h2 className="text-2xl md:text-3xl font-bold uppercase italic text-white mb-6" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                Rock &apos;N&apos; Roll To <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">The Rescue!</span>
-              </h2>
+        {/* 1. OVERVIEW & VISION SECTION */}
+        <section id="overview" className="scroll-mt-32 max-w-4xl mx-auto">
+          <div className="bg-[#0f0a1c]/80 border border-purple-500/20 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-3xl pointer-events-none rounded-full" />
 
-              <blockquote className="border-l-4 border-purple-500 pl-4 py-1 italic text-white/90 text-sm md:text-base leading-relaxed mb-6 font-medium bg-purple-950/30 rounded-r-xl">
-                &ldquo;7th Heaven and the Rock &apos;n&apos; Roll Kids is based on the globally renowned pop rock band 7th Heaven. The animated series communicates messages of fun, positivity, and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, adventure, and resolution.&rdquo;
-              </blockquote>
+            <h2 className="text-2xl md:text-3xl font-bold uppercase italic text-white mb-6" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              Rock &apos;N&apos; Roll To <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">The Rescue!</span>
+            </h2>
 
-              <p className="text-white/70 text-xs md:text-sm leading-relaxed mb-6">
-                We have been working with a dedicated team of creators to build a brand new animated universe based on 7th Heaven. The show features the band members as young kids who bring positivity to children across the world — known as &ldquo;The Rock and Roll Kids&rdquo;. In a world filled with negativity, 7th Heaven and the Rock &apos;n&apos; Roll Kids brings a breath of fresh air and positive influence through authentic rock and roll music.
-              </p>
+            <blockquote className="border-l-4 border-purple-500 pl-4 py-1 italic text-white/90 text-sm md:text-base leading-relaxed mb-6 font-medium bg-purple-950/30 rounded-r-xl">
+              &ldquo;7th Heaven and the Rock &apos;n&apos; Roll Kids is based on the globally renowned pop rock band 7th Heaven. The animated series communicates messages of fun, positivity, and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, adventure, and resolution.&rdquo;
+            </blockquote>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/10">
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                  <Heart className="w-5 h-5 text-rose-400 mb-2" />
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Positivity First</h4>
-                  <p className="text-[11px] text-white/60">Inspiring young audiences with uplifting themes and friendly teamwork.</p>
-                </div>
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                  <Zap className="w-5 h-5 text-amber-400 mb-2" />
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Problem Solving</h4>
-                  <p className="text-[11px] text-white/60">Every adventure focuses on overcoming challenges through music and imagination.</p>
-                </div>
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                  <Music className="w-5 h-5 text-cyan-400 mb-2" />
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Original Music</h4>
-                  <p className="text-[11px] text-white/60">Authentic pop-rock anthems composed specifically for the series and comic books.</p>
-                </div>
+            <p className="text-white/70 text-xs md:text-sm leading-relaxed mb-6">
+              We have been working with a dedicated team of creators to build a brand new animated universe based on 7th Heaven. The show features the band members as young kids who bring positivity to children across the world — known as &ldquo;The Rock and Roll Kids&rdquo;. In a world filled with negativity, 7th Heaven and the Rock &apos;n&apos; Roll Kids brings a breath of fresh air and positive influence through authentic rock and roll music.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/10">
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                <Heart className="w-5 h-5 text-rose-400 mb-2" />
+                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Positivity First</h4>
+                <p className="text-[11px] text-white/60">Inspiring young audiences with uplifting themes and friendly teamwork.</p>
+              </div>
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                <Zap className="w-5 h-5 text-amber-400 mb-2" />
+                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Problem Solving</h4>
+                <p className="text-[11px] text-white/60">Every adventure focuses on overcoming challenges through music and imagination.</p>
+              </div>
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                <Music className="w-5 h-5 text-cyan-400 mb-2" />
+                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Original Music</h4>
+                <p className="text-[11px] text-white/60">Authentic pop-rock anthems composed specifically for the series and comic books.</p>
               </div>
             </div>
           </div>
-        )}
+        </section>
 
-        {/* 2. COMIC BOOKS (PRODUCTS) */}
-        {activeTab === "comics" && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Official Comic Series</span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                Comic Book <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Library</span>
-              </h2>
-              <p className="text-white/60 text-xs md:text-sm mt-2">Available in Paperback & Kindle Edition on Amazon Store</p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {comicBooks.map((comic) => (
-                <div key={comic.ep} className="bg-[#0f0a1c]/90 border border-white/10 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition-all hover:-translate-y-1 shadow-xl group">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-300 bg-purple-900/40 px-2.5 py-1 rounded-md border border-purple-500/30">
-                        {comic.ep}
-                      </span>
-                      <span className={`text-[9px] font-bold uppercase tracking-wider text-white bg-linear-to-r ${comic.color} px-2 py-0.5 rounded-full shadow-xs`}>
-                        {comic.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-bold uppercase italic text-white group-hover:text-purple-300 transition-colors mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                      {comic.title}
-                    </h3>
-                    <p className="text-white/60 text-xs leading-relaxed mb-6">{comic.desc}</p>
-                  </div>
-
-                  <a
-                    href={comic.amazonUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20"
-                  >
-                    <span>Buy On Amazon</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              ))}
-            </div>
+        {/* 2. COMIC BOOKS SECTION */}
+        <section id="comics" className="scroll-mt-32">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Official Comic Series</span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              Comic Book <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Library</span>
+            </h2>
+            <p className="text-white/60 text-xs md:text-sm mt-2">Available in Paperback & Kindle Edition on Amazon Store</p>
           </div>
-        )}
 
-        {/* 3. VIDEOS */}
-        {activeTab === "videos" && (
-          <div className="space-y-8 animate-fadeIn max-w-5xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">Animated Showcase</span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                Video & Promo <span className="bg-linear-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Gallery</span>
-              </h2>
-            </div>
-
-            {/* Main Embedded Player */}
-            <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-purple-500/30 bg-black shadow-2xl">
-              <iframe
-                src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=0&rel=0`}
-                title="7HRRK Video Player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-
-            {/* Video Selector Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-              {videosList.map((vid) => {
-                const isSelected = selectedVideo === vid.id;
-                return (
-                  <button aria-label="Action button"
-                    type="button"
-                    key={vid.id}
-                    onClick={() => setSelectedVideo(vid.id)}
-                    className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${isSelected
-                      ? "bg-purple-950/80 border-purple-400 shadow-lg shadow-purple-600/30"
-                      : "bg-[#0f0a1c]/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-                      }`}
-                  >
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-md border border-purple-500/30 block mb-2 w-fit">
-                      {vid.tag}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {comicBooks.map((comic) => (
+              <div key={comic.ep} className="bg-[#0f0a1c]/90 border border-white/10 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition-all hover:-translate-y-1 shadow-xl group">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-300 bg-purple-900/40 px-2.5 py-1 rounded-md border border-purple-500/30">
+                      {comic.ep}
                     </span>
-                    <h4 className="text-xs font-bold uppercase text-white tracking-tight mb-1 line-clamp-1">{vid.title}</h4>
-                    <p className="text-[11px] text-white/50 line-clamp-2">{vid.desc}</p>
-                  </button>
-                );
-              })}
-            </div>
+                    <span className={`text-[9px] font-bold uppercase tracking-wider text-white bg-linear-to-r ${comic.color} px-2 py-0.5 rounded-full shadow-xs`}>
+                      {comic.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-bold uppercase italic text-white group-hover:text-purple-300 transition-colors mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    {comic.title}
+                  </h3>
+                  <p className="text-white/60 text-xs leading-relaxed mb-6">{comic.desc}</p>
+                </div>
+
+                <a
+                  href={comic.amazonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 px-4 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20"
+                >
+                  <span>Buy On Amazon</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            ))}
           </div>
-        )}
+        </section>
 
-        {/* 4. CHARACTERS & CAST */}
-        {activeTab === "characters" && (
-          <div className="space-y-10 animate-fadeIn">
-            <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Meet The Band</span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                The Rock &apos;N&apos; Roll <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Kids Roster</span>
-              </h2>
-            </div>
+        {/* 3. VIDEO GALLERY SECTION */}
+        <section id="videos" className="scroll-mt-32 max-w-5xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">Animated Showcase</span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              Video & Promo <span className="bg-linear-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Gallery</span>
+            </h2>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mainCharacters.map((char) => {
-                const Icon = char.icon;
-                return (
-                  <div key={char.name} className="bg-[#0f0a1c]/80 border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/40 transition-all">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className={`p-3 rounded-xl border ${char.color}`}>
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/50 block">{char.role}</span>
-                        <h3 className="text-base font-bold uppercase text-white tracking-tight">{char.name}</h3>
-                      </div>
+          {/* Main Embedded Player */}
+          <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-purple-500/30 bg-black shadow-2xl">
+            <iframe
+              src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=0&rel=0`}
+              title="7HRRK Video Player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
+
+          {/* Video Selector Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            {videosList.map((vid) => {
+              const isSelected = selectedVideo === vid.id;
+              return (
+                <button aria-label="Action button"
+                  type="button"
+                  key={vid.id}
+                  onClick={() => setSelectedVideo(vid.id)}
+                  className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${isSelected
+                    ? "bg-purple-950/80 border-purple-400 shadow-lg shadow-purple-600/30"
+                    : "bg-[#0f0a1c]/60 border-white/10 hover:border-white/20 hover:bg-white/5"
+                    }`}
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-md border border-purple-500/30 block mb-2 w-fit">
+                    {vid.tag}
+                  </span>
+                  <h4 className="text-xs font-bold uppercase text-white tracking-tight mb-1 line-clamp-1">{vid.title}</h4>
+                  <p className="text-[11px] text-white/50 line-clamp-2">{vid.desc}</p>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 4. CHARACTERS & CAST SECTION */}
+        <section id="characters" className="scroll-mt-32">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Meet The Band</span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              The Rock &apos;N&apos; Roll <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Kids Roster</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {mainCharacters.map((char) => {
+              const Icon = char.icon;
+              return (
+                <div key={char.name} className="bg-[#0f0a1c]/80 border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/40 transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`p-3 rounded-xl border ${char.color}`}>
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <p className="text-white/60 text-xs leading-relaxed">{char.desc}</p>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/50 block">{char.role}</span>
+                      <h3 className="text-base font-bold uppercase text-white tracking-tight">{char.name}</h3>
+                    </div>
                   </div>
-                );
-              })}
-            </div>
+                  <p className="text-white/60 text-xs leading-relaxed">{char.desc}</p>
+                </div>
+              );
+            })}
+          </div>
 
-            {/* Extended Universe Banner */}
-            <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 md:p-8 text-center max-w-3xl mx-auto mt-8">
-              <h3 className="text-lg font-bold uppercase text-white tracking-tight mb-2">Expanded Cast & Supporting Characters</h3>
-              <p className="text-white/60 text-xs leading-relaxed max-w-xl mx-auto">
-                Featuring Security Officers, high-tech Flying Camera Drones, Big Steve (Red 7th Heaven Shirt), denim-jacket guitarists, purple-haired rockers, XEC Record Execs, alien spaceships, and comic book villains!
+          {/* Extended Universe Banner */}
+          <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 md:p-8 text-center max-w-3xl mx-auto mt-8">
+            <h3 className="text-lg font-bold uppercase text-white tracking-tight mb-2">Expanded Cast & Supporting Characters</h3>
+            <p className="text-white/60 text-xs leading-relaxed max-w-xl mx-auto">
+              Featuring Security Officers, high-tech Flying Camera Drones, Big Steve (Red 7th Heaven Shirt), denim-jacket guitarists, purple-haired rockers, XEC Record Execs, alien spaceships, and comic book villains!
+            </p>
+          </div>
+        </section>
+
+        {/* 5. GAMES & APPS SECTION */}
+        <section id="games" className="scroll-mt-32 max-w-4xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-rose-400">Interactive Fun</span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              Games & Mobile <span className="bg-linear-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">Apps</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-300 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30 mb-4 inline-block">
+                Card Game
+              </span>
+              <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                &ldquo;ONE&rdquo; Card Game
+              </h3>
+              <p className="text-white/60 text-xs leading-relaxed mb-6">
+                Official 7th Heaven and the Rock &apos;n&apos; Roll Kids physical card game for families and fans!
               </p>
+              <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
+                Coming Soon
+              </span>
+            </div>
+
+            <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-rose-300 bg-rose-950/60 px-3 py-1 rounded-full border border-rose-500/30 mb-4 inline-block">
+                Mobile & Arcade
+              </span>
+              <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                7HRRK Action Video Games
+              </h3>
+              <p className="text-white/60 text-xs leading-relaxed mb-6">
+                Interactive side-scrolling rock & roll adventures, drum rhythm battles, and puzzle challenges.
+              </p>
+              <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
+                In Active Development
+              </span>
             </div>
           </div>
-        )}
+        </section>
 
-        {/* 5. GAMES & APPS */}
-        {activeTab === "games" && (
-          <div className="space-y-8 animate-fadeIn max-w-4xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-rose-400">Interactive Fun</span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                Games & Mobile <span className="bg-linear-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">Apps</span>
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-300 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30 mb-4 inline-block">
-                  Card Game
-                </span>
-                <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                  &ldquo;ONE&rdquo; Card Game
-                </h3>
-                <p className="text-white/60 text-xs leading-relaxed mb-6">
-                  Official 7th Heaven and the Rock &apos;n&apos; Roll Kids physical card game for families and fans!
-                </p>
-                <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
-                  Coming Soon
-                </span>
-              </div>
-
-              <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-rose-300 bg-rose-950/60 px-3 py-1 rounded-full border border-rose-500/30 mb-4 inline-block">
-                  Mobile & Arcade
-                </span>
-                <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                  7HRRK Action Video Games
-                </h3>
-                <p className="text-white/60 text-xs leading-relaxed mb-6">
-                  Interactive side-scrolling rock & roll adventures, drum rhythm battles, and puzzle challenges.
-                </p>
-                <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
-                  In Active Development
-                </span>
-              </div>
-            </div>
+        {/* 6. CREATORS & CONTACT SECTION */}
+        <section id="contact" className="scroll-mt-32 max-w-4xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-amber-400">Production Team</span>
+            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              Creators & <span className="bg-linear-to-r from-amber-400 to-purple-400 bg-clip-text text-transparent">Studio Contact</span>
+            </h2>
           </div>
-        )}
 
-        {/* 6. CREATORS & CONTACT */}
-        {activeTab === "contact" && (
-          <div className="space-y-8 animate-fadeIn max-w-4xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-amber-400">Production Team</span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                Creators & <span className="bg-linear-to-r from-amber-400 to-purple-400 bg-clip-text text-transparent">Studio Contact</span>
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Richard Hofherr */}
-              <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-purple-900/40 border border-purple-500/30 rounded-2xl text-purple-300">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold uppercase text-white tracking-tight">Richard Hofherr</h3>
-                    <p className="text-xs text-purple-300 font-medium">7th Heaven • NTD Animation</p>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Richard Hofherr */}
+            <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 bg-purple-900/40 border border-purple-500/30 rounded-2xl text-purple-300">
+                  <Award className="w-6 h-6" />
                 </div>
-                <p className="text-white/60 text-xs leading-relaxed mb-6">
-                  Founder and mastermind behind 7th Heaven and NTD Animation, bringing the band&apos;s positive message to animated television.
-                </p>
-                <a
-                  href="mailto:Rich777@aol.com"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-purple-600/20"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>Email: Rich777@aol.com</span>
-                </a>
-              </div>
-
-              {/* Roy Adorjan */}
-              <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-cyan-900/40 border border-cyan-500/30 rounded-2xl text-cyan-300">
-                    <BookOpen className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold uppercase text-white tracking-tight">Roy Adorjan</h3>
-                    <p className="text-xs text-cyan-300 font-medium">RNR Studios • Writer & Illustrator</p>
-                  </div>
+                <div>
+                  <h3 className="text-lg font-bold uppercase text-white tracking-tight">Richard Hofherr</h3>
+                  <p className="text-xs text-purple-300 font-medium">7th Heaven • NTD Animation</p>
                 </div>
-                <p className="text-white/60 text-xs leading-relaxed mb-6">
-                  Creator, writer, and illustrator of the 7th Heaven and the Rock &apos;n&apos; Roll Kids comic book series and artwork.
-                </p>
-                <a
-                  href="mailto:info@minimartians.com"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-cyan-600/20"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>Email: info@minimartians.com</span>
-                </a>
               </div>
+              <p className="text-white/60 text-xs leading-relaxed mb-6">
+                Founder and mastermind behind 7th Heaven and NTD Animation, bringing the band&apos;s positive message to animated television.
+              </p>
+              <a
+                href="mailto:Rich777@aol.com"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-purple-600/20"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email: Rich777@aol.com</span>
+              </a>
             </div>
 
-            {/* Official External Links */}
-            <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 flex flex-wrap items-center justify-around gap-4 text-xs font-bold uppercase tracking-wider text-white/70">
-              <a href="http://www.NTDAnimation.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 flex items-center gap-1.5 transition-colors">
-                <span>NTD Animation</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a href="http://www.NTDGraphics.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
-                <span>NTD Graphics</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a href="https://www.7hrrk.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-300 flex items-center gap-1.5 transition-colors">
-                <span>Official 7HRRK Site</span>
-                <ExternalLink className="w-3 h-3" />
+            {/* Roy Adorjan */}
+            <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 bg-cyan-900/40 border border-cyan-500/30 rounded-2xl text-cyan-300">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold uppercase text-white tracking-tight">Roy Adorjan</h3>
+                  <p className="text-xs text-cyan-300 font-medium">RNR Studios • Writer & Illustrator</p>
+                </div>
+              </div>
+              <p className="text-white/60 text-xs leading-relaxed mb-6">
+                Creator, writer, and illustrator of the 7th Heaven and the Rock &apos;n&apos; Roll Kids comic book series and artwork.
+              </p>
+              <a
+                href="mailto:info@minimartians.com"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-cyan-600/20"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email: info@minimartians.com</span>
               </a>
             </div>
           </div>
-        )}
+
+          {/* Official External Links */}
+          <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 flex flex-wrap items-center justify-around gap-4 text-xs font-bold uppercase tracking-wider text-white/70 mt-8">
+            <a href="http://www.NTDAnimation.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 flex items-center gap-1.5 transition-colors">
+              <span>NTD Animation</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+            <a href="http://www.NTDGraphics.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+              <span>NTD Graphics</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+            <a href="https://www.7hrrk.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-300 flex items-center gap-1.5 transition-colors">
+              <span>Official 7HRRK Site</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+        </section>
+
       </div>
     </div>
   );
