@@ -4307,10 +4307,17 @@ html.is-preloading.is-revealing #page-content-wrapper {
   position: fixed;
   inset: 0;
   z-index: 100000;
-  transform-origin: 50% 50%;
   pointer-events: none !important;
-  animation: page-push-out var(--preloader-reveal-duration) linear forwards,
-    page-push-out-filter var(--preloader-reveal-duration) linear forwards !important;
+  animation: preloader-fade-out var(--preloader-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+@keyframes preloader-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* ── Tunable knobs ────────────────────────────────────────────────────────
