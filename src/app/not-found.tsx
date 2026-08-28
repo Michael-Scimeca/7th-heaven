@@ -4,13 +4,13 @@ export default function NotFound() {
     return (
         <main className="min-h-screen bg-[rgb(10,10,15)] flex items-center justify-center site-container relative overflow-hidden">
             {/* Background ambient */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-[0.04] blur-[120px]  rounded-lg  pointer-events-none" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-[0.04] blur-[120px] rounded-lg pointer-events-none" />
 
             <div className="text-center relative z-10 max-w-lg">
                 {/* Glitch 404 number */}
                 <div className="relative mb-8">
                     <h1
-                        className="text-6xl  font-bold  leading-none tracking-tighter text-transparent select-none"
+                        className="text-6xl font-bold leading-none tracking-tighter text-transparent select-none"
                         style={{
                             WebkitTextStroke: "2px rgba(255,10,61,0.3)",
                         }}
@@ -18,14 +18,14 @@ export default function NotFound() {
                         404
                     </h1>
                     <h1
-                        className="absolute inset-0 text-6xl  font-bold  leading-none tracking-tighter  text-[var(--color-accent)] select-none animate-pulse"
+                        className="absolute inset-0 text-6xl font-bold leading-none tracking-tighter text-[var(--color-accent)] select-none animate-pulse"
                         style={{ opacity: 0.15 }}
                     >
                         404
                     </h1>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl  font-bold  uppercase tracking-tight text-white mb-3">
+                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-white mb-3">
                     Page Not <span className=" text-[var(--color-accent)]">Found</span>
                 </h2>
 
@@ -36,13 +36,13 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white  font-bold  text-sm uppercase tracking-[0.15em]  rounded-lg hover:brightness-110 transition-transform shadow-lg"
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform shadow-lg"
                     >
                         Back to Home
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border   border-white/10   text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 font-bold text-sm uppercase tracking-[0.15em] transition-colors"
                     >
                         View Tour Dates
                     </Link>

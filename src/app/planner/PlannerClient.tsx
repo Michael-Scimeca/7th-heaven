@@ -158,9 +158,9 @@ export default function PlannerClient() {
       <div className="min-h-screen text-[var(--text-color)] pt-24 pb-16 relative">
         <div className="site-container max-w-4xl mx-auto px-4 space-y-12">
           {/* Hero Header */}
-          <div className="relative  rounded-lg p-8 sm:p-12 text-center overflow-hidden">
+          <div className="relative rounded-lg p-8 sm:p-12 text-center overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-              <h1 className="text-3xl sm:text-5xl  font-bold  tracking-tight text-white">
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
               <p className="leading-relaxed">
@@ -170,14 +170,14 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]  rounded-lg cursor-pointer"
+                  className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500 text-white font-bold uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer"
                 >
                   Sign In to Planner Portal
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors  rounded-lg cursor-pointer"
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase tracking-[0.18em] transition-colors rounded-lg cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -193,7 +193,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3  rounded-lg  bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm  font-bold  text-[#c27aff]">{item.step}</div>
+                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-bold text-[#c27aff]">{item.step}</div>
                 <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
                 <p className="leading-relaxed">{item.desc}</p>
               </div>
@@ -233,20 +233,20 @@ export default function PlannerClient() {
   const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'PL';
 
   return (
-    <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
+    <div className="min-h-screen text-[var(--text-color)] pt-24 pb-16">
       <div className="site-container max-w-[1400px] mx-auto">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-lg ">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-white/50 mb-8">Booking Status</h3>
+              <h3 className="font-bold uppercase tracking-widest text-white/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={step.label} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5  rounded-lg  border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
-                        {step.active && <div className="w-2 h-2  rounded-lg  bg-white" />}
+                      <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ?'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
+                        {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
                       <span className={`text-sm font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
                     </div>
@@ -260,8 +260,8 @@ export default function PlannerClient() {
               <div className="mt-6">
                 <p className="uppercase tracking-widest font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7  rounded-lg  bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
-                  <span className="text-xs text-white/80">{member?.name || 'Planner'}</span>
+                  <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
+                  <span className="text-white/80">{member?.name || 'Planner'}</span>
                 </div>
               </div>
             </div>
@@ -270,18 +270,18 @@ export default function PlannerClient() {
           {/* MAIN */}
           <div className="flex-1 min-w-0">
             {/* Hero Card */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-8 mb-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5  rounded-lg  blur-[80px]" />
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-8 mb-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-lg blur-[80px]" />
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1  rounded-lg  border ${statusColor}`}>{statusLabel}</span>
-                    <span className="text-xs text-white/40 font-mono">{booking.id}</span>
+                    <span className={`font-bold uppercase tracking-widest px-3 py-1 rounded-lg border ${statusColor}`}>{statusLabel}</span>
+                    <span className="text-white/40 font-mono">{booking.id}</span>
                   </div>
-                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-colors rounded-lg">+ New Booking</Link>
+                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider transition-colors rounded-lg">+ New Booking</Link>
                 </div>
                 <div className="flex items-center gap-3 mb-1">
-                  <h1 className="text-3xl  font-bold  tracking-tight text-white">{booking.eventName}</h1>
+                  <h1 className="text-3xl font-bold tracking-tight text-white">{booking.eventName}</h1>
                 </div>
                 <p className="font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
                 <p className="mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>
@@ -307,14 +307,14 @@ export default function PlannerClient() {
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold text-white">Event Notes</h3></div>
-                  {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5  rounded-lg  border  border-[var(--color-accent)]/30">✓ Saved</span>}
+                  {notesSaved && <span className="font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
                 <div className="input-glow-border rounded-xl">
                   <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                    className="w-full  bg-[#00000029]    border   border-white/10   px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                    className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
                 </div>
                 <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -323,10 +323,10 @@ export default function PlannerClient() {
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold text-white">Readiness</h3></div>
-                  <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
+                  <span className={`font-bold ${pct === 100 ?'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
-                <div className="w-full h-2  bg-[#00000029]     rounded-lg  overflow-hidden mb-4">
-                  <div className={`h-full  rounded-lg  transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-4">
+                  <div className={`h-full rounded-lg transition-colors ${pct === 100 ?'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
                   {checklist.map((item, i) => {
@@ -339,9 +339,9 @@ export default function PlannerClient() {
                     const isEditing = editField === i;
                     return (
                       <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : ' bg-[#00000029]    border-white/10'}`}>
-                        <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
+                        <span className="shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
-                          <span className={`text-xs font-semibold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</span>
+                          <span className={`font-semibold ${item.done ?'text-white/80' : 'text-white/40'}`}>{item.label}</span>
                           {isEditing ? (
                             <div className="flex gap-1.5 mt-1">
                               <input aria-label="Input field"
@@ -349,7 +349,7 @@ export default function PlannerClient() {
                                 defaultValue={item.val || ''}
                                 autoFocus
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
-                                className="flex-1 bg-white/10 border  border-white/10  px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
+                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-sm text-white focus:border-purple-500 outline-none"
                               />
                               <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
                               <button aria-label="Action button" type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
@@ -370,7 +370,7 @@ export default function PlannerClient() {
                   })}
                   {done < checklist.length && (
                     <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
-                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">
+                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 font-bold uppercase tracking-wider rounded-lg transition-colors">
                       Fill Missing Details →
                     </Link>
                   )}
@@ -382,19 +382,19 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold text-white">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  text-[var(--color-accent)] hover:bg-purple-600 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase tracking-wider transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20 text-[var(--color-accent)] hover:bg-purple-600 hover:text-white rounded-lg">
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer  bg-[#00000029]    border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase tracking-wider transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer  bg-[#00000029]    border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase tracking-wider transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase tracking-wider transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
                     <span>✕</span> {isCancelling ? 'Cancelling...' : 'Cancel Request'}
                   </button>
                 </div>
@@ -407,7 +407,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-base">📜</span>
                   <h3 className="text-sm font-bold text-white">Past Events</h3>
-                  <span className="text-xs font-bold text-white/50  bg-[#00000029]    px-2 py-0.5 rounded">{pastBookings.length} events</span>
+                  <span className="font-bold text-white/50 bg-[#00000029] px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
                   {pastBookings.map((pb, i) => {
@@ -418,16 +418,16 @@ export default function PlannerClient() {
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
                       <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg ">
-                        <div className={`w-2.5 h-2.5  rounded-lg  ${sc.dot} shrink-0`} />
+                        <div className={`w-2.5 h-2.5 rounded-lg ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-white truncate">{pb.eventName}</h4>
-                          <div className="flex items-center gap-3 text-xs text-white/50 mt-0.5">
+                          <div className="flex items-center gap-3 text-white/50 mt-0.5">
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>
                         </div>
                         <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

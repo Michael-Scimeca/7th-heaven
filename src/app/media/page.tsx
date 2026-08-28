@@ -303,7 +303,7 @@ export default function MediaPage() {
         {/* ── TOP UTILITY BAR (Search & Add Video) ── */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pt-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-purple-300/70">7TH HEAVEN MEDIA VAULT</span>
+            <span className="font-bold uppercase tracking-[0.2em] text-purple-300/70">7TH HEAVEN MEDIA VAULT</span>
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto min-h-[38px] justify-end">
             <SearchInput
@@ -315,7 +315,7 @@ export default function MediaPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Video</span>
@@ -328,7 +328,7 @@ export default function MediaPage() {
         <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-12">
           <button
             onClick={() => setActiveFilter("ALL")}
-            className={`px-5 py-2.5 !rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${activeFilter === "ALL"
+            className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all cursor-pointer border ${activeFilter ==="ALL"
               ? "bg-white text-black border-white shadow-lg scale-100"
               : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
               }`}
@@ -344,8 +344,7 @@ export default function MediaPage() {
               <button
                 key={cat.category}
                 onClick={() => setActiveFilter(catUpper)}
-                className={`px-5 py-2.5 !rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${isActive
-                  ? "bg-white text-black border-white shadow-lg scale-100"
+                className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all cursor-pointer border ${isActive ?"bg-white text-black border-white shadow-lg scale-100"
                   : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
                   }`}
               >
@@ -380,7 +379,7 @@ export default function MediaPage() {
                 <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-12 h-12 sm:w-16 sm:h-16 ! rounded-lg  !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
+                    className="w-12 h-12 sm:w-16 sm:h-16 ! rounded-lg !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
                   >
                     <Play className="w-5 h-5 sm:w-7 sm:h-7 text-white fill-white ml-1" />
                   </CosmicRadialButton>
@@ -389,7 +388,7 @@ export default function MediaPage() {
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-widest border  border-white/10  mb-1.5 sm:mb-3 shrink-0">
+                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-widest border border-white/10 mb-1.5 sm:mb-3 shrink-0">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
@@ -420,7 +419,7 @@ export default function MediaPage() {
             <p className="font-semibold">No media found matching &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
-              className="mt-4 px-6 py-2.5  rounded-lg  bg-purple-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-purple-500 transition-colors cursor-pointer"
+              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold uppercase tracking-wider hover:bg-purple-500 transition-colors cursor-pointer"
             >
               Clear Filters & Search
             </button>
@@ -448,7 +447,7 @@ export default function MediaPage() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl">
-          <span className="text-xs font-bold">{toastMessage}</span>
+          <span className="font-bold">{toastMessage}</span>
         </div>
       )}
 
@@ -486,7 +485,7 @@ export default function MediaPage() {
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="Paste video link or ID..."
-                  className="w-full bg-black/60 border  border-white/10  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
@@ -506,7 +505,7 @@ export default function MediaPage() {
                         />
                       </div>
                       <div>
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-purple-300">
+                        <div className="flex items-center gap-1.5 font-bold text-purple-300">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Valid Video Link Detected</span>
                         </div>
@@ -528,7 +527,7 @@ export default function MediaPage() {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                  className="w-full bg-black/60 border  border-white/10  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
@@ -540,7 +539,7 @@ export default function MediaPage() {
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/60 border  border-white/10  rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400"
                   >
                     <option value="Official Music Videos">Official Music Videos</option>
                     <option value="TV Appearances">TV Appearances</option>
@@ -564,7 +563,7 @@ export default function MediaPage() {
                     value={newYear}
                     onChange={(e) => setNewYear(e.target.value)}
                     placeholder="2026"
-                    className="w-full bg-black/60 border  border-white/10  rounded-lg px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
@@ -578,7 +577,7 @@ export default function MediaPage() {
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="e.g. Filmed live at Frontier Days..."
-                  className="w-full bg-black/60 border  border-white/10  rounded-lg px-4 py-2 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
@@ -586,14 +585,14 @@ export default function MediaPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-white/70 hover:text-white transition-colors"
+                  className="px-4 py-2 font-bold text-white/70 hover:text-white transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
                 </button>

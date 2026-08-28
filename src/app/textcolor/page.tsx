@@ -111,17 +111,17 @@ export default function TextColorTestPage() {
               </AuroraText>
             </p>
 
-            <label className="flex flex-col gap-2 text-sm  text-white ">
+            <label className="flex flex-col gap-2 text-sm text-white">
               Text
               <input
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border   border-white/10    bg-[#00000029]    px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-sm  text-white ">
+            <label className="flex flex-col gap-2 text-sm text-white">
               Speed ({speed.toFixed(1)}x)
               <input
                 type="range"
@@ -133,7 +133,7 @@ export default function TextColorTestPage() {
               />
             </label>
 
-            <div className="flex flex-col gap-2 text-sm  text-white ">
+            <div className="flex flex-col gap-2 text-sm text-white">
               Gradient stops
               <div className="flex flex-wrap gap-3">
                 {colors.map((c, i) => (
@@ -142,9 +142,9 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border   border-white/10   bg-transparent"
+                      className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
                     />
-                    <span className="font-mono text-xs text-white/50">
+                    <span className="font-mono text-white/50">
                       {c}
                     </span>
                   </label>

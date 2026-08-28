@@ -96,22 +96,22 @@ export default function PlannerDashboardPage() {
             {/* Member Avatar */}
             <div className="relative shrink-0">
               {isAvatarUrl ? (
-                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  overflow-hidden border-2 border-[var(--color-accent)]/40 shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 border-[var(--color-accent)]/40 shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={displayName} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   {initials}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-[var(--color-accent)]  rounded-lg  shadow-md border border-[var(--color-accent)]/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg shadow-md border border-[var(--color-accent)]/50">
                 Planner
               </span>
             </div>
 
             {/* Member Info */}
             <div>
-              <h1 className="text-2xl md:text-3xl  font-bold  uppercase tracking-widest text-white leading-none">
+              <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-white leading-none">
                 {displayName}
               </h1>
               <p className="font-bold tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>
@@ -124,7 +124,7 @@ export default function PlannerDashboardPage() {
             <CosmicRadialButton
               icon={<Plus className="w-4 h-4 text-white" />}
               onClick={handleCreateNewEvent}
-              className="px-5 py-2.5  rounded-lg font-bold uppercase tracking-wider text-xs md:text-sm shadow-lg flex items-center gap-2 cursor-pointer"
+              className="px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider md:text-sm shadow-lg flex items-center gap-2 cursor-pointer"
             >
               Create New Event
             </CosmicRadialButton>

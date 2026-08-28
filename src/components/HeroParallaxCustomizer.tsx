@@ -56,7 +56,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="w-10 h-10  rounded-lg  bg-black/60  backdrop-blur-[45px] border   border-white/10   flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+          className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
           title="Open Parallax Customizer"
         >
           <svg
@@ -80,7 +80,7 @@ export default function HeroParallaxCustomizer({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/5 pb-2">
             <div className="flex flex-col">
-              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)]  font-bold  uppercase tracking-wider text-[var(--color-accent)]">
+              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase tracking-wider text-[var(--color-accent)]">
                 Parallax Tester
               </span>
               <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
@@ -90,7 +90,7 @@ export default function HeroParallaxCustomizer({
             <button
               aria-label="Close Parallax Customizer"
               onClick={() => setIsPxUiOpen(false)}
-              className="w-6 h-6  rounded-lg  hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
+              className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -108,8 +108,7 @@ export default function HeroParallaxCustomizer({
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`px-2 py-1 text-[var(--font-size-4xs)]  font-bold  uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range
-                    ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
+                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ?"bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
                     : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
                 >
@@ -123,7 +122,7 @@ export default function HeroParallaxCustomizer({
           <div className="space-y-1.5">
             <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
               <span>Depth</span>
-              <span className="text-[var(--color-accent)] font-mono  font-bold ">±{pxRange}%</span>
+              <span className="text-[var(--color-accent)] font-mono font-bold">±{pxRange}%</span>
             </div>
             <input
               aria-label="Parallax depth"
@@ -141,7 +140,7 @@ export default function HeroParallaxCustomizer({
           <div className="space-y-1.5">
             <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
               <span>Smoothing</span>
-              <span className="text-[var(--color-accent)] font-mono  font-bold ">{pxScrub.toFixed(1)}s</span>
+              <span className="text-[var(--color-accent)] font-mono font-bold">{pxScrub.toFixed(1)}s</span>
             </div>
             <input
               aria-label="Parallax smoothing"
@@ -159,15 +158,14 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Toggle foreground counter-drift"
             onClick={() => updatePxForeground(!pxForeground)}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground
-              ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
+            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground ?"bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
               : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10"
               }`}
           >
             <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
-            <span className={`w-8 h-4  rounded-lg  relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
+            <span className={`w-8 h-4 rounded-lg relative transition-colors ${pxForeground ?"bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
-                className={`absolute top-0.5 w-3 h-3  rounded-lg  bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
+                className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-transform ${pxForeground ?"translate-x-4" : "translate-x-0.5"
                   }`}
               />
             </span>
@@ -190,7 +188,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black  font-bold  text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             {pxCopied ? (
               <>

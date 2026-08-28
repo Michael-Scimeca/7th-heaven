@@ -35,19 +35,19 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
           <div className="flex items-center gap-3">
             <span className="text-lg animate-pulse shrink-0">⚠️</span>
             <div
-              className="text-xs sm:text-sm  font-bold     text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline"
+              className="sm:text-sm font-bold text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline"
               dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }}
             />
           </div>
           {link && (
-            <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-[var(--font-size-xs)]  font-bold  uppercase tracking-widest rounded-lg transition-colors border  border-white/10 ">
+            <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-[var(--font-size-xs)] font-bold uppercase tracking-widest rounded-lg transition-colors border border-white/10">
               {linkText || "Read More"}
             </Link>
           )}
 
           {/* Close Button */}
           <button onClick={handleClose}
-            className="absolute right-4 top-4 text-white/50 hover:text-white transition-colors p-1  bg-[#00000029]    hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center sm:relative sm:right-0 sm:top-0"
+            className="absolute right-4 top-4 text-white/50 hover:text-white transition-colors p-1 bg-[#00000029] hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center sm:relative sm:right-0 sm:top-0"
             aria-label="Close Announcement"
             title="Close Banner"
           >
@@ -62,24 +62,24 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
   }
 
   return (
-    <div className="fixed top-[72px] left-0 w-screen z-[49] bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] animate-[fade-in-down_0.5s_var(--ease-out-expo)_0.2s_both] shadow-[0_4px_25px_rgba(255,10,61,0.4)] border-b  border-white/10 ">
+    <div className="fixed top-[72px] left-0 w-screen z-[49] bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] animate-[fade-in-down_0.5s_var(--ease-out-expo)_0.2s_both] shadow-[0_4px_25px_rgba(255,10,61,0.4)] border-b border-white/10">
       <div className="site-container py-3 flex flex-col sm:flex-row items-center justify-center gap-4 relative pr-10">
         <div className="flex items-center gap-3">
           <span className="text-lg animate-pulse shrink-0">⚠️</span>
           <div
-            className="text-xs sm:text-sm  font-bold     text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline"
+            className="sm:text-sm font-bold text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline"
             dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }}
           />
         </div>
         {link && (
-          <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white text-xs  font-bold  uppercase tracking-widest rounded-lg transition-colors border  border-white/10 ">
+          <Link href={link} className="shrink-0 px-5 py-2 bg-black/30 hover:bg-black/50 text-white font-bold uppercase tracking-widest rounded-lg transition-colors border border-white/10">
             {linkText || "Read More"}
           </Link>
         )}
 
         {/* Close Button */}
         <button onClick={handleClose}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors p-1  bg-[#00000029]    hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors p-1 bg-[#00000029] hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center"
           aria-label="Close Announcement"
           title="Close Banner"
         >

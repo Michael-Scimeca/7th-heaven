@@ -94,12 +94,12 @@ export default function PushAlertsCard({
         className={`relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-b from-[#120b24]/90 via-[#0d071b]/95 to-[#080410] p-6 sm:p-7 shadow-2xl backdrop-blur-xl ${className}`}
       >
         {/* Decorative top accent glow */}
-        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48  rounded-lg  bg-purple-600/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48  rounded-lg  bg-pink-600/20 blur-3xl" />
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-lg bg-purple-600/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-lg bg-pink-600/20 blur-3xl" />
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center  rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
               <BellIcon />
             </div>
             <div>
@@ -107,7 +107,7 @@ export default function PushAlertsCard({
                 {title || defaultTitle}
               </h3>
               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-purple-400">
-                <span className="h-2 w-2  rounded-lg  bg-emerald-400 animate-ping" />
+                <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
                 100% Free · No App Signup Needed
               </span>
             </div>
@@ -118,7 +118,7 @@ export default function PushAlertsCard({
           </p>
 
           {loading ? (
-            <div className="h-12 w-full animate-pulse  rounded-lg  bg-[#00000029]    border border-white/10" />
+            <div className="h-12 w-full animate-pulse rounded-lg bg-[#00000029] border border-white/10" />
           ) : (
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
@@ -127,7 +127,7 @@ export default function PushAlertsCard({
                 onClick={() => setShowModal(true)}
                 className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2"
               >
-                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 text-xs  font-bold  uppercase tracking-wider !text-white shadow-lg">
+                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 font-bold uppercase tracking-wider !text-white shadow-lg">
                   <BellIcon />
                   {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
                 </CosmicRadialButton>
@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border   border-white/10    bg-[#00000029]    px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>
@@ -148,7 +148,7 @@ export default function PushAlertsCard({
               {/* QR Code / Instructions Page Link */}
               <Link
                 href={`/notifications?group=${group}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2  rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 text-xs font-bold uppercase tracking-wider text-purple-300 hover:bg-purple-500/20 hover:text-white transition-colors text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 font-bold uppercase tracking-wider text-purple-300 hover:bg-purple-500/20 hover:text-white transition-colors text-center"
               >
                 Scan QR Code / Guide →
               </Link>

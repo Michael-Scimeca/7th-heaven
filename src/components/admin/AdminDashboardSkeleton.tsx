@@ -12,8 +12,8 @@ export function AdminDashboardSkeleton() {
           <div className="w-40 h-5 rounded-md bg-white/10 animate-pulse" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-24 h-8  rounded-lg  bg-white/10 animate-pulse" />
-          <div className="w-9 h-9  rounded-lg  bg-purple-500/20 animate-pulse" />
+          <div className="w-24 h-8 rounded-lg bg-white/10 animate-pulse" />
+          <div className="w-9 h-9 rounded-lg bg-purple-500/20 animate-pulse" />
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export function AdminDashboardSkeleton() {
             >
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="w-48 h-6 rounded bg-white/20 animate-pulse" />
-                <div className="w-20 h-6  rounded-lg  bg-white/10 animate-pulse" />
+                <div className="w-20 h-6 rounded-lg bg-white/10 animate-pulse" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                 <div className="h-24 rounded-lg bg-white/5 animate-pulse" />

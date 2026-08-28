@@ -132,12 +132,12 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
         <h2 className="text-lg font-bold text-black">
           Pick <span className="gradient-text">Awards</span>
         </h2>
-        <span className="text-xs uppercase tracking-[0.15em] text-black/40">Collect Picks · Enter Lotteries</span>
+        <span className="uppercase tracking-[0.15em] text-black/40">Collect Picks · Enter Lotteries</span>
       </div>
 
       {loading ? (
         <div className="py-10 flex items-center justify-center">
-          <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
+          <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
           <span className="ml-3 text-sm text-black/40">Loading your collection...</span>
         </div>
       ) : (
@@ -148,9 +148,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <button aria-label="Action button"
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
-                className={`relative p-3 border  text-center transition-colors ${pick.owned > 0
-                  ? selectedPick === pick.id
-                    ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
+                className={`relative p-3 border text-center transition-colors ${pick.owned > 0 ? selectedPick === pick.id ?"border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
                     : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
                   : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
                   }`}
@@ -158,7 +156,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 <div className="relative mx-auto w-16 h-16 mb-2">
                   <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
                   {pick.owned > 1 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-xs font-bold bg-[var(--color-accent)] text-white rounded">
+                    <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center font-bold bg-[var(--color-accent)] text-white rounded">
                       ×{pick.owned}
                     </span>
                   )}
@@ -167,7 +165,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                    <span className="text-xs font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded shadow-xs">Locked</span>
+                    <span className="font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded shadow-xs">Locked</span>
                   </div>
                 )}
               </button>
@@ -179,7 +177,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
             const pick = pickTypes.find((p) => p.id === selectedPick);
             if (!pick || pick.owned === 0) return null;
             return (
-              <div className="mb-6 p-4 border   border-white/10 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
+              <div className="mb-6 p-4 border border-white/10 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
@@ -193,7 +191,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 <div className="space-y-1.5">
                   <p className="text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
                   {pick.picks.slice(0, 5).map((p: any) => (
-                    <div key={p.id || p.created_at} className="flex items-center gap-2 text-xs text-black/70 bg-gray-50 px-3 py-1.5 rounded">
+                    <div key={p.id || p.created_at} className="flex items-center gap-2 text-black/70 bg-gray-50 px-3 py-1.5 rounded">
                       <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5 text-purple-600" /> {REASON_LABELS[p.awarded_reason] || "Awarded"}</span>
                       <span className="text-black/40 ml-auto">
                         {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
@@ -238,8 +236,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}
-                    className={`p-4 border rounded-lg transition-colors ${lottery.isEntered
-                      ? "border-emerald-500/30 bg-emerald-500/5"
+                    className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ?"border-emerald-500/30 bg-emerald-500/5"
                       : lottery.isEligible
                         ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
                         : "border-black/10 bg-gray-50"
@@ -252,7 +249,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1  rounded-lg  border   border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
+                          <span className="font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}
@@ -262,7 +259,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>
                         ) : (
-                          <span className="text-xs text-black/40 uppercase tracking-[0.15em]">Not eligible</span>
+                          <span className="text-black/40 uppercase tracking-[0.15em]">Not eligible</span>
                         )}
                       </div>
                     </div>
@@ -278,9 +275,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           </span>
                           <span className="text-[var(--font-size-2xs)] text-black/40">{lottery.endsIn}</span>
                         </div>
-                        <div className="w-full h-1.5 bg-black/10  rounded-lg  overflow-hidden">
+                        <div className="w-full h-1.5 bg-black/10 rounded-lg overflow-hidden">
                           <div
-                            className={`h-full  rounded-lg  transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            className={`h-full rounded-lg transition-colors ${lottery.isEligible ?"bg-yellow-500" : "bg-black/20"}`}
                             style={{ width: `${Math.min(100, lottery.progress)}%` }}
                           />
                         </div>

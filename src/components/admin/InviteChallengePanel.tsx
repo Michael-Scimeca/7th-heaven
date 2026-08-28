@@ -91,10 +91,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       >
         <div>
           <p className="uppercase tracking-[0.2em] font-bold mb-0.5">Show Promotions</p>
-          <h3 className="text-white  font-bold  text-lg flex items-center gap-2">
+          <h3 className="text-white font-bold text-lg flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -102,10 +102,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <p className="mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
+          <span className="font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
-          <div className={`w-8 h-8  rounded-lg  border border-white/10 flex items-center justify-center  text-white  transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
+          <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${!isCollapsed ?'rotate-180' : ''}`}>
 
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         <div className="relative p-6 pt-0 border-t border-white/[0.04] mt-1 space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
           <div className="mb-4 mt-4">
-            <label htmlFor="invite-challenge-show-select" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
+            <label htmlFor="invite-challenge-show-select" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
             <select aria-label="Select option"
               id="invite-challenge-show-select"
               value={selectedShowId}
@@ -134,7 +134,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           {selectedShowId && (
             <div className="space-y-4">
               {loading ? (
-                <div className="text-white/30 text-xs text-center py-4">Loading challenge config…</div>
+                <div className="text-white/30 text-center py-4">Loading challenge config…</div>
               ) : (
                 <>
                   {/* Enable toggle */}
@@ -155,7 +155,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <>
                       {/* Threshold */}
                       <div>
-                        <label htmlFor="invite-challenge-threshold" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-threshold" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward name */}
                       <div>
-                        <label htmlFor="invite-challenge-reward-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-reward-name" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Reward Name
                         </label>
                         <input aria-label="Input field"
@@ -189,7 +189,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward description */}
                       <div>
-                        <label htmlFor="invite-challenge-claim-instructions" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-claim-instructions" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Claim Instructions
                         </label>
                         <textarea aria-label="Text input"
@@ -227,8 +227,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button aria-label="Action button"
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 text-sm  font-bold  uppercase tracking-widest transition-colors ${saved
-                      ? "bg-[var(--color-accent)]  text-white"
+                    className={`w-full py-3.5 text-sm font-bold uppercase tracking-widest transition-colors ${saved ?"bg-[var(--color-accent)]  text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                       }`}
                   >

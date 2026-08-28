@@ -150,12 +150,12 @@ export function PageNav() {
     <div className="fixed bottom-8 left-8 z-[999999] font-sans pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
-          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg  animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b]  backdrop-blur-[45px] border-l border-white/10"
+          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10"
           style={{ maxHeight: 'min(80vh, 600px)' }}
         >
           {/* Header — fixed, translucent blur */}
-          <div className="py-4 border-b border-white/10 bg-white/[0.04]  backdrop-blur-[45px] shrink-0">
-            <h3 className="text-white text-xs  font-bold  uppercase tracking-[0.2em] flex items-center gap-2">
+          <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-[45px] shrink-0">
+            <h3 className="text-white font-bold uppercase tracking-[0.2em] flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
@@ -174,7 +174,7 @@ export function PageNav() {
           >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="text-xs  font-bold  uppercase tracking-[0.15em] text-purple-400 pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
+                <h4 className="font-bold uppercase tracking-[0.15em] text-purple-400 pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -188,8 +188,7 @@ export function PageNav() {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}
-                      className={`px-3 py-2 rounded-lg transition-colors flex items-center justify-between group ${isActive
-                        ? "bg-purple-600 text-white  font-bold  shadow-md shadow-purple-600/30"
+                      className={`px-3 py-2 rounded-lg transition-colors flex items-center justify-between group ${isActive ?"bg-purple-600 text-white  font-bold  shadow-md shadow-purple-600/30"
                         : "text-white/80 font-bold hover:bg-white/10 hover:text-white"
                         }`}
                     >
@@ -210,8 +209,7 @@ export function PageNav() {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}
-        className={`flex items-center gap-2 px-6 h-12  rounded-lg  transition-colors duration-300 font-bold uppercase tracking-widest text-sm cursor-pointer pointer-events-auto select-none ${isOpen
-          ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
+        className={`flex items-center gap-2 px-6 h-12 rounded-lg transition-colors duration-300 font-bold uppercase tracking-widest text-sm cursor-pointer pointer-events-auto select-none ${isOpen ?"bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
           : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
           }`}
         title="Page Navigator"

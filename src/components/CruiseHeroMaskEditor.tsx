@@ -201,17 +201,17 @@ export default function CruiseHeroMaskEditor() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-4 py-3  rounded-lg  shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all hover:scale-105"
+          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-4 py-3 rounded-lg shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all hover:scale-105"
         >
           <Sliders className="w-5 h-5" />
-          <span className="text-xs uppercase tracking-wider">PAGE & ITINERARY CSS STUDIO</span>
+          <span className="uppercase tracking-wider">PAGE & ITINERARY CSS STUDIO</span>
         </button>
       )}
 
       {/* Main Drawer Panel */}
       {isOpen && (
         <div
-          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-lg  shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
+          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
           style={{ height: 'calc(100vh - 110px)' }}
         >
           {/* Header */}
@@ -221,7 +221,7 @@ export default function CruiseHeroMaskEditor() {
                 <Sliders className="w-4 h-4 text-cyan-400" />
               </div>
               <div>
-                <h3 className="text-sm  font-bold  uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
                 <p className="text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>
@@ -229,13 +229,13 @@ export default function CruiseHeroMaskEditor() {
               <button
                 onClick={handleReset}
                 title="Reset to Defaults"
-                className="p-1.5 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -251,9 +251,9 @@ export default function CruiseHeroMaskEditor() {
             }}
           >
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
-            <div className="bg-purple-950/30 p-3.5  rounded-lg border border-purple-500/30 space-y-3">
+            <div className="bg-purple-950/30 p-3.5 rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs  font-bold  uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                <span className="font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY & CRUISING HISTORY
                 </span>
                 <span className="text-[10px] text-purple-300/70 font-mono">#itinerary & .history</span>
@@ -261,7 +261,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Top Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Top Mask Start</span>
                   <span className="text-purple-300 font-mono">{settings.itinTopFadeStart}%</span>
                 </div>
@@ -277,7 +277,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Top Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Top Mask End</span>
                   <span className="text-purple-300 font-mono">{settings.itinTopFadeEnd}%</span>
                 </div>
@@ -293,7 +293,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Bottom Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Bottom Mask Start</span>
                   <span className="text-purple-300 font-mono">{settings.itinBottomFadeStart}%</span>
                 </div>
@@ -309,7 +309,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Bottom Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Bottom Mask End</span>
                   <span className="text-purple-300 font-mono">{settings.itinBottomFadeEnd}%</span>
                 </div>
@@ -325,7 +325,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Background Opacity */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Dark BG Opacity</span>
                   <span className="text-purple-300 font-mono">{settings.itinBgOpacity}%</span>
                 </div>
@@ -341,7 +341,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Itinerary Backdrop Blur */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Itinerary Backdrop Blur</span>
                   <span className="text-purple-300 font-mono">{settings.itinBlur}px</span>
                 </div>
@@ -357,9 +357,9 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
-            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/30 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-cyan-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs  font-bold  uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                <span className="font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-cyan-400" /> CRUISING HISTORY CONTAINER
                 </span>
                 <span className="text-[10px] text-cyan-300/70 font-mono">.history-timeline</span>
@@ -367,7 +367,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Top Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Top Mask Start</span>
                   <span className="text-cyan-300 font-mono">{settings.historyTopFadeStart}%</span>
                 </div>
@@ -383,7 +383,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Top Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Top Mask End</span>
                   <span className="text-cyan-300 font-mono">{settings.historyTopFadeEnd}%</span>
                 </div>
@@ -399,7 +399,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Bottom Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Bottom Mask Start</span>
                   <span className="text-cyan-300 font-mono">{settings.historyBottomFadeStart}%</span>
                 </div>
@@ -415,7 +415,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Bottom Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Bottom Mask End</span>
                   <span className="text-cyan-300 font-mono">{settings.historyBottomFadeEnd}%</span>
                 </div>
@@ -431,7 +431,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Background Opacity */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Dark BG Opacity</span>
                   <span className="text-cyan-300 font-mono">{settings.historyBgOpacity}%</span>
                 </div>
@@ -447,7 +447,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* History Backdrop Blur */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">History Backdrop Blur</span>
                   <span className="text-cyan-300 font-mono">{settings.historyBlur}px</span>
                 </div>
@@ -463,16 +463,16 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎬 2. HERO TOP MASK GRADIENT */}
-            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                <span className="font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   HERO TOP MASK GRADIENT
                 </span>
               </div>
 
               {/* Top Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Hero Top Fade Start</span>
                   <span className="text-cyan-400 font-mono">{settings.topFadeStart}%</span>
                 </div>
@@ -488,7 +488,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Top Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Hero Top Fade End</span>
                   <span className="text-cyan-400 font-mono">{settings.topFadeEnd}%</span>
                 </div>
@@ -504,7 +504,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Top Dark Overlay Gradient Height */}
               <div className="pt-2 border-t border-cyan-500/20">
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Top Dark Gradient Height</span>
                   <span className="text-cyan-400 font-mono">{settings.topGradientHeight ?? 240}px</span>
                 </div>
@@ -520,7 +520,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Top Dark Overlay Gradient Opacity */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Top Dark Gradient Opacity</span>
                   <span className="text-cyan-400 font-mono">{settings.topGradientOpacity ?? 85}%</span>
                 </div>
@@ -536,16 +536,16 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎬 3. HERO BOTTOM MASK GRADIENT */}
-            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
+            <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                <span className="font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" /> HERO BOTTOM MASK GRADIENT
                 </span>
               </div>
 
               {/* Bottom Fade Start */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Hero Bottom Fade Start</span>
                   <span className="text-cyan-400 font-mono">{settings.bottomFadeStart}%</span>
                 </div>
@@ -561,7 +561,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Bottom Fade End */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Hero Bottom Fade End</span>
                   <span className="text-cyan-400 font-mono">{settings.bottomFadeEnd}%</span>
                 </div>
@@ -577,14 +577,14 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🎥 4. VIDEO FILTERS */}
-            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+            <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-cyan-500/20 space-y-3">
+              <span className="font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                 <Eye className="w-3.5 h-3.5" /> HERO VIDEO FILTERS
               </span>
 
               {/* Video Blur */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Video Blur</span>
                   <span className="text-cyan-400 font-mono">{settings.videoBlur}px</span>
                 </div>
@@ -600,7 +600,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Video Brightness */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Brightness</span>
                   <span className="text-cyan-400 font-mono">{settings.videoBrightness}%</span>
                 </div>
@@ -616,7 +616,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Contrast */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Contrast</span>
                   <span className="text-cyan-400 font-mono">{settings.videoContrast}%</span>
                 </div>
@@ -632,7 +632,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Opacity */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Opacity</span>
                   <span className="text-cyan-400 font-mono">{settings.videoOpacity}%</span>
                 </div>
@@ -648,14 +648,14 @@ export default function CruiseHeroMaskEditor() {
             </div>
 
             {/* 🥞 5. ::BEFORE BLUR OVERLAY STRIP */}
-            <div className="bg-cyan-950/30 p-3.5  rounded-lg border border-cyan-500/20 space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+            <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-cyan-500/20 space-y-3">
+              <span className="font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" /> ::BEFORE BLUR OVERLAY STRIP
               </span>
 
               {/* Strip Height */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Strip Height</span>
                   <span className="text-cyan-400 font-mono">{settings.beforeHeight}px</span>
                 </div>
@@ -671,7 +671,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Backdrop Blur */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Backdrop Blur</span>
                   <span className="text-cyan-400 font-mono">{settings.beforeBlur}px</span>
                 </div>
@@ -687,7 +687,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Dark Tint Opacity */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Dark Tint Opacity</span>
                   <span className="text-cyan-400 font-mono">{settings.beforeBgOpacity}%</span>
                 </div>
@@ -703,7 +703,7 @@ export default function CruiseHeroMaskEditor() {
 
               {/* Z-Index */}
               <div>
-                <div className="flex justify-between text-xs mb-1 font-medium">
+                <div className="flex justify-between mb-1 font-medium">
                   <span className="text-gray-300">Z-Index Layer</span>
                   <span className="text-cyan-400 font-mono">{settings.beforeZIndex}</span>
                 </div>
@@ -723,13 +723,13 @@ export default function CruiseHeroMaskEditor() {
           <div className="p-3 border-t border-cyan-500/20 bg-black/50 rounded-b-2xl flex items-center gap-2 shrink-0">
             <button
               onClick={handleSave}
-              className="flex-1 py-2  rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
+              className="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
             >
               Save Changes
             </button>
             <button
               onClick={copyCSS}
-              className="px-3 py-2  rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all"
+              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied!' : 'Copy CSS'}

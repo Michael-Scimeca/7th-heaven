@@ -100,11 +100,11 @@ export default function NotificationsPage() {
     <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200  rounded-lg  px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 font-bold uppercase tracking-wider">
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
-        <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text-color)] tracking-tight uppercase mb-4">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
         <p className="font-medium">
@@ -133,8 +133,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5  rounded-lg  text-xs font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive
-                ? "bg-purple-600 border-purple-600 text-white shadow-md"
+              className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive ?"bg-purple-600 border-purple-600 text-white shadow-md"
                 : " bg-[#00000029]      border-white/10   text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
@@ -145,7 +144,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="max-w-3xl mx-auto  bg-[#00000029]    backdrop-blur-xl border border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
+      <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-10 shadow-md">
         <p className="font-medium text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
@@ -175,7 +174,7 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="flex-1 w-full space-y-5">
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">1</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">1</span>
                 <div>
                   <p className="font-bold mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
@@ -183,7 +182,7 @@ export default function NotificationsPage() {
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border   border-white/10   text-white text-xs font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
                     >
                       <AppleIcon /> App Store
                     </a>
@@ -191,7 +190,7 @@ export default function NotificationsPage() {
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border   border-white/10   text-white text-xs font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
                     >
                       <AndroidIcon /> Google Play
                     </a>
@@ -200,14 +199,14 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">2</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">2</span>
                 <div className="flex-1">
                   <p className="font-bold mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
-                      className="px-5 py-2.5 text-xs  font-bold  tracking-wider rounded-lg"
+                      className="px-5 py-2.5 font-bold tracking-wider rounded-lg"
                     >
                       Open in ntfy App
                     </CosmicRadialButton>
@@ -215,7 +214,7 @@ export default function NotificationsPage() {
                       href={browserUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs font-bold  text-white  hover:text-white underline transition-colors"
+                      className="font-bold text-white hover:text-white underline transition-colors"
                     >
                       Or subscribe in your browser instead
                     </a>
@@ -224,7 +223,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6  rounded-lg  bg-purple-600 text-white text-xs  font-bold  flex items-center justify-center">3</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">3</span>
                 <div>
                   <p className="font-bold">
                     Done. You&apos;ll get a push notification the moment we send one to this channel &mdash;

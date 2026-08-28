@@ -147,10 +147,10 @@ function PassengersWidget() {
     <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-1">Community</h2>
+          <h2 className="font-bold tracking-[0.2em] uppercase text-white/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
-            <span className="text-white  font-bold  text-2xl    tracking-wide">{totalFans}</span>
-            <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
+            <span className="text-white font-bold text-2xl tracking-wide">{totalFans}</span>
+            <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest">Cruise Members Onboard</span>
           </div>
         </div>
       </div>
@@ -160,12 +160,12 @@ function PassengersWidget() {
           {AVATARS.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={initials} className={`w-10 h-10  rounded-lg  border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
-                <span className="text-xs  font-bold  text-white/90 tracking-widest">{initials}</span>
+              <div key={initials} className={`w-10 h-10 rounded-lg border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
+                <span className="font-bold text-white/90 tracking-widest">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10  rounded-lg  border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md  text-[var(--color-accent)] font-bold text-xs relative z-0">
+          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] font-bold relative z-0">
             +{totalFans - AVATARS.length}
           </div>
         </div>
@@ -516,13 +516,13 @@ export default function CruiseDashboard() {
     return (
       <div className="min-h-screen bg-[#f0f2f5] text-black pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
         {/* Subtle background elements */}
-        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5  rounded-lg  blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5  rounded-lg  blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-lg blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-lg blur-[100px] pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
-            <h1 className="text-2xl  font-bold  uppercase tracking-widest text-black">Cruise Hub</h1>
+            <h1 className="text-2xl font-bold uppercase tracking-widest text-black">Cruise Hub</h1>
             <p className="text-cyan-600 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
           </div>
 
@@ -548,14 +548,14 @@ export default function CruiseDashboard() {
                       maxLength={6}
                       value={pinInput}
                       onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg  font-bold  tracking-[0.3em] text-black focus:border-cyan-500 outline-none transition-colors"
+                      className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg font-bold tracking-[0.3em] text-black focus:border-cyan-500 outline-none transition-colors"
                     />
                   </div>
 
                   {authError && <p className="text-rose-500 mt-2 text-center font-bold">{authError}</p>}
 
-                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Verify PIN & Access Hub →"}
+                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
@@ -572,7 +572,7 @@ export default function CruiseDashboard() {
                 <p className="text-black/60 leading-relaxed mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
-                <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black font-bold uppercase tracking-widest transition-colors cursor-pointer">
                   Go to Log In
                 </button>
               </div>
@@ -580,10 +580,10 @@ export default function CruiseDashboard() {
               <>
                 {/* Tabs */}
                 <div className="flex border-b border-black/10">
-                  <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase tracking-widest transition-colors cursor-pointer ${authTab ==='login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Log In
                   </button>
-                  <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase tracking-widest transition-colors cursor-pointer ${authTab ==='register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Register
                   </button>
                 </div>
@@ -603,8 +603,8 @@ export default function CruiseDashboard() {
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Access Cruise Hub →"}
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
@@ -629,8 +629,8 @@ export default function CruiseDashboard() {
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white  font-bold  uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" /> : "Register & Access Hub →"}
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase tracking-widest transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
                   )}
@@ -640,7 +640,7 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="text-center mt-6">
-            <Link href="/cruise" className="text-black/40 hover:text-black text-xs font-bold uppercase tracking-widest transition-colors">
+            <Link href="/cruise" className="text-black/40 hover:text-black font-bold uppercase tracking-widest transition-colors">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -657,22 +657,22 @@ export default function CruiseDashboard() {
             {/* Member Avatar */}
             <div className="relative shrink-0">
               {effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:')) ? (
-                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20  rounded-lg  bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white  font-bold  text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                   {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px]  font-bold  uppercase text-white bg-sky-500  rounded-lg  shadow-md border border-sky-400/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-bold uppercase text-white bg-sky-500 rounded-lg shadow-md border border-sky-400/50">
                 Cruise
               </span>
             </div>
 
             {/* Member Info */}
             <div>
-              <h1 className="text-2xl md:text-3xl  font-bold  uppercase tracking-widest text-white leading-none">
+              <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-white leading-none">
                 {effectiveMember?.name || 'Cruise Guest'}
               </h1>
               <p className="text-cyan-400 font-bold tracking-widest uppercase mt-1.5">Cruise Member Dashboard</p>
@@ -689,20 +689,20 @@ export default function CruiseDashboard() {
         <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg shadow-2xl group">
+          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8  rounded-lg  bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-sm shrink-0 mt-0.5 border border-cyan-500/30">
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className=" text-[12px]   font-bold  tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5  rounded-lg  border border-cyan-500/30">Priority Update</span>
+                    <span className="text-[12px] font-bold tracking-[0.15em] uppercase text-cyan-300 px-2 py-0.5 rounded-lg border border-cyan-500/30">Priority Update</span>
                   </div>
-                  <h3 className="text-lg  font-bold  tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
+                  <h3 className="text-lg font-bold tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5  rounded-lg    border border-cyan-500/30">
+                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -718,7 +718,7 @@ export default function CruiseDashboard() {
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  rounded-lg px-3.5 py-2 text-xs text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
@@ -728,14 +728,14 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-sm text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
-                    <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+                    <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                       Cancel
                     </button>
-                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer  rounded-lg shadow-lg shadow-purple-600/30">
+                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
                       Save Announcement
                     </button>
                   </div>
@@ -761,7 +761,7 @@ export default function CruiseDashboard() {
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="text-lg md:text-xl  font-bold  uppercase tracking-wider text-white">{guidelines.title}</h2>
+                    <h2 className="text-lg md:text-xl font-bold uppercase tracking-wider text-white">{guidelines.title}</h2>
                     <p className="text-purple-400font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
@@ -772,7 +772,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5  rounded-lg    border border-cyan-500/30"
+                      className="ml-auto font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -782,36 +782,36 @@ export default function CruiseDashboard() {
                 {isEditingGuidelines ? (
                   <div className="space-y-4 min-w-0 max-w-full">
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-title" className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Section Title</label>
+                      <label htmlFor="cruise-hub-guidelines-title" className="block font-bold text-white/50 uppercase tracking-widest mb-1">Section Title</label>
                       <input aria-label="Input field"
                         id="cruise-hub-guidelines-title"
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-sm text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-sub" className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Subtitle / Badge</label>
+                      <label htmlFor="cruise-hub-guidelines-sub" className="block font-bold text-white/50 uppercase tracking-widest mb-1">Subtitle / Badge</label>
                       <input aria-label="Input field"
                         id="cruise-hub-guidelines-sub"
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]15  rounded-lg px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <span className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
+                      <span className="block font-bold text-white/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className=" bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] border   border-white/10    rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border border-white/10 backdrop-blur-[16px] border border-white/10 rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
-                      <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+                      <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                         Cancel
                       </button>
-                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer  rounded-lg shadow-lg shadow-purple-600/30">
+                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
                         Save Guidelines
                       </button>
                     </div>
@@ -862,10 +862,10 @@ export default function CruiseDashboard() {
       >
         <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
           <div className="text-center mb-12 max-w-3xl mx-auto px-4">
-            <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.25em] text-cyan-400">
+            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="text-3xl md:text-5xl  font-bold  uppercase    tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="mt-4 leading-relaxed font-semibold">
@@ -877,8 +877,7 @@ export default function CruiseDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
-                  ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
+                className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >
@@ -887,8 +886,7 @@ export default function CruiseDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
-                  ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
+                className={`px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028 ?"bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
                   : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                   }`}
               >

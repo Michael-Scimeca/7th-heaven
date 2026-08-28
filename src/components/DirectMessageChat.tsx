@@ -119,7 +119,7 @@ export default function DirectMessageChat() {
       {/* Floating Chat Bubble Button */}
       <button aria-label="Action button"
         onClick={() => setOpen(!open)}
-        className="relative w-12 h-12  rounded-lg  bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] hover:scale-105 transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border   border-white/10 group"
+        className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] hover:scale-105 transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-white/10 group"
       >
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -129,7 +129,7 @@ export default function DirectMessageChat() {
 
         {/* Pulse unread count badge */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[var(--font-size-4xs)]  font-bold  w-5 h-5  rounded-lg  flex items-center justify-center border-2 border-[#050505]">
+          <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[var(--font-size-4xs)] font-bold w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
             {unreadCount}
           </span>
         )}
@@ -140,10 +140,10 @@ export default function DirectMessageChat() {
         <div className="absolute bottom-16 right-0 w-[300px] h-[380px] bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col animate-[fadeIn_0.25s_ease-out]">
           {/* Header */}
           <div className="p-3.5 bg-white/[0.02] border-b border-white/5 flex items-center gap-2">
-            <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-500 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
-              <span className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-[var(--color-accent)]">Direct Message</span>
-              <span className="text-xs font-bold text-white uppercase tracking-tight">Admin Support Chat</span>
+              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)]">Direct Message</span>
+              <span className="font-bold text-white uppercase tracking-tight">Admin Support Chat</span>
             </div>
           </div>
 
@@ -166,15 +166,14 @@ export default function DirectMessageChat() {
                   >
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px]  font-bold  uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+                      <span className={`text-[8px] font-bold uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${isAdminMsg ?'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
                         }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5  text-xs leading-relaxed font-bold !text-white   ${isAdminMsg
-                        ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
+                      className={`p-2.5 leading-relaxed font-bold !text-white ${isAdminMsg ?"bg-[var(--color-purple-primary)] rounded-tl-xs"
                         : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
                         }`}
                     >

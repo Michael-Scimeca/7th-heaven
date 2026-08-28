@@ -113,7 +113,7 @@ function CircleVideoNode({
       muted
       playsInline
       preload="auto"
-      className="w-full h-full object-cover  rounded-lg  pointer-events-none scale-125 transition-transform duration-500"
+      className="w-full h-full object-cover rounded-lg pointer-events-none scale-125 transition-transform duration-500"
     >
       <track kind="captions" />
     </video>
@@ -746,7 +746,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       {showSettings && mounted && createPortal(
         <div
           data-settings-panel
-          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5  /40 border-2 border-cyan-400/50  rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
+          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 /40 border-2 border-cyan-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
           style={{ zIndex: 999999, pointerEvents: 'auto' }}
         >
           <style>{`
@@ -760,28 +760,28 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               }
             `}</style>
 
-          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0  /60 pt-1 z-10">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 /60 pt-1 z-10">
             <div className="flex items-center gap-2">
               <span className="text-xl">⚙️</span>
               <div>
-                <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
+                <h3 className="text-white font-bold text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
                 <p className="">All real-time physics tuning parameters</p>
               </div>
             </div>
             <button aria-label="Action button"
               onClick={() => setShowSettings(false)}
-              className=" text-white  hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
+              className="text-white hover:text-white font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
             >
               ✕ Close
             </button>
           </div>
 
           {/* Controls Sliders Grid — 2-Column organized sections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
             {/* SECTION 1: Velocity & Viewport Triggers */}
             <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <div className="flex justify-between items-center text-cyan-300  font-bold  text-sm">
+              <div className="flex justify-between items-center text-cyan-300 font-bold text-sm">
                 <span>⚡ Cruise Boat & Line Travel Speed</span>
                 <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
               </div>
@@ -942,13 +942,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 space-y-3 mt-2">
               <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
                 <span className="text-lg">📍</span>
-                <h3 className="text-white  font-bold  uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
+                <h3 className="text-white font-bold uppercase tracking-wider">Port Circle & Corner Arrival Controls</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Action Mode Toggle */}
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <span className="block text-xs font-bold text-white/90">Port Circle Action</span>
+                  <span className="block font-bold text-white/90">Port Circle Action</span>
                   <div className="flex gap-1.5 pt-1">
                     {[
                       { id: 'hide', label: '🙈 Hide & Flip' },
@@ -958,7 +958,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <button aria-label="Action button"
                         key={act.id}
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)]  font-bold  uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
+                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors ${(tuning.nodeAction ??'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                           : ' bg-[#00000029]     text-white  hover:bg-white/10'
                           }`}
@@ -971,7 +971,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
                 {/* Min Scale Over Circle */}
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                  <div className="flex justify-between items-center font-bold text-white/90">
                     <span>🔎 Min Scale Over Circle</span>
                     <span className="text-cyan-400 font-mono">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
                   </div>
@@ -985,7 +985,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
                 {/* Scale Down Distance */}
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                  <div className="flex justify-between items-center font-bold text-white/90">
                     <span>📏 Scale Down Trigger Radius</span>
                     <span className="text-cyan-400 font-mono">{tuning.nodeDipRadius ?? 65}px</span>
                   </div>
@@ -999,7 +999,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
                 {/* Re-appear Pop Distance */}
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                  <div className="flex justify-between items-center font-bold text-white/90">
                     <span>🚀 Re-appear Pop Distance</span>
                     <span className="text-cyan-400 font-mono">{tuning.nodePopDist ?? 60}px</span>
                   </div>
@@ -1086,23 +1086,23 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           </div>
 
           {/* Actions Bar */}
-          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40  backdrop-blur-[45px] pb-1 z-10">
+          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 /40 backdrop-blur-[45px] pb-1 z-10">
             <button aria-label="Action button"
               onClick={handleResetTuning}
-              className="px-4 py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
+              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/70 font-bold uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
             >
               🔄 Reset to Defaults
             </button>
 
             <div className="flex items-center gap-3">
               {saveToast && (
-                <span className="text-xs font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
+                <span className="font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
                   ✓ Settings Saved!
                 </span>
               )}
               <button aria-label="Action button"
                 onClick={handleSaveTuning}
-                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
               >
                 💾 Save Settings
               </button>
@@ -1363,7 +1363,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   backgroundColor: '#060614',
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)]  font-bold  uppercase tracking-widest px-4 py-1.5  rounded-lg   backdrop-blur-[45px] flex items-center gap-1.5  bg-[#00000029]  transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ?'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 {isSea ? (

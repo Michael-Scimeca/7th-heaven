@@ -73,9 +73,9 @@ function Icon({ kind }: { kind: NonNullable<TickerItem["icon"]> }) {
   if (kind === "square") return <span className="block h-4 w-4 bg-white" />;
   if (kind === "diamond")
     return <span className="block h-4 w-4 rotate-45 bg-white" />;
-  if (kind === "dot") return <span className="block h-3 w-3  rounded-lg  bg-white" />;
+  if (kind === "dot") return <span className="block h-3 w-3 rounded-lg bg-white" />;
   return (
-    <span className="flex h-8 w-8 items-center justify-center  rounded-lg  border-2 border-white text-[8px] font-bold leading-none text-white">
+    <span className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-white text-[8px] font-bold leading-none text-white">
       ★
     </span>
   );
@@ -133,7 +133,7 @@ export default function LogoTicker({
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-4 border-r  border-white/10  px-4 sm:px-8 transform-gpu"
+                className="flex shrink-0 items-center gap-4 border-r border-white/10 px-4 sm:px-8 transform-gpu"
                 style={{ height: "clamp(44px, 6vw, 96px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}

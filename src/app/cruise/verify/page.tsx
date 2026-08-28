@@ -115,20 +115,20 @@ function CruiseVerifyContent() {
         }}
       />
       {/* Backdrop overlay */}
-      <div className="fixed inset-0 bg-black/60  backdrop-blur-[45px] pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-[45px] pointer-events-none z-0" />
 
       {/* Centered Modal Card */}
-      <div className="relative z-10 w-full max-w-md bg-[rgba(10,15,30,0.85)] backdrop-blur-xl border border-purple-500/30  rounded-lg p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)] text-center my-auto">
+      <div className="relative z-10 w-full max-w-md bg-[rgba(10,15,30,0.85)] backdrop-blur-xl border border-purple-500/30 rounded-lg p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)] text-center my-auto">
         {status === "success" ? (
           <div className="py-4">
-            <h1 className="text-2xl sm:text-3xl  font-bold  text-emerald-400 mb-2">Access Granted!</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-2">Access Granted!</h1>
             <p className="leading-relaxed mb-6">
               Your Cruise Member account is confirmed.<br />
               Welcome aboard the 7th Heaven Caribbean Cruise.
             </p>
             <Link
               href="/cruise/dashboard"
-              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest  rounded-lg transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="inline-block w-full py-3.5 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold text-sm sm:text-base uppercase tracking-widest rounded-lg transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             >
               Access My Dashboard →
             </Link>
@@ -136,11 +136,11 @@ function CruiseVerifyContent() {
         ) : (
           <>
             {/* Eyebrow */}
-            <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30  rounded-lg  mb-4">
-              <span className="text-[10px] sm:text-xs  font-bold  uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
+            <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-lg mb-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl  font-bold  text-white tracking-tight mb-2">Check Your Email</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Check Your Email</h1>
             <p className="mb-2">
               We sent a 6-digit verification code to
             </p>
@@ -164,8 +164,7 @@ function CruiseVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl  font-bold  text-white bg-black/60 border  rounded-lg outline-none transition-[border-color,background-color,box-shadow] ${d
-                      ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
+                    className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-bold text-white bg-black/60 border rounded-lg outline-none transition-[border-color,background-color,box-shadow] ${d ?"border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
                       : "  border-white/10   focus:border-purple-400 focus:bg-purple-950/20"
                       } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
                   />
@@ -173,7 +172,7 @@ function CruiseVerifyContent() {
               </div>
 
               {errorMsg && (
-                <div className="p-2.5 bg-rose-500/15 border border-rose-500/30  rounded-lg text-xs font-bold text-rose-300">
+                <div className="p-2.5 bg-rose-500/15 border border-rose-500/30 rounded-lg font-bold text-rose-300">
                   {errorMsg}
                 </div>
               )}
@@ -181,7 +180,7 @@ function CruiseVerifyContent() {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold text-xs sm:text-sm uppercase tracking-[0.15em]  rounded-lg transition-[transform,opacity] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-purple-600 to-purple-500 hover:brightness-110 active:scale-[0.99] text-white font-bold sm:text-sm uppercase tracking-[0.15em] rounded-lg transition-[transform,opacity] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>
@@ -199,7 +198,7 @@ function CruiseVerifyContent() {
                   type="button"
                   onClick={handleResend}
                   disabled={resendStatus === "sending"}
-                  className="text-xs font-bold text-purple-300 hover:text-white underline transition-colors disabled:opacity-50 cursor-pointer"
+                  className="font-bold text-purple-300 hover:text-white underline transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {resendStatus === "sending" ? "Sending…" : "Resend Code"}
                 </button>
@@ -208,7 +207,7 @@ function CruiseVerifyContent() {
 
             {/* Back link */}
             <div className="mt-4">
-              <Link href="/cruise" className="text-xs font-semibold text-white/40 hover:text-white transition-colors">
+              <Link href="/cruise" className="font-semibold text-white/40 hover:text-white transition-colors">
                 ← Back to Cruise Page
               </Link>
             </div>

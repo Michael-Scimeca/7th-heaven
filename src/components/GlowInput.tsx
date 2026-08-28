@@ -27,7 +27,7 @@ export function GlowInput({
     <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <input
         {...props}
-        className={`w-full  bg-[#00000029]    border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] ${className}`}
+        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] ${className}`}
       />
     </div>
   );
@@ -52,7 +52,7 @@ export function GlowSelect({
     <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <select
         {...props}
-        className={`w-full  bg-[#00000029]    border border-white/10 ${rounded} text-white px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}
+        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}
       >
         {children}
       </select>
@@ -77,7 +77,7 @@ export function GlowTextarea({
     <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <textarea
         {...props}
-        className={`w-full  bg-[#00000029]    border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] resize-y ${className}`}
+        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 text-sm outline-none transition-[border-color,background-color,box-shadow] resize-y ${className}`}
       />
     </div>
   );

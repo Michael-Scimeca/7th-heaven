@@ -71,7 +71,7 @@ export default function RoleBadge({ role, size = 'sm', showLabel = false, classN
 
     return (
         <span
-            className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow}  rounded-lg  ${size === 'sm' ? 'px-2 py-[1px]' : 'px-2.5 py-[3px]'
+            className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow} rounded-lg ${size ==='sm' ? 'px-2 py-[1px]' : 'px-2.5 py-[3px]'
                 } ${className}`}
         >
             <span className={`${config.color} font-bold uppercase tracking-wider text-[12px]`} style={{ fontSize: "12px" }}>
@@ -104,7 +104,7 @@ function RoleAvatar({
     return (
         <div className={`relative ${className}`}>
             <div
-                className={` rounded-lg  bg-gradient-to-br ${gradient} ${BORDER_COLOR[role]} border-2 flex items-center justify-center shrink-0 aspect-square`}
+                className={`rounded-lg bg-gradient-to-br ${gradient} ${BORDER_COLOR[role]} border-2 flex items-center justify-center shrink-0 aspect-square`}
                 style={{ width: size, height: size, minWidth: size, minHeight: size, aspectRatio: "1 / 1" }}
             >
                 <span className="font-bold text-white leading-none" style={{ fontSize: size * 0.33 }}>

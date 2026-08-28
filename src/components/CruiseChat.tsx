@@ -29,7 +29,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={` font-bold  text-xs px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
+          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ?'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
@@ -470,8 +470,8 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
-        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400  rounded-lg  animate-spin" />
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin" />
         <p className="font-bold uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
@@ -482,7 +482,7 @@ export default function CruiseChat({
       <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
         <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8  rounded-lg  bg-black/5 flex items-center justify-center text-lg opacity-50">
+            <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-lg opacity-50">
               💬
             </div>
             <div>
@@ -493,7 +493,7 @@ export default function CruiseChat({
         </div>
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-3xl mb-2 opacity-40">🔒</span>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-black/60 mb-1">Chat is Currently Offline</h4>
+          <h4 className="font-bold uppercase tracking-widest text-black/60 mb-1">Chat is Currently Offline</h4>
           <p className="text-black/40 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
         </div>
       </div>
@@ -512,19 +512,19 @@ export default function CruiseChat({
       {showHeader && (
         <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7  rounded-lg  bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
+            <div className="w-7 h-7 rounded-lg bg-cyan-600 flex items-center justify-center shadow-md text-white">
               💬
             </div>
             <div>
-              <h3 className=" font-bold  text-white text-xs tracking-wide flex items-center gap-1.5">
+              <h3 className="font-bold text-white tracking-wide flex items-center gap-1.5">
                 Passenger Lounge
-                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5  rounded-lg ">
+                <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-lg">
                   LIVE
                 </span>
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5  rounded-lg  bg-emerald-500 animate-pulse shadow-xs" />
-                <span className=" text-[12px]  font-bold text-emerald-400 uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse shadow-xs" />
+                <span className="text-[12px] font-bold text-emerald-400 uppercase tracking-wider">
                   {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
                 </span>
               </div>
@@ -538,7 +538,7 @@ export default function CruiseChat({
                 {onlineUsers.map((u) => (
                   <div key={u.name} className="flex items-center gap-1 group">
                     <div
-                      className="w-4 h-4  rounded-lg  flex items-center justify-center text-[7px]  font-bold  shrink-0 ring-1"
+                      className="w-4 h-4 rounded-lg flex items-center justify-center text-[7px] font-bold shrink-0 ring-1"
                       style={{
                         background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
                         borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
@@ -552,7 +552,7 @@ export default function CruiseChat({
                     >
                       {u.name}
                     </span>
-                    <span className="w-1 h-1  rounded-lg  bg-emerald-400 shrink-0" />
+                    <span className="w-1 h-1 rounded-lg bg-emerald-400 shrink-0" />
                   </div>
                 ))}
               </div>
@@ -564,12 +564,12 @@ export default function CruiseChat({
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
-          <div className="w-16 h-16  rounded-lg  bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+          <div className="w-16 h-16 rounded-lg bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
             <MessageSquare className="w-8 h-8" />
           </div>
 
           <div className="space-y-2 max-w-xs">
-            <h3 className="text-xl  font-bold  text-white uppercase tracking-tight">
+            <h3 className="text-xl font-bold text-white uppercase tracking-tight">
               Join the Live Chat
             </h3>
             <p className="leading-relaxed font-medium">
@@ -583,7 +583,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="btn-cosmic-radial-property w-full py-3  text-white  font-bold  text-xs sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
+              className="btn-cosmic-radial-property w-full py-3 text-white font-bold sm:text-sm uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
             >
               <span>Sign Up as a Fan</span>
             </button>
@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5  bg-[#00000029]    hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg border   border-white/10   transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase tracking-wider rounded-lg border border-white/10 transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -604,7 +604,7 @@ export default function CruiseChat({
 
           {member?.is_warned && (
             <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
-              <span className="text-purple-300 text-xs shrink-0">⚠️</span>
+              <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
                 <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
                 <p className="text-amber-100/90 font-medium leading-relaxed">
@@ -616,7 +616,7 @@ export default function CruiseChat({
 
           {member?.is_banned && (
             <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
-              <span className="text-red-400 text-xs shrink-0">🚫</span>
+              <span className="text-red-400 shrink-0">🚫</span>
               <div className="flex-1">
                 <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
                 <p className="text-red-100/90 font-medium leading-relaxed">
@@ -634,7 +634,7 @@ export default function CruiseChat({
                 maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
               }}
-              className="absolute top-0 left-0 right-0 h-12  backdrop-blur-[45px] z-20 pointer-events-none"
+              className="absolute top-0 left-0 right-0 h-12 backdrop-blur-[45px] z-20 pointer-events-none"
             />
 
             <div
@@ -661,7 +661,7 @@ export default function CruiseChat({
                         ? "bg-red-500/10 border-red-500/20 text-red-200"
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";
                     return (
-                      <div key={msg.id} className={`flex items-center gap-2 p-2.5  rounded-lg border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                      <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${bgClass} font-medium animate-[slideIn_0.3s_ease-out]`}>
                         <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                         <div className="flex-1 leading-relaxed">
                           {msg.content}
@@ -678,23 +678,23 @@ export default function CruiseChat({
 
                   return (
                     <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
-                      <div className={`w-8 h-8  rounded-lg  shrink-0 flex items-center justify-center text-xs  font-bold  mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
+                      <div className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-bold mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                         {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                       </div>
                       <div className="flex flex-col items-start flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1 flex-wrap w-full">
-                          <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
+                          <span className={`font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className={`text-[8px]  font-bold  uppercase tracking-widest px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
+                          <span className={`text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[8px]  font-bold  uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[8px] font-bold uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-[10px]  text-white  font-mono font-medium leading-none ml-auto tracking-tight">
+                          <span className="text-[10px] text-white font-mono font-medium leading-none ml-auto tracking-tight">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -726,7 +726,7 @@ export default function CruiseChat({
                       </div>
 
                       {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90  backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
                           <button
                             aria-label="Warn User"
                             onClick={() => handleWarn(msg.sender_name)}
@@ -772,14 +772,14 @@ export default function CruiseChat({
                 maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
               }}
-              className="absolute bottom-0 left-0 right-0 h-10  backdrop-blur-[45px] z-20 pointer-events-none"
+              className="absolute bottom-0 left-0 right-0 h-10 backdrop-blur-[45px] z-20 pointer-events-none"
             />
           </div>
 
           <div className="relative shrink-0">
             {showTagMenu && (
               <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
-                <div className="text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
+                <div className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
                   <span>Tag Admin / Crew Member</span>
                   <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
                 </div>
@@ -789,7 +789,7 @@ export default function CruiseChat({
                       key={s.tag}
                       type="button"
                       onClick={() => insertTag(s.tag)}
-                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg  bg-[#00000029]    hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-xs text-white transition-colors text-left cursor-pointer"
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-white transition-colors text-left cursor-pointer"
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">
@@ -804,9 +804,9 @@ export default function CruiseChat({
 
             {showEmojiPicker && (
               <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
-                <div className="text-[10px]  font-bold  uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
                   <span>Quick Emojis</span>
-                  <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black text-xs font-bold">✕</button>
+                  <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black font-bold">✕</button>
                 </div>
                 <div className="grid grid-cols-5 gap-1">
                   {CHAT_EMOJIS.map(emoji => (

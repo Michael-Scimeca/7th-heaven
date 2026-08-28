@@ -258,7 +258,7 @@ export default function CustomYTPlayer({
       >
         {/* Player Container */}
         <div
-          className="relative aspect-video   border border-white/10 overflow-hidden group/player"
+          className="relative aspect-video border border-white/10 overflow-hidden group/player"
           onMouseMove={resetHideTimer}
         >
           {/* YouTube Player (hidden controls) */}
@@ -273,8 +273,8 @@ export default function CustomYTPlayer({
 
           {/* Loading State */}
           {!isReady && (
-            <div className="absolute inset-0 flex items-center justify-center   z-20">
-              <div className="w-12 h-12 border-2  border-white/10  border-t-[var(--color-accent)]  rounded-lg  animate-spin" />
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+              <div className="w-12 h-12 border-2 border-white/10 border-t-[var(--color-accent)] rounded-lg animate-spin" />
             </div>
           )}
 
@@ -285,7 +285,7 @@ export default function CustomYTPlayer({
           >
             <CosmicRadialButton
               icon={false}
-              className="w-20 h-20 ! rounded-lg  !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl"
+              className="w-20 h-20 ! rounded-lg !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl"
             >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
                 <polygon points="5 3 19 12 5 21 5 3" />
@@ -305,7 +305,7 @@ export default function CustomYTPlayer({
               }`}
           >
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-1 h-6 bg-[var(--color-accent)]  rounded-lg  shrink-0" />
+              <div className="w-1 h-6 bg-[var(--color-accent)] rounded-lg shrink-0" />
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-white truncate">{title}</h3>
                 <p className="">7th Heaven • {year}</p>
@@ -315,7 +315,7 @@ export default function CustomYTPlayer({
               onClick={(e) => { e.stopPropagation(); onClose(); }}
               className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors cursor-pointer shrink-0 ml-4"
             >
-              <span className="text-xs font-bold tracking-widest uppercase hidden sm:inline">ESC</span>
+              <span className="font-bold tracking-widest uppercase hidden sm:inline">ESC</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -357,17 +357,17 @@ export default function CustomYTPlayer({
             >
               {/* Buffered */}
               <div
-                className="absolute top-0 left-0 h-full bg-white/15  rounded-lg "
+                className="absolute top-0 left-0 h-full bg-white/15 rounded-lg"
                 style={{ width: `${buffered}%` }}
               />
               {/* Progress */}
               <div
-                className="absolute top-0 left-0 h-full bg-[var(--color-accent)]  rounded-lg  transition-none"
+                className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg transition-none"
                 style={{ width: `${progress}%` }}
               />
               {/* Scrubber */}
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)]  rounded-lg  opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-lg opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             </div>
@@ -378,7 +378,7 @@ export default function CustomYTPlayer({
                 {/* Prev */}
                 {hasPrev && (
                   <button onClick={() => onPrev?.()}
-                    className=" text-white  hover:text-white transition-colors cursor-pointer"
+                    className="text-white hover:text-white transition-colors cursor-pointer"
                     aria-label="Previous"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -390,7 +390,7 @@ export default function CustomYTPlayer({
                 {/* Play/Pause */}
                 <CosmicRadialButton onClick={togglePlay}
                   icon={false}
-                  className="w-10 h-10 ! rounded-lg  !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
+                  className="w-10 h-10 ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -407,7 +407,7 @@ export default function CustomYTPlayer({
                 {/* Next */}
                 {hasNext && (
                   <button onClick={() => onNext?.()}
-                    className=" text-white  hover:text-white transition-colors cursor-pointer"
+                    className="text-white hover:text-white transition-colors cursor-pointer"
                     aria-label="Next"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -423,7 +423,7 @@ export default function CustomYTPlayer({
                   onMouseLeave={() => setShowVolume(false)}
                 >
                   <button onClick={toggleMute}
-                    className=" text-white  hover:text-white transition-colors cursor-pointer"
+                    className="text-white hover:text-white transition-colors cursor-pointer"
                     aria-label={isMuted ? "Unmute" : "Mute"}
                   >
                     {isMuted || volume === 0 ? (
@@ -453,7 +453,7 @@ export default function CustomYTPlayer({
                         playerRef.current?.setVolume(v);
                         if (v > 0) playerRef.current?.unMute();
                       }}
-                      className="w-full h-1 appearance-none bg-white/20  rounded-lg  cursor-pointer accent-[var(--color-accent)]"
+                      className="w-full h-1 appearance-none bg-white/20 rounded-lg cursor-pointer accent-[var(--color-accent)]"
                     />
                   </div>
                 </div>
@@ -482,7 +482,7 @@ export default function CustomYTPlayer({
 
                 {/* Fullscreen */}
                 <button onClick={toggleFullscreen}
-                  className=" text-white  hover:text-white transition-colors cursor-pointer"
+                  className="text-white hover:text-white transition-colors cursor-pointer"
                   aria-label="Fullscreen"
                 >
                   {isFullscreen ? (

@@ -88,7 +88,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-150 block"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/20  text-[12px]  font-mono">
+            <div className="w-full h-full flex items-center justify-center text-white/20 text-[12px] font-mono">
               {targetPath}
             </div>
           )}
@@ -1614,9 +1614,9 @@ export default function VisualSitemapClient() {
       `}</style>
 
       {/* Header bar with View Selector Tabs */}
-      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg  backdrop-blur-xl">
+      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white  font-bold  text-sm shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
             7H
           </div>
           <div>
@@ -1642,10 +1642,10 @@ export default function VisualSitemapClient() {
         </div>
 
         {/* VIEW SELECTOR TABS */}
-        <div className="flex items-center gap-2 bg-black/60 p-1.5  rounded-lg border border-white/10">
+        <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-lg border border-white/10">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="ARCH"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1656,7 +1656,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="BOOKING"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1667,7 +1667,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="CRUISE"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1678,7 +1678,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="FAN_SIGNUP"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1691,7 +1691,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg border   border-white/10    bg-[#00000029]    text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
+            className="px-3 py-1.5 rounded-lg border border-white/10 bg-[#00000029] text-white font-bold hover:bg-white/10 transition flex items-center gap-1 ml-1"
           >
             <span>XML</span>
             <ExternalLink className="w-3 h-3" />
@@ -1714,12 +1714,12 @@ export default function VisualSitemapClient() {
           colorMode="dark"
         >
           <Background color="#1e1b2e" gap={24} size={1} />
-          <Controls className="!bg-black/90 !  border-white/10   !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
+          <Controls className="!bg-black/90 ! border-white/10 !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
             nodeColor="#71717a"
-            className="!bg-black/90 !  border-white/10   ! rounded-lg !shadow-2xl"
+            className="!bg-black/90 ! border-white/10 ! rounded-lg !shadow-2xl"
           />
         </ReactFlow>
       </div>

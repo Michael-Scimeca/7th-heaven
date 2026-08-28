@@ -227,21 +227,21 @@ export default function CrewFeed() {
               {liveStatus.live ? (
                 <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/40 px-3 py-1">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
-                    <span className="relative inline-flex  rounded-lg  h-2.5 w-2.5 bg-red-500" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
+                    <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500" />
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-red-400">
+                  <span className="font-bold uppercase tracking-[0.15em] text-red-400">
                     Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500  rounded-lg  animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-[0.15em] text-green-500">Crew Feed</span>
+                  <span className="w-2 h-2 bg-green-500 rounded-lg animate-pulse" />
+                  <span className="font-bold uppercase tracking-[0.15em] text-green-500">Crew Feed</span>
                 </div>
               )}
               <span className="text-white/20">·</span>
-              <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
+              <span className="font-bold uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
             </div>
             <h2 className="text-[clamp(1.8rem,3.5vw,2.5rem)] leading-tight tracking-tight">
               {liveStatus.live ? (
@@ -279,7 +279,7 @@ export default function CrewFeed() {
                 >
                   {/* Timeline dot */}
                   <div
-                    className="absolute left-[18px] top-3 w-3 h-3  rounded-lg  border-2 z-10 transition-colors duration-300"
+                    className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
                     style={{
                       borderColor: config.color,
                       background: isNew ? config.color : "var(--color-bg-primary)",
@@ -303,7 +303,7 @@ export default function CrewFeed() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-10 h-10  rounded-lg  flex items-center justify-center text-xs font-bold border"
+                          className="w-10 h-10 rounded-lg flex items-center justify-center font-bold border"
                           style={{
                             borderColor: config.color,
                             color: config.color,
@@ -326,7 +326,7 @@ export default function CrewFeed() {
                       </div>
 
                       <div className="flex flex-col items-end gap-1">
-                        <span className="text-xs text-white/30">{timeAgo(post.created_at)}</span>
+                        <span className="text-white/30">{timeAgo(post.created_at)}</span>
                         <span
                           className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.15em] px-2 py-0.5"
                           style={{

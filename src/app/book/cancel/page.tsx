@@ -40,7 +40,7 @@ function CancelContent() {
 
   if (!token || !bookingId) {
     return (
-      <div className="min-h-screen   flex items-center justify-center site-container">
+      <div className="min-h-screen flex items-center justify-center site-container">
         <div className="max-w-md w-full text-center">
           <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
             <span className="text-2xl">⚠️</span>
@@ -56,7 +56,7 @@ function CancelContent() {
   }
 
   return (
-    <div className="min-h-screen   flex items-center justify-center site-container">
+    <div className="min-h-screen flex items-center justify-center site-container">
       <div className="max-w-md w-full text-center">
 
         {status === "confirm" && (
@@ -85,16 +85,16 @@ function CancelContent() {
 
         {status === "cancelling" && (
           <>
-            <div className="w-16 h-16 mx-auto mb-6  bg-[#00000029]    border border-white/10 flex items-center justify-center animate-pulse">
+            <div className="w-16 h-16 mx-auto mb-6 bg-[#00000029] border border-white/10 flex items-center justify-center animate-pulse">
               <span className="text-2xl">⏳</span>
             </div>
-            <h1 className="text-xl font-bold  text-white ">Cancelling your booking...</h1>
+            <h1 className="text-xl font-bold text-white">Cancelling your booking...</h1>
           </>
         )}
 
         {status === "done" && (
           <>
-            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border    border-white/10 flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border border-white/10 flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">Booking Cancelled</h1>

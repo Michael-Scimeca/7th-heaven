@@ -278,8 +278,8 @@ export default function PlannerDashboard() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen   text-white flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px]  rounded-lg  pointer-events-none" />
+      <div className="min-h-screen text-white flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-lg pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
           <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
@@ -290,7 +290,7 @@ export default function PlannerDashboard() {
                 <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 text-[var(--color-accent)]" />
                 </div>
-                <h1 className="text-2xl  font-bold  tracking-tight">
+                <h1 className="text-2xl font-bold tracking-tight">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
                 </h1>
                 <p className="uppercase tracking-[0.2em] mt-2">
@@ -301,18 +301,18 @@ export default function PlannerDashboard() {
               <form onSubmit={handlePlannerLogin} className="flex flex-col gap-4">
                 {plannerMode === 'signup' && (
                   <div>
-                    <label htmlFor="planner-full-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+                    <label htmlFor="planner-full-name" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input aria-label="Input field" id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
-                  <label htmlFor="planner-login-email" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
+                  <label htmlFor="planner-login-email" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                   <input aria-label="Input field" id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
                     placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
-                  <label htmlFor="planner-login-password" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+                  <label htmlFor="planner-login-password" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
                   <input aria-label="Input field" id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
                     placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
@@ -341,7 +341,7 @@ export default function PlannerDashboard() {
                 </button>
 
                 <button aria-label="Action button" type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
-                  className="text-xs  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
+                  className="text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
               </form>
@@ -394,8 +394,8 @@ export default function PlannerDashboard() {
       {/* Cancel Confirmation Modal */}
       {showCancelConfirm && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
-          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8  rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="w-12 h-12  rounded-lg  bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
+          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
               <History className="w-5 h-5 text-rose-500" />
             </div>
             <h3 className="text-xl font-bold text-white text-center mb-2">Cancel This Booking?</h3>
@@ -404,7 +404,7 @@ export default function PlannerDashboard() {
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3  bg-[#00000029]    hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
               >
                 Keep Booking
               </button>
@@ -421,11 +421,11 @@ export default function PlannerDashboard() {
 
       {/* Band Event Contacts Modal */}
       {showContactModal && (
-        <div className="fixed inset-0 bg-black/80  backdrop-blur-[45px] z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
-          <div className="bg-[#0b0c10] border   border-white/10 p-6 md:p-8  rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-[45px] z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowContactModal(false)}>
+          <div className="bg-[#0b0c10] border border-white/10 p-6 md:p-8 rounded-lg shadow-[0_0_80px_rgba(146,51,234,0.25)] max-w-xl w-full text-left cursor-auto max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10  rounded-lg  bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 flex items-center justify-center text-[var(--color-accent)]">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
@@ -435,80 +435,80 @@ export default function PlannerDashboard() {
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="w-8 h-8  rounded-lg   bg-[#00000029]    hover:bg-white/10 flex items-center justify-center  text-white  hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg bg-[#00000029] hover:bg-white/10 flex items-center justify-center text-white hover:text-white transition-colors"
               >
                 ✕
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Booking & Management</span>
                     <h4 className="text-lg font-bold text-white mt-1">Dickie (NTD Management)</h4>
                     <p className="">Band Contracts, Scheduling & Event Operations</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8475515363" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 551-5363
                   </a>
-                  <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:info@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> info@NTDManagement.com
                   </a>
                 </div>
               </div>
 
-              <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Technical & Production Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Jeff Dobbs</h4>
                     <p className="">PA System, Stage Dimensions, Sound & Power</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8477725333" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 772-5333
                   </a>
-                  <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:jeffdobbs64@yahoo.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> jeffdobbs64@yahoo.com
                   </a>
                 </div>
               </div>
 
-              <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Non-Technical Advance</span>
                     <h4 className="text-lg font-bold text-white mt-1">Alan McRae (NTD Management)</h4>
                     <p className="">Hospitality, Parking Pass, Green Room & Itinerary</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:6308429129" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (630) 842-9129
                   </a>
-                  <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:Alan@NTDManagement.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> Alan@NTDManagement.com
                   </a>
                 </div>
               </div>
 
-              <div className="p-4  rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
+              <div className="p-4 rounded-lg bg-white/[0.03] border border-white/10 hover:border-[var(--color-accent)]/40 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <span className="text-[10px]  font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">Press & Media</span>
                     <h4 className="text-lg font-bold text-white mt-1">Lenny Rago (NTD Records)</h4>
                     <p className="">Promotional Assets, Logos, Radio & Media Interviews</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="tel:8472696200" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Phone className="w-3.5 h-3.5" /> (847) 269-6200
                   </a>
-                  <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border   border-white/10 text-[var(--color-accent)] text-xs font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <a href="mailto:LRago@NTDRecords.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] font-bold hover:bg-[var(--color-accent)]/20 transition-colors">
                     <Mail className="w-3.5 h-3.5" /> LRago@NTDRecords.com
                   </a>
                 </div>
@@ -518,7 +518,7 @@ export default function PlannerDashboard() {
             <div className="mt-6 pt-4 border-t border-white/10 text-center">
               <button
                 onClick={() => setShowContactModal(false)}
-                className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-colors"
+                className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-colors"
               >
                 Close
               </button>
@@ -534,8 +534,8 @@ export default function PlannerDashboard() {
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className={`text-xs font-bold ${s.text} uppercase tracking-widest px-3 py-1 ${s.bg} ${s.border} border  rounded-lg `}>{s.label}</span>
-              <span className="text-xs text-white/40 tracking-widest uppercase">ID: {booking.id}</span>
+              <span className={`font-bold ${s.text} uppercase tracking-widest px-3 py-1 ${s.bg} ${s.border} border rounded-lg`}>{s.label}</span>
+              <span className="text-white/40 tracking-widest uppercase">ID: {booking.id}</span>
             </div>
 
             {/* View Mode */}
@@ -567,40 +567,40 @@ export default function PlannerDashboard() {
               /* Edit Mode */
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="planner-edit-event-name" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
+                  <label htmlFor="planner-edit-event-name" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
                   <input aria-label="Input field" id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <label htmlFor="planner-edit-start-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
+                    <label htmlFor="planner-edit-start-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
                     <input aria-label="Input field" id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-end-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
+                    <label htmlFor="planner-edit-end-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
                     <input aria-label="Input field" id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-venue" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
+                    <label htmlFor="planner-edit-venue" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
                     <input aria-label="Input field" id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-attendance" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
+                    <label htmlFor="planner-edit-attendance" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
                     <input aria-label="Input field" id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="planner-edit-city" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
+                    <label htmlFor="planner-edit-city" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
                     <input aria-label="Input field" id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-state" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
+                    <label htmlFor="planner-edit-state" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
                     <input aria-label="Input field" id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
@@ -621,7 +621,7 @@ export default function PlannerDashboard() {
                       Save Changes
                     </button>
                     <button aria-label="Action button" onClick={handleEditCancel}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08]  text-white  font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -630,7 +630,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border   border-white/10 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -651,7 +651,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border   border-white/10 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
             <button
               type="button"
               onClick={() => setShowContactModal(true)}
-              className="w-full py-3 flex items-center justify-center gap-2  text-white  hover:text-white font-bold text-sm uppercase tracking-wider  bg-[#00000029]    hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40  rounded-lg transition-all cursor-pointer  "
+              className="w-full py-3 flex items-center justify-center gap-2 text-white hover:text-white font-bold text-sm uppercase tracking-wider bg-[#00000029] hover:bg-[var(--color-accent)]/20 border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg transition-all cursor-pointer"
             >
               <PhoneCall className="w-4 h-4 text-[var(--color-accent)]" />
               Contact 7th Heaven
@@ -692,7 +692,7 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8  rounded-lg shadow-lg">
+      <div className="mt-8 bg-[var(--color-bg-surface)] border border-white/10 p-6 md:p-8 rounded-lg shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
 
@@ -703,72 +703,72 @@ export default function PlannerDashboard() {
           </div>
           <button
             onClick={() => setShowContactModal(true)}
-            className="px-4 py-2  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
+            className="px-4 py-2 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-wider rounded-lg transition-all self-start sm:self-auto cursor-pointer"
           >
             Open Full Contact Directory
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
             <div>
-              <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Booking & Management</span>
               <h4 className="text-base font-bold text-white">Dickie</h4>
               <p className="mb-3">NTD Management</p>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+            <div className="space-y-1.5 pt-2 border-t border-white/5">
               <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 551-5363
               </a>
-              <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
+              <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
               </a>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
             <div>
-              <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="text-base font-bold text-white">Jeff Dobbs</h4>
               <p className="mb-3">Production & Sound</p>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+            <div className="space-y-1.5 pt-2 border-t border-white/5">
               <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 772-5333
               </a>
-              <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
+              <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
               </a>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
             <div>
-              <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="text-base font-bold text-white">Alan McRae</h4>
               <p className="mb-3">NTD Management</p>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+            <div className="space-y-1.5 pt-2 border-t border-white/5">
               <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (630) 842-9129
               </a>
-              <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
+              <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
               </a>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:  border-white/10 transition-all flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover: border-white/10 transition-all flex flex-col justify-between">
             <div>
-              <span className=" text-[12px]   font-bold  uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
+              <span className="text-[12px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20 block w-fit mb-2">Press & Media</span>
               <h4 className="text-base font-bold text-white">Lenny Rago</h4>
               <p className="mb-3">NTD Records</p>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5 text-xs">
+            <div className="space-y-1.5 pt-2 border-t border-white/5">
               <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
                 <Phone className="w-3.5 h-3.5" /> (847) 269-6200
               </a>
-              <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2  text-white  hover:text-white truncate">
+              <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white hover:text-white truncate">
                 <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
               </a>
             </div>
@@ -789,7 +789,7 @@ export default function PlannerDashboard() {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute top-0 bottom-0 left-[19px] w-[2px]  bg-[#00000029]   " />
+            <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-[#00000029]" />
 
             <div className="flex flex-col gap-4">
               {allBookings.map((b, i) => {
@@ -804,7 +804,7 @@ export default function PlannerDashboard() {
                   <div key={b.id} className="flex gap-4 relative">
                     {/* Timeline dot */}
                     <div className="shrink-0 mt-5 z-10">
-                      <div className={`w-[10px] h-[10px]  rounded-lg  ${sc.dot} ring-4 ring-[#050508]`} />
+                      <div className={`w-[10px] h-[10px] rounded-lg ${sc.dot} ring-4 ring-[#050508]`} />
                     </div>
 
                     {/* Card */}
@@ -817,12 +817,12 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`text-xs font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border  rounded-lg `}>
+                          <span className={`font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border rounded-lg`}>
                             {sc.label}
                           </span>
-                          <span className="text-xs text-white/30 font-mono">{b.id}</span>
+                          <span className="text-white/30 font-mono">{b.id}</span>
                           {isActive && (
-                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
+                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
                               Active
                             </span>
                           )}
@@ -831,7 +831,7 @@ export default function PlannerDashboard() {
                       <h4 className={`text-sm font-bold tracking-tight mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
                         {b.eventName}
                       </h4>
-                      <div className="flex items-center gap-4 text-xs text-white/40">
+                      <div className="flex items-center gap-4 text-white/40">
                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {b.date}</span>
                         <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {b.venueName}, {b.venueCity}</span>
                         {b.startTime && <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {b.startTime}</span>}

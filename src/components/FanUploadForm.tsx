@@ -267,7 +267,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg  group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029]   "
+                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ?"border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029]   "
                   }`}
               >
                 {previews.length > 0 ? (
@@ -276,7 +276,7 @@ export default function FanUploadForm() {
                       const file = selectedFiles[i];
                       const isVideo = file && (file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov'));
                       return (
-                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border  border-white/10  group">
+                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border border-white/10 group">
                           {isVideo ? (
                             <video src={src} className="w-full h-full object-cover" muted playsInline>
                               <track kind="captions" />
@@ -294,16 +294,16 @@ export default function FanUploadForm() {
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
                       }}
-                      className="plus-button aspect-square rounded-lg border-2 border-dashed  border-white/10  flex flex-col items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                      className="plus-button aspect-square rounded-lg border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="absolute inset-2.5 border-2 border-dashed  border-white/10   rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
+                    <div className="absolute inset-2.5 border-2 border-dashed border-white/10 rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
                     <div className="text-center p-6 relative z-10 flex flex-col items-center">
-                      <div className="w-12 h-12  rounded-lg  bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)] shadow-[0_0_25px_rgba(255,10,61,0.2)] group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-lg bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)] shadow-[0_0_25px_rgba(255,10,61,0.2)] group-hover:scale-110 transition-transform">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
@@ -315,7 +315,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
-                    <div className="w-10 h-10 border-2    border-white/10 border-t-emerald-500  rounded-lg  animate-spin mb-3" />
+                    <div className="w-10 h-10 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
                     <p className="font-bold uppercase tracking-widest">Safety Scan</p>
                     <p className="text-emerald-400 uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>
@@ -327,28 +327,28 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 p-0">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="fan-upload-venue" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-venue" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
-                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="fan-upload-date" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-date" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
-                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                  <label htmlFor="fan-upload-caption" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
+                  <label htmlFor="fan-upload-caption" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
-                      className="w-full  bg-[#00000029]    !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
                       style={{ border: '0', outline: 'none', borderRadius: 0 }}
                     />
                   </div>
@@ -363,7 +363,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white  font-bold  text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white font-bold text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer"
               >
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </CosmicRadialButton>

@@ -51,7 +51,7 @@ export function SearchInput({
       className={`relative inline-flex items-center min-w-[220px] max-w-[300px] w-full ${containerClassName}`}
       style={widthStyle}
     >
-      <div className="input-glow-border  rounded-lg w-full">
+      <div className="input-glow-border rounded-lg w-full">
         <input
           id={id}
           name={name}
@@ -61,7 +61,7 @@ export function SearchInput({
           onChange={handleChange}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className={`form-input no-bg-icon w-full text-xs font-semibold border-none outline-none py-2.5 !pl-11 !pr-8 text-white placeholder:text-white/40  rounded-lg transition-colors ${className}`}
+          className={`form-input no-bg-icon w-full font-semibold border-none outline-none py-2.5 !pl-11 !pr-8 text-white placeholder:text-white/40 rounded-lg transition-colors ${className}`}
         />
       </div>
       <div className="!absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 z-20 flex items-center justify-center">
@@ -72,7 +72,7 @@ export function SearchInput({
           type="button"
           aria-label="Clear search"
           onClick={handleClear}
-          className="!absolute right-2 top-1/2 -translate-y-1/2 text-xs text-white/50 hover:text-white p-0.5 rounded bg-white/10 transition z-20 flex items-center justify-center cursor-pointer"
+          className="!absolute right-2 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-0.5 rounded bg-white/10 transition z-20 flex items-center justify-center cursor-pointer"
         >
           <X className="w-3 h-3" />
         </button>

@@ -141,8 +141,8 @@ export default function ReferralProgramPanel() {
   if (loading) {
     return (
       <div className="bg-[var(--color-bg-surface)] border border-white/[0.06] p-6 animate-pulse">
-        <div className="h-6  bg-[#00000029]    rounded w-48 mb-3" />
-        <div className="h-4  bg-[#00000029]    rounded w-72" />
+        <div className="h-6 bg-[#00000029] rounded w-48 mb-3" />
+        <div className="h-4 bg-[#00000029] rounded w-72" />
       </div>
     );
   }
@@ -157,14 +157,14 @@ export default function ReferralProgramPanel() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <p className="uppercase tracking-[0.2em] font-bold text-purple-300 mb-0.5">Fan Engagement</p>
-            <h3 className="text-white  font-bold  text-lg"> Referral Program</h3>
+            <h3 className="text-white font-bold text-lg"> Referral Program</h3>
             <p className="mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
             </p>
           </div>
           <div className="flex items-center gap-3">
             {enabled && (
-              <span className="text-xs  font-bold  uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
+              <span className="font-bold uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
                 Live
               </span>
             )}
@@ -212,7 +212,7 @@ export default function ReferralProgramPanel() {
             </p>
             <button aria-label="Action button"
               onClick={() => setShowAddForm(!showAddForm)}
-              className="text-xs uppercase tracking-widest font-bold text-purple-300 hover:text-purple-200 transition-colors cursor-pointer"
+              className="uppercase tracking-widest font-bold text-purple-300 hover:text-purple-200 transition-colors cursor-pointer"
             >
               {showAddForm ? "Cancel" : "+ Add Tier"}
             </button>
@@ -229,14 +229,14 @@ export default function ReferralProgramPanel() {
                   <span className="text-lg">{m.emoji}</span>
                   <div>
                     <p className="font-bold">
-                      <span className="text-purple-300  font-bold ">{m.threshold}</span> referrals →{" "}
+                      <span className="text-purple-300 font-bold">{m.threshold}</span> referrals →{" "}
                       {m.reward}
                     </p>
                   </div>
                 </div>
                 <button aria-label="Action button"
                   onClick={() => removeMilestone(i)}
-                  className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 text-xs cursor-pointer"
+                  className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
                   title="Remove"
                 >
 
@@ -293,7 +293,7 @@ export default function ReferralProgramPanel() {
                 <button aria-label="Action button"
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs  font-bold  uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
+                  className="self-end px-4 py-2 bg-purple-600 text-white font-bold uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
                 >
                   Add
                 </button>
@@ -305,8 +305,7 @@ export default function ReferralProgramPanel() {
           <button aria-label="Action button"
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer ${saved
-              ? "bg-[var(--color-accent)]  text-white"
+            className={`w-full mt-3 py-3 text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer ${saved ?"bg-[var(--color-accent)]  text-white"
               : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
               }`}
           >
@@ -406,8 +405,7 @@ export default function ReferralProgramPanel() {
                             className="w-full text-left cursor-pointer"
                           >
                             <div
-                              className={`flex items-center justify-between p-3 border ${i === 0
-                                ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
+                              className={`flex items-center justify-between p-3 border ${i === 0 ?"border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
                                 : i === 1
                                   ? "border-white/10 bg-white/[0.02]"
                                   : i === 2
@@ -418,8 +416,7 @@ export default function ReferralProgramPanel() {
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
-                                  className={`w-8 h-8 flex items-center justify-center  font-bold  text-[var(--font-size-sm)] shrink-0 ${i === 0
-                                    ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
+                                  className={`w-8 h-8 flex items-center justify-center font-bold text-[var(--font-size-sm)] shrink-0 ${i === 0 ?"bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
                                     : i === 1
                                       ? "bg-white/10  text-white  border border-white/10"
                                       : i === 2
@@ -505,11 +502,11 @@ export default function ReferralProgramPanel() {
                                     <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                                       Next: {nextMilestone.emoji} {nextMilestone.reward}
                                     </span>
-                                    <span className="text-xs text-purple-300 font-bold">
+                                    <span className="text-purple-300 font-bold">
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
-                                  <div className="h-1.5  bg-[#00000029]     rounded-lg  overflow-hidden">
+                                  <div className="h-1.5 bg-[#00000029] rounded-lg overflow-hidden">
                                     <div
                                       className="h-full bg-purple-600 transition-colors"
                                       style={{
@@ -530,7 +527,7 @@ export default function ReferralProgramPanel() {
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
-                                        className="text-xs px-2 py-0.5  bg-[#00000029]    border border-white/5 text-white/40 font-mono"
+                                        className="px-2 py-0.5 bg-[#00000029] border border-white/5 text-white/40 font-mono"
                                       >
                                         {email}
                                       </span>
@@ -544,7 +541,7 @@ export default function ReferralProgramPanel() {
                                 entry.signed_up > 0 && (
                                   <button aria-label="Action button"
                                     onClick={() => markRewarded(entry.referrer_code)}
-                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs  font-bold  uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
+                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 font-bold uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
                                   >
                                     Mark Rewards as Claimed
                                   </button>

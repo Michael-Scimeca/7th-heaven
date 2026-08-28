@@ -101,11 +101,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <span className="text-base font-bold uppercase tracking-widest  text-white  block mb-1.5">{label}</span>
+      <span className="text-base font-bold uppercase tracking-widest text-white block mb-1.5">{label}</span>
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`group w-full  backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between  rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
+        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-lg ${value ?'text-white font-semibold' : 'text-white/45'}`}
         style={{ background: "#a855f71f", border: "1px solid #ffffff1a" }}
       >
         <span className={`transition-[color,opacity] duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
@@ -114,7 +114,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity duration-200"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border-0 p-4  rounded-lg shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border-0 p-4 rounded-lg shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
             <button
               aria-label="Previous Month"
@@ -125,15 +125,15 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
-            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className=" text-white  hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
+            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="font-bold uppercase tracking-wider text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className=" text-white  hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
-                <span className="text-xs font-bold text-white">{year}</span>
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className=" text-white  hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
+                <span className="font-bold text-white">{year}</span>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {M_NAMES.map((m, i) => {
@@ -164,7 +164,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ?'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -187,12 +187,12 @@ const InputField = ({ label, labelRight, required, id, className = "", ...props 
   return (
     <div className={`flex flex-col justify-start w-full ${className}`}>
       <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
-        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block leading-tight">{label}{required && " *"}</label>
+        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white block leading-tight">{label}{required && " *"}</label>
         {labelRight}
       </div>
       <div className="input-glow-border rounded-lg w-full">
         <input aria-label="Input field" id={inputId} {...props} required={required}
-          className="w-full  bg-[#00000029]    border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
+          className="w-full bg-[#00000029] border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
         />
       </div>
     </div>
@@ -203,10 +203,10 @@ const TextAreaField = ({ label, required, id, ...props }: { label: string; requi
   const textareaId = id || props.name || `book-textarea-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em] text-white block mb-2">{label}{required && " *"}</label>
       <div className="input-glow-border rounded-lg">
         <textarea id={textareaId} {...props} required={required}
-          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
+          className="w-full bg-[#00000029] border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
         />
       </div>
     </div>
@@ -217,7 +217,7 @@ const SelectField = ({ label, options, required, id, value, onChange, name }: { 
   const selectId = id || name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-white block mb-2">{label}{required && " *"}</label>
       <GooeyMessagesDropdown
         placeholder="Select"
         defaultSelectedId={value ? String(value) : undefined}
@@ -234,16 +234,14 @@ const SelectField = ({ label, options, required, id, value, onChange, name }: { 
 
 const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
   <div className="mb-2">
-    <span className="text-base font-bold uppercase tracking-[0.15em]  text-white  block mb-3">{label}{required && " *"}</span>
+    <span className="text-base font-bold uppercase tracking-[0.15em] text-white block mb-3">{label}{required && " *"}</span>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
         <button aria-label="Action button"
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
-          className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
-            ${value === o
-              ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
+          className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl ${value === o ?"bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
               : " bg-[#00000029]     backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover: border-white/10  hover:text-white"
             }
           `}
@@ -850,9 +848,9 @@ function BookPageContent() {
 
   if (submitted) {
     return (
-      <section className="min-h-screen flex items-center justify-center   px-6 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
         {/* Background Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05]  rounded-lg  blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-lg blur-[150px] pointer-events-none" />
 
         <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem]">
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] flex items-center justify-center">
@@ -870,7 +868,7 @@ function BookPageContent() {
             </Link>
             {!isLoggedIn && (
               creatingAccount ? (
-                <div className="bg-white/[0.03] border   border-white/10 p-5 text-left">
+                <div className="bg-white/[0.03] border border-white/10 p-5 text-left">
                   <div className="mb-4">
                     <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
@@ -881,9 +879,9 @@ function BookPageContent() {
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1   border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
+                        <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
@@ -904,7 +902,7 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1   border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
@@ -913,7 +911,7 @@ function BookPageContent() {
                           className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" />
+                            <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
                             "Go →"
                           )}
@@ -931,7 +929,7 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1   border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
@@ -940,7 +938,7 @@ function BookPageContent() {
                           className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" />
+                            <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
                             "Verify & Create"
                           )}
@@ -959,7 +957,7 @@ function BookPageContent() {
                           type="button"
                           onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
                           disabled={pinLoading}
-                          className="text-white/30 hover: text-white  hover:underline"
+                          className="text-white/30 hover: text-white hover:underline"
                         >
                           Back to Password
                         </button>
@@ -995,7 +993,7 @@ function BookPageContent() {
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border   border-white/10 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-white/10 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
@@ -1020,10 +1018,10 @@ function BookPageContent() {
 
         {/* Hero Header */}
         <div className="text-start max-w-4xl mb-10 pt-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  text-white text-xs  font-bold  uppercase tracking-[0.2em] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] mb-4">
             <span>LIVE ENTERTAINMENT &amp; EVENT RESERVATIONS</span>
           </div>
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             BOOK <span className="inline-block pr-[0.15em]">7TH HEAVEN</span>
           </h1>
           <p className="font-medium mt-3 max-w-2xl leading-relaxed">
@@ -1038,8 +1036,8 @@ function BookPageContent() {
 
         <form onSubmit={handleSubmit}>
           {isFromPlanner && (
-            <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg  flex items-center gap-4">
-              <div className="w-8 h-8  rounded-lg  bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+            <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg flex items-center gap-4">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
               <div>
@@ -1050,7 +1048,7 @@ function BookPageContent() {
           )}
 
           {hasSavedForm && !isFromPlanner && (
-            <div className="p-5 bg-purple-950/40 border border-purple-500/30 rounded-lg  flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+            <div className="p-5 bg-purple-950/40 border border-purple-500/30 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
               <div className="flex items-center gap-3">
                 <ClipboardList className="w-6 h-6 text-purple-300 shrink-0" />
                 <div>
@@ -1061,7 +1059,7 @@ function BookPageContent() {
               <button aria-label="Action button"
                 type="button"
                 onClick={handleLoadLastForm}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md rounded-lg shrink-0 flex items-center gap-1.5"
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-md rounded-lg shrink-0 flex items-center gap-1.5"
               >
                 <Zap className="w-3.5 h-3.5" /> Populate
               </button>
@@ -1113,16 +1111,16 @@ function BookPageContent() {
                 {(altDate1 || altDate2) && (
                   <div className="mt-3 flex flex-wrap gap-2">
                     <span className="text-base text-white/50 uppercase tracking-widest font-bold">Priority:</span>
-                    <span className="text-base  bg-white/10 text-white/80  px-2.5 py-0.5 rounded-lg font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
+                    <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
                     {altDate1 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                    {altDate2 && <span className="text-base bg-white/10 text-white/80  px-2.5 py-0.5 rounded-lg font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    {altDate2 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                   </div>
                 )}
               </div>
             </div>
             {/* Pricing hint per type */}
             {selectedType && (
-              <div className="px-5 py-3   15 border border-purple-500/30  rounded-lg text-base text-white/80 mb-4">
+              <div className="px-5 py-3 15 border border-purple-500/30 rounded-lg text-base text-white/80 mb-4">
                 <span className="text-purple-300 font-bold">Pricing Guide:</span>{" "}
                 {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                 {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -1135,7 +1133,7 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center p-6 rounded-lg border-2 border-dashed   border-white/10   bg-white/[0.02] rounded-lg ">
+              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] rounded-lg">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className="max-w-md mx-auto">
@@ -1149,7 +1147,7 @@ function BookPageContent() {
                     <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
                     <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1  rounded-lg  border border-cyan-400/30">
+                  <span className="font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -1159,7 +1157,7 @@ function BookPageContent() {
                     return (
                       <div
                         key={slot.id}
-                        className=" bg-[#00000029]    border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg  relative group transition-colors shadow-lg"
+                        className="bg-[#00000029] border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg relative group transition-colors shadow-lg"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1172,7 +1170,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className=" text-white  hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border   border-white/10   hover:border-cyan-400/30"
+                            className="text-white hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/30"
                             title="Add another show on this date"
                           >
                             <Plus className="w-3 h-3" /> Add Another
@@ -1180,7 +1178,7 @@ function BookPageContent() {
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className=" text-white  hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border   border-white/10   hover:border-rose-500/30"
+                            className="text-white hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30"
                             title="Remove this show"
                           >
                             <X className="w-3 h-3" /> Remove
@@ -1221,7 +1219,7 @@ function BookPageContent() {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5  bg-[#00000029]     backdrop-blur-[45px] border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                className="w-full mt-1.5 bg-[#00000029] backdrop-blur-[45px] border border-cyan-400/40 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                               />
                             )}
                           </div>
@@ -1306,7 +1304,7 @@ function BookPageContent() {
                           </div>
 
                           {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.03] border border-white/10  rounded-lg text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                            <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-lg text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
                                 <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
@@ -1330,7 +1328,7 @@ function BookPageContent() {
                           ) : (
                             <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border border-white/10 rounded-xl">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button aria-label="Action button"
                                     type="button"
@@ -1391,7 +1389,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1405,7 +1403,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1421,7 +1419,7 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
@@ -1437,7 +1435,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
@@ -1451,7 +1449,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1463,7 +1461,7 @@ function BookPageContent() {
                           <button aria-label="Previous"
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)]  font-bold  uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
+                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
                           >
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
                             <span className="text-[var(--font-size-4xs)] text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
@@ -1503,7 +1501,7 @@ function BookPageContent() {
             {/* Show Event Start & End Times + Band Schedule */}
             <div className="space-y-4">
               <div className="border-b border-white/10 pb-2.5">
-                <h3 className="text-xs  font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="font-bold uppercase tracking-widest text-purple-300 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#c27aff]" /> Event & Performance Schedule
                 </h3>
               </div>
@@ -1553,7 +1551,7 @@ function BookPageContent() {
               </p>
 
               {isLoadInUnsure && (
-                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40  rounded-lg text-xs text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
+                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
                   <div className="space-y-1">
                     <span className="font-bold text-white block">Unsure of exact load-in time? No problem!</span>
                     <span className="text-white/80 leading-relaxed block">
@@ -1567,13 +1565,13 @@ function BookPageContent() {
             {/* Venue Address & Location Picker */}
             <div className="space-y-5">
               <div className="border-b border-white/10 pb-3">
-                <h3 className="text-xs  font-bold  uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="font-bold uppercase tracking-widest text-purple-300 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
                 </h3>
               </div>
 
               {addressNotification && (
-                <div className="flex items-center gap-2.5 p-3 bg-cyan-950/70 border border-cyan-400/40  rounded-lg text-xs font-bold text-cyan-200 animate-[fade-in_0.15s_ease-out]">
+                <div className="flex items-center gap-2.5 p-3 bg-cyan-950/70 border border-cyan-400/40 rounded-lg font-bold text-cyan-200 animate-[fade-in_0.15s_ease-out]">
                   <CheckCircle2 className="w-4 h-4 text-purple-400shrink-0" />
                   <span>{addressNotification}</span>
                 </div>
@@ -1589,7 +1587,7 @@ function BookPageContent() {
 
                 {/* Row 2 Right: SquishyToggle for custom parking directions */}
                 <div className="flex items-end pb-0.5 gap-2.5 flex-wrap md:flex-nowrap">
-                  <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-bold text-[#c27aff] select-none shadow-inner">
+                  <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg font-bold text-[#c27aff] select-none shadow-inner">
                     <SquishyToggle
                       id="toggle-parking-notes"
                       checked={hasParkingNotes}
@@ -1601,7 +1599,7 @@ function BookPageContent() {
                       }}
                       label="Add custom parking directions"
                     />
-                    <span className="text-[#c27aff] font-bold tracking-wide text-xs">
+                    <span className="text-[#c27aff] font-bold tracking-wide">
                       Add custom parking directions
                     </span>
                   </div>
@@ -1634,14 +1632,14 @@ function BookPageContent() {
                   <div className="md:col-span-2 space-y-4 animate-[fade-in-up_0.15s_ease-out_both] p-4 bg-purple-950/20 border border-purple-500/30 rounded-xl">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 flex-wrap">
-                        <label htmlFor="parkingAddress" className="text-base font-bold uppercase tracking-[0.15em]  text-white  block">
+                        <label htmlFor="parkingAddress" className="text-base font-bold uppercase tracking-[0.15em] text-white block">
                           Google Maps Parking Location or Link
                         </label>
                         <div className="flex items-center gap-2 flex-wrap">
                           <button
                             type="button"
                             onClick={() => setShowMapPicker(true)}
-                            className="text-xs font-bold text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:underline cursor-pointer"
+                            className="font-bold text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:underline cursor-pointer"
                           >
                             <MapPin className="w-3.5 h-3.5" /> Pick on Map
                           </button>
@@ -1654,7 +1652,7 @@ function BookPageContent() {
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-bold text-purple-300 hover:text-purple-200 flex items-center gap-1 hover:underline"
+                            className="font-bold text-purple-300 hover:text-purple-200 flex items-center gap-1 hover:underline"
                           >
                             <Compass className="w-3.5 h-3.5 text-purple-300" /> Search Google Maps ↗
                           </a>
@@ -1662,7 +1660,7 @@ function BookPageContent() {
                           <button
                             type="button"
                             onClick={() => handleSaveCurrentAddress()}
-                            className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:underline cursor-pointer"
+                            className="font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:underline cursor-pointer"
                           >
                             <Bookmark className="w-3.5 h-3.5" /> Save Link
                           </button>
@@ -1677,13 +1675,13 @@ function BookPageContent() {
                           value={formData.parkingAddress}
                           onChange={handleChange}
                           placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="parkingNotes" className="text-base font-bold uppercase tracking-[0.15em]  text-white  block">
+                      <label htmlFor="parkingNotes" className="text-base font-bold uppercase tracking-[0.15em] text-white block">
                         Directions for Parking
                       </label>
                       <div className="input-glow-border rounded-lg">
@@ -1694,7 +1692,7 @@ function BookPageContent() {
                           onChange={handleChange}
                           rows={3}
                           placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                          className="w-full  bg-[#00000029]    border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
                         />
                       </div>
                     </div>
@@ -1743,9 +1741,7 @@ function BookPageContent() {
                           key={option.id}
                           type="button"
                           onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4  rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group
-                          ${isActive
-                              ? 'border-cyan-400 bg-cyan-500/20 shadow-md'
+                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ?'border-cyan-400 bg-cyan-500/20 shadow-md'
                               : 'border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10'
                             }`}
                         >
@@ -1757,7 +1753,7 @@ function BookPageContent() {
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                               )}
                             </div>
-                            <span className="text-base  text-white  block leading-snug">{option.desc}</span>
+                            <span className="text-base text-white block leading-snug">{option.desc}</span>
                           </div>
                         </button>
                       );
@@ -1768,7 +1764,7 @@ function BookPageContent() {
                   <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
                     <span className="text-base font-bold uppercase tracking-widest text-white/50">Selected:</span>
                     {addOns.map(id => (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-cyan-300 text-base font-bold  rounded-lg  border border-cyan-400/30">
+                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-cyan-300 text-base font-bold rounded-lg border border-cyan-400/30">
                         {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                         <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-cyan-400/50 hover:text-cyan-300 cursor-pointer">×</button>
                       </span>
@@ -1790,7 +1786,7 @@ function BookPageContent() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full  bg-[#00000029]    border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
+                    className="w-full bg-[#00000029] border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
                   />
                 </div>
                 {formData.details && (
@@ -1893,7 +1889,7 @@ function BookPageContent() {
                   >
                     {submitting ? (
                       <>
-                        <span className="w-4 h-4 border-2  border-white/10  border-t-white  rounded-lg  animate-spin" />
+                        <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                         Submitting...
                       </>
                     ) : (
@@ -1967,7 +1963,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
@@ -1981,7 +1977,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full  bg-[#00000029]     backdrop-blur-[45px] border   border-white/10   text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -2019,12 +2015,12 @@ function MapPickerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999999] bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-      <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
+      <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
-            <h3 className="text-lg  font-bold  uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
+            <h3 className="text-lg font-bold uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
             type="button"
@@ -2039,14 +2035,14 @@ function MapPickerModal({
         {savedAddresses.length > 0 && (
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-widest text-purple-400block">Saved Locations & Venue Presets</label>
+              <label className="font-bold uppercase tracking-widest text-purple-400block">Saved Locations & Venue Presets</label>
               <span className="text-[10px] text-white/50 font-normal">Click to auto-fill form</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {savedAddresses.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3  bg-[#00000029]    hover:bg-white/10 border border-white/10 hover:border-purple-400/50  rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
+                  className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -2058,11 +2054,11 @@ function MapPickerModal({
                   }}
                 >
                   <div className="space-y-0.5 min-w-0">
-                    <div className="text-xs  font-bold  text-white truncate flex items-center gap-1.5">
+                    <div className="font-bold text-white truncate flex items-center gap-1.5">
                       <Building2 className="w-3.5 h-3.5 text-[#c27aff] shrink-0" />
                       <span className="truncate">{item.label}</span>
                     </div>
-                    <div className="text-[11px]  text-white  truncate">
+                    <div className="text-[11px] text-white truncate">
                       {item.parkingAddress} {item.venueCity ? `, ${item.venueCity}` : ''}
                     </div>
                   </div>
@@ -2104,20 +2100,20 @@ function MapPickerModal({
         )}
 
         <div className="space-y-2 border-t border-white/10 pt-4">
-          <label className="text-xs font-bold uppercase tracking-widest text-purple-400block">Search Location or Paste Google Maps Address</label>
+          <label className="font-bold uppercase tracking-widest text-purple-400block">Search Location or Paste Google Maps Address</label>
           <div className="flex gap-2">
             <input aria-label="Input field"
               type="text"
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1  bg-[#00000029]    border   border-white/10   rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-xs font-bold text-white uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shrink-0"
+              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg font-bold text-white uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shrink-0"
             >
               <Navigation className="w-3.5 h-3.5 text-cyan-300" /> Open Map
             </a>
@@ -2133,7 +2129,7 @@ function MapPickerModal({
                   onSaveNewAddress(addressInput.trim());
                 }
               }}
-              className="px-3.5 py-2 bg-[var(--color-accent)] rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 bg-[var(--color-accent)] rounded-lg font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
             >
               <Bookmark className="w-3.5 h-3.5" /> Save to Favorites
             </button>
@@ -2142,7 +2138,7 @@ function MapPickerModal({
             <button aria-label="Cancel button"
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5  bg-[#00000029]    hover:bg-white/10 rounded-lg text-xs font-bold  text-white  hover:text-white uppercase tracking-wider transition-colors"
+              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg font-bold text-white hover:text-white uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
@@ -2152,7 +2148,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg text-xs  font-bold  text-white uppercase tracking-wider transition-transform shadow-md cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg font-bold text-white uppercase tracking-wider transition-transform shadow-md cursor-pointer flex items-center gap-1.5"
             >
               <Check className="w-4 h-4" /> Save Location to Form
             </button>

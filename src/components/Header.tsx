@@ -539,8 +539,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#9333ea] font-bold active cursor-default"
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active ?"!text-[#9333ea] font-bold active cursor-default"
                     : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                     }`}
                 >
@@ -558,8 +557,8 @@ export function Header() {
                 }`}
             >
               {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px]  font-bold  uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px]  rounded-lg  whitespace-nowrap font-sans scale-90">
-                  <span className="w-1 h-1  rounded-lg  bg-white animate-pulse" />
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
+                  <span className="w-1 h-1 rounded-lg bg-white animate-pulse" />
                   LIVE
                 </span>
               )}
@@ -622,14 +621,14 @@ export function Header() {
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white text-xs  font-bold  shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40  backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white  font-bold  text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}
@@ -637,7 +636,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px]  font-bold  uppercase text-white flex items-center justify-center leading-none   ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-bold uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -645,7 +644,7 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); router.push('/'); }}
-                  className="hidden lg:block  text-[12px]  font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:block text-[12px] font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
                   Sign Out
@@ -655,7 +654,7 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 text-xs  font-bold  tracking-wider rounded-lg shrink-0"
+                className="px-3.5 py-1.5 font-bold tracking-wider rounded-lg shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN
@@ -790,7 +789,7 @@ export function Header() {
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
-                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg  relative  group">
+                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg relative group">
                     <video
                       src={mobileOpen ? "/movie/fest1-clip.mp4" : undefined}
                       autoPlay
@@ -805,7 +804,7 @@ export function Header() {
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between  text-[12px]   font-bold  uppercase tracking-widest">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase tracking-widest">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>
@@ -854,7 +853,7 @@ export function Header() {
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
                 <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white">
+                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white">
                     <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Instagram</a>
                     <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Facebook</a>
                     <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Twitter</a>
@@ -868,7 +867,7 @@ export function Header() {
                         setMobileOpen(false);
                         openModal("login");
                       }}
-                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white hover:text-[#c084fc] transition-colors cursor-pointer"
+                      className="text-[11px] font-bold uppercase tracking-[0.15em] text-white hover:text-[#c084fc] transition-colors cursor-pointer"
                     >
                       Sign In
                     </button>

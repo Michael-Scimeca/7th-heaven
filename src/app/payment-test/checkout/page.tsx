@@ -72,7 +72,7 @@ export default function NorthCheckoutPage() {
           </p>
           <Link
             href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold text-xs uppercase tracking-wider rounded-lg"
+            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg"
           >
             ← Back to Shop
           </Link>
@@ -86,17 +86,17 @@ export default function NorthCheckoutPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="text-xs font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Shop
         </Link>
 
-        <div className="bg-white/[0.04]backdrop-blur-[18px]  border border-white/[0.12]  rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
-            <span className="inline-block text-[10px]  font-bold  uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
               North (EPX) Browser Post
             </span>
-            <h1 className="text-2xl  font-bold  uppercase text-white tracking-wide">
+            <h1 className="text-2xl font-bold uppercase text-white tracking-wide">
               Card Payment
             </h1>
             {mockMode ? (
@@ -117,8 +117,8 @@ export default function NorthCheckoutPage() {
           {cart.items.length > 0 && (
             <div className="mb-6 space-y-2">
               {cart.items.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 text-xs">
-                  <div className="relative w-9 h-9 shrink-0  rounded-lg  overflow-hidden bg-black/40">
+                <div key={item.id} className="flex items-center gap-3">
+                  <div className="relative w-9 h-9 shrink-0 rounded-lg overflow-hidden bg-black/40">
                     <Image src={item.imageUrl} alt={item.title} fill sizes="36px" unoptimized className="object-cover" />
                   </div>
                   <span className="text-white/70 flex-1 truncate">
@@ -136,7 +136,7 @@ export default function NorthCheckoutPage() {
             <span className="text-white/50 text-sm font-bold uppercase tracking-wider">
               Amount Due
             </span>
-            <span className="text-2xl  font-bold  text-[var(--color-accent)]">${amount}</span>
+            <span className="text-2xl font-bold text-[var(--color-accent)]">${amount}</span>
           </div>
 
           {/* Card fields — shown either way so the UI looks/feels the same,
@@ -192,7 +192,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black  font-bold  uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
               </button>
@@ -200,7 +200,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300  font-bold  uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
               </button>
@@ -224,7 +224,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  uppercase tracking-widest text-sm rounded-lg transition-colors"
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
               >
                 Submit Payment — ${amount}
               </button>

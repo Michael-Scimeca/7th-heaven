@@ -218,8 +218,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging
-              ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
+            className={`border-2 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging ?"border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
               : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
           >
@@ -241,7 +240,7 @@ export default function BulkInvitePanel() {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !py-2 !px-5 text-xs  font-bold  uppercase tracking-wider text-white shadow-lg"
+              className="mt-4 !py-2 !px-5 font-bold uppercase tracking-wider text-white shadow-lg"
             >
               Browse Files
             </CosmicRadialButton>
@@ -249,7 +248,7 @@ export default function BulkInvitePanel() {
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="text-xs uppercase tracking-[0.15em] text-white/70 font-bold">Copy-Paste Contact List</label>
+            <label htmlFor="bulk-invite-text-input" className="uppercase tracking-[0.15em] text-white/70 font-bold">Copy-Paste Contact List</label>
             <div className="input-glow-border rounded-lg w-full">
               <textarea aria-label="Text input"
                 id="bulk-invite-text-input"
@@ -257,14 +256,14 @@ export default function BulkInvitePanel() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="w-full bg-black/40 border-none outline-none text-white text-xs px-4 py-3 rounded-lg font-mono resize-none placeholder:text-white/40 font-semibold transition-colors"
+                className="w-full bg-black/40 border-none outline-none text-white px-4 py-3 rounded-lg font-mono resize-none placeholder:text-white/40 font-semibold transition-colors"
               />
             </div>
             <CosmicRadialButton
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !py-3 !px-5 text-xs  font-bold  uppercase tracking-wider text-white shadow-lg disabled:opacity-30"
+              className="w-full justify-center !py-3 !px-5 font-bold uppercase tracking-wider text-white shadow-lg disabled:opacity-30"
             >
               Parse & Import List
             </CosmicRadialButton>
@@ -288,7 +287,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="px-4 py-2 text-xs  font-bold  uppercase tracking-widest text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30"
+                className="px-4 py-2 font-bold uppercase tracking-widest text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30"
               >
                 Clear List
               </button>
@@ -296,7 +295,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="!py-3 !px-6 text-xs  font-bold  uppercase tracking-widest !text-white shadow-md disabled:opacity-40"
+                className="!py-3 !px-6 font-bold uppercase tracking-widest !text-white shadow-md disabled:opacity-40"
               >
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </CosmicRadialButton>
@@ -305,8 +304,7 @@ export default function BulkInvitePanel() {
 
           {/* Results Toast */}
           {results && (
-            <div className={`p-4  border flex items-center gap-3 ${results.failed > 0
-              ? "bg-rose-50 border-rose-200 text-rose-800"
+            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ?"bg-rose-50 border-rose-200 text-rose-800"
               : "bg-emerald-50 border-emerald-200 text-emerald-800"
               }`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
@@ -318,12 +316,12 @@ export default function BulkInvitePanel() {
 
           {/* Invite table */}
           <div className="max-h-[300px] overflow-y-auto border border-black/10 bg-white">
-            <table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-black/5 text-black/70 uppercase tracking-widest text-[0.65rem] border-b border-black/10">
-                  <th className="py-3 px-4  font-bold ">Email</th>
-                  <th className="py-3 px-4  font-bold ">Name</th>
-                  <th className="py-3 px-4  font-bold  text-right">Status</th>
+                  <th className="py-3 px-4 font-bold">Email</th>
+                  <th className="py-3 px-4 font-bold">Name</th>
+                  <th className="py-3 px-4 font-bold text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
@@ -333,24 +331,24 @@ export default function BulkInvitePanel() {
                     <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="   text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
-                        <span className="px-2.5 py-1 bg-black/5 text-black/60  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem]">
+                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg font-bold uppercase tracking-wider text-[0.55rem]">
                           Pending
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="px-2.5 py-1 bg-[var(--color-accent)]  text-[var(--color-accent)]  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
+                        <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-lg font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
                           Sending…
                         </span>
                       )}
                       {inv.status === "success" && (
-                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
+                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
                           Sent
                         </span>
                       )}
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800  rounded-lg  font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
+                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
                         >
                           Failed
                         </span>

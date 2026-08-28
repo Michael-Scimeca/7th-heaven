@@ -42,7 +42,7 @@ const renderBackground = () => (
         pointerEvents: "none"
       }}
     />
-    <div className="fixed inset-0 bg-black/55  backdrop-blur-[45px] z-0 pointer-events-none" />
+    <div className="fixed inset-0 bg-black/55 backdrop-blur-[45px] z-0 pointer-events-none" />
   </div>
 );
 
@@ -154,23 +154,23 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm  rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+          className="relative z-10 w-full max-w-sm rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
-          <div className="w-16 h-16 mx-auto mb-4  rounded-lg  bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
+          <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="mb-6">Sign in with your crew account to access PIN verification.</p>
           <button aria-label="Action button"
             onClick={() => openModal()}
-            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
           >
             Sign In
           </button>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
-            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white/80 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white/80 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
           >
             Preview PIN Inputs →
           </button>
@@ -185,15 +185,15 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm  rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+          className="relative z-10 w-full max-w-sm rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
 
-          <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Crew Only</h2>
+          <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="mb-5">This page is for 7th Heaven crew members only.</p>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
-            className="w-full py-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+            className="w-full py-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
           >
             Preview PIN Verification Inputs →
           </button>
@@ -209,7 +209,7 @@ export default function VerifyPage() {
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
         <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
-        <h1 className="text-white  font-bold  text-2xl uppercase tracking-widest">Crew PIN Verification</h1>
+        <h1 className="text-white font-bold text-2xl uppercase tracking-widest">Crew PIN Verification</h1>
         <p className="mt-1">Enter your 6-digit PIN to verify crew access</p>
       </div>
 
@@ -232,7 +232,7 @@ export default function VerifyPage() {
 
             <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
-                <div key={i} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0">
+                <div key={i} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                   <input aria-label="Input field"
                     ref={el => { inputRefs.current[i] = el; }}
                     type="text"
@@ -244,9 +244,7 @@ export default function VerifyPage() {
                     onBlur={() => setFocusedIndex(null)}
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
-                    className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums
-                      ${focusedIndex === i
-                        ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                    className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ?'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                         : digit
                           ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                           : ' border-white/10  text-white/40 hover:border-white/40'
@@ -269,7 +267,7 @@ export default function VerifyPage() {
                 boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                 transition: "all 0.25s ease",
               }}
-              className="w-full py-3.5  font-bold  text-xs uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
+              className="w-full py-3.5 font-bold uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
             >
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
@@ -317,7 +315,7 @@ export default function VerifyPage() {
         {/* Checking state */}
         {result === 'checking' && (
           <div className="text-center py-4 relative z-10">
-            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-400  rounded-lg  animate-spin mx-auto" />
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-400 rounded-lg animate-spin mx-auto" />
           </div>
         )}
 
@@ -331,7 +329,7 @@ export default function VerifyPage() {
               <p className="font-bold uppercase tracking-widest">✓ Valid Win</p>
             </div>
             <div className="p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4  rounded-lg  bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
                 <Trophy className="w-8 h-8" />
               </div>
 
@@ -349,18 +347,18 @@ export default function VerifyPage() {
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 {fullPin.split('').map((d, i) => (
                   <div key={`pin-confirm-${i}-${d}`} className="w-9 h-11 bg-black/60 border border-purple-500/40 rounded-lg flex items-center justify-center">
-                    <span className="text-purple-300  font-bold  text-lg tabular-nums">{d}</span>
+                    <span className="text-purple-300 font-bold text-lg tabular-nums">{d}</span>
                   </div>
                 ))}
               </div>
 
               <p className="text-emerald-400/90 font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white  font-bold  text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
+              <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
                 Access My Dashboard →
               </Link>
 
-              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                 Verify Another PIN
               </button>
             </div>
@@ -373,14 +371,14 @@ export default function VerifyPage() {
             className=" rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="w-16 h-16 mx-auto mb-3  rounded-lg  bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+            <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
+            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
-            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border   border-white/10   text-white  font-bold  text-xs uppercase tracking-widest transition-colors cursor-pointer">
+            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

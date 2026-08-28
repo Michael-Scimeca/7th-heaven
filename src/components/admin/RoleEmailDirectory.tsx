@@ -208,15 +208,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2 text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg border border-white/10 ${activeTab === tab
-                ? "bg-[var(--color-accent)] text-white shadow-md"
+              className={`px-3.5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg border border-white/10 ${activeTab === tab ?"bg-[var(--color-accent)] text-white shadow-md"
                 : " bg-[#00000029]    text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5  rounded-lg  text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
+              <span className={`px-1.5 py-0.5 rounded-lg text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ?'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
                 {counts[tab]}
               </span>
             </button>
@@ -229,7 +228,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
             type="button"
             onClick={handleCopyEmails}
             icon={false}
-            className="px-3.5 py-2 text-xs font-bold uppercase cursor-pointer whitespace-nowrap"
+            className="px-3.5 py-2 font-bold uppercase cursor-pointer whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch"
           >
             {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
@@ -238,7 +237,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2  bg-[#00000029]    hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
+            className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none text-white font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
           >
             <span></span> Export CSV
           </button>
@@ -258,7 +257,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden bg-transparent relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2  font-bold uppercase tracking-wider text-white border-b border-white/10 select-none text-[12px]">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase tracking-wider text-white border-b border-white/10 select-none text-[12px]">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -268,14 +267,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
           {/* Scrollable Body Rows */}
           <CustomScrollbar height={480} direction="vertical">
-            <div className="divide-y divide-white/10 text-xs">
+            <div className="divide-y divide-white/10">
               {filteredUsers.length === 0 ? (
                 <div className="py-8 text-center text-white/40 opacity-60 font-semibold">
                   No recipients found matching your search.
                 </div>
               ) : (
                 filteredUsers.map(user => (
-                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover: bg-[#00000029]  transition-colors border-b border-white/10">
+                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover: bg-[#00000029] transition-colors border-b border-white/10">
                     <div className="font-bold text-white truncate flex items-center gap-2.5">
                       {(() => {
                         const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
@@ -298,7 +297,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                       })()}
                       <span className="truncate">{user.name}</span>
                     </div>
-                    <div className="text-white font-mono text-xs font-bold select-all truncate">
+                    <div className="text-white font-mono font-bold select-all truncate">
                       {user.email}
                     </div>
                     <div className="py-1 text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider">
@@ -310,7 +309,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1  bg-[#00000029]  border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

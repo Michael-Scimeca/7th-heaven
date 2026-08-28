@@ -18,7 +18,7 @@
  * line is still ~20% short of its final position. Pass `skew` to enable it.
  *
  * Usage:
- *   <SlideUpReveal as="h1" mask="lines" className="text-6xl  font-bold ">
+ *   <SlideUpReveal as="h1" mask="lines" className="text-6xl font-bold">
  *     Slide up on scroll
  *   </SlideUpReveal>
  */

@@ -106,7 +106,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--muted-text)] mb-3">
+        <div className="flex items-center gap-2 font-bold uppercase tracking-widest text-[var(--muted-text)] mb-3">
           <Link href="/" className="hover: text-[var(--color-accent)] transition-colors">Home</Link>
           <span>/</span>
           <Link href="/#tour" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
@@ -116,7 +116,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
-            <h1 className="text-[clamp(2rem,4vw,3rem)]  font-bold  uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
+            <h1 className="text-[clamp(2rem,4vw,3rem)] font-bold uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
               Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
             </h1>
             <p className="max-w-2xl font-medium">
@@ -132,20 +132,20 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── STATS BAR ── */}
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
+          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">{totalShowsCount}+</span>
+          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">40+</span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
+          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">40+</span>
+          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">500+</span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
+          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">500+</span>
+          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl  font-bold  text-[var(--color-accent)]">5+</span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
+          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">5+</span>
+          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
 
@@ -164,12 +164,12 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="text-xs  font-bold  uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
+            <span className="font-bold uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
               Jump to Year:
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg text-xs  font-bold  tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+              className={`px-3 py-1.5 rounded-lg font-bold tracking-wider uppercase transition-colors cursor-pointer ${selectedYear ==="ALL"
                 ? "bg-[var(--color-accent)] text-white  "
                 : " bg-[#00000029]    text-white/70 hover:text-white border-0"
                 }`}
@@ -183,8 +183,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
-                  ? "bg-[var(--color-accent)] text-white  font-bold   "
+                className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ?"bg-[var(--color-accent)] text-white  font-bold   "
                   : " bg-[#00000029]    text-white/70 hover:text-white border-0"
                   }`}
               >
@@ -194,14 +193,14 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           </div>
         </div>
 
-        <div className="text-xs text-[var(--muted-text)] font-semibold mt-3">
+        <div className="text-[var(--muted-text)] font-semibold mt-3">
           Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </div>
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)]  rounded-lg p-12 text-center my-8">
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
           <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
           <p className="max-w-md mx-auto mb-6">
@@ -213,7 +212,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#851de7] transition-colors"
+            className="px-6 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider hover:bg-[#851de7] transition-colors"
           >
             Reset Filters
           </button>
@@ -230,11 +229,11 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer text-left hover: bg-[#00000029]    transition-colors"
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer text-left hover: bg-[#00000029] transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm  font-bold  rounded-lg  ">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-bold rounded-lg">
                       {yGroup.year}
                     </span>
                     <span className="text-sm font-bold text-[var(--text-color)]">
@@ -259,8 +258,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
                         >
                           {/* Date & Day */}
-                          <div className="w-full sm:w-48 shrink-0 font-semibold text-xs sm:text-sm text-[var(--muted-text)] flex items-center gap-2">
-                            <span className="w-2 h-2  rounded-lg  bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
+                          <div className="w-full sm:w-48 shrink-0 font-semibold sm:text-sm text-[var(--muted-text)] flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
                             {show.date || yGroup.year}
                           </div>
 
@@ -272,22 +271,22 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-rose-500/20 text-rose-600  rounded-lg  border border-rose-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)]  rounded-lg  border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)]  rounded-lg  border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px]  font-bold  uppercase tracking-wider bg-sky-500/20 text-sky-600  rounded-lg  border border-sky-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
                                 Special Tour
                               </span>
                             )}

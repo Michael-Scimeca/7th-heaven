@@ -193,11 +193,11 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  mb-3 px-4 py-1  rounded-lg  ">
+        <span className="inline-block font-bold tracking-[0.2em] uppercase bg-[#00000029] border border-white/10 backdrop-blur-[16px] mb-3 px-4 py-1 rounded-lg">
           Virtual Tours & Video Showcase
         </span>
         <h2
-          className="text-4xl md:text-6xl  font-bold  uppercase    tracking-tight text-white leading-none"
+          className="text-4xl md:text-6xl font-bold uppercase tracking-tight text-white leading-none"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Explore <span className="accent-gradient-text">Ship Videos</span>
@@ -214,8 +214,7 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2  text-xs  font-bold  uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
-                  ? 'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                className={`px-5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat ?'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                   : ' bg=[#e1e6ff29]  text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
                   }`}
               >
@@ -230,11 +229,11 @@ export default function CruiseVideoGallery() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(n => (
-            <div key={n} className="aspect-video  bg=[#e1e6ff29]   rounded-lg animate-pulse" />
+            <div key={n} className="aspect-video bg=[#e1e6ff29] rounded-lg animate-pulse" />
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="text-center py-16 bg-white/5  rounded-lg border border-white/10 text-white/50 font-bold uppercase tracking-wider text-xs">
+        <div className="text-center py-16 bg-white/5 rounded-lg border border-white/10 text-white/50 font-bold uppercase tracking-wider">
           No videos found in this category.
         </div>
       ) : (
@@ -250,18 +249,18 @@ export default function CruiseVideoGallery() {
                 <Image width={200} height={200} unoptimized
                   src={vid.poster || '/images/cruise-hero.png'}
                   alt={vid.title}
-                  className="w-full h-full object-cover opacity-90  overflow-hidden group-hover:opacity-100 rounded-lg"
+                  className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 rounded-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center !rounded-lg">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-14 h-14 ! rounded-full  !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    className="w-14 h-14 ! rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3  bg-[#00000029]  border  border-white/10  backdrop-blur-[16px]  text-[10px] font-bold  uppercase tracking-wider px-3 py-1 rounded-lg ">
+                <span className="absolute top-3 left-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-lg">
                   {vid.category}
                 </span>
               </div>
@@ -269,7 +268,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="py-6 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <h3 className="text-lg  font-bold  text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-lg font-bold text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                     {vid.title}
                   </h3>
                   {vid.description && (
@@ -279,7 +278,7 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs  font-bold  uppercase text-purple-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
                   <span>Watch Video Tour</span>
                   <span>→</span>
                 </div>
@@ -324,7 +323,7 @@ export default function CruiseVideoGallery() {
                 type="button"
                 aria-label="Close player"
                 onClick={() => setActiveVideo(null)}
-                className="shrink-0 flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
+                className="shrink-0 flex items-center gap-2 text-white font-bold uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
               >
                 <X className="w-4 h-4 text-white" />
                 <span>Close Player</span>

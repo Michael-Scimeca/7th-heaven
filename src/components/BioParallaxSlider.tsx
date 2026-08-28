@@ -738,8 +738,7 @@ lerpSpeed: ${lerpSpeed}`;
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive
-                    ? "opacity-100 translate-x-0"
+                  <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ?"opacity-100 translate-x-0"
                     : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
                     <p className="font-bold leading-none tracking-tight drop-shadow-md">
@@ -773,8 +772,7 @@ lerpSpeed: ${lerpSpeed}`;
                     }`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive
-                    ? "opacity-100 translate-x-0"
+                  <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ?"opacity-100 translate-x-0"
                     : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
                     <p className="font-bold leading-none tracking-tight drop-shadow-md">
@@ -845,7 +843,7 @@ lerpSpeed: ${lerpSpeed}`;
                     marginRight: i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate"
                   }}
-                  className="shrink-0 bg-transparent  rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
+                  className="shrink-0 bg-transparent rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
@@ -892,10 +890,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-bold sm:bg-black/60 bg-black/40 text-white  sm:pt-1 pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold sm:bg-black/60 bg-black/40 text-white sm:pt-1 pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2  text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] " style={{ fontSize: computedRoleFontSize }}>
+                          <span className="font-bold sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2 text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)]" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -903,7 +901,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-3 transition-opacity duration-300"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
@@ -938,7 +936,7 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}
                         >
-                          <h3 className=" font-bold  text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -949,7 +947,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-2.5  rounded-lg shadow-2xl transition-opacity duration-300"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
@@ -981,7 +979,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border   border-white/10   px-4 py-3 transition-opacity duration-300"
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>

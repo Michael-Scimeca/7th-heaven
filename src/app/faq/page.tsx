@@ -164,11 +164,11 @@ export default function FAQPage() {
 
       {/* Page Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200  rounded-lg  px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 font-bold uppercase tracking-wider">
           <SparklesIcon />
           Support Center
         </div>
-        <h1 className="text-4xl sm:text-5xl  font-bold  text-[var(--text-color)] tracking-tight uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text-color)] tracking-tight uppercase mb-4">
           Frequently Asked <span className="text-purple-600">Questions</span>
         </h1>
         <p className="max-w-xl mx-auto font-medium">
@@ -195,8 +195,7 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5  rounded-lg  text-xs font-bold transition duration-200 border ${isActive
-                ? "bg-purple-600 border-purple-600 text-white shadow-md"
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ?"bg-purple-600 border-purple-600 text-white shadow-md"
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
                 }`}
             >
@@ -217,7 +216,7 @@ export default function FAQPage() {
             return (
               <div
                 key={faq.id}
-                className="bg-transparent overflow-hidden transition-colors duration-300 border-b   border-white/10  "
+                className="bg-transparent overflow-hidden transition-colors duration-300 border-b border-white/10"
                 style={{
                   borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
                 }}
@@ -250,7 +249,7 @@ export default function FAQPage() {
             );
           })
         ) : (
-          <div className="text-center py-16  bg-[#00000029]    backdrop-blur-xl border border-white/10  rounded-lg p-8  ">
+          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-8">
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
@@ -263,7 +262,7 @@ export default function FAQPage() {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16  bg-[#00000029]  backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
+      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
         <div>
           <h4 className="text-white font-bold text-lg mb-1">Still need help?</h4>
           <p className="font-medium">
@@ -272,7 +271,7 @@ export default function FAQPage() {
         </div>
         <Link
           href="/contact"
-          className="px-6 py-3  rounded-lg  bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
+          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
         >
           Contact Us
         </Link>

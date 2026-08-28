@@ -108,8 +108,8 @@ export default function CookieConsentBanner() {
                   <p className="font-semibold">Essential Cookies</p>
                   <p className="mt-0.5">Required for the site to function. Cannot be disabled.</p>
                 </div>
-                <div className="w-9 h-5 bg-[var(--color-accent)]/30  rounded-lg  flex items-center justify-end px-0.5 shrink-0">
-                  <div className="w-4 h-4  rounded-lg  bg-[var(--color-accent)]  " />
+                <div className="w-9 h-5 bg-[var(--color-accent)]/30 rounded-lg flex items-center justify-end px-0.5 shrink-0">
+                  <div className="w-4 h-4 rounded-lg bg-[var(--color-accent)]" />
                 </div>
               </div>
               <div className="h-px bg-white/10" />
@@ -155,14 +155,14 @@ export default function CookieConsentBanner() {
                 <button aria-label="Action button"
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1]  text-white  hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
+                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
                 >
                   Reject All
                 </button>
                 <button aria-label="Action button"
                   id="cookie-customize"
                   onClick={() => setExpanded(true)}
-                  className="text-white/30 hover: text-white  text-sm font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
+                  className="text-white/30 hover: text-white text-sm font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
                 >
                   Customize
                 </button>

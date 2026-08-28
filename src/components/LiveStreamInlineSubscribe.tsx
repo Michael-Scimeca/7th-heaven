@@ -85,11 +85,11 @@ export default function LiveStreamInlineSubscribe({
     return (
       <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12  rounded-lg  bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
+          <div className="w-12 h-12 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
             <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-base  font-bold  text-white">Verification Email Sent to {email}! ✉️</h4>
+            <h4 className="text-base font-bold text-white">Verification Email Sent to {email}! ✉️</h4>
             <p className="text-gray-300 mt-0.5">
               To prevent unauthorized signups, we sent a verification link to <strong className="text-white font-mono">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
@@ -100,7 +100,7 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white font-bold text-xs uppercase tracking-wider  rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0"
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white font-bold uppercase tracking-wider rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0"
         >
           <span>Web Alerts Feed</span>
           <ExternalLink className="w-3.5 h-3.5" />
@@ -115,11 +115,11 @@ export default function LiveStreamInlineSubscribe({
         {/* Header Title & Pill */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10  rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
+            <div className="w-10 h-10 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
               <Bell className="w-5 h-5 animate-bounce" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg  font-bold  text-white uppercase tracking-wider">
+              <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider">
                 Crew Member Live Stream Push & Email Alerts
               </h3>
               <p className="text-purple-200/70">
@@ -128,14 +128,14 @@ export default function LiveStreamInlineSubscribe({
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1  rounded-lg  text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
-            <span className="h-2 w-2  rounded-lg  bg-emerald-400 animate-ping" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
+            <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
             100% Free Push Alerts
           </span>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30  rounded-lg text-rose-300 text-xs font-semibold">
+          <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
             ⚠️ {error}
           </div>
         )}
@@ -143,14 +143,14 @@ export default function LiveStreamInlineSubscribe({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="relative w-full">
-              <div className="input-glow-border  rounded-lg w-full">
+              <div className="input-glow-border rounded-lg w-full">
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your Full Name"
-                  className="w-full bg-[#0d071b] border border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-xs sm:text-sm outline-none transition-all"
+                  className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 sm:text-sm outline-none transition-all"
                 />
               </div>
               <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -159,14 +159,14 @@ export default function LiveStreamInlineSubscribe({
             </div>
 
             <div className="relative w-full">
-              <div className="input-glow-border  rounded-lg w-full">
+              <div className="input-glow-border rounded-lg w-full">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your Email Address"
-                  className="w-full bg-[#0d071b] border border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
+                  className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 text-sm outline-none transition-all"
                 />
               </div>
               <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -183,7 +183,7 @@ export default function LiveStreamInlineSubscribe({
               checked={agreedToTerms}
               onChange={(checked) => setAgreedToTerms(checked)}
             />
-            <label htmlFor="inline-terms-toggle" className="text-xs text-gray-300/90 leading-tight cursor-pointer select-none">
+            <label htmlFor="inline-terms-toggle" className="text-gray-300/90 leading-tight cursor-pointer select-none">
               I agree to the{" "}
               <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
                 Terms of Service
@@ -202,7 +202,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 text-white text-xs  font-bold  uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3 text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
             >
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>

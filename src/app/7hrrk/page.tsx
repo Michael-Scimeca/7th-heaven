@@ -344,7 +344,7 @@ export default function RockNRollKidsPage() {
           </span>
           <h1 className="text-3xl sm:text-5xl font-bold uppercase text-white font-mono">{ABOUT_DATA.headline}</h1>
 
-          <p className="text-cyan-200 font-mono max-w-2xl mx-auto leading-relaxed">
+          <p className="font-mono max-w-2xl mx-auto leading-relaxed">
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
 
@@ -392,7 +392,7 @@ export default function RockNRollKidsPage() {
         <div className="site-container space-y-16">
           {/* ── UNIFIED HERO SHOWCASE: ABOUT & CONCEPT (LEFT) + VIDEO MATRIX (RIGHT) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4  pb-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
 
               <div className="flex flex-wrap gap-2">
                 {ABOUT_DATA.studios.map((st) => (
@@ -428,8 +428,7 @@ export default function RockNRollKidsPage() {
                         key={single.id}
                         type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id
-                          ? "text-black shadow-lg font-bold scale-105"
+                        className={`px-4 py-2 rounded-lg sm:text-sm font-bold font-sans tracking-wide transition-all border border-white/20 ${selectedVideo === single.id ?"text-black shadow-lg font-bold scale-105"
                           : "text-white"
                           }`}
                       >
@@ -448,12 +447,11 @@ export default function RockNRollKidsPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {videosList.map((v) => (
-                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all border border-white/20 rounded-lg text-white ${selectedVideo === v.id
-                      ? " "
+                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all border border-white/20 rounded-lg text-white ${selectedVideo === v.id ?" "
                       : " "
                       }`}>
                       <span className="text-[9px] font-mono text-pink-400 block">{v.tag}</span>
-                      <span className="text-xs font-bold text-cyan-100 line-clamp-1">{v.title}</span>
+                      <span className="font-bold text-cyan-100 line-clamp-1">{v.title}</span>
                     </button>
                   ))}
                 </div>
@@ -471,7 +469,7 @@ export default function RockNRollKidsPage() {
                 href="https://www.amazon.com/dp/B096TJNDWR"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 text-white text-xs font-mono font-bold uppercase rounded-lg flex items-center gap-2 btn-cosmic-radial-property w-fit"
+                className="px-4 py-2 text-white font-mono font-bold uppercase rounded-lg flex items-center gap-2 btn-cosmic-radial-property w-fit"
               >
                 <span>Paperback Book Series on Amazon</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -493,7 +491,7 @@ export default function RockNRollKidsPage() {
                       />
                     </div>
                     <span className="text-[9px] font-mono text-pink-400 block mb-0.5">{p.badge}</span>
-                    <h3 className="text-xs font-bold text-white line-clamp-1 mb-1">{p.title}</h3>
+                    <h3 className="font-bold text-white line-clamp-1 mb-1">{p.title}</h3>
                     <p className="line-clamp-2 mb-3">{p.desc}</p>
                   </div>
                   <a
@@ -542,7 +540,7 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono rounded inline-block">
+                  <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono rounded inline-block">
                     7th heaven · NTD Animation
                   </span>
                   <h3 className="text-2xl font-mono text-amber-400 font-bold">Richard Hofherr</h3>
@@ -551,7 +549,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="py-2.5 px-5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 text-xs font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
+                    className="py-2.5 px-5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Rich777@aol.com</span>
@@ -573,7 +571,7 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-mono rounded inline-block">
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded inline-block">
                     RNR Studios
                   </span>
                   <h3 className="text-2xl font-mono text-purple-400 font-bold">Roy Adorjan</h3>
@@ -582,7 +580,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="py-2.5 px-5 bg-purple-500/20 hover:bg-purple-500 text-purple-300 hover:text-black border border-purple-500/40 text-xs font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
+                    className="py-2.5 px-5 bg-purple-500/20 hover:bg-purple-500 text-purple-300 hover:text-black border border-purple-500/40 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-center gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>info@minimartians.com</span>

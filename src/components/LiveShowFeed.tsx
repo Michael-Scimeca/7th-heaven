@@ -178,18 +178,18 @@ export default function LiveShowFeed() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/40 px-3 py-1.5">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full  rounded-lg  bg-red-500 opacity-75" />
-              <span className="relative inline-flex  rounded-lg  h-2 w-2 bg-red-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
+              <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
             </span>
-            <span className="text-xs  font-bold  uppercase tracking-[0.15em] text-red-400">Live</span>
+            <span className="font-bold uppercase tracking-[0.15em] text-red-400">Live</span>
           </div>
-          <span className="text-xs font-bold text-white/30 uppercase tracking-[0.15em]">
+          <span className="font-bold text-white/30 uppercase tracking-[0.15em]">
             From the Show
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-red-500  rounded-lg  animate-pulse" />
-          <span className="text-xs font-bold text-white/30 tabular-nums">
+          <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
+          <span className="font-bold text-white/30 tabular-nums">
             {viewerCount.toLocaleString()} watching
           </span>
         </div>
@@ -198,7 +198,7 @@ export default function LiveShowFeed() {
       {/* Main Media Player */}
       <div className="relative group">
         {videoId ? (
-          <div className="relative aspect-video   border border-white/10 overflow-hidden">
+          <div className="relative aspect-video border border-white/10 overflow-hidden">
             <iframe
               title="7th Heaven Live Show Video"
               src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
@@ -209,7 +209,7 @@ export default function LiveShowFeed() {
             />
           </div>
         ) : selectedMedia?.image_url ? (
-          <div className="relative aspect-video   border border-white/10 overflow-hidden">
+          <div className="relative aspect-video border border-white/10 overflow-hidden">
             <Image width={200} height={200} unoptimized
               src={selectedMedia.image_url}
               alt={selectedMedia.content}
@@ -221,12 +221,12 @@ export default function LiveShowFeed() {
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7  rounded-lg  flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/15"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
                 >
                   {selectedMedia.member_avatar}
                 </div>
                 <span className="text-sm font-semibold text-white/80">{selectedMedia.member_name}</span>
-                <span className="text-xs text-white/30">{timeAgo(selectedMedia.created_at)}</span>
+                <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
               <p className="leading-relaxed">{selectedMedia.content}</p>
             </div>
@@ -253,8 +253,7 @@ export default function LiveShowFeed() {
               <button aria-label="Action button"
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive
-                  ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
+                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ?"border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                   : isNew
                     ? "border-red-500/50"
                     : "border-white/[0.06] hover: border-white/10 "
@@ -284,7 +283,7 @@ export default function LiveShowFeed() {
                 </div>
                 {/* New indicator */}
                 {isNew && (
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500  rounded-lg  animate-pulse" />
+                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-lg animate-pulse" />
                 )}
               </button>
             );
@@ -304,20 +303,20 @@ export default function LiveShowFeed() {
                 className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]"
               >
                 <div
-                  className="w-7 h-7 shrink-0  rounded-lg  flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40  text-[var(--color-accent)] bg-[var(--color-accent)]/10"
+                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
                 >
                   {post.member_avatar}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-sm font-semibold text-white/70">{post.member_name}</span>
-                    <span className="text-xs text-white/20">{timeAgo(post.created_at)}</span>
+                    <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>
                   <p className="leading-relaxed truncate">{post.content}</p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   {Object.entries(post.reactions).slice(0, 2).map(([emoji, count]) => (
-                    <span key={emoji} className="text-xs text-white/30">
+                    <span key={emoji} className="text-white/30">
                       {emoji} {count as number}
                     </span>
                   ))}

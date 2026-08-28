@@ -73,11 +73,11 @@ export default function BioScrollReveal({
     <section ref={containerRef} className="relative w-full py-20 px-6 site-container">
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="text-xs  font-bold  uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 flex items-center gap-2">
+        <span className="font-bold uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 flex items-center gap-2">
           {subtitle}
         </span>
         <h2
-          className="text-4xl md:text-6xl  font-bold     uppercase tracking-tighter text-white"
+          className="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           {title}
@@ -99,17 +99,16 @@ export default function BioScrollReveal({
                 className="group cursor-pointer transition-all duration-300 select-none"
               >
                 <div className="flex items-baseline gap-4 mb-2">
-                  <span className="text-xs font-mono text-purple-400 font-bold tracking-widest opacity-60">
+                  <span className="font-mono text-purple-400 font-bold tracking-widest opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="text-xs  font-bold  uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">
+                  <span className="font-bold uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`text-4xl sm:text-5xl md:text-7xl  font-bold  uppercase tracking-tight transition-all duration-300 ${isActive
-                    ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
+                  className={`text-4xl sm:text-5xl md:text-7xl font-bold uppercase tracking-tight transition-all duration-300 ${isActive ?"text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                     : "text-white/30 group-hover:text-white/70"
                     }`}
                   style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
@@ -130,7 +129,7 @@ export default function BioScrollReveal({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center gap-2 mt-4 text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] hover:underline transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
+                    className={`inline-flex items-center gap-2 mt-4 font-bold uppercase tracking-widest text-[var(--color-accent)] hover:underline transition-opacity ${isActive ?"opacity-100" : "opacity-0 pointer-events-none"
                       }`}
                   >
                     <span>View Full Bio</span>
@@ -146,14 +145,13 @@ export default function BioScrollReveal({
 
         {/* Right Column: Sticky Portrait Image Reveal Container */}
         <div className="w-full lg:w-2/5 shrink-0 lg:sticky lg:top-28 z-20">
-          <div className="relative aspect-[3/4] w-full rounded-lg  overflow-hidden border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-purple-950/20">
+          <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-purple-950/20">
             {members.map((member, index) => {
               const isActive = activeIndex === index;
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
-                    ? "opacity-100 scale-100 pointer-events-auto"
+                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ?"opacity-100 scale-100 pointer-events-auto"
                     : "opacity-0 scale-105 pointer-events-none"
                     }`}
                 >
@@ -170,10 +168,10 @@ export default function BioScrollReveal({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="text-[10px]  font-bold  uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60  backdrop-blur-[45px] px-2.5 py-1  rounded-lg  border border-white/10">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
                       {member.role}
                     </span>
-                    <h4 className="text-xl  font-bold  uppercase tracking-tight text-white mt-2 drop-shadow-md">
+                    <h4 className="text-xl font-bold uppercase tracking-tight text-white mt-2 drop-shadow-md">
                       {member.name}
                     </h4>
                   </div>

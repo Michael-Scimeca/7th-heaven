@@ -69,7 +69,7 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white text-xs font-bold uppercase tracking-wider  rounded-lg  border border-purple-500/40  backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white font-bold uppercase tracking-wider rounded-lg border border-purple-500/40 backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
       >
         <span className="text-purple-400 text-sm">🎛️</span>
         <span>Header Mask UI</span>
@@ -80,7 +80,7 @@ export default function HeaderMaskEditor() {
 
       {/* Control Drawer Panel */}
       {isOpen && (
-        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95backdrop-blur-[18px]  text-white border border-purple-500/30 rounded-lg  p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <div className="absolute bottom-14 right-0 w-80 sm:w-96 bg-[#090514]/95backdrop-blur-[18px] text-white border border-purple-500/30 rounded-lg p-5 shadow-2xl flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-3 duration-200 max-h-[85vh] overflow-y-auto custom-scrollbar">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
               <h3 className="text-sm font-bold tracking-wide uppercase text-purple-200">
@@ -93,7 +93,7 @@ export default function HeaderMaskEditor() {
             <button
               aria-label="Close Header Mask Studio"
               onClick={() => setIsOpen(false)}
-              className="text-purple-400 hover:text-white text-xs font-bold px-2 py-1 bg-purple-900/30 rounded hover:bg-purple-800/50 cursor-pointer"
+              className="text-purple-400 hover:text-white font-bold px-2 py-1 bg-purple-900/30 rounded hover:bg-purple-800/50 cursor-pointer"
             >
               ✕
             </button>
@@ -156,7 +156,7 @@ export default function HeaderMaskEditor() {
           <div className="flex flex-col gap-3.5 mt-1">
             {/* Expanded Mask Height */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-xs font-semibold">
+              <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Expanded Mask Height</span>
                 <span className="text-purple-400 font-mono">{settings.height}px</span>
               </div>
@@ -173,7 +173,7 @@ export default function HeaderMaskEditor() {
 
             {/* Gradient Fade Start */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-xs font-semibold">
+              <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Bottom Fade Start</span>
                 <span className="text-purple-400 font-mono">{settings.fadeStart}%</span>
               </div>
@@ -190,7 +190,7 @@ export default function HeaderMaskEditor() {
 
             {/* Gradient Fade End */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-xs font-semibold">
+              <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Bottom Fade End (100% Transparent)</span>
                 <span className="text-purple-400 font-mono">{settings.fadeEnd}%</span>
               </div>
@@ -207,7 +207,7 @@ export default function HeaderMaskEditor() {
 
             {/* Backdrop Blur Amount */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-xs font-semibold">
+              <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Backdrop Blur Radius</span>
                 <span className="text-purple-400 font-mono">{settings.blurAmount}px</span>
               </div>
@@ -224,7 +224,7 @@ export default function HeaderMaskEditor() {
 
             {/* Dark Background Opacity */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-xs font-semibold">
+              <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Background Dark Opacity</span>
                 <span className="text-purple-400 font-mono">{settings.bgOpacity}%</span>
               </div>
@@ -243,7 +243,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg border border-purple-500/20 transition-colors cursor-pointer"
+            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-bold uppercase tracking-wider rounded-lg border border-purple-500/20 transition-colors cursor-pointer"
           >
             Reset Defaults
           </button>

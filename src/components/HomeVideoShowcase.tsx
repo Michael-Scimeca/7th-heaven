@@ -526,8 +526,7 @@ export default function HomeVideoShowcase() {
                       setPlayingVideoId(video.id);
                     }
                   }}
-                  className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id
-                    ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
+                  className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ?"ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
                     : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
                     }`}
                 >
@@ -563,7 +562,7 @@ export default function HomeVideoShowcase() {
                         >
                           <CosmicRadialButton
                             icon={false}
-                            className={`${playButtonSize} ! rounded-lg  !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
+                            className={`${playButtonSize} ! rounded-lg !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
                             aria-label={`Play full video for ${video.title}`}
                             title="Play Full Video"
                           >
@@ -582,7 +581,7 @@ export default function HomeVideoShowcase() {
                             {video.badges.map((badge, bIdx) => (
                               <span
                                 key={badge + bIdx}
-                                className="text-xs sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
+                                className="sm:text-sm font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
                               >
                                 {badge}
                               </span>
@@ -600,7 +599,7 @@ export default function HomeVideoShowcase() {
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2 text-xs sm:text-sm text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                  <div className="pt-2.5 flex items-center justify-between gap-2 sm:text-sm text-white/80 font-semibold w-full px-0.5 pointer-events-none">
                     <span className="shrink-0">
                       Views <strong className="text-white font-mono ml-1">{video.viewCount}</strong>
                     </span>

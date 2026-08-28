@@ -578,11 +578,11 @@ export default function LoginModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/80  backdrop-blur-[45px] transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
+      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/80 backdrop-blur-[45px] transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-lg  rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
+        className="relative w-full max-w-lg rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
         style={{
           background: "#120a22",
           backdropFilter: "blur(32px) saturate(180%)",
@@ -593,7 +593,7 @@ export default function LoginModal() {
         {/* Close */}
         <button onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 w-8 h-8  rounded-lg  bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
+          className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
           <X className="w-4 h-4" />
         </button>
@@ -710,10 +710,10 @@ function LoginModalBodyContent(props: any) {
       >
         {/* Logo */}
         <div className="text-center mb-5">
-          <h2 className="text-3xl sm:text-4xl  font-bold  tracking-tighter uppercase   ">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tighter uppercase">
             <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-  ">HEAVEN</span>
           </h2>
-          <div className="text-xs sm:text-sm uppercase tracking-[0.18em]  font-bold  text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
+          <div className="sm:text-sm uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
             {modalMode === "forgot" ? (
               "Reset Your Password"
             ) : modalMode === "login" ? (
@@ -723,7 +723,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="inline-block text-base sm:text-lg  font-bold  text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1 tracking-widest border border-[var(--color-accent)]/40">
+                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1 tracking-widest border border-[var(--color-accent)]/40">
                   FAN
                 </span>{" "}
                 MEMBERSHIP
@@ -734,7 +734,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Prominent High-Contrast Sliding Toggle Tabs */}
         {modalMode !== "forgot" && (
-          <div className="relative grid grid-cols-2 p-1 bg-white/10  backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
+          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
             <div
               className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
               style={{
@@ -744,7 +744,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
+              className={`relative z-10 py-2.5 px-4 sm:text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="login"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -757,7 +757,7 @@ function LoginModalBodyContent(props: any) {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
-              className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
+              className={`relative z-10 py-2.5 px-4 sm:text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="signup"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -773,7 +773,7 @@ function LoginModalBodyContent(props: any) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
-            <div className={`grid p-1 bg-black/40  backdrop-blur-[45px] border border-white/10  rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode ==="signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
@@ -791,7 +791,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`py-1.5 px-1.5 text-[10px] sm:text-xs  font-bold  uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
+                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id ==='admin' && adminMode)
                     ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                     : "text-white/50 hover:text-white/90 hover: bg-[#00000029]   "
                     }`}
@@ -807,7 +807,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Invite flow banner */}
         {isInviteFlow && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-200 mb-4 flex items-start gap-2">
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 mb-4 flex items-start gap-2">
             <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <span className="font-bold text-white uppercase block">Invited Member Signup</span>
@@ -819,12 +819,12 @@ function LoginModalBodyContent(props: any) {
         {/* PIN Verification Step */}
         {pinSent ? (
           <div className="flex flex-col gap-4 my-4">
-            <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border   border-white/10 rounded-lg">
+            <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
               A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
             </div>
 
             <div>
-              <label htmlFor="login-pin-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block text-center">
+              <label htmlFor="login-pin-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block text-center">
                 Enter 6-Digit Verification PIN
               </label>
               <input
@@ -834,7 +834,7 @@ function LoginModalBodyContent(props: any) {
                 value={pinCode}
                 onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em]  font-bold  text-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-bold text-xl"
                 required
               />
             </div>
@@ -846,24 +846,24 @@ function LoginModalBodyContent(props: any) {
             <button type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-bold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-bold sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
             >
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
 
             <button type="button"
               onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-              className="text-xs font-bold  text-white  hover:text-white text-center transition-colors mt-1 cursor-pointer"
+              className="font-bold text-white hover:text-white text-center transition-colors mt-1 cursor-pointer"
             >
               ← Back to details
             </button>
           </div>
         ) : confirmationRequired ? (
           <div className="flex flex-col items-center gap-4 my-6 text-center">
-            <div className="w-12 h-12  rounded-lg  bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+            <div className="w-12 h-12 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
               <Mail className="w-6 h-6" />
             </div>
-            <h3 className="text-lg  font-bold  uppercase text-white tracking-wider">Check Your Email</h3>
+            <h3 className="text-lg font-bold uppercase text-white tracking-wider">Check Your Email</h3>
             <p className="max-w-sm leading-relaxed">
               We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
@@ -908,27 +908,27 @@ function LoginModalBodyContent(props: any) {
               <div className="flex flex-col gap-4 my-4">
                 {!forgotPinSent ? (
                   <div>
-                    <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Email Address</label>
-                    <div className="input-glow-border  rounded-lg w-full">
+                    <label htmlFor="forgot-email-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Email Address</label>
+                    <div className="input-glow-border rounded-lg w-full">
                       <input
                         id="forgot-email-input"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                         required
                       />
                     </div>
                   </div>
                 ) : (
                   <>
-                    <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border   border-white/10 rounded-lg">
+                    <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
                       A verification code has been sent to <strong>{email}</strong>
                     </div>
                     <div>
-                      <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Verification PIN</label>
-                      <div className="input-glow-border  rounded-lg w-full">
+                      <label htmlFor="forgot-pin-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Verification PIN</label>
+                      <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-pin-input"
                           type="text"
@@ -936,21 +936,21 @@ function LoginModalBodyContent(props: any) {
                           value={forgotPinCode}
                           onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
-                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em]  font-bold  rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-bold rounded-xl"
                           required
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">New Password</label>
-                      <div className="input-glow-border  rounded-lg w-full">
+                      <label htmlFor="forgot-new-password-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">New Password</label>
+                      <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-new-password-input"
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                           required
                         />
                       </div>
@@ -963,10 +963,10 @@ function LoginModalBodyContent(props: any) {
             {modalMode !== "forgot" && (
               <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
                 <div>
-                  <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+                  <label htmlFor="login-email-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
-                  <div className="input-glow-border  rounded-lg w-full">
+                  <div className="input-glow-border rounded-lg w-full">
                     <input
                       id="login-email-input"
                       type="email"
@@ -977,13 +977,13 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ?'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Password</label>
-                  <div className="input-glow-border  rounded-lg w-full">
+                  <label htmlFor="login-password-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Password</label>
+                  <div className="input-glow-border rounded-lg w-full">
                     <input
                       id="login-password-input"
                       type="password"
@@ -993,13 +993,13 @@ function LoginModalBodyContent(props: any) {
                       autoComplete="new-password"
                       data-lpignore="true"
                       data-form-type="other"
-                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   {modalMode === "login" && (
                     <button type="button"
                       onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
-                      className="text-xs font-bold text-purple-300 hover:text-white transition-colors block text-right w-full mt-2 cursor-pointer"
+                      className="font-bold text-purple-300 hover:text-white transition-colors block text-right w-full mt-2 cursor-pointer"
                     >
                       Forgot Password?
                     </button>
@@ -1016,8 +1016,8 @@ function LoginModalBodyContent(props: any) {
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={`text-xs sm:text-sm font-bold leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
-                  I confirm that I am <span className="text-[#c27aff]  font-bold ">18 years of age or older</span>
+                <label htmlFor="modal-age-confirmed-toggle" className={`sm:text-sm font-bold leading-snug cursor-pointer ${isAgeConfirmed ?'text-white' : 'text-white/80'}`}>
+                  I confirm that I am <span className="text-[#c27aff] font-bold">18 years of age or older</span>
                 </label>
               </div>
             )}
@@ -1030,7 +1030,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white font-bold text-xs sm:text-sm tracking-wider disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-bold sm:text-sm tracking-wider disabled:opacity-50"
             >
               {loading
                 ? "Processing..."
@@ -1046,7 +1046,7 @@ function LoginModalBodyContent(props: any) {
             {modalMode === "forgot" && (
               <button type="button"
                 onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
-                className="text-xs font-bold  text-white  hover:text-white text-center transition-colors mt-2 cursor-pointer"
+                className="font-bold text-white hover:text-white text-center transition-colors mt-2 cursor-pointer"
               >
                 ← Back to Sign In
               </button>
@@ -1061,8 +1061,8 @@ function LoginModalBodyContent(props: any) {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-white/10"></div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[#0f0b18] px-3 font-bold  text-white  tracking-wider">Or continue with</span>
+              <div className="relative flex justify-center uppercase">
+                <span className="bg-[#0f0b18] px-3 font-bold text-white tracking-wider">Or continue with</span>
               </div>
             </div>
 
@@ -1070,7 +1070,7 @@ function LoginModalBodyContent(props: any) {
               <button type="button"
                 onClick={() => handleOAuthLogin('google')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 text-xs  font-bold  text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg  "
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 font-bold text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
                 <span>Google</span>
@@ -1078,7 +1078,7 @@ function LoginModalBodyContent(props: any) {
               <button type="button"
                 onClick={() => handleOAuthLogin('facebook')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 text-xs  font-bold  text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg  "
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 font-bold text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                 <span>Facebook</span>
@@ -1087,7 +1087,7 @@ function LoginModalBodyContent(props: any) {
                 onClick={() => handleOAuthLogin('apple')}
                 disabled={loading}
                 style={{ backgroundColor: "#000000" }}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none text-xs  font-bold  text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg  "
+                className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none font-bold text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
                 <span>Apple</span>
@@ -1130,7 +1130,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Admin
             </button>
@@ -1156,7 +1156,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Planner
             </button>
@@ -1199,35 +1199,35 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
     <>
       <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-white/20" />
-        <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white/70 px-1">Or continue with</span>
+        <span className="sm:text-sm font-bold uppercase tracking-widest text-white/70 px-1">Or continue with</span>
         <div className="flex-1 h-px bg-white/20" />
       </div>
 
       <div className="grid grid-cols-3 gap-2.5">
         <button type="button"
           onClick={() => onOAuthLogin('google')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer   text-white text-xs  font-bold  rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer text-white font-bold rounded-lg"
           title="Sign in with Google"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
-          <span className="text-xs  font-bold  text-white">Google</span>
+          <span className="font-bold text-white">Google</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('facebook')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer   text-white text-xs  font-bold  rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer text-white font-bold rounded-lg"
           title="Sign in with Facebook"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-          <span className="text-xs  font-bold  text-white">Facebook</span>
+          <span className="font-bold text-white">Facebook</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('apple')}
           style={{ backgroundColor: "#000000" }}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer   text-white text-xs  font-bold  rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer text-white font-bold rounded-lg"
           title="Sign in with Apple"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
-          <span className="text-xs  font-bold  text-white">Apple</span>
+          <span className="font-bold text-white">Apple</span>
         </button>
       </div>
     </>
@@ -1260,7 +1260,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Admin
         </button>
@@ -1286,7 +1286,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border   border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Planner
         </button>
@@ -1346,30 +1346,30 @@ function SignUpExtraFields({
       {loginRole === 'planner' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border  rounded-lg w-full">
+            <div className="input-glow-border rounded-lg w-full">
               <input
                 id="signup-full-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="signup-company-name" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+            <label htmlFor="signup-company-name" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
               Company / Venue Name
             </label>
-            <div className="input-glow-border  rounded-lg w-full">
+            <div className="input-glow-border rounded-lg w-full">
               <input
                 id="signup-company-name"
                 type="text"
                 placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1377,30 +1377,30 @@ function SignUpExtraFields({
       ) : loginRole === 'cruise' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border  rounded-lg w-full">
+            <div className="input-glow-border rounded-lg w-full">
               <input
                 id="signup-full-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="signup-cabin-no" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+            <label htmlFor="signup-cabin-no" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
               Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
             </label>
-            <div className="input-glow-border  rounded-lg w-full">
+            <div className="input-glow-border rounded-lg w-full">
               <input
                 id="signup-cabin-no"
                 type="text"
                 placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1410,10 +1410,10 @@ function SignUpExtraFields({
           {/* Name + Username — side by side */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+              <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
                 Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
               </label>
-              <div className="input-glow-border  rounded-lg w-full">
+              <div className="input-glow-border rounded-lg w-full">
                 <input
                   id="signup-full-name"
                   type="text"
@@ -1421,15 +1421,15 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors  rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ?'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
+              <label htmlFor="signup-username-input" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">
                 Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
               </label>
-              <div className="input-glow-border  rounded-lg w-full">
+              <div className="input-glow-border rounded-lg w-full">
                 <input
                   id="signup-username-input"
                   type="text"
@@ -1437,7 +1437,7 @@ function SignUpExtraFields({
                   onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
-                  className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                 />
               </div>
             </div>
@@ -1453,7 +1453,7 @@ function SignUpExtraFields({
                   checked={wantNotifications}
                   onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label htmlFor="signup-want-notifications-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-notifications-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNotifications ?'text-white' : 'text-white/80'}`}>
                   Show alerts near me
                 </label>
               </div>
@@ -1464,7 +1464,7 @@ function SignUpExtraFields({
                   checked={wantNewsletter}
                   onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label htmlFor="signup-want-newsletter-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-newsletter-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNewsletter ?'text-white' : 'text-white/80'}`}>
                   News & updates
                 </label>
               </div>
@@ -1473,9 +1473,9 @@ function SignUpExtraFields({
             {/* Zip code & radius — only if opted in */}
             {wantNotifications && (
               <div className="pt-1">
-                <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Zip Code & Radius</label>
+                <label htmlFor="signup-zip-code" className="uppercase tracking-[0.15em] font-bold text-white/80 mb-2 block">Zip Code & Radius</label>
                 <div className="flex items-center gap-2">
-                  <div className="input-glow-border  rounded-lg flex-1">
+                  <div className="input-glow-border rounded-lg flex-1">
                     <input
                       id="signup-zip-code"
                       type="text"
@@ -1483,7 +1483,7 @@ function SignUpExtraFields({
                       onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
-                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   <div className="shrink-0 relative z-30">

@@ -181,7 +181,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-30 w-8 h-8  rounded-lg  bg-black/70 hover: text-white flex items-center justify-center transition-colors cursor-pointer border  border-white/10 "
+            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70 hover: text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             aria-label="Close video"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
@@ -223,7 +223,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {/* Close button */}
       {onClose && (
         <button onClick={handleClose}
-          className={`absolute top-3 right-3 z-30 w-8 h-8  rounded-lg  bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ? "opacity-100" : "opacity-0"
+          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ?"opacity-100" : "opacity-0"
             }`}
           aria-label="Close"
         >
@@ -244,20 +244,20 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         <button
           type="button"
           ref={progressRef as any}
-          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors  rounded-lg  outline-none border-0 p-0 text-left"
+          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors rounded-lg outline-none border-0 p-0 text-left"
           aria-label="Seek progress bar"
           onClick={handleProgressClick}
         >
           <div
-            className="absolute top-0 left-0 h-full bg-white/15  rounded-lg "
+            className="absolute top-0 left-0 h-full bg-white/15 rounded-lg"
             style={{ width: `${buffered}%` }}
           />
           <div
-            className="absolute top-0 left-0 h-full bg-[var(--color-accent)]  rounded-lg "
+            className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
             style={{ width: `${progress}%` }}
           />
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)]  rounded-lg  opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-lg opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
         </button>
@@ -269,7 +269,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className="w-8 h-8 ! rounded-lg  !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
+              className="w-8 h-8 ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -290,7 +290,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
               onMouseLeave={() => setShowVolume(false)}
             >
               <button onClick={toggleMute}
-                className=" text-white  hover:text-white transition-colors cursor-pointer"
+                className="text-white hover:text-white transition-colors cursor-pointer"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -316,20 +316,20 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                     playerRef.current?.setVolume(v);
                     if (v > 0) playerRef.current?.unMute();
                   }}
-                  className="w-full h-1 appearance-none bg-white/20  rounded-lg  cursor-pointer accent-[var(--color-accent)]"
+                  className="w-full h-1 appearance-none bg-white/20 rounded-lg cursor-pointer accent-[var(--color-accent)]"
                 />
               </div>
             </div>
 
             {/* Time */}
-            <span className="text-xs text-white/40 font-mono tabular-nums">
+            <span className="text-white/40 font-mono tabular-nums">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>
 
           {/* Fullscreen */}
           <button onClick={toggleFullscreen}
-            className=" text-white  hover:text-white transition-colors cursor-pointer"
+            className="text-white hover:text-white transition-colors cursor-pointer"
             aria-label="Fullscreen"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

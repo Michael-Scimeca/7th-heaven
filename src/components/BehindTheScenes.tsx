@@ -44,7 +44,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
   const featured = btsVideos[0];
 
   return (
-    <section className="relative   overflow-hidden" id="behind-the-scenes">
+    <section className="relative overflow-hidden" id="behind-the-scenes">
       {/* Featured BTS Hero */}
       <div className="relative w-full min-h-[70vh] flex items-end">
         {/* Background thumbnail */}
@@ -74,7 +74,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="relative z-[3] w-full px-8 md:px-16 pb-16 pt-32">
             <div className="max-w-[700px]">
               {/* Label */}
-              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
+              <span className="inline-block font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
                 Official YouTube
               </span>
 
@@ -149,7 +149,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       <div className="absolute top-4 right-4 z-[3]">
                         <CosmicRadialButton
                           icon={false}
-                          className="w-10 h-10 ! rounded-lg  !p-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110 border border-purple-300/40"
+                          className="w-10 h-10 ! rounded-lg !p-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110 border border-purple-300/40"
                         >
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />
@@ -164,7 +164,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                     <h3 className="text-sm font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
                       {video.title}
                     </h3>
-                    <div className="flex items-center gap-1.5 shrink-0 text-xs text-white/40 tabular-nums">
+                    <div className="flex items-center gap-1.5 shrink-0 text-white/40 tabular-nums">
                       <span>{video.year}</span>
                     </div>
                   </div>

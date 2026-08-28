@@ -115,8 +115,8 @@ export default function ShopInventoryAdminPage() {
   if (!authorized) {
     return (
       <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
-        <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12]  rounded-lg p-8 text-center">
-          <h1 className="text-xl  font-bold  uppercase text-white mb-2">Admin Access Required</h1>
+        <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12] rounded-lg p-8 text-center">
+          <h1 className="text-xl font-bold uppercase text-white mb-2">Admin Access Required</h1>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin, crew, or merch
             account to continue.
@@ -124,7 +124,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => openModal("login")}
-            className="px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold text-xs uppercase tracking-wider rounded-lg"
+            className="px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg"
           >
             Sign In
           </button>
@@ -134,21 +134,21 @@ export default function ShopInventoryAdminPage() {
   }
 
   return (
-    <div className="min-h-screen  text-white pt-32 pb-24">
+    <div className="min-h-screen text-white pt-32 pb-24">
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="text-xs font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Shop
         </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
-            <span className="inline-block text-[10px]  font-bold  uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
               Shop Backend
             </span>
-            <h1 className="text-3xl  font-bold  uppercase text-white tracking-wide">
+            <h1 className="text-3xl font-bold uppercase text-white tracking-wide">
               Inventory Management
             </h1>
             {lowStockCount > 0 && (
@@ -160,7 +160,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setShowAddProduct(true)}
-            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  text-xs uppercase tracking-wider rounded-lg transition-colors"
+            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider rounded-lg transition-colors"
           >
             + Add Product
           </button>
@@ -170,21 +170,21 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab ==="products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab ==="orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
         </div>
 
         {error && (
-          <div className="mb-6 p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold rounded-lg">
+          <div className="mb-6 p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 font-bold rounded-lg">
             ⚠️ {error}
           </div>
         )}
@@ -263,16 +263,16 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
       <div className="p-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3 min-w-0">
           {product.image_url ? (
-            <Image width={48} height={48} unoptimized src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover  bg-[#00000029]   " />
+            <Image width={48} height={48} unoptimized src={product.image_url} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-[#00000029]" />
           ) : (
-            <div className="w-12 h-12 rounded-lg  bg-[#00000029]    flex items-center justify-center text-white/30 text-xs font-bold">
+            <div className="w-12 h-12 rounded-lg bg-[#00000029] flex items-center justify-center text-white/30 font-bold">
               No Pic
             </div>
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-white font-bold text-base truncate">{product.title}</h3>
-              <span className="text-[10px]  font-bold  uppercase tracking-wider text-white/40  bg-[#00000029]    px-2 py-0.5 rounded">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 bg-[#00000029] px-2 py-0.5 rounded">
                 {product.category}
               </span>
             </div>
@@ -285,7 +285,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029]    text-white/40 border border-white/10"
+            className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors ${product.active ?"bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029]    text-white/40 border border-white/10"
               }`}
           >
             {product.active ? "Active" : "Inactive"}
@@ -294,14 +294,14 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={deleteProduct}
-            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg text-xs font-bold uppercase transition-colors"
+            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg font-bold uppercase transition-colors"
           >
             Delete
           </button>
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="px-3 py-1.5  bg-[#00000029]    text-white/70 hover:text-white rounded-lg text-xs font-bold uppercase transition-colors"
+            className="px-3 py-1.5 bg-[#00000029] text-white/70 hover:text-white rounded-lg font-bold uppercase transition-colors"
           >
             {expanded ? "Collapse" : `Variants (${product.variants?.length || 0})`}
           </button>
@@ -310,7 +310,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
       {expanded && (
         <div className="p-4 bg-black/20 space-y-2">
-          <div className="text-[10px]  font-bold  uppercase tracking-wider text-white/40 mb-2">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-white/40 mb-2">
             Variants ({product.variant_kind})
           </div>
           {(product.variants || []).map((variant) => (
@@ -330,7 +330,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             <button
               type="button"
               onClick={() => setShowAddVariant(true)}
-              className="mt-2 text-xs font-bold text-cyan-300 hover:text-cyan-200"
+              className="mt-2 font-bold text-cyan-300 hover:text-cyan-200"
             >
               + Add {product.variant_kind.toLowerCase()} variant
             </button>
@@ -407,11 +407,11 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           setLabel(e.target.value);
           markDirty();
         }}
-        className="col-span-2 sm:col-span-1  bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+        className="col-span-2 sm:col-span-1 bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
         placeholder="Label"
       />
       <div className="flex items-center gap-1">
-        <span className="text-white/30 text-xs">$</span>
+        <span className="text-white/30">$</span>
         <input
           type="number"
           step="0.01"
@@ -420,7 +420,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setPrice(e.target.value);
             markDirty();
           }}
-          className="w-full  bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
         />
       </div>
       <div>
@@ -431,11 +431,11 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setStock(e.target.value);
             markDirty();
           }}
-          className={`w-full  bg-[#00000029]    border rounded px-2 py-1.5 text-xs text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
+          className={`w-full bg-[#00000029] border rounded px-2 py-1.5 text-white ${isOut ?"border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
           title="Stock quantity"
         />
-        {isOut && <span className=" text-[12px]  text-rose-400 font-bold">SOLD OUT</span>}
-        {isLow && <span className=" text-[12px]  text-yellow-400 font-bold">LOW STOCK</span>}
+        {isOut && <span className="text-[12px] text-rose-400 font-bold">SOLD OUT</span>}
+        {isLow && <span className="text-[12px] text-yellow-400 font-bold">LOW STOCK</span>}
       </div>
       <div>
         <input
@@ -445,7 +445,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setLowStock(e.target.value);
             markDirty();
           }}
-          className="w-full  bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white"
+          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
           title="Low-stock threshold"
         />
       </div>
@@ -455,7 +455,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={save}
-            className="px-2.5 py-1.5 bg-[var(--color-accent)] text-white text-[10px]  font-bold  uppercase rounded-md"
+            className="px-2.5 py-1.5 bg-[var(--color-accent)] text-white text-[10px] font-bold uppercase rounded-md"
           >
             Save
           </button>
@@ -464,7 +464,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`px-2 py-1.5 text-[10px]  font-bold  uppercase  rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029]    text-white/40"}`}
+          className={`px-2 py-1.5 text-[10px] font-bold uppercase rounded-lg ${variant.active ?"bg-emerald-500/15 text-emerald-300" : " bg-[#00000029]    text-white/40"}`}
         >
           {variant.active ? "On" : "Off"}
         </button>
@@ -472,7 +472,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           type="button"
           disabled={busy}
           onClick={deleteVariant}
-          className="text-white/30 hover:text-rose-400 text-xs px-1"
+          className="text-white/30 hover:text-rose-400 px-1"
           aria-label={`Delete ${variant.label}`}
         >
           ✕
@@ -526,23 +526,23 @@ function AddVariantForm({
   };
 
   return (
-    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed  border-white/10  rounded-lg p-3">
+    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed border-white/10 rounded-lg p-3">
       <div>
-        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Label</label>
-        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className=" bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
+        <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Label</label>
+        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
       </div>
       <div>
-        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Price</label>
-        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className=" bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white w-24" />
+        <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Price</label>
+        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
       </div>
       <div>
-        <label className="block  text-[12px]  font-bold uppercase text-white/40 mb-1">Stock</label>
-        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className=" bg-[#00000029]    border border-white/10 rounded px-2 py-1.5 text-xs text-white w-20" />
+        <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Stock</label>
+        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-20" />
       </div>
-      <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px]  font-bold  uppercase rounded-md">
+      <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px] font-bold uppercase rounded-md">
         Add
       </button>
-      <button type="button" onClick={onCancel} className="px-3 py-1.5  bg-[#00000029]     text-white  text-[10px]  font-bold  uppercase rounded-md">
+      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#00000029] text-white text-[10px] font-bold uppercase rounded-md">
         Cancel
       </button>
       {error && <p className="text-rose-400 font-bold w-full">{error}</p>}
@@ -610,10 +610,10 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
-      <div className="bg-[#0e0e18] border border-white/[0.12]  rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
+      <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <h2 className="text-white  font-bold  text-lg uppercase tracking-wide">Add Product</h2>
+          <h2 className="text-white font-bold text-lg uppercase tracking-wide">Add Product</h2>
           <button type="button" onClick={onClose} className="text-white/40 hover:text-white text-lg font-bold p-1">
             ✕
           </button>
@@ -668,7 +668,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
                   value={v.label}
                   onChange={(e) => updateVariant(i, "label", e.target.value)}
                   placeholder={variantKind === "Size" ? "M" : variantKind === "Format" ? "Vinyl LP" : "Black"}
-                  className="flex-1 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white text-xs"
+                  className="flex-1 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
                 <input
                   type="number"
@@ -676,14 +676,14 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
                   value={v.price}
                   onChange={(e) => updateVariant(i, "price", e.target.value)}
                   placeholder="Price"
-                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white text-xs"
+                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
                 <input
                   type="number"
                   value={v.stock}
                   onChange={(e) => updateVariant(i, "stock", e.target.value)}
                   placeholder="Stock"
-                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white text-xs"
+                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
               </div>
             ))}
@@ -691,14 +691,14 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <button
             type="button"
             onClick={() => setVariants([...variants, { id: `var-${Date.now()}-${variants.length}`, label: "", price: "", stock: "0" }])}
-            className="mt-2 text-xs font-bold text-cyan-300 hover:text-cyan-200"
+            className="mt-2 font-bold text-cyan-300 hover:text-cyan-200"
           >
             + Another variant
           </button>
         </div>
 
         {error && (
-          <div className="p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold rounded-lg">
+          <div className="p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 font-bold rounded-lg">
             ⚠️ {error}
           </div>
         )}
@@ -707,7 +707,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  uppercase tracking-widest text-sm rounded-lg transition-colors disabled:opacity-50"
+          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>
@@ -744,24 +744,24 @@ function OrdersTab({ orders }: { orders: Order[] }) {
   return (
     <div className="space-y-2">
       {orders.map((order) => (
-        <div key={order.id} className="bg-white/[0.03] border border-white/[0.08]  rounded-lg p-4">
+        <div key={order.id} className="bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-white font-mono text-xs">{order.tran_nbr}</span>
-              <span className={`px-2 py-0.5  rounded-lg  text-[10px]  font-bold  uppercase border ${statusStyles[order.status]}`}>
+              <span className="text-white font-mono">{order.tran_nbr}</span>
+              <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-white/40 text-xs">
+              <span className="text-white/40">
                 {order.formatted_date || order.created_at}
               </span>
-              <span className="text-[var(--color-accent)]  font-bold  text-sm">
+              <span className="text-[var(--color-accent)] font-bold text-sm">
                 ${Number(order.total_amount).toFixed(2)}
               </span>
             </div>
           </div>
-          <div className=" text-white  text-xs">
+          <div className="text-white">
             {(order.line_items || []).map((item, i) => (
               <span key={`${item.title}-${item.variantLabel}-${i}`}>
                 {item.title} ({item.variantLabel}) × {item.quantity}

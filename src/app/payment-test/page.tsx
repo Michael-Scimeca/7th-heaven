@@ -55,16 +55,16 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px]  font-bold  uppercase tracking-widest bg-black/70  backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-widest bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3 text-[10px]  font-bold  uppercase tracking-widest bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
+          <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 text-[10px]  font-bold  uppercase tracking-widest bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
+          <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase tracking-widest bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
             Only {selectedStock} left
           </span>
         )}
@@ -72,7 +72,7 @@ function ProductCard({
 
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="text-white  font-bold  text-base leading-tight">{product.title}</h3>
+          <h3 className="text-white font-bold text-base leading-tight">{product.title}</h3>
           <p className="mt-1 leading-relaxed">{product.description}</p>
         </div>
 
@@ -89,8 +89,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id
-                    ? "bg-[var(--color-accent)] text-white"
+                  className={`px-3 py-1.5 rounded-lg font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ?"bg-[var(--color-accent)] text-white"
                     : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                     }`}
                 >
@@ -102,14 +101,14 @@ function ProductCard({
         </div>
 
         <div className="mt-auto flex items-center justify-between pt-2">
-          <span className="text-lg  font-bold  text-[var(--color-accent)]">
+          <span className="text-lg font-bold text-[var(--color-accent)]">
             ${Number(selectedVariant.price).toFixed(2)}
           </span>
           <button
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -275,16 +274,16 @@ export default function PaymentTestShopPage() {
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/"
-          className="text-xs font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Home
         </Link>
 
         <div className="mb-8">
-          <span className="inline-block text-[10px]  font-bold  uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
             Official Band Store &amp; Apparel
           </span>
-          <h1 className="text-3xl md:text-4xl  font-bold  uppercase text-white tracking-wide">
+          <h1 className="text-3xl md:text-4xl font-bold uppercase text-white tracking-wide">
             7th Heaven Official Merch Store
           </h1>
           <p className="mt-2 max-w-xl leading-relaxed">
@@ -292,7 +291,7 @@ export default function PaymentTestShopPage() {
           </p>
 
           {mockMode && (
-            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs font-bold rounded-lg max-w-xl">
+            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 font-bold rounded-lg max-w-xl">
               🧪 TEST MODE — checkout using simulated TAC for testing payment processing.
             </div>
           )}
@@ -301,13 +300,13 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 text-xs font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
+              className="flex items-center gap-1.5 font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
             >
               ✨ Store Features &amp; Capabilities
             </button>
             <Link
               href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
+              className="flex items-center gap-1.5 font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
             >
               🛠️ Manage Inventory
             </Link>
@@ -319,7 +318,7 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">
+                <h3 className="text-white font-bold text-sm uppercase tracking-wide">
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
                 <p className="mt-1">
@@ -329,15 +328,15 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowLimitations(false)}
-                className="text-white/40 hover:text-white text-xs uppercase font-bold shrink-0 ml-4"
+                className="text-white/40 hover:text-white uppercase font-bold shrink-0 ml-4"
               >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/70">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Real-Time Inventory Tracking
                 </span>
                 <p className="leading-relaxed">
@@ -346,7 +345,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
                 <p className="leading-relaxed">
@@ -355,7 +354,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p className="leading-relaxed">
@@ -367,7 +366,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Streamlined Fast Checkout
                 </span>
                 <p className="leading-relaxed">
@@ -376,7 +375,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Direct Merchant Security
                 </span>
                 <p className="leading-relaxed">
@@ -385,7 +384,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ⚡ Instant Email Order Confirmation
                 </span>
                 <p className="leading-relaxed">
@@ -394,7 +393,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-cyan-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-cyan-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
                 <p className="leading-relaxed">
@@ -410,7 +409,7 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <h3 className="text-white  font-bold  text-sm uppercase tracking-wide">
+                <h3 className="text-white font-bold text-sm uppercase tracking-wide">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
                 <p className="mt-1 max-w-2xl">
@@ -424,15 +423,15 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowRoadmap(false)}
-                className="text-white/40 hover:text-white text-xs uppercase font-bold shrink-0 ml-4"
+                className="text-white/40 hover:text-white uppercase font-bold shrink-0 ml-4"
               >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-white/70">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
                 <p className="leading-relaxed">
@@ -444,7 +443,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   💳 Saved Cards &amp; Refunds
                 </span>
                 <p className="leading-relaxed">
@@ -456,7 +455,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   🧾 Custom / VIP Order Invoicing
                 </span>
                 <p className="leading-relaxed">
@@ -467,7 +466,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   📊 Real Sales Dashboard
                 </span>
                 <p className="leading-relaxed">
@@ -481,7 +480,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   🖥️ Embedded Checkout Upgrade
                 </span>
                 <p className="leading-relaxed">
@@ -492,7 +491,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   🏬 In-Person + Online, One Inventory
                 </span>
                 <p className="leading-relaxed">
@@ -503,7 +502,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-yellow-300  font-bold  uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-yellow-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
                   🛠️ Not North — Custom-Built Only
                 </span>
                 <p className="leading-relaxed">
@@ -526,8 +525,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat
-                  ? "bg-cyan-500 text-black"
+                className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat ?"bg-cyan-500 text-black"
                   : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                   }`}
               >
@@ -539,7 +537,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="px-4 py-2.5  bg-[#00000029]    border border-white/10 hover:border-[var(--color-accent)] rounded-lg text-xs  font-bold  uppercase tracking-wider transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg font-bold uppercase tracking-wider transition-colors flex items-center gap-2"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -573,10 +571,10 @@ export default function PaymentTestShopPage() {
 
       {/* Cart drawer */}
       {showCart && (
-        <div className="fixed inset-0 z-50 bg-black/80  backdrop-blur-[45px] flex items-center justify-center p-4">
-          <div className="bg-[#0e0e18] border border-white/[0.12]  rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
+          <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <h2 className="text-white  font-bold  text-lg uppercase tracking-wide">My Cart</h2>
+              <h2 className="text-white font-bold text-lg uppercase tracking-wide">My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
@@ -597,7 +595,7 @@ export default function PaymentTestShopPage() {
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08]  rounded-lg p-3"
+                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-lg p-3"
                     >
                       <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-black/40">
                         <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
@@ -613,7 +611,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="w-7 h-7 flex items-center justify-center  bg-[#00000029]    border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold"
                         >
                           −
                         </button>
@@ -624,7 +622,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center  bg-[#00000029]    border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white text-sm font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           +
                         </button>
@@ -644,14 +642,14 @@ export default function PaymentTestShopPage() {
             )}
 
             {checkoutError && (
-              <div className="p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold leading-normal">
+              <div className="p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 font-bold leading-normal">
                 ⚠️ {checkoutError}
               </div>
             )}
 
             <div className="border-t border-white/10 pt-4 flex items-center justify-between">
               <span className="text-white/50 text-sm font-bold uppercase tracking-wider">Total</span>
-              <span className="text-2xl  font-bold  text-[var(--color-accent)]">
+              <span className="text-2xl font-bold text-[var(--color-accent)]">
                 ${cart.getTotalCost().toFixed(2)}
               </span>
             </div>
@@ -660,7 +658,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 py-3  bg-[#00000029]    hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-widest rounded-lg transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-lg transition-colors"
               >
                 Continue Shopping
               </button>
@@ -668,7 +666,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white  font-bold  text-xs uppercase tracking-widest rounded-lg transition-colors disabled:opacity-40"
+                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

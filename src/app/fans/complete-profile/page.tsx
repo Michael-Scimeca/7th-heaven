@@ -115,9 +115,9 @@ export default function CompleteProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen   text-white flex items-center justify-center">
+      <div className="min-h-screen text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
+          <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
           <p className="font-bold uppercase tracking-widest">Loading your profile...</p>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="min-h-screen   text-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
         <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
@@ -135,10 +135,10 @@ export default function CompleteProfilePage() {
           <div className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40  rounded-lg  flex items-center justify-center mx-auto mb-4 text-2xl">
+              <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎸
               </div>
-              <h1 className="text-2xl  font-bold  tracking-tight mb-2">
+              <h1 className="text-2xl font-bold tracking-tight mb-2">
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
@@ -153,7 +153,7 @@ export default function CompleteProfilePage() {
                 <Image width={200} height={200} unoptimized
                   src={profile.avatar_url}
                   alt={profile.full_name}
-                  className="w-20 h-20  rounded-lg  border-2 border-[var(--color-accent)]/40 object-cover"
+                  className="w-20 h-20 rounded-lg border-2 border-[var(--color-accent)]/40 object-cover"
                 />
               </div>
             )}
@@ -189,8 +189,7 @@ export default function CompleteProfilePage() {
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications
-                    ? 'bg-purple-600/10 border-purple-500/40'
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ?'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
@@ -225,8 +224,7 @@ export default function CompleteProfilePage() {
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter
-                    ? 'bg-purple-600/10 border-purple-500/40'
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ?'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >

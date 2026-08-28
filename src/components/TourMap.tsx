@@ -844,13 +844,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           {/* Left Map Controls: Show Types & Date Range Zoom */}
           <div className="pointer-events-auto flex items-center gap-3 flex-wrap max-w-[calc(100%-120px)] sm:max-w-none">
             {/* Legend / Show Types */}
-            <div className="group bg-[rgba(8,8,18,0.92)]  backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
+            <div className="group bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
                 onClick={() => setLegendOpen(o => !o)}
-                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer hover: bg-[#00000029]    text-white/80 hover:text-[var(--color-accent)] transition-colors"
+                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer hover: bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors"
               >
-                <span className="text-xs sm:text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
+                <span className="sm:text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
                 <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
               {/* Expandable content */}
@@ -877,7 +877,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
                             }`}
                         >
-                          <div className="w-3.5 h-3.5  rounded-lg  shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                          <div className="w-3.5 h-3.5 rounded-lg shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                             {showLetter}
                           </div>
                           <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
@@ -889,9 +889,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
                     <div className="flex items-center gap-2">
                       {selectedTypes.size > 0 && (
-                        <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                        <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                       )}
-                      <span className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
+                      <span className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
                     </div>
                   </div>
                 </div>
@@ -904,8 +904,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
-                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)]  backdrop-blur-[45px] border rounded-lg text-xs sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered
-                    ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
+                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered ?"border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                     : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
                   title="Zoom in on dates & filter show markers"
@@ -913,13 +912,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1  text-[12px]  sm:text-[10px]  font-bold  bg-purple-600 text-white px-1.5 sm:px-2 py-0.5  rounded-lg  border border-purple-400/50">
+                    <span className="ml-1 text-[12px] sm:text-[10px] font-bold bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-lg border border-purple-400/50">
                       ({markerCount})
                     </span>
                   )}
                 </button>
               ) : (
-                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)]backdrop-blur-[18px]  border border-purple-500/40 p-4.5 rounded-lg  shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
+                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)]backdrop-blur-[18px] border border-purple-500/40 p-4.5 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
                   {/* Header */}
                   <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                     <div className="flex items-center gap-2">
@@ -932,7 +931,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setIsDateUiOpen(false)}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20  text-white  hover:text-white transition-colors"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white hover:text-white transition-colors"
                     >
                       ✕
                     </button>
@@ -981,7 +980,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                   {/* Quick Preset Buttons */}
                   <div className="space-y-1">
-                    <span className=" text-[12px]  font-bold text-white/50 uppercase tracking-wider block">Quick Presets</span>
+                    <span className="text-[12px] font-bold text-white/50 uppercase tracking-wider block">Quick Presets</span>
                     <div className="grid grid-cols-3 gap-1.5">
                       <button
                         type="button"
@@ -990,7 +989,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10  bg-[#00000029]    hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[12px] font-bold uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 30 Days
                       </button>
@@ -1001,14 +1000,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
                         }}
-                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10  bg-[#00000029]    hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[12px] font-bold uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         Next 90 Days
                       </button>
                       <button
                         type="button"
                         onClick={() => setDateRange([minShowTime, maxShowTime])}
-                        className="px-2 py-1  text-[12px]  font-bold uppercase rounded-lg border border-white/10  bg-[#00000029]    hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                        className="px-2 py-1 text-[12px] font-bold uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
                       >
                         All Dates
                       </button>
@@ -1020,7 +1019,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-[10px] uppercase tracking-widest transition-colors  rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-[10px] uppercase tracking-widest transition-colors rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
                     >
                       <span>✕ Remove Date Filter</span>
                     </button>
@@ -1028,7 +1027,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setIsDateUiOpen(false)}
-                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider  rounded-lg transition-colors cursor-pointer text-center"
+                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer text-center"
                     >
                       Close Controls
                     </button>
@@ -1044,7 +1043,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)]  backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
             >
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -1055,7 +1054,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)]  backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
             >
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -1073,7 +1072,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <p className="">{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
             </div>
           ) : (
-            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent  rounded-lg  animate-spin" />
+            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
           )}
         </div>
       )}

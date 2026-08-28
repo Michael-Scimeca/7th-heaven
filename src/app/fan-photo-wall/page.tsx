@@ -177,10 +177,10 @@ export default function FansPage() {
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5  rounded-lg   bg-[#00000029]  border  border-white/10  backdrop-blur-[16px] text-white text-xs  font-bold  uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(168,85,247,0.5)] mb-4">
                 <span>OFFICIAL FAN COMMUNITY GALLERY</span>
               </div>
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem]  font-bold  uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
               <p className="font-medium mt-3 max-w-2xl leading-relaxed">
@@ -189,7 +189,7 @@ export default function FansPage() {
 
               {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-xl flex-wrap">
+                <div className="mt-4 text-white/70 flex items-center gap-2 max-w-xl flex-wrap">
                   <Lock className="w-4 h-4 text-purple-400 shrink-0" />
                   <p>
                     You must be a <span className="font-bold text-white">Fan Member</span> to share your moments.{" "}
@@ -223,7 +223,7 @@ export default function FansPage() {
                   }
                 }}
                 icon={<Camera className="w-4 h-4" />}
-                className="px-8 py-4 rounded-lg text-white text-xs  font-bold  tracking-widest"
+                className="px-8 py-4 rounded-lg text-white font-bold tracking-widest"
               >
                 {showUpload ? "Hide Upload Form" : "Upload Photo / Video"}
               </CosmicRadialButton>
@@ -258,7 +258,7 @@ export default function FansPage() {
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto  bg-[#00000029]  text-white text-xs px-3 py-1 font-mono  rounded-lg  border  border-white/10    font-bold ">
+              <span className="ml-auto bg-[#00000029] text-white px-3 py-1 font-mono rounded-lg border border-white/10 font-bold">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -272,10 +272,10 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="p-3 bg-[#e1e6ff15] border   border-white/10   rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
+                    className="p-3 bg-[#e1e6ff15] border border-white/10 rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
                   >
                     {/* Small Compact Thumbnail */}
-                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border  border-white/10  bg-black/40">
+                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border border-white/10 bg-black/40">
                       {isVideo ? (
                         <video
                           src={photo.src}
@@ -295,7 +295,7 @@ export default function FansPage() {
                           className="object-cover"
                         />
                       )}
-                      <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-black/80 backdrop-blur-md rounded  text-[12px]  font-mono text-white/90">
+                      <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-black/80 backdrop-blur-md rounded text-[12px] font-mono text-white/90">
                         {photo.date || "Pending"}
                       </div>
                     </div>
@@ -303,7 +303,7 @@ export default function FansPage() {
                     {/* Metadata & Actions */}
                     <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
                       <div>
-                        <div className="flex items-center gap-1 text-xs  font-bold  text-white truncate">
+                        <div className="flex items-center gap-1 font-bold text-white truncate">
                           <span className="text-purple-400">@</span>
                           <span className="truncate">{photo.name}</span>
                         </div>
@@ -324,7 +324,7 @@ export default function FansPage() {
                         <button
                           onClick={() => handleRejectPhoto(photo.id)}
                           disabled={moderatingId === photo.id}
-                          className="py-1.5 px-2 text-[10px]  font-bold  uppercase tracking-widest text-red-200 bg-red-950/50 border border-red-500/30  rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center"
+                          className="py-1.5 px-2 text-[10px] font-bold uppercase tracking-widest text-red-200 bg-red-950/50 border border-red-500/30 rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center"
                         >
                           Reject
                         </button>
@@ -332,7 +332,7 @@ export default function FansPage() {
                           onClick={() => handleApprovePhoto(photo.id)}
                           disabled={moderatingId === photo.id}
                           icon={false}
-                          className="!py-1.5 !px-2 text-[10px]  font-bold  uppercase tracking-widest text-white ! rounded-lg text-center"
+                          className="!py-1.5 !px-2 text-[10px] font-bold uppercase tracking-widest text-white ! rounded-lg text-center"
                         >
                           Approve
                         </CosmicRadialButton>
@@ -369,13 +369,13 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1  rounded-lg border  border-white/10  bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                   Featured Moment
                 </span>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl  font-bold  uppercase tracking-tight text-white leading-none drop-shadow-md">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white leading-none drop-shadow-md">
                   {approvedPhotos[0].name}
                 </h3>
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-white/70 font-semibold mt-2">
+                <div className="flex items-center gap-2 sm:text-sm text-white/70 font-semibold mt-2">
                   {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
                   {approvedPhotos[0].venue && approvedPhotos[0].date && (
                     <span>·</span>
@@ -407,8 +407,7 @@ export default function FansPage() {
                 >
                   <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
                     <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square  rounded-full  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 
- flex items-center justify-center font-bold text-xs text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center font-bold text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
                         {photo.name
                           ? photo.name
                             .split(" ")
@@ -433,11 +432,11 @@ export default function FansPage() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-0.5 shrink-0">
-                      <span className="text-white text-[10px] sm:text-xs uppercase tracking-widest font-bold">
+                      <span className="text-white text-[10px] uppercase tracking-widest font-bold">
                         {isVideo ? "Video" : "Photo"}
                       </span>
                       {photo.date && (
-                        <span className="text-white/70 text-[10px] sm:text-xs font-medium">{photo.date}</span>
+                        <span className="text-white/70 text-[10px] font-medium">{photo.date}</span>
                       )}
                     </div>
                   </div>
@@ -468,7 +467,7 @@ export default function FansPage() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                        <span className="text-white bg-white/10 border  border-white/10  px-6 py-2  rounded-lg  font-bold text-xs uppercase tracking-widest backdrop-blur-md">
+                        <span className="text-white bg-white/10 border border-white/10 px-6 py-2 rounded-lg font-bold uppercase tracking-widest backdrop-blur-md">
                           {isVideo ? "Play Video" : "Expand Photo"}
                         </span>
                       </div>
@@ -569,7 +568,7 @@ export default function FansPage() {
                   <button aria-label="Action button"
                     onClick={() => handleFlagPhoto(selectedPhoto.id)}
                     disabled={flaggingId === selectedPhoto.id}
-                    className="text-white/20 hover:text-red-400 text-xs uppercase tracking-widest font-bold transition-colors flex items-center gap-1 mt-1 disabled:opacity-50"
+                    className="text-white/20 hover:text-red-400 uppercase tracking-widest font-bold transition-colors flex items-center gap-1 mt-1 disabled:opacity-50"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />

@@ -197,7 +197,7 @@ export default function ClaimPage() {
         {/* Loading */}
         {status === 'loading' && (
           <div className="text-center py-16">
-            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500  rounded-lg  animate-spin mx-auto mb-4" />
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500 rounded-lg animate-spin mx-auto mb-4" />
             <p className="">Verifying...</p>
           </div>
         )}
@@ -206,14 +206,14 @@ export default function ClaimPage() {
         {status === 'not_logged_in' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">🔐</span>
-            <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Sign In Required</h2>
+            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Sign In Required</h2>
             <p className="mb-6">
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
             <CosmicRadialButton
               onClick={() => openModal()}
               icon={false}
-              className="w-full py-3 text-white font-bold text-xs tracking-wider rounded-lg"
+              className="w-full py-3 text-white font-bold tracking-wider rounded-lg"
             >
               Sign In to Verify
             </CosmicRadialButton>
@@ -224,7 +224,7 @@ export default function ClaimPage() {
         {status === 'wrong_user' && (
           <div className="bg-[var(--color-bg-surface)] border border-red-500/30 p-8 text-center">
             <span className="text-5xl block mb-4">🚫</span>
-            <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">Not Your Claim</h2>
+            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">Not Your Claim</h2>
             <p className="mb-4">
               This PIN belongs to a different account. You must be signed in as the winning account to verify.
             </p>
@@ -240,12 +240,12 @@ export default function ClaimPage() {
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
-              <span className="text-black  font-bold  text-sm uppercase tracking-widest font-sans">✓ PIN Verified</span>
+              <span className="text-black font-bold text-sm uppercase tracking-widest font-sans">✓ PIN Verified</span>
             </div>
 
             <div className="p-8 text-center">
               <span className="text-6xl block mb-5">🏆</span>
-              <h1 className="text-white  font-bold  text-2xl uppercase tracking-wide mb-1 font-sans">Raffle Winner</h1>
+              <h1 className="text-white font-bold text-2xl uppercase tracking-wide mb-1 font-sans">Raffle Winner</h1>
               <p className="mb-8 font-sans">Show this screen to the 7th Heaven crew at the merch table.</p>
 
               {/* Winner name */}
@@ -264,7 +264,7 @@ export default function ClaimPage() {
 
                   return (
                     <div key={item.productId || item.variantId || item.name} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
-                      <div className="w-12 h-12  bg-[#00000029]    rounded-lg flex items-center justify-center p-1 relative shrink-0">
+                      <div className="w-12 h-12 bg-[#00000029] rounded-lg flex items-center justify-center p-1 relative shrink-0">
                         <Image width={200} height={200} unoptimized src={displayImage} alt={displayTitle} className="w-full h-full object-contain mix-blend-screen" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -282,7 +282,7 @@ export default function ClaimPage() {
                 <div className="flex items-center justify-center gap-2">
                   {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                     <div key={i} className="w-10 h-14 bg-black/60 border-2 border-purple-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(192, 132, 252,0.15)]">
-                      <span className="text-purple-300  font-bold  text-2xl tabular-nums font-sans">{digit}</span>
+                      <span className="text-purple-300 font-bold text-2xl tabular-nums font-sans">{digit}</span>
                     </div>
                   ))}
                 </div>
@@ -291,14 +291,14 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-xs  font-bold  uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
                   <CosmicRadialButton
                     onClick={handleClaimConfirm}
                     icon={false}
-                    className="w-full py-3 text-white font-bold text-xs tracking-wider rounded-lg font-sans"
+                    className="w-full py-3 text-white font-bold tracking-wider rounded-lg font-sans"
                   >
                     Confirm Prize Claim
                   </CosmicRadialButton>
@@ -321,7 +321,7 @@ export default function ClaimPage() {
         {status === 'invalid' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
             <span className="text-5xl block mb-4">❌</span>
-            <h2 className="text-white  font-bold  text-xl uppercase tracking-wide mb-2">PIN Not Found</h2>
+            <h2 className="text-white font-bold text-xl uppercase tracking-wide mb-2">PIN Not Found</h2>
             <p className="mb-6">
               This PIN doesn't match an active raffle winner, or the raffle has ended.
             </p>

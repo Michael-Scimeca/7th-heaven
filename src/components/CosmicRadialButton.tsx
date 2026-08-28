@@ -271,7 +271,7 @@ export const CosmicRadialButton = React.forwardRef<
           ref={ref}
           type="button"
           onMouseEnter={handleMouseEnter}
-          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5  rounded-lg text-white font-bold text-xs uppercase tracking-widest cursor-pointer flex items-center gap-2.5 ${className}`}
+          className={`btn-cosmic-radial-property animate-cosmic-property-drift px-7 py-3.5 rounded-lg text-white font-bold uppercase tracking-widest cursor-pointer flex items-center gap-2.5 ${className}`}
           style={style}
           {...restProps}
         >
@@ -295,7 +295,7 @@ export const CosmicRadialButton = React.forwardRef<
             backgroundImage: rafBgImage,
             ...style,
           }}
-          className={`relative px-2 py-4 rounded-2xl text-white  font-bold  text-xs uppercase tracking-[0.2em] cursor-pointer flex items-center justify-center gap-3 group overflow-hidden ${className}`}
+          className={`relative px-2 py-4 rounded-2xl text-white font-bold uppercase tracking-[0.2em] cursor-pointer flex items-center justify-center gap-3 group overflow-hidden ${className}`}
           {...restProps}
         >
           {renderIcon()}
@@ -344,7 +344,7 @@ export const CosmicRadialButton = React.forwardRef<
         onMouseEnter={handleMouseEnter}
         onTouchStart={() => randomizePositions()}
         style={propertyStyle}
-        className={`btn-cosmic-radial-property relative px-6 py-3 text-white  font-bold  text-xs uppercase tracking-[0.15em] cursor-pointer flex items-center justify-center gap-2.5 group overflow-hidden hover:brightness-115 transition-all duration-300 whitespace-nowrap flex-nowrap shrink-0 select-none !rounded-full ${className}`}
+        className={`btn-cosmic-radial-property relative px-6 py-3 text-white font-bold uppercase tracking-[0.15em] cursor-pointer flex items-center justify-center gap-2.5 group overflow-hidden hover:brightness-115 transition-all duration-300 whitespace-nowrap flex-nowrap shrink-0 select-none !rounded-full ${className}`}
         {...restProps}
       >
         {renderIcon()}

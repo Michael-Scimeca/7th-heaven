@@ -211,9 +211,9 @@ export default function AdminGatewayPage() {
   // If logged in as admin with 2FA verified, show loading while redirect takes place
   if (isLoggedIn && member?.role === 'admin' && is2FAVerified) {
     return (
-      <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center">
+      <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12  rounded-lg  border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
           <p className="uppercase tracking-widest font-bold">Redirecting to dashboard...</p>
         </div>
       </div>
@@ -240,7 +240,7 @@ export default function AdminGatewayPage() {
           pointerEvents: "none"
         }}
       />
-      <div className="fixed inset-0 bg-black/55  backdrop-blur-[45px] z-0 pointer-events-none" />
+      <div className="fixed inset-0 bg-black/55 backdrop-blur-[45px] z-0 pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
 
@@ -252,10 +252,10 @@ export default function AdminGatewayPage() {
           >
             <div className="p-8 sm:p-10">
               <div className="text-center mb-8">
-                <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
+                <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
-                <h1 className="text-2xl sm:text-3xl  font-bold  tracking-tight text-white uppercase">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase">
                   Admin <span className=" text-[var(--color-accent)]">Access</span>
                 </h1>
                 <p className="uppercase tracking-[0.2em] font-bold mt-2">
@@ -273,12 +273,12 @@ export default function AdminGatewayPage() {
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link href="/fans" className="text-[0.65rem]  text-[var(--color-accent)] hover:text-purple-300 uppercase tracking-[0.15em]  font-bold  transition-colors">
+                    <Link href="/fans" className="text-[0.65rem] text-[var(--color-accent)] hover:text-purple-300 uppercase tracking-[0.15em] font-bold transition-colors">
                       ← Back to Fan Dashboard
                     </Link>
                     <button aria-label="Action button"
                       onClick={() => logout()}
-                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase tracking-[0.15em]  font-bold  transition-colors cursor-pointer"
+                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer"
                     >
                       Sign Out & Switch Account
                     </button>
@@ -296,7 +296,7 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border   border-white/10   text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -310,7 +310,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border   border-white/10   text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -322,7 +322,7 @@ export default function AdminGatewayPage() {
                   <button aria-label="Action button"
                     type="submit"
                     disabled={adminLoginLoading}
-                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white  font-bold  text-xs uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
+                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
                   >
                     {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                   </button>
@@ -337,7 +337,7 @@ export default function AdminGatewayPage() {
                           router.replace("/admin/admin");
                         }
                       }}
-                      className="w-full py-3 border border-purple-500/30 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300  font-bold  text-xs uppercase tracking-[0.15em] transition-colors cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-3 border border-purple-500/30 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer flex items-center justify-center gap-2"
                     >
                       <span>⚡</span> Instant Dev Access (Bypass Login)
                     </button>
@@ -357,7 +357,7 @@ export default function AdminGatewayPage() {
           <>
             <div className="text-center mb-8 relative z-10">
               <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-              <h1 className="text-white  font-bold  text-2xl uppercase tracking-widest">Admin 2FA Verification</h1>
+              <h1 className="text-white font-bold text-2xl uppercase tracking-widest">Admin 2FA Verification</h1>
               <p className="mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
@@ -385,7 +385,7 @@ export default function AdminGatewayPage() {
                 ].map(({ id, slotIndex: i }) => {
                   const digit = pin[i];
                   return (
-                    <div key={id} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0">
+                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                       <input aria-label={`Admin PIN digit ${i + 1}`}
                         ref={el => { inputRefs.current[i] = el; }}
                         type="text"
@@ -397,9 +397,7 @@ export default function AdminGatewayPage() {
                         onBlur={() => setFocusedIndex(null)}
                         onChange={e => handleDigit(i, e.target.value)}
                         onKeyDown={e => handleKeyDown(i, e)}
-                        className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums
-                        ${focusedIndex === i
-                            ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                        className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ?'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                             : digit
                               ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                               : ' border-white/10  text-white/40 hover:border-white/40'
@@ -429,7 +427,7 @@ export default function AdminGatewayPage() {
                   boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                   transition: "all 0.25s ease",
                 }}
-                className="w-full py-3.5  font-bold  text-xs uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
+                className="w-full py-3.5 font-bold uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
               >
                 {verifyStatus === 'checking' ? 'Verifying...' : 'Access My Dashboard →'}
               </button>

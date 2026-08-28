@@ -68,18 +68,18 @@ function PaymentTestContent() {
         <div className="mb-8 text-left">
           <Link
             href="/"
-            className="text-xs font-bold uppercase tracking-wider text-purple-400hover:text-white transition-colors flex items-center gap-2"
+            className="font-bold uppercase tracking-wider text-purple-400hover:text-white transition-colors flex items-center gap-2"
           >
             ← Back to Home
           </Link>
         </div>
 
-        <div className="bg-white/[0.04]backdrop-blur-[18px]  border border-white/[0.12]  rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)] text-left">
+        <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)] text-left">
           <div className="mb-6">
-            <span className="inline-block text-[var(--font-size-3xs)]  font-bold  uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
               Stripe Test Mode
             </span>
-            <h1 className="text-2xl  font-bold  uppercase text-white tracking-wide">
+            <h1 className="text-2xl font-bold uppercase text-white tracking-wide">
               Payment Test Page
             </h1>
             <p className="mt-1 leading-relaxed">
@@ -91,7 +91,7 @@ function PaymentTestContent() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 border   border-white/10 bg-emerald-500/10 text-[var(--color-accent)] text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border border-white/10 bg-emerald-500/10 text-[var(--color-accent)] font-bold leading-normal">
               🎉{" "}
               {confirmed
                 ? `Payment confirmed: $${(confirmed.amountTotal / 100).toFixed(2)} ${confirmed.currency?.toUpperCase()}.`
@@ -100,13 +100,13 @@ function PaymentTestContent() {
           )}
 
           {status === "cancelled" && (
-            <div className="mb-6 p-4 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border border-rose-500/20 bg-rose-500/10 text-rose-400 font-bold leading-normal">
               Checkout was cancelled. No charge was made.
             </div>
           )}
 
           {error && (
-            <div className="mb-6 p-4 border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border border-rose-500/20 bg-rose-500/10 text-rose-400 font-bold leading-normal">
               ⚠️ {error}
             </div>
           )}

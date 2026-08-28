@@ -87,8 +87,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
-            <span className="w-1 h-1  rounded-lg  bg-[var(--color-accent)] animate-pulse" />
-            <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
+            <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
+            <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
           <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
@@ -130,8 +130,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
-          <span className="w-1 h-1  rounded-lg  bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[var(--font-size-4xs)]  font-bold  uppercase tracking-[0.2em]  text-[var(--color-accent)]">Upcoming Shows</span>
+          <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
+          <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
         <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All
@@ -148,8 +148,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Top block: UP NEXT Badge & Countdown timer inline */}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
-            <div className="flex items-center gap-1 text-[var(--font-size-5xs)]  font-bold  uppercase tracking-[0.15em]">
-              <span className={`w-0.5 h-0.5  rounded-lg  ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+            <div className="flex items-center gap-1 text-[var(--font-size-5xs)] font-bold uppercase tracking-[0.15em]">
+              <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel ==="Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
               <span className={daysLabel === "Happening Now" ? "text-red-500  font-bold " : " text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>
@@ -226,7 +226,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                 <Calendar className="w-3 h-3 text-cyan-400" /> Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
-                <div className="absolute left-0 bottom-full mb-1   border   border-white/10 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
+                <div className="absolute left-0 bottom-full mb-1 border border-white/10 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
                   <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google</a>
                   <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                   <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
@@ -243,8 +243,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           // eslint-disable-next-line react-doctor/no-array-index-as-key
           <Link key={`hero_show_${idx}_${show.id || show.venue}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
-              <span className="text-[var(--font-size-5xs)]  font-bold  uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
-              <span className="text-[var(--font-size-2xs)]  font-bold  leading-none mt-0.5">{show.date.split(' ')[1]}</span>
+              <span className="text-[var(--font-size-5xs)] font-bold uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
+              <span className="text-[var(--font-size-2xs)] font-bold leading-none mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold truncate leading-tight">{show.venue}</p>

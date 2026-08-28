@@ -52,7 +52,7 @@ export default function ChatInputBar({
             disabled={disabled}
             placeholder={placeholder}
             maxLength={maxLength}
-            className={`w-full  bg-[#00000029]    !border-0 !border-t  pl-3.5 py-3 text-xs text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
+            className={`w-full bg-[#00000029] !border-0 !border-t pl-3.5 py-3 text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
           />
         </div>
 
@@ -63,7 +63,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="w-7 h-7 rounded-lg  bg-[#00000029]    hover:bg-white/10 text-white/70 flex items-center justify-center text-sm transition-colors cursor-pointer"
+              className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 flex items-center justify-center text-sm transition-colors cursor-pointer"
             >
               😀
             </button>
@@ -75,7 +75,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onAtToggle}
               title="Tag Admin or Crew"
-              className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-[var(--color-accent)] font-bold text-xs border border-purple-500/30 transition-colors cursor-pointer"
+              className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-[var(--color-accent)] font-bold border border-purple-500/30 transition-colors cursor-pointer"
             >
               @
             </button>

@@ -181,7 +181,7 @@ function PlannerVerifyContent() {
             We'll send a 6-digit PIN to verify your identity.
           </p>
           <form onSubmit={e => { e.preventDefault(); handleRequestPin(email); }}>
-            <div className="input-glow-border  rounded-lg mb-4">
+            <div className="input-glow-border rounded-lg mb-4">
               <input aria-label="Input field"
                 ref={emailInputRef}
                 autoFocus
@@ -190,7 +190,7 @@ function PlannerVerifyContent() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full  bg-[#00000029]    border   border-white/10   focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40  rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
+                className="w-full bg-[#00000029] border border-white/10 focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40 rounded-lg px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
               />
             </div>
             {errorMsg && (
@@ -264,7 +264,7 @@ function PlannerVerifyContent() {
               {/* 6 digit boxes */}
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                  <div key={i} className="input-glow-border !w-11 !h-14  rounded-lg shrink-0">
+                  <div key={i} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                     <input aria-label="Input field"
                       ref={el => { inputRefs.current[i] = el; }}
                       type="text"
@@ -276,9 +276,7 @@ function PlannerVerifyContent() {
                       onBlur={() => setFocusedIndex(null)}
                       onChange={e => handleDigit(i, e.target.value)}
                       onKeyDown={e => handleKeyDown(i, e)}
-                      className={`w-full h-full text-center text-xl  font-bold   rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
-                        ${focusedIndex === i
-                          ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                      className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${focusedIndex === i ?'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                           : d
                             ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                             : ' border-white/10  text-white/40 hover:border-white/40'
