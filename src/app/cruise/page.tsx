@@ -13,7 +13,7 @@ import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
-import { useHeroParallax } from "@/lib/useHeroParallax";
+import { useHeroParallax, parallaxScaleFor } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import {
@@ -716,11 +716,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             poster="/images/cruise/hero-video-poster.jpg"
             onPlaying={() => setHeroVideoReady(true)}
             {...({ fetchPriority: "high" } as any)}
-            className="w-full h-full object-cover scale-[1.3] transition-opacity duration-500 ease-out"
+            className="w-full h-full object-cover transition-opacity duration-500 ease-out"
             style={{
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               opacity: heroVideoReady ? heroMaskSettings.videoOpacity / 100 : 0,
+              transform: `translateY(-${heroParallax.pxRange}%) scale(${parallaxScaleFor(heroParallax.pxRange)})`,
             }}
           >
             <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
@@ -742,7 +743,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         <HeroParallaxCustomizer {...heroParallax} />
 
         {/* Hero Text */}
-        <div ref={heroForegroundRef} className="relative z-10 text-left site-container mb-4 pt-4">
+        <div
+          ref={heroForegroundRef}
+          className="relative z-10 text-left site-container mb-4 pt-4"
+          style={{
+            transform: heroParallax.pxForeground ? `translateY(${heroParallax.pxRange / 2}%)` : "none",
+          }}
+        >
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
