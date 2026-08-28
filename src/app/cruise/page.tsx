@@ -1919,9 +1919,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Bands/Artists Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {BANDS_DATA.map((band, idx) => (
-                  <div key={band.name} className="relative rounded-lg overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
+                  <div key={band.name} className="relative rounded-2xl overflow-hidden group border border-white/10 aspect-[4/5] bg-[#05030a] flex items-center justify-center">
                     {band.photo ? (
-                      <picture className="w-full h-full block">
+                      <picture className="w-full h-full block flex items-center justify-center">
                         {band.mobilePhoto && (
                           <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
                         )}
@@ -1932,7 +1932,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           alt={band.name}
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-full object-cover opacity-90"
+                          className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
                         />
                       </picture>
                     ) : (
@@ -1941,17 +1941,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
                     )}
 
-                    {/* Bottom Gradient Overlay matching user screenshot */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end text-left">
+                    {/* Bottom Gradient Mask Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-transparent p-6 flex flex-col justify-end text-left pointer-events-none z-10">
                       <h3 className="font-bold text-white tracking-tight leading-none">
                         {band.name}
                       </h3>
                       {band.role && (
-                        <p className="font-bold tracking-wide mt-1.5">
+                        <p className="font-bold tracking-wide mt-1.5 text-white/80">
                           {band.role}
                         </p>
                       )}
-                      <p className="mt-2 line-clamp-2 leading-relaxed font-medium">
+                      <p className="mt-2 line-clamp-2 leading-relaxed font-medium text-white/70">
                         {band.desc}
                       </p>
                     </div>
