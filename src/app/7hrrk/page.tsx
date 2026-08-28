@@ -3,7 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Play, BookOpen, Gamepad2, Music, Shield, ExternalLink, Mail, Award, Users, Star, Tv, Zap, Heart } from "lucide-react";
+import {
+  Sparkles, Play, BookOpen, Gamepad2, Music, Shield, ExternalLink, Mail,
+  Award, Users, Star, Tv, Zap, Heart, Layout, Layers, Monitor, Disc, ChevronRight
+} from "lucide-react";
 
 const comicBooks = [
   {
@@ -103,346 +106,495 @@ const mainCharacters = [
     icon: Tv,
     color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
   },
+const layoutNames = [
+  { mode: 1, name: "Layout 1: Comic Book Magazine", desc: "Bold comic panels, issue rack grid, and trading cards" },
+  { mode: 2, name: "Layout 2: Neon Arcade", desc: "Futuristic synthwave cyberpunk dark theme with glowing neon grid" },
+  { mode: 3, name: "Layout 3: Cinematic TV Streaming", desc: "Featured theater player with horizontal media rails" },
+  { mode: 4, name: "Layout 4: Editorial Split Column", desc: "Fixed sticky sidebar with clean high-density right column flow" },
+  { mode: 5, name: "Layout 5: 3D Vault Portal", desc: "Radial glow backdrop with floating 3D tilt interactive cards" },
 ];
 
 export default function RockNRollKidsPage() {
+  const [layoutMode, setLayoutMode] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
 
   return (
     <div className="min-h-screen bg-[#05030a] text-white pt-24 pb-20 overflow-x-hidden">
-      {/* ── HERO BANNER ── */}
-      <section className="relative site-container py-12 md:py-20 text-center">
-        {/* Ambient Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-cyan-500/15 blur-[100px] rounded-full pointer-events-none" />
 
-        <div className="relative z-10 max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-[0.25em] mb-6 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-            <span>Official Animated Series & Comic Universe</span>
+      {/* ── LAYOUT SELECTOR CONTROL BAR ── */}
+      <div className="sticky top-20 z-50 bg-[#0b0717]/95 border-y border-purple-500/30 backdrop-blur-xl py-3 px-4 shadow-2xl">
+        <div className="site-container flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Layout className="w-4 h-4 text-purple-400 animate-spin-slow" />
+            <span className="text-xs font-bold uppercase tracking-wider text-purple-300">Choose Layout Variant:</span>
           </div>
 
-          {/* Main Title */}
-          <h1
-            className="text-4xl sm:text-6xl md:text-7xl font-bold uppercase italic tracking-tight text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.9)] leading-none mb-6"
-            style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
-          >
-            7TH HEAVEN <br />
-            <span className="bg-linear-to-r from-cyan-400 via-purple-400 to-rose-400 bg-clip-text text-transparent">
-              & THE ROCK &apos;N&apos; ROLL KIDS
-            </span>
-          </h1>
-
-          {/* Description */}
-          <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-medium mb-10">
-            A positive, fun, and socially-conscious animated franchise based on 7th Heaven as young kids — featuring TV episodes, comic books, video games, original music, and empowering adventures!
-          </p>
-
-          {/* Quick Action CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#videos"
-              className="px-6 py-3 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-purple-600/30 flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
-            >
-              <Play className="w-4 h-4 fill-white" />
-              <span>Watch Animated Promo</span>
-            </a>
-
-            <a
-              href="#comics"
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-xl backdrop-blur-md flex items-center gap-2.5 transition-all cursor-pointer hover:scale-105"
-            >
-              <BookOpen className="w-4 h-4 text-cyan-300" />
-              <span>Explore Comic Books</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── ALL SECTIONS CONTINUOUS SINGLE PAGE ── */}
-      <div className="site-container space-y-24 py-8">
-
-        {/* 1. OVERVIEW & VISION SECTION */}
-        <section id="overview" className="scroll-mt-32 max-w-4xl mx-auto">
-          <div className="bg-[#0f0a1c]/80 border border-purple-500/20 backdrop-blur-xl rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-3xl pointer-events-none rounded-full" />
-
-            <h2 className="text-2xl md:text-3xl font-bold uppercase italic text-white mb-6" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              Rock &apos;N&apos; Roll To <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">The Rescue!</span>
-            </h2>
-
-            <blockquote className="border-l-4 border-purple-500 pl-4 py-1 italic text-white/90 text-sm md:text-base leading-relaxed mb-6 font-medium bg-purple-950/30 rounded-r-xl">
-              &ldquo;7th Heaven and the Rock &apos;n&apos; Roll Kids is based on the globally renowned pop rock band 7th Heaven. The animated series communicates messages of fun, positivity, and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, adventure, and resolution.&rdquo;
-            </blockquote>
-
-            <p className="text-white/70 text-xs md:text-sm leading-relaxed mb-6">
-              We have been working with a dedicated team of creators to build a brand new animated universe based on 7th Heaven. The show features the band members as young kids who bring positivity to children across the world — known as &ldquo;The Rock and Roll Kids&rdquo;. In a world filled with negativity, 7th Heaven and the Rock &apos;n&apos; Roll Kids brings a breath of fresh air and positive influence through authentic rock and roll music.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/10">
-              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                <Heart className="w-5 h-5 text-rose-400 mb-2" />
-                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Positivity First</h4>
-                <p className="text-[11px] text-white/60">Inspiring young audiences with uplifting themes and friendly teamwork.</p>
-              </div>
-              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                <Zap className="w-5 h-5 text-amber-400 mb-2" />
-                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Problem Solving</h4>
-                <p className="text-[11px] text-white/60">Every adventure focuses on overcoming challenges through music and imagination.</p>
-              </div>
-              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                <Music className="w-5 h-5 text-cyan-400 mb-2" />
-                <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Original Music</h4>
-                <p className="text-[11px] text-white/60">Authentic pop-rock anthems composed specifically for the series and comic books.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 2. COMIC BOOKS SECTION */}
-        <section id="comics" className="scroll-mt-32">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Official Comic Series</span>
-            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              Comic Book <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Library</span>
-            </h2>
-            <p className="text-white/60 text-xs md:text-sm mt-2">Available in Paperback & Kindle Edition on Amazon Store</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {comicBooks.map((comic) => (
-              <div key={comic.ep} className="bg-[#0f0a1c]/90 border border-white/10 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition-all hover:-translate-y-1 shadow-xl group">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-300 bg-purple-900/40 px-2.5 py-1 rounded-md border border-purple-500/30">
-                      {comic.ep}
-                    </span>
-                    <span className={`text-[9px] font-bold uppercase tracking-wider text-white bg-linear-to-r ${comic.color} px-2 py-0.5 rounded-full shadow-xs`}>
-                      {comic.badge}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold uppercase italic text-white group-hover:text-purple-300 transition-colors mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                    {comic.title}
-                  </h3>
-                  <p className="text-white/60 text-xs leading-relaxed mb-6">{comic.desc}</p>
-                </div>
-
-                <a
-                  href={comic.amazonUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2.5 px-4 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20"
-                >
-                  <span>Buy On Amazon</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {layoutNames.map((item) => (
+              <button aria-label="Action button"
+                type="button"
+                key={item.mode}
+                onClick={() => setLayoutMode(item.mode as any)}
+                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${layoutMode === item.mode
+                    ? "bg-linear-to-r from-purple-600 to-cyan-600 text-white shadow-md shadow-purple-600/40 border border-purple-300/40 scale-105"
+                    : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10"
+                  }`}
+                title={item.desc}
+              >
+                Layout {item.mode}
+              </button>
             ))}
           </div>
-        </section>
-
-        {/* 3. VIDEO GALLERY SECTION */}
-        <section id="videos" className="scroll-mt-32 max-w-5xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">Animated Showcase</span>
-            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              Video & Promo <span className="bg-linear-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Gallery</span>
-            </h2>
-          </div>
-
-          {/* Main Embedded Player */}
-          <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-purple-500/30 bg-black shadow-2xl">
-            <iframe
-              src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=0&rel=0`}
-              title="7HRRK Video Player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
-
-          {/* Video Selector Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            {videosList.map((vid) => {
-              const isSelected = selectedVideo === vid.id;
-              return (
-                <button aria-label="Action button"
-                  type="button"
-                  key={vid.id}
-                  onClick={() => setSelectedVideo(vid.id)}
-                  className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${isSelected
-                    ? "bg-purple-950/80 border-purple-400 shadow-lg shadow-purple-600/30"
-                    : "bg-[#0f0a1c]/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-                    }`}
-                >
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-md border border-purple-500/30 block mb-2 w-fit">
-                    {vid.tag}
-                  </span>
-                  <h4 className="text-xs font-bold uppercase text-white tracking-tight mb-1 line-clamp-1">{vid.title}</h4>
-                  <p className="text-[11px] text-white/50 line-clamp-2">{vid.desc}</p>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* 4. CHARACTERS & CAST SECTION */}
-        <section id="characters" className="scroll-mt-32">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">Meet The Band</span>
-            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              The Rock &apos;N&apos; Roll <span className="bg-linear-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Kids Roster</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mainCharacters.map((char) => {
-              const Icon = char.icon;
-              return (
-                <div key={char.name} className="bg-[#0f0a1c]/80 border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/40 transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-3 rounded-xl border ${char.color}`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/50 block">{char.role}</span>
-                      <h3 className="text-base font-bold uppercase text-white tracking-tight">{char.name}</h3>
-                    </div>
-                  </div>
-                  <p className="text-white/60 text-xs leading-relaxed">{char.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Extended Universe Banner */}
-          <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 md:p-8 text-center max-w-3xl mx-auto mt-8">
-            <h3 className="text-lg font-bold uppercase text-white tracking-tight mb-2">Expanded Cast & Supporting Characters</h3>
-            <p className="text-white/60 text-xs leading-relaxed max-w-xl mx-auto">
-              Featuring Security Officers, high-tech Flying Camera Drones, Big Steve (Red 7th Heaven Shirt), denim-jacket guitarists, purple-haired rockers, XEC Record Execs, alien spaceships, and comic book villains!
-            </p>
-          </div>
-        </section>
-
-        {/* 5. GAMES & APPS SECTION */}
-        <section id="games" className="scroll-mt-32 max-w-4xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-rose-400">Interactive Fun</span>
-            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              Games & Mobile <span className="bg-linear-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">Apps</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-300 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30 mb-4 inline-block">
-                Card Game
-              </span>
-              <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                &ldquo;ONE&rdquo; Card Game
-              </h3>
-              <p className="text-white/60 text-xs leading-relaxed mb-6">
-                Official 7th Heaven and the Rock &apos;n&apos; Roll Kids physical card game for families and fans!
-              </p>
-              <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
-                Coming Soon
-              </span>
-            </div>
-
-            <div className="bg-[#0f0a1c]/90 border border-purple-500/30 rounded-3xl p-8 text-left relative overflow-hidden">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-rose-300 bg-rose-950/60 px-3 py-1 rounded-full border border-rose-500/30 mb-4 inline-block">
-                Mobile & Arcade
-              </span>
-              <h3 className="text-2xl font-bold uppercase italic text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                7HRRK Action Video Games
-              </h3>
-              <p className="text-white/60 text-xs leading-relaxed mb-6">
-                Interactive side-scrolling rock & roll adventures, drum rhythm battles, and puzzle challenges.
-              </p>
-              <span className="text-xs font-bold uppercase tracking-widest text-purple-400 bg-purple-950/50 px-4 py-2 rounded-xl border border-purple-500/30 inline-block">
-                In Active Development
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. CREATORS & CONTACT SECTION */}
-        <section id="contact" className="scroll-mt-32 max-w-4xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-amber-400">Production Team</span>
-            <h2 className="text-3xl md:text-4xl font-bold uppercase italic text-white mt-1" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              Creators & <span className="bg-linear-to-r from-amber-400 to-purple-400 bg-clip-text text-transparent">Studio Contact</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Richard Hofherr */}
-            <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-purple-900/40 border border-purple-500/30 rounded-2xl text-purple-300">
-                  <Award className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold uppercase text-white tracking-tight">Richard Hofherr</h3>
-                  <p className="text-xs text-purple-300 font-medium">7th Heaven • NTD Animation</p>
-                </div>
-              </div>
-              <p className="text-white/60 text-xs leading-relaxed mb-6">
-                Founder and mastermind behind 7th Heaven and NTD Animation, bringing the band&apos;s positive message to animated television.
-              </p>
-              <a
-                href="mailto:Rich777@aol.com"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-purple-600/20"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Email: Rich777@aol.com</span>
-              </a>
-            </div>
-
-            {/* Roy Adorjan */}
-            <div className="bg-[#0f0a1c]/90 border border-white/10 rounded-3xl p-8 text-left backdrop-blur-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-cyan-900/40 border border-cyan-500/30 rounded-2xl text-cyan-300">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold uppercase text-white tracking-tight">Roy Adorjan</h3>
-                  <p className="text-xs text-cyan-300 font-medium">RNR Studios • Writer & Illustrator</p>
-                </div>
-              </div>
-              <p className="text-white/60 text-xs leading-relaxed mb-6">
-                Creator, writer, and illustrator of the 7th Heaven and the Rock &apos;n&apos; Roll Kids comic book series and artwork.
-              </p>
-              <a
-                href="mailto:info@minimartians.com"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md shadow-cyan-600/20"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Email: info@minimartians.com</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Official External Links */}
-          <div className="bg-[#0f0a1c]/60 border border-white/10 rounded-3xl p-6 flex flex-wrap items-center justify-around gap-4 text-xs font-bold uppercase tracking-wider text-white/70 mt-8">
-            <a href="http://www.NTDAnimation.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 flex items-center gap-1.5 transition-colors">
-              <span>NTD Animation</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            <a href="http://www.NTDGraphics.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
-              <span>NTD Graphics</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            <a href="https://www.7hrrk.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-300 flex items-center gap-1.5 transition-colors">
-              <span>Official 7HRRK Site</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </div>
-        </section>
-
+        </div>
       </div>
+
+
+      {/* ========================================================================= */}
+      {/* ── LAYOUT 1: COMIC BOOK MAGAZINE ── */}
+      {/* ========================================================================= */}
+      {layoutMode === 1 && (
+        <div className="animate-fadeIn">
+          {/* Hero */}
+          <section className="relative site-container py-16 text-center">
+            <div className="max-w-4xl mx-auto bg-gradient-to-b from-purple-900/30 to-black/60 border-2 border-purple-500/40 rounded-3xl p-8 md:p-12 shadow-2xl relative">
+              <span className="px-3 py-1 bg-purple-600 text-white font-mono text-[10px] font-bold uppercase tracking-widest rounded-full mb-4 inline-block">
+                Layout 1 · Comic Book Magazine
+              </span>
+              <h1 className="text-5xl md:text-7xl font-bold uppercase italic text-white leading-none tracking-tight mb-4" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                7TH HEAVEN <br />
+                <span className="text-purple-400">& THE ROCK &apos;N&apos; ROLL KIDS</span>
+              </h1>
+              <p className="text-white/80 text-sm md:text-base max-w-xl mx-auto mb-6 font-medium">
+                Official Animated Series & Comic Universe created by Richard Hofherr & Roy Adorjan. Communicating positivity, fun, and social consciousness through rock and roll music!
+              </p>
+            </div>
+          </section>
+
+          <div className="site-container space-y-16">
+            {/* Story Magazine Section */}
+            <section className="bg-purple-950/20 border border-purple-500/20 rounded-3xl p-8 md:p-10">
+              <h2 className="text-2xl font-bold uppercase text-white mb-4">Rock &apos;N&apos; Roll To The Rescue</h2>
+              <blockquote className="border-l-4 border-purple-500 pl-4 italic text-purple-200 text-sm mb-4">
+                &ldquo;Based on the globally renowned pop rock band 7th Heaven, this animated series features the band as young kids who bring positivity, problem-solving, and music to kids across the world.&rdquo;
+              </blockquote>
+              <p className="text-white/70 text-xs leading-relaxed max-w-3xl">
+                Created to bring a breath of fresh air to young audiences, each episode and comic book features fun adventures, school community support, and uplifting pop-rock songs.
+              </p>
+            </section>
+
+            {/* Comic Rack */}
+            <section>
+              <h2 className="text-2xl font-bold uppercase text-white mb-6">Comic Book Rack (4 Episodes)</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {comicBooks.map((c) => (
+                  <div key={c.ep} className="bg-black/80 border-2 border-purple-500/30 rounded-2xl p-5 hover:border-purple-400 transition-all flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-purple-400 block mb-1">{c.ep}</span>
+                      <h3 className="text-lg font-bold text-white mb-2">{c.title}</h3>
+                      <p className="text-white/60 text-xs mb-4">{c.desc}</p>
+                    </div>
+                    <a href={c.amazonUrl} target="_blank" rel="noopener noreferrer" className="w-full py-2 bg-purple-600 text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2">
+                      <span>Amazon Store</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Video Showcase */}
+            <section className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold uppercase text-white mb-4">Animated Video Theater</h2>
+              <div className="aspect-video w-full rounded-2xl overflow-hidden border-2 border-purple-500/40 bg-black">
+                <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="7HRRK Player" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                {videosList.map((v) => (
+                  <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className="p-3 bg-white/5 border border-white/10 rounded-xl text-left hover:bg-purple-900/40 transition-all">
+                    <span className="text-[10px] font-bold text-purple-300 block">{v.tag}</span>
+                    <span className="text-xs font-bold text-white line-clamp-1">{v.title}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Characters */}
+            <section>
+              <h2 className="text-2xl font-bold uppercase text-white mb-6">Character Trading Cards</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {mainCharacters.map((char) => (
+                  <div key={char.name} className="bg-purple-950/30 border border-purple-500/30 rounded-2xl p-6">
+                    <span className="text-[10px] font-bold text-purple-400 block uppercase">{char.role}</span>
+                    <h3 className="text-base font-bold text-white mb-2">{char.name}</h3>
+                    <p className="text-white/60 text-xs">{char.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Games & Contact */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-black/60 border border-white/10 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-2">&ldquo;ONE&rdquo; Card Game & Apps</h3>
+                <p className="text-white/60 text-xs">Official 7HRRK family card game and action video games in active development.</p>
+              </div>
+              <div className="bg-black/60 border border-white/10 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-2">Creators</h3>
+                <p className="text-white/70 text-xs mb-1">Richard Hofherr (Rich777@aol.com)</p>
+                <p className="text-white/70 text-xs">Roy Adorjan (info@minimartians.com)</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
+
+
+      {/* ========================================================================= */}
+      {/* ── LAYOUT 2: NEON ARCADE (CYBERPUNK GRID) ── */}
+      {/* ========================================================================= */}
+      {layoutMode === 2 && (
+        <div className="animate-fadeIn">
+          {/* Hero */}
+          <section className="relative site-container py-16 text-center">
+            <span className="px-3 py-1 bg-cyan-500 text-black font-mono text-[10px] font-bold uppercase tracking-widest rounded-full mb-4 inline-block">
+              Layout 2 · Neon Arcade Synthwave
+            </span>
+            <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-400 drop-shadow-[0_0_25px_rgba(6,182,212,0.8)] mb-4">
+              7HRRK ARCADE
+            </h1>
+            <p className="text-cyan-200 text-sm font-mono max-w-xl mx-auto">
+              [SYSTEM_ONLINE] 7th Heaven & The Rock &apos;N&apos; Roll Kids Animated Series & Comic Matrix.
+            </p>
+          </section>
+
+          <div className="site-container space-y-16">
+            {/* Cyber Grid Videos */}
+            <section className="border border-cyan-500/40 bg-black/90 p-6 rounded-2xl shadow-[0_0_35px_rgba(6,182,212,0.15)]">
+              <h2 className="text-xl font-mono text-cyan-400 uppercase tracking-widest mb-4">// VIDEO_MATRIX</h2>
+              <div className="aspect-video w-full rounded-xl overflow-hidden border border-cyan-500/50 mb-4">
+                <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="7HRRK Player" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {videosList.map((v) => (
+                  <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className="p-3 bg-cyan-950/30 border border-cyan-500/30 rounded-xl text-left hover:border-cyan-400">
+                    <span className="text-[9px] font-mono text-pink-400 block">{v.tag}</span>
+                    <span className="text-xs font-bold text-cyan-100 line-clamp-1">{v.title}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Cyber Comics */}
+            <section>
+              <h2 className="text-xl font-mono text-pink-400 uppercase tracking-widest mb-6">// COMIC_DATABASE</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {comicBooks.map((c) => (
+                  <div key={c.ep} className="bg-black/90 border border-pink-500/40 p-5 rounded-xl hover:border-pink-300">
+                    <span className="text-[10px] font-mono text-pink-400 block mb-1">{c.ep}</span>
+                    <h3 className="text-base font-bold text-white mb-2">{c.title}</h3>
+                    <p className="text-white/60 text-xs mb-4">{c.desc}</p>
+                    <a href={c.amazonUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 bg-pink-600 text-white text-[10px] font-mono font-bold uppercase rounded-lg inline-block">
+                      AMAZON_LINK
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Characters & Arcade Games */}
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="border border-purple-500/40 bg-black/90 p-6 rounded-xl">
+                <h2 className="text-lg font-mono text-purple-400 mb-4">// HERO_ROSTER</h2>
+                <div className="space-y-3">
+                  {mainCharacters.map((char) => (
+                    <div key={char.name} className="p-3 bg-purple-950/30 border border-purple-500/20 rounded-lg">
+                      <span className="text-[10px] font-mono text-purple-300">{char.role}</span>
+                      <h4 className="text-xs font-bold text-white">{char.name}</h4>
+                      <p className="text-[11px] text-white/50">{char.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border border-amber-500/40 bg-black/90 p-6 rounded-xl space-y-6">
+                <div>
+                  <h2 className="text-lg font-mono text-amber-400 mb-2">// GAMES_IN_DEVELOPMENT</h2>
+                  <p className="text-white/70 text-xs mb-3">&ldquo;ONE&rdquo; Physical Card Game & 7HRRK Arcade Side-scroller Video Games.</p>
+                  <span className="px-3 py-1 bg-amber-500/20 text-amber-300 text-[10px] font-mono rounded">STATUS: ACTIVE</span>
+                </div>
+
+                <div className="border-t border-amber-500/20 pt-6">
+                  <h2 className="text-lg font-mono text-amber-400 mb-2">// PRODUCTION_CONTACTS</h2>
+                  <p className="text-white/70 text-xs">Rich777@aol.com (Richard Hofherr)</p>
+                  <p className="text-white/70 text-xs">info@minimartians.com (Roy Adorjan)</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
+
+
+      {/* ========================================================================= */}
+      {/* ── LAYOUT 3: CINEMATIC TV STREAMING ── */}
+      {/* ========================================================================= */}
+      {layoutMode === 3 && (
+        <div className="animate-fadeIn">
+          {/* Full Width Streaming Hero */}
+          <section className="relative w-full h-[500px] flex items-center justify-center text-center overflow-hidden mb-12">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#05030a] via-black/80 to-transparent z-10" />
+            <div className="relative z-20 site-container max-w-3xl">
+              <span className="px-3 py-1 bg-rose-600 text-white font-bold text-[10px] uppercase tracking-widest rounded-full mb-3 inline-block">
+                Layout 3 · Streaming Showcase
+              </span>
+              <h1 className="text-5xl md:text-7xl font-bold uppercase text-white mb-4" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                7TH HEAVEN & THE ROCK &apos;N&apos; ROLL KIDS
+              </h1>
+              <p className="text-white/70 text-sm max-w-xl mx-auto mb-6">
+                Now streaming official promo trailers, music videos, and comic book episodes.
+              </p>
+            </div>
+          </section>
+
+          <div className="site-container space-y-14">
+            {/* Horizontal Video Strip */}
+            <section>
+              <h2 className="text-xl font-bold uppercase text-white mb-4 flex items-center gap-2">
+                <Tv className="w-5 h-5 text-rose-500" />
+                <span>Featured Animated Trailers</span>
+              </h2>
+              <div className="aspect-video w-full max-w-4xl mx-auto rounded-2xl overflow-hidden border border-white/10 bg-black mb-6">
+                <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="7HRRK Stream" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
+              </div>
+              <div className="flex gap-4 overflow-x-auto pb-4">
+                {videosList.map((v) => (
+                  <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className="w-64 shrink-0 p-4 bg-white/5 border border-white/10 rounded-xl text-left hover:bg-white/10">
+                    <span className="text-[10px] font-bold text-rose-400 block">{v.tag}</span>
+                    <h4 className="text-xs font-bold text-white line-clamp-1">{v.title}</h4>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Horizontal Comic Rail */}
+            <section>
+              <h2 className="text-xl font-bold uppercase text-white mb-4 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-purple-400" />
+                <span>Comic Book Series Rail</span>
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {comicBooks.map((c) => (
+                  <div key={c.ep} className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-purple-300 block mb-1">{c.ep}</span>
+                      <h3 className="text-base font-bold text-white mb-2">{c.title}</h3>
+                      <p className="text-white/60 text-xs mb-4">{c.desc}</p>
+                    </div>
+                    <a href={c.amazonUrl} target="_blank" rel="noopener noreferrer" className="py-2 px-3 bg-purple-600 text-white text-xs font-bold uppercase rounded-xl text-center">
+                      Amazon eBook
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Characters & Contacts */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                <h3 className="text-lg font-bold text-white mb-4">Cast Members</h3>
+                <div className="space-y-3">
+                  {mainCharacters.map((c) => (
+                    <div key={c.name} className="p-3 bg-white/5 rounded-xl">
+                      <span className="text-[10px] font-bold text-purple-400 block">{c.role}</span>
+                      <h4 className="text-xs font-bold text-white">{c.name}</h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-2">Production Studio</h3>
+                  <p className="text-white/60 text-xs mb-4">NTD Animation · NTD Graphics · RNR Studios</p>
+                  <p className="text-white/80 text-xs">Richard Hofherr: Rich777@aol.com</p>
+                  <p className="text-white/80 text-xs">Roy Adorjan: info@minimartians.com</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
+
+
+      {/* ========================================================================= */}
+      {/* ── LAYOUT 4: EDITORIAL SPLIT COLUMN ── */}
+      {/* ========================================================================= */}
+      {layoutMode === 4 && (
+        <div className="animate-fadeIn site-container py-12">
+          <div className="mb-8">
+            <span className="px-3 py-1 bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest rounded-full mb-2 inline-block">
+              Layout 4 · Editorial Split Column
+            </span>
+            <h1 className="text-4xl md:text-6xl font-bold uppercase italic text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              7TH HEAVEN & THE ROCK &apos;N&apos; ROLL KIDS
+            </h1>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            {/* Left Sticky Sidebar */}
+            <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-36 h-fit">
+              <div className="bg-[#0f0a1c] border border-white/10 p-6 rounded-2xl">
+                <h3 className="text-lg font-bold uppercase text-white mb-2">Series Overview</h3>
+                <p className="text-white/70 text-xs leading-relaxed mb-4">
+                  Communicating messages of fun, positivity, and social consciousness through rock and roll music and imagination.
+                </p>
+                <div className="border-t border-white/10 pt-4 space-y-2 text-xs">
+                  <p className="text-emerald-400 font-bold">Created by:</p>
+                  <p className="text-white/80">Richard Hofherr (Rich777@aol.com)</p>
+                  <p className="text-white/80">Roy Adorjan (info@minimartians.com)</p>
+                </div>
+              </div>
+
+              <div className="bg-[#0f0a1c] border border-white/10 p-6 rounded-2xl">
+                <h3 className="text-lg font-bold uppercase text-white mb-2">Games & Apps</h3>
+                <p className="text-white/60 text-xs mb-2">&ldquo;ONE&rdquo; Card Game</p>
+                <p className="text-white/60 text-xs">7HRRK Video Games</p>
+              </div>
+            </div>
+
+            {/* Right Main Column */}
+            <div className="lg:col-span-8 space-y-12">
+              {/* Video Player */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold uppercase text-white">Video Showcase</h2>
+                <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/10 bg-black">
+                  <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="7HRRK Editorial" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
+                </div>
+              </div>
+
+              {/* Comic Books */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold uppercase text-white">Comic Book Library</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {comicBooks.map((c) => (
+                    <div key={c.ep} className="bg-[#0f0a1c] border border-white/10 p-5 rounded-2xl flex flex-col justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold text-emerald-400 block mb-1">{c.ep}</span>
+                        <h3 className="text-base font-bold text-white mb-2">{c.title}</h3>
+                        <p className="text-white/60 text-xs mb-4">{c.desc}</p>
+                      </div>
+                      <a href={c.amazonUrl} target="_blank" rel="noopener noreferrer" className="py-2 px-3 bg-emerald-600 text-white text-xs font-bold uppercase rounded-xl text-center">
+                        Amazon Kindle
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Characters */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold uppercase text-white">Character Roster</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {mainCharacters.map((c) => (
+                    <div key={c.name} className="bg-[#0f0a1c] border border-white/10 p-4 rounded-xl">
+                      <span className="text-[10px] font-bold text-emerald-400 block">{c.role}</span>
+                      <h4 className="text-sm font-bold text-white mb-1">{c.name}</h4>
+                      <p className="text-white/60 text-xs">{c.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/* ========================================================================= */}
+      {/* ── LAYOUT 5: 3D VAULT PORTAL ── */}
+      {/* ========================================================================= */}
+      {layoutMode === 5 && (
+        <div className="animate-fadeIn">
+          <section className="relative site-container py-16 text-center">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-amber-500/15 blur-[140px] rounded-full pointer-events-none" />
+
+            <span className="px-3 py-1 bg-amber-500 text-black font-bold text-[10px] uppercase tracking-widest rounded-full mb-4 inline-block">
+              Layout 5 · 3D Vault Portal
+            </span>
+            <h1 className="text-5xl md:text-8xl font-bold uppercase italic text-white mb-4" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              7TH HEAVEN <br />
+              <span className="bg-gradient-to-r from-amber-400 via-rose-400 to-purple-400 bg-clip-text text-transparent">
+                ROCK &apos;N&apos; ROLL VAULT
+              </span>
+            </h1>
+            <p className="text-white/80 text-sm max-w-xl mx-auto mb-8 font-medium">
+              Explore the animated multiverse, comic book archives, music releases, and character universe.
+            </p>
+          </section>
+
+          <div className="site-container space-y-16">
+            {/* 3D Floating Video Theater */}
+            <section className="bg-gradient-to-b from-amber-950/30 to-purple-950/30 border border-amber-500/30 p-8 rounded-3xl backdrop-blur-xl shadow-2xl">
+              <h2 className="text-2xl font-bold uppercase italic text-amber-400 mb-4">3D Animated Cinema</h2>
+              <div className="aspect-video w-full rounded-2xl overflow-hidden border border-amber-500/40 bg-black mb-4">
+                <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="7HRRK Vault" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {videosList.map((v) => (
+                  <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className="p-3 bg-amber-950/40 border border-amber-500/20 rounded-xl text-left hover:border-amber-400">
+                    <span className="text-[10px] font-bold text-amber-300 block">{v.tag}</span>
+                    <span className="text-xs font-bold text-white line-clamp-1">{v.title}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* 3D Comic Cards */}
+            <section>
+              <h2 className="text-2xl font-bold uppercase italic text-white mb-6">Comic Book Vault (4 Issues)</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {comicBooks.map((c) => (
+                  <div key={c.ep} className="bg-gradient-to-b from-purple-900/40 to-black/80 border border-purple-500/40 p-6 rounded-2xl hover:scale-105 transition-all shadow-xl flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-amber-400 block mb-1">{c.ep}</span>
+                      <h3 className="text-lg font-bold text-white mb-2">{c.title}</h3>
+                      <p className="text-white/60 text-xs mb-6">{c.desc}</p>
+                    </div>
+                    <a href={c.amazonUrl} target="_blank" rel="noopener noreferrer" className="py-2.5 bg-gradient-to-r from-amber-500 to-rose-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl text-center shadow-md">
+                      Buy Amazon Issue
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Character Vault & Studio Details */}
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                <h3 className="text-xl font-bold uppercase text-white mb-4">Character Universe</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {mainCharacters.map((c) => (
+                    <div key={c.name} className="p-3 bg-black/50 border border-white/10 rounded-xl">
+                      <span className="text-[10px] font-bold text-amber-400 block">{c.role}</span>
+                      <h4 className="text-xs font-bold text-white">{c.name}</h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold uppercase text-white mb-2">Vault Directors</h3>
+                  <p className="text-white/70 text-xs mb-2">Richard Hofherr (Rich777@aol.com)</p>
+                  <p className="text-white/70 text-xs mb-4">Roy Adorjan (info@minimartians.com)</p>
+                  <p className="text-white/50 text-[11px]">NTD Animation · NTD Graphics · RNR Studios</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
