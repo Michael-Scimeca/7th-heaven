@@ -134,6 +134,7 @@ export default function MediaPage() {
         baseCategories = await r.json();
       }
 
+      let hasExtraVideos = false;
       try {
         const sanityRes = await fetch("/api/videos");
         if (sanityRes.ok) {
@@ -152,12 +153,14 @@ export default function MediaPage() {
               if (targetCat) {
                 if (!targetCat.videos.some((v) => v.id === formattedVideo.id)) {
                   targetCat.videos.unshift(formattedVideo);
+                  hasExtraVideos = true;
                 }
               } else {
                 baseCategories.push({
                   category: sv.category || "Misc. / Various",
                   videos: [formattedVideo],
                 });
+                hasExtraVideos = true;
               }
             });
           }
@@ -181,18 +184,22 @@ export default function MediaPage() {
             if (targetCat) {
               if (!targetCat.videos.some((v) => v.id === formattedVideo.id)) {
                 targetCat.videos.unshift(formattedVideo);
+                hasExtraVideos = true;
               }
             } else {
               baseCategories.push({
                 category: cv.category,
                 videos: [formattedVideo],
               });
+              hasExtraVideos = true;
             }
           });
         }
       } catch { }
 
-      setCategories(baseCategories);
+      if (hasExtraVideos) {
+        setCategories(baseCategories);
+      }
     } catch { }
   }, []);
 
