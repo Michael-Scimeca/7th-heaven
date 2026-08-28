@@ -490,14 +490,19 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     let running = true;
     let rafId: number;
     let currentFillOffset = 99999;
-    // Cache path length & canvas bounds — getTotalLength() and getBoundingClientRect() force browser reflow.
+    // Cache path length & path points lookup table — getTotalLength() and getPointAtLength() force browser reflow.
     // Compute once and update on resize, eliminating layout thrashing during scroll.
     let cachedTotalLen = -1;
     let cachedCanvasTop = -1;
     let cachedViewH = -1;
+    let cachedPathPoints: { x: number; y: number }[] = [];
+
+    const SAMPLES = 400;
 
     const onResize = () => {
       cachedCanvasTop = -1;
+      cachedTotalLen = -1;
+      cachedPathPoints = [];
       if (typeof window !== "undefined") {
         cachedViewH = window.innerHeight;
       }
@@ -516,13 +521,25 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       const canvas = canvasRef.current;
       const fill = fillRef.current;
       if (canvas && fill) {
-        // Compute path length only once — force-reflow every frame was the cursor freeze
-        if (cachedTotalLen < 0) {
+        // Compute path length & pre-sample 400 path points once — force-reflow every frame was causing freeze
+        if (cachedTotalLen < 0 || cachedPathPoints.length === 0) {
           cachedTotalLen = fill.getTotalLength();
           fill.style.strokeDasharray = `${cachedTotalLen}`;
+          cachedPathPoints = new Array(SAMPLES);
+          for (let s = 0; s < SAMPLES; s++) {
+            const d = (s / (SAMPLES - 1)) * cachedTotalLen;
+            const pt = fill.getPointAtLength(d);
+            cachedPathPoints[s] = { x: pt.x, y: pt.y };
+          }
         }
         const totalLen = cachedTotalLen;
         if (currentFillOffset > totalLen) currentFillOffset = totalLen;
+
+        const getSample = (dist: number) => {
+          const clamped = Math.max(0, Math.min(totalLen, dist));
+          const idx = Math.min(SAMPLES - 1, Math.max(0, Math.round((clamped / totalLen) * (SAMPLES - 1))));
+          return cachedPathPoints[idx] || { x: 0, y: 0 };
+        };
 
         // Calculate canvas top offset relative to document (cached to eliminate forced reflows during scroll)
         if (cachedCanvasTop < 0) {
@@ -567,7 +584,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
         const shipDist = Math.max(0, Math.min(maxPathTravel, totalLen - currentFillOffset));
-        const pt = fill.getPointAtLength(shipDist);
+        const pt = getSample(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
         let minNodeDist = 999;
@@ -613,8 +630,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const opacityVal = 1.0;
 
         // Compute direction tangent for ship heading angle (sample 24px behind & ahead for smooth angle)
-        const pPrev = fill.getPointAtLength(Math.max(0, shipDist - 24));
-        const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 24));
+        const pPrev = getSample(Math.max(0, shipDist - 24));
+        const pNext = getSample(Math.min(totalLen, shipDist + 24));
         const dx = pNext.x - pPrev.x;
         const dy = pNext.y - pPrev.y;
         const headingLeft = dx < 0;
@@ -637,10 +654,25 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }
       }
 
-      rafId = requestAnimationFrame(tick);
+      if (running && isVisible) {
+        rafId = requestAnimationFrame(tick);
+      }
     };
 
-    const startLoop = () => { if (running) rafId = requestAnimationFrame(tick); };
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
+      observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && running) {
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(tick);
+        }
+      }, { rootMargin: "200px 0px" });
+      observer.observe(canvasRef.current);
+    }
+
+    const startLoop = () => { if (running && isVisible) rafId = requestAnimationFrame(tick); };
 
     let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
     if ((window as any).__pageTransitionActive) {
@@ -653,6 +685,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     return () => {
       running = false;
       cancelAnimationFrame(rafId);
+      if (observer) observer.disconnect();
       if (fallbackTimer) clearTimeout(fallbackTimer);
       window.removeEventListener('7h:pagetransition:done', startLoop);
       if (typeof window !== "undefined") {
