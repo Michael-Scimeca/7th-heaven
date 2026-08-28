@@ -59,9 +59,9 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
           src={imgSrc}
           alt={title}
           fill
+          loading="eager"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-all duration-700 ${isHovered ? "opacity-0 scale-105" : "opacity-100 scale-100"
-            }`}
+          className={`object-cover transition-transform duration-300 ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
           onError={handleImageError}
         />
