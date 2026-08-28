@@ -40,18 +40,6 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [shouldPlayPreview, setShouldPlayPreview] = useState(false);
-
-  useEffect(() => {
-    if (isHovered) {
-      const timer = setTimeout(() => {
-        setShouldPlayPreview(true);
-      }, 150);
-      return () => clearTimeout(timer);
-    } else {
-      setShouldPlayPreview(false);
-    }
-  }, [isHovered]);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -96,12 +84,13 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Live Video Hover Preview Clip */}
-      {shouldPlayPreview && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.4s_ease-out_both]">
+      {/* 3. Live Video Hover Preview Clip (Instant Zero-Latency Mount) */}
+      {isHovered && (
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.25s_ease-out_both]">
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=5&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`}
             title={title}
+            loading="eager"
             className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0"
             allow="autoplay; encrypted-media"
           />
