@@ -487,7 +487,7 @@ export default function CruiseChat({
             </div>
             <div>
               <h3 className="font-bold text-black tracking-wide">Passenger Lounge</h3>
-              <span className="text-[var(--font-size-3xs)] text-black/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
+              <span className="text-black/40 font-bold uppercase tracking-wider">Chat Temporarily Disabled</span>
             </div>
           </div>
         </div>
@@ -606,7 +606,7 @@ export default function CruiseChat({
             <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
-                <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
+                <h4 className="font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
                 <p className="text-amber-100/90 font-medium leading-relaxed">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
@@ -618,7 +618,7 @@ export default function CruiseChat({
             <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-red-400 shrink-0">🚫</span>
               <div className="flex-1">
-                <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
+                <h4 className="font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
                 <p className="text-red-100/90 font-medium leading-relaxed">
                   You have been permanently banned from sending messages in this chat.
                 </p>
@@ -779,7 +779,7 @@ export default function CruiseChat({
           <div className="relative shrink-0">
             {showTagMenu && (
               <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
-                <div className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
+                <div className="font-bold uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
                   <span>Tag Admin / Crew Member</span>
                   <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
                 </div>
@@ -794,7 +794,7 @@ export default function CruiseChat({
                       <span>{s.icon}</span>
                       <div className="truncate">
                         <span className="font-bold text-cyan-300">{s.tag}</span>
-                        <span className="text-[var(--font-size-3xs)] text-white/40 block truncate">{s.label}</span>
+                        <span className="text-white/40 block truncate">{s.label}</span>
                       </div>
                     </button>
                   ))}

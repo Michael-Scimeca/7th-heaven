@@ -142,7 +142,7 @@ export default function DirectMessageChat() {
           <div className="p-3.5 bg-white/[0.02] border-b border-white/5 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
-              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)]">Direct Message</span>
+              <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Direct Message</span>
               <span className="font-bold text-white uppercase tracking-tight">Admin Support Chat</span>
             </div>
           </div>

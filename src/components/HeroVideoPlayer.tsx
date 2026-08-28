@@ -587,7 +587,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Presets */}
               <div className="space-y-1.5">
-                <span className="text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider block">Presets</span>
+                <span className="font-bold text-white/45 uppercase tracking-wider block">Presets</span>
                 <div className="flex flex-wrap gap-2">
                   {TINT_PRESETS.map((preset) => (
                     <button aria-label="Action button"
@@ -623,7 +623,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Opacity Slider */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
+                <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
                   <span className="text-[var(--color-accent)] font-mono font-bold">{Math.round(tintOpacity * 100)}%</span>
                 </div>
@@ -640,7 +640,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Blend Modes */}
               <div className="space-y-1.5">
-                <span className="text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
+                <span className="font-bold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
                 <div className="grid grid-cols-3 gap-1">
                   {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
                     <button aria-label="Action button"

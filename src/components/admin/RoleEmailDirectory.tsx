@@ -215,7 +215,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5 rounded-lg text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ?'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
+              <span className={`px-1.5 py-0.5 rounded-lg font-mono font-bold ${activeTab === tab ?'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
                 {counts[tab]}
               </span>
             </button>
@@ -309,7 +309,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

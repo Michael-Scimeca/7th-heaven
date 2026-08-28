@@ -791,7 +791,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer h-2"
               />
-              <div className="flex justify-between text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-wider">
+              <div className="flex justify-between text-white/50 font-bold uppercase tracking-wider">
                 <span>0.2x (Slow Motion)</span>
                 <span>1.0x (1:1 Viewport Lock)</span>
                 <span>4.0x (Hyper Speed)</span>
@@ -958,7 +958,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <button aria-label="Action button"
                         key={act.id}
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors ${(tuning.nodeAction ??'hide') === act.id
+                        className={`flex-1 py-1.5 px-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${(tuning.nodeAction ??'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                           : ' bg-[#00000029]     text-white  hover:bg-white/10'
                           }`}

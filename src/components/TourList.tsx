@@ -1860,7 +1860,7 @@ ${filterLine}
 
             {/* Font Family */}
             <div className="mb-5">
-              <label htmlFor="tour-font-style" className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
+              <label htmlFor="tour-font-style" className="block text-white/50 uppercase font-bold tracking-wider mb-2">Font Style</label>
               <select aria-label="Select option"
                 id="tour-font-style"
                 value={tourFontFamily}
@@ -1881,7 +1881,7 @@ ${filterLine}
             {/* Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-font-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
+                <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase font-bold tracking-wider">Font Size</label>
                 <span className="text-[var(--color-accent)] font-bold font-mono">{tourFontSize}</span>
               </div>
               <input aria-label="Input field"
@@ -1903,7 +1903,7 @@ ${filterLine}
             {/* Website Button Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
+                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase font-bold tracking-wider">Website Button Size</label>
                 <span className="text-[var(--color-accent)] font-bold font-mono">{websiteBtnFontSize}</span>
               </div>
               <input aria-label="Input field"
@@ -1929,7 +1929,7 @@ ${filterLine}
             {/* Row Padding */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-padding-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
+                <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Padding</label>
                 <span className="text-[var(--color-accent)] font-bold font-mono">{tourRowPadding}</span>
               </div>
               <input aria-label="Input field"
@@ -1951,7 +1951,7 @@ ${filterLine}
             {/* Row Spacing */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-spacing-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
+                <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
                 <span className="text-[var(--color-accent)] font-bold font-mono">{tourRowGap}</span>
               </div>
               <input aria-label="Input field"
@@ -1973,7 +1973,7 @@ ${filterLine}
             {/* Row Height */}
             <div className="mb-5">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-height-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
+                <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Height</label>
                 <span className="text-[var(--color-accent)] font-bold font-mono">{tourRowHeight}</span>
               </div>
               <input aria-label="Input field"
@@ -2012,7 +2012,7 @@ ${filterLine}
                   {/* Map Top Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-top-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Top Fade Clip</label>
+                      <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase font-bold tracking-wider">Top Fade Clip</label>
                       <span className="text-[var(--color-accent)] font-bold font-mono">{mapMaskTop}px</span>
                     </div>
                     <input aria-label="Input field"
@@ -2038,7 +2038,7 @@ ${filterLine}
                   {/* Map Bottom Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Bottom Fade Clip</label>
+                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase font-bold tracking-wider">Bottom Fade Clip</label>
                       <span className="text-[var(--color-accent)] font-bold font-mono">{mapMaskBottom}px</span>
                     </div>
                     <input aria-label="Input field"
@@ -2064,7 +2064,7 @@ ${filterLine}
                   {/* Map Left Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-left-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Left Fade Clip</label>
+                      <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase font-bold tracking-wider">Left Fade Clip</label>
                       <span className="text-[var(--color-accent)] font-bold font-mono">{mapMaskLeft}px</span>
                     </div>
                     <input aria-label="Input field"
@@ -2090,7 +2090,7 @@ ${filterLine}
                   {/* Map Right Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-right-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Right Fade Clip</label>
+                      <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase font-bold tracking-wider">Right Fade Clip</label>
                       <span className="text-[var(--color-accent)] font-bold font-mono">{mapMaskRight}px</span>
                     </div>
                     <input aria-label="Input field"

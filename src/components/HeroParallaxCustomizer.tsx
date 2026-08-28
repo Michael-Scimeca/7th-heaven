@@ -101,7 +101,7 @@ export default function HeroParallaxCustomizer({
 
           {/* Presets */}
           <div className="space-y-1.5">
-            <span className="text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider block">Presets</span>
+            <span className="font-bold text-white/45 uppercase tracking-wider block">Presets</span>
             <div className="flex flex-wrap gap-1.5">
               {PARALLAX_PRESETS.map((preset) => (
                 <button
@@ -120,7 +120,7 @@ export default function HeroParallaxCustomizer({
 
           {/* Depth (range) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
               <span>Depth</span>
               <span className="text-[var(--color-accent)] font-mono font-bold">±{pxRange}%</span>
             </div>
@@ -138,7 +138,7 @@ export default function HeroParallaxCustomizer({
 
           {/* Scrub (smoothing) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-[var(--font-size-3xs)] font-bold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
               <span>Smoothing</span>
               <span className="text-[var(--color-accent)] font-mono font-bold">{pxScrub.toFixed(1)}s</span>
             </div>
@@ -162,7 +162,7 @@ export default function HeroParallaxCustomizer({
               : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10"
               }`}
           >
-            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
+            <span className="font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
             <span className={`w-8 h-4 rounded-lg relative transition-colors ${pxForeground ?"bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
                 className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-transform ${pxForeground ?"translate-x-4" : "translate-x-0.5"

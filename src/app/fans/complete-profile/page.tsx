@@ -161,7 +161,7 @@ export default function CompleteProfilePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Username */}
               <div>
-                <label htmlFor="complete-profile-username" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <label htmlFor="complete-profile-username" className="uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
                 <div className="relative input-glow-border rounded-xl">
@@ -182,7 +182,7 @@ export default function CompleteProfilePage() {
 
               {/* Notification Preferences */}
               <div className="flex flex-col gap-2">
-                <span className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <span className="uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Notification Preferences
                 </span>
 
@@ -207,7 +207,7 @@ export default function CompleteProfilePage() {
                 {/* Zip code */}
                 {wantNotifications && (
                   <div className="ml-1">
-                    <label htmlFor="complete-profile-zip" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+                    <label htmlFor="complete-profile-zip" className="uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
                     <div className="input-glow-border rounded-xl">
                       <input aria-label="Input field"
                         id="complete-profile-zip"

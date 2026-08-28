@@ -880,7 +880,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           <div className="w-3.5 h-3.5 rounded-lg shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                             {showLetter}
                           </div>
-                          <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
+                          <span className="font-semibold text-white/80">{cfg.label}</span>
                         </button>
                       );
                     })}

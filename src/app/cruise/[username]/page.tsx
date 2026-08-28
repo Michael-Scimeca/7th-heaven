@@ -862,7 +862,7 @@ export default function CruiseDashboard() {
       >
         <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
           <div className="text-center mb-12 max-w-3xl mx-auto px-4">
-            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-cyan-400">
+            <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
             <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>

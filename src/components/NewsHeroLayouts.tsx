@@ -71,7 +71,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)]">Featured Article</span>
+                <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Featured Article</span>
                 <span className="font-mono text-white/50">{featured.date}</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
@@ -101,7 +101,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <div className="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style={{ backgroundImage: "url('/images/hero-band-bg.png')" }} />
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-4 mb-4">
-                  <span className="px-3 py-1 bg-cyan-400 text-black text-[var(--font-size-3xs)] font-bold uppercase tracking-widest">
+                  <span className="px-3 py-1 bg-cyan-400 text-black font-bold uppercase tracking-widest">
                     Latest News
                   </span>
                   <span className="font-mono text-cyan-300 font-bold">{featured.date}</span>
@@ -124,7 +124,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Left Card */}
             <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-400 px-2.5 py-1">
+                <span className="font-bold uppercase tracking-widest text-purple-400 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
                 </span>
                 <span className="font-mono text-white/50">{featured.date}</span>
@@ -153,7 +153,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-cyan-500/30">
             {/* Left Column */}
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
-              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
+              <span className="font-bold uppercase tracking-widest text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
               <h1 className="text-3xl md:text-4xl font-bold uppercase text-white leading-tight">
                 7th Heaven <br /><span className="text-cyan-400">Dispatch</span>
               </h1>
@@ -166,7 +166,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
-                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>
+                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
@@ -181,7 +181,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-4">
               <div className="space-y-3">
-                <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest inline-block">
+                <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold uppercase tracking-widest inline-block">
                   OPTION 2E — STACKED BADGE
                 </span>
                 <h1 className="text-3xl font-bold uppercase text-white tracking-tight">
@@ -207,7 +207,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#080510] text-left border-b border-white/10">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-4">
-              <span className="text-[var(--font-size-3xs)] font-mono font-bold uppercase tracking-widest text-purple-400block mb-2">
+              <span className="font-mono font-bold uppercase tracking-widest text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
               <h1 className="text-4xl font-bold uppercase tracking-tight text-white leading-none">

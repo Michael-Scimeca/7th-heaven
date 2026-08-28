@@ -1193,7 +1193,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3 hover: bg-[#00000029] transition-colors border border-transparent hover:border-white/10 ${msg.isNew ?'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">
                           <div className={`w-8 h-8 rounded-lg ${msg.color ==='yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
-                            <span className="text-[var(--font-size-3xs)]">{msg.icon}</span>
+                            <span className="">{msg.icon}</span>
                           </div>
                           <div>
                             <p className={`font-bold transition-colors ${msg.color ==='yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>

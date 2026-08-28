@@ -514,7 +514,7 @@ export function BookingManager({ email }: { email?: string }) {
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
       <div className="my-3">
-        <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+        <span className="font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 font-bold py-1 ">
             <span>✓</span> Passport Verified
@@ -552,7 +552,7 @@ export function BookingManager({ email }: { email?: string }) {
             {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
               <button aria-label="Action button"
                 onClick={() => setIsPayModalOpen(true)}
-                className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                className="font-bold uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
               >
                 💳 Pay Balance
               </button>
@@ -577,7 +577,7 @@ export function BookingManager({ email }: { email?: string }) {
 
       {/* Two Clickable Cruise Agent Email Buttons */}
       <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-        <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+        <span className="font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
           <CosmicRadialButton
@@ -788,14 +788,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>

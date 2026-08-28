@@ -3443,7 +3443,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
                 <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                   <span> Traffic Acquisition Channels</span>
-                  <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
+                  <span className="font-mono text-[var(--muted-text)]">GA4 Attribution</span>
                 </h4>
 
                 <div className="space-y-3.5">
@@ -3504,7 +3504,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div>
                   <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                     <span> User Devices & Browsers</span>
-                    <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Device Category</span>
+                    <span className="font-mono text-[var(--muted-text)]">Device Category</span>
                   </h4>
 
                   <div className="grid grid-cols-3 gap-2 text-center mb-5">
@@ -3553,7 +3553,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="bg-[var(--card-bg)] shadow-xs">
               <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                 <span> Top Performing Site Pages (Screen Views)</span>
-                <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
+                <span className="font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
               </h4>
 
               <div className="overflow-x-auto">
@@ -3622,7 +3622,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
               <h4 className="font-bold uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                 <span> Visitor Geo Demographics & Fan Density</span>
-                <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Top Cities</span>
+                <span className="font-mono text-[var(--muted-text)]">Top Cities</span>
               </h4>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -6515,7 +6515,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {bandSmsSelectedShowDate && (
-                      <div className="flex items-center justify-between bg-purple-500/10 border border-purple-500/25 rounded-lg px-3 py-2 text-[var(--font-size-3xs)] text-purple-300 animate-[fadeIn_0.2s_ease-out]">
+                      <div className="flex items-center justify-between bg-purple-500/10 border border-purple-500/25 rounded-lg px-3 py-2 text-purple-300 animate-[fadeIn_0.2s_ease-out]">
                         <div className="flex items-center gap-1.5">
                           <span></span>
                           <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
@@ -7523,7 +7523,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }`}
                           >
                             <span>{label}</span>
-                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
+                            <span className={`w-4 h-4 rounded-full flex items-center justify-center font-bold ${enabled ?'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
                               {enabled ? '' : ''}
                             </span>
                           </button>
@@ -8501,7 +8501,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             }}
             className="wiw-card select-none cursor-pointer rounded-lg bg-[#252530] border border-white/10 py-3 px-3 flex items-center justify-center text-center w-full min-h-[60px]"
           >
-            <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-wider">
+            <span className="font-bold text-white/40 uppercase tracking-wider">
               Time Off All Day
             </span>
           </button>
@@ -8734,7 +8734,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="text-purple-300 font-bold text-[var(--font-size-4xs)] uppercase tracking-wider mb-2">
                       Role: {member?.role || shift.role || 'Crew Member'}
                     </div>
-                    <div className="text-slate-400 text-[var(--font-size-3xs)] space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
+                    <div className="text-slate-400 space-y-1 border-t border-slate-700/50 pt-1.5 font-mono">
                       <div className="flex items-center gap-1.5">
                         <span></span>
                         <span className="truncate">{member?.email || 'N/A'}</span>
@@ -9248,7 +9248,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="flex-1 flex flex-col gap-2">
                   {sortedShifts.length === 0 ? (
                     <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-lg p-4 bg-black/20">
-                      <span className="text-[var(--font-size-3xs)] text-white/30 italic font-medium">Empty</span>
+                      <span className="text-white/30 italic font-medium">Empty</span>
                     </div>
                   ) : (
                     sortedShifts.map(shift => renderShiftCard(shift, true))
@@ -9864,9 +9864,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   }}
                                   className="w-full text-left px-4 py-2.5 hover: bg-[#00000029] flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
                                 >
-                                  <span className="text-[var(--font-size-3xs)] font-bold text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
+                                  <span className="font-bold text-purple-300/70 group-hover:text-purple-300 uppercase tracking-wider min-w-[80px]">{dateLabel}</span>
                                   <span className="font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
-                                  {show.city && <span className="text-[var(--font-size-3xs)] text-white/30 ml-auto shrink-0">{show.city}</span>}
+                                  {show.city && <span className="text-white/30 ml-auto shrink-0">{show.city}</span>}
                                 </button>
                               );
                             });
@@ -10037,7 +10037,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {/* Search by Person */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-person-search" className="text-[var(--font-size-3xs)] font-bold uppercase text-white/50 tracking-wider">Search Person / Role</label>
+                      <label htmlFor="admin-sched-person-search" className="font-bold uppercase text-white/50 tracking-wider">Search Person / Role</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
                           id="admin-sched-person-search"
@@ -10060,7 +10060,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Search by Venue */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-venue-search" className="text-[var(--font-size-3xs)] font-bold uppercase text-white/50 tracking-wider">Search Venue Name</label>
+                      <label htmlFor="admin-sched-venue-search" className="font-bold uppercase text-white/50 tracking-wider">Search Venue Name</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
                           id="admin-sched-venue-search"
@@ -10083,7 +10083,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Event Type Filter */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-event-type" className="text-[var(--font-size-3xs)] font-bold uppercase text-white/50 tracking-wider">Show / Event Type</label>
+                      <label htmlFor="admin-sched-event-type" className="font-bold uppercase text-white/50 tracking-wider">Show / Event Type</label>
                       <Dropdown
                         id="admin-sched-event-type"
                         fullWidth={true}
@@ -10103,7 +10103,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Date Range Selection */}
                     <div className="flex flex-col gap-1.5 col-span-1">
-                      <span className="text-[var(--font-size-3xs)] font-bold uppercase text-white/50 tracking-wider">Custom Date Range</span>
+                      <span className="font-bold uppercase text-white/50 tracking-wider">Custom Date Range</span>
                       <div className="flex items-center gap-2">
                         <div className="w-full input-glow-border rounded-lg">
                           <input
@@ -10115,7 +10115,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
                           />
                         </div>
-                        <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
+                        <span className="text-white/35 font-bold">TO</span>
                         <div className="w-full input-glow-border rounded-lg">
                           <input
                             type="date"
@@ -10133,7 +10133,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               setScheduleStartDate('');
                               setScheduleEndDate('');
                             }}
-                            className="text-white/40 hover:text-white bg-[#00000029] hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                            className="text-white/40 hover:text-white bg-[#00000029] hover:bg-white/10 px-2 py-1 rounded font-bold transition-colors cursor-pointer border-none"
                             title="Reset Date Range"
                           >
                             Clear
@@ -10168,7 +10168,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setShowTourDatesOnly(false);
                             setScheduleSortByDate(null);
                           }}
-                          className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
+                          className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded font-bold transition-colors cursor-pointer border-none"
                         >
                           Reset All Filters
                         </button>
@@ -10222,7 +10222,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <CustomScrollbar className="bg-[#0a00653b] flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
                       {(() => {
                         if (upcomingTourDatesWithLabels.length === 0) {
-                          return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
+                          return <div className="px-2 py-3 text-white/20 italic text-center">No upcoming tour dates synced</div>;
                         }
 
                         return upcomingTourDatesWithLabels.map((show, idx) => {
@@ -10359,7 +10359,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                               <div className="border-t border-white/5 pt-3 space-y-2.5">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-white/50">Assign Coverage:</span>
+                                  <span className="font-bold uppercase tracking-wider text-white/50">Assign Coverage:</span>
 
                                   {/* Tab/Toggle for Fit Role vs Override */}
                                   <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/20">
@@ -10980,7 +10980,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </div>
                         ) : (
                           <div className="space-y-2.5">
-                            <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-bold block">Saved Groups</span>
+                            <span className="uppercase tracking-wider text-white/50 font-bold block">Saved Groups</span>
                             {crewGroups.map((g, gIdx) => (
                               <button
                                 key={gIdx}
@@ -11078,7 +11078,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Group Name input */}
                       <div className="mt-2 space-y-1.5">
-                        <label htmlFor="admin-new-group-name" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
+                        <label htmlFor="admin-new-group-name" className="uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
                         <GlowInput
                           id="admin-new-group-name"
                           type="text"
@@ -11091,7 +11091,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Member Pick list */}
                       <div className="space-y-2">
-                        <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-bold block">Select Crew Members</span>
+                        <span className="uppercase tracking-wider text-white/50 font-bold block">Select Crew Members</span>
 
                         <div className=" bg-transparent overflow-hidden">
                           {crewMembers.flatMap((m) => {
@@ -11382,22 +11382,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         {/* Show Stats Summary */}
                         <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
                           <div>
-                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Total Shift(s)</span>
+                            <span className="text-white/40 block">Total Shift(s)</span>
                             <span className="font-bold text-white">{dayShifts.length}</span>
                           </div>
                           <div>
-                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
+                            <span className="text-white/40 block">Staff Scheduled</span>
                             <span className="font-bold text-[var(--color-accent)]">{filledShifts.length}</span>
                           </div>
                           <div>
-                            <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
+                            <span className="text-white/40 block">Open Position(s)</span>
                             <span className="font-bold text-purple-300">{openShifts.length}</span>
                           </div>
                         </div>
 
                         {/* Scheduled Crew Section */}
                         <div>
-                          <h4 className="text-[var(--font-size-3xs)] font-bold uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
+                          <h4 className="font-bold uppercase text-white/40 tracking-wider mb-2.5">Scheduled Crew</h4>
                           {filledShifts.length === 0 ? (
                             <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 italic">
                               No crew members scheduled yet
@@ -11415,7 +11415,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       {member?.avatar ? (
                                         <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                       ) : (
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[var(--font-size-3xs)] text-white shrink-0" style={{ backgroundColor: color }}>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white shrink-0" style={{ backgroundColor: color }}>
                                           {initials}
                                         </div>
                                       )}
@@ -11428,7 +11428,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     </div>
 
                                     <div className="text-right shrink-0">
-                                      <span className="text-[var(--font-size-3xs)] font-bold text-white/85 block">{shift.time}</span>
+                                      <span className="font-bold text-white/85 block">{shift.time}</span>
                                       <button
                                         type="button"
                                         onClick={() => {
@@ -11449,7 +11449,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                         {/* Open Positions Section */}
                         <div>
-                          <h4 className="text-[var(--font-size-3xs)] font-bold uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
+                          <h4 className="font-bold uppercase text-white/40 tracking-wider mb-2.5">Open Positions</h4>
                           {openShifts.length === 0 ? (
                             <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 italic">
                               No open positions
@@ -12139,7 +12139,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {entry.details.smsText && (
                                 <div className="space-y-1.5">
                                   <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
-                                  <div className="bg-transparent border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
+                                  <div className="bg-transparent border border-white/5 rounded-lg p-2.5 font-mono whitespace-pre-wrap leading-relaxed text-purple-300">
                                     {entry.details.smsText}
                                   </div>
                                 </div>
@@ -12149,7 +12149,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <div className="space-y-2">
                                   <div className="border-b border-white/5 pb-1">
                                     <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
-                                    <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
+                                    <span className="text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
                                   </div>
 
                                   <div className="space-y-1.5">

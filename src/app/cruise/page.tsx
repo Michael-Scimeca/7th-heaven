@@ -1212,12 +1212,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-xl">{room.icon}</span>}
-                              <span className={`bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[var(--font-size-3xs)] font-bold uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status ==="soldout" ? "" :
+                              <span className={`bg-[#00000029] border border-white/10 backdrop-blur-[16px] font-bold uppercase px-2.5 py-1 rounded-lg tracking-wider ${room.status ==="soldout" ? "" :
                                 room.status === "warning" ? "bg-[#e1e5ff29] text-white" :
                                   "text-white"
                                 }`}>{room.badge}</span>
                             </div>
-                            <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                            <span className="font-bold text-white/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
                             <h4 className="text-base font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
                           </div>
                         </div>
@@ -1228,11 +1228,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           ) : (
                             <div className="flex items-baseline gap-1.5">
                               <span className="text-xl font-bold text-white">{room.price}</span>
-                              <span className="text-[var(--font-size-3xs)] text-white/50 uppercase font-semibold">USD pp</span>
+                              <span className="text-white/50 uppercase font-semibold">USD pp</span>
                             </div>
                           )}
                           {room.inclusions && (
-                            <span className="text-[var(--font-size-3xs)] text-purple-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
+                            <span className="text-purple-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                           )}
                           <span
                             className="mt-3 w-full py-2.5 px-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-bold text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg border-0"
@@ -1289,7 +1289,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   <span className={`rounded-lg text-[var(--font-size-4xs)] font-bold uppercase px-2.5 py-0.5 rounded tracking-wider bg-[#00000029] border border-white/10 backdrop-blur-[16px] ${isYo ?'' : ''
                                     }`}>{room.label}</span>
                                 </div>
-                                <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
+                                <span className="font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
                                 <h4 className="text-base font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>
@@ -1907,7 +1907,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── FEATURED HEADLINE ARTISTS ── */}
             <section id="artists" className="py-section-fluid">
               <div className="text-left w-full mb-10">
-                <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
+                <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
                 <h2 className="text-3xl md:text-5xl font-bold uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Featured <span className="accent-gradient-text">Artists</span>
                 </h2>
@@ -1966,7 +1966,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </a>
                         <a
                           href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request"
-                          className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-colors font-bold"
+                          className="text-white/50 uppercase tracking-widest hover:text-white transition-colors font-bold"
                         >
                           Inquiries
                         </a>
@@ -2047,7 +2047,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Ports of Call Section */}
               <div>
                 <div className="text-center md:text-left mb-10">
-                  <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
+                  <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
                   <h3 className="text-2xl md:text-3xl font-bold uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Ports of Call Catalog
                   </h3>
@@ -2177,7 +2177,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <h4 className={`font-bold uppercase truncate ${activeSpotlightPort === idx ?"text-purple-300" : "text-white"}`}>
                               {port.name}
                             </h4>
-                            <span className="text-[var(--font-size-3xs)] text-white/35 font-mono">Port #{idx + 1}</span>
+                            <span className="text-white/35 font-mono">Port #{idx + 1}</span>
                           </div>
                         </button>
                       ))}
@@ -2312,7 +2312,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   { label: "Decks Tall", value: "20 Decks" },
                 ].map((stat) => (
                   <div key={stat.label} className="bg-transparent border-0 p-0 text-left">
-                    <span className="text-[var(--font-size-3xs)] text-white font-bold uppercase tracking-wider block">{stat.label}</span>
+                    <span className="text-white font-bold uppercase tracking-wider block">{stat.label}</span>
                     <span className="text-lg md:text-xl font-bold text-white mt-1 block">{stat.value}</span>
                   </div>
                 ))}

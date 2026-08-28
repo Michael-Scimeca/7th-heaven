@@ -475,7 +475,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)] font-bold uppercase tracking-widest rounded">Crew HQ</span>
                 {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-bold uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
               </div>
-              <span className="text-[var(--font-size-3xs)] text-white/25">{email}</span>
+              <span className="text-white/25">{email}</span>
             </div>
           </div>
 
@@ -540,8 +540,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <p className="font-semibold">{member?.role || "Crew"}</p>
                 <p className="mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase tracking-wider rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase tracking-wider rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -588,7 +588,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
                     <span className="font-bold">📡 Site-Wide Chat Monitor</span>
-                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
+                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-white/30 font-mono">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-lg bg-emerald-500 animate-pulse" title="Live" />
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
@@ -626,7 +626,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter ==="all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
+                    className={`px-3 py-1 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter ==="all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
                       }`}
                   >
                     All Rooms ({msgs.length})
@@ -635,7 +635,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <button aria-label="Action button"
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                      className={`flex items-center gap-1 px-3 py-1 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id ?"text-white border-opacity-100"
+                      className={`flex items-center gap-1 px-3 py-1 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id ?"text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30 hover: text-white "
                         }`}
                       style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
@@ -700,30 +700,30 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           <button aria-label="Action button"
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
-                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
+                            className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isFlagged ?"border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
                               }`}
                           >🚩</button>
                           <button aria-label="Action button"
                             onClick={() => handleWarn(msg.sender_name, msg.room)}
                             title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
-                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
+                            className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${warned.has(msg.sender_name) ?"border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
                               }`}
                           >⚠️</button>
                           <button aria-label="Action button"
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
-                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
+                            className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isBanned ?"border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
                               }`}
                           >🚫</button>
                           <button aria-label="Action button"
                             onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
                             title="Remove Fan Completely"
-                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
+                            className="px-2 py-1 rounded-lg border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
                           >🚪</button>
                           <button aria-label="Action button"
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
-                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover: bg-[#00000029] transition-colors cursor-pointer"
+                            className="px-2 py-1 rounded-lg border border-white/[0.08] text-white/30 hover: bg-[#00000029] transition-colors cursor-pointer"
                           >🗑</button>
                         </div>
                       </div>
@@ -733,7 +733,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               </div>
 
               {/* Feed footer stats */}
-              <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-[var(--font-size-3xs)] text-white/25 flex-shrink-0">
+              <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-white/25 flex-shrink-0">
                 <span>Showing {filteredMsgs.length} of {msgs.length} messages</span>
                 <span className="flex items-center gap-3">
                   <span>🚩 {flagged.size} flagged</span>
@@ -892,7 +892,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ?"bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029]    text-white/40 border border-white/[0.08] hover:text-white"
+                  className={`px-4 py-1.5 rounded-lg font-bold uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ?"bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029]    text-white/40 border border-white/[0.08] hover:text-white"
                     }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}

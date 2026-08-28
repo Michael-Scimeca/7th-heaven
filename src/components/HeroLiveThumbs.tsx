@@ -124,7 +124,7 @@ export default function HeroLiveThumbs() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
         </span>
-        <span className="text-[var(--font-size-3xs)] font-bold text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
+        <span className="font-bold text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
           Show Live Streams
         </span>
       </button>
@@ -241,7 +241,7 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white text-[var(--font-size-3xs)] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
                     <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                     LIVE
                   </div>
@@ -253,7 +253,7 @@ export default function HeroLiveThumbs() {
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5 text-white/80 text-[var(--font-size-3xs)] font-mono font-bold">
+                  <div className="absolute bottom-3 left-3.5 text-white/80 font-mono font-bold">
                     {timeText}
                   </div>
                 </div>

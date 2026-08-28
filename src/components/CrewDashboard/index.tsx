@@ -53,7 +53,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
             Reason: <span className="text-white/80 font-medium   ">“{req.reason}”</span>
           </span>
           {req.declineReason && (
-            <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
+            <span className="text-rose-400/80 block mt-1">
               Denial Feedback: <span className="   font-bold">“{req.declineReason}”</span>
             </span>
           )}
@@ -149,7 +149,7 @@ function AvailabilityCardForm({
       <div>
         <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
           <div>
-            <label htmlFor="avail-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white font-bold block mb-1.5">Date</label>
+            <label htmlFor="avail-date-input" className="uppercase tracking-wider text-white font-bold block mb-1.5">Date</label>
             <input
               id="avail-date-input"
               type="date"
@@ -160,7 +160,7 @@ function AvailabilityCardForm({
             />
           </div>
           <div>
-            <label htmlFor="avail-type-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white font-bold block mb-1.5">Status</label>
+            <label htmlFor="avail-type-select" className="uppercase tracking-wider text-white font-bold block mb-1.5">Status</label>
             <select
               id="avail-type-select"
               value={availType}
@@ -173,7 +173,7 @@ function AvailabilityCardForm({
           </div>
           <div className="sm:col-span-2 flex gap-3 items-end">
             <div className="flex-1">
-              <label htmlFor="avail-note-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white font-bold block mb-1.5">Comment / Note (Optional)</label>
+              <label htmlFor="avail-note-select" className="uppercase tracking-wider text-white font-bold block mb-1.5">Comment / Note (Optional)</label>
               <select
                 id="avail-note-select"
                 value={availNote}
@@ -234,7 +234,7 @@ function TimeOffCardForm({
       <div>
         <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
           <div>
-            <label htmlFor="time-off-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white font-bold block mb-1.5">Request Date</label>
+            <label htmlFor="time-off-date-input" className="uppercase tracking-wider text-white font-bold block mb-1.5">Request Date</label>
             <input
               id="time-off-date-input"
               type="date"
@@ -246,7 +246,7 @@ function TimeOffCardForm({
           </div>
           <div className="sm:col-span-2 flex gap-3 items-end">
             <div className="flex-1">
-              <label htmlFor="time-off-reason-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white font-bold block mb-1.5">Reason for Time-off</label>
+              <label htmlFor="time-off-reason-select" className="uppercase tracking-wider text-white font-bold block mb-1.5">Reason for Time-off</label>
               <select
                 id="time-off-reason-select"
                 required
@@ -3084,7 +3084,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <span className="w-2.5 h-2.5 rounded-lg bg-emerald-500 animate-pulse" />
                             <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
                           </div>
-                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
+                          <span className="text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
                         </div>
 
                         {/* Countdown timer */}
@@ -3185,7 +3185,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
                                   <div className="flex items-center bg-black/60 border border-white/10 rounded-lg px-2 py-1 max-w-[90px]">
-                                    <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
+                                    <span className="text-white/40 mr-1">$</span>
                                     <input
                                       type="text"
                                       aria-label="Flash sale price"
@@ -3236,7 +3236,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : ' bg-[#00000029]      border-white/10    text-white  hover:bg-white/10'}`}
+                                  className={`text-center py-2 rounded-lg border font-bold ${dropDurationStr === d ?'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : ' bg-[#00000029]      border-white/10    text-white  hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3316,7 +3316,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex gap-2 items-end">
                               {/* Input 1: Prize Name */}
                               <div className="flex-1 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
+                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="text"
@@ -3332,7 +3332,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 2: Entries Needed */}
                               <div className="w-20 flex flex-col gap-1.5 relative no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
+                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3346,7 +3346,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-bold uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/10 whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                  <div className="absolute -top-5 right-0 text-[var(--color-accent)] font-bold uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/10 whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                     {raffleEntrants.length} / {item.min} Entries
                                   </div>
                                 )}
@@ -3354,7 +3354,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 3: Prize Qty */}
                               <div className="w-14 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
+                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -4360,7 +4360,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               >
                                 💬 Lineup & Discuss
                               </button>
-                              <span className="text-[var(--font-size-3xs)] text-[var(--color-accent)]/80 ml-1">
+                              <span className="text-[var(--color-accent)]/80 ml-1">
                                 (For: {shift.crewName})
                               </span>
                             </div>
@@ -4371,7 +4371,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             <button
                               type="button"
                               onClick={() => handleAcceptCoverage(shift.id)}
-                              className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
+                              className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1"
                             >
                               🙋 Accept Shift
                             </button>
@@ -4488,14 +4488,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
             <div className="space-y-3">
               <div>
-                <span className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">From</span>
+                <span className="text-black/40 uppercase font-bold tracking-wider block mb-1">From</span>
                 <div className="bg-black/35 border border-black/10 px-3.5 py-2 text-black/70">
                   {displayName} <span className="text-black/35">({email})</span>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="crew-email-subject" className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
+                <label htmlFor="crew-email-subject" className="text-black/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
                 <input
                   id="crew-email-subject"
                   type="text"
@@ -4507,7 +4507,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </div>
 
               <div>
-                <label htmlFor="crew-email-message" className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Message</label>
+                <label htmlFor="crew-email-message" className="text-black/40 uppercase font-bold tracking-wider block mb-1">Message</label>
                 <textarea
                   id="crew-email-message"
                   value={emailMessage}
@@ -4714,7 +4714,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
             <div className="flex-1 overflow-y-auto space-y-5 pr-1 py-1" data-lenis-prevent="true">
               {/* Lineup */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
+                <h4 className="font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
@@ -4729,7 +4729,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         <div key={act.id} className="space-y-1.5">
                           <div className="bg-black/30 border border-black/10 p-3 flex items-center justify-between">
                             <span className="font-boldtext-black">{act.actName}</span>
-                            <span className="text-[var(--font-size-3xs)] text-purple-300 font-mono font-bold">⏱️ {act.startTime} - {act.endTime}</span>
+                            <span className="text-purple-300 font-mono font-bold">⏱️ {act.startTime} - {act.endTime}</span>
                           </div>
                           {changeover && (
                             <div className="text-center">
@@ -4746,7 +4746,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
               {/* Discussion Thread */}
               <div className="space-y-3">
-                <h4 className="text-[var(--font-size-3xs)] font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
+                <h4 className="font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
                 {(() => {
                   const comments = gigComments.filter(c => c.date === activeDiscussionDate);
                   const rootComments = comments.filter(c => !c.parentId);
@@ -4772,7 +4772,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center justify-between mb-0.5">
-                                    <span className="text-[var(--font-size-3xs)] font-bold text-black/80">{c.authorName}</span>
+                                    <span className="font-bold text-black/80">{c.authorName}</span>
                                     <span className="text-[7.5px] text-black/30 font-mono">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                   </div>
                                   <p className="text-black/60 leading-normal">{c.text}</p>
@@ -4795,7 +4795,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     placeholder="Write a reply..."
                                     value={replyText}
                                     onChange={(e) => setReplyText(e.target.value)}
-                                    className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-[var(--font-size-3xs)] text-black rounded outline-none focus:border-purple-500/50"
+                                    className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-black rounded outline-none focus:border-purple-500/50"
                                   />
                                   <button
                                     type="button"
@@ -4938,7 +4938,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
-                  className={`py-2 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
+                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >
@@ -4947,7 +4947,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                  className={`py-2 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
+                  className={`py-2 font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ?'bg-[var(--color-accent)] text-black  '
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
                 >

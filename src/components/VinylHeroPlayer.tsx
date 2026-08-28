@@ -822,7 +822,7 @@ export default function VinylHeroPlayer({
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                       />
                     </div>
-                    <div className="flex justify-between text-[var(--font-size-3xs)] font-mono text-white mt-0.5">
+                    <div className="flex justify-between font-mono text-white mt-0.5">
                       <span>{currentTime}</span>
                       <span>{duration}</span>
                     </div>

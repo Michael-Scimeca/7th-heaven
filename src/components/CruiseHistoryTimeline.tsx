@@ -562,7 +562,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* Section Header — Inside Container Box */}
       <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px] relative z-20">
-        <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.25em] text-purple-400block mb-1">
+        <span className="font-bold uppercase tracking-[0.25em] text-purple-400block mb-1">
           25+ Years Legacy Pathway
         </span>
         <h3
@@ -709,7 +709,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={startDotRef}
               className="w-5 h-5 rounded-lg bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg font-mono z-10">
+            <span className="font-bold uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg font-mono z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -996,7 +996,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button aria-label="Action button"
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${(tuning.scalingCurve ||'linear') === mode
+                      className={`py-1.5 px-2 font-bold uppercase tracking-wider transition-colors cursor-pointer border ${(tuning.scalingCurve ||'linear') === mode
                         ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
                         : ' bg-[#00000029]    text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}

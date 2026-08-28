@@ -260,7 +260,7 @@ export default function PlannerClient() {
               <div className="mt-6">
                 <p className="uppercase tracking-widest font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center text-[var(--font-size-3xs)] font-bold text-white">{initials}</div>
+                  <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center font-bold text-white">{initials}</div>
                   <span className="text-white/80">{member?.name || 'Planner'}</span>
                 </div>
               </div>

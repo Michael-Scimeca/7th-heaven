@@ -1170,7 +1170,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/30"
+                            className="text-white hover:text-cyan-300 transition-colors cursor-pointer font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/30"
                             title="Add another show on this date"
                           >
                             <Plus className="w-3 h-3" /> Add Another
@@ -1178,7 +1178,7 @@ function BookPageContent() {
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-white hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30"
+                            className="text-white hover:text-rose-400 transition-colors cursor-pointer font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30"
                             title="Remove this show"
                           >
                             <X className="w-3 h-3" /> Remove
@@ -1186,14 +1186,14 @@ function BookPageContent() {
                         </div>
 
                         <div className="mb-4">
-                          <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-cyan-300 block mb-1">Show #{index + 1}</span>
+                          <span className="font-bold uppercase tracking-widest text-cyan-300 block mb-1">Show #{index + 1}</span>
                           <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
                         </div>
 
                         <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
                           {/* Format */}
                           <div>
-                            <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Show Format</label>
+                            <label htmlFor={`slot-format-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Show Format</label>
                             <Dropdown
                               id={`slot-format-${slot.id}`}
                               fullWidth={true}
@@ -1227,7 +1227,7 @@ function BookPageContent() {
                           {/* Times */}
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Start Time</label>
+                              <label htmlFor={`slot-start-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Start Time</label>
                               <Dropdown
                                 id={`slot-start-${slot.id}`}
                                 fullWidth={true}
@@ -1241,7 +1241,7 @@ function BookPageContent() {
                               />
                             </div>
                             <div>
-                              <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">End Time</label>
+                              <label htmlFor={`slot-end-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">End Time</label>
                               <Dropdown
                                 id={`slot-end-${slot.id}`}
                                 fullWidth={true}
@@ -1260,7 +1260,7 @@ function BookPageContent() {
                         {/* Separate Contact/Venue details toggle buttons & form fields */}
                         <div className="mt-4 pt-4 border-t border-white/10">
                           <div className="mb-3">
-                            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-2">Contact & Venue Details</span>
+                            <span className="font-bold uppercase tracking-widest text-white/50 block mb-2">Contact & Venue Details</span>
                             <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border border-white/10 rounded-lg">
                               <button aria-label="Action button"
                                 type="button"
@@ -1277,7 +1277,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ?'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1296,7 +1296,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ?'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1304,7 +1304,7 @@ function BookPageContent() {
                           </div>
 
                           {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-lg text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                            <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-lg text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
                                 <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
@@ -1461,7 +1461,7 @@ function BookPageContent() {
                           <button aria-label="Previous"
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
+                            className="w-full text-left flex items-center justify-between font-bold uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
                           >
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
                             <span className="text-[var(--font-size-4xs)] text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
