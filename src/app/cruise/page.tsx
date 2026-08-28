@@ -686,7 +686,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen text-white pt-[100px]">
+    <div className="min-h-screen bg-gradient-to-b from-[#06060c] via-[#090514] to-black text-white pt-[100px]">
 
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section
