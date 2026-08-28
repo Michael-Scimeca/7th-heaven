@@ -31,6 +31,60 @@ const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTi
 
 const CruiseHeroMaskEditor = dynamic(() => import("@/components/CruiseHeroMaskEditor"), { ssr: false });
 
+function ViewportSection({
+  children,
+  minHeight = "500px",
+  className = "",
+  id,
+}: {
+  children: React.ReactNode;
+  minHeight?: string;
+  className?: string;
+  id?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    if (rect.top < (typeof window !== "undefined" ? window.innerHeight : 1000) + 1200) {
+      setShouldRender(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "1000px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      id={id}
+      ref={ref}
+      className={className}
+      style={{
+        minHeight: shouldRender ? "auto" : minHeight,
+        contentVisibility: "auto",
+        containIntrinsicSize: minHeight,
+      }}
+    >
+      {shouldRender ? children : null}
+    </div>
+  );
+}
+
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
   const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#9333ea", "#ec4899", "#8b5cf6", "#64748b"];
   return itinData.map((day, i) => ({
@@ -1959,73 +2013,73 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND WITH SMOOTH TOP MASK) ── */}
-          <section
-            id="itinerary"
-            className="py-section-fluid w-full max-w-none px-0 overflow-x-clip relative"
-            style={{
-              position: "relative",
-              left: "50%",
-              right: "50%",
-              marginLeft: "-50vw",
-              marginRight: "-50vw",
-              width: "100vw",
-              maxWidth: "100vw",
-              backgroundColor: "transparent",
-              backgroundImage: "linear-gradient(180deg, transparent 0%, #060b18 90px, #0a142c 50%, #060b18 calc(100% - 160px), transparent 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
-            }}
-          >
-            {/* Top mask blend overlay for smooth edge feathering */}
-            <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-[#05030a] via-[#05030a]/70 to-transparent pointer-events-none z-10" />
+          <ViewportSection id="itinerary" minHeight="900px" className="py-section-fluid w-full max-w-none px-0 overflow-x-clip relative">
+            <div
+              style={{
+                position: "relative",
+                left: "50%",
+                right: "50%",
+                marginLeft: "-50vw",
+                marginRight: "-50vw",
+                width: "100vw",
+                maxWidth: "100vw",
+                backgroundColor: "transparent",
+                backgroundImage: "linear-gradient(180deg, transparent 0%, #060b18 90px, #0a142c 50%, #060b18 calc(100% - 160px), transparent 100%)",
+                maskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 250px, black calc(100% - 140px), transparent 100%)",
+              }}
+            >
+              {/* Top mask blend overlay for smooth edge feathering */}
+              <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-[#05030a] via-[#05030a]/70 to-transparent pointer-events-none z-10" />
 
-            {/* Inner div with site container padding */}
-            <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
-              <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-                <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-                  Day-by-Day <span className="accent-gradient-text">Schedules</span>
-                </h2>
-                <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
-                  Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
-                </p>
+              {/* Inner div with site container padding */}
+              <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
+                <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+                  <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    Day-by-Day <span className="accent-gradient-text">Schedules</span>
+                  </h2>
+                  <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
+                    Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+                  </p>
 
-                {/* Itinerary Year Toggle */}
-                <div className="flex gap-2 justify-center mt-8">
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={() => setActiveItinYear(2027)}
-                    className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
-                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                      }`}
-                  >
-                    2027 Star of the Seas (7-Night)
-                  </button>
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={() => setActiveItinYear(2028)}
-                    className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
-                      ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                      }`}
-                  >
-                    2028 Legend of the Seas (8-Night)
-                  </button>
+                  {/* Itinerary Year Toggle */}
+                  <div className="flex gap-2 justify-center mt-8">
+                    <button aria-label="Action button"
+                      type="button"
+                      onClick={() => setActiveItinYear(2027)}
+                      className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
+                        ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                        : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
+                        }`}
+                    >
+                      2027 Star of the Seas (7-Night)
+                    </button>
+                    <button aria-label="Action button"
+                      type="button"
+                      onClick={() => setActiveItinYear(2028)}
+                      className={`px-6 py-2.5 text-xs  font-bold  uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
+                        ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                        : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
+                        }`}
+                    >
+                      2028 Legend of the Seas (8-Night)
+                    </button>
+                  </div>
+                </div>
+
+                {/* 3D Snake Itinerary Timeline Component */}
+                <div className="w-full">
+                  <React.Suspense fallback={null}>
+                    <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={activeItinYear === 2027 ? itin2027Mapped : itin2028Mapped} />
+                  </React.Suspense>
                 </div>
               </div>
-
-              {/* 3D Snake Itinerary Timeline Component */}
-              <div className="w-full">
-                <React.Suspense fallback={null}>
-                  <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={activeItinYear === 2027 ? itin2027Mapped : itin2028Mapped} />
-                </React.Suspense>
-              </div>
             </div>
-          </section>
+          </ViewportSection>
 
           <div className="site-container py-section-fluid">
             {/* ── SECTION 2: PORTS OF CALL ── */}
-            <section id="ports">
+            <ViewportSection id="ports" minHeight="700px">
               {/* Ports of Call Section */}
               <div>
                 <div className="text-center md:text-left mb-10">
@@ -2271,12 +2325,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                 )}
               </div>
-            </section>
+            </ViewportSection>
 
 
 
             {/* ── SECTION 4: SHIP EXPLORER ── */}
-            <section id="ship-explorer" className="py-[32px] md:py-20">
+            <ViewportSection id="ship-explorer" minHeight="800px" className="py-[32px] md:py-20">
               <div className="text-left w-full mb-10">
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
@@ -2526,16 +2580,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   })}
                 </div>
               </div>
+            </ViewportSection>
 
-              {/* ── SECTION 4.5: SHIP & CRUISE YOUTUBE VIDEO GALLERY ── */}
+            {/* ── SECTION 4.5: SHIP & CRUISE YOUTUBE VIDEO GALLERY ── */}
+            <ViewportSection minHeight="600px">
               <React.Suspense fallback={<div className="h-48 flex items-center justify-center text-xs text-white/50 font-bold uppercase tracking-wider">Loading Video Gallery...</div>}>
                 <CruiseVideoGallery />
               </React.Suspense>
 
-            </section>
+            </ViewportSection>
 
             {/* ── SECTION 5: FAQS & HISTORY ── */}
-            <section id="faqs" className="pt-20 pb-10">
+            <ViewportSection id="faqs" minHeight="600px" className="pt-20 pb-10">
               <div className="text-left w-full mb-10">
                 <h2 className="text-3xl md:text-5xl  font-bold  uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Frequently Asked <span className="accent-gradient-text">Questions</span>
@@ -2565,19 +2621,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                 ))}
               </div>
-            </section>
+            </ViewportSection>
           </div>
 
           {/* Cruise History Timeline Section (Lazy-Loaded at Bottom) */}
           {renderTimeline && (
-            <section
-              id="history"
-              className="w-full relative overflow-x-clip site-container "
-            >
+            <ViewportSection id="history" minHeight="500px" className="w-full relative overflow-x-clip site-container">
               <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
                 <CruiseHistoryTimeline history={CRUISE_HISTORY} />
               </React.Suspense>
-            </section>
+            </ViewportSection>
           )}
         </>)}
     </div>
