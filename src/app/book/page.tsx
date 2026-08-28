@@ -276,35 +276,53 @@ function BookPageContent() {
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState(() => ({
-    name: member?.name || "",
-    email: member?.email || "",
-    phone: member?.phone || "",
-    organization: "",
-    eventDate: "",
-    eventStartTime: "",
-    eventEndTime: "",
-    startTime: "",
-    endTime: "",
-    customEventType: "",
-    venueName: "",
-    venueCity: "",
-    venueState: "",
-    indoorOutdoor: "",
-    expectedAttendance: "",
-    budget: "",
-    setLength: "Full Show (3-4 hours)",
-    soundSystem: "",
-    stageAvailable: "",
-    backlineProvided: "",
-    ageRestriction: "",
-    loadInTime: "",
-    parkingAddress: "",
-    parkingNotes: "",
-    details: "",
-    hearAbout: "",
-    website: "", // Honeypot
-  }));
+  const [formData, setFormData] = useState(() => {
+    let initialName = member?.name || "";
+    let initialEmail = member?.email || "";
+    let initialPhone = member?.phone || "";
+
+    if (typeof window !== "undefined") {
+      try {
+        const localMember = localStorage.getItem("7h_member_session") || localStorage.getItem("7th_heaven_user");
+        if (localMember) {
+          const parsed = JSON.parse(localMember);
+          if (!initialName && parsed.name) initialName = parsed.name;
+          if (!initialEmail && parsed.email) initialEmail = parsed.email;
+          if (!initialPhone && parsed.phone) initialPhone = parsed.phone;
+        }
+      } catch { }
+    }
+
+    return {
+      name: initialName,
+      email: initialEmail,
+      phone: initialPhone,
+      organization: "",
+      eventDate: "",
+      eventStartTime: "",
+      eventEndTime: "",
+      startTime: "",
+      endTime: "",
+      customEventType: "",
+      venueName: "",
+      venueCity: "",
+      venueState: "",
+      indoorOutdoor: "",
+      expectedAttendance: "",
+      budget: "",
+      setLength: "Full Show (3-4 hours)",
+      soundSystem: "",
+      stageAvailable: "",
+      backlineProvided: "",
+      ageRestriction: "",
+      loadInTime: "",
+      parkingAddress: "",
+      parkingNotes: "",
+      details: "",
+      hearAbout: "",
+      website: "", // Honeypot
+    };
+  });
   const [hasParkingNotes, setHasParkingNotes] = useState(false);
   const [isLoadInUnsure, setIsLoadInUnsure] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
