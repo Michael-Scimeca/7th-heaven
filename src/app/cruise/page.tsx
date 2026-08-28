@@ -1949,7 +1949,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     )}
 
                     {/* Bottom Gradient Mask Overlay */}
-                    <div className="absolute inset-0 p-6 flex flex-col justify-end text-left pointer-events-none z-10">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-transparent p-6 flex flex-col justify-end text-left pointer-events-none z-10">
                       <h3 className="font-bold text-white tracking-tight leading-none">
                         {band.name}
                       </h3>
