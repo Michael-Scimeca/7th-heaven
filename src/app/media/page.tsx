@@ -325,7 +325,7 @@ export default function MediaPage() {
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
               >
                 <Plus className="w-4 h-4" />
-                <span>+ Add Video</span>
+                <span>Add Video</span>
               </button>
             )}
           </div>
@@ -345,7 +345,7 @@ export default function MediaPage() {
           </button>
 
           {categories.map((cat) => {
-            if (cat.videos.length === 0) return null;
+            if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
             const catUpper = cat.category.toUpperCase();
             const isActive = activeFilter.toUpperCase() === catUpper;
             return (
