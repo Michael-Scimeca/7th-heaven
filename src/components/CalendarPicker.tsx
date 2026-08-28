@@ -117,13 +117,11 @@ export function CalendarPicker({
         </div>
       </div>
 
-      {/* Legend */}
-      {blockedDates.length > 0 && (
-        <div className="flex items-center gap-5 mb-4 text-xs uppercase tracking-widest font-bold">
-          <span className="flex items-center gap-1.5  text-white "><span className="w-3 h-3 rounded bg-white/10 border  border-white/10  inline-block" /> Available</span>
-          <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
-        </div>
-      )}
+      {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
+      <div className="flex items-center gap-5 mb-4 text-xs uppercase tracking-widest font-bold">
+        <span className="flex items-center gap-1.5 text-white/90"><span className="w-3 h-3 rounded bg-white/10 border border-white/10 inline-block" /> Available</span>
+        <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
         <div>
