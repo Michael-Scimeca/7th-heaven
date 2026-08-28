@@ -310,6 +310,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // minimum hold: exoape.com's own hold length tracks real load time, not
   // a fixed branded pause (see the file-level comment above).
   useEffect(() => {
+    if (supportsViewTransition()) return;
     if (mode !== "covering" && mode !== "covered") return;
     if (pendingHref && !isSamePathname(pathname, pendingHref)) return; // swap hasn't landed yet
 
@@ -328,6 +329,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // seconds and reveal whatever's there rather than hiding the site behind
   // a black curtain indefinitely.
   useEffect(() => {
+    if (supportsViewTransition()) return;
     if ((mode !== "covering" && mode !== "covered") || !isPending) return;
     const t = setTimeout(() => {
       waitForPageReady().then(() => setMode("uncovering"));
