@@ -20,7 +20,7 @@ const leftNavLinks = [
   { href: "/payment-test", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
-  { href: "/7hrrk", label: "ROCK & ROLL KIDS" },
+  { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
