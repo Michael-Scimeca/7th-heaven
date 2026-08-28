@@ -36,9 +36,9 @@ export function ThemeProvider({
   const [savedTokens, setSavedTokens] = useState<ThemeTokens>(initialTokens || DEFAULT_THEME_TOKENS);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Synchronize custom CSS custom properties only if tokens have been modified dynamically
+  // Only apply dynamic inline CSS custom property overrides on admin routes when editing theme
   useEffect(() => {
-    if (tokens !== DEFAULT_THEME_TOKENS) {
+    if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
       applyThemeTokensToDocument(tokens);
     }
   }, [tokens]);
