@@ -427,10 +427,10 @@ export default function RockNRollKidsPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {videosList.map((v) => (
-                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all border border-white/20 rounded-lg text-white ${selectedVideo === v.id ? " "
+                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all rounded-lg text-white btn-cosmic-radial-property ${selectedVideo === v.id ? " "
                       : " "
                       }`}>
-                      <span className="text-[9px] font-mono text-pink-400 block">{v.tag}</span>
+                      <span className="text-[9px] font-mono text-white block">{v.tag}</span>
                       <span className="font-bold text-cyan-100 line-clamp-1">{v.title}</span>
                     </button>
                   ))}
@@ -520,11 +520,11 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded-lg inline-block">
+                  <h3 className="font-mono text-amber-400 font-bold">Richard Hofherr</h3>
+                  <span className="font-mono rounded-lg inline-block">
                     7th heaven · NTD Animation
                   </span>
-                  <h3 className="font-mono text-amber-400 font-bold">Richard Hofherr</h3>
-                  <p className="leading-relaxed">
+                  <p className="leading-relaxed mb-0">
                     Founder and songwriter of 7th heaven. Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
                   </p>
                   <a
@@ -551,11 +551,11 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
+                  <h3 className="font-mono text-purple-400 font-bold">Roy Adorjan</h3>
                   <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded-lg inline-block">
                     RNR Studios
                   </span>
-                  <h3 className="font-mono text-purple-400 font-bold">Roy Adorjan</h3>
-                  <p className="leading-relaxed">
+                  <p className="leading-relaxed mb-0">
                     Lead animator and character designer at RNR Studios. Co-creator and art director for 7th Heaven & The Rock &apos;n&apos; Roll Kids.
                   </p>
                   <a
