@@ -427,7 +427,7 @@ export default function PlannerDashboard() {
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className={`font-bold ${s.text} uppercase tracking-widest px-3 py-1 ${s.bg} ${s.border} border rounded-lg`}>{s.label}</span>
+              <span className={`font-bold  uppercase tracking-widest px-3 py-1 border-white/20 border  bg-[#e1e6ff29] rounded-lg`}>{s.label}</span>
               <span className="text-white/40 tracking-widest uppercase">ID: {booking.id}</span>
             </div>
 
@@ -668,7 +668,7 @@ export default function PlannerDashboard() {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute top-0 bottom-0 left-[19px] w-[2px] bg-[#00000029]" />
+            <div className="absolute top-0 bottom-0 left-[5px] w-[1px] bg-white/10" />
 
             <div className="flex flex-col gap-4">
               {allBookings.map((b, i) => {
@@ -677,13 +677,13 @@ export default function PlannerDashboard() {
                   ? { dot: 'bg-[var(--color-accent)]', border: 'border-[var(--color-accent)]/30', bg: 'bg-[var(--color-accent)]/10', text: 'text-[var(--color-accent)]', label: 'Confirmed' }
                   : b.status === 'cancelled'
                     ? { dot: 'bg-rose-500', border: 'border-rose-500/20', bg: 'bg-rose-500/5', text: 'text-rose-400', label: 'Cancelled' }
-                    : { dot: 'bg-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-600/10', text: 'text-purple-300', label: 'Pending' };
+                    : { dot: 'bg-purple-400', border: 'border-white/20', bg: 'bg-purple-600/10', text: 'text-purple-300', label: 'Pending' };
 
                 return (
                   <div key={b.id} className="flex gap-4 relative">
                     {/* Timeline dot */}
                     <div className="shrink-0 mt-5 z-10">
-                      <div className={`w-[10px] h-[10px] rounded-lg ${sc.dot} ring-4 ring-[#050508]`} />
+                      <div className={`w-3 h-3 rounded-full ${sc.dot} ring-4 ring-[#05030a]`} />
                     </div>
 
                     {/* Card */}
@@ -696,12 +696,12 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold uppercase tracking-widest ${sc.text} px-2 py-0.5 ${sc.bg} ${sc.border} border rounded-lg`}>
+                          <span className={`font-bold uppercase tracking-widest px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
                             {sc.label}
                           </span>
                           <span className="text-white/30 font-mono">{b.id}</span>
                           {isActive && (
-                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded border border-[var(--color-accent)]/20">
+                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
                               Active
                             </span>
                           )}
