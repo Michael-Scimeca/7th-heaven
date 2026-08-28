@@ -510,17 +510,17 @@ export default function RockNRollKidsPage() {
                   />
                   {/* Desktop Image */}
                   <Image
-                    src="/images/members/dicky.png"
+                    src="/images/members/desktop-richy.png"
                     alt="Richard Hofherr Desktop"
                     fill
                     sizes="(min-width: 641px) 50vw, 100vw"
                     className="object-contain object-center hidden sm:block"
                   />
                   {/* Bottom Gradient Mask Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
+                  <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-mono text-amber-400 font-bold">Richard Hofherr</h3>
+                  <h3 className="font-mono text-amber-400 font-bold mb-0">Richard Hofherr</h3>
                   <span className="font-mono rounded-lg inline-block">
                     7th heaven · NTD Animation
                   </span>
@@ -529,7 +529,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="py-2.5  font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
+                    className="py-2.5 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Rich777@aol.com</span>
@@ -540,19 +540,28 @@ export default function RockNRollKidsPage() {
               {/* Roy Adorjan Profile Card */}
               <div className="flex flex-col space-y-4 group">
                 <div className="relative w-full h-[350px] sm:h-[500px] md:h-[600px] lg:h-[700px] max-h-[700px] rounded-2xl overflow-hidden transition-all flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_50%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_98%)]">
+                  {/* Mobile Image */}
                   <Image
-                    src="/images/comics/Roy.png"
-                    alt="Roy Adorjan"
+                    src="/images/comics/roy-mobile.png"
+                    alt="Roy Adorjan Mobile"
                     fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-center"
+                    sizes="(max-width: 640px) 100vw, 0px"
+                    className="object-contain object-center sm:hidden"
+                  />
+                  {/* Desktop Image */}
+                  <Image
+                    src="/images/comics/desktop-roy.png"
+                    alt="Roy Adorjan Desktop"
+                    fill
+                    sizes="(min-width: 641px) 50vw, 100vw"
+                    className="object-contain object-center hidden sm:block"
                   />
                   {/* Bottom Gradient Mask Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 bg-gradient-to-t from-[#05030a] via-[#05030a]/90 to-transparent pointer-events-none z-10" />
+                  <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-mono text-purple-400 font-bold">Roy Adorjan</h3>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono rounded-lg inline-block">
+                  <h3 className="font-mono mb-0 text-purple-400 font-bold">Roy Adorjan</h3>
+                  <span className="font-mono rounded-lg inline-block">
                     RNR Studios
                   </span>
                   <p className="leading-relaxed mb-0">
