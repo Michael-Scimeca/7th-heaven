@@ -639,7 +639,7 @@ export default function PlannerDashboard() {
 
           <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
+              <span className="font-bold uppercase tracking-widest rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
               <h4 className="font-bold text-white">Lenny Rago</h4>
               <p className="mb-3">NTD Records</p>
             </div>
@@ -696,12 +696,12 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold uppercase tracking-widest px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
+                          <span className={`font-bold tracking-widest px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
                             {sc.label}
                           </span>
                           <span className="text-white/30 font-mono">{b.id}</span>
                           {isActive && (
-                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
+                            <span className="text-[var(--font-size-2xs)] font-bold tracking-widest  bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
                               Active
                             </span>
                           )}

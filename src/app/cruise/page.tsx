@@ -1273,7 +1273,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             className="w-full text-left overflow-hidden rounded-lg flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
-                              <div className="absolute top-3 right-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white text-[var(--font-size-4xs)] font-bold uppercase px-2.5 py-1 rounded-lg tracking-widest shadow-md flex items-center gap-1 z-10">
+                              <div className="absolute top-3 right-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold px-2.5 py-1 rounded-lg tracking-widest shadow-md flex items-center gap-1 z-10">
                                 <span>Popular</span>
                               </div>
                             )}
@@ -1286,7 +1286,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <div className="px-0 py-5 text-left">
                                 <div className="flex justify-between items-start gap-2 mb-3 text-left">
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
-                                  <span className={`backdrop-blur-[16px] bg-[#00000029] bg-[#e1e5ff29] border border-white/10 font-bold px-2.5 py-1 rounded-lg text-white tracking-wider uppercase ${isYo ? '' : ''
+                                  <span className={`backdrop-blur-[16px] bg-[#00000029] bg-[#e1e5ff29] border border-white/10 font-bold px-2.5 py-1 rounded-lg text-white tracking-wider ${isYo ? '' : ''
                                     }`}>{room.label}</span>
                                 </div>
                                 <span className="font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
@@ -1346,8 +1346,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             key={tab.id}
                             type="button"
                             onClick={() => setStateroomTab(tab.id as any)}
-                            className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
-                              : " bg-[#00000029]    hover:bg-white/10 text-white/80"
+                            className={`w-full p-4 rounded-lg text-left border border-white/10 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
+                              : " bg-[#00000029]"
                               }`}
                           >
                             <h4 className="font-bold text-white uppercase tracking-wider">{tab.label}</h4>
@@ -1546,7 +1546,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="font-bold uppercase tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
+                              <span className="font-bold tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}

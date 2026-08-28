@@ -214,7 +214,7 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat ?'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                className={`px-5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat ? 'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                   : ' bg=[#e1e6ff29]  text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
                   }`}
               >
@@ -260,7 +260,7 @@ export default function CruiseVideoGallery() {
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-lg">
+                <span className="absolute top-3 left-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px]  font-bold tracking-wider px-3 py-1 rounded-lg">
                   {vid.category}
                 </span>
               </div>
