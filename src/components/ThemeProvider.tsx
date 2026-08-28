@@ -36,9 +36,11 @@ export function ThemeProvider({
   const [savedTokens, setSavedTokens] = useState<ThemeTokens>(initialTokens || DEFAULT_THEME_TOKENS);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Synchronize CSS custom properties when tokens state changes
+  // Synchronize custom CSS custom properties only if tokens have been modified dynamically
   useEffect(() => {
-    applyThemeTokensToDocument(tokens);
+    if (tokens !== DEFAULT_THEME_TOKENS) {
+      applyThemeTokensToDocument(tokens);
+    }
   }, [tokens]);
 
   // Fetch persisted tokens from API only on admin routes to prevent full-page CSS variable flicker on public loads
