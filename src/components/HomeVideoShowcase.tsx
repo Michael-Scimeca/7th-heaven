@@ -563,7 +563,7 @@ export default function HomeVideoShowcase() {
                         >
                           <CosmicRadialButton
                             icon={false}
-                            className={`${playButtonSize} ! rounded-lg !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
+                            className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
                             aria-label={`Play full video for ${video.title}`}
                             title="Play Full Video"
                           >

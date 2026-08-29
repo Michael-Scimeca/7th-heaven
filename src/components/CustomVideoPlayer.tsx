@@ -232,7 +232,7 @@ export default function CustomVideoPlayer({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 animate-ping duration-500">
           <CosmicRadialButton
             icon={false}
-            className="w-20 h-20 ! rounded-lg !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40"
+            className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40"
           >
             {centerAnim === "play" ? (
               <Play className="w-10 h-10 fill-white ml-1" />
@@ -306,7 +306,7 @@ export default function CustomVideoPlayer({
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className="w-10 h-10 ! rounded-lg !p-0 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
+              className="w-10 h-10 !rounded-full !p-0 text-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
