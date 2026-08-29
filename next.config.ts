@@ -14,7 +14,6 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-icons",

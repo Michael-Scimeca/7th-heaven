@@ -1,22 +1,210 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import { gsap } from "gsap";
+import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import gsap from "gsap";
+import Logo from "@/components/Logo";
+import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
+import { waitForPageReady } from "@/lib/waitForPageReady";
+import { useTransition } from "@/context/TransitionContext";
 
-// Self-contained route-change crossfade: blur+fade the outgoing view out,
-// swap in the new route's content, blur+fade it back in, then give any
-// top-level headings a short staggered reveal.
+// Route-change curtain: covers the viewport with the same diagonal
+// decaying-slant wipe as Preloader.tsx (buildDecayingSlantClipPath), swaps
+// the route underneath while fully covered, then wipes away once the
+// destination is actually ready -- same visual language, same 7th Heaven
+// wordmark, as the very first paint.
 //
-// Deliberately a SINGLE state machine living entirely in this component,
-// driven only by `usePathname()` with fixed GSAP durations -- no dependency
-// on TransitionContext's cover/uncover state and no waiting on browser
-// lifecycle events. An earlier version of this feature split the same job
-// across two state machines (this component + TransitionContext) that could
-// race each other, plus a browser View Transition path with its own cleanup
-// timing -- that combination is what caused the flicker/hang bugs that got
-// this feature pulled entirely. Keeping one simple owner here avoids all of
-// that by construction rather than by careful sequencing.
+// Single owner of the whole state machine, on purpose. A prior version of
+// this feature split "when do we actually navigate / when do we reveal"
+// across this component AND TransitionContext, with a separate
+// document.startViewTransition() path layered on top of both -- those
+// pieces could race each other, which is what caused the flicker/hang bugs
+// that got the whole feature pulled (see git history on this file and on
+// TransitionContext.tsx). TransitionContext now only holds state
+// (mode/pendingHref); every animation frame and the router.push call itself
+// happen only here, in response to mode changes -- one clear sequence, not
+// several coordinating machines, and no View Transition API in the mix.
+//
+// Reveal timing is gated on the ACTUAL destination path matching
+// usePathname(), not a fixed delay, so a slow route never gets revealed
+// over stale content. A hard failsafe timer sits underneath that so a
+// route that somehow never resolves can't leave the curtain -- and the
+// site -- stuck black forever.
+const WIPE_SLANT_RATIO = 0.095;
+const COVER_DURATION = 0.5;
+const COVER_EASE = "power2.in";
+const REVEAL_DURATION = 0.7;
+const REVEAL_EASE = "expo.inOut";
+const FAILSAFE_MS = 3000;
+
+// Matches Preloader.tsx's CURTAIN_BG -- kept as its own constant rather than
+// a shared import so this file has zero dependency on Preloader ever having
+// mounted (it hasn't, on a client-side route change).
+const CURTAIN_BG = "rgb(13, 14, 19)";
+
+function shouldSkip(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    window.location.search.includes("bypass=true")
+  );
+}
+
+function pathOf(href: string): string {
+  if (typeof window === "undefined") return href.split(/[?#]/)[0];
+  try {
+    return new URL(href, window.location.origin).pathname;
+  } catch {
+    return href.split(/[?#]/)[0];
+  }
+}
+
 export default function PageTransition({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const pathname = usePathname();
+  const router = useRouter();
+  const { mode, pendingHref, setMode, clearPendingHref } = useTransition();
+
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const revealingRef = useRef(false);
+
+  const setClip = useCallback((p: number) => {
+    if (overlayRef.current) {
+      overlayRef.current.style.clipPath = buildDecayingSlantClipPath(p, WIPE_SLANT_RATIO);
+    }
+  }, []);
+
+  const reveal = useCallback(() => {
+    if (revealingRef.current) return;
+    revealingRef.current = true;
+    tweenRef.current?.kill();
+
+    const finish = () => {
+      document.documentElement.classList.remove("is-page-transitioning");
+      clearPendingHref();
+      setMode("idle");
+    };
+
+    if (shouldSkip()) {
+      setClip(1);
+      finish();
+      return;
+    }
+
+    const proxy = { p: 0 };
+    tweenRef.current = gsap.to(proxy, {
+      p: 1,
+      duration: REVEAL_DURATION,
+      ease: REVEAL_EASE,
+      onUpdate: () => setClip(proxy.p),
+      onComplete: finish,
+    });
+  }, [clearPendingHref, setClip, setMode]);
+
+  // Phase 1: a transition was requested -- cover, then actually navigate.
+  useEffect(() => {
+    if (mode !== "covering" || !pendingHref) return;
+
+    revealingRef.current = false;
+    document.documentElement.classList.add("is-page-transitioning");
+
+    if (shouldSkip()) {
+      setClip(0);
+      // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
+      router.push(pendingHref);
+      setMode("covered");
+      return;
+    }
+
+    const proxy = { p: 1 };
+    tweenRef.current?.kill();
+    tweenRef.current = gsap.to(proxy, {
+      p: 0,
+      duration: COVER_DURATION,
+      ease: COVER_EASE,
+      onUpdate: () => setClip(proxy.p),
+      onComplete: () => {
+        // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
+        router.push(pendingHref);
+        setMode("covered");
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, pendingHref]);
+
+  // Phase 2: fully covered -- wait for the destination to actually be the
+  // current route AND ready, then wipe away. The failsafe below guarantees
+  // this can never hang even if that condition somehow never arrives.
+  useEffect(() => {
+    if (mode !== "covered" || !pendingHref) return;
+
+    let cancelled = false;
+    const targetPath = pathOf(pendingHref);
+
+    if (targetPath === pathname) {
+      waitForPageReady().then(() => {
+        if (!cancelled) reveal();
+      });
+    }
+
+    const failsafe = setTimeout(() => {
+      if (!cancelled) reveal();
+    }, FAILSAFE_MS);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(failsafe);
+    };
+  }, [mode, pathname, pendingHref, reveal]);
+
+  useEffect(() => {
+    return () => {
+      tweenRef.current?.kill();
+    };
+  }, []);
+
+  return (
+    <>
+      <div
+        ref={overlayRef}
+        id="curtain-primary"
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: "var(--z-overlay-fx)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: CURTAIN_BG,
+          clipPath: buildDecayingSlantClipPath(1, WIPE_SLANT_RATIO),
+          pointerEvents: mode === "idle" ? "none" : "auto",
+        }}
+      >
+        {(mode === "covering" || mode === "covered") && (
+          <div className="hvn-page-curtain__mark">
+            <Logo className="hvn-page-curtain__logo" />
+          </div>
+        )}
+      </div>
+      <style>{`
+        .hvn-page-curtain__mark {
+          animation: hvnPageCurtainPulse 1.5s ease-in-out infinite;
+        }
+        .hvn-page-curtain__logo {
+          width: 72px;
+          height: auto;
+          color: #ffffff;
+        }
+        @keyframes hvnPageCurtainPulse {
+          0%, 100% { opacity: 0.55; transform: scale(0.97); }
+          50% { opacity: 1; transform: scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hvn-page-curtain__mark { animation: none; opacity: 1; }
+        }
+      `}</style>
+      {children}
+    </>
+  );
 }

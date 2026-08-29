@@ -8,7 +8,6 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
 
 export type TransitionMode = "idle" | "covering" | "covered" | "uncovering";
 
@@ -34,35 +33,42 @@ const TransitionContext = createContext<TransitionContextValue>({
   isPending: false,
 });
 
+// Deliberately just a mailbox: mode + pendingHref live here so any component
+// (Header, Footer, TransitionLink) can read where a transition stands, but
+// the actual GSAP animation frames AND the router.push call itself live
+// entirely in PageTransition.tsx. A prior version of this feature had this
+// context also drive navigation/timing, in parallel with PageTransition's
+// own state -- two machines racing each other (plus a third View Transition
+// code path) is what caused the flicker/hang bugs that got the whole
+// feature pulled. Keeping this file dumb-by-design avoids that class of bug
+// by construction rather than by careful sequencing between the two.
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<TransitionMode>("idle");
-  const router = useRouter();
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
 
   const requestTransition = useCallback(
     (href: string) => {
-      if (typeof window !== "undefined") {
-        (window as any).__pageTransitionActive = false;
-        document.documentElement.classList.remove("is-page-transitioning");
-      }
-      router.push(href);
+      if (mode !== "idle") return;
+      setPendingHref(href);
+      setMode("covering");
     },
-    [router]
+    [mode]
   );
 
-  const clearPendingHref = useCallback(() => {}, []);
+  const clearPendingHref = useCallback(() => setPendingHref(null), []);
 
-  const value = useMemo(
+  const value = useMemo<TransitionContextValue>(
     () => ({
       mode,
       setMode,
-      pendingHref: null,
+      pendingHref,
       requestTransition,
       clearPendingHref,
-      isTransitioning: false,
-      isCovered: false,
-      isPending: false,
+      isTransitioning: mode !== "idle",
+      isCovered: mode === "covered",
+      isPending: mode === "covering",
     }),
-    [mode, requestTransition, clearPendingHref]
+    [mode, pendingHref, requestTransition, clearPendingHref]
   );
 
   return (

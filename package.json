@@ -55,6 +55,8 @@
     "leaflet": "^1.9.4",
     "lenis": "^1.3.23",
     "lighthouse": "^13.4.1",
+    "lightningcss": "^1.33.0",
+    "lightningcss-darwin-arm64": "^1.33.0",
     "livekit-client": "^2.21.0",
     "livekit-server-sdk": "^2.15.1",
     "lottie-web": "^5.13.0",
