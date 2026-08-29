@@ -4556,49 +4556,53 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {bookings.length === 0 ? (
               <div className="p-12 text-center text-white/30 font-mono">No planners found.</div>
             ) : (
-              <div className=" pl-0">
+              <div className="pl-0 select-none">
+                {/* Header Sorter Row */}
+                <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 bg-white/[0.02] text-left uppercase text-white/50 font-bold text-[10px] select-none">
+                  <div className="col-span-4">Planner / Venue</div>
+                  <div className="col-span-5">Contact Details</div>
+                  <div className="col-span-3 text-right">Quick Actions</div>
+                </div>
+
                 {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
-                  <div key={planner.email} className="border-b px-2 border-white/10 py-4 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4 min-w-[240px]">
+                  <div key={planner.email} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-white/10 px-4 py-4 transition-colors">
+                    <div className="col-span-12 md:col-span-4 flex items-center gap-4 min-w-0">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center font-bold text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
                         {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
                       </div>
-                      <div className="overflow-hidden">
-                        <span className="font-bold text-white truncate ">{planner.name || 'Unknown Planner'}</span>
-                        <p className="truncate   ">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+                      <div className="overflow-hidden min-w-0">
+                        <span className="font-bold text-white truncate block">{planner.name || 'Unknown Planner'}</span>
+                        <p className="truncate text-white/50 text-xs">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 font-mono text-white/70">
+                    <div className="col-span-12 md:col-span-5 flex flex-col sm:flex-row sm:items-center gap-4 font-mono text-white/70 text-xs min-w-0">
                       {planner.email && (
-                        <div className="flex items-center gap-1.5">
-                          <span className=" text-[var(--color-accent)]"></span>
+                        <div className="flex items-center gap-1.5 truncate">
                           <span className="truncate">{planner.email}</span>
                         </div>
                       )}
                       {planner.phone ? (
-                        <div className="flex items-center gap-1.5">
-                          <span className=" text-[var(--color-accent)]"></span>
+                        <div className="flex items-center gap-1.5 shrink-0">
                           <span>{planner.phone}</span>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-1.5 text-white/30 italic">
-                          <span className="text-white/20"></span>
+                        <div className="flex items-center gap-1.5 text-white/30 italic shrink-0">
                           <span>No phone</span>
                         </div>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                      <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg   text-[0.9rem]  font-bold uppercase    !text-white hover:text-white transition-colors">
+                    <div className="col-span-12 md:col-span-3 flex items-center gap-2 shrink-0 md:justify-end">
+                      <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] font-bold uppercase !text-white hover:text-white transition-colors">
                         Email
                       </a>
                       {planner.phone ? (
-                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg   text-[0.9rem]  font-bold uppercase    !text-white text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors">
+                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] font-bold uppercase !text-white text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors">
                           Text
                         </a>
                       ) : (
-                        <button disabled className="px-4 py-2 text-center bg-[#00000029] border border-white/10 rounded-lg   text-[0.9rem]  font-bold uppercase    text-white/20 cursor-not-allowed">
+                        <button disabled className="px-4 py-2 text-center bg-[#00000029] border border-white/10 rounded-lg text-[0.9rem] font-bold uppercase text-white/20 cursor-not-allowed">
                           No Phone
                         </button>
                       )}
@@ -7097,7 +7101,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   />
                                 ) : (
                                   <div
-                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-purple-400/30 shadow-xs"
+                                    className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
                                     style={{ backgroundColor: getAvatarColor(user.name) }}
                                   >
                                     {user.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '?'}
