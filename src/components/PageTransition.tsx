@@ -65,7 +65,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const { mode, pendingHref, setMode, clearPendingHref } = useTransition();
 
   const overlayRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const contentTweenRef = useRef<gsap.core.Tween | null>(null);
   const revealingRef = useRef(false);
 
   const setClip = useCallback((p: number) => {
@@ -81,6 +83,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     const finish = () => {
       document.documentElement.classList.remove("is-page-transitioning");
+      if (contentRef.current) {
+        gsap.set(contentRef.current, { clearProps: "all" });
+      }
       clearPendingHref();
       setMode("idle");
     };
@@ -89,6 +94,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       setClip(1);
       finish();
       return;
+    }
+
+    // Animate incoming new page: scale, rotate & translate back to original
+    if (contentRef.current) {
+      contentTweenRef.current?.kill();
+      gsap.set(contentRef.current, {
+        scale: 1.03,
+        y: 35,
+        rotation: 1,
+        opacity: 0.7,
+      });
+      contentTweenRef.current = gsap.to(contentRef.current, {
+        scale: 1,
+        y: 0,
+        rotation: 0,
+        opacity: 1,
+        duration: REVEAL_DURATION,
+        ease: "expo.out",
+        onComplete: () => {
+          if (contentRef.current) {
+            gsap.set(contentRef.current, { clearProps: "all" });
+          }
+        },
+      });
     }
 
     const proxy = { p: 0 };
@@ -114,6 +143,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       router.push(pendingHref);
       setMode("covered");
       return;
+    }
+
+    // Exo Ape style outgoing page animation: scale down, rotate & translate Y upward
+    if (contentRef.current) {
+      contentTweenRef.current?.kill();
+      contentTweenRef.current = gsap.to(contentRef.current, {
+        scale: 0.95,
+        y: -40,
+        rotation: -1.5,
+        opacity: 0.35,
+        duration: COVER_DURATION,
+        ease: "power2.inOut",
+      });
     }
 
     const proxy = { p: 1 };
@@ -160,6 +202,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   useEffect(() => {
     return () => {
       tweenRef.current?.kill();
+      contentTweenRef.current?.kill();
     };
   }, []);
 
@@ -204,7 +247,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           .hvn-page-curtain__mark { animation: none; opacity: 1; }
         }
       `}</style>
-      {children}
+      <div ref={contentRef} className="transform-gpu">
+        {children}
+      </div>
     </>
   );
 }
