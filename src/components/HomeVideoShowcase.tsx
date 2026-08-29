@@ -178,7 +178,7 @@ export default function HomeVideoShowcase() {
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[16/9]");
+  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[4/5]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
