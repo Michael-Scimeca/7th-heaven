@@ -261,7 +261,7 @@ export default function CustomVideoPlayer({
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10 hover:scale-110 cursor-pointer shadow-lg"
+            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10 hover:scale-110 cursor-pointer shadow-lg"
             aria-label="Close Player"
           >
             <X className="w-6 h-6" />

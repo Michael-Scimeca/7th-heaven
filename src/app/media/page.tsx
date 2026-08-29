@@ -237,9 +237,21 @@ export default function MediaPage() {
     } catch { }
   }, []);
 
+  const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
+
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+  // Stage 1: Load first 6 videos immediately.
+  // Stage 2: Pre-buffer the rest after 1.5s background idle delay.
+  useEffect(() => {
+    setPrefetchLimit(6);
+    const timer = setTimeout(() => {
+      setPrefetchLimit(999);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [activeFilter, searchQuery]);
 
   // Flatten all videos with their category attached
   const allVideos = React.useMemo(() => {
@@ -409,7 +421,7 @@ export default function MediaPage() {
               >
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
-                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < 6} />
+                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < prefetchLimit} />
                 </div>
 
                 {/* Dark Gradient Overlay at Bottom */}
@@ -428,12 +440,12 @@ export default function MediaPage() {
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-widest border border-white/10 mb-1.5 sm:mb-3 shrink-0">
+                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white font-bold uppercase tracking-widest border border-white/10  shrink-0">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
                   {/* Poster Title Container with Responsive Height */}
-                  <div className="h-10 sm:h-14 flex items-center justify-center mb-1">
+                  <div className="h-10 sm:h-14 flex items-center justify-center">
                     <h3
                       className="font-bold uppercase tracking-tight text-white drop-shadow-md leading-tight line-clamp-2"
                       style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), sans-serif" }}
