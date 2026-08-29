@@ -71,7 +71,9 @@ export default function Home() {
               WHO WE&apos;VE PLAYED WITH &amp; WHERE WE&apos;VE BEEN FEATURED
             </span>
           </div>
-
+          <p className="mt-2 max-w-2xl text-sm md:text-base text-white/80 font-medium leading-relaxed">
+            Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications.
+          </p>
         </div>
 
         <LogoTicker items={ARTIST_LOGOS} direction="left" />

@@ -41,12 +41,12 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">
-          <span className="font-mono font-bold uppercase    text-[var(--color-accent)] block mb-2">
-            Official Bulletins & Updates
-          </span>
           <h2 className="font-bold uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
-            Latest Band <span className=" text-[var(--color-accent)]">News</span>
+            Latest Band News
           </h2>
+          <p className="mt-2 max-w-2xl text-sm md:text-base text-[var(--muted-text)] font-medium leading-relaxed">
+            Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.
+          </p>
         </div>
 
         {/* Featured Article + Remaining Grid */}
