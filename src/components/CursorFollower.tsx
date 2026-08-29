@@ -144,6 +144,7 @@ export default function CursorFollower() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [pickActive, setPickActive] = useState(false);
   const [handActive, setHandActive] = useState(false);
+  const [inputHovered, setInputHovered] = useState(false);
   const [pickLabel, setPickLabel] = useState(PICK_DEFAULT_LABEL);
   const [songPlaying, setSongPlaying] = useState(false);
   const pickElRef = useRef<HTMLDivElement | null>(null);
@@ -229,6 +230,20 @@ export default function CursorFollower() {
         circlesRef.current.forEach(c => { c.x = e.clientX; c.y = e.clientY; });
         setIsVisible(true);
       }
+
+      const target = e.target as HTMLElement | null;
+      const isInput = !!(
+        target &&
+        (target.closest('label, input, textarea, select, [contenteditable="true"], .site-input, .form-input, .input-glow-border') ||
+         target.tagName === 'INPUT' ||
+         target.tagName === 'TEXTAREA' ||
+         target.tagName === 'LABEL')
+      );
+      setInputHovered(isInput);
+      if (isInput) {
+        setHandActive(false);
+      }
+
       wakeLoop();
     };
     const onLeave = () => { setIsVisible(false); setPickActive(false); };
@@ -341,14 +356,19 @@ export default function CursorFollower() {
     if (isTouch) return;
 
     const CLICKABLE_SELECTOR =
-      'a, button, [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"], select, summary, label[for], .cursor-pointer, [onclick], [data-clickable]';
+      'a, button, [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"], select, summary, .cursor-pointer, [onclick], [data-clickable]';
 
     const isTextInput = (el: HTMLElement | null) => {
       if (!el) return false;
-      const tag = el.tagName.toLowerCase();
-      if (tag === 'textarea' || el.isContentEditable) return true;
+      const target = el.closest('label, input, textarea, [contenteditable="true"]') as HTMLElement | null;
+      if (!target) return false;
+      if (target.tagName.toLowerCase() === 'label') {
+        return !target.classList.contains('cursor-pointer') && target.getAttribute('role') !== 'button';
+      }
+      const tag = target.tagName.toLowerCase();
+      if (tag === 'textarea' || target.isContentEditable) return true;
       if (tag === 'input') {
-        const type = (el as HTMLInputElement).type.toLowerCase();
+        const type = (target as HTMLInputElement).type.toLowerCase();
         return !['submit', 'button', 'checkbox', 'radio', 'range', 'file', 'color', 'image'].includes(type);
       }
       return false;
@@ -357,17 +377,22 @@ export default function CursorFollower() {
     const handOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (isTextInput(target)) {
+        setInputHovered(true);
         setHandActive(false);
         return;
       }
+      setInputHovered(false);
       const match = target?.closest?.(CLICKABLE_SELECTOR) as HTMLElement | null;
       if (match && !match.closest(".morph-pick")) {
         setHandActive(true);
+      } else {
+        setHandActive(false);
       }
     };
     const handOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (isTextInput(target)) {
+        setInputHovered(false);
         setHandActive(false);
         return;
       }
@@ -590,8 +615,8 @@ export default function CursorFollower() {
       <div
         className="pointer-events-none fixed inset-0 overflow-hidden"
         style={{
-          opacity: isVisible && !handActive && !pickActive && !songPlaying ? opacity : 0,
-          visibility: isVisible && !handActive && !pickActive && !songPlaying ? "visible" : "hidden",
+          opacity: isVisible && !handActive && !pickActive && !songPlaying && !inputHovered ? opacity : 0,
+          visibility: isVisible && !handActive && !pickActive && !songPlaying && !inputHovered ? "visible" : "hidden",
           transition: "opacity 0.15s ease, visibility 0.15s ease",
           zIndex: 2147483647,
           filter: gooey ? "url(#cursor-gooey)" : "none",

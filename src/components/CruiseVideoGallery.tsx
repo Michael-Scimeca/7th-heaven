@@ -237,7 +237,7 @@ export default function CruiseVideoGallery() {
           No videos found in this category.
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-[fade-in_0.35s_ease-out_both]">
           {filteredVideos.map(vid => (
             <div
               key={vid.id}

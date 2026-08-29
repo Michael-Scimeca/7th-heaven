@@ -304,7 +304,7 @@ textarea {
   transition: all 0.2s ease-in-out !important;
 }
 
-/* Hide mouse cursor on mouseover & focus for all inputs and textareas */
+/* Default input cursor on mouseover & focus for all inputs and textareas */
 .site-input:hover,
 .site-input:focus,
 .form-input:hover,
@@ -315,7 +315,7 @@ textarea:hover,
 textarea:focus,
 .input-glow-border:hover input,
 .input-glow-border:focus-within input {
-  cursor: none !important;
+  cursor: text !important;
 }
 
 input[inputmode="numeric"] {
@@ -6131,6 +6131,19 @@ section {
   opacity: 0;
 }
 
+body:has(input:hover) .cursor-tail-circle,
+body:has(textarea:hover) .cursor-tail-circle,
+body:has(select:hover) .cursor-tail-circle,
+body:has(.site-input:hover) .cursor-tail-circle,
+body:has(.form-input:hover) .cursor-tail-circle,
+body:has(.input-glow-border:hover) .cursor-tail-circle,
+body:has(input:focus) .cursor-tail-circle,
+body:has(textarea:focus) .cursor-tail-circle {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 @keyframes cursorScaleIn {
   from {
     transform: scale(0.85);
@@ -6258,28 +6271,42 @@ section {
   overflow: hidden;
   transition: all 0.25s ease;
   border-radius: var(--round);
-  border: 1px solid transparent;
+  border: 1px solid color-mix(in oklab, var(--color-white) 10%, transparent);
   outline: none;
   padding: 8px 12px;
+  order: 1px;
+  background-image: linear-gradient(to bottom right, #420a68, #2d0548);
 }
 
-/* Active Highlight Conic Gradient Border */
+
+/* Active Highlight Conic Gradient Border with Transparent Fill */
 .uiverse-foolish-shrimp.is-active,
 .uiverse-foolish-shrimp.active,
 .uiverse-foolish-shrimp[aria-selected="true"],
 .uiverse-foolish-shrimp[data-active="true"],
 .btn-cosmic-radial-property.is-active,
 .gradient-border-highlight {
-  border: 2px solid transparent !important;
-  animation: gradientBorder 1s linear infinite !important;
-  background-image: linear-gradient(#120020, #120020), conic-gradient(from var(--angle), #120020 181deg, #f36fff 200.3deg, #268aff 220.46deg, #52eaea 230.24deg, #120020 200deg, #120020 222deg) !important;
-  background-origin: border-box !important;
-  background-clip: padding-box, border-box !important;
+  position: relative !important;
 }
 
 .uiverse-foolish-shrimp.is-active::before,
-.uiverse-foolish-shrimp.is-active::after {
-  display: none !important;
+.uiverse-foolish-shrimp.active::before,
+.uiverse-foolish-shrimp[aria-selected="true"]::before,
+.uiverse-foolish-shrimp[data-active="true"]::before,
+.btn-cosmic-radial-property.is-active::before,
+.gradient-border-highlight::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: var(--round) !important;
+  padding: 1.5px !important;
+  background: conic-gradient(from var(--angle), transparent 180deg, #f36fff 200.3deg, #268aff 220.46deg, #52eaea 230.24deg, transparent 250deg) !important;
+  animation: gradientBorder 1s linear infinite !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
 .uiverse-foolish-shrimp::before,
@@ -6306,6 +6333,7 @@ section {
 .uiverse-foolish-shrimp::after,
 .btn-cosmic-radial-property::after {
   --space: 2px;
+  background: #380c4e99;
   /* background: radial-gradient(65.28% 65.28% at 50% 100%,
       rgba(223, 113, 255, 0.8) 0%,
       rgba(223, 113, 255, 0) 100%),

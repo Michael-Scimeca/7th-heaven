@@ -904,6 +904,48 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <Flame className="w-4 h-4 text-orange-400 shrink-0" /> <span>PROMO VIDEO</span>
                         </a>
                       </li>
+
+                      <li>
+                        <a
+                          href="https://www.facebook.com/chicagomusiccruise/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3.5 py-1.5 rounded-lg bg-blue-600/40 hover:bg-blue-600 !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
+                          title="Chicago Music Cruise Facebook"
+                        >
+                          <span className="!text-white">Facebook</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.instagram.com/chicagomusiccruise"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3.5 py-1.5 rounded-lg bg-pink-600/40 hover:bg-pink-600 !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
+                          title="Chicago Music Cruise Instagram"
+                        >
+                          <span className="!text-white">Instagram</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="https://x.com/CMCNTDV"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3.5 py-1.5 rounded-lg bg-slate-700/60 hover:bg-black !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/10"
+                          title="Chicago Music Cruise X (Twitter)"
+                        >
+                          <span className="!text-white">X (Twitter)</span>
+                        </a>
+                      </li>
+                      <li>
+
+                      </li>
+
+
+
+
+
                     </ul>
                   </div>
                   <p className="mt-3 font-semibold uppercase tracking-wider">
@@ -1025,61 +1067,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
               {/* NTD Vacations Official Cruise Support Team Banner */}
               <div className="py-section-fluid text-center">
-                <p className="font-mono uppercase tracking-[0.25em] text-purple-300 font-bold mb-1">
+                <h2 className="font-mono uppercase  text-purple-300 font-bold mb-1">
                   Official Cruise Concierge &amp; Booking Team
-                </p>
-                <h4 className="font-bold uppercase text-white tracking-wide mb-2">
-                  Email is the best way to reach us:{" "}
-                  <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">
-                    info@NTDVacations.com
-                  </a>
-                </h4>
-                <p className="font-bold tracking-wide mb-6">
-                  Call us at: <span className="text-white font-extrabold">(877) 683-9753 - option 5</span> &nbsp;•&nbsp; <span className="text-white font-extrabold">(877) NTD-WRLD - option 5</span>
-                </p>
+                </h2>
 
-                {/* Official Cruise Social Links */}
-                <div className="flex items-center justify-center gap-1.5 rounded-lg  max-w-fit mx-auto mb-8">
-                  <a
-                    href="https://www.facebook.com/chicagomusiccruise/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-lg bg-blue-600/40 hover:bg-blue-600 !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-blue-400/40"
-                    title="Chicago Music Cruise Facebook"
-                  >
-                    <span className="!text-white">Facebook</span>
-                  </a>
-                  <a
-                    href="https://www.instagram.com/chicagomusiccruise"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-lg bg-pink-600/40 hover:bg-pink-600 !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-pink-400/40"
-                    title="Chicago Music Cruise Instagram"
-                  >
-                    <span className="!text-white">Instagram</span>
-                  </a>
-                  <a
-                    href="https://x.com/CMCNTDV"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-lg bg-slate-700/60 hover:bg-black !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-white/10"
-                    title="Chicago Music Cruise X (Twitter)"
-                  >
-                    <span className="!text-white">X (Twitter)</span>
-                  </a>
-                  <a
-                    href="https://www.youtube.com/channel/UCjYApPvQ71rXL5USPuUyr6Q"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-lg bg-red-600/40 hover:bg-red-600 !text-white font-bold uppercase tracking-wider transition-all flex items-center gap-1 border border-red-400/40"
-                    title="Chicago Music Cruise YouTube Channel"
-                  >
-                    <span className="!text-white">YouTube</span>
-                  </a>
-                </div>
+
 
                 {/* 3 Team Members Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 text-center">
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center">
                     <div
@@ -1168,6 +1163,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
               </div>
 
+
+
               {/* Pricing Grid */}
               <div className="space-y-16 py-section-fluid">
                 {/* GROUP RATES */}
@@ -1179,7 +1176,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
                     {(activePriceYear === 2027
                       ? [
                         { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "", selectValue: "group_n5" },
@@ -1238,12 +1235,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {room.inclusions && (
                             <span className="text-purple-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                           )}
-                          <span
-                            className="mt-3 w-full py-2.5 px-4 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-bold text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg border-0"
+                          <FoolishShrimpButton
+                            className="mt-3 w-full py-2.5 px-4 font-bold text-xs uppercase tracking-wider"
                           >
-                            <span>Select & Book Cabin</span>
-
-                          </span>
+                            SELECT & BOOK CABIN
+                          </FoolishShrimpButton>
                         </div>
                       </button>
                     ))}
@@ -1304,14 +1300,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 <span className="text-[var(--font-size-2xs)] text-white font-bold">USD pp</span>
                               </div>
                               <span className="text-[var(--font-size-4xs)] text-white/50 uppercase    font-bold block mt-1">Rates as of June 27, 2026</span>
-                              <span
-                                className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo ? 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
-                                  : 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
-                                  }`}
+                              <FoolishShrimpButton
+                                className="mt-4 w-full py-2.5 px-4 font-bold text-xs uppercase tracking-wider"
                               >
-                                <span>Select Prevailing Rate</span>
-
-                              </span>
+                                Select Prevailing Rate
+                              </FoolishShrimpButton>
                             </div>
                           </button>
                         );
@@ -1364,7 +1357,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div className="mt-8 bg-transparent border-0 p-0">
                       <h4 className="font-bold uppercase text-white    mb-3">Available layouts:</h4>
                       {stateroomTab === "suites" && (
-                        <div className="space-y-2 text-white/80 font-medium">
+                        <div key="suites" className="space-y-2 text-white/80 font-medium animate-[fade-in_0.35s_ease-out_both]">
                           <p>• Ultimate Family Townhouse</p>
                           <p>• Royal Loft Suite</p>
                           <p>• Owner&apos;s Suite</p>
@@ -1374,7 +1367,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       )}
                       {stateroomTab === "balcony" && (
-                        <div className="space-y-2 text-white/80 font-medium">
+                        <div key="balcony" className="space-y-2 text-white/80 font-medium animate-[fade-in_0.35s_ease-out_both]">
                           <p>• Infinite Ocean View Balcony</p>
                           <p>• Infinite Central Park Balcony</p>
                           <p>• Ocean View Balcony</p>
@@ -1383,13 +1376,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       )}
                       {stateroomTab === "ocean" && (
-                        <div className="space-y-2 text-white/80 font-medium">
+                        <div key="ocean" className="space-y-2 text-white/80 font-medium animate-[fade-in_0.35s_ease-out_both]">
                           <p>• Panoramic Ocean View</p>
                           <p>• Ocean View</p>
                         </div>
                       )}
                       {stateroomTab === "interior" && (
-                        <div className="space-y-2 text-white/80 font-medium">
+                        <div key="interior" className="space-y-2 text-white/80 font-medium animate-[fade-in_0.35s_ease-out_both]">
                           <p>• Interior</p>
                           <p>• Spacious Interior</p>
                           <p>• Central Park View Interior</p>
@@ -1407,24 +1400,23 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="font-bold uppercase tracking-[0.25em] text-purple-400">VIP Experiences</span>
                           <h3 className="font-bold uppercase text-white mt-1">Suite Class Perks</h3>
                         </div>
-                        <div className="flex gap-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]p-1.5 rounded-xl">
+                        <div className="flex gap-2.5 p-1 shrink-0 self-center">
                           {(["sea", "sky", "star"] as const).map(perk => (
-                            <button aria-label="Action button"
+                            <FoolishShrimpButton
                               key={perk}
                               type="button"
                               onClick={() => setSuiteTab(perk)}
-                              className={`px-4 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${suiteTab === perk ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
-                                : "bg-transparent  text-white  hover:text-white"
-                                }`}
+                              isActive={suiteTab === perk}
+                              className="!w-auto px-5 py-2.5 font-bold uppercase text-xs"
                             >
                               {perk} Class
-                            </button>
+                            </FoolishShrimpButton>
                           ))}
                         </div>
                       </div>
 
                       {/* Benefits List */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium leading-relaxed">
+                      <div key={`benefits-${suiteTab}`} className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium leading-relaxed animate-[fade-in_0.35s_ease-out_both]">
                         {suiteTab === "sea" && [
                           "Dedicated check-in line",
                           "Priority boarding",
@@ -1493,7 +1485,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
 
                     {/* Disclaimers & Notes */}
-                    <div className="mt-8 border-t border-white/10 pt-4 text-white space-y-1.5 leading-relaxed font-semibold">
+                    <div key={`disclaimers-${suiteTab}`} className="mt-8 border-t border-white/10 pt-4 text-white space-y-1.5 leading-relaxed font-semibold animate-[fade-in_0.35s_ease-out_both]">
                       {suiteTab === "sea" && (
                         <>
                           <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -1527,7 +1519,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   {/* Section Header */}
                   <div className="mb-8 text-left">
-                    <h2 className="font-bold uppercase italic tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    <h2 className="font-bold uppercase tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                       Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
                     </h2>
                     <p className="font-semibold">
@@ -1541,7 +1533,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="booking-form-card bg-transparent border-0 rounded-lg overflow-hidden shadow-none p-0 text-left">
                           {/* Header Banner representing the PDF top section */}
                           <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
-                            <h2 className="font-bold uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                            <h2 className="font-bold uppercase text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                             <p className="text-purple-400 font-bold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                             <p className="font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                           </div>
@@ -1549,7 +1541,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* GUEST 1 (Primary Booker) */}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
-                              <span className="font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                              <span className="font-bold uppercase text-white">Guest 1 (Primary Booker)</span>
                               <span className="font-bold    text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
@@ -1826,9 +1818,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/payment.html"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block rounded-lg mt-4 px-4 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 !text-white font-bold uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
+                          className="mt-4 inline-block"
                         >
-                          Go to Payment Portal
+                          <FoolishShrimpButton className="px-6 py-2.5 font-bold uppercase tracking-wider text-xs">
+                            GO TO PAYMENT PORTAL
+                          </FoolishShrimpButton>
                         </a>
                       </div>
 
@@ -2380,7 +2374,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Bento Box Food Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-white/80">
+                <div key={foodTypeTab} className="grid grid-cols-2 md:grid-cols-4 gap-4 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
                   {(foodTypeTab === "included"
                     ? [
                       { name: "Windjammer Buffet", img: "/images/cruise/ship/windjammer.jpg", tag: "Buffet" },
@@ -2470,7 +2464,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </div>
 
                 {/* Full-Width 4-Column Uniform Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white/80">
+                <div key={barTab} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
                   {(barTab === "bars"
                     ? [
                       { name: "Lime & Coconut Bar", img: "/images/cruise/ship/limecoconut.jpg", tag: "Poolside" },

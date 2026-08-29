@@ -11,6 +11,7 @@ import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
 import { User, Mail, MapPin, Sliders, Music, Check } from "lucide-react";
@@ -374,16 +375,15 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           {RADIUS_OPTIONS.map((opt) => {
                             const active = radius === opt.value;
                             return (
-                              <button
+                              <FoolishShrimpButton
                                 key={opt.value}
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
-                                className={`h-[42px] px-2.5 py-1.5 rounded-lg font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${active ?"bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                                  : " bg-[#00000029]    text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
-                                  }`}
+                                isActive={active}
+                                className="!w-auto px-2.5 py-1.5 font-bold text-xs"
                               >
                                 {opt.label}
-                              </button>
+                              </FoolishShrimpButton>
                             );
                           })}
                         </div>
@@ -400,7 +400,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       {SHOW_TYPES.map((type) => {
                         const isSelected = selectedShowTypes.includes(type.id);
                         return (
-                          <button
+                          <FoolishShrimpButton
                             key={type.id}
                             type="button"
                             onClick={() => {
@@ -409,14 +409,13 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
                               setSelectedShowTypes(next.length === 0 ? ["all"] : next);
                             }}
-                            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-[background-color,border-color,color,transform] cursor-pointer border ${isSelected ?"bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white border-pink-400 shadow-md shadow-purple-500/30 scale-105"
-                              : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10 hover:text-white"
-                              }`}
+                            isActive={isSelected}
+                            className="!w-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold"
                           >
                             <span>{type.icon}</span>
                             <span>{type.label}</span>
                             {isSelected && <Check className="w-3 h-3 text-pink-300 ml-0.5" />}
-                          </button>
+                          </FoolishShrimpButton>
                         );
                       })}
                     </div>

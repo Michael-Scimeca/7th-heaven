@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Bell, MapPin, Check, Sliders, Music, Mail, User } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { GlowInput } from "@/components/GlowInput";
 import { SquishyToggle } from "@/components/SquishyToggle";
 
@@ -260,16 +261,15 @@ export default function FooterProximityAlerts() {
             {RADIUS_OPTIONS.map((opt) => {
               const isSelected = radius === opt.value;
               return (
-                <button
+                <FoolishShrimpButton
                   key={opt.value}
                   type="button"
                   onClick={() => setRadius(opt.value)}
-                  className={`px-3.5 py-2 rounded-lg font-bold transition-all cursor-pointer ${isSelected ?"bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                    : " text-white  hover:text-white hover: bg-[#00000029]   "
-                    }`}
+                  isActive={isSelected}
+                  className="!w-auto px-3.5 py-2 font-bold text-xs"
                 >
                   {opt.label}
-                </button>
+                </FoolishShrimpButton>
               );
             })}
           </div>
@@ -284,18 +284,17 @@ export default function FooterProximityAlerts() {
           {SHOW_TYPES.map((type) => {
             const isSelected = selectedTypes.includes(type.id);
             return (
-              <button
+              <FoolishShrimpButton
                 key={type.id}
                 type="button"
                 onClick={() => toggleType(type.id)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-bold transition-all cursor-pointer border ${isSelected ?"bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white-white/10 "
-                  : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10 hover:text-white"
-                  }`}
+                isActive={isSelected}
+                className="!w-auto inline-flex items-center gap-1.5 px-3.5 py-2 font-bold text-xs"
               >
                 <span>{type.icon}</span>
                 <span>{type.label}</span>
                 {isSelected && <Check className="w-3.5 h-3.5 text-pink-300 ml-0.5" />}
-              </button>
+              </FoolishShrimpButton>
             );
           })}
         </div>

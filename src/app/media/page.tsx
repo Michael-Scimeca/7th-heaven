@@ -8,6 +8,7 @@ import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 
@@ -362,7 +363,7 @@ export default function MediaPage() {
           <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="SEARCH MEDIA..."
+            placeholder="Search Media..."
             containerClassName="w-full sm:w-[320px]"
           />
           {isAdmin && (
@@ -378,37 +379,35 @@ export default function MediaPage() {
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-12">
-          <button
+          <FoolishShrimpButton
+            type="button"
             onClick={() => handleFilterChange("ALL")}
-            className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border ${activeFilter === "ALL"
-              ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-              : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
-              }`}
+            isActive={activeFilter === "ALL"}
+            className="!w-auto px-5 py-2.5 font-bold uppercase tracking-wider text-xs"
           >
             ALL
-          </button>
+          </FoolishShrimpButton>
 
           {categories.map((cat) => {
             if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
             const catUpper = cat.category.toUpperCase();
             const isActive = activeFilter.toUpperCase() === catUpper;
             return (
-              <button
+              <FoolishShrimpButton
                 key={cat.category}
+                type="button"
                 onClick={() => handleFilterChange(catUpper)}
-                className={`px-5 py-2.5 !rounded-lg font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border ${isActive
-                  ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-                  : "bg-[#18112b] text-white/90 hover:text-white hover:bg-purple-900/40 border-purple-500/20"
-                  }`}
+                isActive={isActive}
+                className="!w-auto px-5 py-2.5 font-bold uppercase tracking-wider text-xs"
               >
                 {catUpper}
-              </button>
+              </FoolishShrimpButton>
             );
           })}
         </div>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pt-6 pb-6">
+        <div key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pt-6 pb-6">
           {filteredVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;
