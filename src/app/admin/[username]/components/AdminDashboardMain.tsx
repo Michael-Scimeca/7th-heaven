@@ -242,22 +242,22 @@ const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029]  !rounded-none'
+      className={`w-full text-left px-2 py-1.5 flex items-center  border-b border-white/10  gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029]  !rounded-none'
         : isActiveWeek
           ? ' bg-[#00000029] '
           : 'bg-transparent'
         }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
-        <span className="text-[7.5px] font-bold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
-        <span className={`text-[9.5px] font-bold tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className=" text-[9px]  font-bold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
+        <span className={` text-[11px] font-bold tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-bold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`font-bold truncate leading-tight  ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="truncate leading-tight m-0">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
     </button>
@@ -5873,7 +5873,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               setEditingDutyMemberId(isEditingThis ? null : editKey);
                                               setEditingDutyValue(r.duty || r.role || '');
                                             }}
-                                            className="text-[7.5px] font-bold uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                            className=" text-[9px]  font-bold uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
                                             title={`Click to edit role(s): ${displayRole}`}
                                           >
                                             <span className="truncate">{displayRole}</span>
@@ -6683,7 +6683,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 </div>
 
                                 {/* Time Frame, Phone & Email Details */}
-                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5 text-[9.5px] text-white/50 font-mono">
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/5  text-[11px] text-white/50 font-mono">
                                   <div className="flex items-center gap-1 text-cyan-300/80">
                                     <span>⏰</span>
                                     <span>{timeFrameStr}</span>
@@ -8624,7 +8624,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               /* Compact When I Work style for Roster Grid */
               <div className="flex-1 flex flex-col justify-center gap-1 w-full select-none min-h-0">
                 <div className="flex items-center justify-between gap-1 w-full min-h-0">
-                  <span className="text-[9.5px] font-bold tracking-tight text-white whitespace-nowrap">
+                  <span className=" text-[11px] font-bold tracking-tight text-white whitespace-nowrap">
                     {timeLabel}
                   </span>
                 </div>
@@ -9057,7 +9057,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex items-center justify-between gap-1">
                               <p className="font-bold truncate leading-tight">{member.name}</p>
                               {isWorkingOnActiveDate && (
-                                <span className="text-[7.5px] font-bold uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
+                                <span className=" text-[9px]  font-bold uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
                                 </span>
                               )}
@@ -9145,7 +9145,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   e.stopPropagation();
                                   handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                                 }}
-                                className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[8px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-colors cursor-pointer"
+                                className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[9px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-colors cursor-pointer"
                               >
                                 <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                 + ADD
@@ -9285,7 +9285,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="mt-1 w-full text-[7.5px] font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1 text-center"
+                          className="mt-1 w-full  text-[9px]  font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1 text-center"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
                           {dayShow.venue || dayShow.venue_name}
@@ -10261,7 +10261,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       aria-label="Close overlay"
-                      className="absolute inset-0 cursor-default border-0 bg-transparent"
+                      className="absolute inset-0 bg-black/75 backdrop-blur-sm cursor-default border-0"
                       onClick={() => {
                         setActiveDropDay(null);
                         setDraggedCrewMemberId(null);
@@ -10269,7 +10269,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       }}
                     />
 
-                    <div className="relative backdrop-blur-[45px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] bg-[#0a00653b]">
+                    <div className="relative bg-[#0c0817] border-l border-white/15 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
 
                       {/* Modal Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
@@ -10625,7 +10625,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       </span>
                                                     )}
                                                   </div>
-                                                  <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
+                                                  <span className=" text-[11px] text-white/40 font-mono block leading-tight mt-0.5">
                                                     {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                   </span>
                                                   {(() => {
@@ -10645,7 +10645,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     );
                                                   })()}
                                                   {isOverlapping && (
-                                                    <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                                    <span className=" text-[9px]  text-red-400 font-bold block leading-tight mt-0.5">
                                                       Overlaps: {overlaps[0].time}
                                                     </span>
                                                   )}
@@ -10927,14 +10927,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       aria-label="Close select group drawer"
-                      className="absolute inset-0 cursor-default border-0"
+                      className="absolute inset-0 bg-black/75 backdrop-blur-sm cursor-default border-0"
                       onClick={() => setCellGroupPopover(null)}
                     />
 
-                    {/* Full Height Right-Side Drawer Panel (Flush against right edge: w-full max-w-md h-full border-l border-white/10) */}
+                    {/* Full Height Right-Side Drawer Panel */}
                     <div
                       data-group-popover-cell
-                      className="relative bg-[#0a00653b] backdrop-blur-[18px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 font-sans"
+                      className="relative bg-[#0c0817] border-l border-white/15 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 font-sans"
                       onClick={(e) => e.stopPropagation()}
                     >
                       {/* Drawer Header */}
@@ -11045,7 +11045,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     aria-label="Close create group modal"
-                    className="absolute inset-0 cursor-default border-0"
+                    className="absolute inset-0 bg-black/75 backdrop-blur-sm cursor-default border-0"
                     onClick={() => {
                       setIsCreateGroupModalOpen(false);
                       createGroupForDateRef.current = null;
@@ -11053,7 +11053,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   />
 
                   <div
-                    className="relative bg-[#0a00653b] backdrop-blur-[18px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
+                    className="relative bg-[#0c0817] border-l border-white/15 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Modal Header */}
@@ -11355,11 +11355,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       aria-label="Close overlay"
-                      className="absolute inset-0 cursor-default border-0 bg-transparent"
+                      className="absolute inset-0 bg-black/75 backdrop-blur-sm cursor-default border-0"
                       onClick={() => setSelectedShowCrewDate(null)}
                     />
 
-                    <div className="relative bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                    <div className="relative bg-[#0c0817] border-l border-white/15 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
 
                       {/* Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
