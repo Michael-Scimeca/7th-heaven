@@ -5615,11 +5615,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="group relative inline-flex items-center gap-1 text-[9.5px] font-bold uppercase tracking-tight text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-lg leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
+                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-3 py-1 rounded-lg leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
                                         title={`Click to change or edit role(s): ${r.duty}`}
                                       >
-                                        <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
-                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                        <span className="truncate max-w-[200px] md:max-w-[320px]">{r.duty}</span>
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
                                       </button>
                                     ) : (
                                       <button
@@ -5629,11 +5629,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-[#00000029] hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
+                                        className="text-xs md:text-sm text-white/60 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-[#00000029] hover:bg-white/10 px-3 py-1 rounded-lg border border-white/10 transition-colors flex items-center gap-1.5 font-medium"
                                         title="Click to assign role(s)"
                                       >
                                         <span>+ Assign Role</span>
-                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
                                       </button>
                                     )}
 
@@ -5644,10 +5644,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
                                       }}
-                                      className="p-1 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                      className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
                                       title="Edit Role"
                                     >
-                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
                                     </button>
 
                                     {isEditingThis && (
@@ -11988,40 +11988,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {/* Right Action Cluster & Tab Switcher */}
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
           {/* Mode Switcher Pills */}
-          <div className="relative flex items-center bg-transparent p-1 rounded-full w-full sm:w-auto justify-center select-none">
-            {/* Sliding background pill */}
-            <div
-              className={`absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${adminTab === 'band'
-                ? 'left-1 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
-                : 'left-[calc(50%+2px)] bg-gradient-to-r from-cyan-600 via-teal-500 to-indigo-600 shadow-[0_0_20px_rgba(6,182,212,0.4)]'
-                }`}
-              style={{ width: 'calc(50% - 4px)' }}
-            />
-
-            <button
-              type="button"
+          <div className="flex items-center gap-2 select-none">
+            <FoolishShrimpButton
+              isActive={adminTab === 'band'}
               onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-              className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                }`}
+              className="px-5 py-2 text-[10px] font-bold uppercase tracking-wider  cursor-pointer whitespace-nowrap"
             >
-              <span></span>
-              <span>Band & Site</span>
-            </button>
+              Band &amp; Site
+            </FoolishShrimpButton>
 
-            <button
-              type="button"
+            <FoolishShrimpButton
+              isActive={adminTab === 'cruise'}
               onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-              className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                }`}
+              className="px-5 py-2 text-[10px] font-bold uppercase tracking-wider  cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
             >
-              <span></span>
               <span>Cruise</span>
               {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
                 <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-bold px-1 shadow-xs border border-white shrink-0 ml-0.5">
                   {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
                 </span>
               )}
-            </button>
+            </FoolishShrimpButton>
           </div>
 
           {/* Exit Link */}
