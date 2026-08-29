@@ -192,7 +192,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase    rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
               </button>
@@ -200,7 +200,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase    rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
               </button>
@@ -224,7 +224,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors"
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors"
               >
                 Submit Payment — ${amount}
               </button>

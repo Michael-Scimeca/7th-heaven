@@ -108,7 +108,7 @@ export default function HeroParallaxCustomizer({
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ?"bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
+                  className={`px-2 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
                     : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
                 >
@@ -158,14 +158,14 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Toggle foreground counter-drift"
             onClick={() => updatePxForeground(!pxForeground)}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground ?"bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
+            className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
               : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10"
               }`}
           >
             <span className="font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
-            <span className={`w-8 h-4 rounded-lg relative transition-colors ${pxForeground ?"bg-[var(--color-accent)]" : "bg-white/20"}`}>
+            <span className={`w-8 h-4 rounded-lg relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
-                className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-transform ${pxForeground ?"translate-x-4" : "translate-x-0.5"
+                className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
                   }`}
               />
             </span>
@@ -188,7 +188,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase    transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             {pxCopied ? (
               <>

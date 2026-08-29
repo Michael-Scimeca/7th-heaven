@@ -18,6 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase-client';
 import ChatInputBar from '@/components/ChatInputBar';
 import CruiseChat from '@/components/CruiseChat';
+import FoolishShrimpButton from '@/components/FoolishShrimpButton';
 import PushSubscribeModal from '@/components/PushSubscribeModal';
 
 const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
@@ -1372,7 +1373,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
               }}
             >
-              <span className="font-bold uppercase tracking-widest hidden sm:inline" style={{ color: '#c084fc' }}>
+              <span className="font-bold uppercase    hidden sm:inline" style={{ color: '#c084fc' }}>
                 Demo Mode
               </span>
             </div>
@@ -1403,7 +1404,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
                     </svg>
                   </div>
-                  <h3 className="text-white/80 font-bold tracking-widest uppercase mb-1">Stream Offline</h3>
+                  <h3 className="text-white/80 font-bold    uppercase mb-1">Stream Offline</h3>
                   <p className="">Waiting for {activeFeedCrew.name} to go live...</p>
                 </div>
               )}
@@ -1521,14 +1522,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <>
                           <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
                             <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
-                            <span className="font-bold uppercase tracking-widest leading-tight mt-1">Live Raffle</span>
-                            <span className="ml-auto px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase tracking-widest animate-pulse">OPEN</span>
+                            <span className="font-bold uppercase    leading-tight mt-1">Live Raffle</span>
+                            <span className="ml-auto px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase    animate-pulse">OPEN</span>
                           </div>
 
                           <div className="mb-4">
                             <div className="flex items-center justify-between mb-1.5">
-                              <span className="font-bold text-black/40 uppercase tracking-widest">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
-                              <span className="font-bold text-[var(--color-accent)]/70 uppercase tracking-widest">{raffleState.minEntrants ?? 10} needed</span>
+                              <span className="font-bold text-black/40 uppercase   ">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
+                              <span className="font-bold text-[var(--color-accent)]/70 uppercase   ">{raffleState.minEntrants ?? 10} needed</span>
                             </div>
                             <div className="w-full h-1.5 bg-gray-100 rounded-lg overflow-hidden">
                               <div className="h-full bg-yellow-400 rounded-lg transition-colors duration-500"
@@ -1599,7 +1600,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {raffleState.status === 'drawing' && (
                         <div className="py-8 text-center flex flex-col items-center justify-center">
                           <Ticket className="w-10 h-10 text-yellow-400 animate-spin mb-4" />
-                          <p className="text-purple-300 font-bold uppercase tracking-widest animate-pulse">Drawing Winner...</p>
+                          <p className="text-purple-300 font-bold uppercase    animate-pulse">Drawing Winner...</p>
                         </div>
                       )}
 
@@ -1607,7 +1608,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <div className="py-2">
                           <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
                             <Trophy className="w-5 h-5 text-yellow-400" />
-                            <span className="font-bold uppercase tracking-widest">Raffle Winner</span>
+                            <span className="font-bold uppercase   ">Raffle Winner</span>
                           </div>
                           <div className="space-y-2">
                             {Array.from(raffleState.winners, (wObj: any, i: number) => ({ wObj, i })).map(({ wObj, i }) => {
@@ -1622,7 +1623,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                     <p className={`font-bold leading-tight ${isMine ? 'text-purple-300' : 'text-black'}`}>{w}</p>
                                     {isMine && (
                                       <button aria-label="Action button" onClick={() => setShowClaimModal(true)}
-                                        className="mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest rounded-lg transition-colors">
+                                        className="mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    rounded-lg transition-colors">
                                         Claim Reward
                                       </button>
                                     )}
@@ -1634,7 +1635,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                           <div className="mt-4 p-3 bg-gray-50 border border-black/10 text-center">
                             <p className="text-black/70 leading-relaxed font-semibold">
-                              <span className="text-purple-300 font-bold uppercase tracking-widest block mb-1">How to Claim</span>
+                              <span className="text-purple-300 font-bold uppercase    block mb-1">How to Claim</span>
                               Winners: Check your <strong className="text-black font-bold">Email</strong> or your <strong className="text-black font-bold">Fan Profile Dashboard</strong> for your unique Verification PIN. Show your PIN to the crew at the merch table!
                             </p>
                           </div>
@@ -1645,7 +1646,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               <p className="text-black/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
                               <div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded border border-black/10 shadow-inner">
                                 <span className="animate-pulse">⏳</span>
-                                <span className="text-lg font-mono font-bold tracking-widest text-emerald-500">
+                                <span className="text-lg font-mono font-bold    text-emerald-500">
                                   {Math.floor(nextRaffleCountdown / 60)}:{(nextRaffleCountdown % 60).toString().padStart(2, '0')}
                                 </span>
                               </div>
@@ -1729,7 +1730,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             background: activeMerchDrop.product.color,
                             boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
                           }}
-                          className="px-3.5 py-1.5 text-black font-bold uppercase tracking-widest hover:scale-105 active:scale-95 transition-colors cursor-pointer border-none shrink-0"
+                          className="px-3.5 py-1.5 text-black font-bold uppercase    hover:scale-105 active:scale-95 transition-colors cursor-pointer border-none shrink-0"
                         >
                           BUY NOW
                         </button>
@@ -1858,7 +1859,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {messages.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <MessageSquare className="w-8 h-8 text-black/30 mb-3" />
-                        <p className="text-black/30 uppercase tracking-widest">Waiting for messages...</p>
+                        <p className="text-black/30 uppercase   ">Waiting for messages...</p>
                       </div>
                     ) : (
                       <div className="p-2 space-y-0.5">
@@ -1926,7 +1927,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {flaggedMsgs.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="text-4xl mb-3">✅</span>
-                        <p className="text-black/30 uppercase tracking-widest">No flagged messages</p>
+                        <p className="text-black/30 uppercase   ">No flagged messages</p>
                         <p className="text-black/15 mt-1">Chat is clean — use the Demo buttons below to test</p>
                       </div>
                     ) : flaggedMsgs.map(({ msg, reason }) => (
@@ -1988,7 +1989,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {/* ── USERS TAB ── */}
                 {adminTab === 'users' && (
                   <div className="p-3 space-y-1.5">
-                    <p className="uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Active in chat — click to moderate</p>
+                    <p className="uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Active in chat — click to moderate</p>
                     {FAN_ACCOUNTS.map(acc => {
                       const isBanned = bannedUsers.has(acc.id);
                       const isMuted = mutedUsers.has(acc.id);
@@ -2036,7 +2037,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {FAN_ACCOUNTS.every(acc => messages.filter(m => m.account?.id === acc.id).length === 0) && (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <Users className="w-8 h-8 text-black/30 mb-3" />
-                        <p className="text-black/30 uppercase tracking-widest">Waiting for chat activity...</p>
+                        <p className="text-black/30 uppercase   ">Waiting for chat activity...</p>
                       </div>
                     )}
                   </div>
@@ -2048,7 +2049,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {modLog.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <ClipboardList className="w-8 h-8 text-black/30 mb-3" />
-                        <p className="text-black/30 uppercase tracking-widest">No actions taken yet</p>
+                        <p className="text-black/30 uppercase   ">No actions taken yet</p>
                       </div>
                     ) : modLog.map(entry => (
                       <div key={entry.id} className="flex items-start gap-2 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
@@ -2067,7 +2068,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {adminTab === 'policy' && (
                   <div className="p-4 space-y-4">
                     <div>
-                      <p className="font-bold uppercase tracking-widest mb-3" style={{ color: '#f87171' }}>🚫 Zero-Tolerance — Instant Ban</p>
+                      <p className="font-bold uppercase    mb-3" style={{ color: '#f87171' }}>🚫 Zero-Tolerance — Instant Ban</p>
                       {[
                         { icon: '🔞', rule: 'Adult / pornographic content', desc: 'Any explicit sexual content, NSFW images, or adult platform links (e.g. OnlyFans).' },
                         { icon: '⚠️', rule: 'Hate speech & slurs', desc: 'Racist, homophobic, antisemitic, or discriminatory language of any kind.' },
@@ -2080,7 +2081,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       ))}
                     </div>
                     <div>
-                      <p className="font-bold uppercase tracking-widest mb-3" style={{ color: '#c084fc' }}>⚠️ Warn First — Then Mute / Kick</p>
+                      <p className="font-bold uppercase    mb-3" style={{ color: '#c084fc' }}>⚠️ Warn First — Then Mute / Kick</p>
                       {[
                         { icon: '🏛️', rule: 'Political commentary', desc: 'No political debate, party references, campaign talk, or electoral content.' },
                         { icon: '📢', rule: 'Spam & self-promotion', desc: 'Posting links, social handles, cashapp/venmo tags, or soliciting followers.' },
@@ -2094,14 +2095,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       ))}
                     </div>
                     <div className="p-3" style={{ background: 'rgba(255,10,61,0.08)', border: '1px solid rgba(255,10,61,0.2)' }}>
-                      <p className="font-bold text-black/60 uppercase tracking-widest mb-1">✅ Keep It Positive</p>
+                      <p className="font-bold text-black/60 uppercase    mb-1">✅ Keep It Positive</p>
                       <p className="" style={{ color: 'rgba(255,255,255,0.35)' }}>This is a fan space for music lovers. Keep the energy high, support the artists, and spread love. 🎸</p>
                     </div>
 
                     {/* CUSTOM FLAGGED WORDS MANAGER */}
                     <div className="pt-4 border-t border-black/10 space-y-3">
                       <div>
-                        <p className="font-bold uppercase tracking-widest">🔍 Custom Flagged Keywords</p>
+                        <p className="font-bold uppercase   ">🔍 Custom Flagged Keywords</p>
                         <p className="text-black/40 mt-0.5 leading-relaxed">
                           Add specific keywords or phrases. Any message containing these (case-insensitive) will be flagged for review.
                         </p>
@@ -2164,7 +2165,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {/* ── STATS TAB ── */}
                 {adminTab === 'stats' && (
                   <div className="p-3 space-y-3">
-                    <p className="uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Feed performance — tonight&#39;s show</p>
+                    <p className="uppercase    mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Feed performance — tonight&#39;s show</p>
                     {Object.entries(FEED_STATS).map(([key, s]) => {
                       const maxPeak = Math.max(...Object.values(FEED_STATS).map(f => f.peakViewers));
                       const barW = Math.round((s.peakViewers / maxPeak) * 100);
@@ -2186,11 +2187,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
                           <div className="grid grid-cols-2 gap-2 mb-2">
                             <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase tracking-widest mb-0.5">Peak</p>
+                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase    mb-0.5">Peak</p>
                               <p className="font-bold" style={{ color: s.color }}>{s.peakViewers.toLocaleString()}</p>
                             </div>
                             <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase tracking-widest mb-0.5">Avg</p>
+                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase    mb-0.5">Avg</p>
                               <p className="font-bold text-black/70">{s.avgViewers.toLocaleString()}</p>
                             </div>
                           </div>
@@ -2201,7 +2202,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       );
                     })}
                     <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                      <p className="font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Session Summary</p>
+                      <p className="font-bold uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Session Summary</p>
                       <div className="grid grid-cols-3 gap-2">
                         {[
                           { label: 'Total Views', val: Object.values(FEED_STATS).reduce((a, b) => a + b.peakViewers, 0).toLocaleString() },
@@ -2210,7 +2211,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         ].map(({ label, val }) => (
                           <div key={label} className="p-2 rounded-lg text-center" style={{ background: 'rgba(255,255,255,0.04)' }}>
                             <p className="font-bold text-black/80">{val}</p>
-                            <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase tracking-widest mt-0.5">{label}</p>
+                            <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="uppercase    mt-0.5">{label}</p>
                           </div>
                         ))}
                       </div>
@@ -2234,7 +2235,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <span className="w-2 h-2 rounded-lg animate-pulse" style={{ background: '#4ade80' }} />
-                          <span className="font-bold uppercase tracking-widest" style={{ color: '#4ade80' }}>Drop Live Now</span>
+                          <span className="font-bold uppercase   " style={{ color: '#4ade80' }}>Drop Live Now</span>
                         </div>
                         <div className="flex items-center gap-3 mb-3">
                           <div
@@ -2291,7 +2292,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                     {/* Product picker */}
                     <div>
-                      <p className="font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Select Product</p>
+                      <p className="font-bold uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Select Product</p>
                       <div className="grid grid-cols-2 gap-2">
                         {MERCH_PRODUCTS.map(product => {
                           const isSelected = merchSelectedProduct === product.id;
@@ -2323,7 +2324,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                     {/* Duration picker */}
                     <div>
-                      <p className="font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Drop Duration</p>
+                      <p className="font-bold uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Drop Duration</p>
                       <div className="flex gap-1.5 flex-wrap">
                         {MERCH_DURATIONS.map(d => (
                           <button aria-label="Action button"
@@ -2374,7 +2375,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Past drops from log */}
                     {modLog.filter(e => e.action === '🛍 Merch Drop').length > 0 && (
                       <div>
-                        <p className="font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Drop History</p>
+                        <p className="font-bold uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Drop History</p>
                         <div className="space-y-1">
                           {modLog.flatMap(e => e.action === '🛍 Merch Drop' ? [
                             <div key={e.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)' }}>
@@ -2396,7 +2397,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
               {/* Demo inject bar */}
               <div className="shrink-0 px-3 py-3" style={{ borderTop: '1px solid rgba(239,68,68,0.12)', background: 'rgba(239,68,68,0.03)' }}>
-                <p className="uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>🎭 Demo: inject a flagged message</p>
+                <p className="uppercase    mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>🎭 Demo: inject a flagged message</p>
                 <div className="flex gap-1.5 flex-wrap">
                   {[
                     { label: '🔞 NSFW', text: 'check my onlyfans.com profile lol' },
@@ -2497,15 +2498,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
 
                   <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
-                    <button
-                      type="button"
+                    <FoolishShrimpButton
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
                       }}
-                      className="btn-cosmic-radial-property w-full py-3 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
+                      className="w-full py-3 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white font-bold uppercase    rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
                     >
-                      <span>Sign Up as a Fan</span>
-                    </button>
+                      Sign Up as a Fan
+                    </FoolishShrimpButton>
 
                     <button
                       type="button"
@@ -2522,18 +2522,18 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 <div className="flex-1 flex flex-col min-h-0 bg-[#07040d]">
                   {/* Sort Toggle header */}
                   <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-white/10">
-                    <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/40">Sort View</span>
+                    <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/40">Sort View</span>
                     <div className="flex gap-1.5">
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase    transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
                           }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white  border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase    transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white  border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -2566,7 +2566,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 {song.title}
                               </p>
                               {song.isPlaying && (
-                                <span className="inline-block text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-purple-300 mt-0.5 animate-pulse">
+                                <span className="inline-block text-[var(--font-size-4xs)] font-bold uppercase    text-purple-300 mt-0.5 animate-pulse">
                                   Now Playing
                                 </span>
                               )}
@@ -3064,7 +3064,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         background: activeMerchDrop.product.color,
                         boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`
                       }}
-                      className="w-full py-3 text-black font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none mt-2 font-sans"
+                      className="w-full py-3 text-black font-bold uppercase    hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none mt-2 font-sans"
                     >
                       Authorize Payment
                     </button>
@@ -3075,7 +3075,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <div className="text-center py-10 space-y-4">
                     <div className="w-12 h-12 border-4 border-black/10 border-t-white rounded-lg animate-spin mx-auto"
                       style={{ borderTopColor: activeMerchDrop.product.color }} />
-                    <h3 className="font-bold uppercase tracking-widest text-black/80 font-sans">Securing payment</h3>
+                    <h3 className="font-bold uppercase    text-black/80 font-sans">Securing payment</h3>
                     <p className="text-black/40 max-w-[200px] mx-auto font-sans">Connecting to Shopify checkout secure gateways...</p>
                   </div>
                 )}
@@ -3129,7 +3129,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                         {/* Order Details */}
                         <div className="space-y-1.5 pt-2 border-t border-black/10">
-                          <p className="text-black/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
+                          <p className="text-black/40 uppercase font-bold    font-sans mb-1.5">Order Details</p>
                           <p className="font-bold text-black/90 font-sans">Recipient: <span className="font-normal text-black/60">{shippingDetails.name}</span></p>
                           <p className="font-bold text-black/90 font-sans truncate">Product: <span className="font-normal text-black/60">{activeMerchDrop.product.name}</span></p>
                           {successIsClothing && checkoutSelectedSize && (
@@ -3162,7 +3162,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         style={{
                           background: activeMerchDrop.product.color
                         }}
-                        className="w-full py-3 text-black font-bold uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none font-sans"
+                        className="w-full py-3 text-black font-bold uppercase    hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none font-sans"
                       >
                         Return to Stream
                       </button>

@@ -1,18 +1,24 @@
 /* eslint-disable react-doctor/no-giant-component */
 /* eslint-disable react-doctor/no-initialize-state */
+/* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element, react-doctor/img-redundant-alt */
 "use client";
 import Image from 'next/image';
 import { Lock, Camera, Shield, MapPin, X, Sparkles } from "lucide-react";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+
+const emptySubscribe = () => () => { };
+const useMounted = () => useSyncExternalStore(emptySubscribe, () => true, () => false);
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase tracking-widest">
+    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase   ">
       Loading Upload Form...
     </div>
   ),
@@ -39,6 +45,7 @@ export default function FansPage() {
   const [showUpload, setShowUpload] = useState(false);
   const [mockMode, setMockMode] = useState(false);
   const [moderatingId, setModeratingId] = useState<string | null>(null);
+  const mounted = useMounted();
 
   useEffect(() => {
     const search = window.location.search;
@@ -58,7 +65,16 @@ export default function FansPage() {
 
   const effectivelyLoggedIn = isLoggedIn || mockMode;
 
-  const isModerator = (isLoggedIn && (member?.role === "admin" || member?.role === "crew" || (member as any)?.isCrew || (member as any)?.isAdmin)) || isDevBypass;
+  // Pending Review Queue is restricted STRICTLY to authenticated Admins & Crew members only
+  const isModerator = Boolean(
+    isLoggedIn &&
+    (
+      member?.role === "admin" ||
+      member?.role === "crew" ||
+      (member as unknown as Record<string, unknown>)?.isCrew === true ||
+      (member as unknown as Record<string, unknown>)?.isAdmin === true
+    )
+  );
 
   // Fetch photos and notify PageTransition when data & images are loaded
   const fetchPhotos = useCallback(() => {
@@ -221,7 +237,7 @@ export default function FansPage() {
                   }
                 }}
                 icon={<Camera className="w-4 h-4" />}
-                className="px-8 py-4 rounded-lg text-white font-bold tracking-widest"
+                className="px-8 py-4 rounded-lg text-white font-bold   "
               >
                 {showUpload ? "Hide Upload Form" : "Upload Photo / Video"}
               </CosmicRadialButton>
@@ -252,7 +268,7 @@ export default function FansPage() {
                 <h3 className="font-bold text-white">
                   Pending Review Queue
                 </h3>
-                <p className="uppercase tracking-widest font-bold">
+                <p className="uppercase    font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
@@ -270,10 +286,10 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="p-3 bg-[#e1e6ff15] border border-white/10 rounded-xl flex gap-3.5 items-center shadow-lg backdrop-blur-md max-w-[400px] w-full"
+                    className="p-4 bg-[#e1e6ff15] border border-white/10 rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-lg backdrop-blur-md max-w-[520px] w-full"
                   >
-                    {/* Small Compact Thumbnail */}
-                    <div className="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                    {/* Thumbnail twice as big (w-56 h-56 / 224px) */}
+                    <div className="relative w-56 h-56 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/40">
                       {isVideo ? (
                         <video
                           src={photo.src}
@@ -288,12 +304,12 @@ export default function FansPage() {
                           src={photo.src}
                           alt="Fan Upload Thumbnail"
                           fill
-                          sizes="112px"
+                          sizes="224px"
                           unoptimized
                           className="object-cover"
                         />
                       )}
-                      <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-black/80 backdrop-blur-md rounded text-[12px] font-mono text-white/90">
+                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/80 backdrop-blur-md rounded text-[12px] font-mono text-white/90">
                         {photo.date || "Pending"}
                       </div>
                     </div>
@@ -322,7 +338,7 @@ export default function FansPage() {
                         <button
                           onClick={() => handleRejectPhoto(photo.id)}
                           disabled={moderatingId === photo.id}
-                          className="py-1.5 px-2 text-[10px] font-bold uppercase tracking-widest text-red-200 bg-red-950/50 border border-red-500/30 rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center"
+                          className="py-1.5 px-2 text-[10px] font-bold uppercase    text-red-200 bg-red-950/50 border border-red-500/30 rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center"
                         >
                           Reject
                         </button>
@@ -330,7 +346,7 @@ export default function FansPage() {
                           onClick={() => handleApprovePhoto(photo.id)}
                           disabled={moderatingId === photo.id}
                           icon={false}
-                          className="!py-1.5 !px-2 text-[10px] font-bold uppercase tracking-widest text-white ! rounded-lg text-center"
+                          className="!py-1.5 !px-2 text-[10px] font-bold    text-white ! rounded-lg text-center"
                         >
                           Approve
                         </CosmicRadialButton>
@@ -367,10 +383,10 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase    px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                   Featured Moment
                 </span>
-                <h3 className="font-bold uppercase tracking-tight text-white leading-none drop-shadow-md">
+                <h3 className="font-bold uppercase tracking-tight text-purple-300 leading-none drop-shadow-md">
                   {approvedPhotos[0].name}
                 </h3>
                 <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">
@@ -405,7 +421,7 @@ export default function FansPage() {
                 >
                   <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
                     <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center font-bold text-white tracking-widest" style={{ aspectRatio: "1 / 1" }}>
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center font-bold text-white   " style={{ aspectRatio: "1 / 1" }}>
                         {photo.name
                           ? photo.name
                             .split(" ")
@@ -417,11 +433,11 @@ export default function FansPage() {
                           : "FP"}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold leading-tight truncate">
+                        <p className="font-bold text-purple-300 leading-tight truncate">
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="uppercase tracking-widest font-bold mt-0.5 truncate">
+                          <p className="uppercase    font-bold mt-0.5 truncate">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -430,7 +446,7 @@ export default function FansPage() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-0.5 shrink-0">
-                      <span className="text-white text-[10px] uppercase tracking-widest font-bold">
+                      <span className="text-white text-[10px] uppercase    font-bold">
                         {isVideo ? "Video" : "Photo"}
                       </span>
                       {photo.date && (
@@ -438,10 +454,12 @@ export default function FansPage() {
                       )}
                     </div>
                   </div>
-                  <button aria-label="Action button"
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     className="relative group cursor-pointer w-full text-left flex-1"
                     onClick={() => setSelectedPhoto(photo)}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}
                   >
                     <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
                       {isVideo ? (
@@ -465,12 +483,12 @@ export default function FansPage() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                        <span className="text-white bg-white/10 border border-white/10 px-6 py-2 rounded-lg font-bold uppercase tracking-widest backdrop-blur-md">
+                        <FoolishShrimpButton>
                           {isVideo ? "Play Video" : "Expand Photo"}
-                        </span>
+                        </FoolishShrimpButton>
                       </div>
                     </div>
-                  </button>
+                  </div>
                   {photo.caption && (
                     <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/5 flex-1 flex items-center">
                       <p className="leading-relaxed font-medium">
@@ -511,53 +529,53 @@ export default function FansPage() {
         )}
 
         {/* Lightbox */}
-        {selectedPhoto && (
+        {mounted && selectedPhoto && createPortal(
           <div
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6"
+            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
             onClick={() => setSelectedPhoto(null)}
           >
             <div
-              className="relative max-w-4xl max-h-[85vh] w-full flex flex-col"
+              className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80  rounded-lg p-6 shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <button aria-label="Close"
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute -top-10 right-0 text-white/40 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
               {selectedPhoto.type === "video" ||
                 selectedPhoto.src.endsWith(".mp4") ||
                 selectedPhoto.src.endsWith(".mov") ? (
                 <video
                   src={selectedPhoto.src}
-                  className="w-full max-h-[70vh] object-contain"
+                  className="w-full max-h-[65vh] object-contain rounded-xl"
                   controls
                   autoPlay
                   muted
                   playsInline
                 />
               ) : (
-                <Image width={200} height={200} unoptimized
+                <img
                   src={selectedPhoto.src}
-                  alt={`Photo by ${selectedPhoto.name}`}
-                  className="w-full max-h-[70vh] object-contain"
+                  alt={selectedPhoto.name}
+                  className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
                 />
               )}
-              <div className="mt-4 flex items-start justify-between gap-4">
+              <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
                 <div>
-                  <p className="font-bold">
+                  <p className="font-bold text-white text-lg">
                     {selectedPhoto.name}
                   </p>
                   {selectedPhoto.venue && (
-                    <p className="mt-0.5">
+                    <p className="mt-0.5 text-sm text-purple-300 font-medium">
                       {selectedPhoto.venue}
                       {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
                       {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
                     </p>
                   )}
                   {selectedPhoto.caption && (
-                    <p className="mt-2 text-left">
+                    <p className="mt-2 text-left text-gray-300 text-sm">
                       &ldquo;{selectedPhoto.caption}&rdquo;
                     </p>
                   )}
@@ -566,7 +584,7 @@ export default function FansPage() {
                   <button aria-label="Action button"
                     onClick={() => handleFlagPhoto(selectedPhoto.id)}
                     disabled={flaggingId === selectedPhoto.id}
-                    className="text-white/20 hover:text-red-400 uppercase tracking-widest font-bold transition-colors flex items-center gap-1 mt-1 disabled:opacity-50"
+                    className="text-white/40 hover:text-red-400 text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-1.5 disabled:opacity-50"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
@@ -574,11 +592,11 @@ export default function FansPage() {
                     </svg>
                     {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
                   </button>
-
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </section>
     </div>

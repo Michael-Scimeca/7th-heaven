@@ -55,16 +55,16 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-widest bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase    bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
+          <span className="absolute top-3 right-3 text-[10px] font-bold uppercase    bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase tracking-widest bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
+          <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase    bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
             Only {selectedStock} left
           </span>
         )}
@@ -89,7 +89,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`px-3 py-1.5 rounded-lg font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ?"bg-[var(--color-accent)] text-white"
+                  className={`px-3 py-1.5 rounded-lg font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] text-white"
                     : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                     }`}
                 >
@@ -525,7 +525,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat ?"bg-cyan-500 text-black"
+                className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
                   : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                   }`}
               >
@@ -658,7 +658,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-lg transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase    rounded-lg transition-colors"
               >
                 Continue Shopping
               </button>
@@ -666,7 +666,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-40"
+                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

@@ -104,7 +104,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             Latest Album & Track
           </span>
         </div>
-        <span className="font-bold uppercase tracking-widest text-white/40 bg-[#00000029] px-2.5 py-1 rounded-lg border border-white/10">
+        <span className="font-bold uppercase    text-white/40 bg-[#00000029] px-2.5 py-1 rounded-lg border border-white/10">
           {type} · {year}
         </span>
       </div>
@@ -145,7 +145,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           <h3 className="text-white font-bold leading-tight truncate uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
             {title}
           </h3>
-          <p className="font-bold uppercase tracking-widest mt-0.5">
+          <p className="font-bold uppercase    mt-0.5">
             7th Heaven
           </p>
 

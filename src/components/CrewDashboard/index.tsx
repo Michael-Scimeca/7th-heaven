@@ -143,7 +143,7 @@ function AvailabilityCardForm({
       <div className="flex items-center gap-3 mb-4">
         <div>
           <h3 className="font-bold tracking-wide text-white">Your Availability & Blackouts</h3>
-          <p className="font-bold uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
+          <p className="font-bold uppercase    mt-0.5">Let admins know when you are available or unavailable</p>
         </div>
       </div>
       <div>
@@ -228,7 +228,7 @@ function TimeOffCardForm({
       <div className="flex items-center gap-3 mb-4">
         <div>
           <h3 className="font-bold tracking-wide text-white">Time-Off Requests</h3>
-          <p className="font-bold uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
+          <p className="font-bold uppercase    mt-0.5">Submit time-off requests for administrator approval</p>
         </div>
       </div>
       <div>
@@ -2678,7 +2678,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="text-xl font-bold tracking-tight text-white">{displayName}</span>
-                <span className="px-2 py-0.5 text-[var(--color-accent)] font-bold uppercase tracking-widest rounded flex items-center gap-1 rounded-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">Crew</span>
+                <span className="px-2 py-0.5 text-[var(--color-accent)] font-bold uppercase    rounded flex items-center gap-1 rounded-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">Crew</span>
               </div>
               <span className="text-white">{email}</span>
             </div>
@@ -2703,13 +2703,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="font-bold tracking-wide text-white">
                     Live Broadcast & Feed Center
                   </h3>
-                  <p className="font-bold uppercase tracking-widest mt-0.5 truncate">
+                  <p className="font-bold uppercase    mt-0.5 truncate">
                     Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                   </p>
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
+                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase    shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
                   <span className={`w-1.5 h-1.5 rounded-lg ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
@@ -2750,7 +2750,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white font-bold uppercase    flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2759,7 +2759,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </Link>
               </div>
 
-              <div className="flex items-center gap-2 text-white uppercase tracking-widest font-bold">
+              <div className="flex items-center gap-2 text-white uppercase    font-bold">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>
                 Crew Broadcast <span className="text-white/20 px-1.5">·</span> <span>{viewerCount} viewers</span>
               </div>
@@ -2777,10 +2777,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </p>
                   </div>
                   <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white font-bold uppercase tracking-widest rounded border border-white/10 hover:border-emerald-500/50 transition-colors">
+                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white font-bold uppercase    rounded border border-white/10 hover:border-emerald-500/50 transition-colors">
                       Open <span className="ml-0.5">→</span>
                     </Link>
-                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] font-bold uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
+                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] font-bold uppercase    rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
                       Copy Link
                     </button>
                   </div>
@@ -2818,7 +2818,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
                         </svg>
                       </div>
-                      <h3 className="text-white/70 font-bold tracking-widest uppercase mb-1">Camera Standby</h3>
+                      <h3 className="text-white/70 font-bold    uppercase mb-1">Camera Standby</h3>
                       <p className="text-center max-w-[200px]">Click GO LIVE above to start your camera and begin broadcasting.</p>
                     </div>
                   )}
@@ -2845,7 +2845,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="absolute top-4 left-4 flex gap-2 z-20">
                       <div className="px-3 py-1 bg-red-600 rounded-lg flex items-center gap-1.5 shadow-red-600/30">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
-                        <span className="font-bold text-white uppercase tracking-widest">Live</span>
+                        <span className="font-bold text-white uppercase   ">Live</span>
                       </div>
                       <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 text-white/90">
                         <span className="font-medium">{viewerCount} Viewers</span>
@@ -2862,7 +2862,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="shrink-0 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
+                        className="shrink-0 px-8 py-3 rounded-lg font-bold uppercase    transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
                       >
                         {toggling ? '...' : '● End Stream'}
                       </button>
@@ -2876,7 +2876,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onClick={attemptEndStream}
                         disabled={toggling}
                         icon={false}
-                        className="px-10 py-4 font-bold uppercase tracking-widest disabled:opacity-50 flex items-center gap-3 cursor-pointer"
+                        className="px-10 py-4 font-bold uppercase    disabled:opacity-50 flex items-center gap-3 cursor-pointer"
                       >
                         <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '12px', height: '12px', borderRadius: '50%', display: 'inline-block' }} />
                         {toggling ? 'Starting...' : 'Go Live'}
@@ -2891,8 +2891,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     className="p-4 flex items-center justify-between shrink-0"
                     style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }}
                   >
-                    <span className="font-bold uppercase tracking-widest text-white/90">Live Chat</span>
-                    <div className="flex items-center gap-3 font-bold uppercase tracking-widest text-white">
+                    <span className="font-bold uppercase    text-white/90">Live Chat</span>
+                    <div className="flex items-center gap-3 font-bold uppercase    text-white">
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-lg animate-pulse bg-emerald-500" /> {viewerCount} online
                       </div>
@@ -2909,7 +2909,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <p className="text-black/90 leading-snug font-medium">
                             {activePinned.text}
                           </p>
-                          <p className="text-emerald-400/80 mt-1 font-bold uppercase tracking-widest">
+                          <p className="text-emerald-400/80 mt-1 font-bold uppercase   ">
                             PINNED BY {activePinned.by}
                           </p>
                         </div>
@@ -3046,7 +3046,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           onClick={handleGlobalPinBox}
                           disabled={!globalPinText.trim()}
-                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-white font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white"
+                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-white font-bold uppercase    rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white"
                         >
                           PIN
                         </button>
@@ -3072,7 +3072,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex items-center gap-3 mb-4">
                     <div>
                       <h3 className="font-bold tracking-wide text-white">Flash Merch Drop</h3>
-                      <p className="font-bold uppercase tracking-widest">Limited time, limited stock</p>
+                      <p className="font-bold uppercase   ">Limited time, limited stock</p>
                     </div>
                   </div>
                   <div>
@@ -3082,14 +3082,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <span className="w-2.5 h-2.5 rounded-lg bg-emerald-500 animate-pulse" />
-                            <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
+                            <span className="font-bold uppercase    text-[var(--color-accent)]">Flash Sale Active</span>
                           </div>
                           <span className="text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
                         </div>
 
                         {/* Countdown timer */}
                         <div className="bg-black/40 border border-white/10 p-4 text-center">
-                          <p className="font-bold tracking-widest uppercase mb-1">Time Remaining</p>
+                          <p className="font-bold    uppercase mb-1">Time Remaining</p>
                           <p className="font-bold font-mono tracking-wider animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
                           </p>
@@ -3103,7 +3103,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Product List */}
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="font-bold tracking-widest uppercase">Active Products</p>
+                          <p className="font-bold    uppercase">Active Products</p>
                           {activeDrop.products.map(p => (
                             <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border border-white/10 items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
@@ -3123,7 +3123,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 font-bold tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 font-bold    uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                           >
                             Cancel Flash Drop
                           </button>
@@ -3131,7 +3131,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
                     ) : (
                       <>
-                        <div className="flex items-center justify-between mb-3 font-bold uppercase tracking-widest">
+                        <div className="flex items-center justify-between mb-3 font-bold uppercase   ">
                           <div className="flex items-center gap-2">
                             <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
                             <a
@@ -3170,7 +3170,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </div>
 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                          <p className="font-bold tracking-widest uppercase mb-2">Selected Products & Flash Sale Prices</p>
+                          <p className="font-bold    uppercase mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
                             <div className="text-center py-6 rounded-lg border border-white/10 text-white">
                               No products selected yet. Select a product above.
@@ -3210,7 +3210,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
-                            <p className="font-bold tracking-widest uppercase mb-2">Total Products</p>
+                            <p className="font-bold    uppercase mb-2">Total Products</p>
                             <button
                               type="button"
                               onClick={() => {
@@ -3229,7 +3229,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             </button>
                           </div>
                           <div>
-                            <p className="font-bold tracking-widest uppercase mb-2">Duration</p>
+                            <p className="font-bold    uppercase mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-1">
                               {['2m', '5m', '10m', '15m'].map((d) => (
                                 <button
@@ -3252,7 +3252,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             onChange={setGlobalDrop}
                             label="Drop on ALL live streams (Global)"
                           />
-                          <label htmlFor="global-drop-toggle" className="font-bold text-white hover:text-white transition-colors uppercase tracking-widest cursor-pointer select-none">
+                          <label htmlFor="global-drop-toggle" className="font-bold text-white hover:text-white transition-colors uppercase    cursor-pointer select-none">
                             Drop on ALL live streams (Global)
                           </label>
                         </div>
@@ -3261,7 +3261,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={launchFlashDrop}
                           icon={false}
-                          className="w-full py-4 font-bold tracking-widest uppercase cursor-pointer"
+                          className="w-full py-4 font-bold    uppercase cursor-pointer"
                         >
                           Launch Flash Drop
                         </CosmicRadialButton>
@@ -3273,7 +3273,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
                             try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
                           }}
-                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 font-bold tracking-widest uppercase transition-colors"
+                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 font-bold    uppercase transition-colors"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
@@ -3288,14 +3288,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex items-center gap-3">
                       <div>
                         <h3 className="font-bold tracking-wide text-white">Live Event Raffle</h3>
-                        <p className="font-bold uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <p className="font-bold uppercase   ">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                       </div>
                     </div>
                     {raffleStatus !== 'idle' && (
                       <button
                         type="button"
                         onClick={cancelRaffle}
-                        className="px-6 py-2.5 font-bold uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
+                        className="px-6 py-2.5 font-bold uppercase    rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
                       >
                         {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
                       </button>
@@ -3316,7 +3316,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex gap-2 items-end">
                               {/* Input 1: Prize Name */}
                               <div className="flex-1 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
+                                {idx === 0 && <span className="font-bold uppercase    text-[#a78bfa] block">1. Prize Name</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="text"
@@ -3332,7 +3332,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 2: Entries Needed */}
                               <div className="w-20 flex flex-col gap-1.5 relative no-glow">
-                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
+                                {idx === 0 && <span className="font-bold uppercase    text-[var(--color-accent)] truncate block">2. Entries</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3354,7 +3354,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                               {/* Input 3: Prize Qty */}
                               <div className="w-14 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="font-bold uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
+                                {idx === 0 && <span className="font-bold uppercase    text-[#a78bfa] truncate block">3. Qty</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3403,7 +3403,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/10 text-white hover:text-white font-bold uppercase tracking-widest rounded-lg hover:border-white/50 hover: bg-[#00000029] transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed border-white/10 text-white hover:text-white font-bold uppercase    rounded-lg hover:border-white/50 hover: bg-[#00000029] transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3413,11 +3413,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {raffleStatus === 'open' && (
                       <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
                         <p className="font-bold mb-1">{raffleEntrants.length} <span className="text-white/50">/ {raffleMinEntrants}</span></p>
-                        <p className="font-bold uppercase tracking-widest mt-0.5">Fan entries collected</p>
+                        <p className="font-bold uppercase    mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
-                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase    transition-colors">+ Fake Entry</button>
+                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase    transition-colors">+ Multi Fake</button>
                           </div>
                           <button
                             type="button"
@@ -3438,7 +3438,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           onClick={drawWinner}
                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
                           icon={false}
-                          className="w-full py-4 font-bold tracking-widest uppercase disabled:opacity-30 disabled:grayscale cursor-pointer"
+                          className="w-full py-4 font-bold    uppercase disabled:opacity-30 disabled:grayscale cursor-pointer"
                         >
                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                         </CosmicRadialButton>
@@ -3450,7 +3450,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             {drawnWinners.map((w, i) => (
                               <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
                                 <span className="font-bold">{w.name}</span>
-                                <span className="font-mono font-bold tracking-widest text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
+                                <span className="font-mono font-bold    text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
                               </div>
                             ))}
                           </div>
@@ -3471,14 +3471,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="mb-4 flex items-center gap-3">
                   <div>
                     <h3 className="font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
-                    <p className="font-bold uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                    <p className="font-bold uppercase   ">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="max-w-[600px] w-full space-y-2">
-                      <h4 className="font-bold uppercase tracking-widest">Custom Flagged Keywords</h4>
+                      <h4 className="font-bold uppercase   ">Custom Flagged Keywords</h4>
                       <p className="leading-relaxed font-sans font-semibold">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
@@ -3505,7 +3505,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="font-bold uppercase tracking-widest">Active Custom Filters</p>
+                      <p className="font-bold uppercase   ">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center rounded-lg py-6 border border-dashed border-white/10 bg-white/[0.01]">
                           <p className="">No custom keywords configured.</p>
@@ -3540,11 +3540,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex items-center gap-3">
                     <div>
                       <h3 className="font-bold tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                      <p className="font-bold uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                      <p className="font-bold uppercase   ">Real-time Sales and Engagement Metrics</p>
                     </div>
                   </div>
                   {isLive && (
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-lg font-bold uppercase tracking-widest animate-pulse">
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
                       ● Live Tracking
                     </span>
                   )}
@@ -3555,7 +3555,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* store sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase tracking-widest">Store Sales Revenue</p>
+                      <p className="font-bold uppercase   ">Store Sales Revenue</p>
                       <p className="font-bold mt-1 font-mono">
                         ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
@@ -3566,7 +3566,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* flash drop sales card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase tracking-widest">Flash Drop Sales</p>
+                      <p className="font-bold uppercase   ">Flash Drop Sales</p>
                       <p className="font-bold mt-1 font-mono">
                         ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                       </p>
@@ -3577,7 +3577,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* raffle claims card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase tracking-widest">Raffle Claims</p>
+                      <p className="font-bold uppercase   ">Raffle Claims</p>
                       <p className="font-bold mt-1 font-mono">
                         {orders.filter(o => o.source === 'Raffle').length}
                       </p>
@@ -3586,7 +3586,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* viewers card */}
                     <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase tracking-widest flex items-center gap-1.5">
+                      <p className="font-bold uppercase    flex items-center gap-1.5">
                         <Users className="w-3.5 h-3.5 text-white inline" /> Live Viewers
                       </p>
                       <p className="font-bold mt-1 font-mono">{viewerCount}</p>
@@ -3612,7 +3612,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               <div>
                 <h3 className="font-bold tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                <p className="font-bold uppercase tracking-widest mt-0.5">
+                <p className="font-bold uppercase    mt-0.5">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
@@ -3621,7 +3621,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest rounded-lg transition-colors border bg-[#00000029] text-white border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
+                className="px-4 py-2 text-[var(--font-size-2xs)] font-bold uppercase    rounded-lg transition-colors border bg-[#00000029] text-white border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
               >
                 Reset Likes
               </button>
@@ -3690,7 +3690,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-bold tracking-widest text-white/40 hover: text-white transition-colors"
+                        className="text-3xs uppercase font-bold    text-white/40 hover: text-white transition-colors"
                       >
                         Cancel
                       </button>
@@ -3698,7 +3698,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 font-bold uppercase tracking-widest cursor-pointer"
+                        className="px-4 py-2 font-bold uppercase    cursor-pointer"
                       >
                         Import Playlist
                       </CosmicRadialButton>
@@ -3720,7 +3720,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 font-bold uppercase tracking-widest cursor-pointer"
+                        className="px-4 py-2 font-bold uppercase    cursor-pointer"
                       >
                         Add
                       </CosmicRadialButton>
@@ -3729,7 +3729,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         type="button"
                         onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-bold tracking-widest text-[var(--color-accent)] hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+                        className="text-3xs uppercase font-bold    text-[var(--color-accent)] hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
                       >
                         <FileText className="w-3.5 h-3.5 text-[var(--color-accent)] inline" /> Bulk Import / Paste List
                       </button>
@@ -3764,7 +3764,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   >
                     <div>
                       <h3 className="font-bold tracking-wide text-white">Your Work Schedule</h3>
-                      <p className="font-bold uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
+                      <p className="font-bold uppercase    mt-0.5">Assigned shifts, locations & responsibilities</p>
                     </div>
                   </button>
                   <div className="flex items-center gap-2">
@@ -3776,16 +3776,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                         setIsEmailModalOpen(true);
                       }}
-                      className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white rounded-lg font-bold uppercase tracking-widest cursor-pointer transition-colors flex items-center gap-1"
+                      className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white rounded-lg font-bold uppercase    cursor-pointer transition-colors flex items-center gap-1"
                     >
                       Contact Admins
                     </button>
                     {pendingShifts.length > 0 && (
-                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase tracking-widest animate-pulse">
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
                         {pendingShifts.length} Pending
                       </span>
                     )}
-                    <span className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px rounded-lg font-bold uppercase tracking-widest">
+                    <span className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px rounded-lg font-bold uppercase   ">
                       {activeShifts.length} Shifts
                     </span>
                     <button
@@ -3893,7 +3893,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
+                                    <span className="text-[10px] font-bold text-white/40 uppercase    leading-none">{weekday}</span>
                                     <span className="text-[10px] font-bold text-purple-300 mt-0.5">Call: {shift.time}</span>
                                   </div>
                                 </div>
@@ -4031,7 +4031,7 @@ Reason for decline: ${shift.declineReason || ''}
                                     </div>
                                   ) : (
                                     <div className="flex flex-col md:items-end gap-1">
-                                      <span className="text-[7.5px] font-bold uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
+                                      <span className="text-[7.5px] font-bold uppercase    text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 leading-none">
                                         ⚠️ Action Required
                                       </span>
                                       <div className="flex items-center gap-1">
@@ -4128,7 +4128,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">{weekday}</span>
+                                    <span className="text-[10px] font-bold text-white/40 uppercase    leading-none">{weekday}</span>
                                     {show.playTime ? (
                                       <>
                                         <span className="text-[10px] font-bold text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
@@ -4295,10 +4295,10 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center text-xl">🚨</div>
                       <div>
                         <h3 className="font-bold tracking-widetext-black">Available Shift Coverage Requests</h3>
-                        <p className="font-bold text-black/40 uppercase tracking-widest">First qualified crew member to claim gets it</p>
+                        <p className="font-bold text-black/40 uppercase   ">First qualified crew member to claim gets it</p>
                       </div>
                     </div>
-                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase tracking-widest animate-pulse">
+                    <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
                       {coverageShifts.length} Available
                     </span>
                   </div>
@@ -4321,7 +4321,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               <span className="text-base font-bold text-black leading-none mt-0.5">{dayNum}</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-black/30 uppercase tracking-widest">{weekday}</span>
+                              <span className="font-bold text-black/30 uppercase   ">{weekday}</span>
                               <span className="font-bold text-[var(--color-accent)] mt-0.5">{shift.time}</span>
                             </div>
                           </div>
@@ -4393,7 +4393,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               {isSavingReplay && (
                 <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
                   <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-lg animate-spin mb-4"></div>
-                  <h3 className="text-emerald-400 font-bold uppercase tracking-widest">Processing & Saving...</h3>
+                  <h3 className="text-emerald-400 font-bold uppercase   ">Processing & Saving...</h3>
                   <p className="text-black/40 mt-2">Compressing VOD to Gallery</p>
                 </div>
               )}
@@ -4417,7 +4417,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 </button>
                 <button
                   onClick={() => setShowEndModal(false)}
-                  className="w-full py-2 text-black/40 hover:text-black uppercase tracking-widest font-bold mt-2 transition-colors"
+                  className="w-full py-2 text-black/40 hover:text-black uppercase    font-bold mt-2 transition-colors"
                 >
                   Cancel, Keep Streaming
                 </button>
@@ -4548,7 +4548,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-[45px] animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
           <div className="flex-1 text-left font-sans">
             {toast.title && (
-              <h4 className={`uppercase tracking-widest font-bold mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
+              <h4 className={`uppercase    font-bold mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'
                 }`}>
                 {toast.title}
               </h4>
@@ -4714,7 +4714,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
             <div className="flex-1 overflow-y-auto space-y-5 pr-1 py-1" data-lenis-prevent="true">
               {/* Lineup */}
               <div className="space-y-3">
-                <h4 className="font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
+                <h4 className="font-bold uppercase text-black/40    block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
                 {(() => {
                   const lineup = setLineups[activeDiscussionDate] || [];
                   if (lineup.length === 0) {
@@ -4746,7 +4746,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
               {/* Discussion Thread */}
               <div className="space-y-3">
-                <h4 className="font-bold uppercase text-black/40 tracking-widest block border-b border-black/10 pb-1">Discussion Board</h4>
+                <h4 className="font-bold uppercase text-black/40    block border-b border-black/10 pb-1">Discussion Board</h4>
                 {(() => {
                   const comments = gigComments.filter(c => c.date === activeDiscussionDate);
                   const rootComments = comments.filter(c => !c.parentId);

@@ -239,26 +239,26 @@ export default function PlannerClient() {
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-lg ">
-              <h3 className="font-bold uppercase tracking-widest text-white/50 mb-8">Booking Status</h3>
+              <h3 className="font-bold uppercase    text-white/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={step.label} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ?'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
+                      <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
                         {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
-                      <span className={`font-semibold ${step.active ?'text-white' : 'text-white/40'}`}>{step.label}</span>
+                      <span className={`font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="mt-10 pt-6 border-t border-white/10">
-                <p className="uppercase tracking-widest font-bold mb-2">Booking ID</p>
+                <p className="uppercase    font-bold mb-2">Booking ID</p>
                 <p className="font-mono">{booking.id}</p>
               </div>
               <div className="mt-6">
-                <p className="uppercase tracking-widest font-bold mb-2">Planner</p>
+                <p className="uppercase    font-bold mb-2">Planner</p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center font-bold text-white">{initials}</div>
                   <span className="text-white/80">{member?.name || 'Planner'}</span>
@@ -275,7 +275,7 @@ export default function PlannerClient() {
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <span className={`font-bold uppercase tracking-widest px-3 py-1 rounded-lg border ${statusColor}`}>{statusLabel}</span>
+                    <span className={`font-bold uppercase    px-3 py-1 rounded-lg border ${statusColor}`}>{statusLabel}</span>
                     <span className="text-white/40 font-mono">{booking.id}</span>
                   </div>
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider transition-colors rounded-lg">+ New Booking</Link>
@@ -293,7 +293,7 @@ export default function PlannerClient() {
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
                     <div key={item.label}>
-                      <p className="uppercase tracking-widest font-bold mb-1">{item.label}</p>
+                      <p className="uppercase    font-bold mb-1">{item.label}</p>
                       <p className="font-bold">{item.value}</p>
                     </div>
                   ))}
@@ -323,10 +323,10 @@ export default function PlannerClient() {
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg ">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="font-bold text-white">Readiness</h3></div>
-                  <span className={`font-bold ${pct === 100 ?'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
+                  <span className={`font-bold ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-4">
-                  <div className={`h-full rounded-lg transition-colors ${pct === 100 ?'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                  <div className={`h-full rounded-lg transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
                   {checklist.map((item, i) => {
@@ -341,7 +341,7 @@ export default function PlannerClient() {
                       <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : ' bg-[#00000029]    border-white/10'}`}>
                         <span className="shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
-                          <span className={`font-semibold ${item.done ?'text-white/80' : 'text-white/40'}`}>{item.label}</span>
+                          <span className={`font-semibold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</span>
                           {isEditing ? (
                             <div className="flex gap-1.5 mt-1">
                               <input aria-label="Input field"
@@ -360,7 +360,7 @@ export default function PlannerClient() {
                         </div>
                         {!isEditing && (
                           item.done ? (
-                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-white/40 hover: text-[var(--color-accent)] uppercase    cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
                             <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )
@@ -425,7 +425,7 @@ export default function PlannerClient() {
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span className="font-mono">{pb.id}</span>
                           </div>
                         </div>
-                        <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
+                        <span className={`text-[var(--font-size-2xs)] font-bold uppercase    ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
                           className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →

@@ -427,8 +427,8 @@ export default function PlannerDashboard() {
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className={`font-bold  uppercase tracking-widest px-3 py-1 border-white/20 border  bg-[#e1e6ff29] rounded-lg`}>{s.label}</span>
-              <span className="text-white/40 tracking-widest uppercase">ID: {booking.id}</span>
+              <span className={`font-bold  uppercase    px-3 py-1 border-white/20 border  bg-[#e1e6ff29] rounded-lg`}>{s.label}</span>
+              <span className="text-white/40    uppercase">ID: {booking.id}</span>
             </div>
 
             {/* View Mode */}
@@ -591,7 +591,7 @@ export default function PlannerDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="pb-4  flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest border border-white/20 bg-[#e1e6ff29] px-2 py-0.5  rounded-lg block w-fit mb-2">Booking & Management</span>
+              <span className="text-[12px] font-bold uppercase    border border-white/20 bg-[#e1e6ff29] px-2 py-0.5  rounded-lg block w-fit mb-2">Booking & Management</span>
               <h4 className="font-bold text-white">Dickie</h4>
               <p className="mb-3">NTD Management</p>
             </div>
@@ -607,7 +607,7 @@ export default function PlannerDashboard() {
 
           <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-lg border bg-[#e1e6ff29] border-white/20 block w-fit mb-2">Technical Advance</span>
+              <span className="text-[12px] font-bold uppercase    px-2 py-0.5 rounded-lg border bg-[#e1e6ff29] border-white/20 block w-fit mb-2">Technical Advance</span>
               <h4 className="font-bold text-white">Jeff Dobbs</h4>
               <p className="mb-3">Production & Sound</p>
             </div>
@@ -623,7 +623,7 @@ export default function PlannerDashboard() {
 
           <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="text-[12px] font-bold uppercase tracking-widest rounded-lg border bg-[#e1e6ff29] border-white/20 px-2 py-0.5 block w-fit mb-2">Non-Tech Advance</span>
+              <span className="text-[12px] font-bold uppercase    rounded-lg border bg-[#e1e6ff29] border-white/20 px-2 py-0.5 block w-fit mb-2">Non-Tech Advance</span>
               <h4 className="font-bold text-white">Alan McRae</h4>
               <p className="mb-3">NTD Management</p>
             </div>
@@ -639,7 +639,7 @@ export default function PlannerDashboard() {
 
           <div className="pb-4 flex flex-col justify-between">
             <div>
-              <span className="font-bold uppercase tracking-widest rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
+              <span className="font-bold uppercase    rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
               <h4 className="font-bold text-white">Lenny Rago</h4>
               <p className="mb-3">NTD Records</p>
             </div>
@@ -696,12 +696,12 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold tracking-widest px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
+                          <span className={`font-bold    px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
                             {sc.label}
                           </span>
                           <span className="text-white/30 font-mono">{b.id}</span>
                           {isActive && (
-                            <span className="text-[var(--font-size-2xs)] font-bold tracking-widest  bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
+                            <span className="text-[var(--font-size-2xs)] font-bold     bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
                               Active
                             </span>
                           )}

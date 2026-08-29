@@ -121,7 +121,7 @@ export default function AdminFeedPost() {
             ))}
             <div className="w-8 h-8 rounded-lg border-2 border-dashed border-white/10 flex items-center justify-center text-white/20">+</div>
           </div>
-          <span className="text-white/30 font-bold uppercase tracking-widest">
+          <span className="text-white/30 font-bold uppercase   ">
             {onlineMembers.length} Crew Active
           </span>
         </div>
@@ -150,7 +150,7 @@ export default function AdminFeedPost() {
                   key={m.avatar}
                   type="button"
                   onClick={() => setSelectedMember(m)}
-                  className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ?"border-[var(--color-accent)] bg-[var(--color-accent)]/10"
+                  className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                 >
@@ -178,7 +178,7 @@ export default function AdminFeedPost() {
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 px-3 py-2 font-medium border transition-colors duration-200 ${postType === t.value ?" border-white/10  bg-white/[0.06]"
+                  className={`flex items-center gap-1.5 px-3 py-2 font-medium border transition-colors duration-200 ${postType === t.value ? " border-white/10  bg-white/[0.06]"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
                   style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}
@@ -242,7 +242,7 @@ export default function AdminFeedPost() {
           <button aria-label="Action button"
             type="submit"
             disabled={!content.trim() || isPosting}
-            className={`w-full py-3 font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ?"btn-primary btn-primary-hover"
+            className={`w-full py-3 font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover"
               : "bg-white/[0.05] text-white/20 cursor-not-allowed"
               }`}
           >
@@ -260,7 +260,7 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 p-3 font-medium text-center border transition-colors duration-300 ${status.type ==="success"
+            className={`mt-4 p-3 font-medium text-center border transition-colors duration-300 ${status.type === "success"
               ? "bg-green-500/10 border-green-500/30 text-green-400"
               : "bg-red-500/10 border-red-500/30 text-red-400"
               }`}

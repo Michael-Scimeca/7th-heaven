@@ -214,7 +214,7 @@ export default function AdminGatewayPage() {
       <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
-          <p className="uppercase tracking-widest font-bold">Redirecting to dashboard...</p>
+          <p className="uppercase    font-bold">Redirecting to dashboard...</p>
         </div>
       </div>
     );
@@ -357,7 +357,7 @@ export default function AdminGatewayPage() {
           <>
             <div className="text-center mb-8 relative z-10">
               <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-              <h1 className="text-white font-bold text-2xl uppercase tracking-widest">Admin 2FA Verification</h1>
+              <h1 className="text-white font-bold text-2xl uppercase   ">Admin 2FA Verification</h1>
               <p className="mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
@@ -397,10 +397,10 @@ export default function AdminGatewayPage() {
                         onBlur={() => setFocusedIndex(null)}
                         onChange={e => handleDigit(i, e.target.value)}
                         onKeyDown={e => handleKeyDown(i, e)}
-                        className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ?'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
-                            : digit
-                              ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                              : ' border-white/10  text-white/40 hover:border-white/40'
+                        className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                          : digit
+                            ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                            : ' border-white/10  text-white/40 hover:border-white/40'
                           }`}
                       />
                     </div>
@@ -427,7 +427,7 @@ export default function AdminGatewayPage() {
                   boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                   transition: "all 0.25s ease",
                 }}
-                className="w-full py-3.5 font-bold uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
+                className="w-full py-3.5 font-bold uppercase    cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
               >
                 {verifyStatus === 'checking' ? 'Verifying...' : 'Access My Dashboard →'}
               </button>

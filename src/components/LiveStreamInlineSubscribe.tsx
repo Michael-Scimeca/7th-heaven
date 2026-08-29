@@ -128,7 +128,7 @@ export default function LiveStreamInlineSubscribe({
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold uppercase    bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
             <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
             100% Free Push Alerts
           </span>
@@ -202,7 +202,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3 text-white font-bold uppercase    flex items-center justify-center gap-2 shadow-lg"
             >
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>

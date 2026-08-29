@@ -281,7 +281,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] py-8 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3">
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-cyan-500/30 text-purple-400text-xs font-bold uppercase tracking-widest animate-pulse">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-cyan-500/30 text-purple-400text-xs font-bold uppercase    animate-pulse">
             <span className="w-2 h-2 rounded-lg bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
@@ -401,7 +401,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-purple-400border border-cyan-500/30">
+                  <span className="font-bold uppercase    px-2 py-0.5 rounded bg-cyan-500/20 text-purple-400border border-cyan-500/30">
                     {activeOrder.fulfillment === "pickup" ? "🎪 Table Pickup" : "📦 Shipped Delivery"}
                   </span>
                   <span className="text-white/40">Order #{activeOrder.id.slice(-6)}</span>
@@ -415,8 +415,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             {activeOrder.fulfillment === "pickup" && (
               <div className="flex items-center gap-4 shrink-0">
                 <div className="bg-black/60 border border-cyan-500/40 px-4 py-2 text-center shadow-inner">
-                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-purple-400block">Table Pickup PIN</span>
-                  <span className="text-2xl font-bold tracking-widest text-white tabular-nums">{activeOrder.pin}</span>
+                  <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-purple-400block">Table Pickup PIN</span>
+                  <span className="text-2xl font-bold    text-white tabular-nums">{activeOrder.pin}</span>
                 </div>
 
                 <button aria-label="Action button"
@@ -453,7 +453,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <button aria-label="Action button"
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 font-bold uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat ?"bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
+              className={`px-5 py-2.5 font-bold uppercase tracking-wider transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
                 : " bg-[#00000029]    border border-white/10  text-white  hover:text-white hover:bg-white/10"
                 }`}
             >
@@ -484,13 +484,13 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 font-bold uppercase tracking-widest bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+                  <span className="absolute top-3 left-3 font-bold uppercase    bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
                     {product.category}
                   </span>
 
                   {/* Stock status badge */}
                   {product.stockCount && product.stockCount <= 5 && (
-                    <span className="absolute bottom-3 left-3 font-bold uppercase tracking-widest bg-red-500/80 text-white px-2.5 py-1 rounded-lg animate-pulse">
+                    <span className="absolute bottom-3 left-3 font-bold uppercase    bg-red-500/80 text-white px-2.5 py-1 rounded-lg animate-pulse">
                       ⚡ Only {product.stockCount} Left at Desk!
                     </span>
                   )}
@@ -561,7 +561,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         key={size}
                         type="button"
                         onClick={() => setSelectedSize(size)}
-                        className={`w-12 h-10 font-bold transition-colors cursor-pointer ${selectedSize === size ?"bg-cyan-500 text-black border border-cyan-400  font-bold  shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                        className={`w-12 h-10 font-bold transition-colors cursor-pointer ${selectedSize === size ? "bg-cyan-500 text-black border border-cyan-400  font-bold  shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                           : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                           }`}
                       >
@@ -581,7 +581,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setFulfillmentMethod("pickup")}
-                    className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod ==="pickup"
+                    className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod === "pickup"
                       ? "bg-cyan-500/15 border-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.2)]"
                       : " bg-[#00000029]    border-white/10 text-white/50 hover:bg-white/10"
                       }`}
@@ -595,7 +595,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setFulfillmentMethod("shipping")}
-                    className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod ==="shipping"
+                    className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod === "shipping"
                       ? "bg-purple-500/15 border-purple-500 text-white shadow-[0_0_20px_rgba(255,10,61,0.2)]"
                       : " bg-[#00000029]    border-white/10 text-white/50 hover:bg-white/10"
                       }`}
@@ -684,7 +684,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <button aria-label="Action button"
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black font-bold uppercase tracking-widest transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
+                className="w-full py-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-black font-bold uppercase    transition-colors shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90 cursor-pointer"
               >
                 {isSubmitting ? "Processing Order..." : `Complete Purchase — $${selectedProduct.price}`}
               </button>
@@ -754,7 +754,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               <button aria-label="Action button"
                 type="submit"
-                className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer mt-2"
+                className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer mt-2"
               >
                 Confirm Delivery Address & Convert Order
               </button>
@@ -770,7 +770,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
           <div className="bg-[var(--color-bg-surface)] border border-cyan-500/50 rounded-lg max-w-md w-full p-6 sm:p-8 space-y-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)]">
 
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <span className="font-bold uppercase tracking-widest text-cyan-400">Venue Printable QR Sign</span>
+              <span className="font-bold uppercase    text-cyan-400">Venue Printable QR Sign</span>
               <button aria-label="Action button" onClick={() => setShowQRSignModal(false)} className="text-white/40 hover:text-white font-bold cursor-pointer">✕ Close</button>
             </div>
 
@@ -794,13 +794,13 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => window.print()}
-                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
               >
                 🖨️ Print / Save Sign
               </button>
               <button aria-label="Action button"
                 onClick={() => setShowQRSignModal(false)}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest cursor-pointer"
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase    cursor-pointer"
               >
                 Done
               </button>

@@ -761,7 +761,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] ">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
-            <span className="font-bold uppercase tracking-widest bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3.5 py-1.5 rounded-lg">
+            <span className="font-bold uppercase    bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3.5 py-1.5 rounded-lg">
               ROYAL CARIBBEAN GROUP ID: 3325680
             </span>
 
@@ -773,7 +773,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase tracking-widest text-white">
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase    text-white">
             <span className="bg-[#00000029] border-white/10 border px-5 py-2.5 rounded-lg text-white font-bold backdrop-blur-[45px] flex items-center gap-2.5 ">
               STAR OF THE SEAS <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-lg font-bold border border-purple-400/40">2027</span>
             </span>
@@ -804,7 +804,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2027)}
-                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -813,7 +813,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => setActivePriceYear(2028)}
-                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                       : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                       }`}
                   >
@@ -831,7 +831,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <Ship className="w-6 h-6 text-purple-400 shrink-0" />
                       <h3 className="font-bold uppercase text-white tracking-wide">Ship Resources</h3>
                     </div>
-                    <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
+                    <p className="font-bold text-purple-400 uppercase    mb-4">
                       Official Links &amp; Media
                     </p>
                     <ul className="space-y-2 font-bold uppercase tracking-wider text-white">
@@ -918,7 +918,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Booking Policy</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase    mb-4">
                     Book through us to participate &amp; lock in best rates
                   </p>
                   <p className="leading-relaxed mb-4">
@@ -968,7 +968,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Passport Guidelines</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase    mb-4">
                     Essential travel document guidelines
                   </p>
                   <div className="space-y-4 text-white/80 leading-relaxed">
@@ -990,7 +990,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase tracking-widest mb-4">
+                  <p className="font-bold text-purple-400 uppercase    mb-4">
                     Refund terms before booking
                   </p>
                   <div className="space-y-4 text-white/80 leading-relaxed">
@@ -1222,7 +1222,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   "text-white"
                                 }`}>{room.badge}</span>
                             </div>
-                            <span className="font-bold text-white/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
+                            <span className="font-bold text-white/50 uppercase    block mb-0.5">{room.code} Category</span>
                             <h4 className="font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
                           </div>
                         </div>
@@ -1278,7 +1278,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             className="w-full text-left overflow-hidden rounded-lg flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
-                              <div className="absolute top-3 right-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold px-2.5 py-1 rounded-lg tracking-widest shadow-md flex items-center gap-1 z-10">
+                              <div className="absolute top-3 right-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold px-2.5 py-1 rounded-lg    shadow-md flex items-center gap-1 z-10">
                                 <span>Popular</span>
                               </div>
                             )}
@@ -1294,7 +1294,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   <span className={`backdrop-blur-[16px] bg-[#00000029] bg-[#e1e5ff29] border border-white/10 font-bold px-2.5 py-1 rounded-lg text-white tracking-wider ${isYo ? '' : ''
                                     }`}>{room.label}</span>
                                 </div>
-                                <span className="font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
+                                <span className="font-bold text-white/50 uppercase    block text-left">{room.code} Category</span>
                                 <h4 className="font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>
@@ -1304,7 +1304,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 <span className="text-xl font-bold text-white">{room.price}</span>
                                 <span className="text-[var(--font-size-2xs)] text-white font-bold">USD pp</span>
                               </div>
-                              <span className="text-[var(--font-size-4xs)] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                              <span className="text-[var(--font-size-4xs)] text-white/50 uppercase    font-bold block mt-1">Rates as of June 27, 2026</span>
                               <span
                                 className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo ? 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
                                   : 'bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white'
@@ -1339,7 +1339,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Stateroom Categories Tab Column — borderless & unpadded */}
                   <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
                     <div>
-                      <h3 className="font-bold uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
+                      <h3 className="font-bold uppercase text-white    mb-4">Stateroom Categories</h3>
                       <div className="flex flex-col gap-2.5">
                         {[
                           { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -1363,7 +1363,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
 
                     <div className="mt-8 bg-transparent border-0 p-0">
-                      <h4 className="font-bold uppercase text-white tracking-widest mb-3">Available layouts:</h4>
+                      <h4 className="font-bold uppercase text-white    mb-3">Available layouts:</h4>
                       {stateroomTab === "suites" && (
                         <div className="space-y-2 text-white/80 font-medium">
                           <p>• Ultimate Family Townhouse</p>
@@ -1414,7 +1414,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               key={perk}
                               type="button"
                               onClick={() => setSuiteTab(perk)}
-                              className={`px-4 py-2 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                              className={`px-4 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${suiteTab === perk ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                                 : "bg-transparent  text-white  hover:text-white"
                                 }`}
                             >
@@ -1551,7 +1551,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="booking-section-container border-0 bg-transparent p-0">
                             <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                               <span className="font-bold uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                              <span className="font-bold tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
+                              <span className="font-bold    text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Primary</span>
                             </div>
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
@@ -1662,7 +1662,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="py-4 text-center text-white/50 font-bold uppercase tracking-widest no-print select-none">
+                                  <div className="py-4 text-center text-white/50 font-bold uppercase    no-print select-none">
                                     No Passenger Registered in Slot {guestNum}
                                   </div>
                                 )}
@@ -1718,7 +1718,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   checked={formData.splitPayment}
                                   onChange={(checked) => setFormData({ ...formData, splitPayment: checked })}
                                 />
-                                <label htmlFor="split-payment-toggle" className="font-bold uppercase tracking-widest text-purple-400 cursor-pointer select-none">
+                                <label htmlFor="split-payment-toggle" className="font-bold uppercase    text-purple-400 cursor-pointer select-none">
                                   Split deposit payment between Card 1 and Card 2
                                 </label>
                               </div>
@@ -1791,7 +1791,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               icon={false}
                               type="submit"
                               disabled={signupStatus === "submitting"}
-                              className="w-full !py-4 font-bold uppercase tracking-widest justify-center shadow-md cursor-pointer disabled:opacity-70"
+                              className="w-full !py-4 font-bold uppercase    justify-center shadow-md cursor-pointer disabled:opacity-70"
                             >
                               {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block" /> : "Submit Cruise Booking"}
                             </CosmicRadialButton>
@@ -1801,7 +1801,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               icon={false}
                               type="button"
                               onClick={() => window.print()}
-                              className="w-full !py-4 font-bold uppercase tracking-widest justify-center shadow-md cursor-pointer"
+                              className="w-full !py-4 font-bold uppercase    justify-center shadow-md cursor-pointer"
                             >
                               Print / Save Booking Form
                             </CosmicRadialButton>
@@ -1835,7 +1835,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Travel coordinators list */}
                       <div className="p-0 border-0 bg-transparent space-y-6 w-full">
-                        <h3 className="font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Travel Coordinators</h3>
+                        <h3 className="font-bold uppercase    text-white border-b border-white/10 pb-3">Travel Coordinators</h3>
                         <div className="space-y-6">
                           {[
                             { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
@@ -1854,7 +1854,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Voyage Interest Tracker */}
                       <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                        <h3 className="font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Voyage Tracker</h3>
+                        <h3 className="font-bold uppercase    text-white border-b border-white/10 pb-3">Voyage Tracker</h3>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-2 text-left">
                             <p className="font-bold">{signupCount}</p>
@@ -1870,7 +1870,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {/* Who's Booked */}
                       {joinedFans.length > 0 && (
                         <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                          <h3 className="font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Who&apos;s Booked</h3>
+                          <h3 className="font-bold uppercase    text-white border-b border-white/10 pb-3">Who&apos;s Booked</h3>
                           <div className="flex items-center mb-4">
                             <div className="flex items-center gap-1.5 flex-wrap">
                               {joinedFans.slice(0, 8).map((fan, i) => (
@@ -2004,7 +2004,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2027)}
-                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
+                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >
@@ -2013,7 +2013,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setActiveItinYear(2028)}
-                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
+                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
                         : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
                         }`}
                     >
@@ -2051,7 +2051,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl overflow-hidden">
                         <div className="h-48 w-full relative overflow-hidden rounded-lg bg-black">
                           {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                          <span className="absolute top-3 left-3 z-20 px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg  font-bold  tracking-widest text-white">
+                          <span className="absolute top-3 left-3 z-20 px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg  font-bold     text-white">
                             Port Call #{idx + 1}
                           </span>
                         </div>
@@ -2100,7 +2100,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {PORTS_DATA[activeSpotlightPort].image && (
                           <Image width={800} height={500} unoptimized src={PORTS_DATA[activeSpotlightPort].image} alt={PORTS_DATA[activeSpotlightPort].name} className="w-full h-full object-cover scale-105" />
                         )}
-                        <div className="absolute top-6 left-6 z-20 bg-purple-600 text-white px-4 py-1.5 rounded-lg font-bold uppercase tracking-widest shadow-lg border border-purple-400/40">
+                        <div className="absolute top-6 left-6 z-20 bg-purple-600 text-white px-4 py-1.5 rounded-lg font-bold uppercase    shadow-lg border border-purple-400/40">
                           ⭐ Featured Destination Spotlight
                         </div>
                       </div>
@@ -2126,7 +2126,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* Gallery Thumbnails */}
                         {PORTS_DATA[activeSpotlightPort].gallery && (
                           <div className="mb-6 pt-4 border-t border-white/10">
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
+                            <span className="text-[10px] font-mono uppercase    text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
                             <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2">
                               {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => (
                                 <div key={gIdx} className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border border-white/10 shadow-md">
@@ -2141,7 +2141,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer border-none rounded-lg shadow-lg"
+                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors cursor-pointer border-none rounded-lg shadow-lg"
                           >
                             Book Cruise &amp; Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                           </button>
@@ -2151,7 +2151,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     {/* Sidebar Selectors */}
                     <div className="space-y-3">
-                      <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Select Destination to Preview:</span>
+                      <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase    block mb-2">Select Destination to Preview:</span>
                       {PORTS_DATA.map((port, idx) => (
                         <button aria-label="Action button"
                           key={`spotlight-${port.name}`}
@@ -2214,7 +2214,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="h-52 w-full relative overflow-hidden bg-black/60">
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                             {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-purple-300">
+                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg text-[var(--font-size-4xs)] font-bold uppercase    text-purple-300">
                               {idx + 1} / {PORTS_DATA.length}
                             </span>
                           </div>
@@ -2270,7 +2270,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                          className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-xl"
+                          className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white font-bold uppercase    transition-colors cursor-pointer rounded-xl"
                         >
                           Book →
                         </button>
@@ -2345,7 +2345,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                        <span className="font-bold tracking-widest text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2.5 py-1 rounded-lg self-start mb-1.5">
+                        <span className="font-bold    text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2.5 py-1 rounded-lg self-start mb-1.5">
                           {item.category}
                         </span>
                         <p className="font-bold leading-snug">{item.title}</p>
@@ -2366,7 +2366,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("included")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase    transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
                         }`}
                     >
                       Included (Free)
@@ -2374,7 +2374,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setFoodTypeTab("paid")}
-                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
+                      className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase    transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md" : "bg-transparent  text-white  hover:text-white"
                         }`}
                     >
                       Specialty (With Fee)
@@ -2430,7 +2430,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                         <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className="font-mono tracking-widest text-white px-2.5 py-1 rounded-lg font-bold self-start mb-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]">{food.tag}</span>
+                          <span className="font-mono    text-white px-2.5 py-1 rounded-lg font-bold self-start mb-1.5 bg-[#00000029] border border-white/10 backdrop-blur-[16px]">{food.tag}</span>
                           <p className="font-bold leading-snug">{food.name}</p>
                         </div>
                       </div>
@@ -2454,7 +2454,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("bars")}
-                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
+                      className={`px-5 py-2.5 font-bold uppercase    transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
                         }`}
                     >
                       <span>Bars & Clubs</span>
@@ -2463,7 +2463,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setBarTab("entertainment")}
-                      className={`px-5 py-2.5 font-bold uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
+                      className={`px-5 py-2.5 font-bold uppercase    transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white  font-bold  shadow-md scale-105" : " text-white  hover:text-white"
                         }`}
                     >
                       <span>Entertainment</span>
@@ -2526,7 +2526,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                          <span className=" font-mono  tracking-widest px-2.5 py-1 rounded-lg font-bold text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] self-start mb-1.5">{item.tag}</span>
+                          <span className=" font-mono     px-2.5 py-1 rounded-lg font-bold text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] self-start mb-1.5">{item.tag}</span>
                           <p className="font-bold leading-snug">{item.name}</p>
                         </div>
                       </div>
@@ -2595,7 +2595,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="py-4 border-b border-white/10">
-      <span className="font-bold text-purple-400 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
+      <span className="font-bold text-purple-400 uppercase    block mb-3">Card 1 - Deposit Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-name-1" className="booking-label block font-bold text-purple-400 uppercase tracking-wider mb-1.5">Your Full Name on the Card *</label>
@@ -2646,7 +2646,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
 function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="p-4 border-b border-white/10">
-      <span className="font-bold text-purple-400 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+      <span className="font-bold text-purple-400 uppercase    block mb-3">Card 2 - Split Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-name-2" className="booking-label block font-bold text-purple-400 uppercase tracking-wider mb-1.5">Your Full Name on the Card *</label>

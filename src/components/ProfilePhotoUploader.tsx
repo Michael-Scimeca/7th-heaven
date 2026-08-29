@@ -159,7 +159,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase tracking-widest bg-emerald-100 border border-emerald-300 text-emerald-800">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase    bg-emerald-100 border border-emerald-300 text-emerald-800">
             <span className="w-1.5 h-1.5 rounded-lg bg-[var(--color-accent)] animate-pulse" />
             Photo Active
           </span>
@@ -174,7 +174,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           ) : (
             <div className="text-center p-1">
               <span className="font-bold text-[var(--color-accent)] tracking-wider block">{initials}</span>
-              <p className="font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
+              <p className="font-bold text-[var(--color-accent)]/60 uppercase    mt-0.5">No Photo</p>
             </div>
           )}
           <button aria-label="Action button"
@@ -239,7 +239,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       </div>
 
       {message && (
-        <div className={`mt-3 px-4 py-2 rounded-lg font-bold flex items-center justify-between ${message.type ==="success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
+        <div className={`mt-3 px-4 py-2 rounded-lg font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
           }`}>
           <span>{message.text}</span>
           <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-bold">×</button>

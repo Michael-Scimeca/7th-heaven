@@ -111,10 +111,10 @@ export default function PlannerDashboardPage() {
 
             {/* Member Info */}
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-white leading-none">
+              <h1 className="text-2xl md:text-3xl font-bold uppercase    text-white leading-none">
                 {displayName}
               </h1>
-              <p className="font-bold tracking-widest uppercase mt-1.5">Event Planner Dashboard</p>
+              <p className="font-bold    uppercase mt-1.5">Event Planner Dashboard</p>
               <p className="font-mono mt-1">{effectiveMember?.email || ''}</p>
             </div>
           </div>

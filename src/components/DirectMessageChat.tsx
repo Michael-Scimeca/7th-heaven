@@ -142,7 +142,7 @@ export default function DirectMessageChat() {
           <div className="p-3.5 bg-white/[0.02] border-b border-white/5 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
-              <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">Direct Message</span>
+              <span className="font-bold uppercase    text-[var(--color-accent)]">Direct Message</span>
               <span className="font-bold text-white uppercase tracking-tight">Admin Support Chat</span>
             </div>
           </div>
@@ -166,14 +166,14 @@ export default function DirectMessageChat() {
                   >
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px] font-bold uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${isAdminMsg ?'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+                      <span className={`text-[8px] font-bold uppercase    px-1 py-0.5 rounded border leading-none ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
                         }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5 leading-relaxed font-bold !text-white ${isAdminMsg ?"bg-[var(--color-purple-primary)] rounded-tl-xs"
+                      className={`p-2.5 leading-relaxed font-bold !text-white ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
                         : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
                         }`}
                     >

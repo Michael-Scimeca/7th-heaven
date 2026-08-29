@@ -40,7 +40,7 @@ function FansRedirectContent() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="w-10 h-10 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-4" />
-        <p className="font-bold uppercase tracking-widest">
+        <p className="font-bold uppercase   ">
           {isDemo ? "Loading Demo..." : isLoggedIn ? "Redirecting to your dashboard..." : "Please sign in to continue"}
         </p>
       </div>

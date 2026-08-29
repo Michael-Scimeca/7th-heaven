@@ -173,7 +173,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
           {/* Multi-Stream Links (If 2+ streams) */}
           {activeLiveRooms.length > 1 && (
             <div className="flex flex-wrap gap-2 mb-4 animate-[fade-in_0.5s_ease-out]">
-              <span className="font-bold text-white/30 uppercase tracking-widest self-center mr-2">Alternative Feeds:</span>
+              <span className="font-bold text-white/30 uppercase    self-center mr-2">Alternative Feeds:</span>
               {activeLiveRooms.slice(1).map((room, idx) => (
                 <Link
                   key={room.name}
@@ -229,7 +229,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
-                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-lg font-bold uppercase tracking-widest shadow-red-600/20">
+                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-lg font-bold uppercase    shadow-red-600/20">
                     <span className="w-2 h-2 bg-white rounded-lg animate-pulse" />
                     Live Now
                   </div>

@@ -44,7 +44,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white font-bold tracking-wide leading-normal py-0.5">Embarkation</h2>
-          <p className="text-cyan-400 font-bold uppercase tracking-widest">Port of Miami</p>
+          <p className="text-cyan-400 font-bold uppercase   ">Port of Miami</p>
         </div>
       </div>
 
@@ -56,7 +56,7 @@ export function EmbarkationCountdown() {
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest mt-1 drop- ">{unit}</span>
+            <span className="text-[10px] font-bold text-white/80 uppercase    mt-1 drop- ">{unit}</span>
           </div>
         ))}
       </div>
@@ -97,7 +97,7 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ?'border-emerald-500 bg-emerald-500/10'
+              className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
                   ? 'border-white/5  bg-[#00000029]    cursor-default'
                   : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029]    cursor-pointer'
@@ -112,11 +112,11 @@ export function DailyPoll() {
               )}
 
               <div className="relative z-10 flex items-center justify-between p-4">
-                <span className={`font-medium ${voted === opt.id ?'text-emerald-400' : 'text-white/80'}`}>
+                <span className={`font-medium ${voted === opt.id ? 'text-emerald-400' : 'text-white/80'}`}>
                   {opt.text}
                 </span>
                 {voted !== null && (
-                  <span className={`font-bold ${isWinner ?'text-emerald-400' : 'text-white/40'}`}>
+                  <span className={`font-bold ${isWinner ? 'text-emerald-400' : 'text-white/40'}`}>
                     {percent}%
                   </span>
                 )}
@@ -126,7 +126,7 @@ export function DailyPoll() {
         })}
       </div>
 
-      <p className="uppercase tracking-widest mt-5 font-bold">
+      <p className="uppercase    mt-5 font-bold">
         {totalVotes} Total Votes • Poll closes in 24h
       </p>
     </div>
@@ -186,9 +186,9 @@ export function PhotoWall() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="font-bold tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
-          <p className="font-bold uppercase tracking-widest">Share your prep and packing photos!</p>
+          <p className="font-bold uppercase   ">Share your prep and packing photos!</p>
         </div>
-        <button aria-label="Action button" className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold text-white transition-colors uppercase tracking-widest">
+        <button aria-label="Action button" className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold text-white transition-colors uppercase   ">
           + Upload
         </button>
       </div>
@@ -445,7 +445,7 @@ export function BookingManager({ email }: { email?: string }) {
 
   if (loading) return (
     <div className="bg-[var(--color-bg-surface)] border border-[var(--color-accent)]/20 p-8 animate-pulse h-32 flex items-center justify-center">
-      <span className="text-white/30 font-bold uppercase tracking-widest">Loading Priority Status...</span>
+      <span className="text-white/30 font-bold uppercase   ">Loading Priority Status...</span>
     </div>
   );
 
@@ -460,30 +460,30 @@ export function BookingManager({ email }: { email?: string }) {
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
+            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Full Name</span>
             <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
-            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</span>
+            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Email Address</span>
             <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
+            <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Phone Number *</label>
             <div className="input-glow-border rounded-lg">
               <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
             </div>
           </div>
           <div>
-            <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
+            <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Party Size *</label>
             <div className="input-glow-border rounded-lg">
               <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
             </div>
           </div>
           <div>
-            <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
+            <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Cabin Preference *</label>
             <div className="input-glow-border rounded-lg">
               <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors cursor-pointer">
                 <option value="group_n5">Ocean View</option>
@@ -514,7 +514,7 @@ export function BookingManager({ email }: { email?: string }) {
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
       <div className="my-3">
-        <span className="font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+        <span className="font-bold text-white/50 uppercase    block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 font-bold py-1 ">
             <span>✓</span> Passport Verified
@@ -563,7 +563,7 @@ export function BookingManager({ email }: { email?: string }) {
 
       {booking.guests && booking.guests.length > 0 && (
         <div className="mt-3 border-t border-white/5 pt-3">
-          <h3 className="font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
+          <h3 className="font-bold text-white/40 uppercase    mb-2">Guest List</h3>
           <div className="space-y-1.5">
             {booking.guests.map((g: any, i: number) => (
               <div key={i} className="flex justify-between items-center">
@@ -577,7 +577,7 @@ export function BookingManager({ email }: { email?: string }) {
 
       {/* Two Clickable Cruise Agent Email Buttons */}
       <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-        <span className="font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+        <span className="font-bold text-white/40 uppercase    block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
           <CosmicRadialButton
@@ -750,13 +750,13 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
-            <h3 className="font-bold uppercase tracking-widest text-white">Payment Successful</h3>
+            <h3 className="font-bold uppercase    text-white">Payment Successful</h3>
             <p className="leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
               onClick={onClose}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase    transition-colors cursor-pointer shadow-emerald-500/15"
             >
               Close
             </button>
@@ -765,7 +765,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
           <form onSubmit={handlePaymentSubmit} className="p-6 md:p-8 space-y-6">
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
-                <h3 className="font-bold uppercase tracking-widest text-white">Final Payment</h3>
+                <h3 className="font-bold uppercase    text-white">Final Payment</h3>
                 <p className="uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
@@ -780,7 +780,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             {processing ? (
               <div className="py-12 text-center space-y-4">
                 <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-lg animate-spin mx-auto" />
-                <p className="font-bold text-purple-400uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
+                <p className="font-bold text-purple-400uppercase    animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
               <>
@@ -788,14 +788,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab ==='new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -819,7 +819,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="cruise-card-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
+                      <label htmlFor="cruise-card-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Cardholder Name</label>
                       <input aria-label="Input field"
                         id="cruise-card-name"
                         type="text"
@@ -830,7 +830,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                       />
                     </div>
                     <div>
-                      <label htmlFor="cruise-card-number" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
+                      <label htmlFor="cruise-card-number" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Card Number</label>
                       <div className="relative">
                         <input aria-label="Input field"
                           id="cruise-card-number"
@@ -845,7 +845,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="cruise-card-expiry" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
+                        <label htmlFor="cruise-card-expiry" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Expiry Date</label>
                         <input aria-label="Input field"
                           id="cruise-card-expiry"
                           type="text"
@@ -856,7 +856,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                         />
                       </div>
                       <div>
-                        <label htmlFor="cruise-card-cvc" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
+                        <label htmlFor="cruise-card-cvc" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">CVC</label>
                         <input aria-label="Input field"
                           id="cruise-card-cvc"
                           type="password"
@@ -874,7 +874,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Close"
                     type="button"
                     onClick={onClose}
-                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 font-bold uppercase tracking-widest transition-colors cursor-pointer"
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 font-bold uppercase    transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -974,14 +974,14 @@ export function SongRequestLeaderboard() {
         <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)]">🎸</div>
         <div>
           <h2 className="font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
-          <p className="uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
+          <p className="uppercase    mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
 
       <div className="space-y-4">
         {songs.map((song, i) => (
           <div key={song.id} className="flex items-center gap-4 group">
-            <span className={`font-bold w-4 text-center ${i < 3 ?' text-[var(--color-accent)]' : 'text-white/20'}`}>
+            <span className={`font-bold w-4 text-center ${i < 3 ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
               {i + 1}
             </span>
             <div className="flex-1">
@@ -1077,7 +1077,7 @@ export function ExcursionTeasers() {
             </div>
             <div className="text-right">
               <div className="font-bold text-white">{ex.spots}</div>
-              <div className="text-white/40 uppercase tracking-widest">Spots Left</div>
+              <div className="text-white/40 uppercase   ">Spots Left</div>
             </div>
           </div>
         ))}

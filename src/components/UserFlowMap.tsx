@@ -304,7 +304,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1 mb-1">
-            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[8px] font-mono font-bold uppercase tracking-widest">
+            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[8px] font-mono font-bold uppercase   ">
               ✉ EMAIL TOUCHPOINT
             </span>
             <span className="w-1.5 h-1.5 rounded-lg bg-amber-400" />
@@ -497,7 +497,7 @@ export default function UserFlowMap() {
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-lg bg-pink-400 animate-pulse" />
-          <span className="font-bold uppercase tracking-widest text-white">
+          <span className="font-bold uppercase    text-white">
             7th Heaven User Flow & Architecture Tree Map
           </span>
         </div>
@@ -548,7 +548,7 @@ export default function UserFlowMap() {
       </ReactFlow>
 
       {/* Bottom Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-xl font-bold uppercase tracking-widest">
+      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-xl font-bold uppercase   ">
         <span className="text-white/40 text-[12px] font-mono">Legend:</span>
         <span className="flex items-center gap-1.5 text-pink-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-pink-400" /> Home</span>
         <span className="flex items-center gap-1.5 text-teal-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-teal-400" /> Merch</span>
@@ -586,7 +586,7 @@ export default function UserFlowMap() {
 
             {/* Summary */}
             <div className="space-y-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/40 block">
+              <span className="text-[10px] font-mono font-bold uppercase    text-white/40 block">
                 Technical Summary
               </span>
               <p className="leading-relaxed bg-white/[0.03] p-3 rounded-lg border border-white/10">
@@ -597,7 +597,7 @@ export default function UserFlowMap() {
             {/* Email Subject Info */}
             {selectedNode.data.details?.emailSubject && (
               <div className="space-y-1.5">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-300 block">
+                <span className="text-[10px] font-mono font-bold uppercase    text-amber-300 block">
                   ✉ Transactional Email Subject Line
                 </span>
                 <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg font-mono text-amber-200">

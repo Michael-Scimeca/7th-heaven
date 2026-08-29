@@ -251,7 +251,7 @@ export default function ProximitySubscriberAdminPanel() {
           <tbody className="divide-y divide-white/5 text-white/90">
             {loading ? (
               <tr>
-                <td colSpan={5} className="py-8 text-center text-white/40 font-bold uppercase tracking-widest">
+                <td colSpan={5} className="py-8 text-center text-white/40 font-bold uppercase   ">
                   Loading subscribers &hellip;
                 </td>
               </tr>

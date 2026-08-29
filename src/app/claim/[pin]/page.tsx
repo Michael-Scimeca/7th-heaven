@@ -188,7 +188,7 @@ export default function ClaimPage() {
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">
         <p className="font-bold uppercase tracking-[0.3em] text-purple-500 mb-1">7th Heaven</p>
-        <p className="uppercase tracking-widest">Live Raffle · Claim Verification</p>
+        <p className="uppercase   ">Live Raffle · Claim Verification</p>
       </div>
 
       {/* Card */}
@@ -240,7 +240,7 @@ export default function ClaimPage() {
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
-              <span className="text-black font-bold uppercase tracking-widest font-sans">✓ PIN Verified</span>
+              <span className="text-black font-bold uppercase    font-sans">✓ PIN Verified</span>
             </div>
 
             <div className="p-8 text-center">
@@ -269,7 +269,7 @@ export default function ClaimPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-bold truncate font-sans">{displayTitle}</p>
-                        <p className="mt-0.5 uppercase tracking-widest font-bold font-sans">Qty: {item.qty || 1}</p>
+                        <p className="mt-0.5 uppercase    font-bold font-sans">Qty: {item.qty || 1}</p>
                       </div>
                     </div>
                   );
@@ -291,7 +291,7 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase    font-sans flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
@@ -312,7 +312,7 @@ export default function ClaimPage() {
 
             {/* Footer */}
             <div className="bg-black/30 px-6 py-3 text-center border-t border-white/5">
-              <p className="uppercase tracking-widest font-sans">7th Heaven · Live Raffle</p>
+              <p className="uppercase    font-sans">7th Heaven · Live Raffle</p>
             </div>
           </div>
         )}
@@ -331,7 +331,7 @@ export default function ClaimPage() {
 
       </div>
 
-      <p className="text-center mt-8 max-w-xs uppercase tracking-widest">
+      <p className="text-center mt-8 max-w-xs uppercase   ">
         This page is for prize redemption only. One claim per raffle.
       </p>
     </div>

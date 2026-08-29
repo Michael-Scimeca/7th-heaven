@@ -1197,7 +1197,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
     <>
       <button aria-label="Action button"
         onClick={() => setExpanded(true)}
-        className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ?"border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
+        className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
           : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
           }`}
       >
@@ -1212,7 +1212,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ?"bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
+          <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
             : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
             }`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
@@ -1222,7 +1222,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={`font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ?"bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
+          <span className={`font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
             : "bg-black/50  border-white/10  text-white/80"
             }`}>
             ▶ Live Preview
@@ -1240,7 +1240,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             {/* Close Button */}
             <button aria-label="Action button"
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 text-white hover:text-white font-bold uppercase tracking-widest flex items-center gap-2 transition-colors cursor-pointer"
+              className="absolute -top-12 right-0 text-white hover:text-white font-bold uppercase    flex items-center gap-2 transition-colors cursor-pointer"
             >
               Close <span className="text-lg">✕</span>
             </button>
@@ -1274,7 +1274,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
   const isPurple = !!f.highlight;
 
   return (
-    <div className={`group relative flex flex-col border transition-colors duration-300 overflow-hidden ${isPurple ?"border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover: border-white/10 "}`}>
+    <div className={`group relative flex flex-col border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover: border-white/10 "}`}>
       {/* accent top line */}
       <div className={`h-px w-full ${isPurple ? "bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent" : "bg-gradient-to-r from-white/10 to-transparent"}`} />
 
@@ -1284,14 +1284,14 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div className="flex items-start justify-between gap-3">
           <span className="text-5xl leading-none">{f.icon}</span>
           {isPurple && (
-            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-widest shrink-0">✦ Flagship</span>
+            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase    shrink-0">✦ Flagship</span>
           )}
         </div>
 
         {/* Titles */}
         <div>
           <h3 className="font-bold text-white uppercase tracking-wide leading-tight mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
-          <p className={`font-semibold ${isPurple ?"text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
+          <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
         {/* Demo Preview */}
@@ -1302,17 +1302,17 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base leading-relaxed ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
-          <span className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Why it matters</span>
+          <span className="font-bold uppercase    text-white/50 block mb-1.5">Why it matters</span>
           {f.whyItMatters}
         </div>
 
         {/* Bullets */}
         <div>
-          <p className="font-bold uppercase tracking-widest mb-3">What it does</p>
+          <p className="font-bold uppercase    mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
               <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg text-white">
-                <span className={`mt-2 w-1.5 h-1.5 rounded-lg shrink-0 ${isPurple ?"bg-[var(--color-accent)]" : "bg-white/25"}`} />
+                <span className={`mt-2 w-1.5 h-1.5 rounded-lg shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
                 {b}
               </li>
             ))}
@@ -1323,7 +1323,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button aria-label="Action button"
             onClick={() => setExpanded(v => !v)}
-            className={`flex items-center gap-2 text-base font-bold uppercase tracking-widest transition-colors cursor-pointer ${isPurple ?"text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}
+            className={`flex items-center gap-2 text-base font-bold uppercase    transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}
           >
             <span className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
@@ -1332,7 +1332,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
-                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center font-bold mt-0.5 ${isPurple ?"bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029]    text-white/30"}`}>{i + 1}</span>
+                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center font-bold mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029]    text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -1343,7 +1343,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 pt-1">
           {f.tags.map((tag) => (
-            <span key={tag} className={`text-base px-3 py-1 rounded-lg font-medium border ${isPurple ?"bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : " bg-[#00000029]    border-white/10 text-white/40"}`}>
+            <span key={tag} className={`text-base px-3 py-1 rounded-lg font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : " bg-[#00000029]    border-white/10 text-white/40"}`}>
               {tag}
             </span>
           ))}
@@ -1352,7 +1352,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-bold uppercase tracking-widest transition-colors ${isPurple ?"border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover: bg-[#00000029]   "}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-bold uppercase    transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover: bg-[#00000029]   "}`}>
           Explore live →
         </Link>
       )}
@@ -1423,7 +1423,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-lg bg-red-500 animate-pulse" />
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Live Experience — What It Looks Like
             </h2>
           </div>
@@ -1434,7 +1434,7 @@ export default function FeaturesPage() {
           {/* ── ROW 1: Fan Viewer ── */}
           <div className="mb-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 font-bold uppercase tracking-widest rounded-lg">🎥 Fan Live Viewer</span>
+              <span className="px-3 py-1 bg-red-500/15 border border-red-500/30 text-red-400 font-bold uppercase    rounded-lg">🎥 Fan Live Viewer</span>
               <span className="text-white/20">— what fans see at /live/[room]</span>
             </div>
 
@@ -1479,7 +1479,7 @@ export default function FeaturesPage() {
                   {/* Top bar */}
                   <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/70 to-transparent">
                     <div className="flex items-center gap-2">
-                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white font-bold uppercase tracking-widest">
+                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded text-white font-bold uppercase   ">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />LIVE
                       </span>
                       <span className="text-white font-bold">Michael — 7th Heaven</span>
@@ -1506,7 +1506,7 @@ export default function FeaturesPage() {
                   {/* Hype meter */}
                   <div className="absolute bottom-6 left-4 right-4">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-white font-bold uppercase tracking-widest">Hype Meter</span>
+                      <span className="text-white font-bold uppercase   ">Hype Meter</span>
                       <span className="text-[#c084fc] font-bold">87%</span>
                     </div>
                     <div className="h-2 bg-white/10 rounded-lg overflow-hidden">
@@ -1516,15 +1516,15 @@ export default function FeaturesPage() {
 
                   {/* Pinned crew message */}
                   <div className="absolute top-14 left-4 right-4 bg-[var(--color-accent)]/20 border border-[#851DEF]/40 rounded-lg px-3 py-2 flex items-start gap-2">
-                    <span className="text-[#c084fc] font-bold uppercase tracking-widest shrink-0">📌 Crew</span>
+                    <span className="text-[#c084fc] font-bold uppercase    shrink-0">📌 Crew</span>
                     <span className="text-white/80">"Playing our new single TONIGHT — merch drop in 10 min! 🔥"</span>
                   </div>
 
                   {/* Multi-room switcher */}
                   <div className="absolute top-24 right-4 flex flex-col gap-1.5">
                     {["Michael", "Ryan", "Sammy"].map((name, i) => (
-                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded font-bold cursor-pointer transition-colors ${i === 0 ?"bg-[var(--color-accent)] text-white" : " bg-[#00000029]    text-white/40 hover:bg-white/10"}`}>
-                        <span className={`w-1.5 h-1.5 rounded-lg ${i === 0 ?"bg-white animate-pulse" : "bg-white/30"}`} />
+                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded font-bold cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)] text-white" : " bg-[#00000029]    text-white/40 hover:bg-white/10"}`}>
+                        <span className={`w-1.5 h-1.5 rounded-lg ${i === 0 ? "bg-white animate-pulse" : "bg-white/30"}`} />
                         {name}
                       </div>
                     ))}
@@ -1535,7 +1535,7 @@ export default function FeaturesPage() {
                 <div className="w-72 flex flex-col border-l border-white/[0.07] bg-[#0d0d0d]">
                   {/* Chat header */}
                   <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
-                    <span className="text-white font-bold uppercase tracking-widest">Live Chat</span>
+                    <span className="text-white font-bold uppercase   ">Live Chat</span>
                     <span className="text-white/30">1,247 online</span>
                   </div>
 
@@ -1587,7 +1587,7 @@ export default function FeaturesPage() {
           {/* ── ROW 2: Crew Dashboard ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-widest rounded-lg">🎛️ Crew Broadcast Studio</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase    rounded-lg">🎛️ Crew Broadcast Studio</span>
               <span className="text-white/20">— what crew sees at /crew</span>
             </div>
 
@@ -1643,7 +1643,7 @@ export default function FeaturesPage() {
                       📹 Cam On
                     </button>
                   </div>
-                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                  <button aria-label="Action button" className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white font-bold uppercase    transition-colors cursor-pointer">
                     ⏹ End Stream
                   </button>
                 </div>
@@ -1651,7 +1651,7 @@ export default function FeaturesPage() {
                 {/* Col 2: Chat moderation */}
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-white font-bold uppercase tracking-widest">Fan Chat</h3>
+                    <h3 className="text-white font-bold uppercase   ">Fan Chat</h3>
                     <span className="text-emerald-400">Live · 1,247 online</span>
                   </div>
 
@@ -1683,7 +1683,7 @@ export default function FeaturesPage() {
 
                   {/* Announce */}
                   <div>
-                    <div className="text-white/30 mb-1.5 font-bold uppercase tracking-widest">📌 Pin Announcement</div>
+                    <div className="text-white/30 mb-1.5 font-bold uppercase   ">📌 Pin Announcement</div>
                     <div className="flex gap-2">
                       <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white" />
                       <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white font-bold cursor-pointer">Pin</button>
@@ -1692,7 +1692,7 @@ export default function FeaturesPage() {
 
                   {/* Trigger reactions */}
                   <div>
-                    <div className="text-white/30 mb-1.5 font-bold uppercase tracking-widest">💥 Trigger Batch Reaction</div>
+                    <div className="text-white/30 mb-1.5 font-bold uppercase   ">💥 Trigger Batch Reaction</div>
                     <div className="flex gap-1.5">
                       {["🔥", "🎸", "🤘", "💜", "⚡"].map(e => (
                         <button aria-label="Action button" key={e} className="flex-1 py-2 bg-[#00000029] border border-white/[0.08] rounded-lg text-base hover:bg-[var(--color-accent)]/20 hover:border-[#851DEF]/40 transition-colors cursor-pointer">{e}</button>
@@ -1722,7 +1722,7 @@ export default function FeaturesPage() {
                       {/* countdown */}
                       <div className="text-center py-2 bg-[var(--color-accent)]/20 rounded-lg border border-[#851DEF]/30">
                         <div className="text-3xl font-bold text-white tabular-nums">0:42</div>
-                        <div className="text-white/40 uppercase tracking-widest">Time Remaining</div>
+                        <div className="text-white/40 uppercase   ">Time Remaining</div>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -1748,7 +1748,7 @@ export default function FeaturesPage() {
                       </div>
                       <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
                     </div>
-                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black font-bold uppercase    transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
                     </button>
                   </div>
@@ -1760,7 +1760,7 @@ export default function FeaturesPage() {
                       <span className="text-white/70 font-bold uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 mb-2">Blast to all subscribers within 50mi</div>
-                    <button aria-label="Action button" className="w-full py-2 bg-[#00000029] border border-white/10 rounded-lg text-white/50 font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2 bg-[#00000029] border border-white/10 rounded-lg text-white/50 font-bold uppercase    hover:bg-white/10 transition-colors cursor-pointer">
                       📲 Send Live Alert SMS
                     </button>
                   </div>
@@ -1779,7 +1779,7 @@ export default function FeaturesPage() {
           {/* ── ROW 3: Admin Dashboard ── */}
           <div className="mt-20">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 font-bold uppercase tracking-widest rounded-lg">⚙️ Admin Dashboard</span>
+              <span className="px-3 py-1 bg-blue-500/15 border border-blue-500/30 text-blue-400 font-bold uppercase    rounded-lg">⚙️ Admin Dashboard</span>
               <span className="text-white/20">— what admins see at /admin</span>
             </div>
 
@@ -1798,7 +1798,7 @@ export default function FeaturesPage() {
                 {/* Top header bar */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.05]">
                   <div className="flex items-center gap-3">
-                    <span className="text-white font-bold text-lg uppercase tracking-widest" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
+                    <span className="text-white font-bold text-lg uppercase   " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>7th Heaven</span>
                     <span className="text-white/20">Admin Control Center</span>
                   </div>
                   <div className="flex items-center gap-4">
@@ -1825,7 +1825,7 @@ export default function FeaturesPage() {
                     { label: "🛒 Merch", active: false },
                     { label: "📣 Alerts", active: false },
                   ].map(t => (
-                    <div key={t.label} className={`px-5 py-2 rounded-lg font-bold uppercase tracking-widest cursor-pointer transition-colors ${t.active ?"bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
+                    <div key={t.label} className={`px-5 py-2 rounded-lg font-bold uppercase    cursor-pointer transition-colors ${t.active ? "bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
                       {t.label}
                     </div>
                   ))}
@@ -1847,7 +1847,7 @@ export default function FeaturesPage() {
                           <span className="text-white/25 font-bold">{s.trend}</span>
                         </div>
                         <div className="text-3xl font-bold tabular-nums" style={{ color: s.color }}>{s.val}</div>
-                        <div className="text-white/25 uppercase tracking-widest mb-1">{s.label}</div>
+                        <div className="text-white/25 uppercase    mb-1">{s.label}</div>
                         <div className="h-1 bg-[#00000029] rounded-lg overflow-hidden">
                           <div className="h-full rounded-lg" style={{ width: `${s.bar}%`, background: s.color, opacity: 0.5 }} />
                         </div>
@@ -1861,7 +1861,7 @@ export default function FeaturesPage() {
                     {/* Col 1: Bookings */}
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                        <span className="text-white/70 font-bold uppercase tracking-widest">📋 Booking Requests</span>
+                        <span className="text-white/70 font-bold uppercase   ">📋 Booking Requests</span>
                         <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-purple-500/20">3 Pending</span>
                       </div>
                       <div className="divide-y divide-white/[0.04]">
@@ -1877,7 +1877,7 @@ export default function FeaturesPage() {
                                 <div className="text-white/85 font-bold">{b.name}</div>
                                 <div className="text-white/30">{b.org} · {b.venue}</div>
                               </div>
-                              <span className={`shrink-0 font-bold px-2 py-0.5 rounded-lg border ${b.type ==='Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
+                              <span className={`shrink-0 font-bold px-2 py-0.5 rounded-lg border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
                             </div>
                             <div className="flex items-center justify-between mt-2">
                               <div className="flex items-center gap-3 text-white/30">
@@ -1901,7 +1901,7 @@ export default function FeaturesPage() {
                     {/* Col 2: Fan Photo Queue */}
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                        <span className="text-white/70 font-bold uppercase tracking-widest">📸 Fan Photo Queue</span>
+                        <span className="text-white/70 font-bold uppercase   ">📸 Fan Photo Queue</span>
                         <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-purple-500/20">8 Awaiting</span>
                       </div>
                       <div className="p-3 grid grid-cols-3 gap-2">
@@ -1939,7 +1939,7 @@ export default function FeaturesPage() {
                         </div>
                       </div>
                       <div className="border-t border-white/[0.05] px-4 py-3">
-                        <div className="text-white/25 font-bold uppercase tracking-widest mb-2">Recent Sign-ups</div>
+                        <div className="text-white/25 font-bold uppercase    mb-2">Recent Sign-ups</div>
                         <div className="flex flex-col gap-1.5">
                           {[
                             { name: "ashley_xo", tier: "Gold", time: "2m ago", color: "#e879f9" },
@@ -1961,7 +1961,7 @@ export default function FeaturesPage() {
                     <div className="flex flex-col gap-4">
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
-                          <span className="text-white/70 font-bold uppercase tracking-widest">📡 Live Streams</span>
+                          <span className="text-white/70 font-bold uppercase   ">📡 Live Streams</span>
                           <span className="flex items-center gap-1 text-red-400 font-bold"><span className="w-1.5 h-1.5 rounded-lg bg-red-500 animate-pulse" />2 Active</span>
                         </div>
                         <div className="divide-y divide-white/[0.04]">
@@ -1991,7 +1991,7 @@ export default function FeaturesPage() {
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-3">
                         <div className="flex items-center gap-2">
                           <span>📣</span>
-                          <span className="text-white/70 font-bold uppercase tracking-widest">SMS Blast</span>
+                          <span className="text-white/70 font-bold uppercase   ">SMS Blast</span>
                           <span className="ml-auto text-white/25">2,847 subs</span>
                         </div>
                         <textarea aria-label="Text input" readOnly rows={2} value={"🔥 7th Heaven LIVE tonight @ House of Blues!\nDoors 7pm · Show 8pm · Merch drop mid-set 🎸"} className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/50 resize-none" />
@@ -2008,7 +2008,7 @@ export default function FeaturesPage() {
 
                       <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                         <div className="px-4 py-3 border-b border-white/[0.05]">
-                          <span className="text-white/70 font-bold uppercase tracking-widest">📝 Audit Log</span>
+                          <span className="text-white/70 font-bold uppercase   ">📝 Audit Log</span>
                         </div>
                         <div className="p-3 flex flex-col gap-1.5 font-mono">
                           {[
@@ -2048,7 +2048,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-2xl">🏆</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Fan Dashboard — What It Looks Like
             </h2>
           </div>
@@ -2059,7 +2059,7 @@ export default function FeaturesPage() {
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-white/10 text-[var(--color-accent)] font-bold uppercase tracking-widest rounded-lg">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-white/10 text-[var(--color-accent)] font-bold uppercase    rounded-lg">⭐ Profile & Show Countdown</span>
               <span className="text-white/20">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
@@ -2077,7 +2077,7 @@ export default function FeaturesPage() {
           {/* Screenshot 2: Mid — Proximity + Shows */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase tracking-widest rounded-lg">📍 Proximity Alerts & Shows</span>
+              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase    rounded-lg">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20">— upcoming dates + location-based notifications</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
@@ -2095,7 +2095,7 @@ export default function FeaturesPage() {
           {/* Screenshot 3: Lower — Memories + Referral */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 font-bold uppercase tracking-widest rounded-lg">🎸 Show Memories & Referrals</span>
+              <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 font-bold uppercase    rounded-lg">🎸 Show Memories & Referrals</span>
               <span className="text-white/20">— post-show engagement + fan-to-fan growth</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
@@ -2125,7 +2125,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               All Pages — Site Directory
             </h2>
           </div>
@@ -2299,7 +2299,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2313,7 +2313,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -2322,9 +2322,9 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ?"bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg font-bold ${activeCategory === cat.key ?"bg-white/20 text-white" : " bg-[#00000029]    text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg font-bold ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029]    text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -2341,7 +2341,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2363,7 +2363,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
-            <h2 className="font-bold uppercase tracking-widest text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+            <h2 className="font-bold uppercase    text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
               Site Directory
             </h2>
           </div>

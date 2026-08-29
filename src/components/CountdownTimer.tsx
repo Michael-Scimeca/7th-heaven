@@ -112,7 +112,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75"></span>
           <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500"></span>
         </span>
-        <span className={`font-bold uppercase tracking-[0.2em] text-white whitespace-nowrap ${compact ?'text-[var(--font-size-5xs)]' : 'text-xs'}`}>NOW LIVE</span>
+        <span className={`font-bold uppercase tracking-[0.2em] text-white whitespace-nowrap ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>NOW LIVE</span>
       </div>
     );
   }
@@ -138,7 +138,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
             >
               {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(2, "0")}
             </span>
-            <span className={`uppercase tracking-wider ${compact ? 'text-[10px] sm:text-[12px] font-bold text-white/70 mt-0.5 sm:mt-1 tracking-widest' : 'text-[clamp(8px,1vw,11px)] font-bold  text-white  mt-1 tracking-widest'}`}>{u.label}</span>
+            <span className={`uppercase tracking-wider ${compact ? 'text-[10px] sm:text-[12px] font-bold text-white/70 mt-0.5 sm:mt-1   ' : 'text-[clamp(8px,1vw,11px)] font-bold  text-white  mt-1   '}`}>{u.label}</span>
           </div>
           {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-sm sm:text-lg' : 'text-lg sm:text-2xl md:text-4xl'}`}>:</span>}
         </div>

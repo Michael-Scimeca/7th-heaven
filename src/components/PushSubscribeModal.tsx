@@ -189,7 +189,7 @@ export default function PushSubscribeModal({
                 <CosmicRadialButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2"
+                  className="w-full py-3.5 text-white font-bold uppercase    flex items-center justify-center gap-2"
                 >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS 🔔"}
                 </CosmicRadialButton>
@@ -215,7 +215,7 @@ export default function PushSubscribeModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest rounded-lg transition-colors"
+              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase    rounded-lg transition-colors"
             >
               DONE
             </button>

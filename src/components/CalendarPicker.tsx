@@ -118,7 +118,7 @@ export function CalendarPicker({
       </div>
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
-      <div className="flex items-center gap-5 mb-4 uppercase tracking-widest font-bold">
+      <div className="flex items-center gap-5 mb-4 uppercase    font-bold">
         <span className="flex items-center gap-1.5 text-white/90"><span className="w-3 h-3 rounded bg-white/10 border border-white/10 inline-block" /> Available</span>
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
@@ -177,7 +177,7 @@ export function CalendarPicker({
 
           <div className="grid grid-cols-7 mb-4">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-              <div key={day} className="text-center font-bold uppercase tracking-widest text-white/50">{day}</div>
+              <div key={day} className="text-center font-bold uppercase    text-white/50">{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-2">
@@ -220,7 +220,7 @@ export function CalendarPicker({
                     }
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
-                  className={`h-12 w-full flex items-center justify-center font-bold text-base transition-colors relative rounded-lg ${(isPastDate || isBlocked) ?"cursor-not-allowed opacity-25" : "cursor-pointer"}
+                  className={`h-12 w-full flex items-center justify-center font-bold text-base transition-colors relative rounded-lg ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
                     ${isBlocked
                       ? "bg-rose-500/20 border border-rose-500/30 text-rose-400 line-through"
                       : isSelected
@@ -323,8 +323,8 @@ export function CalendarPicker({
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex gap-4 items-center group ${isSelected ?"border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
-                        : "border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10 text-white/80"}
+                    className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex gap-4 items-center group ${isSelected ? "border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
+                      : "border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10 text-white/80"}
                      `}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>

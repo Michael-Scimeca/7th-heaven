@@ -42,7 +42,7 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs uppercase tracking-widest font-bold text-white mb-1.5 block">Email</label>
+            <label htmlFor="admin-gate-email" className="text-4xs uppercase    font-bold text-white mb-1.5 block">Email</label>
             <input
               id="admin-gate-email"
               type="email"
@@ -54,7 +54,7 @@ export function AdminAuthGate({
             />
           </div>
           <div>
-            <label htmlFor="admin-gate-password" className="text-4xs uppercase tracking-widest font-bold text-white mb-1.5 block">Password</label>
+            <label htmlFor="admin-gate-password" className="text-4xs uppercase    font-bold text-white mb-1.5 block">Password</label>
             <input
               id="admin-gate-password"
               type="password"

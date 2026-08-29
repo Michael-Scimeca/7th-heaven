@@ -958,7 +958,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <button aria-label="Action button"
                         key={act.id}
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                        className={`flex-1 py-1.5 px-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${(tuning.nodeAction ??'hide') === act.id
+                        className={`flex-1 py-1.5 px-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                           : ' bg-[#00000029]     text-white  hover:bg-white/10'
                           }`}
@@ -1102,7 +1102,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               )}
               <button aria-label="Action button"
                 onClick={handleSaveTuning}
-                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
               >
                 💾 Save Settings
               </button>
@@ -1363,7 +1363,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   backgroundColor: '#060614',
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ?'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase    px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 {isSea ? (

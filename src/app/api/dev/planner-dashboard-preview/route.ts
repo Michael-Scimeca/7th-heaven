@@ -23,7 +23,7 @@ export async function GET() {
             <div>
               <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-white">Marcus Rivera</h1>
-                <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-lg">
+                <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase    bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-lg">
                   📋 Event Planner
                 </span>
               </div>
@@ -43,7 +43,7 @@ export async function GET() {
           <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-lg blur-3xl pointer-events-none"></div>
           <div class="flex items-center justify-between relative z-10">
             <div>
-              <span class="font-bold uppercase tracking-widest text-purple-400">Planner Coordinator Portal</span>
+              <span class="font-bold uppercase    text-purple-400">Planner Coordinator Portal</span>
               <h2 class="font-bold text-white mt-1">Confirmed Event Bookings</h2>
               <p class="mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>

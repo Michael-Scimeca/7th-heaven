@@ -646,7 +646,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     <button aria-label="Action button"
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ?"bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
+                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
                         : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                         }`}
                     >
@@ -666,7 +666,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Copy CSS Button */}
               <button aria-label="Action button"
                 onClick={copyCSS}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase    transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? (
                   <>

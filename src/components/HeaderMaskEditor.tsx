@@ -101,7 +101,7 @@ export default function HeaderMaskEditor() {
 
           {/* Visual Gradient Preview Bar */}
           <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-purple-300/80">
+            <div className="flex justify-between text-[10px] font-bold uppercase    text-purple-300/80">
               <span>Mask Gradient Preview</span>
               <span>0% ── {settings.fadeStart}% ── {settings.fadeEnd}%</span>
             </div>
@@ -121,7 +121,7 @@ export default function HeaderMaskEditor() {
 
           {/* Quick Presets */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-purple-300/80">
+            <label className="text-[10px] font-bold uppercase    text-purple-300/80">
               Presets
             </label>
             <div className="grid grid-cols-2 gap-2 text-[11px]">

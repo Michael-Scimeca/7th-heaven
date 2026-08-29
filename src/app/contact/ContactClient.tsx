@@ -98,9 +98,6 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white text-[clamp(0.65rem,1vh,0.75rem)] font-bold uppercase tracking-[0.2em] mb-[clamp(0.35rem,1vh,1rem)]">
-          <span>DIRECT BAND MANAGEMENT &amp; INQUIRIES</span>
-        </div>
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT
         </h1>
@@ -191,7 +188,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ?"opacity-100 scale-100 filter-none"
+                className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
                   : "opacity-0 scale-95 filter blur-sm"
                   }`}
                 style={{ marginBottom: "-6%" }}

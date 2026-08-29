@@ -326,7 +326,7 @@ a:hover {
 
             {/* Presets Bar */}
             <div className="px-5 py-3 border-b border-white/10 bg-black/40 flex items-center gap-2 overflow-x-auto">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 shrink-0 mr-1 flex items-center gap-1">
+              <span className="text-[10px] font-bold uppercase    text-white/40 shrink-0 mr-1 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-yellow-400" /> Presets:
               </span>
               {PRESETS.map((p) => (

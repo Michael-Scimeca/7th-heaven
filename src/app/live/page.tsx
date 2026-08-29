@@ -279,7 +279,7 @@ export default function LiveHubPage() {
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <span className="font-bold uppercase tracking-widest" style={{ color: "#f87171" }}>Moderation Dashboard</span>
+                <span className="font-bold uppercase   " style={{ color: "#f87171" }}>Moderation Dashboard</span>
                 <span className="px-2 py-0.5 rounded-lg font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4" style={{ color: "rgba(255,255,255,0.35)" }}>
@@ -410,7 +410,7 @@ export default function LiveHubPage() {
                   {/* Mod log */}
                   {modLog.length > 0 && (
                     <div className="col-span-full mt-4 p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                      <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
+                      <p className="font-bold uppercase    mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
                       <div className="space-y-1">
                         {modLog.slice(0, 5).map(e => (
                           <div key={e.id} className="flex items-center justify-between" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -428,7 +428,7 @@ export default function LiveHubPage() {
               {adminTab === "policy" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
                   <div>
-                    <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
+                    <p className="font-bold uppercase    mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
                     {[
                       { icon: "🔞", rule: "Adult / pornographic content", desc: "Explicit content, NSFW links, or adult platform promotion." },
                       { icon: "⚠️", rule: "Hate speech & slurs", desc: "Racist, homophobic, or discriminatory language." },
@@ -441,7 +441,7 @@ export default function LiveHubPage() {
                     ))}
                   </div>
                   <div>
-                    <p className="font-bold uppercase tracking-widest mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
+                    <p className="font-bold uppercase    mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
                     {[
                       { icon: "🏛️", rule: "Political commentary", desc: "No political debate, parties, or electoral content." },
                       { icon: "📢", rule: "Spam & self-promotion", desc: "Links, social handles, or money solicitation." },
@@ -491,7 +491,7 @@ export default function LiveHubPage() {
                   {/* LIVE badge */}
                   <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] border border-white/10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#e1e6ff29" }}>
                     <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />
-                    <span className="text-white font-bold tracking-widest">Live Now</span>
+                    <span className="text-white font-bold   ">Live Now</span>
                   </div>
 
                   {/* Viewer + time pills */}
@@ -534,7 +534,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 font-bold tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
+                  className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
                 >
                   Copy Link
                 </button>

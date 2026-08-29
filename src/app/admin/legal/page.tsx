@@ -382,7 +382,7 @@ export default function AdminLegalPage() {
 
           {/* Left Menu Tabs */}
           <div className="space-y-3">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2 px-1">
+            <div className="text-[10px] font-bold uppercase    text-white/40 mb-2 px-1">
               Regulatory Audit Categories
             </div>
             {SECTIONS.map((sec) => {
@@ -420,7 +420,7 @@ export default function AdminLegalPage() {
 
             {/* Legal Disclaimer Box */}
             <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
-              <span className="text-[0.6rem] font-bold uppercase tracking-widest text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
+              <span className="text-[0.6rem] font-bold uppercase    text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
               <p className="leading-relaxed">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
               </p>
@@ -444,7 +444,7 @@ export default function AdminLegalPage() {
                 </div>
               </div>
 
-              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold uppercase tracking-widest rounded-lg flex items-center gap-1.5">
+              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold uppercase    rounded-lg flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400 animate-pulse" /> Verified Compliant
               </span>
             </div>
@@ -460,7 +460,7 @@ export default function AdminLegalPage() {
             {/* Requirement Checklist Items */}
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold uppercase tracking-widest text-purple-300">
+                <h3 className="font-bold uppercase    text-purple-300">
                   Inspections & Technical Verification Items
                 </h3>
                 <span className="text-[10px] text-white/40 font-mono">Click checkbox to toggle verification</span>
@@ -471,7 +471,7 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ?'bg-white/[0.02]   border-white/10  '
+                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02]   border-white/10  '
                       : 'bg-rose-950/10 border-rose-500/30'
                       }`}
                   >
@@ -486,7 +486,7 @@ export default function AdminLegalPage() {
                           />
                         </div>
                         <div>
-                          <h4 className={`font-bold transition-colors ${isChecked ?'text-white' : 'text-rose-200'}`}>
+                          <h4 className={`font-bold transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
                           <p className="mt-1 leading-relaxed">{req.description}</p>
@@ -494,7 +494,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.isCritical && (
-                        <span className="text-[0.55rem] font-bold uppercase tracking-widest bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-lg shrink-0">
+                        <span className="text-[0.55rem] font-bold uppercase    bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-lg shrink-0">
                           Critical Rule
                         </span>
                       )}

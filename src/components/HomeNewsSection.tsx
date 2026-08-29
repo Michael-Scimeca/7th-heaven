@@ -55,7 +55,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 border-0 pt-8 pb-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-lg">
+                <span className="px-3 py-1 text-[10px] font-bold uppercase    text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-lg">
                   ⭐ Featured Announcement
                 </span>
                 <span className="font-mono text-[var(--muted-text)] font-bold">
@@ -80,7 +80,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                 className="w-full text-left border-0 pt-5 pb-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
+                  <span className="text-[10px] font-bold uppercase    text-[var(--color-accent)]">
                     {item.date}
                   </span>
                   <span className="text-[10px] font-bold text-[var(--muted-text)] group-hover: text-[var(--color-accent)] transition-colors">

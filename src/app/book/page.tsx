@@ -101,11 +101,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <span className="text-base font-bold uppercase tracking-widest text-white block mb-1.5">{label}</span>
+      <span className="text-base font-bold uppercase    text-white block mb-1.5">{label}</span>
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-lg ${value ?'text-white font-semibold' : 'text-white/45'}`}
+        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
         style={{ background: "#a855f71f", border: "1px solid #ffffff1a" }}
       >
         <span className={`transition-[color,opacity] duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
@@ -164,7 +164,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ?'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -172,7 +172,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                 })}
               </div>
               {value && (
-                <button aria-label="Action button" type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+                <button aria-label="Action button" type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase    font-bold cursor-pointer">Clear</button>
               )}
             </>
           )}
@@ -241,8 +241,8 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
-          className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl ${value === o ?"bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
-              : " bg-[#00000029]     backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover: border-white/10  hover:text-white"
+          className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl ${value === o ? "bg-purple-600/80  backdrop-blur-[45px] text-white border-purple-400 shadow-md shadow-purple-600/30  font-bold "
+            : " bg-[#00000029]     backdrop-blur-[45px] border-white/10 text-white/80 hover:bg-white/10 hover: border-white/10  hover:text-white"
             }
           `}
         >
@@ -870,7 +870,7 @@ function BookPageContent() {
               creatingAccount ? (
                 <div className="bg-white/[0.03] border border-white/10 p-5 text-left">
                   <div className="mb-4">
-                    <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
+                    <span className="text-base text-white/30 uppercase    font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
                         <input aria-label="Input field"
@@ -887,7 +887,7 @@ function BookPageContent() {
                       <div className="flex items-center gap-2">
                         <span className="text-lg text-white font-bold">{accountEmail}</span>
                         {!pinSent && (
-                          <button aria-label="Action button" type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                          <button aria-label="Action button" type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase    font-bold cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -1100,7 +1100,7 @@ function BookPageContent() {
                 <div className="flex items-center gap-3 mb-4">
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
-                    <h4 className="font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
+                    <h4 className="font-bold uppercase    text-white">Flexible? Add Backup Dates</h4>
                     <p className="">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
@@ -1110,7 +1110,7 @@ function BookPageContent() {
                 </div>
                 {(altDate1 || altDate2) && (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-base text-white/50 uppercase tracking-widest font-bold">Priority:</span>
+                    <span className="text-base text-white/50 uppercase    font-bold">Priority:</span>
                     <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
                     {altDate1 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                     {altDate2 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
@@ -1147,7 +1147,7 @@ function BookPageContent() {
                     <h4 className="font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
                     <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
-                  <span className="font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
+                  <span className="font-bold uppercase    text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -1186,14 +1186,14 @@ function BookPageContent() {
                         </div>
 
                         <div className="mb-4">
-                          <span className="font-bold uppercase tracking-widest text-cyan-300 block mb-1">Show #{index + 1}</span>
+                          <span className="font-bold uppercase    text-cyan-300 block mb-1">Show #{index + 1}</span>
                           <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
                         </div>
 
                         <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
                           {/* Format */}
                           <div>
-                            <label htmlFor={`slot-format-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Show Format</label>
+                            <label htmlFor={`slot-format-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">Show Format</label>
                             <Dropdown
                               id={`slot-format-${slot.id}`}
                               fullWidth={true}
@@ -1227,7 +1227,7 @@ function BookPageContent() {
                           {/* Times */}
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label htmlFor={`slot-start-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">Start Time</label>
+                              <label htmlFor={`slot-start-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">Start Time</label>
                               <Dropdown
                                 id={`slot-start-${slot.id}`}
                                 fullWidth={true}
@@ -1241,7 +1241,7 @@ function BookPageContent() {
                               />
                             </div>
                             <div>
-                              <label htmlFor={`slot-end-${slot.id}`} className="font-bold uppercase tracking-widest text-white/50 block mb-1.5">End Time</label>
+                              <label htmlFor={`slot-end-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">End Time</label>
                               <Dropdown
                                 id={`slot-end-${slot.id}`}
                                 fullWidth={true}
@@ -1260,7 +1260,7 @@ function BookPageContent() {
                         {/* Separate Contact/Venue details toggle buttons & form fields */}
                         <div className="mt-4 pt-4 border-t border-white/10">
                           <div className="mb-3">
-                            <span className="font-bold uppercase tracking-widest text-white/50 block mb-2">Contact & Venue Details</span>
+                            <span className="font-bold uppercase    text-white/50 block mb-2">Contact & Venue Details</span>
                             <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border border-white/10 rounded-lg">
                               <button aria-label="Action button"
                                 type="button"
@@ -1277,7 +1277,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ?'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1296,7 +1296,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ?'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1306,14 +1306,14 @@ function BookPageContent() {
                           {!slot.useSeparateInfo ? (
                             <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-lg text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
+                                <span className="font-bold text-white/40 uppercase    text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
                                   {formData.name || <span className="text-white/20   ">(empty)</span>}
                                   {formData.email && <span className="block text-[var(--font-size-4xs)] text-white/40 font-mono mt-0.5">{formData.email}</span>}
                                 </span>
                               </div>
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
+                                <span className="font-bold text-white/40 uppercase    text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
                                 <span className="text-white font-medium text-right break-all">
                                   {formData.venueName || <span className="text-white/20   ">(empty)</span>}
                                   {(formData.venueCity || formData.venueState) && (
@@ -1328,7 +1328,7 @@ function BookPageContent() {
                           ) : (
                             <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border border-white/10 rounded-xl">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button aria-label="Action button"
                                     type="button"
@@ -1379,7 +1379,7 @@ function BookPageContent() {
 
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Contact Name</label>
+                                  <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Contact Name</label>
                                   <input aria-label="Input field"
                                     id={`slot-contact-name-${slot.id}`}
                                     type="text"
@@ -1393,7 +1393,7 @@ function BookPageContent() {
                                   />
                                 </div>
                                 <div>
-                                  <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Contact Email</label>
+                                  <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Contact Email</label>
                                   <input aria-label="Input field"
                                     id={`slot-contact-email-${slot.id}`}
                                     type="email"
@@ -1409,7 +1409,7 @@ function BookPageContent() {
                               </div>
 
                               <div>
-                                <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Venue Name</label>
+                                <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Venue Name</label>
                                 <input aria-label="Input field"
                                   id={`slot-venue-name-${slot.id}`}
                                   type="text"
@@ -1425,7 +1425,7 @@ function BookPageContent() {
 
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">City</label>
+                                  <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">City</label>
                                   <input aria-label="Input field"
                                     id={`slot-venue-city-${slot.id}`}
                                     type="text"
@@ -1439,7 +1439,7 @@ function BookPageContent() {
                                   />
                                 </div>
                                 <div>
-                                  <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">State</label>
+                                  <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">State</label>
                                   <input aria-label="Input field"
                                     id={`slot-venue-state-${slot.id}`}
                                     type="text"
@@ -1461,7 +1461,7 @@ function BookPageContent() {
                           <button aria-label="Previous"
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between font-bold uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
+                            className="w-full text-left flex items-center justify-between font-bold uppercase    text-cyan-300 hover:text-purple-400 transition-colors"
                           >
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
                             <span className="text-[var(--font-size-4xs)] text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
@@ -1501,7 +1501,7 @@ function BookPageContent() {
             {/* Show Event Start & End Times + Band Schedule */}
             <div className="space-y-4">
               <div className="border-b border-white/10 pb-2.5">
-                <h3 className="font-bold uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="font-bold uppercase    text-purple-300 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#c27aff]" /> Event & Performance Schedule
                 </h3>
               </div>
@@ -1565,7 +1565,7 @@ function BookPageContent() {
             {/* Venue Address & Location Picker */}
             <div className="space-y-5">
               <div className="border-b border-white/10 pb-3">
-                <h3 className="font-bold uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                <h3 className="font-bold uppercase    text-purple-300 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
                 </h3>
               </div>
@@ -1741,8 +1741,8 @@ function BookPageContent() {
                           key={option.id}
                           type="button"
                           onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ?'border-cyan-400 bg-cyan-500/20 shadow-md'
-                              : 'border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10'
+                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20 shadow-md'
+                            : 'border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10'
                             }`}
                         >
                           <span className="text-xl mt-0.5">{option.icon}</span>
@@ -1762,7 +1762,7 @@ function BookPageContent() {
                 </div>
                 {addOns.length > 0 && (
                   <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
-                    <span className="text-base font-bold uppercase tracking-widest text-white/50">Selected:</span>
+                    <span className="text-base font-bold uppercase    text-white/50">Selected:</span>
                     {addOns.map(id => (
                       <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-cyan-300 text-base font-bold rounded-lg border border-cyan-400/30">
                         {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
@@ -1792,7 +1792,7 @@ function BookPageContent() {
                 {formData.details && (
                   <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-                    <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
+                    <span className="uppercase    font-bold">Note attached to your booking</span>
                   </div>
                 )}
               </div>
@@ -1812,7 +1812,7 @@ function BookPageContent() {
 
                   <div className="flex flex-col gap-4 mb-8">
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Date</span>
+                      <span className="text-lg text-white/50 uppercase    mt-1">Date</span>
                       <span className="text-base font-bold text-white text-right">
                         {bookingSlots.length === 1 ? (
                           new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
@@ -1824,7 +1824,7 @@ function BookPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Time</span>
+                      <span className="text-lg text-white/50 uppercase    mt-1">Time</span>
                       <span className="text-base font-bold text-white text-right">
                         {bookingSlots.length === 1 ? (
                           `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
@@ -1836,13 +1836,13 @@ function BookPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Format</span>
+                      <span className="text-lg text-white/50 uppercase    mt-1">Format</span>
                       <span className="text-base font-bold text-cyan-300 text-right">
                         {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-cyan-400/30">—</span>}
                       </span>
                     </div>
                     <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                      <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Venue</span>
+                      <span className="text-lg text-white/50 uppercase    mt-1">Venue</span>
                       <span className="text-base font-bold text-white text-right break-words max-w-[150px]">
                         {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
                         {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
@@ -1850,7 +1850,7 @@ function BookPageContent() {
                     </div>
                     {addOns.length > 0 && (
                       <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                        <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Add-Ons</span>
+                        <span className="text-lg text-white/50 uppercase    mt-1">Add-Ons</span>
                         <div className="text-right">
                           <span className="text-base font-bold text-cyan-300">{addOns.length} selected</span>
                           <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
@@ -1871,7 +1871,7 @@ function BookPageContent() {
                     <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-4 rounded-xl">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-rose-400">⚠</span>
-                        <span className="text-rose-300 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
+                        <span className="text-rose-300 text-lg font-bold uppercase   ">Please fix the following</span>
                       </div>
                       <ul className="space-y-1">
                         {validationErrors.map((err, i) => (
@@ -1917,7 +1917,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
     <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Age Limit</label>
+          <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Age Limit</label>
           <Dropdown
             id={`slot-age-limit-${slot.id}`}
             fullWidth={true}
@@ -1935,7 +1935,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
           />
         </div>
         <div>
-          <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Doors Time</label>
+          <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Doors Time</label>
           <Dropdown
             id={`slot-doors-time-${slot.id}`}
             fullWidth={true}
@@ -1953,7 +1953,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Cover / Price</label>
+          <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Cover / Price</label>
           <input aria-label="Input field"
             id={`slot-cover-${slot.id}`}
             type="text"
@@ -1967,7 +1967,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
           />
         </div>
         <div>
-          <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Ticket Link</label>
+          <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/50 block mb-1">Ticket Link</label>
           <input aria-label="Input field"
             id={`slot-ticket-link-${slot.id}`}
             type="text"
@@ -2035,7 +2035,7 @@ function MapPickerModal({
         {savedAddresses.length > 0 && (
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="font-bold uppercase tracking-widest text-purple-400block">Saved Locations & Venue Presets</label>
+              <label className="font-bold uppercase    text-purple-400block">Saved Locations & Venue Presets</label>
               <span className="text-[10px] text-white/50 font-normal">Click to auto-fill form</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -2100,7 +2100,7 @@ function MapPickerModal({
         )}
 
         <div className="space-y-2 border-t border-white/10 pt-4">
-          <label className="font-bold uppercase tracking-widest text-purple-400block">Search Location or Paste Google Maps Address</label>
+          <label className="font-bold uppercase    text-purple-400block">Search Location or Paste Google Maps Address</label>
           <div className="flex gap-2">
             <input aria-label="Input field"
               type="text"

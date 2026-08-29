@@ -261,7 +261,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="font-bold truncate">Exclusive Fan Drop</p>
-              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] hover:text-white uppercase    transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
         ) : (
@@ -343,7 +343,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                         setCurrentSongIndex(idx);
                         setIsPlaying(true);
                       }}
-                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive ?'bg-[var(--color-accent)]/15 text-white'
+                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive ? 'bg-[var(--color-accent)]/15 text-white'
                         : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
                         }`}
                     >
@@ -404,14 +404,14 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
+                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
                 >
                   Log In
                 </button>
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('signup')}
-                  className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase    rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   Join Fan Club
                 </button>
@@ -432,7 +432,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.6rem] uppercase tracking-widest bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
+                  <span className="text-[0.6rem] uppercase    bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
                   <h4 className="font-bold text-white mt-2 truncate leading-tight tracking-tight uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -451,7 +451,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ?'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
+                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
                         : 'bg-[var(--color-accent)]/80'
                         }`}
                       style={{
@@ -471,7 +471,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Progress Bar & Seek */}
               <div className="mt-8 flex items-center gap-4">
-                <span className="font-mono font-bold tracking-widest text-white/45 min-w-[32px]">
+                <span className="font-mono font-bold    text-white/45 min-w-[32px]">
                   {formatTime(currentTime)}
                 </span>
 
@@ -492,7 +492,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   </div>
                 </div>
 
-                <span className="font-mono font-bold tracking-widest text-white/45 min-w-[32px] text-right">
+                <span className="font-mono font-bold    text-white/45 min-w-[32px] text-right">
                   {duration ? formatTime(duration) : '0:00'}
                 </span>
               </div>
@@ -524,12 +524,12 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <button aria-label="Action button"
                     type="button"
                     onClick={toggleCompressor}
-                    className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ?'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
+                    className={`text-[0.65rem] uppercase font-bold    flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
                       : 'bg-white/[0.02] border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
                       }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
                   >
-                    <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ?'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
+                    <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
                     Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
                   </button>
                 </div>
@@ -567,7 +567,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               {/* EP / Album Playlist tracks */}
               {track.songs && track.songs.length > 0 && (
                 <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
-                  <span className="block text-[0.65rem] font-bold uppercase tracking-widest text-white/35">Drop Playlist</span>
+                  <span className="block text-[0.65rem] font-bold uppercase    text-white/35">Drop Playlist</span>
                   <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
@@ -579,21 +579,21 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ?'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
+                          className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
                             : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                             }`}
                         >
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <span className={`font-mono font-bold w-5 shrink-0 ${isActive ?' text-[var(--color-accent)]' : 'text-white/20'}`}>
+                            <span className={`font-mono font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
                               {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
                             </span>
-                            <span className={`font-medium truncate ${isActive ?'font-bold' : ''}`}>{song.title}</span>
+                            <span className={`font-medium truncate ${isActive ? 'font-bold' : ''}`}>{song.title}</span>
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] uppercase tracking-widest bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded-lg font-bold animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="text-[0.55rem] uppercase    bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded-lg font-bold animate-pulse border border-[var(--color-accent)]/30">Playing</span>
                             )}
-                            <span className="text-[0.55rem] text-white/25 uppercase font-bold tracking-widest">MP3</span>
+                            <span className="text-[0.55rem] text-white/25 uppercase font-bold   ">MP3</span>
                           </div>
                         </button>
                       );

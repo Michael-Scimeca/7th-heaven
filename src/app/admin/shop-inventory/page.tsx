@@ -170,14 +170,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab ==="products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab ==="orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -285,7 +285,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors ${product.active ?"bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029]    text-white/40 border border-white/10"
+            className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029]    text-white/40 border border-white/10"
               }`}
           >
             {product.active ? "Active" : "Inactive"}
@@ -431,7 +431,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setStock(e.target.value);
             markDirty();
           }}
-          className={`w-full bg-[#00000029] border rounded px-2 py-1.5 text-white ${isOut ?"border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
+          className={`w-full bg-[#00000029] border rounded px-2 py-1.5 text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
           title="Stock quantity"
         />
         {isOut && <span className="text-[12px] text-rose-400 font-bold">SOLD OUT</span>}
@@ -464,7 +464,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`px-2 py-1.5 text-[10px] font-bold uppercase rounded-lg ${variant.active ?"bg-emerald-500/15 text-emerald-300" : " bg-[#00000029]    text-white/40"}`}
+          className={`px-2 py-1.5 text-[10px] font-bold uppercase rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029]    text-white/40"}`}
         >
           {variant.active ? "On" : "Off"}
         </button>
@@ -707,7 +707,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50"
+          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>

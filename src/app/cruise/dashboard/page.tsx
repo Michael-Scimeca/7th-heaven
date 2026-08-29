@@ -150,7 +150,7 @@ export default function CruiseDashboardGate() {
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin mx-auto mb-4" />
-          <p className="font-bold uppercase tracking-widest">Redirecting to Dashboard...</p>
+          <p className="font-bold uppercase   ">Redirecting to Dashboard...</p>
         </div>
       </div>
     );
@@ -164,8 +164,8 @@ export default function CruiseDashboardGate() {
       <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
         <div className="text-center mb-8">
           <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
-          <h1 className="text-2xl font-bold uppercase tracking-widest text-white">Cruise Hub</h1>
-          <p className="text-purple-400font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
+          <h1 className="text-2xl font-bold uppercase    text-white">Cruise Hub</h1>
+          <p className="text-purple-400font-bold uppercase    mt-1">Exclusive Passenger Community</p>
         </div>
 
         <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 overflow-hidden">
@@ -181,7 +181,7 @@ export default function CruiseDashboardGate() {
 
               <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="cruise-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
+                  <label htmlFor="cruise-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">6-Digit Verification PIN</label>
                   <input aria-label="Input field"
                     id="cruise-pin-input"
                     type="text"
@@ -196,12 +196,12 @@ export default function CruiseDashboardGate() {
 
                 {authError && <p className="text-rose-400 mt-2 text-center">{authError}</p>}
 
-                <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-widest transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                   {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                 </button>
 
                 <div className="text-center mt-4">
-                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover: text-white text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer">
+                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover: text-white text-[var(--font-size-2xs)] font-bold uppercase    transition-colors cursor-pointer">
                     ← Cancel and Back
                   </button>
                 </div>
@@ -214,7 +214,7 @@ export default function CruiseDashboardGate() {
               <p className="leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
-              <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-[#00000029] border border-white/10 text-white/80 hover:bg-white/10 hover:text-white font-bold uppercase tracking-widest transition-colors cursor-pointer">
+              <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-[#00000029] border border-white/10 text-white/80 hover:bg-white/10 hover:text-white font-bold uppercase    transition-colors cursor-pointer">
                 Go to Log In
               </button>
             </div>
@@ -222,10 +222,10 @@ export default function CruiseDashboardGate() {
             <>
               {/* Tabs */}
               <div className="flex border-b border-white/10">
-                <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase tracking-widest transition-colors cursor-pointer ${authTab ==='login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase    transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Log In
                 </button>
-                <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase tracking-widest transition-colors cursor-pointer ${authTab ==='register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase    transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Register
                 </button>
               </div>
@@ -235,17 +235,17 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleLoginSubmit} className="space-y-4">
                     <p className="mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
-                      <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
+                      <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Email Address</label>
                       <input aria-label="Input field" id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-login-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
+                      <label htmlFor="cruise-login-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Password</label>
                       <input aria-label="Input field" id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
 
-                    <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase tracking-widest transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                     </button>
                   </form>
@@ -253,25 +253,25 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
                     <p className="mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
-                      <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
+                      <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Full Legal Name *</label>
                       <input aria-label="Input field" id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
+                      <label htmlFor="cruise-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Email Address *</label>
                       <input aria-label="Input field" id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
+                      <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Phone Number *</label>
                       <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
+                      <label htmlFor="cruise-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Choose Password *</label>
                       <input aria-label="Input field" id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
 
-                    <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase tracking-widest transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                     </button>
                   </form>
@@ -282,7 +282,7 @@ export default function CruiseDashboardGate() {
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/cruise" className="text-white/40 hover: text-white font-bold uppercase tracking-widest transition-colors">
+          <Link href="/cruise" className="text-white/40 hover: text-white font-bold uppercase    transition-colors">
             ← Back to Cruise Information
           </Link>
         </div>

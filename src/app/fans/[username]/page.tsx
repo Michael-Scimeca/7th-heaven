@@ -400,7 +400,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
-          <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
+          <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white font-bold uppercase    hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
           </button>
         </div>
@@ -414,7 +414,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
           <div className="mb-8 flex items-start gap-3 px-5 py-3 bg-purple-600/10 border border-purple-500/30">
-            <span className="text-purple-300 font-bold uppercase tracking-widest shrink-0">⚠ DEMO MODE</span>
+            <span className="text-purple-300 font-bold uppercase    shrink-0">⚠ DEMO MODE</span>
             <p className="text-purple-200/60 leading-relaxed">This is a preview of the Fan Dashboard with simulated data. Fans will need to create a free account to access their personal dashboard at <code className="text-purple-200/80">/fans/username</code>.</p>
           </div>
         )}
@@ -527,14 +527,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <div className="bg-[#00000029] border border-white/10 rounded-lg p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button aria-label="Action button"
                 onClick={() => setDashboardView('fan')}
-                className={`px-6 py-2 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer ${dashboardView ==='fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
+                className={`px-6 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
                   }`}
               >
                 Fan Dashboard
               </button>
               <button aria-label="Action button"
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-lg font-bold uppercase tracking-widest transition-colors cursor-pointer ${dashboardView ==='cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
+                className={`px-6 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
                   }`}
               >
                 Cruise Hub
@@ -550,8 +550,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <div>
-                    <h1 className="text-3xl font-bold uppercase tracking-widest text-[var(--text-color)]">Cruise Hub</h1>
-                    <p className="font-bold tracking-widest uppercase mt-1">Passenger Area</p>
+                    <h1 className="text-3xl font-bold uppercase    text-[var(--text-color)]">Cruise Hub</h1>
+                    <p className="font-bold    uppercase mt-1">Passenger Area</p>
                   </div>
                 </div>
                 <p className="max-w-xl">Welcome aboard, <strong className="text-[var(--text-color)]">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
@@ -591,7 +591,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 {cruiseItinerary.length > 0 && (
                   <div>
                     <h2 className="font-bold tracking-wide text-white uppercase mb-6 flex items-center gap-3">
-                      Official Itinerary <span className="font-bold text-white/40 tracking-widest not- ml-2 uppercase">Subject to Change</span>
+                      Official Itinerary <span className="font-bold text-white/40    not- ml-2 uppercase">Subject to Change</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
@@ -599,8 +599,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <div className="absolute top-0 right-0 w-48 h-48 rounded-lg blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
-                              <span className="font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
-                              <span className="font-bold text-white/50 uppercase tracking-widest">{day.location}</span>
+                              <span className="font-bold uppercase    px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
+                              <span className="font-bold text-white/50 uppercase   ">{day.location}</span>
                             </div>
                             <h3 className="font-bold uppercase tracking-wide text-white mb-2">{day.theme}</h3>
                             <ul className="space-y-4 mt-5 border-t border-white/10 pt-5">
@@ -633,7 +633,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <h2 className="font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
                         <div className="flex items-center gap-2">
                           <span className="text-white font-bold text-2xl tracking-wide">412</span>
-                          <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest">Fans Onboard</span>
+                          <span className="text-[var(--color-accent)] font-bold uppercase   ">Fans Onboard</span>
                         </div>
                       </div>
                     </div>
@@ -682,7 +682,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             </p>
                           </div>
                         </div>
-                        <span className="px-4 py-2 bg-red-500 text-white font-bold uppercase tracking-widest rounded-lg group-hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
+                        <span className="px-4 py-2 bg-red-500 text-white font-bold uppercase    rounded-lg group-hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
                       </div>
                     </Link>
                   ))}
@@ -699,7 +699,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="mt-0.5">No crew feeds are live right now — check back during the next show</p>
                       </div>
                     </div>
-                    <span className="px-4 py-2 bg-white/10 text-white/70 font-bold uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border border-white/10">Live Hub →</span>
+                    <span className="px-4 py-2 bg-white/10 text-white/70 font-bold uppercase    rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border border-white/10">Live Hub →</span>
                   </div>
                 </Link>
               )}
@@ -729,11 +729,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-start justify-between relative z-10">
                           <div>
                             {isClaimed ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg font-bold text-[var(--color-accent)] uppercase tracking-widest mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg font-bold text-[var(--color-accent)] uppercase    mb-4">
                                 ✓ PRIZE CLAIMED
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-lg font-bold text-yellow-500 uppercase tracking-widest mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-lg font-bold text-yellow-500 uppercase    mb-4">
                                 RAFFLE WINNER
                               </span>
                             )}
@@ -759,16 +759,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               </div>
                               <div className="text-center">
                                 <p className="uppercase font-bold tracking-[0.2em] mb-1">Claim PIN</p>
-                                <p className={`font-bold ${isClaimed ?'text-emerald-400 line-through' : 'text-yellow-500'} font-mono tracking-[0.3em]`}>{pin}</p>
+                                <p className={`font-bold ${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'} font-mono tracking-[0.3em]`}>{pin}</p>
                               </div>
                             </div>
                           )}
                         </div>
                         <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between relative z-10">
-                          <p className="font-bold uppercase tracking-widest">
+                          <p className="font-bold uppercase   ">
                             {isClaimed ? 'Prize handed off successfully' : 'Show this at the merch table'}
                           </p>
-                          <button aria-label="Action button" className={`${isClaimed ?'text-emerald-400' : 'text-yellow-500'}  font-bold  uppercase tracking-widest hover:text-white transition-colors`}>
+                          <button aria-label="Action button" className={`${isClaimed ? 'text-emerald-400' : 'text-yellow-500'}  font-bold  uppercase    hover:text-white transition-colors`}>
                             {isClaimed ? 'Completed ✓' : 'Full Details →'}
                           </button>
                         </div>
@@ -814,18 +814,18 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                   <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-75" />
                                   <span className="relative inline-flex rounded-lg h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                                 </span>
-                                <span className="text-emerald-400 font-bold uppercase tracking-widest">Happening Now</span>
+                                <span className="text-emerald-400 font-bold uppercase   ">Happening Now</span>
                               </div>
                             ) : isEnded ? (
                               <div className="flex items-center gap-3 px-5 py-3 bg-[#00000029] rounded-lg border border-white/10">
-                                <span className="text-white/40 font-bold uppercase tracking-widest">Thanks for coming!</span>
+                                <span className="text-white/40 font-bold uppercase   ">Thanks for coming!</span>
                               </div>
                             ) : (
                               <div className="flex items-center gap-3">
                                 {[{ v: countdown.days, l: 'Days' }, { v: countdown.hours, l: 'Hrs' }, { v: countdown.mins, l: 'Min' }, { v: countdown.secs, l: 'Sec' }].map((u, i) => (
                                   <div key={u.l} className="flex flex-col items-center">
                                     <span className="text-2xl md:text-3xl font-bold text-white tabular-nums w-14 h-14 flex items-center justify-center">{String(u.v).padStart(2, '0')}</span>
-                                    <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/40 font-bold mt-1">{u.l}</span>
+                                    <span className="text-[var(--font-size-2xs)] uppercase    text-white/40 font-bold mt-1">{u.l}</span>
                                   </div>
                                 ))}
                               </div>
@@ -837,8 +837,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     })() : (
                       <div className="mt-4 py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
                         <p className="font-bold">No upcoming shows scheduled yet.</p>
-                        <p className="mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
-                        <Link href="/#tour" className="mt-3 text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
+                        <p className="mt-1 uppercase    font-bold">Check back soon — new dates drop regularly</p>
+                        <Link href="/#tour" className="mt-3 text-[var(--color-accent)] font-bold uppercase    hover:text-white transition-colors">View Tour Page →</Link>
                       </div>
                     )}
                   </div>
@@ -849,8 +849,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Upcoming Shows */}
             <div className="mb-10 text-white">
               <div className="flex items-center justify-between mb-4">
-                <span className="flex items-center gap-2 font-bold uppercase tracking-widest text-[var(--color-accent)]">Upcoming Shows</span>
-                <Link href="/#tour" className="text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">All Dates →</Link>
+                <span className="flex items-center gap-2 font-bold uppercase    text-[var(--color-accent)]">Upcoming Shows</span>
+                <Link href="/#tour" className="text-white/40 hover: text-[var(--color-accent)] uppercase    font-bold transition-colors">All Dates →</Link>
               </div>
               {shows.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -913,7 +913,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     {parkingNoteOpenIdx === i && (
                                       <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/10 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
-                                          <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Parking Info</span>
+                                          <span className="text-[0.6rem] font-bold uppercase    text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
@@ -937,7 +937,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     {parkingNoteOpenIdx === i && (
                                       <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/10 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
-                                          <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Parking Info</span>
+                                          <span className="text-[0.6rem] font-bold uppercase    text-white/40">Parking Info</span>
                                           <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
@@ -952,7 +952,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                         )}
                         {show.isSoldOut && (
-                          <span className="inline-block mt-2 text-[0.6rem] font-bold uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">Sold Out</span>
+                          <span className="inline-block mt-2 text-[0.6rem] font-bold uppercase    text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">Sold Out</span>
                         )}
                       </div>
                     </div>
@@ -974,10 +974,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
               <div className="text-white">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="flex items-center gap-2 font-bold uppercase tracking-widest text-[var(--color-accent)]">
+                  <span className="flex items-center gap-2 font-bold uppercase    text-[var(--color-accent)]">
                     Subscribed Show Alerts
                   </span>
-                  <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest">Specific Tour Dates</span>
+                  <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase   ">Specific Tour Dates</span>
                 </div>
 
                 {loadingAlerts ? (
@@ -998,7 +998,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                         <button aria-label="Action button"
                           onClick={() => handleUnsubscribeShow(sub.showId)}
-                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest rounded-lg transition-colors cursor-pointer"
+                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-bold uppercase    rounded-lg transition-colors cursor-pointer"
                         >
                           Cancel Alert
                         </button>
@@ -1009,7 +1009,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
                     <p className="font-bold">You aren&apos;t tracking any specific shows yet.</p>
                     <p className="mt-1">Click the bell icon on the tour page to get date alerts.</p>
-                    <Link href="/#tour" className="mt-3 text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
+                    <Link href="/#tour" className="mt-3 text-[var(--color-accent)] font-bold uppercase    hover:text-white transition-colors">Find Shows →</Link>
                   </div>
                 )}
               </div>
@@ -1030,7 +1030,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </p>
                       </div>
                     </div>
-                    <span className="shrink-0 px-6 py-3 bg-cyan-500 text-[#0a0a0f] font-bold uppercase tracking-widest group-hover:bg-cyan-400 transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+                    <span className="shrink-0 px-6 py-3 bg-cyan-500 text-[#0a0a0f] font-bold uppercase    group-hover:bg-cyan-400 transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                       Learn More →
                     </span>
                   </div>
@@ -1056,7 +1056,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       </div>
                       <button aria-label="Action button"
                         onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
-                        className="ml-auto text-white/40 hover:text-red-400 uppercase tracking-widest font-bold transition-colors cursor-pointer"
+                        className="ml-auto text-white/40 hover:text-red-400 uppercase    font-bold transition-colors cursor-pointer"
                       >Unsubscribe</button>
                     </div>
                   ) : (
@@ -1074,7 +1074,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
                         icon={false}
-                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white font-bold uppercase tracking-widest cursor-pointer text-center justify-center"
+                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white font-bold uppercase    cursor-pointer text-center justify-center"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </CosmicRadialButton>
@@ -1101,7 +1101,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="space-y-6 pt-4 border-t border-black/10">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-bold tracking-tight">Tour Memories</h3>
-                    <Link href="/fan-photo-wall" className="text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
+                    <Link href="/fan-photo-wall" className="text-[var(--color-accent)] font-bold uppercase    hover:text-black transition-colors">Global Fan Wall →</Link>
                   </div>
 
                   {/* Photo Gallery Grid */}
@@ -1110,7 +1110,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       {myPhotos.map(photo => {
                         const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                         return (
-                          <div key={photo.id} className={`relative aspect-square overflow-hidden group border ${photo.rejected ?'border-red-500/40' : 'border-black/10'}`}>
+                          <div key={photo.id} className={`relative aspect-square overflow-hidden group border ${photo.rejected ? 'border-red-500/40' : 'border-black/10'}`}>
                             {isVideo ? (
                               <video src={photo.src} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                             ) : (
@@ -1120,15 +1120,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {/* Status Badge */}
                             <div className="absolute top-2 right-2 z-10">
                               {photo.approved ? (
-                                <span className="px-2 py-0.5 bg-emerald-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-emerald-500 text-black font-mono text-[0.6rem] uppercase    rounded font-bold shadow-md">
                                   Live
                                 </span>
                               ) : photo.rejected ? (
-                                <span className="px-2 py-0.5 bg-red-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-red-500 text-black font-mono text-[0.6rem] uppercase    rounded font-bold shadow-md">
                                   Declined
                                 </span>
                               ) : (
-                                <span className="px-2 py-0.5 bg-yellow-500 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-yellow-500 text-black font-mono text-[0.6rem] uppercase    rounded font-bold shadow-md">
                                   Review
                                 </span>
                               )}
@@ -1138,7 +1138,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {photo.rejected ? (
                               <div className="absolute inset-0 bg-red-950/80 backdrop-blur-2xs flex flex-col justify-between p-3.5 text-left z-20">
                                 <div>
-                                  <p className="font-bold text-red-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                  <p className="font-bold text-red-400 uppercase    mb-1.5 flex items-center gap-1">
                                     <span>⚠️</span> Declined
                                   </p>
                                   <div className="p-2 bg-red-900/20 border border-red-500/10 rounded">
@@ -1153,7 +1153,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               /* Hover overlay for approved/pending */
                               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                                 <p className="font-bold text-black truncate">{photo.venue || 'Live Event'}</p>
-                                <p className={`font-bold uppercase tracking-widest mt-0.5 ${photo.approved ?'text-emerald-400' : 'text-purple-300'}`}>
+                                <p className={`font-bold uppercase    mt-0.5 ${photo.approved ? 'text-emerald-400' : 'text-purple-300'}`}>
                                   {photo.approved ? 'Live on wall' : 'In Review'}
                                 </p>
                               </div>
@@ -1178,27 +1178,27 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="pt-4 text-white flex flex-col justify-between">
                   <div className="border-b border-white/10 pb-4">
                     <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-2 font-bold uppercase tracking-widest text-purple-400">
+                      <span className="flex items-center gap-2 font-bold uppercase    text-purple-400">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                         VIP Inbox
                       </span>
                       {inboxMessages.filter(m => m.isNew).length > 0 && (
-                        <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 uppercase tracking-widest font-bold rounded-lg animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
+                        <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 uppercase    font-bold rounded-lg animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
                       )}
                     </div>
                   </div>
 
                   <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
                     {inboxMessages.map((msg) => (
-                      <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3 hover: bg-[#00000029] transition-colors border border-transparent hover:border-white/10 ${msg.isNew ?'bg-white/[0.02]' : 'opacity-60'}`}>
+                      <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3 hover: bg-[#00000029] transition-colors border border-transparent hover:border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">
-                          <div className={`w-8 h-8 rounded-lg ${msg.color ==='yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
+                          <div className={`w-8 h-8 rounded-lg ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
                             <span className="">{msg.icon}</span>
                           </div>
                           <div>
-                            <p className={`font-bold transition-colors ${msg.color ==='yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
+                            <p className={`font-bold transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
                             <p className="leading-relaxed mt-1">{msg.desc}</p>
-                            <p className={`font-bold tracking-widest uppercase mt-2 ${msg.isNew ?' text-[var(--color-accent)]' : 'text-white/40'}`}>{msg.time}</p>
+                            <p className={`font-bold    uppercase mt-2 ${msg.isNew ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>{msg.time}</p>
                           </div>
                         </div>
                       </div>
@@ -1226,8 +1226,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {merch.length > 0 && (
               <div className="mt-8 text-white">
                 <div className="flex items-center justify-between mb-5">
-                  <span className="flex items-center gap-2 font-bold uppercase tracking-widest text-fuchsia-400">🛍️ Quick Shop</span>
-                  <Link href="/merch" className="text-white/40 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold transition-colors">Full Store →</Link>
+                  <span className="flex items-center gap-2 font-bold uppercase    text-fuchsia-400">🛍️ Quick Shop</span>
+                  <Link href="/merch" className="text-white/40 hover: text-[var(--color-accent)] uppercase    font-bold transition-colors">Full Store →</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (
@@ -1241,7 +1241,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="font-bold truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg font-bold text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/merch`} className="font-bold uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/10 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
+                          <Link href={`/merch`} className="font-bold uppercase    text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/10 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
                     </div>

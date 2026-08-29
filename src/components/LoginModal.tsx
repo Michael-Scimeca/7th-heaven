@@ -723,7 +723,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1 tracking-widest border border-[var(--color-accent)]/40">
+                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1    border border-[var(--color-accent)]/40">
                   FAN
                 </span>{" "}
                 MEMBERSHIP
@@ -744,7 +744,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 py-2.5 px-4 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="login"
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -757,7 +757,7 @@ function LoginModalBodyContent(props: any) {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
-              className={`relative z-10 py-2.5 px-4 font-bold uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode ==="signup"
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
                 ? "text-white font-extrabold"
                 : " text-white  hover:text-white"
                 }`}
@@ -773,7 +773,7 @@ function LoginModalBodyContent(props: any) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode ==="signup" ? "grid-cols-2" : "grid-cols-5"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
@@ -791,7 +791,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id ==='admin' && adminMode)
+                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
                     ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                     : "text-white/50 hover:text-white/90 hover: bg-[#00000029]   "
                     }`}
@@ -869,7 +869,7 @@ function LoginModalBodyContent(props: any) {
             </p>
             <button type="button"
               onClick={() => { setConfirmationRequired(false); setError(""); }}
-              className="w-full py-3 border border-black/10 text-black font-bold uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
+              className="w-full py-3 border border-black/10 text-black font-bold uppercase    hover:bg-black/5 transition-colors cursor-pointer"
             >
               Got it, thanks
             </button>
@@ -977,7 +977,7 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ?'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
@@ -1016,7 +1016,7 @@ function LoginModalBodyContent(props: any) {
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={`font-bold leading-snug cursor-pointer ${isAgeConfirmed ?'text-white' : 'text-white/80'}`}>
+                <label htmlFor="modal-age-confirmed-toggle" className={`font-bold leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
                   I confirm that I am <span className="text-[#c27aff] font-bold">18 years of age or older</span>
                 </label>
               </div>
@@ -1099,7 +1099,7 @@ function LoginModalBodyContent(props: any) {
         {/* Quick Demo Login Bar for Testing */}
         <div className="mt-4 pt-3 border-t border-white/10">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
+            <span className="text-[10px] font-bold uppercase    text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
             <button type="button"
               onClick={() => {
                 if (!adminMode) {
@@ -1199,7 +1199,7 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
     <>
       <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-white/20" />
-        <span className="font-bold uppercase tracking-widest text-white/70 px-1">Or continue with</span>
+        <span className="font-bold uppercase    text-white/70 px-1">Or continue with</span>
         <div className="flex-1 h-px bg-white/20" />
       </div>
 
@@ -1421,7 +1421,7 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ?'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -1453,7 +1453,7 @@ function SignUpExtraFields({
                   checked={wantNotifications}
                   onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label htmlFor="signup-want-notifications-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNotifications ?'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-notifications-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
                   Show alerts near me
                 </label>
               </div>
@@ -1464,7 +1464,7 @@ function SignUpExtraFields({
                   checked={wantNewsletter}
                   onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label htmlFor="signup-want-newsletter-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNewsletter ?'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-newsletter-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
                   News & updates
                 </label>
               </div>

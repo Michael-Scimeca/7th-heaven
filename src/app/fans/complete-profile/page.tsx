@@ -118,7 +118,7 @@ export default function CompleteProfilePage() {
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <p className="font-bold uppercase tracking-widest">Loading your profile...</p>
+          <p className="font-bold uppercase   ">Loading your profile...</p>
         </div>
       </div>
     );
@@ -189,7 +189,7 @@ export default function CompleteProfilePage() {
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ?'bg-purple-600/10 border-purple-500/40'
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
@@ -224,7 +224,7 @@ export default function CompleteProfilePage() {
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ?'bg-purple-600/10 border-purple-500/40'
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >

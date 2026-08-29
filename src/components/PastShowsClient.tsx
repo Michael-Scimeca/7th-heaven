@@ -106,7 +106,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 font-bold uppercase tracking-widest text-[var(--muted-text)] mb-3">
+        <div className="flex items-center gap-2 font-bold uppercase    text-[var(--muted-text)] mb-3">
           <Link href="/" className="hover: text-[var(--color-accent)] transition-colors">Home</Link>
           <span>/</span>
           <Link href="/#tour" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
@@ -164,12 +164,12 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="font-bold uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
+            <span className="font-bold uppercase    text-[var(--muted-text)] shrink-0 mr-1">
               Jump to Year:
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg font-bold tracking-wider uppercase transition-colors cursor-pointer ${selectedYear ==="ALL"
+              className={`px-3 py-1.5 rounded-lg font-bold tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white  "
                 : " bg-[#00000029]    text-white/70 hover:text-white border-0"
                 }`}
@@ -183,7 +183,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ?"bg-[var(--color-accent)] text-white  font-bold   "
+                className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] text-white  font-bold   "
                   : " bg-[#00000029]    text-white/70 hover:text-white border-0"
                   }`}
               >

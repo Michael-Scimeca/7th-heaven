@@ -904,7 +904,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
-                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered ?"border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
+                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                     : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
                   title="Zoom in on dates & filter show markers"
@@ -1019,7 +1019,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-[10px] uppercase tracking-widest transition-colors rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-[10px] uppercase    transition-colors rounded-lg shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
                     >
                       <span>✕ Remove Date Filter</span>
                     </button>

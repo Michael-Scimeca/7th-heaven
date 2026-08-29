@@ -139,7 +139,7 @@ export default function HomeMerch() {
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
-            <span className="text-purple-300 font-bold uppercase tracking-widest">Demo</span>
+            <span className="text-purple-300 font-bold uppercase   ">Demo</span>
             <p className="text-purple-200/50">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
@@ -165,7 +165,7 @@ export default function HomeMerch() {
               <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden border-white/10 transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-bold uppercase    px-2.5 py-1 rounded-lg shadow-red-500/20">
                     Sale
                   </span>
                 </div>
@@ -191,11 +191,11 @@ export default function HomeMerch() {
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase tracking-widest">Sold Out</span>
+                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase   ">Sold Out</span>
                     ) : (
                       <button aria-label="Action button"
                         onClick={() => handleBuy()}
-                        className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
+                        className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/30 hover:text-white transition-colors cursor-pointer"
                       >
                         Buy →
                       </button>

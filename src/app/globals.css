@@ -4742,6 +4742,7 @@ textarea,
 .bg-linear-to-r.from-\[\#6917BF\],
 .bg-gradient-to-r.from-\[\#6917BF\],
 [class*="from-[#6917BF]"] {
+  color: #ffffff !important;
   --r1-x: 20%;
   --r1-y: 25%;
   --r1-c: rgba(235, 112, 19, 0.805);
@@ -6211,4 +6212,224 @@ section {
   text-transform: uppercase;
   color: #ffffff;
   padding: 0 6px;
+}
+
+/* UIverse Foolish Shrimp 59 Button */
+.uiverse-foolish-shrimp,
+.btn-cosmic-radial-property {
+  --h-button: 48px;
+  --w-button: 102px;
+  --round: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: radial-gradient(65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+  border-radius: var(--round);
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+}
+
+.uiverse-foolish-shrimp::before,
+.uiverse-foolish-shrimp::after,
+.btn-cosmic-radial-property::before,
+.btn-cosmic-radial-property::after {
+  content: "";
+  position: absolute;
+  inset: var(--space);
+  transition: all 0.5s ease-in-out;
+  border-radius: calc(var(--round) - var(--space));
+  z-index: 0;
+}
+
+.uiverse-foolish-shrimp::before,
+.btn-cosmic-radial-property::before {
+  --space: 1px;
+  background: linear-gradient(177.95deg,
+      rgba(255, 255, 255, 0.19) 0%,
+      rgba(255, 255, 255, 0) 100%);
+}
+
+.uiverse-foolish-shrimp::after,
+.btn-cosmic-radial-property::after {
+  --space: 2px;
+  background: radial-gradient(65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+}
+
+.uiverse-foolish-shrimp:active,
+.btn-cosmic-radial-property:active {
+  transform: scale(0.95);
+}
+
+.uiverse-foolish-shrimp .points_wrapper,
+.btn-cosmic-radial-property .points_wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.uiverse-foolish-shrimp:hover .points_wrapper,
+.btn-cosmic-radial-property:hover .points_wrapper {
+  opacity: 1;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point,
+.btn-cosmic-radial-property .points_wrapper .point {
+  bottom: -14px;
+  position: absolute;
+  animation: foolish-floating-points infinite ease-in-out;
+  pointer-events: none;
+  width: 11px;
+  height: 14px;
+  background-image: url("/images/buttonsyb.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
+}
+
+@keyframes foolish-floating-points {
+  0% {
+    transform: translateY(0);
+  }
+
+  85% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-55px);
+    opacity: 0;
+  }
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(1) {
+  left: 10%;
+  opacity: 1;
+  animation-duration: 2.35s;
+  animation-delay: 0.2s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(2) {
+  left: 30%;
+  opacity: 0.7;
+  animation-duration: 2.5s;
+  animation-delay: 0.5s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(3) {
+  left: 25%;
+  opacity: 0.8;
+  animation-duration: 2.2s;
+  animation-delay: 0.1s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(4) {
+  left: 44%;
+  opacity: 0.6;
+  animation-duration: 2.05s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(5) {
+  left: 50%;
+  opacity: 1;
+  animation-duration: 1.9s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(6) {
+  left: 75%;
+  opacity: 0.5;
+  animation-duration: 1.5s;
+  animation-delay: 1.5s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(7) {
+  left: 88%;
+  opacity: 0.9;
+  animation-duration: 2.2s;
+  animation-delay: 0.2s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(8) {
+  left: 58%;
+  opacity: 0.8;
+  animation-duration: 2.25s;
+  animation-delay: 0.2s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(9) {
+  left: 98%;
+  opacity: 0.6;
+  animation-duration: 2.6s;
+  animation-delay: 0.1s;
+}
+
+.uiverse-foolish-shrimp .points_wrapper .point:nth-child(10) {
+  left: 65%;
+  opacity: 1;
+  animation-duration: 2.5s;
+  animation-delay: 0.2s;
+}
+
+.uiverse-foolish-shrimp .inner {
+  z-index: 2;
+  gap: 6px;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: color 0.2s ease-in-out;
+}
+
+.uiverse-foolish-shrimp .inner svg.icon {
+  width: 18px;
+  height: 18px;
+  transition: fill 0.1s linear;
+}
+
+.uiverse-foolish-shrimp:focus svg.icon {
+  fill: white;
+}
+
+.uiverse-foolish-shrimp:hover svg.icon {
+  fill: transparent;
+  animation:
+    foolish-dasharray 1s linear forwards,
+    foolish-filled 0.1s linear forwards 0.95s;
+}
+
+@keyframes foolish-dasharray {
+  from {
+    stroke-dasharray: 0 0 0 0;
+  }
+
+  to {
+    stroke-dasharray: 68 68 0 0;
+  }
+}
+
+@keyframes foolish-filled {
+  to {
+    fill: white;
+  }
 }

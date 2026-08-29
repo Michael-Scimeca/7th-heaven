@@ -20,7 +20,7 @@ import CosmicRadialButton from "@/components/CosmicRadialButton";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`w-full h-[1px] transition-colors duration-300 ${active ?"bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_rgba(168,85,247,0.5)]"
         : "bg-white/10 group-hover:bg-purple-400/30"
         }`}
       aria-hidden="true"
@@ -935,7 +935,7 @@ ${filterLine}
                   <div className="relative flex flex-col justify-between min-h-[140px]">
                     {/* UP NEXT label */}
                     <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-                      <span className={`w-1.5 h-1.5 rounded-lg ${daysLabel ==="Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+                      <span className={`w-1.5 h-1.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
                       <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : " text-[var(--color-accent)] font-extrabold"}>
                         {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
                       </span>
@@ -1077,7 +1077,7 @@ ${filterLine}
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase tracking-widest text-[var(--text-color)]">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase    text-[var(--text-color)]">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1090,7 +1090,7 @@ ${filterLine}
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase tracking-widest text-[var(--text-color)]">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase    text-[var(--text-color)]">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1103,13 +1103,13 @@ ${filterLine}
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase tracking-widest text-[var(--text-color)]">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase    text-[var(--text-color)]">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase    text-[var(--text-color)] text-center">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase    text-[var(--text-color)] text-right">Website</span>
             </div>
           </div>
 
@@ -1135,7 +1135,7 @@ ${filterLine}
                 <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible">
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ?"" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="font-[var(--font-heading)] font-bold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
@@ -1165,7 +1165,7 @@ ${filterLine}
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ?"bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
+                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                                 : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                                 }`}
                             >
@@ -1278,7 +1278,7 @@ ${filterLine}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap font-bold uppercase tracking-widest text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
+                          className="inline-flex items-center justify-center whitespace-nowrap font-bold uppercase    text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
@@ -1288,13 +1288,13 @@ ${filterLine}
                         <div className="flex items-center gap-1 shrink-0 ml-1">
                           <button aria-label="Action button"
                             onClick={() => handleEditClick(show)}
-                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
+                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase    rounded transition-colors cursor-pointer font-sans"
                           >
                             Edit
                           </button>
                           <button aria-label="Action button"
                             onClick={() => handleDeleteShow(show._id)}
-                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
+                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase    rounded transition-colors cursor-pointer font-sans"
                           >
                             Del
                           </button>
@@ -1305,7 +1305,7 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-[var(--color-text-secondary)] ${isHighlighted ?" animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-[var(--color-text-secondary)] ${isHighlighted ? " animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
@@ -1763,13 +1763,13 @@ ${filterLine}
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ?'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ?'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ?'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1782,13 +1782,13 @@ ${filterLine}
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ?'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ?'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ?'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1801,13 +1801,13 @@ ${filterLine}
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ?'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ?'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ?'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">

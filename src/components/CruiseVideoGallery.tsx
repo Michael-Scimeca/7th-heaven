@@ -311,7 +311,7 @@ export default function CruiseVideoGallery() {
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
-                <span className="font-bold uppercase text-purple-400 tracking-widest block mb-1">
+                <span className="font-bold uppercase text-purple-400    block mb-1">
                   {activeVideo.category}
                 </span>
                 <h3 className="text-white font-bold uppercase tracking-wide truncate">

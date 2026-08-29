@@ -133,7 +133,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive ?"bg-purple-600 border-purple-600 text-white shadow-md"
+              className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
                 : " bg-[#00000029]      border-white/10   text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
@@ -166,7 +166,7 @@ export default function NotificationsPage() {
               <div className="bg-white p-3 rounded-2xl shadow-lg">
                 <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
               </div>
-              <p className="font-bold uppercase tracking-widest text-center max-w-[160px]">
+              <p className="font-bold uppercase    text-center max-w-[160px]">
                 Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
               </p>
             </div>
@@ -235,7 +235,7 @@ export default function NotificationsPage() {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1"
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase    text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}

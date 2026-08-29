@@ -7,6 +7,7 @@ import {
   Play, Music, Shield, ExternalLink, Mail,
   Users, Star, Tv, Zap, Heart
 } from "lucide-react";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 const ABOUT_DATA = {
   headline: "7th Heaven and the Rock 'n' Roll Kids",
@@ -67,7 +68,7 @@ const ALL_PRODUCTS = [
     title: "Last In Line",
     subtitle: "7th heaven and the Rock'n'Roll Kids Last In Line",
     desc: "The kids face their biggest challenge yet in an epic concert arena battle of music, heart, and teamwork.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
     coverImg: "/images/comics/719CbfCsqyL._SL1500_.jpg",
     badge: "Episode 5",
   },
@@ -77,7 +78,7 @@ const ALL_PRODUCTS = [
     title: "Operation Mind Crime",
     subtitle: "7th heaven and the Rock'n'Roll Kids Operation Mind Crime",
     desc: "Special illustrated black & white edition uncovering the mystery of XEC Records headquarters.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
     coverImg: "/images/comics/81yWx2cHMjL._SL1500_.jpg",
     badge: "Episode 6",
   },
@@ -87,7 +88,7 @@ const ALL_PRODUCTS = [
     title: "Caught In The Game",
     subtitle: "7th heaven and the Rock'n'Roll Kids Caught In The Game",
     desc: "Trapped inside a virtual reality video game grid, the Rock 'N' Roll Kids use music chords to beat the game boss.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
     coverImg: "/images/comics/61y6zQf1hCL._SL1500_.jpg",
     badge: "Episode 7",
   },
@@ -97,7 +98,7 @@ const ALL_PRODUCTS = [
     title: "Don't Speak",
     subtitle: "7th heaven and the Rock'n'Roll Kids Don't Speak",
     desc: "A silent spell falls over the city until the band powers up their amplifiers to restore music and speech.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
     coverImg: "/images/comics/71mgiiwhIGL._SL1500_.jpg",
     badge: "Episode 8",
   },
@@ -107,7 +108,7 @@ const ALL_PRODUCTS = [
     title: "Bad Company",
     subtitle: "7th heaven and the Rock'n'Roll Kids Bad Company",
     desc: "Wild west desert showdown where the band brings rhythm, harmony, and friendship to outlaws.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
     coverImg: "/images/comics/71njNs9hT2L._SL1500_.jpg",
     badge: "Episode 9",
   },
@@ -117,7 +118,7 @@ const ALL_PRODUCTS = [
     title: "Coloring Book",
     subtitle: "7th heaven and the Rock'n'Roll Kids Coloring Book",
     desc: "20+ pages of high-resolution line art featuring all 7th Heaven characters, concert stages, and comic scenes.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/heaven-RocknRoll-Kids-Coloring-Book/dp/1791341276/?_encoding=UTF8&pd_rd_w=y3LP8&content-id=amzn1.sym.cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_p=cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_r=135-6472012-0373844&pd_rd_wg=TnrXj&pd_rd_r=3a94a7b7-c821-4b82-85bb-e305d1283288&ref_=aufs_ap_sc_dsk",
     coverImg: "/images/comics/51Q94xAzn7L.jpg",
     badge: "Coloring Book",
   },
@@ -127,7 +128,7 @@ const ALL_PRODUCTS = [
     title: "Art Book",
     subtitle: "7th heaven and the Rock'n'Roll Kids Art Book",
     desc: "Exclusive concept sketches, character designs, storyboards, and development artwork from RNR Studios.",
-    amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
+    amazonUrl: "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
     coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg",
     badge: "Art Book",
   },
@@ -339,8 +340,8 @@ export default function RockNRollKidsPage() {
       <div className="animate-fadeIn">
         {/* Hero Header */}
         <section className="relative site-container py-8 text-center space-y-6">
-          <h1 className="font-bold uppercase text-white font-mono">{ABOUT_DATA.headline}</h1>
-          <p className="font-mono max-w-2xl mx-auto leading-relaxed">
+          <h1 className="font-bold uppercase text-white font-sans mb-3">{ABOUT_DATA.headline}</h1>
+          <p className="font-sans max-w-2xl mx-auto leading-relaxed">
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
 
@@ -375,7 +376,7 @@ export default function RockNRollKidsPage() {
                   )}
                   <div className="flex items-center gap-2 mb-2">
                     <char.icon className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-mono text-white uppercase">{char.role}</span>
+                    <span className="text-[10px] font-sans text-white uppercase">{char.role}</span>
                   </div>
                   <h4 className="font-bold text-white mb-1">{char.name}</h4>
                   <p className="leading-relaxed">{char.desc}</p>
@@ -393,7 +394,7 @@ export default function RockNRollKidsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
               <div className="lg:col-span-5 space-y-6">
-                <p className="font-medium text-cyan-100 leading-relaxed font-mono py-4">
+                <p className="font-medium text-cyan-100 leading-relaxed font-sans py-4">
                   {ABOUT_DATA.paragraph1}
                 </p>
                 <p className="leading-relaxed font-normal">
@@ -404,16 +405,13 @@ export default function RockNRollKidsPage() {
                 <div className="pt-3 border-t border-white/20 space-y-3">
                   <div className="flex flex-wrap gap-2.5">
                     {FEATURED_MUSIC_SINGLES.map((single) => (
-                      <button
+                      <FoolishShrimpButton
                         key={single.id}
-                        type="button"
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 rounded-lg font-bold btn-cosmic-radial-property font-sans tracking-wide transition-all ${selectedVideo === single.id ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white border-purple-400/50 shadow-md shadow-purple-600/30 scale-105 cursor-default"
-                          : "bg-white/10 text-white border-white/20 hover:bg-white/20 cursor-pointer"
-                          }`}
+                        className={`px-4 py-2 font-bold tracking-wide transition-all ${selectedVideo === single.id ? "scale-105 opacity-100" : "opacity-80 hover:opacity-100"}`}
                       >
                         {single.title}
-                      </button>
+                      </FoolishShrimpButton>
                     ))}
                   </div>
                 </div>
@@ -427,12 +425,16 @@ export default function RockNRollKidsPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {videosList.map((v) => (
-                    <button aria-label="Action button" type="button" key={v.id} onClick={() => setSelectedVideo(v.id)} className={`p-2.5 text-left transition-all rounded-lg text-white btn-cosmic-radial-property ${selectedVideo === v.id ? " "
-                      : " "
-                      }`}>
-                      <span className="text-[9px] font-mono text-white block">{v.tag}</span>
-                      <span className="font-bold text-cyan-100 line-clamp-1">{v.title}</span>
-                    </button>
+                    <FoolishShrimpButton
+                      key={v.id}
+                      onClick={() => setSelectedVideo(v.id)}
+                      className={`p-2.5 text-left transition-all ${selectedVideo === v.id ? "scale-105" : ""}`}
+                    >
+                      <div className="flex flex-col text-left">
+                        <span className="text-[11px] font-sans text-purple-300 font-bold uppercase tracking-wider block">{v.tag}</span>
+                        <span className="font-bold text-white line-clamp-1">{v.title}</span>
+                      </div>
+                    </FoolishShrimpButton>
                   ))}
                 </div>
               </div>
@@ -443,23 +445,25 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 border- pb-3">
               <div>
-                <h2 className="font-mono text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
+                <h2 className="font-sans text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
               </div>
-              <a
-                href="https://www.amazon.com/dp/B096TJNDWR"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 text-white font-mono font-bold uppercase rounded-lg flex items-center gap-2 btn-cosmic-radial-property w-fit"
-              >
-                <span>Paperback Book Series on Amazon</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <FoolishShrimpButton onClick={() => window.open("https://www.amazon.com/dp/B096TJNDWR", "_blank")}>
+                  Paperback Book Series on Amazon
+                </FoolishShrimpButton>
+              </div>
             </div>
 
             {/* 12-Item Book Grid with Real Covers */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
               {ALL_PRODUCTS.map((p) => (
-                <div key={p.id} className="group flex flex-col justify-between shadow-lg hover:shadow-pink-500/20">
+                <a
+                  key={p.id}
+                  href={p.amazonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col justify-between shadow-lg hover:shadow-purple-500/30 cursor-pointer text-left transition-all"
+                >
                   <div>
                     <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 mb-2.5 bg-black">
                       <Image
@@ -470,19 +474,14 @@ export default function RockNRollKidsPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <span className="text-[9px] font-mono text-pink-400 block mb-0.5">{p.badge}</span>
-                    <h3 className="font-bold text-white line-clamp-1 mb-1">{p.title}</h3>
-                    <p className="line-clamp-2 mb-3">{p.desc}</p>
+                    <span className="text-[12px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-0.5">{p.badge}</span>
+                    <h3 className="font-bold text-white line-clamp-1 mb-1 group-hover:text-purple-300 transition-colors">{p.title}</h3>
+                    <p className="line-clamp-2 mb-3 text-gray-300">{p.desc}</p>
                   </div>
-                  <a
-                    href={p.amazonUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-1.5 btn-cosmic-radial-property  font-mono font-bold uppercase rounded-lg text-center transition-all block"
-                  >
+                  <FoolishShrimpButton className="w-full py-1.5 text-center font-bold ">
                     Amazon Link
-                  </a>
-                </div>
+                  </FoolishShrimpButton>
+                </a>
               ))}
             </div>
           </section>
@@ -491,7 +490,7 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 pb-3">
               <div>
-                <h2 className="font-mono text-white font-bold uppercase">Series Founders & Contact</h2>
+                <h2 className="font-sans text-white font-bold uppercase">Series Founders & Contact</h2>
               </div>
 
             </div>
@@ -520,8 +519,8 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-mono text-amber-400 font-bold mb-0">Richard Hofherr</h3>
-                  <span className="font-mono rounded-lg inline-block">
+                  <h3 className="font-sans text-amber-400 font-bold mb-0">Richard Hofherr</h3>
+                  <span className="font-sans rounded-lg inline-block">
                     7th heaven · NTD Animation
                   </span>
                   <p className="leading-relaxed mb-0">
@@ -529,7 +528,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="py-2.5 font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
+                    className="py-2.5 font-sans font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Rich777@aol.com</span>
@@ -560,8 +559,8 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-mono mb-0 text-purple-400 font-bold">Roy Adorjan</h3>
-                  <span className="font-mono rounded-lg inline-block">
+                  <h3 className="font-sans mb-0 text-purple-400 font-bold">Roy Adorjan</h3>
+                  <span className="font-sans rounded-lg inline-block">
                     RNR Studios
                   </span>
                   <p className="leading-relaxed mb-0">
@@ -569,7 +568,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="py-2.5  font-mono font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
+                    className="py-2.5  font-sans font-bold uppercase rounded-xl transition-all flex items-center justify-start gap-2 w-full"
                   >
                     <Mail className="w-4 h-4" />
                     <span>info@minimartians.com</span>

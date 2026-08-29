@@ -133,7 +133,7 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff] hover:scale-105 active:scale-95 text-white font-black text-base md:text-lg uppercase tracking-widest transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
+        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff] hover:scale-105 active:scale-95 text-white font-black text-base md:text-lg uppercase    transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
         aria-label="Open Pages Directory"
       >
         <Menu className="w-6 h-6 md:w-7 md:h-7 text-white transition-transform group-hover:scale-110" />
@@ -194,7 +194,7 @@ export default function PagesPillDrawer() {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeCategory === cat ?"bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeCategory === cat ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
                         : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
                         }`}
                     >
@@ -237,7 +237,7 @@ export default function PagesPillDrawer() {
                           </span>
                         </div>
                         <span
-                          className={`text-[12px] font-mono font-bold px-1.5 py-0.5 rounded ${item.type ==="Static"
+                          className={`text-[12px] font-mono font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"

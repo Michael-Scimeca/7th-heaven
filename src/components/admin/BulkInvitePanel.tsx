@@ -218,7 +218,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging ?"border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
+            className={`border-2 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
               : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
           >
@@ -277,7 +277,7 @@ export default function BulkInvitePanel() {
             <div className="flex items-center gap-3">
               <span className="text-2xl"></span>
               <div>
-                <p className="text-black font-bold uppercase tracking-widest">Parsed Invite Roster</p>
+                <p className="text-black font-bold uppercase   ">Parsed Invite Roster</p>
                 <p className="text-black/60 mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
               </div>
             </div>
@@ -287,7 +287,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="px-4 py-2 font-bold uppercase tracking-widest text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30"
+                className="px-4 py-2 font-bold uppercase    text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30"
               >
                 Clear List
               </button>
@@ -295,7 +295,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="!py-3 !px-6 font-bold uppercase tracking-widest !text-white shadow-md disabled:opacity-40"
+                className="!py-3 !px-6 font-bold uppercase    !text-white shadow-md disabled:opacity-40"
               >
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </CosmicRadialButton>
@@ -304,11 +304,11 @@ export default function BulkInvitePanel() {
 
           {/* Results Toast */}
           {results && (
-            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ?"bg-rose-50 border-rose-200 text-rose-800"
+            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ? "bg-rose-50 border-rose-200 text-rose-800"
               : "bg-emerald-50 border-emerald-200 text-emerald-800"
               }`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
-              <p className="font-bold uppercase tracking-widest">
+              <p className="font-bold uppercase   ">
                 Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
               </p>
             </div>
@@ -318,7 +318,7 @@ export default function BulkInvitePanel() {
           <div className="max-h-[300px] overflow-y-auto border border-black/10 bg-white">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-black/5 text-black/70 uppercase tracking-widest text-[0.65rem] border-b border-black/10">
+                <tr className="bg-black/5 text-black/70 uppercase    text-[0.65rem] border-b border-black/10">
                   <th className="py-3 px-4 font-bold">Email</th>
                   <th className="py-3 px-4 font-bold">Name</th>
                   <th className="py-3 px-4 font-bold text-right">Status</th>

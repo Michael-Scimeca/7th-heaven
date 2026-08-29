@@ -20,7 +20,7 @@ function VersionA() {
       <div className="flex gap-2">
         {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
           <button aria-label="Action button" key={i} type="button" onClick={() => setActiveTab(i)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer ${activeTab === i ?"bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer ${activeTab === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
               : "bg-white/[0.04] border border-white/10 text-white/40 hover: text-white "
               }`}>
             <span className="w-5 h-5 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
@@ -53,11 +53,11 @@ function VersionB() {
         {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(({ label, i }) => (
           <React.Fragment key={i}>
             <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 bg-transparent p-0 text-left" onClick={() => setStep(i)}>
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${step === i ?"bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                 : step > i ? "bg-[var(--color-accent)]/30 text-white"
                   : " bg-[#00000029]    border border-white/10 text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
-              <span className={`text-[var(--font-size-2xs)] uppercase tracking-widest font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
+              <span className={`text-[var(--font-size-2xs)] uppercase    font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
             {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
           </React.Fragment>
@@ -88,10 +88,10 @@ function VersionC() {
   return (
     <div className="grid grid-cols-2 gap-3">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
-        <div key={i} className={`p-4 border space-y-2.5 ${i === 0 ?"bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
+        <div key={i} className={`p-4 border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
-            <span className="font-bold uppercase tracking-widest text-white/50">
+            <span className="font-bold uppercase    text-white/50">
               <span>{COLLAPSIBLE_LABELS[i] || `Guest ${i + 1}`}</span>
             </span>
           </div>
@@ -102,7 +102,7 @@ function VersionC() {
       ))}
       <button aria-label="Action button" type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover: border-white/10 transition-colors cursor-pointer">
         <span className="text-xl">+</span>
-        <span className="font-bold uppercase tracking-widest">Add Guest</span>
+        <span className="font-bold uppercase   ">Add Guest</span>
       </button>
     </div>
   );
@@ -117,10 +117,10 @@ function VersionD() {
   return (
     <div className="border border-white/10 overflow-hidden">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
-        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">#</span>
-        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Name</span>
-        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Email</span>
-        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Phone</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">#</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">Name</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">Email</span>
+        <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">Phone</span>
       </div>
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}>
@@ -130,7 +130,7 @@ function VersionD() {
           <input aria-label="Input field" type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-2.5 font-bold uppercase tracking-widest text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-2.5 font-bold uppercase    text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
     </div>
   );
 }
@@ -152,7 +152,7 @@ function VersionE() {
               {g.name ? g.name[0].toUpperCase() : (i + 1)}
             </span>
             <div className="flex-1 text-left">
-              <p className="font-bold uppercase tracking-widest">{COLLAPSIBLE_LABELS[i]}</p>
+              <p className="font-bold uppercase   ">{COLLAPSIBLE_LABELS[i]}</p>
               <p className="font-bold">{g.name || "—"}</p>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${open === i ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9" /></svg>
@@ -166,7 +166,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 font-bold uppercase tracking-widest text-white/20 hover: text-[var(--color-accent)] hover: border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 font-bold uppercase    text-white/20 hover: text-[var(--color-accent)] hover: border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }

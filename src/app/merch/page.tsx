@@ -245,7 +245,7 @@ function MerchDashboard() {
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-bold uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="mb-6">Sign in with your merch team account.</p>
-        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-widest transition-colors">Sign In</button>
+        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors">Sign In</button>
       </div>
     </div>
   );
@@ -271,11 +271,11 @@ function MerchDashboard() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-pink-500 font-bold uppercase tracking-[0.3em]">7th Heaven</p>
-            <h1 className="text-white font-bold text-lg uppercase tracking-widest">Merch Table</h1>
+            <h1 className="text-white font-bold text-lg uppercase   ">Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 font-bold uppercase tracking-widest rounded-lg animate-pulse">
+              <span className="px-2.5 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-400 font-bold uppercase    rounded-lg animate-pulse">
                 {pendingPickups.length} Pickup{pendingPickups.length !== 1 ? 's' : ''} Pending
               </span>
             )}
@@ -288,7 +288,7 @@ function MerchDashboard() {
         <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
-        <h2 className="font-bold uppercase tracking-widest text-white">
+        <h2 className="font-bold uppercase    text-white">
           Coming Soon
         </h2>
         <p className="max-w-sm mt-2 font-medium">

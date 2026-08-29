@@ -539,7 +539,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active ?"!text-[#9333ea] font-bold active cursor-default"
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
                     : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                     }`}
                 >
@@ -644,7 +644,7 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); router.push('/'); }}
-                  className="hidden lg:block text-[12px] font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:block text-[12px] font-bold uppercase    text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
                   Sign Out
@@ -804,7 +804,7 @@ export function Header() {
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase tracking-widest">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase   ">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>

@@ -90,7 +90,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
             <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
-          <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+          <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
             <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
@@ -133,7 +133,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
           <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
-        <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+        <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All
           <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
         </Link>
@@ -149,7 +149,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
             <div className="flex items-center gap-1 text-[var(--font-size-5xs)] font-bold uppercase tracking-[0.15em]">
-              <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel ==="Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+              <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
               <span className={daysLabel === "Happening Now" ? "text-red-500  font-bold " : " text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>
@@ -208,19 +208,19 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Bottom block: Action buttons */}
           <div className="flex flex-wrap gap-1.5 items-center mt-0.5 pt-2 border-t border-white/5">
             {nextShow.mapUrl && (
-              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase tracking-widest font-bold flex items-center gap-1" id="hero-upnext-map">
+              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase    font-bold flex items-center gap-1" id="hero-upnext-map">
                 <MapPin className="w-3 h-3 text-cyan-400" /> Directions
               </a>
             )}
             {nextShow.websiteUrl && (
-              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[var(--font-size-5xs)] py-1 px-3 bg-[var(--color-accent)] text-white uppercase tracking-widest font-bold" id="hero-upnext-website">
+              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[var(--font-size-5xs)] py-1 px-3 bg-[var(--color-accent)] text-white uppercase    font-bold" id="hero-upnext-website">
                 Website
               </a>
             )}
             <div className="relative calendar-dropdown-container">
               <button aria-label="Next"
                 onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase tracking-widest font-bold text-white/70"
+                className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase    font-bold text-white/70"
                 id="hero-upnext-calendar-btn"
               >
                 <Calendar className="w-3 h-3 text-cyan-400" /> Calendar

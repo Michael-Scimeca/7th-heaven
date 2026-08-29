@@ -349,30 +349,31 @@ export default function MediaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090514] text-white pt-20 pb-24 relative overflow-hidden">
+    <div className="min-h-screen text-white pt-20 pb-24 relative overflow-hidden">
 
       <div className="site-container relative z-10">
-        {/* ── TOP UTILITY BAR (Search & Add Video) ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pt-4">
-          <div className="flex items-center gap-2">
-          </div>
-          <div className="flex items-center gap-3 w-full sm:w-auto min-h-[38px] justify-end">
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="SEARCH MEDIA..."
-              containerClassName="w-full sm:w-[260px]"
-            />
-            {isAdmin && (
-              <button
-                onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Video</span>
-              </button>
-            )}
-          </div>
+        {/* ── CENTERED PAGE TITLE ── */}
+        <div className="text-center mb-6 pt-4">
+          <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-tight text-white">MEDIA</h1>
+        </div>
+
+        {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="SEARCH MEDIA..."
+            containerClassName="w-full sm:w-[320px]"
+          />
+          {isAdmin && (
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Video</span>
+            </button>
+          )}
         </div>
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
@@ -443,7 +444,7 @@ export default function MediaPage() {
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white font-bold uppercase tracking-widest border border-white/10  shrink-0">
+                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white font-bold uppercase    border border-white/10  shrink-0">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
@@ -458,7 +459,7 @@ export default function MediaPage() {
                   </div>
 
                   {/* Year / Duration Metadata */}
-                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold text-purple-300/80 uppercase tracking-widest shrink-0">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold text-purple-300/80 uppercase    shrink-0">
                     {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
                   </span>
                 </div>
@@ -511,7 +512,7 @@ export default function MediaPage() {
                 </div>
                 <div>
                   <h3 className="font-bold uppercase tracking-wider text-white">Add Video to Media Vault</h3>
-                  <p className="uppercase tracking-widest font-mono">Syncs to Sanity CMS & Media Hub</p>
+                  <p className="uppercase    font-mono">Syncs to Sanity CMS & Media Hub</p>
                 </div>
               </div>
               <button

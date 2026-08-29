@@ -229,7 +229,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2 className="font-bold">Submit to <span className="gradient-text">Fan Wall</span></h2>
-          <p className="mt-1 uppercase tracking-widest font-bold">Share your concert moments</p>
+          <p className="mt-1 uppercase    font-bold">Share your concert moments</p>
         </div>
       </div>
 
@@ -267,7 +267,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ?"border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029]   "
+                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029]   "
                   }`}
               >
                 {previews.length > 0 ? (
@@ -308,7 +308,7 @@ export default function FanUploadForm() {
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="font-bold tracking-widest uppercase mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
+                      <p className="font-bold    uppercase mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
                       <p className="uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
@@ -316,8 +316,8 @@ export default function FanUploadForm() {
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-10 h-10 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
-                    <p className="font-bold uppercase tracking-widest">Safety Scan</p>
-                    <p className="text-emerald-400 uppercase tracking-widest mt-1">{scanStatus}</p>
+                    <p className="font-bold uppercase   ">Safety Scan</p>
+                    <p className="text-emerald-400 uppercase    mt-1">{scanStatus}</p>
                   </div>
                 )}
                 <input aria-label="Input field" ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />

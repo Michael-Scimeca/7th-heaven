@@ -186,7 +186,7 @@ export default function ProximityPanel() {
         {/* Zip + Radius */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label htmlFor="proximity-zip-input" className="uppercase tracking-widest font-bold text-white mb-2 block">Your Zip Code</label>
+            <label htmlFor="proximity-zip-input" className="uppercase    font-bold text-white mb-2 block">Your Zip Code</label>
             <GlowInput
               id="proximity-zip-input"
               aria-label="Your zip code"
@@ -199,7 +199,7 @@ export default function ProximityPanel() {
             />
           </div>
           <div>
-            <label htmlFor="proximity-radius-select" className="uppercase tracking-widest font-bold text-white mb-2 block">Radius</label>
+            <label htmlFor="proximity-radius-select" className="uppercase    font-bold text-white mb-2 block">Radius</label>
             <GlowSelect
               id="proximity-radius-select"
               aria-label="Radius"
@@ -217,7 +217,7 @@ export default function ProximityPanel() {
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
-          className="w-full py-3 font-bold uppercase tracking-widest text-white cursor-pointer"
+          className="w-full py-3 font-bold uppercase    text-white cursor-pointer"
         >
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </CosmicRadialButton>
@@ -227,12 +227,12 @@ export default function ProximityPanel() {
       {notificationsEnabled && (
         <div className="pt-2 text-white">
           <div className="flex items-center justify-between mb-4">
-            <span className="font-bold uppercase tracking-widest text-[var(--color-accent)]">
+            <span className="font-bold uppercase    text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button aria-label="Action button"
               onClick={fetchNearbyShows}
-              className="uppercase tracking-widest text-white/40 hover:text-white font-bold transition-colors"
+              className="uppercase    text-white/40 hover:text-white font-bold transition-colors"
             >
               Refresh
             </button>
@@ -279,7 +279,7 @@ export default function ProximityPanel() {
                     <button aria-label="Action button"
                       type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 font-bold uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ?"bg-blue-600 text-white border-blue-600"
+                      className={`px-4 py-2 font-bold uppercase    rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 text-white border-blue-600"
                         : "bg-white/10 text-white   border-white/10   hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}
                     >
@@ -291,20 +291,20 @@ export default function ProximityPanel() {
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="uppercase tracking-widest font-bold">
+                        <p className="uppercase    font-bold">
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="uppercase tracking-widest text-blue-400 hover:text-white font-bold transition-colors"
+                            className="uppercase    text-blue-400 hover:text-white font-bold transition-colors"
                           >
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="uppercase tracking-widest text-white/40 hover:text-white font-bold transition-colors"
+                            className="uppercase    text-white/40 hover:text-white font-bold transition-colors"
                           >
                             Share
                           </a>

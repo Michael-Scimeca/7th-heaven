@@ -224,7 +224,7 @@ export default function MemberDashboard() {
 
                 <div className="relative py-4 flex items-center justify-center">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                  <span className="relative bg-[var(--color-bg-surface)] px-4 font-bold text-white/30 uppercase tracking-widest">Already a fan?</span>
+                  <span className="relative bg-[var(--color-bg-surface)] px-4 font-bold text-white/30 uppercase   ">Already a fan?</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
@@ -314,7 +314,7 @@ export default function MemberDashboard() {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/5 bg-[#00000029] border-dashed">
                     <p className="font-bold">Your wallet is currently empty.</p>
-                    <p className="mt-1 uppercase tracking-widest font-bold">Keep participating in live streams for a chance to win</p>
+                    <p className="mt-1 uppercase    font-bold">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -326,7 +326,7 @@ export default function MemberDashboard() {
                     const pin = pinMatch ? pinMatch[1] : null;
 
                     return (
-                      <div key={msg.id} className={`p-4 border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-[45px] ${msg.color ==='yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
+                      <div key={msg.id} className={`p-4 border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-[45px] ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
                         <div className="flex items-center gap-4 w-full">
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029]    border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
@@ -335,7 +335,7 @@ export default function MemberDashboard() {
                               {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase tracking-widest font-bold mt-1">{msg.time}</p>
+                            <p className="uppercase    font-bold mt-1">{msg.time}</p>
                           </div>
                         </div>
 
@@ -348,11 +348,11 @@ export default function MemberDashboard() {
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
-                                <p className="font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
-                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <p className="font-bold text-red-400 uppercase    leading-tight animate-pulse">Show this to merch crew.</p>
+                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-bold uppercase    rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
-                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
+                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase    cursor-pointer">Cancel</button>
                               </div>
                             ) : (
                               <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
@@ -387,14 +387,14 @@ export default function MemberDashboard() {
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/5 bg-[#00000029] border-dashed">
               <p className="font-bold">No photo submissions found.</p>
-              <p className="mt-1 uppercase tracking-widest font-bold">Upload a photo to join the fan wall!</p>
+              <p className="mt-1 uppercase    font-bold">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ?"border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
+                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
                     : photo.approved
                       ? "   border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
                       : "border-white/10"
@@ -410,15 +410,15 @@ export default function MemberDashboard() {
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
                       {photo.approved ? (
-                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-emerald-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase    rounded border border-emerald-400/20 flex items-center gap-1">
                           <Check className="w-3 h-3" /> Published
                         </span>
                       ) : photo.rejected ? (
-                        <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-red-400/30 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase    rounded border border-red-400/30 flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase    rounded border border-yellow-400/20 font-bold flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -435,7 +435,7 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-red-400 font-bold uppercase tracking-widest mb-1">
+                        <p className="text-red-400 font-bold uppercase    mb-1">
                           Reason for Decline
                         </p>
                         <p className="text-red-200/80 leading-normal font-medium">
@@ -463,7 +463,7 @@ export default function MemberDashboard() {
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
               <p className="uppercase tracking-[0.2em] mb-1">{s.label}</p>
-              <p className={`font-bold ${s.accent ?" text-[var(--color-accent)]" : ""}`}>
+              <p className={`font-bold ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
             </div>
@@ -547,7 +547,7 @@ export default function MemberDashboard() {
        `}</style>
           <div className="  p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
             <h1 className="text-5xl sm:text-7xl font-bold text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
-            <p className="font-bold mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
+            <p className="font-bold mt-4 uppercase   ">CLAIMING PRIZE</p>
           </div>
         </div>
       )}

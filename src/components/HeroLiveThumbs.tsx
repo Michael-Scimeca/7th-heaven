@@ -241,7 +241,7 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white font-bold uppercase    px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
                     <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                     LIVE
                   </div>
