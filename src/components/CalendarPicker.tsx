@@ -324,7 +324,7 @@ export function CalendarPicker({
                   <FoolishShrimpButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className="w-full text-left p-4 !h-auto flex gap-4 items-center group cursor-pointer"
+                    className="w-full !justify-start text-left p-4 !h-auto flex gap-4 items-center group cursor-pointer"
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5" />

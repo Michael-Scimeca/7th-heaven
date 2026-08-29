@@ -6477,6 +6477,14 @@ body:has(textarea:focus) .cursor-tail-circle {
   transition: color 0.2s ease-in-out;
 }
 
+.uiverse-foolish-shrimp.text-left .inner,
+.uiverse-foolish-shrimp.justify-start .inner,
+.uiverse-foolish-shrimp[class*="text-left"] .inner,
+.uiverse-foolish-shrimp[class*="justify-start"] .inner {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
 .uiverse-foolish-shrimp .inner svg.icon {
   width: 18px;
   height: 18px;

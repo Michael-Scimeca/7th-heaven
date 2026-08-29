@@ -6568,3 +6568,11 @@ body:has(textarea:focus) .cursor-tail-circle {
   --space: 2px;
   background: transparent;
 }
+
+.uiverse-foolish-shrimp.text-left .inner,
+.uiverse-foolish-shrimp.justify-start .inner,
+.uiverse-foolish-shrimp[class*="text-left"] .inner,
+.uiverse-foolish-shrimp[class*="justify-start"] .inner {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
