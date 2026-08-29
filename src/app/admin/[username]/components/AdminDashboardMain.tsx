@@ -4285,9 +4285,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       {/* Client */}
-                      <div className="col-span-3 relative">
-                        <div className="font-bold text-[var(--text-color)]">{b.name}</div>
-                        <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+                      <div className="col-span-3 relative flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center font-bold text-purple-300 text-xs shrink-0 border border-purple-500/30 shadow-xs">
+                          {b.name?.substring(0, 2).toUpperCase() || 'EP'}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-[var(--text-color)] truncate">{b.name}</div>
+                          <div className="text-[0.65rem] text-[var(--muted-text)] font-mono truncate">{b.email}</div>
 
                         {editingInlineLoadInId === b.bookingId ? (
                           <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
@@ -4349,6 +4353,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             )}
                           </button>
                         )}
+                        </div>
                       </div>
 
                       {/* Event Type */}
