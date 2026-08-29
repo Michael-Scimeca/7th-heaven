@@ -5214,9 +5214,7 @@ textarea,
 
 .su-desc {
   max-width: 600px;
-  color: #a9a897;
-  font-size: 0.95rem;
-  line-height: 1.5;
+
   margin: 0;
 }
 
@@ -6282,6 +6280,8 @@ body:has(textarea:focus) .cursor-tail-circle {
 /* Active Highlight Conic Gradient Border with Transparent Fill */
 .uiverse-foolish-shrimp.is-active,
 .uiverse-foolish-shrimp.active,
+.uiverse-foolish-shrimp.always,
+.uiverse-foolish-shrimp-always,
 .uiverse-foolish-shrimp[aria-selected="true"],
 .uiverse-foolish-shrimp[data-active="true"],
 .btn-cosmic-radial-property.is-active,
@@ -6291,6 +6291,8 @@ body:has(textarea:focus) .cursor-tail-circle {
 
 .uiverse-foolish-shrimp.is-active::before,
 .uiverse-foolish-shrimp.active::before,
+.uiverse-foolish-shrimp.always::before,
+.uiverse-foolish-shrimp-always::before,
 .uiverse-foolish-shrimp[aria-selected="true"]::before,
 .uiverse-foolish-shrimp[data-active="true"]::before,
 .btn-cosmic-radial-property.is-active::before,
