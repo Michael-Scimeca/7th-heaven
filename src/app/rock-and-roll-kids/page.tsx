@@ -345,11 +345,11 @@ export default function RockNRollKidsPage() {
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
 
-          {/* Full Cast Lineup Image Banner (allcharacters2024.png) */}
+          {/* Full Cast Lineup Image Banner (allc.png) */}
           <div className="relative w-full rounded-lg overflow-hidden mt-4">
             <Image
-              src="/images/comics/allcharacters2024.png"
-              alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup 2024"
+              src="/images/comics/allc.png"
+              alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
               width={1400}
               height={550}
               priority
@@ -431,7 +431,7 @@ export default function RockNRollKidsPage() {
                       className={`p-2.5 text-left transition-all ${selectedVideo === v.id ? "scale-105" : ""}`}
                     >
                       <div className="flex flex-col text-left">
-                        <span className="text-[11px] font-sans text-purple-300 font-bold uppercase tracking-wider block">{v.tag}</span>
+                        <span className="text-[11px] font-sans text-purple-600 font-bold uppercase tracking-wider block">{v.tag}</span>
                         <span className="font-bold text-white line-clamp-1">{v.title}</span>
                       </div>
                     </FoolishShrimpButton>
