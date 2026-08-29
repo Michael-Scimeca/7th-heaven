@@ -240,6 +240,9 @@ export default function MediaPage() {
   const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as any });
+    }
     fetchCategories();
   }, [fetchCategories]);
 
