@@ -40,6 +40,35 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [frameIdx, setFrameIdx] = useState<number>(0);
+
+  // Preload frame thumbnails for 0ms instant hover response
+  useEffect(() => {
+    if (!isHovered) {
+      setFrameIdx(0);
+      return;
+    }
+
+    const frameUrls = [
+      `https://i.ytimg.com/vi/${videoId}/1.jpg`,
+      `https://i.ytimg.com/vi/${videoId}/2.jpg`,
+      `https://i.ytimg.com/vi/${videoId}/3.jpg`,
+    ];
+
+    // Preload into memory
+    frameUrls.forEach((url) => {
+      const img = new window.Image();
+      img.src = url;
+    });
+
+    let current = 0;
+    const interval = setInterval(() => {
+      current = (current + 1) % frameUrls.length;
+      setFrameIdx(current + 1);
+    }, 280);
+
+    return () => clearInterval(interval);
+  }, [isHovered, videoId]);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -50,6 +79,13 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   };
 
   const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+  const storyboardUrls = [
+    imgSrc,
+    `https://i.ytimg.com/vi/${videoId}/1.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/2.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/3.jpg`,
+  ];
+  const currentDisplayUrl = isHovered && frameIdx > 0 ? storyboardUrls[frameIdx] : imgSrc;
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -69,36 +105,29 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         </h4>
       </div>
 
-      {/* 2. Cover Image Layer (Overlays base poster when available with smooth fade-in) */}
+      {/* 2. Cover Image & Instant Storyboard Motion Layer (0ms Latency) */}
       {!imgFailed && (
         <Image
-          src={imgSrc}
+          src={currentDisplayUrl}
           alt={title}
           fill
           loading="eager"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-all duration-500 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
+          className={`object-cover transition-all duration-300 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
           onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
         />
       )}
 
-      {/* 3. Live Video Hover Preview Clip (Instant Zero-Latency Animated Clip + Iframe) */}
+      {/* 3. Live Video Hover Stream Layer (Buffers underneath & fades in) */}
       {isHovered && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.2s_ease-out_both]">
-          {/* Instant 0ms Animated Video Motion Clip */}
-          {/* eslint-disable-next-line react-doctor/nextjs-no-img-element, @next/next/no-img-element */}
-          <img
-            src={`https://i.ytimg.com/an_webp/${videoId}/mqdefault_6s.webp`}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.3s_ease-out_both]">
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=5&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`}
             title={title}
             loading="eager"
-            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10 opacity-90"
+            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10 opacity-95"
             allow="autoplay; encrypted-media"
           />
         </div>
