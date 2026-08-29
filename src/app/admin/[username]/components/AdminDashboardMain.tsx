@@ -4249,257 +4249,267 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {bookings.length === 0 ? (
               <div className="p-12 text-center text-white/30 font-mono">No booking requests received yet.</div>
             ) : (
-              <div className="w-full overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-full">
-                  <thead>
-                    <tr className="border-b border-[#ffffff1f] text-left uppercase text-[var(--muted-text)] font-bold tracking-wider">
-                      <th className="pr-4 pt-4 pb-4 font-bold border-b border-[#ffffff1f] pl-0">ID</th>
-                      <th className="p-4 font-bold border-b border-[#ffffff1f]">Client</th>
-                      <th className="p-4 font-bold border-b border-[#ffffff1f]">Event Type</th>
-                      <th className="p-4 font-bold border-b border-[#ffffff1f]">Date</th>
-                      <th className="p-4 font-bold border-b border-[#ffffff1f]">Venue</th>
-                      <th className="pt-4 pb-4 pl-4 pr-0 font-bold border-b border-[#ffffff1f] text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookings.slice().reverse().map((b: any) => (
-                      <React.Fragment key={b.bookingId}>
-                        <tr className="border-b border-[#ffffff1f]">
-                          <td
-                            role="button"
-                            tabIndex={0}
-                            className="pr-4 pt-4 pb-4 border-b border-[#ffffff1f] font-mono text-[0.75rem] text-purple-400 font-bold cursor-pointer hover:underline pl-0"
-                            onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId);
-                              }
-                            }}
-                          >
-                            {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
-                          </td>
-                          <td className="p-4 border-b border-[#ffffff1f] relative">
-                            <div className="font-bold text-[var(--text-color)]">{b.name}</div>
-                            <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+              <div className="w-full flex flex-col gap-0 select-none">
+                {/* Header Row */}
+                <div className="hidden md:grid grid-cols-12 gap-3 px-4 py-3 border-b border-[#ffffff1f] text-left uppercase text-[var(--muted-text)] font-bold tracking-wider text-[10px]">
+                  <div className="col-span-1">ID</div>
+                  <div className="col-span-3">Client</div>
+                  <div className="col-span-2">Event Type</div>
+                  <div className="col-span-2">Date</div>
+                  <div className="col-span-2">Venue</div>
+                  <div className="col-span-2 text-right">Status</div>
+                </div>
 
-                            {editingInlineLoadInId === b.bookingId ? (
-                              <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
-                                <p className="font-bold text-purple-300 uppercase tracking-wider">Set Official Load-In / Out Time:</p>
-                                <div className="input-glow-border rounded-lg w-full">
-                                  <input
-                                    type="text"
-                                    autoFocus
-                                    value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
-                                    onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
-                                    onKeyDown={async (e) => {
-                                      if (e.key === "Enter") {
-                                        e.preventDefault();
-                                        await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
-                                        setEditingInlineLoadInId(null);
-                                      } else if (e.key === "Escape") {
-                                        setEditingInlineLoadInId(null);
-                                      }
-                                    }}
-                                    placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                    className="w-full bg-transparent border border-white/10 rounded-lg px-2.5 py-1.5 text-white focus:outline-none placeholder:text-white/40"
-                                  />
-                                </div>
-                                <div className="flex items-center justify-between gap-1.5 pt-0.5">
-                                  <button
-                                    type="button"
-                                    onClick={() => setEditingInlineLoadInId(null)}
-                                    className="px-2 py-1 text-[12px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button
-                                    type="button"
-                                    disabled={loadInSaving[b.bookingId]}
-                                    onClick={async () => {
-                                      await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
-                                      setEditingInlineLoadInId(null);
-                                    }}
-                                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[12px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
-                                  >
-                                    {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
+                {/* Booking Rows */}
+                {bookings.slice().reverse().map((b: any) => (
+                  <div key={b.bookingId} className="flex flex-col border-b border-[#ffffff1f] bg-[#00000029]">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 p-4 items-center">
+                      {/* ID */}
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        className="col-span-1 font-mono text-[0.75rem] text-purple-400 font-bold cursor-pointer hover:underline"
+                        onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId);
+                          }
+                        }}
+                      >
+                        {b.bookingId}
+                      </div>
+
+                      {/* Client */}
+                      <div className="col-span-3 relative">
+                        <div className="font-bold text-[var(--text-color)]">{b.name}</div>
+                        <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+
+                        {editingInlineLoadInId === b.bookingId ? (
+                          <div className="mt-2 p-2 bg-transparent border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]">
+                            <p className="font-bold text-purple-300 uppercase tracking-wider text-[11px]">Set Official Load-In / Out Time:</p>
+                            <div className="input-glow-border rounded-lg w-full">
+                              <input
+                                type="text"
+                                autoFocus
+                                value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
+                                onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
+                                onKeyDown={async (e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
+                                    setEditingInlineLoadInId(null);
+                                  } else if (e.key === "Escape") {
+                                    setEditingInlineLoadInId(null);
+                                  }
+                                }}
+                                placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
+                                className="w-full bg-transparent border border-white/10 rounded-lg px-2.5 py-1.5 text-white focus:outline-none placeholder:text-white/40"
+                              />
+                            </div>
+                            <div className="flex items-center justify-between gap-1.5 pt-0.5">
                               <button
                                 type="button"
-                                onClick={() => setEditingInlineLoadInId(b.bookingId)}
-                                title="Click to set official load-in/out time and email planner"
-                                className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
-                                  ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
-                                  : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
-                                  }`}
+                                onClick={() => setEditingInlineLoadInId(null)}
+                                className="px-2 py-1 text-[12px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors cursor-pointer"
                               >
-                                {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
-                                  <>⚡ Load-In Unsure (Click to Set) ✍️</>
-                                ) : (
-                                  <>🕒 {b.loadInTime || b.load_in_time} (Edit) ✍️</>
-                                )}
+                                Cancel
                               </button>
+                              <button
+                                type="button"
+                                disabled={loadInSaving[b.bookingId]}
+                                onClick={async () => {
+                                  await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
+                                  setEditingInlineLoadInId(null);
+                                }}
+                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[12px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
+                              >
+                                {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setEditingInlineLoadInId(b.bookingId)}
+                            title="Click to set official load-in/out time and email planner"
+                            className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
+                              ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
+                              : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
+                              }`}
+                          >
+                            {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
+                              <>⚡ Load-In Unsure (Click to Set) ✍️</>
+                            ) : (
+                              <>🕒 {b.loadInTime || b.load_in_time} (Edit) ✍️</>
                             )}
-                          </td>
-                          <td className="p-4 border-b border-[#ffffff1f] text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
-                          <td className="p-4 border-b border-[#ffffff1f] text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
-                          <td className="p-4 border-b border-[#ffffff1f]">
-                            <div className="text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
-                            <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
-                          </td>
-                          <td className="pt-4 pb-4 pl-4 pr-0 border-b border-[#ffffff1f] text-right">
-                            <div className="flex items-center justify-end gap-2 flex-wrap">
-                              <span className={`px-2.5 py-1 rounded-full text-[0.6rem] font-bold uppercase    ${b.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                                : b.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                  : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                                }`}>{b.status}</span>
-                              {b.status === 'pending' && (
-                                <div className="flex items-center gap-1.5 ml-1">
-                                  <button
-                                    aria-label="Approve booking"
-                                    disabled={updatingBookingId === b.bookingId}
-                                    onClick={async () => {
-                                      if (bookingUpdatingRef.current) return;
-                                      if (!confirm(`Approve booking ${b.bookingId}?`)) return;
-                                      bookingUpdatingRef.current = true;
-                                      setUpdatingBookingId(b.bookingId);
-                                      try {
-                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
-                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
-                                      } finally {
-                                        bookingUpdatingRef.current = false;
-                                        setUpdatingBookingId(null);
-                                      }
-                                    }}
-                                    className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[0.55rem] uppercase    rounded-lg transition-colors cursor-pointer disabled:opacity-50"
-                                  >
-                                    {updatingBookingId === b.bookingId ? '...' : 'Approve'}
-                                  </button>
-                                  <button
-                                    aria-label="Reject booking"
-                                    disabled={updatingBookingId === b.bookingId}
-                                    onClick={async () => {
-                                      if (bookingUpdatingRef.current) return;
-                                      if (!confirm(`Reject booking ${b.bookingId}?`)) return;
-                                      bookingUpdatingRef.current = true;
-                                      setUpdatingBookingId(b.bookingId);
-                                      try {
-                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
-                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
-                                      } finally {
-                                        bookingUpdatingRef.current = false;
-                                        setUpdatingBookingId(null);
-                                      }
-                                    }}
-                                    className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[0.55rem] uppercase    rounded-lg transition-colors cursor-pointer disabled:opacity-50"
-                                  >
-                                    {updatingBookingId === b.bookingId ? '...' : 'Reject'}
-                                  </button>
-                                </div>
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Event Type */}
+                      <div className="col-span-2 text-[var(--text-color)] font-medium capitalize">
+                        {b.eventType?.replace('_', ' ')}
+                      </div>
+
+                      {/* Date */}
+                      <div className="col-span-2 text-[var(--text-color)] font-mono font-medium">
+                        {b.eventDate}
+                      </div>
+
+                      {/* Venue */}
+                      <div className="col-span-2 min-w-0">
+                        <div className="text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
+                        <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
+                      </div>
+
+                      {/* Status */}
+                      <div className="col-span-2 md:text-right flex items-center md:justify-end gap-2 flex-wrap">
+                        <span className={`px-2.5 py-1 rounded-full text-[0.6rem] font-bold uppercase ${b.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                          : b.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                            : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                          }`}>{b.status}</span>
+                        {b.status === 'pending' && (
+                          <div className="flex items-center gap-1.5 ml-1">
+                            <button
+                              aria-label="Approve booking"
+                              disabled={updatingBookingId === b.bookingId}
+                              onClick={async () => {
+                                if (bookingUpdatingRef.current) return;
+                                if (!confirm(`Approve booking ${b.bookingId}?`)) return;
+                                bookingUpdatingRef.current = true;
+                                setUpdatingBookingId(b.bookingId);
+                                try {
+                                  const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
+                                  if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
+                                } finally {
+                                  bookingUpdatingRef.current = false;
+                                  setUpdatingBookingId(null);
+                                }
+                              }}
+                              className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[0.55rem] uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                            >
+                              {updatingBookingId === b.bookingId ? '...' : 'Approve'}
+                            </button>
+                            <button
+                              aria-label="Reject booking"
+                              disabled={updatingBookingId === b.bookingId}
+                              onClick={async () => {
+                                if (bookingUpdatingRef.current) return;
+                                if (!confirm(`Reject booking ${b.bookingId}?`)) return;
+                                bookingUpdatingRef.current = true;
+                                setUpdatingBookingId(b.bookingId);
+                                try {
+                                  const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
+                                  if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
+                                } finally {
+                                  bookingUpdatingRef.current = false;
+                                  setUpdatingBookingId(null);
+                                }
+                              }}
+                              className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-[0.55rem] uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                            >
+                              {updatingBookingId === b.bookingId ? '...' : 'Reject'}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Expanded details container */}
+                    {expandedBooking === b.bookingId && (
+                      <div className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
+                          <div>
+                            <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
+                            <p className="font-semibold text-black dark:text-white">
+                              {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
+                            <p className="font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                          </div>
+                          <div>
+                            <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
+                            <p className="font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
+                          </div>
+                          <div>
+                            <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
+                            <p className="font-semibold text-cyan-400">
+                              {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
+                            {b.ticketLink ? (
+                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                                {b.ticketLink}
+                              </a>
+                            ) : (
+                              <p className="text-black/30 dark:text-white/20">—</p>
+                            )}
+                          </div>
+                          {b.details && (
+                            <div className="col-span-2 sm:col-span-4 mt-2">
+                              <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
+                              <p className="text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
+                            </div>
+                          )}
+                          {b.plannerNotes && (
+                            <div className="col-span-2 sm:col-span-4 mt-2">
+                              <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
+                              <p className="text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
+                            </div>
+                          )}
+
+                          {/* Official Load-In Setup Manager Widget */}
+                          <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30 rounded-lg space-y-3">
+                            <div className="flex items-center justify-between gap-2 flex-wrap">
+                              <p className="uppercase text-purple-300 font-bold flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
+                              </p>
+                              {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
+                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                                  ⚡ Planner Unsure — Pending Admin Confirmation
+                                </span>
                               )}
                             </div>
-                          </td>
-                        </tr>
-                        {expandedBooking === b.bookingId && (
-                          <tr>
-                            <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
-                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
-                                <div>
-                                  <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
-                                  <p className="font-semibold text-black dark:text-white">
-                                    {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
-                                  </p>
-                                </div>
-                                <div>
-                                  <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
-                                  <p className="font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
-                                </div>
-                                <div>
-                                  <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
-                                  <p className="font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
-                                </div>
-                                <div>
-                                  <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
-                                  <p className="font-semibold text-cyan-400">
-                                    {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
-                                  </p>
-                                </div>
-                                <div>
-                                  <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
-                                  {b.ticketLink ? (
-                                    <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
-                                      {b.ticketLink}
-                                    </a>
-                                  ) : (
-                                    <p className="text-black/30 dark:text-white/20">—</p>
-                                  )}
-                                </div>
-                                {b.details && (
-                                  <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
-                                    <p className="text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
-                                  </div>
-                                )}
-                                {b.plannerNotes && (
-                                  <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="uppercase    text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
-                                    <p className="text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
-                                  </div>
-                                )}
 
-                                {/* Official Load-In Setup Manager Widget */}
-                                <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30 rounded-lg space-y-3">
-                                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                                    <p className="uppercase    text-purple-300 font-bold flex items-center gap-2">
-                                      <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
-                                    </p>
-                                    {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
-                                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                                        ⚡ Planner Unsure — Pending Admin Confirmation
-                                      </span>
-                                    )}
-                                  </div>
+                            <p className="">
+                              Set or update the official load-in setup time below. Clicking <strong>"Save & Email Planner"</strong> updates the record and sends an email confirmation directly to <strong>{b.plannerEmail || b.email}</strong>.
+                            </p>
 
-                                  <p className="">
-                                    Set or update the official load-in setup time below. Clicking <strong>"Save & Email Planner"</strong> updates the record and sends an email confirmation directly to <strong>{b.plannerEmail || b.email}</strong>.
-                                  </p>
+                            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
+                              <input
+                                type="text"
+                                value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
+                                onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
+                                placeholder="e.g. 5:00 PM (2 hours before show)"
+                                className="flex-1 bg-[#00000029] border border-white/20 rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
+                              />
+                              <button
+                                type="button"
+                                disabled={loadInSaving[b.bookingId]}
+                                onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
+                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                              >
+                                {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
+                              </button>
+                            </div>
 
-                                  <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
-                                    <input
-                                      type="text"
-                                      value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
-                                      onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
-                                      placeholder="e.g. 5:00 PM (2 hours before show)"
-                                      className="flex-1 bg-[#00000029] border border-white/20 rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
-                                    />
-                                    <button
-                                      type="button"
-                                      disabled={loadInSaving[b.bookingId]}
-                                      onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
-                                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
-                                    >
-                                      {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
-                                    </button>
-                                  </div>
-
-                                  {loadInNotice[b.bookingId] && (
-                                    <div className="p-2.5 bg-emerald-950/60 border border-emerald-400/40 rounded-lg font-bold text-emerald-300 flex items-center gap-2 animate-[fade-in_0.15s_ease-out]">
-                                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                                      <span>{loadInNotice[b.bookingId]}</span>
-                                    </div>
-                                  )}
-                                </div>
+                            {loadInNotice[b.bookingId] && (
+                              <div className="p-2.5 bg-emerald-950/60 border border-emerald-400/40 rounded-lg font-bold text-emerald-300 flex items-center gap-2 animate-[fade-in_0.15s_ease-out]">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                                <span>{loadInNotice[b.bookingId]}</span>
                               </div>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </tbody>
-                </table>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
