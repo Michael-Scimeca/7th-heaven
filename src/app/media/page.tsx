@@ -35,40 +35,48 @@ const GRADIENT_PALETTES = [
   { bg: "from-[#250b36] via-[#12051c] to-[#07020a]", accent: "from-violet-500 to-fuchsia-500", glow: "rgba(217,70,239,0.3)" },
 ];
 
+const PREVIEW_VIDEO_CLIPS = [
+  "/movie/be-here-clip.mp4",
+  "/movie/color-in-motion-clip.mp4",
+  "/movie/luminous-clip.mp4",
+  "/movie/fest1-clip.mp4",
+  "/movie/spectrum.mp4",
+  "/movie/hero-colorinmostion.mp4",
+  "/movie/next.mp4",
+  "/movie/Adam.mp4",
+  "/movie/Nick.mp4",
+  "/movie/Rich.mp4",
+  "/movie/Frankie.mp4",
+  "/movie/Mark.mp4",
+  "/movie/cruise.mp4",
+  "/movie/ship-sea.mp4",
+  "/movie/ship-port.mp4",
+];
+
 function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: string; title: string; isHovered: boolean; index?: number }) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [frameIdx, setFrameIdx] = useState<number>(0);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
-  // Preload frame thumbnails for 0ms instant hover response
+  const clipUrl = PREVIEW_VIDEO_CLIPS[index % PREVIEW_VIDEO_CLIPS.length];
+
+  // Instant 0ms HTML5 Video Playback on Hover
   useEffect(() => {
-    if (!isHovered) {
-      setFrameIdx(0);
-      return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isHovered) {
+      video.currentTime = 0;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    } else {
+      video.pause();
     }
-
-    const frameUrls = [
-      `https://i.ytimg.com/vi/${videoId}/1.jpg`,
-      `https://i.ytimg.com/vi/${videoId}/2.jpg`,
-      `https://i.ytimg.com/vi/${videoId}/3.jpg`,
-    ];
-
-    // Preload into memory
-    frameUrls.forEach((url) => {
-      const img = new window.Image();
-      img.src = url;
-    });
-
-    let current = 0;
-    const interval = setInterval(() => {
-      current = (current + 1) % frameUrls.length;
-      setFrameIdx(current + 1);
-    }, 280);
-
-    return () => clearInterval(interval);
-  }, [isHovered, videoId]);
+  }, [isHovered]);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -77,15 +85,6 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
       setImgFailed(true);
     }
   };
-
-  const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-  const storyboardUrls = [
-    imgSrc,
-    `https://i.ytimg.com/vi/${videoId}/1.jpg`,
-    `https://i.ytimg.com/vi/${videoId}/2.jpg`,
-    `https://i.ytimg.com/vi/${videoId}/3.jpg`,
-  ];
-  const currentDisplayUrl = isHovered && frameIdx > 0 ? storyboardUrls[frameIdx] : imgSrc;
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -105,10 +104,10 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         </h4>
       </div>
 
-      {/* 2. Cover Image & Instant Storyboard Motion Layer (0ms Latency) */}
+      {/* 2. Cover Image Layer (Overlays base poster when available with smooth fade-in) */}
       {!imgFailed && (
         <Image
-          src={currentDisplayUrl}
+          src={imgSrc}
           alt={title}
           fill
           loading="eager"
@@ -120,18 +119,18 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Live Video Hover Stream Layer (Buffers underneath & fades in) */}
-      {isHovered && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 animate-[fade-in_0.3s_ease-out_both]">
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=5&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`}
-            title={title}
-            loading="eager"
-            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10 opacity-95"
-            allow="autoplay; encrypted-media"
-          />
-        </div>
-      )}
+      {/* 3. Native HTML5 Hover Video Preview Clip (Instant 0ms Latency — EverWonder Studio Architecture) */}
+      <video
+        ref={videoRef}
+        src={clipUrl}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 pointer-events-none ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+      />
 
       {/* 4. Hover Active Card Overlay */}
       <div
