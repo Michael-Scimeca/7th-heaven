@@ -35,7 +35,19 @@ const GRADIENT_PALETTES = [
   { bg: "from-[#250b36] via-[#12051c] to-[#07020a]", accent: "from-violet-500 to-fuchsia-500", glow: "rgba(217,70,239,0.3)" },
 ];
 
-function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: string; title: string; isHovered: boolean; index?: number }) {
+function VideoCardVisual({
+  videoId,
+  title,
+  isHovered,
+  index = 0,
+  shouldPrefetch = false,
+}: {
+  videoId: string;
+  title: string;
+  isHovered: boolean;
+  index?: number;
+  shouldPrefetch?: boolean;
+}) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
@@ -53,6 +65,8 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
   const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
   // 5-Second snippet clip of this specific video (loops between 10s and 15s)
   const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
+
+  const shouldRenderIframe = isHovered || shouldPrefetch;
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -87,9 +101,9 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. 5-Second Video Hover Snippet Clip for this specific YouTube Video */}
-      {isHovered && (
-        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${iframeLoaded ? "opacity-100" : "opacity-0"}`}>
+      {/* 3. 5-Second Video Hover Snippet Clip for this specific YouTube Video (Prefetched for top cards) */}
+      {shouldRenderIframe && (
+        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${isHovered && iframeLoaded ? "opacity-100" : "opacity-0"}`}>
           <iframe
             src={embedSnippetUrl}
             title={title}
@@ -395,7 +409,7 @@ export default function MediaPage() {
               >
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
-                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} />
+                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < 6} />
                 </div>
 
                 {/* Dark Gradient Overlay at Bottom */}
