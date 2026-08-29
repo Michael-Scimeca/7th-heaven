@@ -3447,7 +3447,6 @@ textarea,
 }
 
 .snake-itinerary-eventTitle {
-    font-size: 15px;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 0.01em;
@@ -3491,7 +3490,6 @@ textarea,
     .snake-itinerary-nodeIcon {
         width: 40px;
         height: 40px;
-        font-size: 16px;
     }
 
     .snake-itinerary-card {
@@ -3558,7 +3556,6 @@ textarea,
     .snake-itinerary-nodeIcon {
         width: 32px;
         height: 32px;
-        font-size: 14px;
     }
 
     .snake-itinerary-card {
@@ -3567,9 +3564,7 @@ textarea,
         border-radius: 14px;
     }
 
-    .snake-itinerary-cardTitle {
-        font-size: 1.0rem;
-    }
+    .snake-itinerary-cardTitle {}
 }
 
 #contact-page {
@@ -5121,14 +5116,12 @@ textarea,
 .su-intro p {
     max-width: 520px;
     color: #a9a897;
-    font-size: 1rem;
     line-height: 1.6;
     margin: 0;
 }
 
 .su-hint {
     margin-top: 10px;
-    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #a855f7;
@@ -5191,8 +5184,6 @@ textarea,
 }
 
 .su-tag {
-    font-size: 0.85rem;
-    letter-spacing: 0.12em;
     opacity: 0.75;
     font-weight: 600;
 }
@@ -5204,9 +5195,6 @@ textarea,
     gap: 16px;
     flex-wrap: wrap;
     font-size: clamp(1.75rem, 4.2vw, 3.8rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
     max-width: 800px;
     width: 100%;
     text-transform: uppercase;
@@ -5214,9 +5202,6 @@ textarea,
 
 .su-desc {
     max-width: 600px;
-    color: #a9a897;
-    font-size: 0.95rem;
-    line-height: 1.5;
     margin: 0;
 }
 
@@ -6492,4 +6477,94 @@ body:has(textarea:focus) .cursor-tail-circle {
     to {
         fill: white;
     }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+@keyframes gradientBorder {
+  from {
+    --angle: 0turn;
+  }
+
+  to {
+    --angle: 1turn;
+  }
+}
+
+/* UIverse Foolish Shrimp 59 Button */
+.uiverse-foolish-shrimp,
+.btn-cosmic-radial-property {
+  --h-button: 48px;
+  --w-button: 102px;
+  --round: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  border-radius: var(--round);
+  border: 1px solid color-mix(in oklab, var(--color-white) 10%, transparent);
+  outline: none;
+  padding: 8px 12px;
+  order: 1px;
+  background-image: linear-gradient(to bottom right, #420a68, #554360);
+}
+
+/* Active Highlight Conic Gradient Border with Transparent Fill */
+.uiverse-foolish-shrimp.is-active,
+.uiverse-foolish-shrimp.active,
+.uiverse-foolish-shrimp.always,
+.uiverse-foolish-shrimp-always,
+.uiverse-foolish-shrimp[aria-selected="true"],
+.uiverse-foolish-shrimp[data-active="true"],
+.btn-cosmic-radial-property.is-active,
+.gradient-border-highlight {
+  position: relative !important;
+}
+
+.uiverse-foolish-shrimp.is-active::before,
+.uiverse-foolish-shrimp.active::before,
+.uiverse-foolish-shrimp.always::before,
+.uiverse-foolish-shrimp-always::before,
+.uiverse-foolish-shrimp[aria-selected="true"]::before,
+.uiverse-foolish-shrimp[data-active="true"]::before,
+.btn-cosmic-radial-property.is-active::before,
+.gradient-border-highlight::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: var(--round) !important;
+  padding: 1.5px !important;
+  background: conic-gradient(from var(--angle), transparent 180deg, #f36fff 200.3deg, #268aff 220.46deg, #52eaea 230.24deg, transparent 250deg) !important;
+  animation: gradientBorder 1s linear infinite !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.uiverse-foolish-shrimp::before,
+.uiverse-foolish-shrimp::after,
+.btn-cosmic-radial-property::before,
+.btn-cosmic-radial-property::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease-in-out;
+  border-radius: calc(var(--round) - var(--space));
+  z-index: 0;
+}
+
+.uiverse-foolish-shrimp::after,
+.btn-cosmic-radial-property::after {
+  --space: 2px;
+  background: transparent;
 }
