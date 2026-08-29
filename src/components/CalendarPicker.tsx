@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useSyncExternalStore } from "react";
 import { Guitar, Mic, PartyPopper, Sparkles } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 export interface BookingSlot {
   id: string;
@@ -320,21 +321,19 @@ export function CalendarPicker({
               const TypeIcon = type.Icon;
               return (
                 <div key={type.id}>
-                  <button aria-label="Action button"
-                    type="button"
+                  <FoolishShrimpButton
+                    isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex gap-4 items-center group ${isSelected ? "border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
-                      : "border-white/10  bg-[#00000029]    hover: border-white/10  hover:bg-white/10 text-white/80"}
-                     `}
+                    className="w-full text-left p-4 !h-auto flex gap-4 items-center group cursor-pointer"
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300  font-bold " : "text-white"}`}>{type.label}</span>
-                      <span className="text-white block leading-tight">{type.desc}</span>
+                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{type.label}</span>
+                      <span className="text-white/80 block leading-tight">{type.desc}</span>
                     </div>
-                  </button>
+                  </FoolishShrimpButton>
                   {type.id === "custom" && isSelected && (
                     <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
                       <input aria-label="Input field"

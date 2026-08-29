@@ -570,13 +570,13 @@ export default function AudioPlayerSection() {
         </div>
 
         {/* --- MAIN AREA (MIDDLE TRACKLIST + CREDITS SIDEBAR + BOTTOM PLAYBAR) --- */}
-        <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
+        <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0 bg-[#00000029] ">
 
           {/* Top Section: Tracklist + Credits Sidebar */}
           <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch overflow-hidden relative">
 
             {/* Middle Tracklist Column */}
-            <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
+            <div className="flex-1 relative flex flex-col justify-between  self-stretch h-full min-h-full overflow-hidden min-w-0 bg-[#00000029] ">
               {/* Tablet & Mobile Album Header Bar */}
               <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
                 <div className="flex items-center gap-3 min-w-0">
@@ -624,7 +624,7 @@ export default function AudioPlayerSection() {
                           <button
                             type="button"
                             key={`${albumIdx}-${trackIdx}`}
-                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover: bg-[#00000029]  cursor-pointer'}`} onClick={() => {
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 !rounded-none ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover:  cursor-pointer'}`} onClick={() => {
                               setActiveAlbumIndex(albumIdx);
                               setActiveTrackIndex(trackIdx);
                               setIsPlaying(true);
@@ -659,7 +659,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover: bg-[#00000029]  cursor-pointer'}`} onClick={() => {
+                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none !rounded-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0  cursor-pointer'}`} onClick={() => {
                             if (isActive) togglePlay();
                             else {
                               setActiveTrackIndex(idx);
