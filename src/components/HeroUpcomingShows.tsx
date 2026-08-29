@@ -88,7 +88,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
-            <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
+            <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
           <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
@@ -131,7 +131,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
           <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">Upcoming Shows</span>
+          <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
         <Link href="/tour" className="text-[var(--font-size-4xs)] font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All

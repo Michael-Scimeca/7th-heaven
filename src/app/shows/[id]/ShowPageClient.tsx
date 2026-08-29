@@ -357,13 +357,13 @@ export default function ShowPageClient({
               {/* Status badge */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 {isPast ? (
-                  <span className="uppercase tracking-[0.2em] font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
+                  <span className="uppercase    font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
                 ) : show.status === "live" ? (
-                  <span className="flex items-center gap-2 uppercase tracking-[0.2em] font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
+                  <span className="flex items-center gap-2 uppercase    font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
                     <span className="w-1.5 h-1.5 rounded-lg bg-red-500 animate-pulse" /> Happening Now
                   </span>
                 ) : (
-                  <span className="uppercase tracking-[0.2em] font-bold text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                  <span className="uppercase    font-bold text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
                 )}
               </div>
 

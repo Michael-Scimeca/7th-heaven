@@ -228,7 +228,7 @@ export default function VerifyPage() {
               boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
             }}
           >
-            <p className="font-bold uppercase tracking-[0.2em] text-center mb-5">Enter 6-Digit PIN</p>
+            <p className="font-bold uppercase    text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
@@ -334,12 +334,12 @@ export default function VerifyPage() {
               </div>
 
               <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
-                <p className="text-purple-300/60 font-bold uppercase tracking-[0.2em] mb-1">Winner Account</p>
+                <p className="text-purple-300/60 font-bold uppercase    mb-1">Winner Account</p>
                 <p className="text-purple-300 font-bold">{winnerData.winner}</p>
               </div>
 
               <div className="bg-white/[0.03] border border-white/10 px-5 py-3 mb-4">
-                <p className="font-bold uppercase tracking-[0.2em] mb-1">Prize</p>
+                <p className="font-bold uppercase    mb-1">Prize</p>
                 <p className="font-bold">{winnerData.prize}</p>
               </div>
 

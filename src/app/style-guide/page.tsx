@@ -2093,7 +2093,7 @@ ${deskRules.join("\n")}
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}
                     >
-                      <p className="font-bold uppercase tracking-[0.2em] text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="font-bold uppercase    text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -2230,7 +2230,7 @@ ${deskRules.join("\n")}
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}
                     >
-                      <p className="font-bold uppercase tracking-[0.2em] text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="font-bold uppercase    text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -3413,7 +3413,7 @@ ${deskRules.join("\n")}
 
             {/* Vertical scroll demo */}
             <div className="space-y-3">
-              <p className="font-bold uppercase tracking-[0.2em] text-purple-400">Vertical Scroll</p>
+              <p className="font-bold uppercase    text-purple-400">Vertical Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
@@ -3432,7 +3432,7 @@ ${deskRules.join("\n")}
 
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
-              <p className="font-bold uppercase tracking-[0.2em] text-purple-400">Horizontal Scroll</p>
+              <p className="font-bold uppercase    text-purple-400">Horizontal Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
@@ -3450,7 +3450,7 @@ ${deskRules.join("\n")}
 
             {/* Both axes demo */}
             <div className="space-y-3 md:col-span-2">
-              <p className="font-bold uppercase tracking-[0.2em] text-purple-400">Both Axes (2D Scroll)</p>
+              <p className="font-bold uppercase    text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
                 className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4"
@@ -3474,7 +3474,7 @@ ${deskRules.join("\n")}
 
           {/* Usage code block */}
           <div className="bg-black/40 border border-white/10 rounded-lg p-5">
-            <p className="font-bold uppercase tracking-[0.2em] text-purple-400 mb-3">Usage</p>
+            <p className="font-bold uppercase    text-purple-400 mb-3">Usage</p>
             <pre className="text-[11px] text-purple-200 font-mono leading-relaxed overflow-x-auto custom-scrollbar">
               {`// globals.css already defines:
 .custom-scrollbar::-webkit-scrollbar        { width: 10px; height: 10px; }

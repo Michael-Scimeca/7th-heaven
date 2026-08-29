@@ -250,13 +250,13 @@ export default function ClaimPage() {
 
               {/* Winner name */}
               <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-4">
-                <p className="text-[var(--color-accent)]/60 font-bold uppercase tracking-[0.2em] mb-1 font-sans">Account Name</p>
+                <p className="text-[var(--color-accent)]/60 font-bold uppercase    mb-1 font-sans">Account Name</p>
                 <p className="text-purple-300 font-bold leading-tight font-sans">{winnerName}</p>
               </div>
 
               {/* Prizes List */}
               <div className="space-y-3 mb-8">
-                <p className="font-bold uppercase tracking-[0.2em] mb-1 text-center font-sans">Prizes Won ({prizesList.length})</p>
+                <p className="font-bold uppercase    mb-1 text-center font-sans">Prizes Won ({prizesList.length})</p>
                 {prizesList.map((item) => {
                   const shopifyDetails = item.productId ? shopifyProductsMap[item.productId] : null;
                   const displayTitle = shopifyDetails?.title || item.name;
@@ -278,7 +278,7 @@ export default function ClaimPage() {
 
               {/* PIN display */}
               <div className="mb-6">
-                <p className="font-bold uppercase tracking-[0.2em] mb-3 font-sans">Verification PIN</p>
+                <p className="font-bold uppercase    mb-3 font-sans">Verification PIN</p>
                 <div className="flex items-center justify-center gap-2">
                   {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                     <div key={i} className="w-10 h-14 bg-black/60 border-2 border-purple-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(192, 132, 252,0.15)]">

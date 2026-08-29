@@ -296,7 +296,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
           {/* Live Scannable QR Code Card */}
           <div className="bg-[#0b0b14]/90 border border-cyan-500/40 p-4 max-w-xs mx-auto shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col items-center space-y-2">
-            <span className="font-bold uppercase tracking-[0.2em] text-cyan-400">📱 Scan QR Code to Test</span>
+            <span className="font-bold uppercase    text-cyan-400">📱 Scan QR Code to Test</span>
             <div className="w-44 h-44 bg-white p-2.5 border border-white/10">
               <Image width={200} height={200} unoptimized
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}

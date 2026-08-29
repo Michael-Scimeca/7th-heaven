@@ -2768,7 +2768,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {isLive && (
                 <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
                   <div className="mb-4 sm:mb-0 text-center sm:text-left">
-                    <p className="flex flex-col sm:flex-row items-center gap-1.5 font-bold uppercase tracking-[0.2em] mb-1.5">
+                    <p className="flex flex-col sm:flex-row items-center gap-1.5 font-bold uppercase    mb-1.5">
                       <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
                       Fan Watch Link — Share with your audience
                     </p>
@@ -3422,7 +3422,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg font-bold text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
+                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg font-bold text-[var(--color-accent)] uppercase    transition-colors"
                           >
                             🧪 TEST: Rig Win for Me
                           </button>
@@ -4411,7 +4411,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="flex flex-col gap-3 relative z-10">
                 <button
                   onClick={confirmEndDiscard}
-                  className="w-full py-4 bg-red-500 hover:bg-red-400 text-black font-bold uppercase tracking-[0.2em] transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
+                  className="w-full py-4 bg-red-500 hover:bg-red-400 text-black font-bold uppercase    transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg"
                 >
                   End Broadcast
                 </button>

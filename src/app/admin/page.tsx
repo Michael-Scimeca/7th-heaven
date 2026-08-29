@@ -258,7 +258,7 @@ export default function AdminGatewayPage() {
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase">
                   Admin <span className=" text-[var(--color-accent)]">Access</span>
                 </h1>
-                <p className="uppercase tracking-[0.2em] font-bold mt-2">
+                <p className="uppercase    font-bold mt-2">
                   Restricted — Authorized personnel only
                 </p>
               </div>
@@ -322,7 +322,7 @@ export default function AdminGatewayPage() {
                   <button aria-label="Action button"
                     type="submit"
                     disabled={adminLoginLoading}
-                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
+                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
                   >
                     {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                   </button>
@@ -345,7 +345,7 @@ export default function AdminGatewayPage() {
                 </form>
               )}
 
-              <p className="mt-8 text-center font-bold uppercase tracking-[0.2em]">
+              <p className="mt-8 text-center font-bold uppercase   ">
                 7th Heaven · System Administration
               </p>
             </div>
@@ -372,7 +372,7 @@ export default function AdminGatewayPage() {
                 boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
               }}
             >
-              <p className="font-bold uppercase tracking-[0.2em] text-center mb-5">Enter 6-Digit PIN</p>
+              <p className="font-bold uppercase    text-center mb-5">Enter 6-Digit PIN</p>
 
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {[

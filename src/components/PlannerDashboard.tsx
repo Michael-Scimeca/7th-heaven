@@ -292,7 +292,7 @@ export default function PlannerDashboard() {
                 <h1 className="text-2xl font-bold tracking-tight">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
                 </h1>
-                <p className="uppercase tracking-[0.2em] mt-2">
+                <p className="uppercase    mt-2">
                   Event planner accounts only
                 </p>
               </div>
@@ -345,7 +345,7 @@ export default function PlannerDashboard() {
                 </button>
               </form>
 
-              <p className="mt-8 text-center uppercase tracking-[0.2em]">
+              <p className="mt-8 text-center uppercase   ">
                 7th Heaven · Event Planning Portal
               </p>
             </div>
@@ -662,7 +662,7 @@ export default function PlannerDashboard() {
 
             <div>
               <h3 className="font-bold text-white tracking-tight">Booking History</h3>
-              <p className="uppercase tracking-[0.2em] font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
+              <p className="uppercase    font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
             </div>
           </div>
 

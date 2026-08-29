@@ -2249,7 +2249,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-6">
-                <h3 className="font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-3">
+                <h3 className="font-bold uppercase    text-white/40 mb-3 flex items-center gap-3">
                   <span>{group.group}</span>
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>
@@ -2486,7 +2486,7 @@ export default function FeaturesPage() {
 
             return (
               <div key={group.group} className="mb-8">
-                <h3 className="font-bold uppercase tracking-[0.2em] text-white/40 mb-3 flex items-center gap-2">
+                <h3 className="font-bold uppercase    text-white/40 mb-3 flex items-center gap-2">
                   {group.group}
                   <span className="h-px flex-1 bg-white/[0.06]" />
                   <span className="text-white/20 font-normal normal-case">{group.pages.length} pages</span>

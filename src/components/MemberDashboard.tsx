@@ -305,7 +305,7 @@ export default function MemberDashboard() {
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
-            <span className="uppercase tracking-[0.2em] font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
+            <span className="uppercase    font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
           </div>
 
           <div className="relative z-10">
@@ -332,7 +332,7 @@ export default function MemberDashboard() {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-bold text-white tracking-wide">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase    px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
                             <p className="uppercase    font-bold mt-1">{msg.time}</p>
@@ -343,7 +343,7 @@ export default function MemberDashboard() {
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
-                                <span className="text-[var(--font-size-2xs)] uppercase tracking-[0.2em] font-bold text-white/40 block text-center mb-1">Claimed</span>
+                                <span className="text-[var(--font-size-2xs)] uppercase    font-bold text-white/40 block text-center mb-1">Claimed</span>
                                 <span className="font-mono text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
@@ -355,7 +355,7 @@ export default function MemberDashboard() {
                                 <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase    cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase    transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -462,7 +462,7 @@ export default function MemberDashboard() {
             { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "America/Chicago" }) },
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
-              <p className="uppercase tracking-[0.2em] mb-1">{s.label}</p>
+              <p className="uppercase    mb-1">{s.label}</p>
               <p className={`font-bold ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>

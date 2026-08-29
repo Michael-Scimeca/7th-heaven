@@ -63,7 +63,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
 
             {pin && (
               <div className="bg-[var(--color-purple-glow)] border-2 border-[var(--color-border-purple)] p-4 mb-4 text-center">
-                <p className="font-bold uppercase tracking-[0.2em] mb-3">Your Verification PIN</p>
+                <p className="font-bold uppercase    mb-3">Your Verification PIN</p>
                 <div className="flex items-center justify-center gap-2 mb-3">
                   {pin.split('').map((digit: string, i: number) => (
                     <div key={`raffle-pin-${i}-${digit}`} className="w-9 h-12 bg-gray-100 border-2 border-[var(--color-border-purple)] rounded-lg flex items-center justify-center">

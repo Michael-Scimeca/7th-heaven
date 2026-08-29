@@ -1616,7 +1616,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               const isMine = isCurrentUserWinner && i === 0;
                               return (
                                 <div key={wObj?.name || wObj?.id || i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
-                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
+                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-bold uppercase    text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
                                     {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                                   </div>
                                   <div className={`px-4 py-3 text-center ${isMine ? 'bg-purple-500/10' : ''}`}>
@@ -1643,7 +1643,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           {nextRaffleCountdown !== null && nextRaffleCountdown > 0 && (
                             <div className="mt-5 pt-5 border-t border-black/10 text-center px-4 relative">
                               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                              <p className="text-black/40 uppercase tracking-[0.2em] font-bold mb-2">Next Raffle Drawing In</p>
+                              <p className="text-black/40 uppercase    font-bold mb-2">Next Raffle Drawing In</p>
                               <div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded border border-black/10 shadow-inner">
                                 <span className="animate-pulse">⏳</span>
                                 <span className="text-lg font-mono font-bold    text-emerald-500">

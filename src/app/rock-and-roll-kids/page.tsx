@@ -10,8 +10,8 @@ import {
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 const ABOUT_DATA = {
-  headline: "7th Heaven and the Rock 'n' Roll Kids",
-  paragraph1: "7th heaven and the Rock 'n' Roll Kids is based on the band 7th heaven, which is globally known as a pop Rock Band. The animated series communicates messages of fun, positivity and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, an adventure and a resolution.",
+  headline: "7th Heaven & the Rock 'n' Roll Kids",
+  paragraph1: "7th heaven & the Rock 'n' Roll Kids is based on the band 7th heaven, which is globally known as a pop Rock Band. The animated series communicates messages of fun, positivity and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, an adventure and a resolution.",
   paragraph2: "We have been working with a team of skilled people that are helping us build a new animated series based on 7th heaven. The show is based on the band as young kids, who bring positivity to other kids, which are called “The Rock and Roll Kids”. We are working to create this as an animated TV series and comic books, games, apps, videos and original music. In a world filled with so much negativity, we want to bring a breath of fresh air to kids and help influence them in a positive light thru rock and roll music.",
   studios: [
     { name: "7th heaven Official", url: "http://www.7thheavenband.com" },

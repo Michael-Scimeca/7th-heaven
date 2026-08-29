@@ -83,7 +83,7 @@ export function DailyPoll() {
         <span className="text-8xl">🗳️</span>
       </div>
 
-      <h2 className="font-bold tracking-[0.2em] uppercase mb-2">Community Poll</h2>
+      <h2 className="font-bold    uppercase mb-2">Community Poll</h2>
       <p className="font-bold mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
 
       <div className="space-y-3 relative z-10">
@@ -147,7 +147,7 @@ export function OriginStats() {
 
   return (
     <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 relative overflow-hidden group">
-      <h2 className="font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
+      <h2 className="font-bold    uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
 
       <div className="space-y-4">
         {ORIGIN_STATS.map((stat, i) => (
@@ -454,7 +454,7 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
         <span className="text-8xl">🚢</span>
       </div>
-      <h2 className="font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
+      <h2 className="font-bold    uppercase text-white/40 mb-2">Cruise Registration</h2>
       <p className="mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
 
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 p-4 border border-white/5">
@@ -925,7 +925,7 @@ export function ImportantLinksWidget() {
 
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="font-bold tracking-[0.2em] uppercase text-purple-400mb-1">Quick Access</h2>
+          <h2 className="font-bold    uppercase text-purple-400mb-1">Quick Access</h2>
           <p className="font-bold">Important Links</p>
         </div>
       </div>
@@ -973,7 +973,7 @@ export function SongRequestLeaderboard() {
       <div className="flex items-center gap-3 mb-6">
         <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)]">🎸</div>
         <div>
-          <h2 className="font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
+          <h2 className="font-bold    uppercase text-purple-300">Setlist Requests</h2>
           <p className="uppercase    mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
@@ -1024,7 +1024,7 @@ export function CaptainsLog() {
 
   return (
     <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative">
-      <h2 className="font-bold tracking-[0.2em] uppercase mb-4">Captain's Log</h2>
+      <h2 className="font-bold    uppercase mb-4">Captain's Log</h2>
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button aria-label="Action button"
@@ -1066,7 +1066,7 @@ const EXCURSIONS = [
 export function ExcursionTeasers() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
-      <h2 className="font-bold tracking-[0.2em] uppercase text-purple-400mb-5">Band Excursions</h2>
+      <h2 className="font-bold    uppercase text-purple-400mb-5">Band Excursions</h2>
 
       <div className="space-y-3">
         {EXCURSIONS.map((ex, i) => (

@@ -160,7 +160,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="font-bold uppercase tracking-[0.2em] text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
+          <span className="font-bold uppercase    text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>

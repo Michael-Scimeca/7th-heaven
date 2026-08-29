@@ -155,7 +155,7 @@ export function PageNav() {
         >
           {/* Header — fixed, translucent blur */}
           <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-[45px] shrink-0">
-            <h3 className="text-white font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+            <h3 className="text-white font-bold uppercase    flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>

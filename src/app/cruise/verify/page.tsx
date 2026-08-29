@@ -137,7 +137,7 @@ function CruiseVerifyContent() {
           <>
             {/* Eyebrow */}
             <div className="inline-block px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-lg mb-4">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-300">7th Heaven Caribbean Cruise</span>
+              <span className="text-[10px] font-bold uppercase    text-purple-300">7th Heaven Caribbean Cruise</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">Check Your Email</h1>

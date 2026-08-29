@@ -51,7 +51,7 @@ function SuccessContent() {
 
           {bookingId && (
             <div className="inline-block bg-[var(--color-accent)]/10 border border-white/10 px-4 py-2 mb-4">
-              <span className="font-bold uppercase tracking-[0.2em] text-white/40 block">Booking ID</span>
+              <span className="font-bold uppercase    text-white/40 block">Booking ID</span>
               <span className="text-lg font-bold text-[var(--color-accent)] font-mono">{bookingId}</span>
             </div>
           )}

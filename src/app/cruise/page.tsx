@@ -16,6 +16,7 @@ import SquishyToggle from "@/components/SquishyToggle";
 import { useHeroParallax, parallaxScaleFor } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import {
   BANDS_DATA,
   PORTS_DATA,
@@ -758,7 +759,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase tracking-[0.2em] ">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase    ">
               <span>CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)</span>
             </div>
             <span className="font-bold uppercase    bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3.5 py-1.5 rounded-lg">
@@ -800,25 +801,23 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 </p>
 
                 {/* Pricing Year Toggle — Left Aligned */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 justify-start mt-8">
-                  <button aria-label="Action button"
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-start mt-8">
+                  <FoolishShrimpButton
                     type="button"
                     onClick={() => setActivePriceYear(2027)}
-                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
-                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                      }`}
+                    isActive={activePriceYear === 2027}
+                    className="!w-auto px-6 py-2.5"
                   >
                     2027 Star of the Seas (7-Night)
-                  </button>
-                  <button aria-label="Action button"
+                  </FoolishShrimpButton>
+                  <FoolishShrimpButton
                     type="button"
                     onClick={() => setActivePriceYear(2028)}
-                    className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activePriceYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
-                      : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                      }`}
+                    isActive={activePriceYear === 2028}
+                    className="!w-auto px-6 py-2.5"
                   >
                     2028 Legend of the Seas (8-Night)
-                  </button>
+                  </FoolishShrimpButton>
                 </div>
               </div>
 
@@ -1327,7 +1326,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Stateroom Suite Class Perks */}
               <div className="py-section-fluid">
                 <div className="text-left w-full mb-10">
-                  <span className="inline-block font-bold tracking-[0.2em] uppercase text-purple-400 mb-3 px-4 py-1 rounded-lg bg-purple-500/10 border border-purple-400/20">
+                  <span className="inline-block font-bold    uppercase text-purple-400 mb-3 px-4 py-1 rounded-lg bg-purple-500/10 border border-purple-400/20">
                     Accommodations Guide
                   </span>
                   <h3 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -1858,11 +1857,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-2 text-left">
                             <p className="font-bold">{signupCount}</p>
-                            <p className="font-bold uppercase tracking-[0.2em] mt-1">Cabins</p>
+                            <p className="font-bold uppercase    mt-1">Cabins</p>
                           </div>
                           <div className="p-2 text-left">
                             <p className="font-bold">{totalGuests}</p>
-                            <p className="font-bold uppercase tracking-[0.2em] mt-1">Passengers</p>
+                            <p className="font-bold uppercase    mt-1">Passengers</p>
                           </div>
                         </div>
                       </div>
@@ -2000,25 +1999,23 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </p>
 
                   {/* Itinerary Year Toggle */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 mt-8">
-                    <button aria-label="Action button"
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8">
+                    <FoolishShrimpButton
                       type="button"
                       onClick={() => setActiveItinYear(2027)}
-                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-600/30"
-                        : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                        }`}
+                      isActive={activeItinYear === 2027}
+                      className="!w-auto px-6 py-2.5"
                     >
                       2027 Star of the Seas (7-Night)
-                    </button>
-                    <button aria-label="Action button"
+                    </FoolishShrimpButton>
+                    <FoolishShrimpButton
                       type="button"
                       onClick={() => setActiveItinYear(2028)}
-                      className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md shadow-purple-700/30"
-                        : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                        }`}
+                      isActive={activeItinYear === 2028}
+                      className="!w-auto px-6 py-2.5"
                     >
                       2028 Legend of the Seas (8-Night)
-                    </button>
+                    </FoolishShrimpButton>
                   </div>
                 </div>
 

@@ -193,7 +193,7 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block font-bold tracking-[0.2em] uppercase bg-[#00000029] border border-white/10 backdrop-blur-[16px] mb-3 px-4 py-1 rounded-lg">
+        <span className="inline-block font-bold    uppercase bg-[#00000029] border border-white/10 backdrop-blur-[16px] mb-3 px-4 py-1 rounded-lg">
           Virtual Tours & Video Showcase
         </span>
         <h2

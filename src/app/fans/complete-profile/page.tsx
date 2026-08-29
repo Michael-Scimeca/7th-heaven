@@ -142,7 +142,7 @@ export default function CompleteProfilePage() {
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="uppercase tracking-[0.2em]">
+              <p className="uppercase   ">
                 Let&apos;s finish setting up your profile
               </p>
             </div>

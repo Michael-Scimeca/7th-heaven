@@ -6228,6 +6228,22 @@ section {
   padding: 0 6px;
 }
 
+@property --angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+@keyframes gradientBorder {
+  from {
+    --angle: 0turn;
+  }
+
+  to {
+    --angle: 1turn;
+  }
+}
+
 /* UIverse Foolish Shrimp 59 Button */
 .uiverse-foolish-shrimp,
 .btn-cosmic-radial-property {
@@ -6241,11 +6257,29 @@ section {
   justify-content: center;
   overflow: hidden;
   transition: all 0.25s ease;
-  background: radial-gradient(65.28% 65.28% at 50% 100%, #7d1fa142 0%, #df71ff00 100%), linear-gradient(0deg, #7a5af800, #7a5af821);
   border-radius: var(--round);
-  border: none;
+  border: 1px solid transparent;
   outline: none;
   padding: 8px 12px;
+}
+
+/* Active Highlight Conic Gradient Border */
+.uiverse-foolish-shrimp.is-active,
+.uiverse-foolish-shrimp.active,
+.uiverse-foolish-shrimp[aria-selected="true"],
+.uiverse-foolish-shrimp[data-active="true"],
+.btn-cosmic-radial-property.is-active,
+.gradient-border-highlight {
+  border: 2px solid transparent !important;
+  animation: gradientBorder 1s linear infinite !important;
+  background-image: linear-gradient(#120020, #120020), conic-gradient(from var(--angle), #120020 181deg, #f36fff 200.3deg, #268aff 220.46deg, #52eaea 230.24deg, #120020 200deg, #120020 222deg) !important;
+  background-origin: border-box !important;
+  background-clip: padding-box, border-box !important;
+}
+
+.uiverse-foolish-shrimp.is-active::before,
+.uiverse-foolish-shrimp.is-active::after {
+  display: none !important;
 }
 
 .uiverse-foolish-shrimp::before,

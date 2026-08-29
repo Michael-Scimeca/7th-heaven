@@ -45,7 +45,7 @@ export default function TextColorTestPage() {
     <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh] text-white">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p className="uppercase tracking-[0.2em]">
+          <p className="uppercase   ">
             /textcolor test page
           </p>
           <h1 className="text-2xl font-semibold text-white/80">

@@ -1248,7 +1248,7 @@ function QuickLoginDemoButtons({
 }) {
   return (
     <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-      <p className="uppercase tracking-[0.2em] text-purple-400 font-bold text-center">1-Click Quick Demo Login (Instant Live Access)</p>
+      <p className="uppercase    text-purple-400 font-bold text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
           onClick={async () => {

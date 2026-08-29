@@ -709,7 +709,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={startDotRef}
               className="w-5 h-5 rounded-lg bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="font-bold uppercase tracking-[0.2em] text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg font-mono z-10">
+            <span className="font-bold uppercase    text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg font-mono z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>

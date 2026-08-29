@@ -74,7 +74,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="relative z-[3] w-full px-8 md:px-16 pb-16 pt-32">
             <div className="max-w-[700px]">
               {/* Label */}
-              <span className="inline-block font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
+              <span className="inline-block font-bold    uppercase text-white/50 mb-4">
                 Official YouTube
               </span>
 

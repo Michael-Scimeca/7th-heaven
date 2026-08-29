@@ -340,7 +340,7 @@ export default function AdminLegalPage() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-white/10">
           <div>
             <div className="flex items-center gap-3 mb-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 font-bold tracking-[0.2em] uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+              <span className="inline-flex items-center gap-1.5 font-bold    uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                 <span className="w-2 h-2 rounded-lg bg-emerald-400 animate-pulse" />
                 100% Passed Legal Audit
               </span>

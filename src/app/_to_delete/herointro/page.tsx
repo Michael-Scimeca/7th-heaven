@@ -205,7 +205,7 @@ export default function HeroIntroPage() {
           </h1>
         </div>
 
-        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-white/50">
+        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 font-bold uppercase    text-white/50">
           Scroll to explore
         </div>
       </div>

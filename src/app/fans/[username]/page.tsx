@@ -569,7 +569,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex items-center gap-3 mb-5">
                     <h3 className="font-bold tracking-wider text-black uppercase">Captain&apos;s Log</h3>
-                    <span className="ml-auto font-bold tracking-[0.2em] uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
+                    <span className="ml-auto font-bold    uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
                     className="text-black/80 leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
@@ -630,7 +630,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-lg blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
-                        <h2 className="font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
+                        <h2 className="font-bold    uppercase text-white/40 mb-1">Community</h2>
                         <div className="flex items-center gap-2">
                           <span className="text-white font-bold text-2xl tracking-wide">412</span>
                           <span className="text-[var(--color-accent)] font-bold uppercase   ">Fans Onboard</span>
@@ -758,7 +758,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 </div>
                               </div>
                               <div className="text-center">
-                                <p className="uppercase font-bold tracking-[0.2em] mb-1">Claim PIN</p>
+                                <p className="uppercase font-bold    mb-1">Claim PIN</p>
                                 <p className={`font-bold ${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'} font-mono tracking-[0.3em]`}>{pin}</p>
                               </div>
                             </div>
@@ -787,14 +787,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="relative text-white mb-10">
                   <div className="relative z-10">
                     {isHappeningNow ? (
-                      <span className="inline-flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
+                      <span className="inline-flex items-center gap-2 font-bold uppercase    text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
                         <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-lg h-1.5 w-1.5 bg-emerald-500" /></span>
                         Happening Now
                       </span>
                     ) : isEnded ? (
-                      <span className="font-bold text-white uppercase tracking-[0.2em] bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Show Completed</span>
+                      <span className="font-bold text-white uppercase    bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Show Completed</span>
                     ) : (
-                      <span className="font-bold uppercase tracking-[0.2em] text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Next Show</span>
+                      <span className="font-bold uppercase    text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Next Show</span>
                     )}
                     {nextShow ? (() => {
                       return (
@@ -1022,7 +1022,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-start gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="font-bold uppercase tracking-[0.2em] text-purple-400 px-2.5 py-1 rounded-lg border border-cyan-500/20">Limited Spots</span>
+                          <span className="font-bold uppercase    text-purple-400 px-2.5 py-1 rounded-lg border border-cyan-500/20">Limited Spots</span>
                         </div>
                         <h3 className="font-bold text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="max-w-lg leading-relaxed">
@@ -1043,7 +1043,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 relative text-white">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="font-bold uppercase tracking-[0.2em] text-white px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px]">Live Stream Alerts</span>
+                    <span className="font-bold uppercase    text-white px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px]">Live Stream Alerts</span>
                   </div>
                   <h3 className="font-bold text-white mb-1">Never Miss a Live Feed</h3>
                   <p className="mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>

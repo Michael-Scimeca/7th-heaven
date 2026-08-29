@@ -746,7 +746,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album Title */}
-              <span className="relative z-[2] uppercase tracking-[0.2em] text-white text-center font-bold px-4 max-w-full">
+              <span className="relative z-[2] uppercase    text-white text-center font-bold px-4 max-w-full">
                 {activeAlbum ? (
                   <span className="block text-white font-bold truncate max-w-[220px]">
                     {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
@@ -1028,7 +1028,7 @@ export default function AudioPlayerSection() {
                 {songLyrics?.lyrics && Object.keys(songLyrics.lyrics).length > 0 ? (
                   Object.entries(songLyrics.lyrics).map(([section, text]: [string, string]) => (
                     <div key={section} className="mb-6">
-                      <span className="font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
+                      <span className="font-bold uppercase    text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
                       <p className="leading-relaxed whitespace-pre-line">{text}</p>
                     </div>
                   ))

@@ -112,7 +112,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75"></span>
           <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500"></span>
         </span>
-        <span className={`font-bold uppercase tracking-[0.2em] text-white whitespace-nowrap ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>NOW LIVE</span>
+        <span className={`font-bold uppercase    text-white whitespace-nowrap ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>NOW LIVE</span>
       </div>
     );
   }

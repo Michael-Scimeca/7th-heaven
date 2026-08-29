@@ -15,6 +15,7 @@ import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 import PushAlertsCard from "@/components/PushAlertsCard";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
@@ -147,7 +148,7 @@ function PassengersWidget() {
     <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
-          <h2 className="font-bold tracking-[0.2em] uppercase text-white/50 mb-1">Community</h2>
+          <h2 className="font-bold    uppercase text-white/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-white font-bold text-2xl tracking-wide">{totalFans}</span>
             <span className="text-[var(--color-accent)] font-bold uppercase   ">Cruise Members Onboard</span>
@@ -873,25 +874,23 @@ export default function CruiseDashboard() {
             </p>
 
             {/* Itinerary Year Toggle */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 mt-8">
-              <button
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8">
+              <FoolishShrimpButton
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2027 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                  : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                  }`}
+                isActive={activeItinYear === 2027}
+                className="!w-auto px-6 py-2.5"
               >
                 2027 Star of the Seas (7-Night)
-              </button>
-              <button
+              </FoolishShrimpButton>
+              <FoolishShrimpButton
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-4 sm:px-6 py-2.5 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center whitespace-nowrap ${activeItinYear === 2028 ? "bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] text-white shadow-md"
-                  : "bg-white/10 text-white border  border-white/10  hover:bg-white/20"
-                  }`}
+                isActive={activeItinYear === 2028}
+                className="!w-auto px-6 py-2.5"
               >
                 2028 Legend of the Seas (8-Night)
-              </button>
+              </FoolishShrimpButton>
             </div>
           </div>
 
