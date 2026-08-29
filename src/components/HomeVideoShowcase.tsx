@@ -470,8 +470,8 @@ export default function HomeVideoShowcase() {
   return (
     <section ref={sectionRef} id="video-slider" className={`py-section-fluid bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-full select-none`}>
 
+      {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
-        {/* Section Header with Container Padding */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
             <h2 className="font-bold tracking-tight mb-2.5 font-sans text-white">
@@ -482,10 +482,11 @@ export default function HomeVideoShowcase() {
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Pure Smooothy Engine DOM Slider Track with Native Lerp & Snap Physics */}
-        <div
-          ref={trackRef}
+      {/* Pure Smooothy Engine DOM Slider Track (Edge-to-Edge) */}
+      <div
+        ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
           className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
@@ -614,9 +615,6 @@ export default function HomeVideoShowcase() {
             );
           })}
         </div>
-
-
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }
