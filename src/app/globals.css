@@ -6275,7 +6275,7 @@ body:has(textarea:focus) .cursor-tail-circle {
   outline: none;
   padding: 8px 12px;
   order: 1px;
-  background-image: linear-gradient(to bottom right, #420a68, #2d0548);
+  background-image: linear-gradient(to bottom right, #420a68, #554360);
 }
 
 
@@ -6333,7 +6333,7 @@ body:has(textarea:focus) .cursor-tail-circle {
 .uiverse-foolish-shrimp::after,
 .btn-cosmic-radial-property::after {
   --space: 2px;
-  background: #380c4e99;
+  background: transparent;
   /* background: radial-gradient(65.28% 65.28% at 50% 100%,
       rgba(223, 113, 255, 0.8) 0%,
       rgba(223, 113, 255, 0) 100%),
