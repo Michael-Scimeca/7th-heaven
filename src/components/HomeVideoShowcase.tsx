@@ -178,7 +178,7 @@ export default function HomeVideoShowcase() {
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[4/5]");
+  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[16/10]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
@@ -504,7 +504,7 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className="smooothy-slide group flex flex-col shrink-0 transition-all duration-300 transform-gpu z-10"
+                className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
                 style={{
                   width: smooothyVertical
                     ? "100%"
