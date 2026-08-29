@@ -839,7 +839,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://en.wikipedia.org/wiki/Star_of_the_Seas"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Globe className="w-4 h-4 text-purple-400 shrink-0" /> <span>WIKI</span>
                         </a>
@@ -849,7 +849,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.royalcaribbean.com/cruise-ships/star-of-the-seas"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Ship className="w-4 h-4 text-cyan-400 shrink-0" /> <span>ROYAL CARIBBEAN PAGE</span>
                         </a>
@@ -859,7 +859,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Map className="w-4 h-4 text-emerald-400 shrink-0" /> <span>DECK PLAN</span>
                         </a>
@@ -869,7 +869,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Video className="w-4 h-4 text-rose-400 shrink-0" /> <span>VIDEO OF THE SHIP</span>
                         </a>
@@ -879,7 +879,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border border-white/10  bg-[#00000029] transition-all"
                         >
                           <FileText className="w-4 h-4 text-amber-400 shrink-0" /> <span>PAST CRUISE COMPASS</span>
                         </a>
@@ -889,7 +889,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/0LxUHSdFDtY"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Film className="w-4 h-4 text-indigo-400 shrink-0" /> <span>SHIP TOUR VIDEO</span>
                         </a>
@@ -899,7 +899,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://youtu.be/6xCQ4xE7L38"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/40 border border-purple-500/40 hover:border-purple-400 hover:bg-purple-900/40 text-purple-200 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10  bg-[#00000029] transition-all"
                         >
                           <Flame className="w-4 h-4 text-orange-400 shrink-0" /> <span>PROMO VIDEO</span>
                         </a>
@@ -1096,9 +1096,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(847) 551-5363</span>
                       </a>
-                      <a href="mailto:info@NTDVacations.com" className="font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-lg border border-white/10 hover:border-white/50 flex items-center gap-1.5">
-                        <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
-
+                      <a href="mailto:info@NTDVacations.com" className="font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                         <span>info@NTDVacations.com</span>
                       </a>
                     </div>
@@ -1125,9 +1124,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(877) 683-9753 - Ext 5</span>
                       </a>
-                      <a href="mailto:Mary@NTDVacations.com" className="font-bold !text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-lg border border-white/10 hover:border-white/50 flex items-center gap-1.5">
-                        <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
-
+                      <a href="mailto:Mary@NTDVacations.com" className="font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                         <span>Mary@NTDVacations.com</span>
                       </a>
                     </div>
@@ -1154,8 +1152,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <Phone className="w-3.5 h-3.5 text-white shrink-0" />
                         <span>(630) 842-9129</span>
                       </a>
-                      <a href="mailto:alan@NTDVacations.com" className="font-bold !text-white/90 hover:text-white transition-colors bg-[#e1e6ff1a] px-3.5 py-1.5 rounded-lg border border-white/10 hover:border-white/50 flex items-center gap-1.5">
-                        <Mail className="w-3.5 h-3.5 text-white/80 shrink-0" />
+                      <a href="mailto:alan@NTDVacations.com" className="font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                         <span>alan@NTDVacations.com</span>
                       </a>
                     </div>
