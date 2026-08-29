@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import CustomScrollbar from "@/components/CustomScrollbar";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 export interface RoleUser {
   id: string;
@@ -204,21 +205,19 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
         {/* Role Tabs */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => (
-            <button aria-label="Action button"
+            <FoolishShrimpButton
               key={tab}
-              type="button"
+              isActive={activeTab === tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg border border-white/10 ${activeTab === tab ?"bg-[var(--color-accent)] text-white shadow-md"
-                : " bg-[#00000029]    text-white/70 hover:bg-white/10 hover:text-white"
-                }`}
+              className="px-3.5 py-2 font-bold uppercase cursor-pointer flex items-center gap-2"
             >
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5 rounded-lg font-mono font-bold ${activeTab === tab ?'bg-white/20 text-white' : 'bg-white/10  text-white '}`}>
+              <span className={`px-1.5 py-0.5 rounded-lg font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10 text-white'}`}>
                 {counts[tab]}
               </span>
-            </button>
+            </FoolishShrimpButton>
           ))}
         </div>
 
@@ -257,7 +256,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden bg-transparent relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase tracking-wider text-white border-b border-white/10 select-none text-[12px]">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase  text-white border-b border-white/10 select-none text-[12px]">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -300,7 +299,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-white font-mono font-bold select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider">
+                    <div className="py-1 text-white text-[var(--font-size-4xs)] font-bold rouned-lgtracking-wider">
                       {user.role}
                     </div>
                     <div className="font-mono text-white/50 font-semibold truncate">
@@ -309,7 +308,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>
