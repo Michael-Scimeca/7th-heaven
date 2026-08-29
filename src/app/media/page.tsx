@@ -35,48 +35,12 @@ const GRADIENT_PALETTES = [
   { bg: "from-[#250b36] via-[#12051c] to-[#07020a]", accent: "from-violet-500 to-fuchsia-500", glow: "rgba(217,70,239,0.3)" },
 ];
 
-const PREVIEW_VIDEO_CLIPS = [
-  "/movie/be-here-clip.mp4",
-  "/movie/color-in-motion-clip.mp4",
-  "/movie/luminous-clip.mp4",
-  "/movie/fest1-clip.mp4",
-  "/movie/spectrum.mp4",
-  "/movie/hero-colorinmostion.mp4",
-  "/movie/next.mp4",
-  "/movie/Adam.mp4",
-  "/movie/Nick.mp4",
-  "/movie/Rich.mp4",
-  "/movie/Frankie.mp4",
-  "/movie/Mark.mp4",
-  "/movie/cruise.mp4",
-  "/movie/ship-sea.mp4",
-  "/movie/ship-port.mp4",
-];
-
 function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: string; title: string; isHovered: boolean; index?: number }) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
   const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const videoRef = React.useRef<HTMLVideoElement | null>(null);
-
-  const clipUrl = PREVIEW_VIDEO_CLIPS[index % PREVIEW_VIDEO_CLIPS.length];
-
-  // Instant 0ms HTML5 Video Playback on Hover
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isHovered) {
-      video.currentTime = 0;
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
-    } else {
-      video.pause();
-    }
-  }, [isHovered]);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const handleImageError = () => {
     if (imgSrc.includes('hqdefault.jpg')) {
@@ -85,6 +49,10 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
       setImgFailed(true);
     }
   };
+
+  const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+  // 5-Second snippet clip of this specific video (loops between 10s and 15s)
+  const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -119,18 +87,19 @@ function VideoCardVisual({ videoId, title, isHovered, index = 0 }: { videoId: st
         />
       )}
 
-      {/* 3. Native HTML5 Hover Video Preview Clip (Instant 0ms Latency — EverWonder Studio Architecture) */}
-      <video
-        ref={videoRef}
-        src={clipUrl}
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 pointer-events-none ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}
-      />
+      {/* 3. 5-Second Video Hover Snippet Clip for this specific YouTube Video */}
+      {isHovered && (
+        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${iframeLoaded ? "opacity-100" : "opacity-0"}`}>
+          <iframe
+            src={embedSnippetUrl}
+            title={title}
+            loading="eager"
+            onLoad={() => setIframeLoaded(true)}
+            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10"
+            allow="autoplay; encrypted-media"
+          />
+        </div>
+      )}
 
       {/* 4. Hover Active Card Overlay */}
       <div
