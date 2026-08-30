@@ -75,7 +75,7 @@ function Icon({ kind }: { kind: NonNullable<TickerItem["icon"]> }) {
     return <span className="block h-4 w-4 rotate-45 bg-white" />;
   if (kind === "dot") return <span className="block h-3 w-3 rounded-lg bg-white" />;
   return (
-    <span className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-white text-[8px] font-bold leading-none text-white">
+    <span className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-white text-[9px] font-bold leading-none text-white">
       ★
     </span>
   );

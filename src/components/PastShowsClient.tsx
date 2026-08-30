@@ -133,19 +133,19 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
+          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">40+</span>
-          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
+          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">500+</span>
-          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
+          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">5+</span>
-          <span className="font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
+          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg font-bold tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+              className={`px-3 py-1.5 rounded-lg font-bold  uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white  "
                 : " bg-[#00000029]    text-white/70 hover:text-white border-0"
                 }`}
@@ -212,7 +212,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider hover:bg-[#851de7] transition-colors"
+            className="px-6 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase  hover:bg-[#851de7] transition-colors"
           >
             Reset Filters
           </button>
@@ -271,22 +271,22 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase  bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase  bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase  bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase  bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
                                 Special Tour
                               </span>
                             )}

@@ -459,7 +459,7 @@ export default function CustomYTPlayer({
                 </div>
 
                 {/* Time */}
-                <span className="text-white/40 font-mono tabular-nums hidden sm:inline">
+                <span className="text-white/40    tabular-nums hidden sm:inline">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
               </div>

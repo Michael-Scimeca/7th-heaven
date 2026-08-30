@@ -133,13 +133,13 @@ export default function Preloader() {
 
         {/* Subtitle */}
         <div className="mb-8">
-          <p className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.3em] uppercase text-purple-300/80">
+          <p className="text-[10px] sm:text-xs    font-bold tracking-[0.3em] uppercase text-purple-300/80">
             Digital Experience • 40 Years of Rock
           </p>
         </div>
 
         {/* Exo Ape Style Numerical Counter */}
-        <div className="font-mono font-bold text-4xl sm:text-6xl text-white tracking-tighter tabular-nums drop-shadow-lg">
+        <div className="   font-bold text-4xl sm:text-6xl text-white tracking-tighter tabular-nums drop-shadow-lg">
           {String(count).padStart(2, "0")}<span className="text-purple-400 text-2xl sm:text-3xl ml-0.5">%</span>
         </div>
       </div>

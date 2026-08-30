@@ -213,7 +213,7 @@ export default function ClaimPage() {
             <CosmicRadialButton
               onClick={() => openModal()}
               icon={false}
-              className="w-full py-3 text-white font-bold tracking-wider rounded-lg"
+              className="w-full py-3 text-white font-bold  rounded-lg"
             >
               Sign In to Verify
             </CosmicRadialButton>
@@ -228,7 +228,7 @@ export default function ClaimPage() {
             <p className="mb-4">
               This PIN belongs to a different account. You must be signed in as the winning account to verify.
             </p>
-            <p className="font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">
+            <p className="   bg-black/40 px-3 py-2 rounded-lg inline-block">
               Signed in as: <span className="text-white/50">{member?.name}</span>
             </p>
           </div>
@@ -298,7 +298,7 @@ export default function ClaimPage() {
                   <CosmicRadialButton
                     onClick={handleClaimConfirm}
                     icon={false}
-                    className="w-full py-3 text-white font-bold tracking-wider rounded-lg font-sans"
+                    className="w-full py-3 text-white font-bold  rounded-lg font-sans"
                   >
                     Confirm Prize Claim
                   </CosmicRadialButton>
@@ -325,7 +325,7 @@ export default function ClaimPage() {
             <p className="mb-6">
               This PIN doesn't match an active raffle winner, or the raffle has ended.
             </p>
-            <p className="font-mono bg-black/40 px-3 py-2 rounded-lg inline-block">PIN: {pin}</p>
+            <p className="   bg-black/40 px-3 py-2 rounded-lg inline-block">PIN: {pin}</p>
           </div>
         )}
 

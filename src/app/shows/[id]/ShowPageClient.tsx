@@ -8,6 +8,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { GradientToggle } from "@/components/GradientToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import InputField from "@/components/InputField";
 import QRCode from "react-qr-code";
 
 interface Attendee {
@@ -473,16 +474,16 @@ export default function ShowPageClient({
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
-                        <div className="flex-1 input-glow-border rounded-xl">
-                          <input aria-label="Input field"
-                            type="email"
-                            required
-                            placeholder="yourname@domain.com"
-                            value={notifyEmail}
-                            onChange={(e) => setNotifyEmail(e.target.value)}
-                            className="w-full bg-black/40 border border-white/10 px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
-                          />
-                        </div>
+                        <InputField
+                          type="email"
+                          required
+                          placeholder="yourname@domain.com"
+                          value={notifyEmail}
+                          onChange={(e) => setNotifyEmail(e.target.value)}
+                          containerClassName="flex-1"
+                          glow={true}
+                          inputClassName="bg-black/40 border border-white/10 px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                        />
                         <CosmicRadialButton
                           type="submit"
                           disabled={notifyLoading}
@@ -622,7 +623,7 @@ export default function ShowPageClient({
                 <CosmicRadialButton
                   onClick={copyLink}
                   icon={false}
-                  className="px-6 py-3 text-white font-bold tracking-wider rounded-lg"
+                  className="px-6 py-3 text-white font-bold  rounded-lg"
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </CosmicRadialButton>

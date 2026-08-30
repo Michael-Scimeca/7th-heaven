@@ -129,7 +129,7 @@ export default function DirectMessageChat() {
 
         {/* Pulse unread count badge */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[var(--font-size-4xs)] font-bold w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
+          <span className="absolute -top-1 -right-1 bg-red-600 text-white   font-bold w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
             {unreadCount}
           </span>
         )}

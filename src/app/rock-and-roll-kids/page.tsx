@@ -8,6 +8,7 @@ import {
   Users, Star, Tv, Zap, Heart
 } from "lucide-react";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import { SectionBadge } from "@/components/SectionBadge";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
@@ -374,9 +375,11 @@ export default function RockNRollKidsPage() {
                       />
                     </div>
                   )}
-                  <div className="flex items-center gap-2 mb-2">
-                    <char.icon className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-sans text-white uppercase">{char.role}</span>
+                  <div className="mb-2">
+                    <SectionBadge className="gap-1.5 px-2.5 py-1">
+                      <char.icon className="w-3.5 h-3.5" />
+                      <span>{char.role}</span>
+                    </SectionBadge>
                   </div>
                   <h4 className="font-bold text-white mb-1">{char.name}</h4>
                   <p className="leading-relaxed">{char.desc}</p>
@@ -431,7 +434,7 @@ export default function RockNRollKidsPage() {
                       className={`p-2.5 text-left transition-all ${selectedVideo === v.id ? "scale-105" : ""}`}
                     >
                       <div className="flex flex-col text-left">
-                        <span className="text-[11px] font-sans text-purple-600 font-bold uppercase tracking-wider block">{v.tag}</span>
+                        <span className="text-[11px] font-sans text-purple-600 font-bold uppercase  block">{v.tag}</span>
                         <span className="font-bold text-white line-clamp-1">{v.title}</span>
                       </div>
                     </FoolishShrimpButton>
@@ -474,7 +477,7 @@ export default function RockNRollKidsPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <span className="text-[12px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-0.5">{p.badge}</span>
+                    <span className="text-[12px] font-sans text-purple-400 font-bold uppercase  block mb-0.5">{p.badge}</span>
                     <h3 className="font-bold text-white line-clamp-1 mb-1 group-hover:text-purple-300 transition-colors">{p.title}</h3>
                     <p className="line-clamp-2 mb-3 text-gray-300">{p.desc}</p>
                   </div>

@@ -106,7 +106,7 @@ export default function PushAlertsCard({
               <h3 className="font-bold text-white tracking-wide">
                 {title || defaultTitle}
               </h3>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-purple-400">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase  text-purple-400">
                 <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
                 100% Free · No App Signup Needed
               </span>
@@ -127,7 +127,7 @@ export default function PushAlertsCard({
                 onClick={() => setShowModal(true)}
                 className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2"
               >
-                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 font-bold uppercase tracking-wider !text-white shadow-lg">
+                <CosmicRadialButton className="w-full justify-center !py-3 !px-5 font-bold uppercase  !text-white shadow-lg">
                   <BellIcon />
                   {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
                 </CosmicRadialButton>
@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 font-bold uppercase tracking-wider text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 font-bold uppercase  text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>
@@ -148,7 +148,7 @@ export default function PushAlertsCard({
               {/* QR Code / Instructions Page Link */}
               <Link
                 href={`/notifications?group=${group}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 font-bold uppercase tracking-wider text-purple-300 hover:bg-purple-500/20 hover:text-white transition-colors text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 font-bold uppercase  text-purple-300 hover:bg-purple-500/20 hover:text-white transition-colors text-center"
               >
                 Scan QR Code / Guide →
               </Link>

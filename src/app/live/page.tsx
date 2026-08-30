@@ -9,6 +9,7 @@ import CosmicRadialButton from "@/components/CosmicRadialButton";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import LiveStreamInlineSubscribe from "@/components/LiveStreamInlineSubscribe";
+import { SectionBadge } from "@/components/SectionBadge";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -261,7 +262,7 @@ export default function LiveHubPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
           <div className="text-left">
 
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h1 className="font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
             </h1>
             <p className="font-medium mt-3 max-w-2xl leading-relaxed">
@@ -294,7 +295,7 @@ export default function LiveHubPage() {
             <div className="px-6 pt-3 pb-0 flex gap-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               {(["streams", "users", "policy"] as const).map(tab => (
                 <button aria-label="Action button" key={tab} onClick={() => setAdminTab(tab)}
-                  className="px-4 py-2 font-bold uppercase tracking-wider rounded-t-lg transition-colors"
+                  className="px-4 py-2 font-bold uppercase  rounded-t-lg transition-colors"
                   style={{
                     background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
                     color: adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
@@ -489,9 +490,11 @@ export default function LiveHubPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                   {/* LIVE badge */}
-                  <div className="absolute top-4 left-4 z-10 backdrop-blur-[10px] border border-white/10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "#e1e6ff29" }}>
-                    <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />
-                    <span className="text-white font-bold   ">Live Now</span>
+                  <div className="absolute top-4 left-4 z-10">
+                    <SectionBadge className="gap-1.5 backdrop-blur-[10px]">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      <span>Live Now</span>
+                    </SectionBadge>
                   </div>
 
                   {/* Viewer + time pills */}

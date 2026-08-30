@@ -223,7 +223,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {/* Close button */}
       {onClose && (
         <button onClick={handleClose}
-          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ?"opacity-100" : "opacity-0"
+          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ? "opacity-100" : "opacity-0"
             }`}
           aria-label="Close"
         >
@@ -322,7 +322,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             </div>
 
             {/* Time */}
-            <span className="text-white/40 font-mono tabular-nums">
+            <span className="text-white/40    tabular-nums">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>

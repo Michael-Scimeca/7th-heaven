@@ -170,7 +170,7 @@ export default function ProximitySubscriberAdminPanel() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5 rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <span className="px-3.5 py-1.5 rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 font-bold uppercase  flex items-center gap-1.5">
             <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
           </span>
           <button
@@ -205,22 +205,12 @@ export default function ProximitySubscriberAdminPanel() {
         </div>
 
         <div className="sm:col-span-5 flex items-center gap-2">
-          <label className="font-bold text-white uppercase tracking-wider shrink-0 flex items-center gap-1">
+          <label className="font-bold text-white uppercase  shrink-0 flex items-center gap-1">
             <Sliders className="w-3.5 h-3.5 text-purple-400" /> Radius:
           </label>
           <div className="w-full">
             <GooeyMessagesDropdown
-              selected={
-                radiusFilter === "15"
-                  ? "15 MILES ONLY"
-                  : radiusFilter === "30"
-                    ? "30 MILES ONLY"
-                    : radiusFilter === "50"
-                      ? "50 MILES ONLY"
-                      : radiusFilter === "100"
-                        ? "100 MILES ONLY"
-                        : "ALL DISTANCES"
-              }
+              selected={radiusFilter}
               options={[
                 { label: "ALL DISTANCES", value: "all" },
                 { label: "15 MILES ONLY", value: "15" },
@@ -240,7 +230,7 @@ export default function ProximitySubscriberAdminPanel() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-[#00000029] text-[11px] font-bold uppercase tracking-wider text-purple-300">
+            <tr className="border-b border-white/10 bg-[#00000029] font-bold uppercase">
               <th className="py-3.5 px-4">Fan / Device</th>
               <th className="py-3.5 px-4">Zip Code</th>
               <th className="py-3.5 px-4">Radius</th>

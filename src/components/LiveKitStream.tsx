@@ -254,7 +254,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-3" />
           <p className="font-medium">Connecting to stream...</p>
-          <p className="font-mono mt-1 opacity-40">Room ID: {room}</p>
+          <p className="   mt-1 opacity-40">Room ID: {room}</p>
           <p className="mt-1">Crew members will appear when they go live</p>
         </div>
       </div>

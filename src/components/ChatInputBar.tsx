@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import InputField from "./InputField";
 
 interface ChatInputBarProps {
   value: string;
@@ -43,18 +44,18 @@ export default function ChatInputBar({
   return (
     <div className={`flex flex-col ${className}`}>
       <form onSubmit={onSubmit} className="relative flex items-center w-full">
-        <div className="input-glow-border w-full">
-          <input
-            aria-label="Chat message input"
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            disabled={disabled}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            className={`w-full bg-[#00000029] !border-0 !border-t pl-3.5 py-3 text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
-          />
-        </div>
+        <InputField
+          aria-label="Chat message input"
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          glow={true}
+          containerClassName="w-full"
+          inputClassName={`bg-[#00000029] !border-0 !border-t pl-3.5 py-3 text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
+        />
 
         <div className="absolute right-1.5 flex items-center gap-1">
           {showEmojiBtn && (
@@ -96,7 +97,7 @@ export default function ChatInputBar({
       </form>
 
       {showRulesFooter && (
-        <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase tracking-wider mt-2 px-1">
+        <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase  mt-2 px-1">
           <span>KEEP IT RATED PG-13 · NO POLITICS</span>
           {onAdminTag && (
             <button

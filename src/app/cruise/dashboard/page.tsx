@@ -173,7 +173,7 @@ export default function CruiseDashboardGate() {
             <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
               <div className="text-center mb-6">
                 <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                <h3 className="font-bold text-white uppercase tracking-wider mb-2">Verify Your Email</h3>
+                <h3 className="font-bold text-white uppercase  mb-2">Verify Your Email</h3>
                 <p className="leading-relaxed">
                   We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
                 </p>
@@ -181,7 +181,7 @@ export default function CruiseDashboardGate() {
 
               <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="cruise-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">6-Digit Verification PIN</label>
+                  <label htmlFor="cruise-pin-input" className="block   font-bold text-white/40 uppercase    mb-1.5">6-Digit Verification PIN</label>
                   <input aria-label="Input field"
                     id="cruise-pin-input"
                     type="text"
@@ -210,7 +210,7 @@ export default function CruiseDashboardGate() {
           ) : regSuccess ? (
             <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
               <span className="text-4xl block mb-4">📧</span>
-              <h3 className="font-bold text-white uppercase tracking-wider mb-2">Check Your Email</h3>
+              <h3 className="font-bold text-white uppercase  mb-2">Check Your Email</h3>
               <p className="leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
@@ -235,11 +235,11 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleLoginSubmit} className="space-y-4">
                     <p className="mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
-                      <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Email Address</label>
+                      <label htmlFor="cruise-login-email" className="block   font-bold text-white/40 uppercase    mb-1.5">Email Address</label>
                       <input aria-label="Input field" id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-login-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Password</label>
+                      <label htmlFor="cruise-login-password" className="block   font-bold text-white/40 uppercase    mb-1.5">Password</label>
                       <input aria-label="Input field" id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
@@ -253,19 +253,19 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
                     <p className="mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
-                      <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Full Legal Name *</label>
+                      <label htmlFor="cruise-reg-name" className="block   font-bold text-white/40 uppercase    mb-1.5">Full Legal Name *</label>
                       <input aria-label="Input field" id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Email Address *</label>
+                      <label htmlFor="cruise-reg-email" className="block   font-bold text-white/40 uppercase    mb-1.5">Email Address *</label>
                       <input aria-label="Input field" id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Phone Number *</label>
+                      <label htmlFor="cruise-reg-phone" className="block   font-bold text-white/40 uppercase    mb-1.5">Phone Number *</label>
                       <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="cruise-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Choose Password *</label>
+                      <label htmlFor="cruise-reg-password" className="block   font-bold text-white/40 uppercase    mb-1.5">Choose Password *</label>
                       <input aria-label="Input field" id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 

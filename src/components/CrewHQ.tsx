@@ -472,8 +472,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">{displayName}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)] font-bold uppercase    rounded">Crew HQ</span>
-                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-bold uppercase    rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
+                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)]   font-bold uppercase    rounded">Crew HQ</span>
+                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400   font-bold uppercase    rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
               </div>
               <span className="text-white/25">{email}</span>
             </div>
@@ -540,8 +540,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <p className="font-semibold">{member?.role || "Crew"}</p>
                 <p className="mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase tracking-wider rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase tracking-wider rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase  rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase  rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -588,11 +588,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
                     <span className="font-bold">📡 Site-Wide Chat Monitor</span>
-                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-white/30 font-mono">{msgs.length} msgs</span>
+                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-white/30   ">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-lg bg-emerald-500 animate-pulse" title="Live" />
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
-                      className={`ml-2 px-2.5 py-1 rounded-lg font-bold text-[var(--font-size-4xs)] uppercase    transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
+                      className={`ml-2 px-2.5 py-1 rounded-lg font-bold   uppercase    transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : " bg-[#00000029]    border border-white/10 text-white/40 hover: text-white "
                         }`}
                     >
@@ -667,7 +667,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       >
                         {/* Avatar */}
                         <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-4xs)] font-bold shrink-0 mt-0.5"
+                          className="w-7 h-7 rounded-lg flex items-center justify-center   font-bold shrink-0 mt-0.5"
                           style={{ background: roleColor + "22", color: roleColor }}
                         >
                           {(msg.sender_avatar || msg.sender_name || "??").slice(0, 2).toUpperCase()}
@@ -680,17 +680,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               {msg.sender_name}
                             </span>
                             <span
-                              className="text-[var(--font-size-4xs)] font-bold px-1.5 py-0.5 rounded-lg"
+                              className="  font-bold px-1.5 py-0.5 rounded-lg"
                               style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}
                             >
                               {room.icon} {room.label}
                             </span>
-                            <span className="text-[var(--font-size-4xs)] text-white/20 font-mono">
+                            <span className="  text-white/20   ">
                               {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                             </span>
-                            {isFlagged && <span className="text-[var(--font-size-4xs)] text-yellow-400 font-bold">🚩 flagged</span>}
-                            {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-purple-300 font-bold">⚠️ warned</span>}
-                            {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
+                            {isFlagged && <span className="  text-yellow-400 font-bold">🚩 flagged</span>}
+                            {warned.has(msg.sender_name) && <span className="  text-purple-300 font-bold">⚠️ warned</span>}
+                            {isBanned && <span className="  text-red-400 font-bold">🚫 banned</span>}
                           </div>
                           <p className="break-words">{msg.content}</p>
                         </div>
@@ -771,7 +771,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         />
                         <button aria-label="Action button"
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-bold uppercase  transition-colors cursor-pointer"
                         >
                           Add Keyword
                         </button>
@@ -820,7 +820,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-base font-bold">🎥 Broadcast Studio</span>
-                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg text-[var(--font-size-4xs)] text-red-400 font-bold uppercase"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
+                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg   text-red-400 font-bold uppercase"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
                 {isLive ? (
@@ -831,7 +831,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Duration</span>
-                      <span className="font-bold font-mono">{fmt(liveDuration)}</span>
+                      <span className="font-bold   ">{fmt(liveDuration)}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Chat Rate</span>
@@ -902,7 +902,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 value={crewNotes}
                 onChange={e => setCrewNotes(e.target.value)}
                 placeholder="Stream notes, incidents, requests for admin…"
-                className="w-full h-32 bg-[#040408] border border-white/[0.07] p-3 text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-[var(--color-accent)]/35 transition-colors font-mono"
+                className="w-full h-32 bg-[#040408] border border-white/[0.07] p-3 text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-[var(--color-accent)]/35 transition-colors   "
               />
             </div>
 

@@ -142,7 +142,7 @@ export default function GooeyMessagesDropdown({
 
 
       {label && (
-        <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-1">
+        <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase  block mb-1">
           {label}
         </label>
       )}
@@ -151,7 +151,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[30px] ${fullWidth ?"w-full justify-between text-left" : "min-w-fit justify-between text-left"
+        className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"}  rounded-lg ${open
             ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
             : "bg-[#a855f71f]   border-white/10   text-white/90 hover:bg-[#221547]"
@@ -165,7 +165,7 @@ export default function GooeyMessagesDropdown({
         name={name}
       >
         <span
-          className={`font-bold uppercase tracking-wider text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}
+          className={`font-bold uppercase  text-white whitespace-normal break-words leading-tight flex-1 ${triggerTextClassName}`}
         >
           {triggerText}
         </span>
@@ -194,7 +194,7 @@ export default function GooeyMessagesDropdown({
         >
           {(title || badge) && (
             <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">
-              {title && <span className="font-bold uppercase tracking-wider text-purple-300">{title}</span>}
+              {title && <span className="font-bold uppercase  text-purple-300">{title}</span>}
               {badge && <span className="text-[10px] font-bold text-white/50">{badge}</span>}
             </div>
           )}
@@ -215,7 +215,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none font-bold uppercase tracking-wider transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ?"text-white bg-purple-500/20  "
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none font-bold uppercase  transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg-purple-500/20  "
                       : "text-white/80 hover:text-white hover:bg-purple-500/20"
                       }`}
                     onClick={() => {
@@ -225,7 +225,7 @@ export default function GooeyMessagesDropdown({
                       setOpen(false);
                     }}
                   >
-                    <span className="pr-2 font-bold uppercase tracking-wider whitespace-normal break-words leading-tight">
+                    <span className="pr-2 font-bold uppercase  whitespace-normal break-words leading-tight">
                       {c.name}
                     </span>
                     {isSelected && (

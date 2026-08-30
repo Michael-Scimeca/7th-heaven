@@ -117,7 +117,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold uppercase tracking-wider truncate">
+          <p className="font-bold uppercase  truncate">
             {member?.name || "Official Profile Photo"}
           </p>
           <p className="">
@@ -134,7 +134,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         <button aria-label="Action button"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
         </button>
@@ -173,7 +173,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center p-1">
-              <span className="font-bold text-[var(--color-accent)] tracking-wider block">{initials}</span>
+              <span className="font-bold text-[var(--color-accent)]  block">{initials}</span>
               <p className="font-bold text-[var(--color-accent)]/60 uppercase    mt-0.5">No Photo</p>
             </div>
           )}
@@ -199,7 +199,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <button aria-label="Action button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
@@ -207,7 +207,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
             <button aria-label="Action button"
               onClick={() => setShowInput(!showInput)}
-              className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black font-bold uppercase tracking-wider rounded-lg border border-black/15 transition-colors cursor-pointer"
+              className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black font-bold uppercase  rounded-lg border border-black/15 transition-colors cursor-pointer"
             >
               {showInput ? "Cancel URL" : "Paste Image URL"}
             </button>

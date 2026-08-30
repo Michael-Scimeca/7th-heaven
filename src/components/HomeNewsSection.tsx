@@ -55,10 +55,10 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 border-0  pb-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1 text-[10px] font-bold uppercase    text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-lg">
-                  ⭐ Featured Announcement
+                <span className="px-3 py-1  font-bold uppercase  rounded-lg inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
+                  Featured Announcement
                 </span>
-                <span className="font-mono text-purple-400 font-bold">
+                <span className="    text-[var(--color-accent)] font-bold">
                   {featured.date}
                 </span>
               </div>
@@ -83,7 +83,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                   <span className="text-[10px] font-bold uppercase    text-[var(--color-accent)]">
                     {item.date}
                   </span>
-                  <span className="text-[10px] font-bold text-[var(--muted-text)] group-hover: text-[var(--color-accent)] transition-colors">
+                  <span className="text-[10px] font-bold  group-hover:  text-[var(--color-accent)] transition-colors">
                     Read
                   </span>
                 </div>
@@ -108,7 +108,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
             className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl" onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <span className="font-mono font-bold text-[var(--color-accent)] uppercase tracking-wider">
+              <span className="   font-bold text-[var(--color-accent)] uppercase tracking-wider">
                 {selectedArticle.date}
               </span>
               <button aria-label="Action button"

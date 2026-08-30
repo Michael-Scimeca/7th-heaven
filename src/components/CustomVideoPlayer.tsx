@@ -335,7 +335,7 @@ export default function CustomVideoPlayer({
             </button>
 
             {/* Time Counter */}
-            <span className="font-mono font-bold text-white/80 tabular-nums ml-1">
+            <span className="   font-bold text-white/80 tabular-nums ml-1">
               {formatTime(currentTime)} <span className="text-white/40">/</span> {formatTime(duration)}
             </span>
           </div>

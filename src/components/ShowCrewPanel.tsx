@@ -191,7 +191,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                       <div className="flex-1 min-w-0">
                         <span className={`font-bold ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
+                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] font-bold uppercase  shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
                       <button aria-label="Action button" onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
                     </div>
                   ))}
@@ -209,7 +209,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
-                    <button aria-label="Action button" onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
+                    <button aria-label="Action button" onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
                     <button aria-label="Action button" onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
                   </div>
                 ) : (
@@ -267,7 +267,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               {addingGear ? (
                 <div className="flex gap-2">
                   <input aria-label="Input field" value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 border border-white/10 px-3 py-1.5 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
-                  <button aria-label="Action button" onClick={addGearItem} className="text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
+                  <button aria-label="Action button" onClick={addGearItem} className="text-[var(--color-accent)] font-bold uppercase  cursor-pointer px-2">Add</button>
                   <button aria-label="Action button" onClick={() => setAddingGear(false)} className="text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ) : (
@@ -288,7 +288,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
                 className="flex-1 border border-white/10 px-3 py-2 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"
               />
-              <button aria-label="Action button" onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
+              <button aria-label="Action button" onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>
             {data.notes.length === 0 ? (
               <div className="text-center py-6 text-white/15">No notes yet — add logistics info for the crew</div>

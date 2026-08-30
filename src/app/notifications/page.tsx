@@ -133,7 +133,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
+              className={`px-5 py-2.5 rounded-lg font-bold uppercase  transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
                 : " bg-[#00000029]      border-white/10   text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
@@ -206,7 +206,7 @@ export default function NotificationsPage() {
                     <CosmicRadialButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
-                      className="px-5 py-2.5 font-bold tracking-wider rounded-lg"
+                      className="px-5 py-2.5 font-bold  rounded-lg"
                     >
                       Open in ntfy App
                     </CosmicRadialButton>

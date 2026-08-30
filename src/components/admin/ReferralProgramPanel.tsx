@@ -431,7 +431,7 @@ export default function ReferralProgramPanel() {
                                   <p className="font-bold">
                                     {entry.name}
                                   </p>
-                                  <p className="font-mono">
+                                  <p className="  ">
                                     {entry.referrer_code}
                                   </p>
                                 </div>
@@ -527,7 +527,7 @@ export default function ReferralProgramPanel() {
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
-                                        className="px-2 py-0.5 bg-[#00000029] border border-white/5 text-white/40 font-mono"
+                                        className="px-2 py-0.5 bg-[#00000029] border border-white/5 text-white/40   "
                                       >
                                         {email}
                                       </span>

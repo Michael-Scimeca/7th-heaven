@@ -77,7 +77,7 @@ function ProductCard({
         </div>
 
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 block mb-1.5">
+          <span className="text-[10px] font-bold uppercase  text-white/40 block mb-1.5">
             {product.variant_kind}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -108,7 +108,7 @@ function ProductCard({
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -274,7 +274,7 @@ export default function PaymentTestShopPage() {
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/"
-          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase  text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Home
         </Link>
@@ -336,7 +336,7 @@ export default function PaymentTestShopPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   ✅ Real-Time Inventory Tracking
                 </span>
                 <p className="leading-relaxed">
@@ -345,7 +345,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
                 <p className="leading-relaxed">
@@ -354,7 +354,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p className="leading-relaxed">
@@ -366,7 +366,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
                   ⚡ Streamlined Fast Checkout
                 </span>
                 <p className="leading-relaxed">
@@ -375,7 +375,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
                   ⚡ Direct Merchant Security
                 </span>
                 <p className="leading-relaxed">
@@ -384,7 +384,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
                   ⚡ Instant Email Order Confirmation
                 </span>
                 <p className="leading-relaxed">
@@ -393,7 +393,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-cyan-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-cyan-300 font-bold uppercase text-[10px]  block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
                 <p className="leading-relaxed">
@@ -431,7 +431,7 @@ export default function PaymentTestShopPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
                 <p className="leading-relaxed">
@@ -443,7 +443,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   💳 Saved Cards &amp; Refunds
                 </span>
                 <p className="leading-relaxed">
@@ -455,7 +455,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   🧾 Custom / VIP Order Invoicing
                 </span>
                 <p className="leading-relaxed">
@@ -466,7 +466,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   📊 Real Sales Dashboard
                 </span>
                 <p className="leading-relaxed">
@@ -480,7 +480,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   🖥️ Embedded Checkout Upgrade
                 </span>
                 <p className="leading-relaxed">
@@ -491,7 +491,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
                   🏬 In-Person + Online, One Inventory
                 </span>
                 <p className="leading-relaxed">
@@ -502,7 +502,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-yellow-300 font-bold uppercase text-[10px] tracking-wider block mb-1">
+                <span className="text-yellow-300 font-bold uppercase text-[10px]  block mb-1">
                   🛠️ Not North — Custom-Built Only
                 </span>
                 <p className="leading-relaxed">
@@ -525,7 +525,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
+                className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
                   : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"
                   }`}
               >
@@ -537,7 +537,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg font-bold uppercase tracking-wider transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg font-bold uppercase  transition-colors flex items-center gap-2"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>

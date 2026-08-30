@@ -72,10 +72,10 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <div className="flex justify-between items-center mb-4">
                 <span className="text-3xl font-bold text-[var(--color-accent)] group-hover:scale-110 transition-transform">{s.number}</span>
-                <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/40">0{i + 2}</span>
+                <span className="text-[var(--font-size-2xs)]    font-bold text-white/40">0{i + 2}</span>
               </div>
               <div>
-                <h4 className="font-bold uppercase tracking-wider mb-1">{s.label}</h4>
+                <h4 className="font-bold uppercase  mb-1">{s.label}</h4>
                 <p className="leading-relaxed">{s.text}</p>
               </div>
             </div>
@@ -97,7 +97,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-4xl font-bold text-cyan-400">
                   {s.number}
                 </span>
-                <span className="px-2.5 py-0.5 rounded text-[var(--font-size-4xs)] font-mono font-bold uppercase text-purple-400border border-cyan-500/30">
+                <span className="px-2.5 py-0.5 rounded      font-bold uppercase text-purple-400border border-cyan-500/30">
                   {s.badge}
                 </span>
               </div>
@@ -161,8 +161,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-[var(--font-size-2xs)] font-mono font-bold text-[var(--color-accent)] uppercase tracking-wider">{s.badge}</span>
-                  <span className="text-[var(--font-size-2xs)] font-mono text-white/30">0{i + 1}</span>
+                  <span className="text-[var(--font-size-2xs)]    font-bold text-[var(--color-accent)] uppercase tracking-wider">{s.badge}</span>
+                  <span className="text-[var(--font-size-2xs)]    text-white/30">0{i + 1}</span>
                 </div>
                 <div className="text-4xl font-bold text-white mb-2">{s.number}</div>
               </div>
@@ -276,9 +276,9 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div key={s.label} className="shrink-0 w-[280px] md:w-[320px] p-7 rounded-lg bg-[var(--color-surface-raised)] border border-white/10 backdrop-blur-xl flex flex-col justify-between hover:border-[var(--color-accent)]/50 transition-colors">
               <div>
-                <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase text-[var(--color-accent)] block mb-3">0{i + 1} / 06</span>
+                <span className="text-[var(--font-size-2xs)]    font-bold uppercase text-[var(--color-accent)] block mb-3">0{i + 1} / 06</span>
                 <div className="text-5xl font-bold text-white mb-2">{s.number}</div>
-                <h4 className="font-bold uppercase tracking-wider mb-4">{s.label}</h4>
+                <h4 className="font-bold uppercase  mb-4">{s.label}</h4>
               </div>
               <p className="leading-relaxed">{s.text}</p>
             </div>
@@ -293,9 +293,9 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <div key={s.label} className="relative p-7 border-2 border-cyan-400/40 hover:border-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-colors group">
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-cyan-400 border border-black" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-cyan-400 border border-black" />
-              <div className="text-4xl font-mono font-bold text-cyan-300 mb-2">{s.number}</div>
-              <h4 className="font-mono font-bold uppercase text-white mb-2">{s.label}</h4>
-              <p className="font-mono text-cyan-100/70">{s.text}</p>
+              <div className="text-4xl    font-bold text-cyan-300 mb-2">{s.number}</div>
+              <h4 className="   font-bold uppercase text-white mb-2">{s.label}</h4>
+              <p className="   text-cyan-100/70">{s.text}</p>
             </div>
           ))}
         </div>
@@ -313,7 +313,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="mt-1">{s.text}</p>
                 </div>
               </div>
-              <span className="px-3 py-1 rounded-lg text-[var(--font-size-2xs)] font-mono font-bold bg-[#00000029] border border-white/10 text-[var(--color-accent)] uppercase">
+              <span className="px-3 py-1 rounded-lg text-[var(--font-size-2xs)]    font-bold bg-[#00000029] border border-white/10 text-[var(--color-accent)] uppercase">
                 {s.badge}
               </span>
             </div>
@@ -326,7 +326,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div key={s.label} className="p-8 rounded-lg bg-[var(--color-surface-raised)] border border-white/8backdrop-blur-[18px] hover:border-[var(--color-accent)]/40 transition-colors relative group">
-              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-sky-400 block mb-3">[ STAT_0{i + 1} ]</span>
+              <span className="text-[var(--font-size-2xs)]    font-bold text-sky-400 block mb-3">[ STAT_0{i + 1} ]</span>
               <div className="text-5xl font-bold text-sky-300 mb-2">{s.number}</div>
               <h4 className="font-bold uppercase text-white mb-2">{s.label}</h4>
               <p className="text-[var(--color-accent)]/70 leading-relaxed">{s.text}</p>
@@ -373,7 +373,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="mt-0.5">{s.text}</p>
                 </div>
               </div>
-              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/40 group-hover: text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
+              <span className="text-[var(--font-size-2xs)]    font-bold text-white/40 group-hover: text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
             </div>
           ))}
         </div>
@@ -385,7 +385,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s) => (
             <div key={s.label} className="p-6 border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-colors">
               <div className="text-4xl font-bold text-white mb-1 group-hover:scale-110 transition-transform">{s.number}</div>
-              <h4 className="font-bold uppercase tracking-wider mb-2">{s.label}</h4>
+              <h4 className="font-bold uppercase  mb-2">{s.label}</h4>
               <p className="leading-snug line-clamp-2">{s.text}</p>
             </div>
           ))}
@@ -415,7 +415,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-6xl font-bold tracking-tighter text-white">
                   {s.number}
                 </span>
-                <span className="text-[var(--font-size-2xs)] font-mono font-bold uppercase    text-white/40">[ {s.badge} ]</span>
+                <span className="text-[var(--font-size-2xs)]    font-bold uppercase    text-white/40">[ {s.badge} ]</span>
               </div>
               <h3 className="font-bold uppercase text-white mb-2 tracking-wide">{s.label}</h3>
               <p className="leading-relaxed">{s.text}</p>

@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Mail, Phone, Sparkles } from "lucide-react";
+import { SectionBadge } from "@/components/SectionBadge";
 
 export interface ContactItem {
   category: string;
@@ -94,10 +95,11 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
 
   return (
-    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[clamp(75px,10vh,120px)] min-h-[calc(100vh-100px)] pb-6">
+    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[clamp(75px,10vh,120px)] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
+
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT
         </h1>
@@ -106,7 +108,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
         <div className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
@@ -115,6 +117,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           <div className="space-y-[clamp(0.4rem,1.2vh,1rem)] w-full">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
+              const isCardActive = activePhotoId === photoForThisCard;
 
               return (
                 <div
@@ -125,9 +128,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 >
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <span className="px-2.5 py-0.5 rounded-lg text-[clamp(0.65rem,0.95vh,0.75rem)] font-bold uppercase tracking-wider text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] inline-block">
-                      {contact.category || "General Contact"}
-                    </span>
+                    <SectionBadge
+                      label={contact.category || "General Contact"}
+                      isActive={isCardActive}
+                    />
                   </div>
 
                   {/* Name & Title / Note */}
@@ -145,7 +149,6 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                         href={`mailto:${contact.email}`}
                         className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
                       >
-                        <Mail className="w-3.5 h-3.5 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -156,9 +159,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 tracking-tight group/link w-fit whitespace-nowrap"
                       >
-                        <Phone className="w-4 h-4 shrink-0 text-[#c084fc] group-hover/link:text-white transition-colors" />
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}
@@ -169,20 +171,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
           </div>
         </div>
 
-      </div>
-      {/* Right Column: Preloaded Contact Photos Stage (Visible on Tablet & Desktop) */}
-      <div
-        className="hidden md:block absolute bottom-0 right-0 z-0 pointer-events-none max-w-[1400px]"
-        style={{
-          height: "100vh",
-          width: "88vw",
-          right: -78,
-          marginBottom: "-8%",
-          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
-          maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 98%)",
-        }}
-      >
-        <div className="relative w-full h-full flex items-end justify-end">
+        {/* Right Column: Preloaded Contact Photos Stage Attached to Container */}
+        <div
+          className="hidden md:flex md:col-span-7 lg:col-span-8 relative min-h-[450px] items-end justify-end pointer-events-none self-stretch"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+          }}
+        >
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhotoId === photo.id;
             return (
@@ -191,7 +187,6 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                 className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
                   : "opacity-0 scale-95 filter blur-sm"
                   }`}
-                style={{ marginBottom: "-6%" }}
               >
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />
@@ -200,14 +195,14 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                   <img
                     src={photo.desktop}
                     alt={photo.alt}
-                    className={`w-full h-full object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
+                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
                   />
                 </picture>
               </div>
             );
           })}
-
         </div>
+
       </div>
     </section>
   );

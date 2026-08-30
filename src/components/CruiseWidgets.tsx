@@ -8,6 +8,7 @@ import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import InputField from "@/components/InputField";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -52,7 +53,7 @@ export function EmbarkationCountdown() {
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
             <div className="min-w-[48px] flex items-center justify-center">
-              <span className="text-white font-mono font-bold text-2xl md:text-3xl leading-none text-center">
+              <span className="text-white    font-bold text-2xl md:text-3xl leading-none text-center">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
@@ -152,7 +153,7 @@ export function OriginStats() {
       <div className="space-y-4">
         {ORIGIN_STATS.map((stat, i) => (
           <div key={stat.location}>
-            <div className="flex justify-between font-bold uppercase tracking-wider mb-1.5">
+            <div className="flex justify-between font-bold uppercase  mb-1.5">
               <span className="text-white/70">{stat.location}</span>
               <span className=" text-[var(--color-accent)]">{stat.count} fans</span>
             </div>
@@ -459,31 +460,48 @@ export function BookingManager({ email }: { email?: string }) {
 
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Full Name</span>
-            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
-          </div>
-          <div>
-            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Email Address</span>
-            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white/50 outline-none cursor-not-allowed" />
-          </div>
+          <InputField
+            label="Full Name"
+            type="text"
+            readOnly
+            value={member?.name || ''}
+            inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
+          />
+          <InputField
+            label="Email Address"
+            type="text"
+            readOnly
+            value={email || ''}
+            inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <InputField
+            label="Phone Number"
+            required
+            id="cruise-reg-phone"
+            type="tel"
+            placeholder="(555) 123-4567"
+            value={regPhone}
+            onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))}
+            glow={true}
+            inputClassName="px-3 py-2 text-base"
+          />
+          <InputField
+            label="Party Size"
+            required
+            id="cruise-reg-party-size"
+            type="number"
+            min={1}
+            max={10}
+            value={regPartySize}
+            onChange={e => setRegPartySize(parseInt(e.target.value) || 1)}
+            glow={true}
+            inputClassName="px-3 py-2 text-base"
+          />
           <div>
-            <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Phone Number *</label>
-            <div className="input-glow-border rounded-lg">
-              <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Party Size *</label>
-            <div className="input-glow-border rounded-lg">
-              <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors" />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1">Cabin Preference *</label>
+            <label htmlFor="cruise-reg-cabin-pref" className="block   font-bold text-white/40 uppercase    mb-1">Cabin Preference *</label>
             <div className="input-glow-border rounded-lg">
               <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors cursor-pointer">
                 <option value="group_n5">Ocean View</option>
@@ -502,7 +520,7 @@ export function BookingManager({ email }: { email?: string }) {
           type="submit"
           icon={false}
           disabled={registering}
-          className="w-full mt-2 py-2.5 text-white font-bold tracking-wider rounded-lg disabled:opacity-50"
+          className="w-full mt-2 py-2.5 text-white font-bold  rounded-lg disabled:opacity-50"
         >
           {registering ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
@@ -538,13 +556,13 @@ export function BookingManager({ email }: { email?: string }) {
           <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
-          <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+          <span className="font-bold text-emerald-400 uppercase  flex items-center gap-1">
             <span>✓</span> Amount Paid
           </span>
           <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
-          <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+          <span className="font-bold text-rose-400 uppercase  flex items-center gap-1">
             <span>⏳</span> Balance Owed
           </span>
           <div className="flex items-center gap-2">
@@ -552,7 +570,7 @@ export function BookingManager({ email }: { email?: string }) {
             {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
               <button aria-label="Action button"
                 onClick={() => setIsPayModalOpen(true)}
-                className="font-bold uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                className="font-bold uppercase  text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
               >
                 💳 Pay Balance
               </button>
@@ -592,7 +610,7 @@ export function BookingManager({ email }: { email?: string }) {
             <div className="flex items-center gap-1.5 font-bold">
               <span>✉️</span> Cruise Admin
             </div>
-            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">cruise@7thheavenband.com</span>
+            <span className="     font-normal text-white/80 lowercase tracking-normal normal-case">cruise@7thheavenband.com</span>
           </CosmicRadialButton>
 
           {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
@@ -608,7 +626,7 @@ export function BookingManager({ email }: { email?: string }) {
             <div className="flex items-center gap-1.5 font-bold">
               <span>✉️</span> Support Agent (Mary)
             </div>
-            <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal normal-case">mary@ntdvacations.com</span>
+            <span className="     font-normal text-white/80 lowercase tracking-normal normal-case">mary@ntdvacations.com</span>
           </CosmicRadialButton>
         </div>
       </div>
@@ -617,7 +635,7 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="">🚢</span>
-          <span className="font-bold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
+          <span className="font-bold uppercase  text-cyan-400">Cruising Power Integration</span>
         </div>
         <p>
           Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
@@ -766,7 +784,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
                 <h3 className="font-bold uppercase    text-white">Final Payment</h3>
-                <p className="uppercase tracking-wider mt-0.5">Pay remaining balance due</p>
+                <p className="uppercase  mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
                 <span className="text-rose-400 font-bold text-lg">{balanceDue}</span>
@@ -788,14 +806,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase  transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase  transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -808,10 +826,10 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                         <span className="text-lg">💳</span>
                         <div>
                           <strong className="block text-white font-bold tracking-wide">Visa ending in 4242</strong>
-                          <span className="text-white/40 text-[var(--font-size-4xs)] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
+                          <span className="text-white/40   uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
                         </div>
                       </div>
-                      <span className="text-[var(--font-size-4xs)] font-bold text-purple-400uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                      <span className="  font-bold text-purple-400uppercase  border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
                         Default
                       </span>
                     </div>
@@ -819,7 +837,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="cruise-card-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Cardholder Name</label>
+                      <label htmlFor="cruise-card-name" className="block   font-bold text-white/40 uppercase    mb-1.5">Cardholder Name</label>
                       <input aria-label="Input field"
                         id="cruise-card-name"
                         type="text"
@@ -830,7 +848,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                       />
                     </div>
                     <div>
-                      <label htmlFor="cruise-card-number" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Card Number</label>
+                      <label htmlFor="cruise-card-number" className="block   font-bold text-white/40 uppercase    mb-1.5">Card Number</label>
                       <div className="relative">
                         <input aria-label="Input field"
                           id="cruise-card-number"
@@ -838,32 +856,32 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
                           onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                         <span className="absolute left-3 top-2.5 text-white/40">💳</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="cruise-card-expiry" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">Expiry Date</label>
+                        <label htmlFor="cruise-card-expiry" className="block   font-bold text-white/40 uppercase    mb-1.5">Expiry Date</label>
                         <input aria-label="Input field"
                           id="cruise-card-expiry"
                           type="text"
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                       </div>
                       <div>
-                        <label htmlFor="cruise-card-cvc" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase    mb-1.5">CVC</label>
+                        <label htmlFor="cruise-card-cvc" className="block   font-bold text-white/40 uppercase    mb-1.5">CVC</label>
                         <input aria-label="Input field"
                           id="cruise-card-cvc"
                           type="password"
                           placeholder="123"
                           value={cardCVC}
                           onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                       </div>
                     </div>
@@ -881,7 +899,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <CosmicRadialButton
                     type="submit"
                     icon={false}
-                    className="flex-1 py-2.5 text-white font-bold tracking-wider rounded-lg"
+                    className="flex-1 py-2.5 text-white font-bold  rounded-lg"
                   >
                     Pay {balanceDue}
                   </CosmicRadialButton>
@@ -1041,7 +1059,7 @@ export function CaptainsLog() {
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-end mb-2">
             <span className="font-bold text-white truncate">Rehearsal Update!</span>
-            <span className="text-[var(--color-accent)]/80 font-mono">0:42</span>
+            <span className="text-[var(--color-accent)]/80   ">0:42</span>
           </div>
           <div className="w-full h-1.5 bg-white/10 rounded-lg overflow-hidden cursor-pointer">
             <div className="h-full bg-[var(--color-accent)] rounded-lg" style={{ width: `${progress}%` }} />

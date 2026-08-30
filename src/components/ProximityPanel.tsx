@@ -195,7 +195,7 @@ export default function ProximityPanel() {
               placeholder="60601"
               value={zip}
               onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-              className="font-mono"
+              className="  "
             />
           </div>
           <div>

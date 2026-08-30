@@ -253,7 +253,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-1 rounded-lg bg-cyan-400 animate-pulse" />
-          <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-cyan-400">Now Playing</span>
+          <span className="  font-bold uppercase    text-cyan-400">Now Playing</span>
         </div>
 
         {locked ? (
@@ -261,7 +261,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="font-bold truncate">Exclusive Fan Drop</p>
-              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] hover:text-white uppercase    transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="  font-bold text-[var(--color-accent)] hover:text-white uppercase    transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
         ) : (
@@ -312,7 +312,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
             {/* Mini progress bar */}
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-[var(--font-size-5xs)] font-mono font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
+              <span className="text-[var(--font-size-5xs)]    font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
               <div className="relative flex-1 h-[2px] bg-white/10 rounded-lg">
                 <input aria-label="Input field"
                   type="range"
@@ -327,7 +327,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
-              <span className="text-[var(--font-size-5xs)] font-mono font-bold text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
+              <span className="text-[var(--font-size-5xs)]    font-bold text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
             </div>
 
             {/* Mini playlist list */}
@@ -347,7 +347,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                         : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
                         }`}
                     >
-                      <span className="text-[var(--font-size-4xs)] font-bold truncate pr-2">
+                      <span className="  font-bold truncate pr-2">
                         {String(idx + 1).padStart(2, '0')}. {song.title}
                       </span>
                       {isActive && isPlaying ? (
@@ -432,7 +432,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.6rem] uppercase    bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
+                  <span className="  text-[0.9rem]  uppercase    bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
                   <h4 className="font-bold text-white mt-2 truncate leading-tight tracking-tight uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
@@ -471,7 +471,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Progress Bar & Seek */}
               <div className="mt-8 flex items-center gap-4">
-                <span className="font-mono font-bold    text-white/45 min-w-[32px]">
+                <span className="   font-bold    text-white/45 min-w-[32px]">
                   {formatTime(currentTime)}
                 </span>
 
@@ -492,7 +492,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   </div>
                 </div>
 
-                <span className="font-mono font-bold    text-white/45 min-w-[32px] text-right">
+                <span className="   font-bold    text-white/45 min-w-[32px] text-right">
                   {duration ? formatTime(duration) : '0:00'}
                 </span>
               </div>
@@ -515,7 +515,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                   {/* Close timer (if temporary) */}
                   {track.expires_at && (
-                    <div className="text-white/30 uppercase font-bold tracking-wider flex items-center gap-1.5 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-lg">
+                    <div className="text-white/30 uppercase font-bold  flex items-center gap-1.5 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-lg">
                       🕒 Drop Expires: {new Date(track.expires_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   )}
@@ -584,7 +584,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             }`}
                         >
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <span className={`font-mono font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
+                            <span className={`   font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
                               {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
                             </span>
                             <span className={`font-medium truncate ${isActive ? 'font-bold' : ''}`}>{song.title}</span>

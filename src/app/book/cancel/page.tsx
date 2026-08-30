@@ -47,7 +47,7 @@ function CancelContent() {
           </div>
           <h1 className="text-2xl font-bold text-white mb-3">Invalid Link</h1>
           <p className="mb-8">This cancellation link is missing required information. Please use the link from your confirmation email.</p>
-          <Link href="/" className="inline-flex items-center justify-center bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider py-3 px-8 transition-colors border border-white/10">
+          <Link href="/" className="inline-flex items-center justify-center bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase  py-3 px-8 transition-colors border border-white/10">
             Return to Homepage
           </Link>
         </div>
@@ -72,11 +72,11 @@ function CancelContent() {
             <div className="flex flex-col gap-3">
               <button aria-label="Action button"
                 onClick={handleCancel}
-                className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase tracking-wider py-4 px-8 transition-colors shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] cursor-pointer"
+                className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase  py-4 px-8 transition-colors shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] cursor-pointer"
               >
                 Yes, Cancel My Booking
               </button>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase  py-4 px-8 transition-colors border border-white/5">
                 Never Mind — Go Back
               </Link>
             </div>
@@ -103,10 +103,10 @@ function CancelContent() {
             </p>
             <p className="mb-8">Our team has been notified. If you change your mind, you can submit a new booking request anytime.</p>
             <div className="flex flex-col gap-3">
-              <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)]">
+              <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 Book a New Show
               </Link>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase  py-4 px-8 transition-colors border border-white/5">
                 Return to Homepage
               </Link>
             </div>
@@ -121,10 +121,10 @@ function CancelContent() {
             <h1 className="text-2xl font-bold text-white mb-3">Cancellation Failed</h1>
             <p className="text-rose-400/70 mb-8">{errorMsg}</p>
             <div className="flex flex-col gap-3">
-              <button aria-label="Action button" onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider py-4 px-8 transition-colors border border-white/10 cursor-pointer">
+              <button aria-label="Action button" onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase  py-4 px-8 transition-colors border border-white/10 cursor-pointer">
                 Try Again
               </button>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase  py-4 px-8 transition-colors border border-white/5">
                 Return to Homepage
               </Link>
             </div>

@@ -141,7 +141,7 @@ export default function DevRouteList() {
                 <h3 className="font-bold uppercase tracking-wide text-white">
                   Developer Route Directory
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="px-2.5 py-0.5 rounded-lg text-[10px]    font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   {ALL_ROUTES.length} Routes Pre-rendered
                 </span>
               </div>
@@ -173,7 +173,7 @@ export default function DevRouteList() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${activeCategory === cat ?"bg-purple-600 text-white shadow-md shadow-purple-900/40"
+                    className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${activeCategory === cat ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
                       : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
                       }`}
                   >
@@ -190,7 +190,7 @@ export default function DevRouteList() {
                   placeholder="Search routes or keywords..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60 font-mono"
+                  className="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60   "
                 />
               </div>
             </div>
@@ -210,14 +210,14 @@ export default function DevRouteList() {
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComponent className="w-4 h-4 text-purple-400 shrink-0" />
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300/80">
+                          <span className="text-[10px] font-bold uppercase  text-purple-300/80">
                             {item.category}
                           </span>
                         </div>
 
                         {/* Type Badge */}
                         <span
-                          className={`text-[12px] font-mono font-bold px-1.5 py-0.5 rounded ${item.type ==="Static"
+                          className={`text-[12px]    font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
@@ -233,7 +233,7 @@ export default function DevRouteList() {
                       <h4 className="font-bold text-white group-hover:text-purple-200 transition-colors line-clamp-1">
                         {item.label}
                       </h4>
-                      <p className="font-mono mt-1 truncate">
+                      <p className="   mt-1 truncate">
                         {item.path}
                       </p>
                     </div>
@@ -263,7 +263,7 @@ export default function DevRouteList() {
             </div>
 
             {filteredRoutes.length === 0 && (
-              <div className="py-12 text-center text-white/40 font-mono">
+              <div className="py-12 text-center text-white/40   ">
                 No matching routes found for "{search}".
               </div>
             )}

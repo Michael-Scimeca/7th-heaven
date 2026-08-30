@@ -89,7 +89,7 @@ const getColor = (city: string) => {
 
 export default function AdminMap({ locations, isVisible = true }: { locations: any[]; isVisible?: boolean }) {
   const ready = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false
   );
@@ -100,11 +100,11 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
 
   return (
     <MapErrorBoundary>
-      <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden shadow-xs relative">
-        <MapContainer 
+      <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden     relative">
+        <MapContainer
           key={mapKey}
-          center={[39.8283, -98.5795]} 
-          zoom={3} 
+          center={[39.8283, -98.5795]}
+          zoom={3}
           style={{ height: '100%', width: '100%', minHeight: '180px', background: '#f8fafc' }}
           zoomControl={false}
           scrollWheelZoom={false}
@@ -116,12 +116,12 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
-          
+
           {locations && locations.map((loc) => {
             const coords = getCoordinates(loc.city);
             const color = getColor(loc.city);
             const radius = Math.max(8, loc.percentage / 1.5);
-  
+
             return (
               <CircleMarker
                 key={loc.city}
@@ -136,15 +136,15 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
               >
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
                   <div className="font-sans">
-                    <p className="font-bold uppercase tracking-wider text-black m-0">{loc.city}</p>
-                    <p className="text-black/70 font-mono m-0">{loc.percentage}% of Traffic</p>
+                    <p className="font-bold uppercase  text-black m-0">{loc.city}</p>
+                    <p className="text-black/70    m-0">{loc.percentage}% of Traffic</p>
                   </div>
                 </Tooltip>
               </CircleMarker>
             );
           })}
         </MapContainer>
-        
+
         <style jsx global>{`
           .leaflet-container {
             background-color: #f8fafc !important;

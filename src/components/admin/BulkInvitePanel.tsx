@@ -218,8 +218,8 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
-              : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
+            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent border-white/20   ${isDragging ? "scale-[0.99]"
+              : "border-black/20   ]"
               }`}
           >
             <input aria-label="Input field"
@@ -231,7 +231,7 @@ export default function BulkInvitePanel() {
             />
             <span className="text-3xl mb-3 block"></span>
             <p className="text-black font-bold uppercase tracking-wider">Drag & Drop CSV File</p>
-            <p className="text-black/60 mt-1.5 leading-relaxed max-w-xs font-semibold">
+            <p className="text-black/60 mt-1.5 leading-relaxed max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
             <CosmicRadialButton
@@ -240,7 +240,7 @@ export default function BulkInvitePanel() {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !py-2 !px-5 font-bold uppercase tracking-wider text-white shadow-lg"
+              className="mt-4 !py-2 !px-5 font-bold uppercase  text-white shadow-lg"
             >
               Browse Files
             </CosmicRadialButton>
@@ -256,14 +256,14 @@ export default function BulkInvitePanel() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="w-full bg-black/40 border-none outline-none text-white px-4 py-3 rounded-lg font-mono resize-none placeholder:text-white/40 font-semibold transition-colors"
+                className="w-full bg-black/40  border-white/10  outline-none text-white px-4 py-3 rounded-lg resize-none placeholder:text-white/40  transition-colors"
               />
             </div>
             <CosmicRadialButton
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !py-3 !px-5 font-bold uppercase tracking-wider text-white shadow-lg disabled:opacity-30"
+              className="w-full justify-center !py-3 !px-5 font-bold uppercase  text-white shadow-lg disabled:opacity-30"
             >
               Parse & Import List
             </CosmicRadialButton>
@@ -331,24 +331,24 @@ export default function BulkInvitePanel() {
                     <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="   text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
-                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg font-bold uppercase tracking-wider text-[0.55rem]">
+                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg font-bold uppercase  text-[0.55rem]">
                           Pending
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-lg font-bold uppercase tracking-wider text-[0.55rem] animate-pulse">
+                        <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-lg font-bold uppercase  text-[0.55rem] animate-pulse">
                           Sending…
                         </span>
                       )}
                       {inv.status === "success" && (
-                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg font-bold uppercase tracking-wider text-[0.55rem] border border-emerald-300">
+                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg font-bold uppercase  text-[0.55rem] border border-emerald-300">
                           Sent
                         </span>
                       )}
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg font-bold uppercase tracking-wider text-[0.55rem] border border-rose-300 cursor-help"
+                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg font-bold uppercase  text-[0.55rem] border border-rose-300 cursor-help"
                         >
                           Failed
                         </span>

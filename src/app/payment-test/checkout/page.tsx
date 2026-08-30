@@ -72,7 +72,7 @@ export default function NorthCheckoutPage() {
           </p>
           <Link
             href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg"
+            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg"
           >
             ← Back to Shop
           </Link>
@@ -86,7 +86,7 @@ export default function NorthCheckoutPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase  text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Shop
         </Link>
@@ -144,7 +144,7 @@ export default function NorthCheckoutPage() {
               the account number get used, for the fake masked receipt). */}
           <div className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
                 Account Number
               </label>
               <input
@@ -158,7 +158,7 @@ export default function NorthCheckoutPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
+                <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
                   Expiry (YYMM)
                 </label>
                 <input
@@ -171,7 +171,7 @@ export default function NorthCheckoutPage() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
+                <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
                   CVV
                 </label>
                 <input

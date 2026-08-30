@@ -519,12 +519,12 @@ export default function CruiseChat({
             <div>
               <h3 className="font-bold text-white tracking-wide flex items-center gap-1.5">
                 Passenger Lounge
-                <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-lg">
+                <span className="  font-bold uppercase    text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-lg">
                   LIVE
                 </span>
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse shadow-xs" />
+                <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse    " />
                 <span className="text-[12px] font-bold text-emerald-400 uppercase tracking-wider">
                   {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
                 </span>
@@ -593,7 +593,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase tracking-wider rounded-lg border border-white/10 transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border border-white/10 transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -666,7 +666,7 @@ export default function CruiseChat({
                         <div className="flex-1 leading-relaxed">
                           {msg.content}
                         </div>
-                        <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0 font-mono ml-2">
+                        <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0    ml-2">
                           {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -694,7 +694,7 @@ export default function CruiseChat({
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-[10px] text-white font-mono font-medium leading-none ml-auto tracking-tight">
+                          <span className="text-[10px] text-white    font-medium leading-none ml-auto tracking-tight">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -804,7 +804,7 @@ export default function CruiseChat({
 
             {showEmojiPicker && (
               <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
+                <div className="text-[10px] font-bold uppercase  text-black/40 mb-1.5 px-1 flex items-center justify-between">
                   <span>Quick Emojis</span>
                   <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black font-bold">✕</button>
                 </div>

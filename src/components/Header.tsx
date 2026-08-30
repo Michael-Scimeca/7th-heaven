@@ -539,7 +539,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
                     : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                     }`}
                 >
@@ -551,13 +551,13 @@ export function Header() {
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#9333ea] font-bold active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
             >
               {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase  text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
                   <span className="w-1 h-1 rounded-lg bg-white animate-pulse" />
                   LIVE
                 </span>
@@ -571,7 +571,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] font-bold active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
@@ -583,7 +583,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] font-bold active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
@@ -594,7 +594,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] font-bold active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}
@@ -636,7 +636,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-bold uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] font-bold uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -654,7 +654,7 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 font-bold tracking-wider rounded-lg shrink-0"
+                className="px-3.5 py-1.5 font-bold  rounded-lg shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN

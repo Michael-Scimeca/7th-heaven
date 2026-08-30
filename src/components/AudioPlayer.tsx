@@ -377,12 +377,12 @@ export default function AudioPlayerSection() {
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}
-                  <span className={`text-[11px] font-bold uppercase tracking-wider leading-tight truncate ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                  <span className={`text-[11px] font-bold uppercase  leading-tight truncate ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
                     {album.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
                   </span>
                 </div>
                 {album.year && (
-                  <span className={`text-[0.6rem] font-bold font-mono    shrink-0 ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/40 group-hover:text-white'} transition-colors`}>
+                  <span className={`  text-[0.9rem]  font-bold       shrink-0 ${originalIdx === activeAlbumIndex ? ' text-[var(--color-accent)]' : 'text-white/40 group-hover:text-white'} transition-colors`}>
                     {album.year}
                   </span>
                 )}
@@ -589,7 +589,7 @@ export default function AudioPlayerSection() {
                   </div>
                   <div className="min-w-0">
                     <p className="font-bold uppercase truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
-                    <p className="font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
+                    <p className="   truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
                   </div>
                 </div>
                 <div className="md:hidden relative w-full max-w-[144px] min-w-[88px] shrink">
@@ -638,7 +638,7 @@ export default function AudioPlayerSection() {
                                 {cleanName}
                               </span>
                             </div>
-                            <span className="text-[var(--font-size-2xs)] text-white/40 font-mono font-bold">
+                            <span className="text-[var(--font-size-2xs)] text-white/40    font-bold">
                               {getDummyDuration(track.title, trackIdx)}
                             </span>
                           </button>
@@ -762,7 +762,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="font-bold tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
+                        <h3 className="font-bold  text-white/90 uppercase mb-1.5">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -773,7 +773,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-4">
-                        <h3 className="font-bold tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
+                        <h3 className="font-bold  text-white/90 uppercase mb-1.5">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -901,7 +901,7 @@ export default function AudioPlayerSection() {
             </div>
 
             {/* Current Time */}
-            <div className="font-mono font-bold tracking-wider text-white ml-1 shrink-0">
+            <div className="   font-bold  text-white ml-1 shrink-0">
               {formatTime(currentTime)}
             </div>
 
@@ -931,7 +931,7 @@ export default function AudioPlayerSection() {
             </div>
 
             {/* Full Time */}
-            <div className="font-mono font-bold tracking-wider text-white mr-1 shrink-0">
+            <div className="   font-bold  text-white mr-1 shrink-0">
               {duration ? formatTime(duration) : getDummyDuration(activeTrack?.title || '', activeTrackIndex)}
             </div>
 

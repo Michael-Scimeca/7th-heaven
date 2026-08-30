@@ -99,7 +99,7 @@ export default function BioScrollReveal({
                 className="group cursor-pointer transition-all duration-300 select-none"
               >
                 <div className="flex items-baseline gap-4 mb-2">
-                  <span className="font-mono text-purple-400 font-bold    opacity-60">
+                  <span className="   text-purple-400 font-bold    opacity-60">
                     0{index + 1}
                   </span>
                   <span className="font-bold uppercase    text-white/50 group-hover:text-white transition-colors">

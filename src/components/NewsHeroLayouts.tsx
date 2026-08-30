@@ -72,7 +72,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
               <div className="flex items-center justify-between mb-4">
                 <span className="font-bold uppercase    text-[var(--color-accent)]">Featured Article</span>
-                <span className="font-mono text-white/50">{featured.date}</span>
+                <span className="   text-white/50">{featured.date}</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
@@ -86,7 +86,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#05030a] text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
-              <span className="font-mono font-bold uppercase    text-cyan-300">
+              <span className="   font-bold uppercase    text-cyan-300">
                 OPTION 2B — PHOTO BOX RIGHT
               </span>
               <h1 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-tight mt-3 mb-3">
@@ -104,7 +104,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   <span className="px-3 py-1 bg-cyan-400 text-black font-bold uppercase   ">
                     Latest News
                   </span>
-                  <span className="font-mono text-cyan-300 font-bold">{featured.date}</span>
+                  <span className="   text-cyan-300 font-bold">{featured.date}</span>
                 </div>
                 <h2 className="font-bold text-white mb-4">{featured.title}</h2>
                 <p className="leading-relaxed mb-6">{featured.content}</p>
@@ -127,7 +127,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="font-bold uppercase    text-purple-400 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
                 </span>
-                <span className="font-mono text-white/50">{featured.date}</span>
+                <span className="   text-white/50">{featured.date}</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
@@ -135,7 +135,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             {/* Right Branding */}
             <div className="lg:col-span-5">
-              <span className="font-mono text-purple-400font-bold uppercase   ">Official Channel</span>
+              <span className="   text-purple-400font-bold uppercase   ">Official Channel</span>
               <h1 className="text-4xl md:text-5xl font-bold uppercase text-white mt-2 mb-4">
                 7th Heaven <br /><span className="text-cyan-400">News Feed</span>
               </h1>
@@ -165,7 +165,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Right Column */}
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
+                <span className="   text-cyan-300 font-bold uppercase">{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
@@ -194,7 +194,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             </div>
 
             <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
-              <span className="font-mono text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
+              <span className="   text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="leading-relaxed">{featured.content}</p>
             </div>
@@ -207,7 +207,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#080510] text-left border-b border-white/10">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-4">
-              <span className="font-mono font-bold uppercase    text-purple-400block mb-2">
+              <span className="   font-bold uppercase    text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
               <h1 className="text-4xl font-bold uppercase tracking-tight text-white leading-none">
@@ -217,7 +217,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-3">
-                <span className="font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
+                <span className="   text-cyan-300 font-bold uppercase">{featured.date}</span>
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-lg" />
                 <span className="font-bold uppercase text-white/50">Band Announcement</span>
               </div>

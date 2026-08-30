@@ -471,6 +471,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             playsInline
             preload="metadata"
             className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
+            style={{
+              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+            }}
           />
         </div>
       ) : isYouTube && YTComp ? (
@@ -490,6 +494,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           playsInline
           className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
             }`}
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+          }}
         >
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
@@ -570,10 +578,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase tracking-wider text-[var(--color-accent)]">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase  text-[var(--color-accent)]">
                     Video Tint Tester
                   </span>
-                  <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
+                  <span className="  text-white/40 uppercase font-semibold">
                     Customize background tint
                   </span>
                 </div>
@@ -587,7 +595,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Presets */}
               <div className="space-y-1.5">
-                <span className="font-bold text-white/45 uppercase tracking-wider block">Presets</span>
+                <span className="font-bold text-white/45 uppercase  block">Presets</span>
                 <div className="flex flex-wrap gap-2">
                   {TINT_PRESETS.map((preset) => (
                     <button aria-label="Action button"
@@ -625,7 +633,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               <div className="space-y-1.5">
                 <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
-                  <span className="text-[var(--color-accent)] font-mono font-bold">{Math.round(tintOpacity * 100)}%</span>
+                  <span className="text-[var(--color-accent)]    font-bold">{Math.round(tintOpacity * 100)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -640,13 +648,13 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Blend Modes */}
               <div className="space-y-1.5">
-                <span className="font-bold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
+                <span className="font-bold text-white/45 uppercase  block">Mix Blend Mode</span>
                 <div className="grid grid-cols-3 gap-1">
                   {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
                     <button aria-label="Action button"
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
+                      className={`px-1 py-1   font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
                         : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
                         }`}
                     >
@@ -657,7 +665,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
 
               {/* Active Values HUD */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 text-[var(--font-size-4xs)] font-mono text-white/40 space-y-0.5">
+              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2      text-white/40 space-y-0.5">
                 <div>Color: <span className="text-white font-bold">{tintColor}</span></div>
                 <div>Opacity: <span className="text-white font-bold">{tintOpacity}</span></div>
                 <div>Blend: <span className="text-white font-bold">{mixBlendMode}</span></div>

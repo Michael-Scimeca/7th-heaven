@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
 import CosmicRadialButton from "./CosmicRadialButton";
+import { SectionBadge } from "./SectionBadge";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
@@ -487,134 +488,133 @@ export default function HomeVideoShowcase() {
       {/* Pure Smooothy Engine DOM Slider Track (Edge-to-Edge) */}
       <div
         ref={trackRef}
-          data-slider="true"
-          data-vertical={smooothyVertical}
-          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
-            }`}
-          style={{
-            touchAction: "pan-y",
-            ...(smooothyVertical
-              ? {}
-              : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
-          }}
-        >
-          {CATEGORY_SHOWCASE.map((video, idx) => {
-            const start = video.previewStart ?? previewStartSec;
-            const end = start + previewDurationSec;
+        data-slider="true"
+        data-vertical={smooothyVertical}
+        className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
+          }`}
+        style={{
+          touchAction: "pan-y",
+          ...(smooothyVertical
+            ? {}
+            : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
+        }}
+      >
+        {CATEGORY_SHOWCASE.map((video, idx) => {
+          const start = video.previewStart ?? previewStartSec;
+          const end = start + previewDurationSec;
 
-            return (
+          return (
+            <div
+              key={video.id}
+              className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
+              style={{
+                width: smooothyVertical
+                  ? "100%"
+                  : `${100 / effectiveCardsVisible}%`,
+                paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
+                paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
+                paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
+                paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
+              }}
+            >
+              {/* Video Card Container — Whole Card Clickable */}
               <div
-                key={video.id}
-                className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
                 style={{
-                  width: smooothyVertical
-                    ? "100%"
-                    : `${100 / effectiveCardsVisible}%`,
-                  paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                  paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                  paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
-                  paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
+                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                  isolation: "isolate",
                 }}
+                onClick={() => {
+                  if (playingVideoId !== video.id) {
+                    setPlayingVideoId(video.id);
+                  }
+                }}
+                className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
+                  : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+                  }`}
               >
-                {/* Video Card Container — Whole Card Clickable */}
-                <div
-                  style={{
-                    WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-                    isolation: "isolate",
-                  }}
-                  onClick={() => {
-                    if (playingVideoId !== video.id) {
-                      setPlayingVideoId(video.id);
-                    }
-                  }}
-                  className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ?"ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
-                    : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
-                    }`}
-                >
-                  {playingVideoId === video.id ? (
-                    <div className="relative w-full h-full bg-black z-30">
-                      <InlineYTPlayer
-                        videoId={video.id}
-                        title={video.title}
-                        onClose={() => setPlayingVideoId(null)}
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      {/* Transparent Drag Capture Layer */}
-                      <div className="absolute inset-0 z-10 bg-transparent" />
+                {playingVideoId === video.id ? (
+                  <div className="relative w-full h-full bg-black z-30">
+                    <InlineYTPlayer
+                      videoId={video.id}
+                      title={video.title}
+                      onClose={() => setPlayingVideoId(null)}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    {/* Transparent Drag Capture Layer */}
+                    <div className="absolute inset-0 z-10 bg-transparent" />
 
-                      {/* YouTube On-Demand Autoplay Preview Frame */}
-                      <ShowcaseMedia
-                        videoId={video.id}
-                        videoTitle={video.title}
-                        start={start}
-                        end={end}
-                        previewZoomPercent={previewZoomPercent}
-                      />
+                    {/* YouTube On-Demand Autoplay Preview Frame */}
+                    <ShowcaseMedia
+                      videoId={video.id}
+                      videoTitle={video.title}
+                      start={start}
+                      end={end}
+                      previewZoomPercent={previewZoomPercent}
+                    />
 
-                      {/* Interactive Play Button Overlay */}
-                      {playButtonVisibility !== "hidden" && (
-                        <div
-                          className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
-                            ? "opacity-100"
-                            : "opacity-90 sm:opacity-0 group-hover:opacity-100"
-                            }`}
+                    {/* Interactive Play Button Overlay */}
+                    {playButtonVisibility !== "hidden" && (
+                      <div
+                        className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
+                          ? "opacity-100"
+                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+                          }`}
+                      >
+                        <CosmicRadialButton
+                          icon={false}
+                          className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
+                          aria-label={`Play full video for ${video.title}`}
+                          title="Play Full Video"
                         >
-                          <CosmicRadialButton
-                            icon={false}
-                            className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto hover:scale-105`}
-                            aria-label={`Play full video for ${video.title}`}
-                            title="Play Full Video"
-                          >
-                            <Play className="w-6 h-6 fill-white ml-0.5" />
-                          </CosmicRadialButton>
+                          <Play className="w-6 h-6 fill-white ml-0.5" />
+                        </CosmicRadialButton>
+                      </div>
+                    )}
+
+                    {/* Gradient shadow overlay for legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
+
+                    {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
+                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
+                      {showBadges && (
+                        <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
+                          {video.badges.map((badge, bIdx) => (
+                            <SectionBadge
+                              key={badge + bIdx}
+                              label={badge}
+                              className="mb-1"
+                            />
+                          ))}
                         </div>
                       )}
 
-                      {/* Gradient shadow overlay for legibility */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
-
-                      {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                      <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
-                        {showBadges && (
-                          <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
-                            {video.badges.map((badge, bIdx) => (
-                              <span
-                                key={badge + bIdx}
-                                className="font-bold uppercase tracking-wider px-3.5 py-1 rounded-lg bg-white/20 border border-white/10 backdrop-blur-md text-white mb-1"
-                              >
-                                {badge}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        <h3 className="font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
-                          {video.title}
-                        </h3>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Below Card Metadata */}
-                {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
-                    <span className="shrink-0">
-                      Views <strong className="text-white font-mono ml-1">{video.viewCount}</strong>
-                    </span>
-
-                    <span className="shrink-0">
-                      Year <strong className="text-white font-mono ml-1">{video.year}</strong>
-                    </span>
-                  </div>
+                      <h3 className="font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
+                        {video.title}
+                      </h3>
+                    </div>
+                  </>
                 )}
-
               </div>
-            );
-          })}
-        </div>
-      </section>
-    );
-  }
+
+              {/* Below Card Metadata */}
+              {showMetadata && (
+                <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                  <span className="shrink-0">
+                    Views <strong className="text-white    ml-1">{video.viewCount}</strong>
+                  </span>
+
+                  <span className="shrink-0">
+                    Year <strong className="text-white    ml-1">{video.year}</strong>
+                  </span>
+                </div>
+              )}
+
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

@@ -94,7 +94,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <h3 className="text-white font-bold flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="text-[var(--font-size-4xs)] font-bold uppercase    text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="  font-bold uppercase    text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -102,7 +102,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <p className="mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="font-bold text-white/40 uppercase tracking-wider hidden sm:inline">
+          <span className="font-bold text-white/40 uppercase  hidden sm:inline">
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
           <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>

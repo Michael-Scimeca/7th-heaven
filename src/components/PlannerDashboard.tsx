@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import { SectionBadge } from "@/components/SectionBadge";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 interface BookingData {
   id: string;
@@ -140,6 +142,7 @@ export default function PlannerDashboard() {
   const [plannerNotes, setPlannerNotes] = useState('');
   const [notesSaving, setNotesSaving] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+  const [activeContactFilter, setActiveContactFilter] = useState<string>('all');
   const REVIVE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
   // Planner login state
@@ -403,13 +406,13 @@ export default function PlannerDashboard() {
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase tracking-wider transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase  transition-colors"
               >
                 Keep Booking
               </button>
               <button aria-label="Action button"
                 onClick={handleCancelRequest}
-                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold uppercase tracking-wider transition-colors"
+                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold uppercase  transition-colors"
               >
                 Yes, Cancel
               </button>
@@ -427,8 +430,8 @@ export default function PlannerDashboard() {
 
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <span className={`font-bold  uppercase    px-3 py-1 border-white/20 border  bg-[#e1e6ff29] rounded-lg`}>{s.label}</span>
-              <span className="text-white/40    uppercase">ID: {booking.id}</span>
+              <SectionBadge label={s.label} />
+              <span className="text-white/40 uppercase">ID: {booking.id}</span>
             </div>
 
             {/* View Mode */}
@@ -510,11 +513,11 @@ export default function PlannerDashboard() {
                   /* Edit mode actions */
                   <>
                     <button aria-label="Action button" onClick={handleEditSave}
-                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors">
+                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors">
                       Save Changes
                     </button>
                     <button aria-label="Action button" onClick={handleEditCancel}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase  transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -523,17 +526,17 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     {reviveTimeLeft && (
                       <>
                         <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors">
+                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors">
                           Revive Booking
                         </button>
-                        <p className="text-center font-mono">
+                        <p className="text-center   ">
                           ⏱ Revive expires in <span className="text-purple-300 font-bold">{reviveTimeLeft}</span>
                         </p>
                       </>
@@ -544,16 +547,16 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-wider transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     <button aria-label="Action button" onClick={handleEditStart}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase tracking-wider transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase  transition-colors border border-white/5">
                       Edit Logistics
                     </button>
                     <button aria-label="Action button" onClick={() => setShowCancelConfirm(true)}
-                      className="w-full py-3 text-rose-400 font-bold uppercase tracking-wider hover:bg-rose-500/10 transition-colors">
+                      className="w-full py-3 text-rose-400 font-bold uppercase  hover:bg-rose-500/10 transition-colors">
                       Cancel Request
                     </button>
                   </>
@@ -562,7 +565,7 @@ export default function PlannerDashboard() {
             ) : (
               <Link
                 href="/planner"
-                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase tracking-wider transition-colors border border-white/10 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase  transition-colors border border-white/10 flex items-center justify-center gap-2"
               >
                 <History className="w-4 h-4" />
                 Sign in to manage
@@ -578,80 +581,123 @@ export default function PlannerDashboard() {
 
       {/* ── Band & Event Contacts Panel ── */}
       <div className="mt-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+          <div>
+            <h3 className="font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
+            <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
+          </div>
 
-            <div>
-              <h3 className="font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
-              <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
-            </div>
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
+            <FoolishShrimpButton
+              isActive={activeContactFilter === "all"}
+              onClick={() => setActiveContactFilter("all")}
+              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+            >
+              ALL
+            </FoolishShrimpButton>
+            <FoolishShrimpButton
+              isActive={activeContactFilter === "booking"}
+              onClick={() => setActiveContactFilter("booking")}
+              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+            >
+              BOOKING & MANAGEMENT
+            </FoolishShrimpButton>
+            <FoolishShrimpButton
+              isActive={activeContactFilter === "tech"}
+              onClick={() => setActiveContactFilter("tech")}
+              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+            >
+              TECHNICAL ADVANCE
+            </FoolishShrimpButton>
+            <FoolishShrimpButton
+              isActive={activeContactFilter === "non-tech"}
+              onClick={() => setActiveContactFilter("non-tech")}
+              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+            >
+              NON-TECH ADVANCE
+            </FoolishShrimpButton>
+            <FoolishShrimpButton
+              isActive={activeContactFilter === "press"}
+              onClick={() => setActiveContactFilter("press")}
+              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+            >
+              PRESS & MEDIA
+            </FoolishShrimpButton>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="pb-4  flex flex-col justify-between">
-            <div>
-              <span className="text-[12px] font-bold uppercase    border border-white/20 bg-[#e1e6ff29] px-2 py-0.5  rounded-lg block w-fit mb-2">Booking & Management</span>
-              <h4 className="font-bold text-white">Dickie</h4>
-              <p className="mb-3">NTD Management</p>
+          {(activeContactFilter === "all" || activeContactFilter === "booking") && (
+            <div className="pb-4 flex flex-col justify-between">
+              <div>
+                <SectionBadge label="Booking & Management" isActive={activeContactFilter === "booking"} className="mb-2 block w-fit" />
+                <h4 className="font-bold text-white">Dickie</h4>
+                <p className="mb-3">NTD Management</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5">
+                <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 551-5363
+                </a>
+                <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
+                </a>
+              </div>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5">
-              <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                <Phone className="w-3.5 h-3.5" /> (847) 551-5363
-              </a>
-              <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
-              </a>
-            </div>
-          </div>
+          )}
 
-          <div className="pb-4 flex flex-col justify-between">
-            <div>
-              <span className="text-[12px] font-bold uppercase    px-2 py-0.5 rounded-lg border bg-[#e1e6ff29] border-white/20 block w-fit mb-2">Technical Advance</span>
-              <h4 className="font-bold text-white">Jeff Dobbs</h4>
-              <p className="mb-3">Production & Sound</p>
+          {(activeContactFilter === "all" || activeContactFilter === "tech") && (
+            <div className="pb-4 flex flex-col justify-between">
+              <div>
+                <SectionBadge label="Technical Advance" isActive={activeContactFilter === "tech"} className="mb-2 block w-fit" />
+                <h4 className="font-bold text-white">Jeff Dobbs</h4>
+                <p className="mb-3">Production & Sound</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5">
+                <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 772-5333
+                </a>
+                <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
+                </a>
+              </div>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5">
-              <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                <Phone className="w-3.5 h-3.5" /> (847) 772-5333
-              </a>
-              <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
-              </a>
-            </div>
-          </div>
+          )}
 
-          <div className="pb-4 flex flex-col justify-between">
-            <div>
-              <span className="text-[12px] font-bold uppercase    rounded-lg border bg-[#e1e6ff29] border-white/20 px-2 py-0.5 block w-fit mb-2">Non-Tech Advance</span>
-              <h4 className="font-bold text-white">Alan McRae</h4>
-              <p className="mb-3">NTD Management</p>
+          {(activeContactFilter === "all" || activeContactFilter === "non-tech") && (
+            <div className="pb-4 flex flex-col justify-between">
+              <div>
+                <SectionBadge label="Non-Tech Advance" isActive={activeContactFilter === "non-tech"} className="mb-2 block w-fit" />
+                <h4 className="font-bold text-white">Alan McRae</h4>
+                <p className="mb-3">NTD Management</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5">
+                <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (630) 842-9129
+                </a>
+                <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
+                </a>
+              </div>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5">
-              <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                <Phone className="w-3.5 h-3.5" /> (630) 842-9129
-              </a>
-              <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
-              </a>
-            </div>
-          </div>
+          )}
 
-          <div className="pb-4 flex flex-col justify-between">
-            <div>
-              <span className="font-bold uppercase    rounded-lg border border-white/20 bg-[#e1e6ff29] px-2 py-0.5 block w-fit mb-2">Press & Media</span>
-              <h4 className="font-bold text-white">Lenny Rago</h4>
-              <p className="mb-3">NTD Records</p>
+          {(activeContactFilter === "all" || activeContactFilter === "press") && (
+            <div className="pb-4 flex flex-col justify-between">
+              <div>
+                <SectionBadge label="Press & Media" isActive={activeContactFilter === "press"} className="mb-2 block w-fit" />
+                <h4 className="font-bold text-white">Lenny Rago</h4>
+                <p className="mb-3">NTD Records</p>
+              </div>
+              <div className="space-y-1.5 pt-2 border-t border-white/5">
+                <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
+                  <Phone className="w-3.5 h-3.5" /> (847) 269-6200
+                </a>
+                <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white hover:text-white truncate">
+                  <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
+                </a>
+              </div>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-white/5">
-              <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                <Phone className="w-3.5 h-3.5" /> (847) 269-6200
-              </a>
-              <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
-              </a>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -696,14 +742,10 @@ export default function PlannerDashboard() {
                     >
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold    px-2 py-0.5 bg-[#e1e6ff29] border border-white/10 rounded-lg`}>
-                            {sc.label}
-                          </span>
-                          <span className="text-white/30 font-mono">{b.id}</span>
+                          <SectionBadge label={sc.label} />
+                          <span className="text-white/30">{b.id}</span>
                           {isActive && (
-                            <span className="text-[var(--font-size-2xs)] font-bold     bg-[#e1e6ff29] px-2 py-0.5 rounded-lg  border border-white/20">
-                              Active
-                            </span>
+                            <SectionBadge label="Active" />
                           )}
                         </div>
                       </div>

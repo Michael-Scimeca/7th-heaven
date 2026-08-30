@@ -113,8 +113,8 @@ export function CalendarPicker({
     <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-bold tracking-wider uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className="mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
+          <h3 className="text-white font-bold  uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
+          <p className="mt-1 ">Select one or more dates to secure your slot</p>
         </div>
       </div>
 
@@ -124,7 +124,7 @@ export function CalendarPicker({
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8 mb-12">
         <div>
           {/* Month & Year Selection Bar */}
           <div className="flex items-center justify-between bg-transparent border-0 p-0 mb-4">
@@ -251,7 +251,7 @@ export function CalendarPicker({
           <div className="flex flex-col gap-4">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white block mb-1">When does the show start?</label>
+              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the show start?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Start Time"
@@ -264,7 +264,7 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white block mb-1">When does the show finish?</label>
+              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the show finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Finish Time"
@@ -279,7 +279,7 @@ export function CalendarPicker({
 
             {/* Band Start Time */}
             <div>
-              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white block mb-1">When does the band go on?</label>
+              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the band go on?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Start Time"
@@ -292,7 +292,7 @@ export function CalendarPicker({
 
             {/* Band Finish Time */}
             <div>
-              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white block mb-1">When does the band finish?</label>
+              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the band finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Finish Time"

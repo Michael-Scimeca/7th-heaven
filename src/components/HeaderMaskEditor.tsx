@@ -69,7 +69,7 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white font-bold uppercase tracking-wider rounded-lg border border-purple-500/40 backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2.5 bg-black/90 hover:bg-purple-950/90 text-white font-bold uppercase  rounded-lg border border-purple-500/40 backdrop-blur-[45px] shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
       >
         <span className="text-purple-400">🎛️</span>
         <span>Header Mask UI</span>
@@ -111,7 +111,7 @@ export default function HeaderMaskEditor() {
                 background: `linear-gradient(to right, rgba(147, 51, 234, 0.9) 0%, rgba(147, 51, 234, 0.9) ${settings.fadeStart}%, rgba(147, 51, 234, 0) ${settings.fadeEnd}%)`,
               }}
             >
-              <div className="absolute inset-0 flex items-center justify-between px-3 text-[10px] font-mono text-white/90 drop-shadow">
+              <div className="absolute inset-0 flex items-center justify-between px-3 text-[10px]    text-white/90 drop-shadow">
                 <span>Solid (Black)</span>
                 <span>Fade</span>
                 <span>Transparent</span>
@@ -158,7 +158,7 @@ export default function HeaderMaskEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Expanded Mask Height</span>
-                <span className="text-purple-400 font-mono">{settings.height}px</span>
+                <span className="text-purple-400   ">{settings.height}px</span>
               </div>
               <input
                 type="range"
@@ -175,7 +175,7 @@ export default function HeaderMaskEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Bottom Fade Start</span>
-                <span className="text-purple-400 font-mono">{settings.fadeStart}%</span>
+                <span className="text-purple-400   ">{settings.fadeStart}%</span>
               </div>
               <input
                 type="range"
@@ -192,7 +192,7 @@ export default function HeaderMaskEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Bottom Fade End (100% Transparent)</span>
-                <span className="text-purple-400 font-mono">{settings.fadeEnd}%</span>
+                <span className="text-purple-400   ">{settings.fadeEnd}%</span>
               </div>
               <input
                 type="range"
@@ -209,7 +209,7 @@ export default function HeaderMaskEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Backdrop Blur Radius</span>
-                <span className="text-purple-400 font-mono">{settings.blurAmount}px</span>
+                <span className="text-purple-400   ">{settings.blurAmount}px</span>
               </div>
               <input
                 type="range"
@@ -226,7 +226,7 @@ export default function HeaderMaskEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
                 <span className="text-purple-200">Background Dark Opacity</span>
-                <span className="text-purple-400 font-mono">{settings.bgOpacity}%</span>
+                <span className="text-purple-400   ">{settings.bgOpacity}%</span>
               </div>
               <input
                 type="range"
@@ -243,7 +243,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-bold uppercase tracking-wider rounded-lg border border-purple-500/20 transition-colors cursor-pointer"
+            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-bold uppercase  rounded-lg border border-purple-500/20 transition-colors cursor-pointer"
           >
             Reset Defaults
           </button>

@@ -344,7 +344,7 @@ export default function AdminLegalPage() {
                 <span className="w-2 h-2 rounded-lg bg-emerald-400 animate-pulse" />
                 100% Passed Legal Audit
               </span>
-              <span className="text-white/40 font-mono">Website Inspection & Regulatory Framework</span>
+              <span className="text-white/40   ">Website Inspection & Regulatory Framework</span>
             </div>
             <h1 className="text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight tracking-tight uppercase font-[var(--font-heading)] text-white">
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
@@ -361,7 +361,7 @@ export default function AdminLegalPage() {
                 {passPercentage}%
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-wider text-purple-300">Compliance Status</div>
+                <div className="text-[10px] font-bold uppercase  text-purple-300">Compliance Status</div>
                 <div className="text-emerald-400 font-bold flex items-center gap-1 mt-0.5">
                   <span>✓</span> {completedChecksCount} of {totalChecks} Inspections Passed
                 </div>
@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold uppercase  text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -420,7 +420,7 @@ export default function AdminLegalPage() {
 
             {/* Legal Disclaimer Box */}
             <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
-              <span className="text-[0.6rem] font-bold uppercase    text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
+              <span className="  text-[0.9rem]  font-bold uppercase    text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
               <p className="leading-relaxed">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
               </p>
@@ -451,7 +451,7 @@ export default function AdminLegalPage() {
 
             {/* Compliance Context & Legal Rationale Box */}
             <div className="bg-purple-950/20 border border-purple-500/30 rounded-lg p-5 mb-8">
-              <span className="font-bold uppercase tracking-wider text-purple-300 block mb-2">
+              <span className="font-bold uppercase  text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
               <p className="leading-relaxed">{active.explanation}</p>
@@ -463,7 +463,7 @@ export default function AdminLegalPage() {
                 <h3 className="font-bold uppercase    text-purple-300">
                   Inspections & Technical Verification Items
                 </h3>
-                <span className="text-[10px] text-white/40 font-mono">Click checkbox to toggle verification</span>
+                <span className="text-[10px] text-white/40   ">Click checkbox to toggle verification</span>
               </div>
 
               {active.requirements.map((req) => {
@@ -508,7 +508,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="px-2.5 py-1 bg-[#00000029] border border-white/10 text-purple-300 font-mono text-[10px] rounded-lg shrink-0 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-[#00000029] border border-white/10 text-purple-300    text-[10px] rounded-lg shrink-0 flex items-center gap-1">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

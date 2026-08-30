@@ -791,7 +791,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
+                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase  rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
                     ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                     : "text-white/50 hover:text-white/90 hover: bg-[#00000029]   "
                     }`}
@@ -1030,7 +1030,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white font-bold tracking-wider disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-bold  disabled:opacity-50"
             >
               {loading
                 ? "Processing..."
@@ -1130,7 +1130,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Admin
             </button>
@@ -1143,7 +1143,7 @@ function LoginModalBodyContent(props: any) {
                 await login("crew@7thheaven.com", "password123");
                 window.location.href = "/crew";
               }}
-              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg  text-[11px] font-bold uppercase  text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Crew
             </button>
@@ -1156,7 +1156,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Planner
             </button>
@@ -1169,7 +1169,7 @@ function LoginModalBodyContent(props: any) {
                 await login("cruise@7thheaven.com", "password123");
                 window.location.href = "/cruise/cruise_guest";
               }}
-              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg  text-[11px] font-bold uppercase  text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Cruise
             </button>
@@ -1182,7 +1182,7 @@ function LoginModalBodyContent(props: any) {
                 await login("fan@7thheaven.com", "password123");
                 window.location.href = "/fans/super_fan";
               }}
-              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg  text-[11px] font-bold uppercase  text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Fan
             </button>
@@ -1260,7 +1260,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Admin
         </button>
@@ -1273,7 +1273,7 @@ function QuickLoginDemoButtons({
             await login("crew@7thheaven.com", "password123");
             window.location.href = "/crew";
           }}
-          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg  text-[11px] font-bold uppercase  text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Crew
         </button>
@@ -1286,7 +1286,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Planner
         </button>
@@ -1299,7 +1299,7 @@ function QuickLoginDemoButtons({
             await login("cruise@7thheaven.com", "password123");
             window.location.href = "/cruise/cruise_guest";
           }}
-          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg  text-[11px] font-bold uppercase  text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Cruise
         </button>
@@ -1312,7 +1312,7 @@ function QuickLoginDemoButtons({
             await login("fan@7thheaven.com", "password123");
             window.location.href = "/fans/super_fan";
           }}
-          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-bold uppercase tracking-wider text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg  text-[11px] font-bold uppercase  text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Fan
         </button>

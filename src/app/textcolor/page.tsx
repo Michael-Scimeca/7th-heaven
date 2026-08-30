@@ -144,7 +144,7 @@ export default function TextColorTestPage() {
                       onChange={(e) => updateColor(i, e.target.value)}
                       className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
                     />
-                    <span className="font-mono text-white/50">
+                    <span className="   text-white/50">
                       {c}
                     </span>
                   </label>

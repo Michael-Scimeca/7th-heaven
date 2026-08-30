@@ -344,7 +344,7 @@ export default function MemberDashboard() {
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
                                 <span className="text-[var(--font-size-2xs)] uppercase    font-bold text-white/40 block text-center mb-1">Claimed</span>
-                                <span className="font-mono text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
+                                <span className="   text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
@@ -410,15 +410,15 @@ export default function MemberDashboard() {
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
                       {photo.approved ? (
-                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase    rounded border border-emerald-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white      text-[0.9rem]  uppercase    rounded border border-emerald-400/20 flex items-center gap-1">
                           <Check className="w-3 h-3" /> Published
                         </span>
                       ) : photo.rejected ? (
-                        <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase    rounded border border-red-400/30 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-red-500/95 text-white      text-[0.9rem]  uppercase    rounded border border-red-400/30 flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase    rounded border border-yellow-400/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black      text-[0.9rem]  uppercase    rounded border border-yellow-400/20 font-bold flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -446,7 +446,7 @@ export default function MemberDashboard() {
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
                       {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-purple-400shrink-0" /> {photo.venue}</span>}
-                      <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
+                      <span className="  ">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>
                 </div>
@@ -503,7 +503,7 @@ export default function MemberDashboard() {
                     {/* Order header */}
                     <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-b border-white/5">
                       <div className="flex items-center gap-4">
-                        <span className="font-mono text-white/30">{order.id}</span>
+                        <span className="   text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
                       <span className={`uppercase tracking-[0.15em] font-bold ${order.statusColor}`}>

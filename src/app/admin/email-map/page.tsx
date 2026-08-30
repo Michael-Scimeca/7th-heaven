@@ -46,7 +46,7 @@ function Node({
           {label}
         </span>
       </div>
-      {sub && <span className="text-[var(--font-size-2xs)] text-white/20 font-mono mt-0.5">{sub}</span>}
+      {sub && <span className="text-[var(--font-size-2xs)] text-white/20    mt-0.5">{sub}</span>}
     </div>
   );
 }
@@ -199,7 +199,7 @@ export default function EmailMapPage() {
             <p className="leading-relaxed mb-4">
               To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className=" text-white ">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
-            <div className="bg-black/40 p-4 rounded font-mono text-blue-400">
+            <div className="bg-black/40 p-4 rounded    text-blue-400">
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function EmailMapPage() {
             <p className="leading-relaxed mb-4">
               Cancellation and status links use crypographic tokens stored in Supabase. This allows fans to manage their RSVPs or bookings directly from their inbox without requiring a password login every time.
             </p>
-            <div className="bg-black/40 p-4 rounded font-mono text-cyan-400">
+            <div className="bg-black/40 p-4 rounded    text-cyan-400">
               URL: /cruise/cancel?token=7f9a...
             </div>
           </div>

@@ -8,7 +8,8 @@
  */
 "use client";
 
-import React from "react";
+import React, { forwardRef } from "react";
+import InputField from "./InputField";
 
 /* ─── GlowInput ─────────────────────────────────────────── */
 export interface GlowInputProps
@@ -17,21 +18,29 @@ export interface GlowInputProps
   rounded?: string;
 }
 
-export function GlowInput({
-  wrapperClassName = "w-full",
-  rounded = "rounded-xl",
-  className = "",
-  ...props
-}: GlowInputProps) {
-  return (
-    <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
-      <input
+export const GlowInput = forwardRef<HTMLInputElement, GlowInputProps>(
+  (
+    {
+      wrapperClassName = "w-full",
+      rounded = "rounded-xl",
+      className = "",
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <InputField
+        ref={ref}
+        glow={true}
+        containerClassName={wrapperClassName}
+        inputClassName={`${rounded} ${className}`}
         {...props}
-        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 outline-none transition-[border-color,background-color,box-shadow] ${className}`}
       />
-    </div>
-  );
-}
+    );
+  }
+);
+
+GlowInput.displayName = "GlowInput";
 
 /* ─── GlowSelect ─────────────────────────────────────────── */
 export interface GlowSelectProps

@@ -1445,7 +1445,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/live/live_michael</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/live/live_michael</div>
                 <span className="text-white/20">LIVE</span>
                 <span className="w-2 h-2 rounded-lg bg-red-500 animate-pulse" />
               </div>
@@ -1597,7 +1597,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/crew</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/crew</div>
               </div>
 
               <div className="bg-[#080808] p-5 grid grid-cols-1 lg:grid-cols-3 gap-5 min-h-[500px]">
@@ -1789,7 +1789,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/admin</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/admin</div>
                 <span className="text-blue-400 font-bold">🔐 Admin Only</span>
               </div>
 
@@ -1922,9 +1922,9 @@ export default function FeaturesPage() {
                               </div>
                             </div>
                             <div className="absolute bottom-0 left-0 right-0 px-1 py-0.5 bg-black/70">
-                              <div className="text-white text-[var(--font-size-4xs)] font-bold truncate">{p.label}</div>
+                              <div className="text-white   font-bold truncate">{p.label}</div>
                             </div>
-                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-lg flex items-center justify-center text-[var(--font-size-4xs)] text-white font-bold">!</div>}
+                            {!p.ok && <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-lg flex items-center justify-center   text-white font-bold">!</div>}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
                               <button aria-label="Action button" className="w-7 h-7 bg-emerald-500/90 rounded-lg text-white font-bold cursor-pointer">✓</button>
                               <button aria-label="Action button" className="w-7 h-7 bg-red-500/90 rounded-lg text-white font-bold cursor-pointer">✕</button>
@@ -1974,7 +1974,7 @@ export default function FeaturesPage() {
                                 <div className="flex items-center gap-2">
                                   <span className="w-1.5 h-1.5 rounded-lg bg-red-500 animate-pulse" />
                                   <span className="text-white/80 font-bold">{s.name}</span>
-                                  <span className="text-white/20 font-mono">{s.room}</span>
+                                  <span className="text-white/20   ">{s.room}</span>
                                 </div>
                                 <button aria-label="Action button" className="text-red-400/50 hover:text-red-400 font-bold cursor-pointer">End</button>
                               </div>
@@ -2010,7 +2010,7 @@ export default function FeaturesPage() {
                         <div className="px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70 font-bold uppercase   ">📝 Audit Log</span>
                         </div>
-                        <div className="p-3 flex flex-col gap-1.5 font-mono">
+                        <div className="p-3 flex flex-col gap-1.5   ">
                           {[
                             { time: "14:23:01", action: "michael approved booking #B-0041", color: "#34d399" },
                             { time: "14:18:44", action: "SMS blast sent → 2,847 recipients", color: "#c084fc" },
@@ -2053,7 +2053,7 @@ export default function FeaturesPage() {
             </h2>
           </div>
           <p className="mb-14 max-w-3xl">
-            Every registered fan gets a personalized dashboard at <code className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
+            Every registered fan gets a personalized dashboard at <code className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded   ">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
           </p>
 
           {/* Screenshot 1: Hero — Profile + Countdown */}
@@ -2067,7 +2067,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-hero.png" alt="Fan Dashboard — Profile header with live show countdown" className="w-full" />
@@ -2085,7 +2085,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-middle.png" alt="Fan Dashboard — Proximity alerts and upcoming shows" className="w-full" />
@@ -2103,7 +2103,7 @@ export default function FeaturesPage() {
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
                 <span className="w-3 h-3 rounded-lg bg-emerald-500/60" />
-                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25 font-mono">7thheavenband.com/fans/demo</div>
+                <div className="flex-1 mx-4 bg-[#00000029] rounded px-3 py-0.5 text-white/25   ">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-lower.png" alt="Fan Dashboard — Show memories and referral program" className="w-full" />
@@ -2266,7 +2266,7 @@ export default function FeaturesPage() {
                     >
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />
 
-                      <code className="font-mono text-white/50 group-hover:text-white/90 transition-colors w-[180px] md:w-[220px] shrink-0 truncate">
+                      <code className="   text-white/50 group-hover:text-white/90 transition-colors w-[180px] md:w-[220px] shrink-0 truncate">
                         {page.path}
                       </code>
 
@@ -2508,7 +2508,7 @@ export default function FeaturesPage() {
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />
 
                       {/* path */}
-                      <code className="font-mono text-white group-hover:text-white transition-colors min-w-[200px] shrink-0">
+                      <code className="   text-white group-hover:text-white transition-colors min-w-[200px] shrink-0">
                         {page.path}
                       </code>
 

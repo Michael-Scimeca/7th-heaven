@@ -71,7 +71,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           <span className={`font-bold ${isSmall ? "text-[8px]" : " text-[12px] "} tracking-wide uppercase truncate ${accent.text}`}>
             {data.header}
           </span>
-          <span className={`shrink-0 px-1 py-[1px] rounded text-[7px] font-mono font-bold ${accent.chip}`}>
+          <span className={`shrink-0 px-1 py-[1px] rounded text-[7px]    font-bold ${accent.chip}`}>
             {BADGE_LABEL[data.badgeType || "PORTAL"]}
           </span>
         </div>
@@ -88,7 +88,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-150 block"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/20 text-[12px] font-mono">
+            <div className="w-full h-full flex items-center justify-center text-white/20 text-[12px]   ">
               {targetPath}
             </div>
           )}
@@ -1620,7 +1620,7 @@ export default function VisualSitemapClient() {
             7H
           </div>
           <div>
-            <h1 className="font-bold text-base text-white tracking-wider uppercase">
+            <h1 className="font-bold text-base text-white  uppercase">
               {activeTab === "ARCH"
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"
@@ -1645,7 +1645,7 @@ export default function VisualSitemapClient() {
         <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-lg border border-white/10">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="ARCH"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1656,7 +1656,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="BOOKING"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1667,7 +1667,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="CRUISE"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}
@@ -1678,7 +1678,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab ==="FAN_SIGNUP"
+            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
               ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
               : " text-white  hover:text-white hover: bg-[#00000029]   "
               }`}

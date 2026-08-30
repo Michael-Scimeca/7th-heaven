@@ -178,7 +178,7 @@ export default function HomeMerch() {
                     </div>
                   )}
                   {soldOut && (
-                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] font-bold uppercase tracking-wider px-2 py-0.5 rounded">Sold Out</span>
+                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] font-bold uppercase  px-2 py-0.5 rounded">Sold Out</span>
                   )}
                 </div>
                 <div className="p-4">

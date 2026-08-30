@@ -194,7 +194,7 @@ export default function FansPage() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left max-w-3xl">
 
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h1 className=" font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
               <p className="font-medium mt-3 max-w-2xl leading-relaxed">
@@ -272,7 +272,7 @@ export default function FansPage() {
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-[#00000029] text-white px-3 py-1 font-mono rounded-lg border border-white/10 font-bold">
+              <span className="ml-auto bg-[#00000029] text-white px-3 py-1    rounded-lg border border-white/10 font-bold">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -309,7 +309,7 @@ export default function FansPage() {
                           className="object-cover"
                         />
                       )}
-                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/80 backdrop-blur-md rounded text-[12px] font-mono text-white/90">
+                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/80 backdrop-blur-md rounded text-[12px]    text-white/90">
                         {photo.date || "Pending"}
                       </div>
                     </div>
@@ -322,7 +322,7 @@ export default function FansPage() {
                           <span className="truncate">{photo.name}</span>
                         </div>
                         {photo.venue && (
-                          <p className="font-bold tracking-wider uppercase truncate flex items-center gap-1 mt-0.5">
+                          <p className="font-bold  uppercase truncate flex items-center gap-1 mt-0.5">
                             <MapPin className="w-3 h-3 text-purple-400 shrink-0" /> {photo.venue}
                           </p>
                         )}

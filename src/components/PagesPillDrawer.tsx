@@ -138,7 +138,7 @@ export default function PagesPillDrawer() {
       >
         <Menu className="w-6 h-6 md:w-7 md:h-7 text-white transition-transform group-hover:scale-110" />
         <span>PAGES</span>
-        <span className="ml-1 px-2.5 py-1 rounded-lg bg-white/25 font-mono font-bold">
+        <span className="ml-1 px-2.5 py-1 rounded-lg bg-white/25    font-bold">
           {ALL_SITE_ROUTES.length}
         </span>
       </button>
@@ -165,7 +165,7 @@ export default function PagesPillDrawer() {
                 <div>
                   <h2 className="font-bold uppercase tracking-tight text-white flex items-center gap-2">
                     Pages Directory
-                    <span className="font-mono font-bold px-2.5 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span className="   font-bold px-2.5 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -211,7 +211,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] font-mono"
+                    className="w-full bg-black/50 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff]   "
                   />
                 </div>
               </div>
@@ -232,12 +232,12 @@ export default function PagesPillDrawer() {
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComp className="w-4 h-4 text-purple-400" />
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300">
+                          <span className="text-[10px] font-bold uppercase  text-purple-300">
                             {item.category}
                           </span>
                         </div>
                         <span
-                          className={`text-[12px] font-mono font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
+                          className={`text-[12px]    font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
                               ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
@@ -253,7 +253,7 @@ export default function PagesPillDrawer() {
                       <h3 className="font-bold text-white group-hover:text-purple-200 transition-colors">
                         {item.label}
                       </h3>
-                      <p className="font-mono mt-1 truncate">
+                      <p className="   mt-1 truncate">
                         {item.path}
                       </p>
                     </div>
@@ -284,7 +284,7 @@ export default function PagesPillDrawer() {
             </div>
 
             {filtered.length === 0 && (
-              <div className="py-12 text-center text-white/40 font-mono">
+              <div className="py-12 text-center text-white/40   ">
                 No matching pages found for "{search}".
               </div>
             )}

@@ -193,7 +193,7 @@ export default function HeroLiveThumbs() {
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="text-[var(--font-size-4xs)] font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap"
+                className="  font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap"
               >
                 + {mediaPosts.length - 2} More →
               </Link>
@@ -247,13 +247,13 @@ export default function HeroLiveThumbs() {
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white text-[var(--font-size-4xs)] font-bold px-2 py-0.5 rounded-lg">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white   font-bold px-2 py-0.5 rounded-lg">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
                     {viewers}
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5 text-white/80 font-mono font-bold">
+                  <div className="absolute bottom-3 left-3.5 text-white/80    font-bold">
                     {timeText}
                   </div>
                 </div>
@@ -272,7 +272,7 @@ export default function HeroLiveThumbs() {
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wide text-red-400 group-hover:text-red-300 transition-colors shrink-0">
+                  <span className="  font-bold uppercase tracking-wide text-red-400 group-hover:text-red-300 transition-colors shrink-0">
                     WATCH →
                   </span>
                 </div>

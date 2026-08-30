@@ -68,7 +68,7 @@ function PaymentTestContent() {
         <div className="mb-8 text-left">
           <Link
             href="/"
-            className="font-bold uppercase tracking-wider text-purple-400hover:text-white transition-colors flex items-center gap-2"
+            className="font-bold uppercase  text-purple-400hover:text-white transition-colors flex items-center gap-2"
           >
             ← Back to Home
           </Link>
@@ -85,7 +85,7 @@ function PaymentTestContent() {
             <p className="mt-1 leading-relaxed">
               Runs a real Stripe Checkout session in test mode. Card details are entered on
               Stripe&apos;s hosted page and never touch this server. Use test card{" "}
-              <span className="text-white/70 font-mono">4242 4242 4242 4242</span>, any future
+              <span className="text-white/70   ">4242 4242 4242 4242</span>, any future
               expiry, any CVC.
             </p>
           </div>
@@ -113,7 +113,7 @@ function PaymentTestContent() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
                 Amount (USD)
               </label>
               <input
@@ -128,7 +128,7 @@ function PaymentTestContent() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
                 Description
               </label>
               <input
@@ -143,7 +143,7 @@ function PaymentTestContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider py-3.5 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  py-3.5 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Redirecting to Stripe…" : "Pay with Stripe (Test Mode)"}
             </button>

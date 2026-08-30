@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import { Play, X } from "lucide-react";
 import CosmicRadialButton from "./CosmicRadialButton";
+import FoolishShrimpButton from "./FoolishShrimpButton";
+import { SectionBadge } from "./SectionBadge";
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
@@ -193,9 +195,9 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="pt-20 relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block font-bold    uppercase bg-[#00000029] border border-white/10 backdrop-blur-[16px] mb-3 px-4 py-1 rounded-lg">
-          Virtual Tours & Video Showcase
-        </span>
+        <div className="flex justify-center mb-3">
+          <SectionBadge label="Virtual Tours & Video Showcase" />
+        </div>
         <h2
           className="md:text-6xl font-bold uppercase tracking-tight text-white leading-none"
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
@@ -208,18 +210,16 @@ export default function CruiseVideoGallery() {
 
         {/* Category Filters */}
         {categories.length > 1 && (
-          <div className="flex flex-wrap gap-2 justify-center mt-8">
+          <div className="flex flex-wrap gap-2.5 justify-center mt-8">
             {categories.map(cat => (
-              <button aria-label="Action button"
+              <FoolishShrimpButton
                 key={cat}
-                type="button"
+                isActive={selectedCategory === cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 font-bold uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat ? 'bg-cyan-500 text-black  font-bold  shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                  : ' bg=[#e1e6ff29]  text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
-                  }`}
+                className="px-5 py-2 font-bold uppercase"
               >
                 {cat}
-              </button>
+              </FoolishShrimpButton>
             ))}
           </div>
         )}
@@ -254,19 +254,20 @@ export default function CruiseVideoGallery() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center !rounded-lg">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-14 h-14 ! rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    isActive
+                    className="w-14 h-14 rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
                 </div>
 
-                <span className="absolute top-3 left-3 bg-[#00000029] border border-white/10 backdrop-blur-[16px]  font-bold tracking-wider px-3 py-1 rounded-lg">
-                  {vid.category}
-                </span>
+                <div className="absolute top-3 left-3 z-10">
+                  <SectionBadge label={vid.category} />
+                </div>
               </div>
 
               {/* Title & Info */}
-              <div className="py-6 flex-1 flex flex-col justify-between space-y-3">
+              <div className="py-6 flex-1 flex flex-col space-y-3">
                 <div>
                   <h3 className="font-bold text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                     {vid.title}
@@ -278,7 +279,7 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400  pt-3 border-t border-white/5 ">
                   <span>Watch Video Tour</span>
 
                 </div>
@@ -300,14 +301,14 @@ export default function CruiseVideoGallery() {
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 rounded-lg bg-white/15 border border-white/10 text-white hover:bg-rose-600 hover:border-rose-500 hover:scale-110 transition-[background-color,border-color,transform] duration-200 shadow-2xl cursor-pointer flex items-center justify-center group"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border border-white/10 text-white  transition-[background-color,border-color,transform] duration-200  cursor-pointer flex items-center justify-center group"
           >
-            <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
+            <X className="w-6 h-6 text-white" />
           </button>
 
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e] border border-purple-500/30 shadow-[0_0_90px_rgba(168,85,247,0.4)]"
+            className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e]"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
@@ -319,15 +320,7 @@ export default function CruiseVideoGallery() {
                 </h3>
               </div>
 
-              <button
-                type="button"
-                aria-label="Close player"
-                onClick={() => setActiveVideo(null)}
-                className="shrink-0 flex items-center gap-2 text-white font-bold uppercase tracking-wider bg-rose-600/90 hover:bg-rose-600 border border-rose-400/60 px-4 py-2.5 rounded-xl transition-[background-color,border-color,transform] duration-200 cursor-pointer shadow-lg hover:scale-105"
-              >
-                <X className="w-4 h-4 text-white" />
-                <span>Close Player</span>
-              </button>
+
             </div>
 
             <div className="aspect-video w-full overflow-hidden bg-black rounded-2xl relative shadow-2xl">

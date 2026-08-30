@@ -195,8 +195,8 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ?"bg-purple-600 border-purple-600 text-white shadow-md"
-                : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
+                : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20    "
                 }`}
             >
               <span className={isActive ? "text-white" : cat.color}>

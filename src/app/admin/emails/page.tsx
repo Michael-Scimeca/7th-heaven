@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-white/50 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-white/50    overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {html}
               </pre>
             )}

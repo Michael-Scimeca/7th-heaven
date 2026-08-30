@@ -82,7 +82,7 @@ function VideoCardVisual({
             <Play className="w-8 h-8 text-white fill-white ml-1" />
           </div>
         </div>
-        <h4 className="text-white/90 font-bold uppercase tracking-wider line-clamp-2 px-2 drop-shadow-md">
+        <h4 className="text-white/90 font-bold uppercase  line-clamp-2 px-2 drop-shadow-md">
           {title}
         </h4>
       </div>
@@ -355,7 +355,7 @@ export default function MediaPage() {
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
         <div className="text-center mb-6 pt-4">
-          <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-tight text-white">MEDIA</h1>
+          <h1 className=" font-bold uppercase tracking-tight text-white">MEDIA</h1>
         </div>
 
         {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
@@ -369,7 +369,7 @@ export default function MediaPage() {
           {isAdmin && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase  rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
             >
               <Plus className="w-4 h-4" />
               <span>Add Video</span>
@@ -383,7 +383,7 @@ export default function MediaPage() {
             type="button"
             onClick={() => handleFilterChange("ALL")}
             isActive={activeFilter === "ALL"}
-            className="!w-auto px-5 py-2.5 font-bold uppercase tracking-wider text-xs"
+            className="!w-auto px-5 py-2.5 font-bold uppercase  text-xs"
           >
             ALL
           </FoolishShrimpButton>
@@ -398,7 +398,7 @@ export default function MediaPage() {
                 type="button"
                 onClick={() => handleFilterChange(catUpper)}
                 isActive={isActive}
-                className="!w-auto px-5 py-2.5 font-bold uppercase tracking-wider text-xs"
+                className="!w-auto px-5 py-2.5 font-bold uppercase  text-xs"
               >
                 {catUpper}
               </FoolishShrimpButton>
@@ -458,7 +458,7 @@ export default function MediaPage() {
                   </div>
 
                   {/* Year / Duration Metadata */}
-                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold text-purple-300/80 uppercase    shrink-0">
+                  <span className="font-semibold text-purple-300/80 uppercase    shrink-0">
                     {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
                   </span>
                 </div>
@@ -474,7 +474,7 @@ export default function MediaPage() {
             <p className="font-semibold">No media found matching &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
-              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold uppercase tracking-wider hover:bg-purple-500 transition-colors cursor-pointer"
+              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold uppercase  hover:bg-purple-500 transition-colors cursor-pointer"
             >
               Clear Filters & Search
             </button>
@@ -510,8 +510,8 @@ export default function MediaPage() {
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="font-bold uppercase tracking-wider text-white">Add Video to Media Vault</h3>
-                  <p className="uppercase    font-mono">Syncs to Sanity CMS & Media Hub</p>
+                  <h3 className="font-bold uppercase  text-white">Add Video to Media Vault</h3>
+                  <p className="uppercase      ">Syncs to Sanity CMS & Media Hub</p>
                 </div>
               </div>
               <button
@@ -525,7 +525,7 @@ export default function MediaPage() {
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px] font-bold uppercase  text-purple-300 mb-1">
                   Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -558,7 +558,7 @@ export default function MediaPage() {
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Valid Video Link Detected</span>
                         </div>
-                        <p className="font-mono mt-0.5">ID: {parsed}</p>
+                        <p className="   mt-0.5">ID: {parsed}</p>
                       </div>
                     </div>
                   );
@@ -567,7 +567,7 @@ export default function MediaPage() {
               })()}
 
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px] font-bold uppercase  text-purple-300 mb-1">
                   Video Title <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -582,7 +582,7 @@ export default function MediaPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">
+                  <label className="block text-[10px] font-bold uppercase  text-purple-300 mb-1">
                     Category <span className="text-pink-400">*</span>
                   </label>
                   <select
@@ -604,7 +604,7 @@ export default function MediaPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">
+                  <label className="block text-[10px] font-bold uppercase  text-purple-300 mb-1">
                     Release Year
                   </label>
                   <input
@@ -618,7 +618,7 @@ export default function MediaPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">
+                <label className="block text-[10px] font-bold uppercase  text-purple-300 mb-1">
                   Description / Notes (Optional)
                 </label>
                 <textarea
@@ -641,7 +641,7 @@ export default function MediaPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase  rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
                 </button>

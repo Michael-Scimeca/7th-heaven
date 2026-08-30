@@ -124,7 +124,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => openModal("login")}
-            className="px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase tracking-wider rounded-lg"
+            className="px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg"
           >
             Sign In
           </button>
@@ -138,7 +138,7 @@ export default function ShopInventoryAdminPage() {
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="font-bold uppercase tracking-wider text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase  text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Shop
         </Link>
@@ -160,7 +160,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setShowAddProduct(true)}
-            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider rounded-lg transition-colors"
+            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  rounded-lg transition-colors"
           >
             + Add Product
           </button>
@@ -170,14 +170,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase tracking-wider transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -272,7 +272,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-white font-bold truncate">{product.title}</h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 bg-[#00000029] px-2 py-0.5 rounded">
+              <span className="text-[10px] font-bold uppercase  text-white/40 bg-[#00000029] px-2 py-0.5 rounded">
                 {product.category}
               </span>
             </div>
@@ -310,7 +310,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
       {expanded && (
         <div className="p-4 bg-black/20 space-y-2">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-white/40 mb-2">
+          <div className="text-[10px] font-bold uppercase  text-white/40 mb-2">
             Variants ({product.variant_kind})
           </div>
           {(product.variants || []).map((variant) => (
@@ -620,23 +620,23 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Title</label>
+          <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">Title</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Description</label>
+          <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">Description</label>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Image URL</label>
+          <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">Image URL</label>
           <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="/images/merch/logo-tee.png" className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Category</label>
+            <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">Category</label>
             <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
@@ -646,7 +646,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
             </select>
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">Variant Type</label>
+            <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">Variant Type</label>
             <select value={variantKind} onChange={(e) => setVariantKind(e.target.value as typeof variantKind)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
               {VARIANT_KINDS.map((k) => (
                 <option key={k} value={k}>
@@ -658,7 +658,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-2">
+          <label className="block text-[10px] font-bold uppercase  text-white/40 mb-2">
             Variants ({variantKind === "Size" ? "sizes" : variantKind === "Format" ? "formats" : "colors"})
           </label>
           <div className="space-y-2">
@@ -747,7 +747,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
         <div key={order.id} className="bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-white font-mono">{order.tran_nbr}</span>
+              <span className="text-white   ">{order.tran_nbr}</span>
               <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>

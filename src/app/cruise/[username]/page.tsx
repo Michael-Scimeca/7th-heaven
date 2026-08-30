@@ -532,7 +532,7 @@ export default function CruiseDashboard() {
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="font-bold text-black uppercase tracking-wider mb-2">Verify Your Email</h3>
+                  <h3 className="font-bold text-black uppercase  mb-2">Verify Your Email</h3>
                   <p className="text-black/60 leading-relaxed">
                     We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
                   </p>
@@ -540,7 +540,7 @@ export default function CruiseDashboard() {
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="cruise-user-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">6-Digit Verification PIN</label>
+                    <label htmlFor="cruise-user-pin-input" className="block   font-bold text-black/50 uppercase    mb-1.5">6-Digit Verification PIN</label>
                     <input aria-label="Input field"
                       id="cruise-user-pin-input"
                       type="text"
@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-4">📧</span>
-                <h3 className="font-bold text-black uppercase tracking-wider mb-2">Check Your Email</h3>
+                <h3 className="font-bold text-black uppercase  mb-2">Check Your Email</h3>
                 <p className="text-black/60 leading-relaxed mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
@@ -594,11 +594,11 @@ export default function CruiseDashboard() {
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
                       <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
-                        <label htmlFor="cruise-hub-login-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Email Address</label>
+                        <label htmlFor="cruise-hub-login-email" className="block   font-bold text-black/50 uppercase    mb-1.5">Email Address</label>
                         <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-login-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Password</label>
+                        <label htmlFor="cruise-hub-login-password" className="block   font-bold text-black/50 uppercase    mb-1.5">Password</label>
                         <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
@@ -612,19 +612,19 @@ export default function CruiseDashboard() {
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
                       <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
-                        <label htmlFor="cruise-hub-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Full Legal Name *</label>
+                        <label htmlFor="cruise-hub-reg-name" className="block   font-bold text-black/50 uppercase    mb-1.5">Full Legal Name *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Email Address *</label>
+                        <label htmlFor="cruise-hub-reg-email" className="block   font-bold text-black/50 uppercase    mb-1.5">Email Address *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Phone Number *</label>
+                        <label htmlFor="cruise-hub-reg-phone" className="block   font-bold text-black/50 uppercase    mb-1.5">Phone Number *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase    mb-1.5">Choose Password *</label>
+                        <label htmlFor="cruise-hub-reg-password" className="block   font-bold text-black/50 uppercase    mb-1.5">Choose Password *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
@@ -666,7 +666,7 @@ export default function CruiseDashboard() {
                   {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-bold uppercase text-white bg-sky-500 rounded-lg shadow-md border border-sky-400/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-white bg-sky-500 rounded-lg shadow-md border border-sky-400/50">
                 Cruise
               </span>
             </div>
@@ -677,7 +677,7 @@ export default function CruiseDashboard() {
                 {effectiveMember?.name || 'Cruise Guest'}
               </h1>
               <p className="text-cyan-400 font-bold    uppercase mt-1.5">Cruise Member Dashboard</p>
-              <p className="font-mono mt-1">{effectiveMember?.email || ''}</p>
+              <p className="   mt-1">{effectiveMember?.email || ''}</p>
             </div>
           </div>
 
@@ -762,7 +762,7 @@ export default function CruiseDashboard() {
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
                   <span className="text-3xl">📋</span>
                   <div>
-                    <h2 className="font-bold uppercase tracking-wider text-white">{guidelines.title}</h2>
+                    <h2 className="font-bold uppercase  text-white">{guidelines.title}</h2>
                     <p className="text-purple-400font-bold uppercase    mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (

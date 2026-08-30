@@ -253,7 +253,7 @@ export default function LiveShowFeed() {
               <button aria-label="Action button"
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ?"border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
+                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                   : isNew
                     ? "border-red-500/50"
                     : "border-white/[0.06] hover: border-white/10 "
@@ -277,7 +277,7 @@ export default function LiveShowFeed() {
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1.5 py-0.5">
+                  <span className="text-[var(--font-size-2xs)] font-bold uppercase  bg-black/60 text-white/70 px-1.5 py-0.5">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>

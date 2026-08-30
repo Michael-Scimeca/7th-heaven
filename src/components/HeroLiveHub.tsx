@@ -181,7 +181,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   className="bg-[#00000029] hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors group"
                 >
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
-                  <span className="font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">
+                  <span className="font-bold text-white/70 group-hover:text-white uppercase  truncate max-w-[120px]">
                     {room.title?.split(' — ')[0] || room.name}
                   </span>
                 </Link>
@@ -265,7 +265,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                       </div>
                     )}
                     <div className="absolute top-1 left-1">
-                      <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-wider bg-black/60 text-white/70 px-1 py-0.5">
+                      <span className="text-[var(--font-size-2xs)] font-bold uppercase  bg-black/60 text-white/70 px-1 py-0.5">
                         {timeAgo(post.created_at)}
                       </span>
                     </div>
@@ -286,13 +286,13 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
           {/* Listen / Buy Links */}
           <div className="flex gap-2 mt-2">
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase tracking-wider py-2.5 transition-colors">
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
               Buy CD
             </a>
-            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase tracking-wider py-2.5 transition-colors">
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
               Spotify
             </a>
-            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase tracking-wider py-2.5 transition-colors">
+            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
               Apple Music
             </a>
           </div>

@@ -75,7 +75,7 @@ export function AdminAuthGate({
           <button
             type="submit"
             disabled={adminLoginLoading}
-            className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+            className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50"
           >
             {adminLoginLoading ? "Authenticating..." : "Sign In to Admin"}
           </button>

@@ -55,6 +55,11 @@ h6 {
   line-height: 1.4;
 }
 
+ul li {
+  margin-bottom: 5px !important;
+  line-height: 1.4 !important;
+}
+
 
 /* =============================================
    GLOBAL UNBOXED THEME
@@ -286,22 +291,28 @@ a:hover {
   color: var(--link-hover-color);
 }
 
+label,
+.booking-label {
+  color: #ffffff !important;
+}
+
 .site-input,
 .form-input,
-input,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
 select,
 textarea {
-  font-size: 1.15rem !important;
-  font-weight: 600 !important;
-  background: rgba(var(--input-bg-red, 192), var(--input-bg-green, 132), var(--input-bg-blue, 252), var(--input-bg-opacity, 0.03)) !important;
-  backdrop-filter: blur(var(--input-blur, 24px)) !important;
-  -webkit-backdrop-filter: blur(var(--input-blur, 24px)) !important;
-  border: 1px solid #ffffff29 !important;
-  border-radius: var(--input-border-radius, 8px) !important;
-  color: var(--input-text-color, #ffffff) !important;
+  font-size: 1.15rem;
+  font-weight: 500;
+  background: rgba(var(--input-bg-red, 192), var(--input-bg-green, 132), var(--input-bg-blue, 252), var(--input-bg-opacity, 0.03));
+  backdrop-filter: blur(var(--input-blur, 24px));
+  -webkit-backdrop-filter: blur(var(--input-blur, 24px));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--input-border-radius, 8px);
+  color: var(--input-text-color, #ffffff);
   padding: var(--input-padding-y, 12px) var(--input-padding-x, 18px);
-  outline: none !important;
-  transition: all 0.2s ease-in-out !important;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  background: #a855f71f;
 }
 
 /* Default input cursor on mouseover & focus for all inputs and textareas */
@@ -386,14 +397,20 @@ select[style*="background-image:none"] {
 
 .site-input::placeholder,
 .form-input::placeholder,
-input::placeholder,
-textarea::placeholder {
+input::placeholder {
   color: var(--input-placeholder-color) !important;
-  font-size: inherit !important;
+  font-size: 1.15rem !important;
   font-family: inherit !important;
   font-weight: inherit !important;
   letter-spacing: inherit !important;
+}
 
+textarea::placeholder {
+  color: var(--input-placeholder-color) !important;
+  font-size: 1rem !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
 }
 
 .site-input:focus,
@@ -1026,7 +1043,7 @@ select::placeholder,
   --font-heading: var(--font-family-heading, 'Switzer', sans-serif);
   --font-body: var(--font-family-sans, 'Switzer', sans-serif);
   --font-sans: var(--font-family-sans, 'Switzer', system-ui, sans-serif);
-  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  --: ui-monospace, "Cascadia Code", "Fira Code", monospace;
 
   /* ── Heading letter-spacing ── */
   --tracking-display: -0.04em;
@@ -2014,14 +2031,14 @@ html.tour-sort-stuck #tour-sort-bar {
    ReactQuill WYSIWYG Editor Dark Mode Styling
    ============================================= */
 .ql-toolbar.ql-snow {
-  background-color: #0b0b12 !important;
+  background-color: #a855f71f !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   border-top-left-radius: 0.75rem !important;
   border-top-right-radius: 0.75rem !important;
 }
 
 .ql-container.ql-snow {
-  background-color: #07070a !important;
+  background-color: #a855f71f !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
   border-bottom-left-radius: 0.75rem !important;
   border-bottom-right-radius: 0.75rem !important;
@@ -2035,9 +2052,7 @@ html.tour-sort-stuck #tour-sort-bar {
   fill: rgba(255, 255, 255, 0.6) !important;
 }
 
-.ql-snow .ql-picker {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
+.ql-snow .ql-picker {}
 
 .ql-snow .ql-picker-options {
   background-color: #0b0b12 !important;
@@ -2053,14 +2068,9 @@ html.tour-sort-stuck #tour-sort-bar {
   color: var(--color-accent) !important;
 }
 
-.ql-editor {
-  color: rgba(255, 255, 255, 0.9) !important;
-  font-family: var(--font-body), sans-serif !important;
-  font-size: 0.875rem !important;
-}
+.ql-editor {}
 
 .ql-editor.ql-blank::before {
-  color: rgba(255, 255, 255, 0.3) !important;
   font-style: normal !important;
 }
 
@@ -2127,9 +2137,7 @@ html.tour-sort-stuck #tour-sort-bar {
   font-weight: 700 !important;
 }
 
-.guidelines-wysiwyg-editor .ql-editor.ql-blank::before {
-  color: rgba(0, 0, 0, 0.4) !important;
-}
+.guidelines-wysiwyg-editor .ql-editor.ql-blank::before {}
 
 /* Utility to hide native browser scrollbars completely */
 .no-scrollbar::-webkit-scrollbar {
@@ -5959,9 +5967,7 @@ section {
   color: #ffffff !important;
 }
 
-#admin-dashboard-root .ql-editor.ql-blank::before {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
+#admin-dashboard-root .ql-editor.ql-blank::before {}
 
 #admin-dashboard-root .ql-snow .ql-stroke {
   stroke: #ffffff !important;
@@ -6002,7 +6008,6 @@ section {
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-container,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor {
   background-color: #ffffff !important;
-  color: rgba(0, 0, 0, 0.85) !important;
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
@@ -6030,9 +6035,7 @@ section {
   font-weight: 700 !important;
 }
 
-#admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {
-  color: rgba(0, 0, 0, 0.4) !important;
-}
+#admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {}
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar {
   background-color: #f8fafc !important;
@@ -6276,6 +6279,19 @@ body:has(textarea:focus) .cursor-tail-circle {
   background-image: linear-gradient(to bottom right, #420a68, #554360);
 }
 
+.uiverse-foolish-shrimp.rounded-full,
+.uiverse-foolish-shrimp[class*="rounded-full"] {
+  --round: 9999px !important;
+}
+
+.uiverse-foolish-shrimp.rounded-full::before,
+.uiverse-foolish-shrimp.rounded-full::after,
+.uiverse-foolish-shrimp[class*="rounded-full"]::before,
+.uiverse-foolish-shrimp[class*="rounded-full"]::after {
+  --round: 9999px !important;
+  border-radius: 9999px !important;
+}
+
 
 /* Active Highlight Conic Gradient Border with Transparent Fill */
 .uiverse-foolish-shrimp.is-active,
@@ -6516,4 +6532,13 @@ body:has(textarea:focus) .cursor-tail-circle {
   to {
     fill: white;
   }
+}
+
+.module-bg {
+  background: #1a065569;
+}
+
+.ql-editor:before {
+  color: #fff !important;
+  font-size: 17px !important;
 }

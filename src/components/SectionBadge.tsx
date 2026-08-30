@@ -2,42 +2,49 @@
 
 import React from "react";
 
-/**
- * SectionBadge — A compact pill-shaped label for admin section headers.
- *
- * @param label    — The text displayed inside the badge (e.g. "SMS • Email • Fan Wall")
- * @param color    — Tailwind color name without shade: "rose" | "amber" | "emerald" | "cyan" | "purple" | "blue" | "indigo" | "pink"
- * @param className — Optional extra classes to merge
- */
-
-type BadgeColor = "rose" | "amber" | "emerald" | "cyan" | "purple" | "blue" | "indigo" | "pink";
-
-const COLOR_MAP: Record<BadgeColor, { text: string; bg: string; border: string }> = {
-  rose: { text: "text-rose-500", bg: "bg-transparent", border: "border-rose-500/20" },
-  amber: { text: "text-[var(--color-purple-light)]", bg: "bg-transparent", border: "border-[var(--color-border-purple)]" },
-  emerald: { text: "text-emerald-500", bg: "bg-transparent", border: "border-[var(--color-accent)]/30" },
-  cyan: { text: "text-cyan-500", bg: "bg-transparent", border: "border-cyan-500/20" },
-  purple: { text: "text-[var(--color-accent)]", bg: "bg-transparent", border: "border-[var(--color-accent)]/20" },
-  blue: { text: "text-blue-500", bg: "bg-transparent", border: "border-blue-500/20" },
-  indigo: { text: "text-indigo-500", bg: "bg-transparent", border: "border-indigo-500/20" },
-  pink: { text: "text-pink-500", bg: "bg-transparent", border: "border-pink-500/20" },
-};
-
-interface SectionBadgeProps {
-  label: string;
-  color?: BadgeColor;
+export interface SectionBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  children?: React.ReactNode;
+  label?: string;
   className?: string;
+  isActive?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
-export function SectionBadge({ label, color = "rose", className = "" }: SectionBadgeProps) {
-  const c = COLOR_MAP[color];
+export function SectionBadge({
+  children,
+  label,
+  className = "",
+  isActive = false,
+  onClick,
+  ...props
+}: SectionBadgeProps) {
+  const isInteractive = Boolean(onClick);
 
   return (
     <span
-      className={`text-[12px] font-bold uppercase tracking-wider ${c.text} bg-transparent px-3 py-1 rounded-lg border-none whitespace-nowrap ${className}`}
-      style={{ fontSize: "12px" }}
+      role={isInteractive ? "button" : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={
+        isInteractive
+          ? (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onClick?.(e as any);
+            }
+          }
+          : undefined
+      }
+      className={`inline-flex items-center justify-center !text-[11px] !leading-[11px] !font-bold uppercase tracking-wider transition-all duration-200 ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""
+        } ${isActive
+          ? "bg-[#e1e6ff29] text-white border border-white/20 hover:border-purple-400/50 hover:bg-white/1"
+          : "bg-[#e1e6ff29] text-white border border-white/20 hover:border-purple-400/50 hover:bg-white/10"
+        } px-3.5 py-1.5 rounded-full whitespace-nowrap w-fit ${className}`}
+      {...props}
     >
-      {label}
+      {children || label}
     </span>
   );
 }
+
+export default SectionBadge;

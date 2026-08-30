@@ -105,7 +105,7 @@ export default function PushSubscribeModal({
                 <h3 className="font-bold text-white tracking-wide">
                   Live Stream Push Alerts
                 </h3>
-                <span className="font-bold uppercase tracking-wider text-purple-400">
+                <span className="font-bold uppercase  text-purple-400">
                   7th Heaven Official Notifications
                 </span>
               </div>
@@ -123,7 +123,7 @@ export default function PushSubscribeModal({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                <label className="block font-bold uppercase  text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -144,7 +144,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="block font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                <label className="block font-bold uppercase  text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -209,7 +209,7 @@ export default function PushSubscribeModal({
             </div>
             <h3 className="font-bold text-white mb-2">You&apos;re Subscribed! 🔔</h3>
             <p className="text-gray-300 max-w-sm mx-auto leading-relaxed mb-6">
-              We sent a welcome confirmation email to <strong className="text-white font-mono">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+              We sent a welcome confirmation email to <strong className="text-white   ">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 
             <button

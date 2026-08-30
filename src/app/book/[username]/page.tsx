@@ -104,7 +104,7 @@ export default function PlannerDashboardPage() {
                   {initials}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[8px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg shadow-md border border-[var(--color-accent)]/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg shadow-md border border-[var(--color-accent)]/50">
                 Planner
               </span>
             </div>
@@ -115,7 +115,7 @@ export default function PlannerDashboardPage() {
                 {displayName}
               </h1>
               <p className="font-bold    uppercase mt-1.5">Event Planner Dashboard</p>
-              <p className="font-mono mt-1">{effectiveMember?.email || ''}</p>
+              <p className="   mt-1">{effectiveMember?.email || ''}</p>
             </div>
           </div>
 
@@ -124,7 +124,7 @@ export default function PlannerDashboardPage() {
             <CosmicRadialButton
               icon={<Plus className="w-4 h-4 text-white" />}
               onClick={handleCreateNewEvent}
-              className="px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer"
+              className="px-5 py-2.5 rounded-lg font-bold uppercase  shadow-lg flex items-center gap-2 cursor-pointer"
             >
               Create New Event
             </CosmicRadialButton>

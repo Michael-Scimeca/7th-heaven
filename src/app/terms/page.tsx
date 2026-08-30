@@ -132,7 +132,7 @@ export default function TermsPage() {
                 {/* 9 */}
                 <div>
                     <h2 className="font-bold mb-3">9. Disclaimers</h2>
-                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg shadow-xs text-base">
+                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg     text-base">
                         <p className="">The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
                     </div>
                 </div>

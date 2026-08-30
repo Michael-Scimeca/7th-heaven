@@ -279,7 +279,7 @@ function MerchDashboard() {
                 {pendingPickups.length} Pickup{pendingPickups.length !== 1 ? 's' : ''} Pending
               </span>
             )}
-            <span className="text-white/30 font-mono">{isDemo ? 'DEMO MODE' : member?.name}</span>
+            <span className="text-white/30   ">{isDemo ? 'DEMO MODE' : member?.name}</span>
           </div>
         </div>
       </div>

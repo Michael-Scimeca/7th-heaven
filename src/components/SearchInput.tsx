@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Search, X } from "lucide-react";
+import InputField from "./InputField";
 
 export interface SearchInputProps {
   value: string;
@@ -51,19 +52,18 @@ export function SearchInput({
       className={`relative inline-flex items-center min-w-[220px] max-w-[300px] w-full ${containerClassName}`}
       style={widthStyle}
     >
-      <div className="input-glow-border rounded-lg w-full">
-        <input
-          id={id}
-          name={name}
-          aria-label={ariaLabel}
-          type="text"
-          value={value}
-          onChange={handleChange}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          className={`form-input no-bg-icon w-full font-semibold border-none outline-none py-2.5 !pl-11 !pr-8 text-white placeholder:text-white/40 rounded-lg transition-colors ${className}`}
-        />
-      </div>
+      <InputField
+        id={id}
+        name={name}
+        aria-label={ariaLabel}
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        glow={true}
+        inputClassName={`form-input no-bg-icon w-full font-semibold border-none outline-none py-2.5 !pl-11 !pr-8 text-white placeholder:text-white/40 rounded-lg transition-colors ${className}`}
+      />
       <div className="!absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 z-20 flex items-center justify-center">
         <Search className="w-4 h-4" />
       </div>

@@ -91,7 +91,7 @@ export default function LiveStreamInlineSubscribe({
           <div>
             <h4 className="font-bold text-white">Verification Email Sent to {email}! ✉️</h4>
             <p className="text-gray-300 mt-0.5">
-              To prevent unauthorized signups, we sent a verification link to <strong className="text-white font-mono">{email}</strong>. Click the link in your email to activate live alerts!
+              To prevent unauthorized signups, we sent a verification link to <strong className="text-white   ">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white font-bold uppercase tracking-wider rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0"
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white font-bold uppercase  rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0"
         >
           <span>Web Alerts Feed</span>
           <ExternalLink className="w-3.5 h-3.5" />
