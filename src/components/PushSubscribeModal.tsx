@@ -98,7 +98,7 @@ export default function PushSubscribeModal({
         {!subscribed ? (
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 shadow-inner">
                 <Bell className="w-6 h-6 text-yellow-300 animate-bounce" />
               </div>
               <div>

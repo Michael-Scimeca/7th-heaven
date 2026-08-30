@@ -656,7 +656,7 @@ export default function CruiseChat({
                     const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
                     const isBan = msg.content.includes('banned');
                     const bgClass = isWarning
-                      ? "bg-purple-600/10 border-purple-500/20 text-purple-100"
+                      ? "bg-purple-600/10 border-white/20 text-purple-100"
                       : isBan
                         ? "bg-red-500/10 border-red-500/20 text-red-200"
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";

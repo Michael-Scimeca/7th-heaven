@@ -87,7 +87,7 @@ const pendingBooking: BookingData = {
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; text: string; bar: string }> = {
-  pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: "text-purple-300", bar: "bg-purple-600" },
+  pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border- purple-white/20", text: "text-purple-300", bar: "bg-purple-600" },
   confirmed: { label: "Confirmed", color: "purple", bg: "bg-[var(--color-accent)]/10", border: "border-[var(--color-accent)]/30", text: "text-[var(--color-accent)]", bar: "bg-[var(--color-accent)]" },
   cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
 };

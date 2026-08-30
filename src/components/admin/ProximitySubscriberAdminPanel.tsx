@@ -15,6 +15,7 @@ import {
   Sparkles,
   Users,
   Shield,
+  RefreshCw,
 } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
@@ -155,32 +156,19 @@ export default function ProximitySubscriberAdminPanel() {
 
   return (
     <div className="w-full rounded-lg relative my-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
-        <div className="flex items-center gap-3">
-
-          <div>
-            <h2 className="font-[var(--font-heading)] font-bold uppercase tracking-tight text-white flex items-center gap-2">
-              Proximity Push Subscriber Controls
-            </h2>
-            <p className="text-purple-300 font-bold uppercase tracking-wider">
-              Manage fan notification preferences, distance radii & targeted broadcasts
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="px-3.5 py-1.5 rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 font-bold uppercase  flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
-          </span>
-          <button
-            type="button"
-            onClick={fetchSubscribers}
-            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold transition-colors cursor-pointer border border-white/10"
-          >
-            Refresh
-          </button>
-        </div>
+      {/* Action Controls Bar */}
+      <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+        <span className="px-3.5 py-1.5 rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 font-bold uppercase text-xs flex items-center gap-1.5">
+          <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
+        </span>
+        <button
+          type="button"
+          onClick={fetchSubscribers}
+          className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border border-white/10 flex items-center gap-1.5"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+          <span>Refresh</span>
+        </button>
       </div>
 
       {actionStatus && (
@@ -312,7 +300,7 @@ export default function ProximitySubscriberAdminPanel() {
                           showAllOption={false}
                         />
                       ) : (
-                        <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold uppercase">
+                        <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold uppercase">
                           {sub.radius === "all" ? "All Distance" : `${sub.radius} Mi`}
                         </span>
                       )}

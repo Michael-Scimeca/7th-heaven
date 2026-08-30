@@ -35,7 +35,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
   return (
     <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10 transition-colors">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
+        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-white/20 flex flex-col items-center justify-center text-center shrink-0">
           <span className=" text-[9px]  text-rose-400 font-bold uppercase tracking-wider">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
@@ -3411,7 +3411,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     {raffleStatus === 'open' && (
-                      <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
+                      <div className="mt-2 text-center p-3 border border-white/20 bg-purple-600/5">
                         <p className="font-bold mb-1">{raffleEntrants.length} <span className="text-white/50">/ {raffleMinEntrants}</span></p>
                         <p className="font-bold uppercase    mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
@@ -3887,7 +3887,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
                                   <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${shift.approvalStatus === 'pending'
                                     ? 'bg-yellow-500/10 border-yellow-500/30'
-                                    : 'bg-purple-600/10 border-purple-500/20'
+                                    : 'bg-purple-600/10 border-white/20'
                                     }`}>
                                     <span className={`text-[8px] font-bold uppercase  leading-none ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
                                     <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
@@ -3953,7 +3953,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(shift.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none"
                                       title="View show lineup acts and discuss details with crew"
                                     >
                                       💬 Lineup & Discuss
@@ -4165,7 +4165,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(show.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none flex items-center gap-1"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none flex items-center gap-1"
                                     >
                                       <MessageSquare className="w-3 h-3 text-purple-300 inline" /> Lineup & Discuss
                                     </button>
@@ -4355,7 +4355,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               <button
                                 type="button"
                                 onClick={() => setActiveDiscussionDate(shift.date)}
-                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300   font-bold uppercase  rounded transition-colors cursor-pointer select-none"
+                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300   font-bold uppercase  rounded transition-colors cursor-pointer select-none"
                                 title="View show lineup acts and discuss details with crew"
                               >
                                 💬 Lineup & Discuss
@@ -4612,7 +4612,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
               {/* Wifi Password */}
               {selectedVenuePopup.wifiPassword && (
-                <div className="p-3 bg-purple-950/15 border border-purple-500/20 flex items-center justify-between gap-3">
+                <div className="p-3 bg-purple-950/15 border border-white/20 flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <span className="  uppercase  text-purple-300/70 font-bold block mb-0.5">📶 Backstage Wi-Fi</span>
                     <span className="   font-bold text-black select-all">{selectedVenuePopup.wifiPassword}</span>

@@ -318,7 +318,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {status === "success" ? (
                 <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8 rounded-lg text-center shadow-2xl">
                   <div className="flex items-center justify-center gap-2.5 mb-3">
-                    <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400">
+                    <div className="w-12 h-12 rounded-lg bg- purple-white/20 flex items-center justify-center text-purple-400">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
                     <span className="text-white font-bold text-xl">Check your email!</span>

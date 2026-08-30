@@ -85,7 +85,7 @@ export default function LiveStreamInlineSubscribe({
     return (
       <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
+          <div className="w-12 h-12 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
             <Mail className="w-6 h-6" />
           </div>
           <div>
@@ -115,7 +115,7 @@ export default function LiveStreamInlineSubscribe({
         {/* Header Title & Pill */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
+            <div className="w-10 h-10 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
               <Bell className="w-5 h-5 animate-bounce" />
             </div>
             <div>

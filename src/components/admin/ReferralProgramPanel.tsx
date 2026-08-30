@@ -247,7 +247,7 @@ export default function ReferralProgramPanel() {
 
           {/* Add new milestone form */}
           {showAddForm && (
-            <div className="p-4 border border-purple-500/20 bg-purple-600/[0.04] space-y-3">
+            <div className="p-4 border border-white/20 bg-purple-600/[0.04] space-y-3">
               <p className="uppercase    text-purple-300 font-bold">
                 New Milestone
               </p>
@@ -314,7 +314,7 @@ export default function ReferralProgramPanel() {
         </div>
 
         {/*  Fan-Facing Preview  */}
-        <div className="p-4 border border-purple-500/20 bg-purple-600/[0.04] mb-6">
+        <div className="p-4 border border-white/20 bg-purple-600/[0.04] mb-6">
           <p className="uppercase    text-purple-300 font-bold mb-3">
             Fan-facing preview
           </p>

@@ -165,7 +165,7 @@ export default function PagesPillDrawer() {
                 <div>
                   <h2 className="font-bold uppercase tracking-tight text-white flex items-center gap-2">
                     Pages Directory
-                    <span className="   font-bold px-2.5 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span className="   font-bold px-2.5 py-0.5 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -240,7 +240,7 @@ export default function PagesPillDrawer() {
                           className={`text-[12px]    font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
-                              ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
+                              ? "bg-purple-500/10 text-purple-300 border border-white/20"
                               : item.type === "Dynamic"
                                 ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
                                 : "bg-rose-500/10 text-rose-400 border border-rose-500/20"

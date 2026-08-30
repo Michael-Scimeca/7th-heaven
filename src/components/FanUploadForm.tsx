@@ -327,7 +327,7 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 p-0">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="fan-upload-venue" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-venue" className="font-bold uppercase tracking-[0.15em]    block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
                       className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
@@ -336,7 +336,7 @@ export default function FanUploadForm() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="fan-upload-date" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-date" className="font-bold uppercase tracking-[0.15em]    block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
                       className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
@@ -345,7 +345,7 @@ export default function FanUploadForm() {
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                  <label htmlFor="fan-upload-caption" className="font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
+                  <label htmlFor="fan-upload-caption" className="font-bold uppercase tracking-[0.15em]    block mb-1.5 px-1">Caption</label>
                   <div>
                     <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
                       className="w-full bg-[#00000029] !border-0 !border-none !outline-none px-4 py-2.5 text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"

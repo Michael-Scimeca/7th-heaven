@@ -323,7 +323,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             </button>
             <button aria-label="Action button"
               onClick={() => setShowShopifyGuide(!showShopifyGuide)}
-              className="flex items-center gap-1.5 font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 font-bold text-purple-300 bg-purple-500/10 hover:bg- purple-white/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors cursor-pointer"
             >
               <span>🔗</span> Shopify Integration Info
             </button>
@@ -382,7 +382,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 </div>
               </div>
 
-              <div className="p-3 bg-purple-500/10 border border-purple-500/20 text-yellow-300 text-[var(--font-size-2xs)] flex items-center justify-between">
+              <div className="p-3 bg-purple-500/10 border border-white/20 text-yellow-300 text-[var(--font-size-2xs)] flex items-center justify-between">
                 <span>💡 <strong>Developer Note:</strong> Currently rendering clean fallback products until live Shopify keys are saved in environment variables.</span>
               </div>
             </div>
@@ -424,7 +424,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     setSwitchOrderTarget(activeOrder);
                     setShowSwitchToShippingModal(true);
                   }}
-                  className="px-4 py-2.5 bg-purple-500/20 hover:bg-yellow-500/30 border border-purple-500/40 text-yellow-300 font-bold uppercase  transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 bg- purple-white/20 hover:bg-yellow-500/30 border border-purple-500/40 text-yellow-300 font-bold uppercase  transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>🏃</span> Left the show? Switch to Shipping
                 </button>

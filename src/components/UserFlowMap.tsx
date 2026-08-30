@@ -566,7 +566,7 @@ export default function UserFlowMap() {
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300    text-[12px] font-bold uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300    text-[12px] font-bold uppercase tracking-wider">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
                 <h3 className="font-bold uppercase  text-white mt-1">

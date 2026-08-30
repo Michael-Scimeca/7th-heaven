@@ -300,7 +300,7 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 font-bold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
+              className="flex items-center gap-1.5 font-bold text-purple-300 bg-purple-500/10 hover:bg- purple-white/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors"
             >
               ✨ Store Features &amp; Capabilities
             </button>

@@ -35,7 +35,7 @@ export default function ReturnsPage() {
             <p className="mb-3">
               For merchandise purchased directly through our online store (processed via the Shopify Storefront API) and shipped to your home:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+            <ul className="list-disc pl-5 space-y-2   ">
               <li>
                 You have <strong className="text-[var(--text-color)]">14 calendar days</strong> from the delivery confirmation date to request a return or size exchange.
               </li>
@@ -57,7 +57,7 @@ export default function ReturnsPage() {
             <p className="mb-3">
               For orders pre-purchased online and designated for pickup at our concert merch tables:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+            <ul className="list-disc pl-5 space-y-2  ">
               <li>
                 Pickup orders are fully verified via a secure QR code emailed to you. Once verified and scanned, our crew will release the order to you.
               </li>

@@ -640,7 +640,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-center relative z-10 mb-4">
                       <div className="flex -space-x-3">
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
-                          const colors = ['bg-rose-500/20 text-rose-300', 'bg-purple-500/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
+                          const colors = ['bg-rose-500/20 text-rose-300', 'bg- purple-white/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
                           return (
                             <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10 rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="font-bold">{initials}</span>
@@ -1183,7 +1183,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         VIP Inbox
                       </span>
                       {inboxMessages.filter(m => m.isNew).length > 0 && (
-                        <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 uppercase    font-bold rounded-lg animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
+                        <span className="px-3 py-1 bg-purple-500/10 border border-white/20 text-purple-400 uppercase    font-bold rounded-lg animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.2)]">{inboxMessages.filter(m => m.isNew).length} New</span>
                       )}
                     </div>
                   </div>

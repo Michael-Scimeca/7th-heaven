@@ -1523,7 +1523,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
                             <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
                             <span className="font-bold uppercase    leading-tight mt-1">Live Raffle</span>
-                            <span className="ml-auto px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase    animate-pulse">OPEN</span>
+                            <span className="ml-auto px-2.5 py-1 bg- purple-white/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase    animate-pulse">OPEN</span>
                           </div>
 
                           <div className="mb-4">
@@ -1538,7 +1538,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
 
                           {raffleState.prizes[0]?.name && (
-                            <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-purple-500/20">
+                            <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-white/20">
                               <p className="font-bold text-[var(--color-accent)]/60 uppercase tracking-[0.15em] mb-1">You could win</p>
                               <p className="text-yellow-300 font-bold leading-tight">
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded mr-2">{raffleState.prizes[0].qty}x</span> : null}
@@ -1590,7 +1590,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <p className="text-yellow-300 font-bold uppercase tracking-wider">Drawing Coming Up!</p>
                           <p className="text-black/40">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entries locked in</p>
                           {hasEnteredRaffle && (
-                            <div className="mt-1 px-4 py-2 bg-purple-500/10 border border-purple-500/20">
+                            <div className="mt-1 px-4 py-2 bg-purple-500/10 border border-white/20">
                               <p className="text-purple-300 font-bold">✓ You're in the drawing!</p>
                             </div>
                           )}

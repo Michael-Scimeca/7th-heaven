@@ -99,7 +99,7 @@ export default function PushAlertsCard({
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-inner">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 shadow-inner">
               <BellIcon />
             </div>
             <div>
@@ -148,7 +148,7 @@ export default function PushAlertsCard({
               {/* QR Code / Instructions Page Link */}
               <Link
                 href={`/notifications?group=${group}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 font-bold uppercase  text-purple-300 hover:bg-purple-500/20 hover:text-white transition-colors text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-purple-500/10 px-4 py-3 font-bold uppercase  text-purple-300 hover:bg- purple-white/20 hover:text-white transition-colors text-center"
               >
                 Scan QR Code / Guide →
               </Link>

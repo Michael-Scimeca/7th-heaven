@@ -137,7 +137,7 @@ export default function HomeMerch() {
       <div className="site-container">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (
-          <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
+          <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-white/20 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
             <span className="text-purple-300 font-bold uppercase   ">Demo</span>
             <p className="text-purple-200/50">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>

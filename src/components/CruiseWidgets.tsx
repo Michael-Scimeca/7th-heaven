@@ -987,7 +987,7 @@ export function SongRequestLeaderboard() {
   };
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border border-white/20 p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)]">🎸</div>
         <div>

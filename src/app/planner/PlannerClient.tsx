@@ -193,7 +193,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
+                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
                 <h4 className="font-bold mb-1 text-white">{item.title}</h4>
                 <p className="leading-relaxed">{item.desc}</p>
               </div>
@@ -229,7 +229,7 @@ export default function PlannerClient() {
   const pct = Math.round((done / checklist.length) * 100);
   const pastBookings = allBookings.filter(b => b.id !== booking.id);
   const statusLabel = st === 'pending' ? '⏳ Pending Review' : st === 'confirmed' ? '✅ Confirmed' : '❌ Cancelled';
-  const statusColor = st === 'pending' ? 'text-purple-300 bg-purple-600/10 border-purple-500/20' : st === 'confirmed' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : 'text-rose-400 bg-rose-500/10 border-rose-500/20';
+  const statusColor = st === 'pending' ? 'text-purple-300 bg-purple-600/10 border-white/20' : st === 'confirmed' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : 'text-rose-400 bg-rose-500/10 border-rose-500/20';
   const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'PL';
 
   return (

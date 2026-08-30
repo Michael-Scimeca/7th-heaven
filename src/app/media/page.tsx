@@ -506,7 +506,7 @@ export default function MediaPage() {
           <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-lg overflow-hidden p-6 relative shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center">
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>

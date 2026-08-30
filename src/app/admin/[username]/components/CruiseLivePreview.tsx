@@ -23,13 +23,13 @@ export function CruiseLivePreview({
     return (
       <div className="bg-black/60 border border-white/10 rounded-lg p-5 shadow-inner min-h-[220px]">
         <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/10">
-          <div className="w-9 h-9 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold">
+          <div className="w-9 h-9 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold">
             7H
           </div>
           <div>
             <div className="font-bold text-white flex items-center gap-2">
               7th Heaven Official
-              <span className="text-[12px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded    uppercase">Admin Post</span>
+              <span className="text-[12px] bg- purple-white/20 text-purple-300 px-1.5 py-0.5 rounded    uppercase">Admin Post</span>
             </div>
             <div className="text-[10px] text-white/40   ">Just now • Cruise Wall Feed</div>
           </div>

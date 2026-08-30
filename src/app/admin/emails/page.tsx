@@ -91,7 +91,7 @@ export default function EmailPreviewPage() {
                   </span>
                   <span className={`font-bold uppercase    px-2 py-0.5 rounded-lg ${t.status === 'live'
                     ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30'
-                    : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
+                    : 'bg-purple-600/10 text-purple-300 border border-white/20'
                     }`}>
                     {t.status}
                   </span>

@@ -44,7 +44,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           <h2 className="font-bold uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
             Latest Band News
           </h2>
-          <p className="mt-2 max-w-2xl text-sm md:text-base text-[var(--muted-text)] font-medium leading-relaxed">
+          <p className="mt-2 max-w-2xl text-sm md:text-base    font-medium leading-relaxed">
             Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               </span>
               <button aria-label="Action button"
                 onClick={() => setSelectedArticle(null)}
-                className="text-[var(--muted-text)] hover:text-[var(--text-color)] text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
+                className="   hover:text-[var(--text-color)] text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
               >
                 ✕
               </button>

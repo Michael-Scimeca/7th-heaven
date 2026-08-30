@@ -13,7 +13,7 @@ export function AdminDashboardSkeleton() {
         </div>
         <div className="flex items-center gap-3">
           <div className="w-24 h-8 rounded-lg bg-white/10 animate-pulse" />
-          <div className="w-9 h-9 rounded-lg bg-purple-500/20 animate-pulse" />
+          <div className="w-9 h-9 rounded-lg bg- purple-white/20 animate-pulse" />
         </div>
       </div>
 

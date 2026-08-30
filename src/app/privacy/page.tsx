@@ -10,9 +10,9 @@ export default function PrivacyPage() {
         <section className="site-container py-section-fluid min-h-screen text-[var(--text-color)] text-left">
             <div className="mb-12 text-left">
                 <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
-                    Privacy <span className="text-[var(--color-accent)]">Policy</span>
+                    Privacy Policy
                 </h1>
-                <p className="uppercase tracking-[0.15em] font-bold">
+                <p className="uppercase] font-bold">
                     Last Updated: April 12, 2026
                 </p>
             </div>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
                 {/* 3 */}
                 <div>
                     <h2 className="font-bold mb-3">3. How We Use Your Information</h2>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2 ">
                         <li>To send you SMS show alerts when 7th Heaven is playing near your area</li>
                         <li>To operate and maintain your member account, including rewards and tier tracking</li>
                         <li>To process purchases and order history</li>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
                 <div>
                     <h2 className="font-bold mb-3">5. How We Share Your Information</h2>
                     <p className="mb-3">We do <strong className="text-[var(--text-color)]">not</strong> sell, rent, or trade your personal information. We may share data with:</p>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2 ">
                         <li><strong className="text-[var(--text-color)]">Service Providers:</strong> Third-party services that help us operate (e.g., Twilio for SMS delivery, payment processors for merchandise). These providers only access data necessary to perform their services.</li>
                         <li><strong className="text-[var(--text-color)]">Legal Requirements:</strong> When required by law, subpoena, or to protect our rights.</li>
                     </ul>
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
                 {/* 8 */}
                 <div>
                     <h2 className="font-bold mb-3">8. Your Rights</h2>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2 ">
                         <li><strong className="text-[var(--text-color)]">Access:</strong> Request a copy of the personal data we hold about you.</li>
                         <li><strong className="text-[var(--text-color)]">Correction:</strong> Request correction of inaccurate information.</li>
                         <li><strong className="text-[var(--text-color)]">Deletion:</strong> Request deletion of your personal data (subject to legal retention requirements).</li>
@@ -139,9 +139,8 @@ export default function PrivacyPage() {
                     <h2 className="font-bold mb-3">12. Contact Us</h2>
                     <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
                     <div className="py-2 border-0 bg-transparent shadow-none">
-                        <p className="font-bold">7th Heaven</p>
-                        <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+                        <p className="">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline !mt-0">info@7thheavenband.com</a></p>
+                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline !mt-0">7thheavenband.com</a></p>
                     </div>
                 </div>
 

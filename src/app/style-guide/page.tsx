@@ -486,7 +486,7 @@ function CosmicRadialButtonDemo() {
       </div>
 
       {/* Showcase Stage */}
-      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-purple-500/20 relative overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-white/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
         {/* Reusable CosmicRadialButton Component Instance with Default Icon */}
@@ -917,7 +917,7 @@ export default function StyleGuidePage() {
                 {/* Studio Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg- purple-white/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
@@ -1139,7 +1139,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* Code snippet */}
-                  <div className="overflow-x-auto rounded-lg bg-black/80 pt-3 pb-3    text-purple-200 border border-purple-500/20">
+                  <div className="overflow-x-auto rounded-lg bg-black/80 pt-3 pb-3    text-purple-200 border border-white/20">
                     <code className="text-purple-400">font-size</code>:{" "}
                     <span className="text-white font-bold">{studioClamp.clampStr}</span> !important;
                   </div>
@@ -1297,7 +1297,7 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
                         {/* Label */}
                         <div className="flex items-center gap-2">
-                          <code className="text-[11px]    font-bold text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-purple-500/20">
+                          <code className="text-[11px]    font-bold text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-white/20">
                             {tier.label}
                           </code>
                         </div>
@@ -3293,7 +3293,7 @@ ${deskRules.join("\n")}
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="w-14 h-14 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
                 <h3 className="font-bold text-white uppercase  mb-1">Glassmorphism Shell</h3>
@@ -3459,7 +3459,7 @@ ${deskRules.join("\n")}
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
                       {Array.from({ length: 10 }).map((_, col) => (
-                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-[12px]    text-purple-300">
+                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-white/20 flex items-center justify-center text-[12px]    text-purple-300">
                           {row},{col}
                         </div>
                       ))}
@@ -3527,7 +3527,7 @@ ${deskRules.join("\n")}
                 Primary Layout Wrapper Class
               </span>
               <h3 className="font-bold text-white flex items-center gap-2">
-                <code className="text-purple-300    bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
+                <code className="text-purple-300    bg- purple-white/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
                 <span className="font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg uppercase tracking-wider">Active Globally</span>
               </h3>
               <p className="max-w-2xl mt-1">
@@ -4308,7 +4308,7 @@ ${deskRules.join("\n")}
                     <h3 className="font-bold uppercase text-white   ">OpenShifts Cell & Group Popover</h3>
                     <p className="">Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
+                  <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Module Preview</span>
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
@@ -4356,7 +4356,7 @@ ${deskRules.join("\n")}
                           type="button"
                           className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center gap-3 bg-transparent"
                         >
-                          <span className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300    font-bold flex items-center justify-center shrink-0 shadow-inner">+</span>
+                          <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300    font-bold flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
                             <span className="truncate tracking-wide font-extrabold">{grp.name}</span>
                             <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
@@ -4376,7 +4376,7 @@ ${deskRules.join("\n")}
                   <h3 className="font-bold uppercase text-white   ">Create New Crew Group Glass Modal</h3>
                   <p className="">Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
-                <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
+                <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] font-bold uppercase border border-purple-500/30">Modal Spec</span>
               </div>
 
               {/* Modal Frame Mockup */}

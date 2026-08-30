@@ -215,8 +215,8 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none font-bold uppercase  transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg-purple-500/20  "
-                      : "text-white/80 hover:text-white hover:bg-purple-500/20"
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none font-bold uppercase  transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg- purple-white/20  "
+                      : "text-white/80 hover:text-white hover:bg- purple-white/20"
                       }`}
                     onClick={() => {
                       setSelectedIdState(c.id);

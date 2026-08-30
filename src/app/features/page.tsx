@@ -1862,7 +1862,7 @@ export default function FeaturesPage() {
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-bold uppercase   ">📋 Booking Requests</span>
-                        <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-purple-500/20">3 Pending</span>
+                        <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-white/20">3 Pending</span>
                       </div>
                       <div className="divide-y divide-white/[0.04]">
                         {[
@@ -1877,7 +1877,7 @@ export default function FeaturesPage() {
                                 <div className="text-white/85 font-bold">{b.name}</div>
                                 <div className="text-white/30">{b.org} · {b.venue}</div>
                               </div>
-                              <span className={`shrink-0 font-bold px-2 py-0.5 rounded-lg border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
+                              <span className={`shrink-0 font-bold px-2 py-0.5 rounded-lg border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-white/20'}`}>{b.type}</span>
                             </div>
                             <div className="flex items-center justify-between mt-2">
                               <div className="flex items-center gap-3 text-white/30">
@@ -1902,7 +1902,7 @@ export default function FeaturesPage() {
                     <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-bold uppercase   ">📸 Fan Photo Queue</span>
-                        <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-purple-500/20">8 Awaiting</span>
+                        <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-white/20">8 Awaiting</span>
                       </div>
                       <div className="p-3 grid grid-cols-3 gap-2">
                         {[

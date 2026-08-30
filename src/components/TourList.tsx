@@ -1011,12 +1011,12 @@ ${filterLine}
                         </button>
                         {activeCalDropdownId === 'upnext' && (
                           <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 z-50 min-w-[170px] text-[var(--text-color)]">
-                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase  text-[var(--muted-text)] hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Google Calendar</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase  text-[var(--muted-text)] hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Apple / iCal</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase  text-[var(--muted-text)] hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Outlook</a>
+                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Google Calendar</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Apple / iCal</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     hover:text-[var(--text-color)] hover: transition-colors text-left w-full">Outlook</a>
                             <button aria-label="Action button"
                               onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase  text-[var(--muted-text)] hover:text-[var(--text-color)] hover: transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                              className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     hover:text-[var(--text-color)] hover: transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
                             >SMS / Text Alerts</button>
                           </div>
                         )}
@@ -1070,7 +1070,7 @@ ${filterLine}
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
                 <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
-                {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
+                {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2    hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
 

@@ -106,7 +106,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 font-bold uppercase    text-[var(--muted-text)] mb-3">
+        <div className="flex items-center gap-2 font-bold uppercase       mb-3">
           <Link href="/" className="hover: text-[var(--color-accent)] transition-colors">Home</Link>
           <span>/</span>
           <Link href="/#tour" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
@@ -133,19 +133,19 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
+          <span className="font-bold uppercase     mt-1">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">40+</span>
-          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Years of Live Rock</span>
+          <span className="font-bold uppercase     mt-1">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">500+</span>
-          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Unique Venues</span>
+          <span className="font-bold uppercase     mt-1">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">5+</span>
-          <span className="font-bold uppercase  text-[var(--muted-text)] mt-1">Countries Played</span>
+          <span className="font-bold uppercase     mt-1">Countries Played</span>
         </div>
       </div>
 
@@ -164,7 +164,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="font-bold uppercase    text-[var(--muted-text)] shrink-0 mr-1">
+            <span className="font-bold uppercase       shrink-0 mr-1">
               Jump to Year:
             </span>
             <button aria-label="Action button"
@@ -193,7 +193,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           </div>
         </div>
 
-        <div className="text-[var(--muted-text)] font-semibold mt-3">
+        <div className="   font-semibold mt-3">
           Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </div>
@@ -258,7 +258,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
                         >
                           {/* Date & Day */}
-                          <div className="w-full sm:w-48 shrink-0 font-semibold text-[var(--muted-text)] flex items-center gap-2">
+                          <div className="w-full sm:w-48 shrink-0 font-semibold    flex items-center gap-2">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
                             {show.date || yGroup.year}
                           </div>

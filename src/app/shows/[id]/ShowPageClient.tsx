@@ -457,7 +457,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase    mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase    mb-4">
                     Missed this show?
                   </span>
                   <h3 className="font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>

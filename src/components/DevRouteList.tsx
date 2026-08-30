@@ -128,7 +128,7 @@ export default function DevRouteList() {
 
   return (
     <section className="w-full mt-16 mb-12 px-4 md:px-8 font-sans">
-      <div className="max-w-7xl mx-auto rounded-lg bg-[rgba(15,15,22,0.85)] border border-purple-500/20backdrop-blur-[18px] p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+      <div className="max-w-7xl mx-auto rounded-lg bg-[rgba(15,15,22,0.85)] border border-white/20backdrop-blur-[18px] p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
 
         {/* Top Header Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
@@ -220,7 +220,7 @@ export default function DevRouteList() {
                           className={`text-[12px]    font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                             : item.type === "SSG"
-                              ? "bg-purple-500/10 text-purple-300 border border-purple-500/20"
+                              ? "bg-purple-500/10 text-purple-300 border border-white/20"
                               : item.type === "Dynamic"
                                 ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
                                 : "bg-rose-500/10 text-rose-400 border border-rose-500/20"

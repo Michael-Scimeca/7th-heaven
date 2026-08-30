@@ -1085,13 +1085,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain" />
+                      <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain object-bottom" />
                     </div>
                     <h4 className="font-bold text-white uppercase tracking-tight">
                       Richard Hofherr
@@ -1113,13 +1113,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Mary Grivas */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain" />
+                      <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain object-bottom" />
                     </div>
                     <h4 className="font-bold text-white uppercase tracking-tight">
                       Mary Grivas
@@ -1141,13 +1141,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Alan McRae */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-center justify-center relative"
+                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
                       style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain" />
+                      <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain object-bottom" />
                     </div>
                     <h4 className="font-bold text-white uppercase tracking-tight">
                       Alan McRae
@@ -1935,7 +1935,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {BANDS_DATA.map((band, idx) => (
                   <div key={band.name} className="relative overflow-hidden group aspect-[4/5] flex items-center justify-center rounded-2xl">
                     {band.photo ? (
-                      <div className="w-full h-full relative flex items-center justify-center [mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)]">
+                      <div className="w-full h-full relative flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)]">
                         <picture className="w-full h-full block">
                           {band.mobilePhoto && (
                             <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
@@ -1947,7 +1947,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             alt={band.name}
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-full object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
                           />
                         </picture>
                       </div>

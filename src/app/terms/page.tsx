@@ -35,7 +35,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">2. Services Provided</h2>
                     <p className="mb-3">7th Heaven provides the following through the Site:</p>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2   ">
                         <li>Band information, tour dates, music, videos, and news content</li>
                         <li>A member portal with rewards, pick collection, and show tracking</li>
                         <li>An SMS text alert service for show notifications based on your location</li>
@@ -46,7 +46,7 @@ export default function TermsPage() {
                 {/* 3 */}
                 <div>
                     <h2 className="font-bold mb-3">3. Member Accounts</h2>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2    ">
                         <li>You must provide accurate information when creating an account.</li>
                         <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
                         <li>You must be at least 13 years old to create an account.</li>
@@ -100,7 +100,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">6. User Content & Conduct</h2>
                     <p className="mb-3">If you submit content (such as fan photos, setlist votes, chat messages, or reviews), you grant 7th Heaven a non-exclusive, royalty-free, perpetual license to use, display, and distribute that content on the Site and associated media. You agree not to submit content that is:</p>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2 ">
                         <li>Unlawful, defamatory, harassing, abusive, or hateful</li>
                         <li>Infringing on any third party&apos;s intellectual property or privacy rights</li>
                         <li>Spam, commercial solicitation, or malicious code</li>
@@ -110,7 +110,7 @@ export default function TermsPage() {
                 {/* 7 */}
                 <div>
                     <h2 className="font-bold mb-3">7. E-Commerce & Merch Purchases</h2>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2  ">
                         <li>All prices are displayed in USD and are subject to change without notice.</li>
                         <li>We reserve the right to refuse or cancel orders at our discretion.</li>
                         <li>Returns and refunds are governed by our <Link href="/returns" className="text-[var(--color-accent)] font-bold hover:underline">Returns Policy</Link>.</li>
@@ -121,7 +121,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">8. Prohibited Activities</h2>
                     <p className="mb-3">You agree not to:</p>
-                    <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
+                    <ul className="list-disc pl-5 space-y-2 ">
                         <li>Attempt to gain unauthorized access to the Site, member accounts, or server infrastructure</li>
                         <li>Interfere with or disrupt the operation of the Site or SMS service</li>
                         <li>Scrape, mine, or extract data from the Site without written consent</li>

@@ -285,7 +285,7 @@ function MerchDashboard() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-24 text-center flex flex-col items-center justify-center min-h-[55vh]">
-        <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
+        <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-white/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
         <h2 className="font-bold uppercase    text-white">

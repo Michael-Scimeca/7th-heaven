@@ -644,7 +644,7 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); router.push('/'); }}
-                  className="hidden lg:block text-[12px] font-bold uppercase    text-white/30 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:block text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
                   Sign Out
