@@ -15,6 +15,7 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
 import { SquishyToggle } from "@/components/SquishyToggle";
 import LazySection from "@/components/LazySection";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import { SectionBadge } from "@/components/SectionBadge";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
@@ -934,11 +935,11 @@ ${filterLine}
                   {/* Left Column: Info */}
                   <div className="relative flex flex-col justify-between min-h-[140px]">
                     {/* UP NEXT label */}
-                    <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-                      <span className={`w-1.5 h-1.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-                      <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : " text-[var(--color-accent)] font-extrabold"}>
-                        {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
-                      </span>
+                    <div className="flex items-center gap-2 mb-5">
+                      <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
+                        <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-emerald-400 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+                        <span>{daysLabel === "Happening Now" ? "HAPPENING NOW" : "UP NEXT"}</span>
+                      </SectionBadge>
                     </div>
 
                     {/* Venue name */}

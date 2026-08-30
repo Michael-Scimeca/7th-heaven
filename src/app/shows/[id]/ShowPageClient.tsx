@@ -10,6 +10,7 @@ import { GradientToggle } from "@/components/GradientToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import InputField from "@/components/InputField";
 import QRCode from "react-qr-code";
+import { SectionBadge } from "@/components/SectionBadge";
 
 interface Attendee {
   id: string;
@@ -358,13 +359,14 @@ export default function ShowPageClient({
               {/* Status badge */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 {isPast ? (
-                  <span className="uppercase    font-bold text-white/30 border border-white/10 px-3 py-1">Past Show</span>
+                  <SectionBadge label="Past Show" />
                 ) : show.status === "live" ? (
-                  <span className="flex items-center gap-2 uppercase    font-bold text-red-400 border border-red-500/30 px-3 py-1 bg-red-500/10">
-                    <span className="w-1.5 h-1.5 rounded-lg bg-red-500 animate-pulse" /> Happening Now
-                  </span>
+                  <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>HAPPENING NOW</span>
+                  </SectionBadge>
                 ) : (
-                  <span className="uppercase    font-bold text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                  <SectionBadge label="Upcoming Show" isActive />
                 )}
               </div>
 

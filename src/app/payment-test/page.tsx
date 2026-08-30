@@ -268,8 +268,9 @@ export default function PaymentTestShopPage() {
     }
   };
 
+
   return (
-    <div className="min-h-screen bg-transparent text-white pt-32 pb-24">
+    <div className="min-h-screen bg-transparent text-white pt-[100px] pb-24">
       {/* Header */}
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link

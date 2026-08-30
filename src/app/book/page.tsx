@@ -998,19 +998,6 @@ function BookPageContent() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 
       <section className="site-container relative z-10" id="book-event">
-        <div className="mb-6">
-          <SectionBadge label="BOOKING" />
-        </div>
-
-
-
-
-
-
-
-
-
-
         <form onSubmit={handleSubmit}>
           {isFromPlanner && (
             <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg flex items-center gap-4">

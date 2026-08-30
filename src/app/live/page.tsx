@@ -254,27 +254,27 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[88px] w-full bg-transparent">
-      <div className="w-full px-0">
+    <section className="min-h-screen pt-[100px] w-full bg-transparent w-full px-0">
 
 
-        {/* ── HERO HEADER ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 pt-4 relative z-10 site-container">
-          <div className="text-left">
 
-            <h1 className="font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
-              LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
-            </h1>
-            <p className="font-medium mt-3 max-w-2xl leading-relaxed">
-              {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
-            </p>
-          </div>
+      {/* ── HERO HEADER ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
+        <div className="text-left">
+          <h1 className="font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
+          </h1>
+          <p className="font-medium mt-3 max-w-2xl leading-relaxed">
+            {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
+          </p>
         </div>
+      </div>
 
-        {/* ══════════════════════════════════════════════════
+      {/* ══════════════════════════════════════════════════
             ADMIN OVERLAY
         ══════════════════════════════════════════════════ */}
-        {showAdmin && (
+      {
+        showAdmin && (
           <div className="max-w-[1440px] mx-auto mb-12 overflow-hidden" style={{ background: "#08080c", border: "1px solid rgba(239,68,68,0.2)" }}>
             {/* Admin header */}
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
@@ -464,102 +464,103 @@ export default function LiveHubPage() {
 
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* ══════════════════════════════════════════════════
+      {/* ══════════════════════════════════════════════════
             STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-        <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
-          {rooms.map((room, i) => (
-            <div
-              key={room.name}
-              className="group rounded-lg overflow-hidden"
-              style={{ "--room-color": room.color } as React.CSSProperties}
-            >
-              <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
-                {/* Thumbnail with video concert image */}
-                <div className="aspect-video bg-black/60 relative overflow-hidden">
-                  <Image
-                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
-                    alt={room.title}
-                    fill
-                    priority={i < 2}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+      <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+        {rooms.map((room, i) => (
+          <div
+            key={room.name}
+            className="group rounded-lg overflow-hidden"
+            style={{ "--room-color": room.color } as React.CSSProperties}
+          >
+            <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
+              {/* Thumbnail with video concert image */}
+              <div className="aspect-video bg-black/60 relative overflow-hidden">
+                <Image
+                  src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                  alt={room.title}
+                  fill
+                  priority={i < 2}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  {/* LIVE badge */}
-                  <div className="absolute top-4 left-4 z-10">
-                    <SectionBadge className="gap-1.5 backdrop-blur-[10px]">
-                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                      <span>Live Now</span>
-                    </SectionBadge>
-                  </div>
-
-                  {/* Viewer + time pills */}
-                  <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
-                      <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400" />
-                      {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
-                    </div>
-                    <div className="px-2.5 py-1 rounded-lg font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
-                      {getElapsed(room.creationTime)}
-                    </div>
-                  </div>
-
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
-                {/* Avatar badge */}
-                <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 shadow-md"
-                  style={{ background: room.gradient }}
-                >
-                  {room.member}
+                {/* LIVE badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <SectionBadge className="gap-1.5 backdrop-blur-[10px]">
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span>Live Now</span>
+                  </SectionBadge>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-white mb-1">{room.title}</h3>
-                  <p className="font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                {/* Viewer + time pills */}
+                <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
+                    <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400" />
+                    {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
+                  </div>
+                  <div className="px-2.5 py-1 rounded-lg font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
+                    {getElapsed(room.creationTime)}
+                  </div>
                 </div>
 
-                <button aria-label="Action button"
-                  onClick={() => {
-                    const slug = room.name.replace(/^live_/, "");
-                    navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
-                  }}
-                  className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
-                >
-                  Copy Link
-                </button>
+                {/* Hover overlay */}
+                <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  </div>
+                </div>
               </div>
+            </Link>
+
+            {/* Card meta */}
+            <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
+              {/* Avatar badge */}
+              <div
+                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 shadow-md"
+                style={{ background: room.gradient }}
+              >
+                {room.member}
+              </div>
+
+              <div>
+                <h3 className="font-bold text-white mb-1">{room.title}</h3>
+                <p className="font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+              </div>
+
+              <button aria-label="Action button"
+                onClick={() => {
+                  const slug = room.name.replace(/^live_/, "");
+                  navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
+                }}
+                className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
+              >
+                Copy Link
+              </button>
             </div>
-          ))}
-        </div>
-
-        {/* ── LIVE STREAM MASTER PUSH & EMAIL ALERTS CARD (UNIFIED 2 INPUTS + SQUISHY TOGGLE + PUSH ACTIVATION) ── */}
-        <div className="site-container mt-14 flex ">
-          <LiveStreamInlineSubscribe className="w-full" maxWidth="max-w-4xl" />
-        </div>
-
-
-
-        {/* Live Stream Push Alert & Fan Signup Modal */}
-        <PushSubscribeModal
-          isOpen={showSubscribeModal}
-          onClose={() => setShowSubscribeModal(false)}
-          group="fans"
-        />
+          </div>
+        ))}
       </div>
-    </section>
+
+      {/* ── LIVE STREAM MASTER PUSH & EMAIL ALERTS CARD (UNIFIED 2 INPUTS + SQUISHY TOGGLE + PUSH ACTIVATION) ── */}
+      <div className="site-container mt-14 flex ">
+        <LiveStreamInlineSubscribe className="w-full" maxWidth="max-w-4xl" />
+      </div>
+
+
+
+      {/* Live Stream Push Alert & Fan Signup Modal */}
+      <PushSubscribeModal
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
+        group="fans"
+      />
+
+    </section >
   );
 }

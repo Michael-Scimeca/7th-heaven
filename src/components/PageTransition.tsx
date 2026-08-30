@@ -208,7 +208,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div
+      {/* <div
         ref={overlayRef}
         id="curtain-primary"
         aria-hidden="true"
@@ -229,24 +229,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             <Logo className="hvn-page-curtain__logo" />
           </div>
         )}
-      </div>
-      <style>{`
-        .hvn-page-curtain__mark {
-          animation: hvnPageCurtainPulse 1.5s ease-in-out infinite;
-        }
-        .hvn-page-curtain__logo {
-          width: 72px;
-          height: auto;
-          color: #ffffff;
-        }
-        @keyframes hvnPageCurtainPulse {
-          0%, 100% { opacity: 0.55; transform: scale(0.97); }
-          50% { opacity: 1; transform: scale(1); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .hvn-page-curtain__mark { animation: none; opacity: 1; }
-        }
-      `}</style>
+      </div> */}
       <div ref={contentRef} className="transform-gpu">
         {children}
       </div>

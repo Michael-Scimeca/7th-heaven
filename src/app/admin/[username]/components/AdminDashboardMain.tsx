@@ -10757,9 +10757,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
                                                         const isSelected = currentRoles.includes(preset.toUpperCase());
                                                         return (
-                                                          <button
+                                                          <SectionBadge
                                                             key={preset}
-                                                            type="button"
+                                                            label={preset}
+                                                            isActive={isSelected}
                                                             onClick={() => {
                                                               const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
                                                               const upperPreset = preset.toUpperCase();
@@ -10773,12 +10774,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                               const newRoleStr = newRoles.join(', ');
                                                               setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
                                                             }}
-                                                            className={`px-2 py-0.5 rounded-full text-[10.5px] font-bold uppercase  border transition-colors cursor-pointer font-sans ${isSelected ? 'bg-purple-600 text-white border-purple-500      font-bold '
-                                                              : ' bg-[#00000029]    border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                              }`}
-                                                          >
-                                                            {isSelected ? ` ${preset}` : preset}
-                                                          </button>
+                                                            className="cursor-pointer"
+                                                          />
                                                         );
                                                       })}
                                                     </div>
@@ -11252,13 +11249,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       [m.id]: { ...prev[m.id], timeFrames: currentTfs }
                                                     }));
                                                   }}
-                                                  className={`px-1.5 py-0.5 rounded-full font-bold uppercase  border transition-colors cursor-pointer ${isSelected ? 'bg-purple-600 text-white border-purple-500    '
-                                                    : ' bg-[#00000029]    border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                    }`}
-                                                  style={{ fontSize: '7.5px' }}
-                                                >
-                                                  {isSelected ? `✓ ${preset}` : preset}
-                                                </button>
+                                                  className="cursor-pointer"
+                                                />
                                               );
                                             })}
                                           </div>

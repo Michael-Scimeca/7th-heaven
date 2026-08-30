@@ -95,7 +95,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
 
   return (
-    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[clamp(75px,10vh,120px)] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
+    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">

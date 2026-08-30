@@ -147,6 +147,42 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hasLiveStreams, setHasLiveStreams] = useState(false);
   const { member, isLoggedIn, openModal, logout } = useMember();
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    try {
+      localStorage.removeItem("7h_north_cart_v1");
+    } catch {
+      // silent catch
+    }
+
+    const updateCartCount = () => {
+      try {
+        const raw = localStorage.getItem("7h_north_cart_v1");
+        if (raw) {
+          const items = JSON.parse(raw);
+          if (Array.isArray(items) && items.length > 0) {
+            const count = items.reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
+            setCartCount(count);
+            return;
+          }
+        }
+      } catch {
+        // silent catch
+      }
+      setCartCount(0);
+    };
+
+    updateCartCount();
+
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener("cart_updated", updateCartCount);
+
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("cart_updated", updateCartCount);
+    };
+  }, []);
 
   // The mobile overlay is portaled to document.body (see the render below)
   // rather than rendered inline in <header> — <header> has will-change:
@@ -526,7 +562,7 @@ export function Header() {
               }`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="w-[180px] sm:w-[200px] h-[36px] sm:h-[40px] flex items-center justify-center pointer-events-auto select-none">
+            <div className="w-[clamp(130px,13.5vw,250px)] h-[clamp(24px,2.5vw,46px)] flex items-center justify-center pointer-events-auto select-none transition-[width,height] duration-150">
               <Logo className="w-full h-full text-current transition-colors duration-200 pointer-events-auto" />
             </div>
           </TransitionLink>
@@ -547,7 +583,10 @@ export function Header() {
                 </TransitionLink>
               );
             })}
+          </nav>
 
+          {/* ── RIGHT NAV & ACTIONS GROUP ── */}
+          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
@@ -564,10 +603,7 @@ export function Header() {
               )}
               LIVE
             </TransitionLink>
-          </nav>
 
-          {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
@@ -602,18 +638,23 @@ export function Header() {
               CONTACT
             </TransitionLink>
 
-            {/* Cart Icon — always visible */}
-            <TransitionLink
-              href="/payment-test"
-              className="!text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0"
-              title="Cart / Merch"
-            >
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-              </svg>
-            </TransitionLink>
+            {/* Cart Icon — only shown if something is in cart */}
+            {cartCount > 0 && (
+              <TransitionLink
+                href="/payment-test"
+                className="relative !text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
+                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
+              >
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-sm">
+                  {cartCount}
+                </span>
+              </TransitionLink>
+            )}
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {showUserAuth ? (

@@ -160,16 +160,13 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <section className="site-container min-h-screen pt-[var(--page-top-offset)] relative overflow-hidden text-[var(--text-color)]">
+    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden text-[var(--text-color)]">
 
       {/* Page Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 font-bold uppercase tracking-wider">
-          <SparklesIcon />
-          Support Center
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text-color)] tracking-tight uppercase mb-4">
-          Frequently Asked <span className="text-purple-600">Questions</span>
+
+        <h1 className="text-4xl sm:text-5xl font-bold  tracking-tight uppercase mb-4">
+          Frequently Asked Questions
         </h1>
         <p className="max-w-xl mx-auto font-medium">
           Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.

@@ -2672,7 +2672,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <header>
         <div className="py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center text-xl font-bold border border-white/10 relative">
+            <div className="w-12 h-12 !rounded-full flex items-center justify-center text-xl font-bold border border-white/10 relative">
               {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
             </div>
             <div className="flex flex-col">
@@ -2695,7 +2695,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           <button
             type="button"
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group"
+            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group pb-5 !rounded-none"
           >
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
@@ -2703,7 +2703,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <h3 className="font-bold tracking-wide text-white">
                     Live Broadcast & Feed Center
                   </h3>
-                  <p className="font-bold uppercase    mt-0.5 truncate">
+                  <p className="font-bold">
                     Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                   </p>
                 </div>
@@ -2719,8 +2719,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <span className="font-bold text-white uppercase  hidden sm:inline whitespace-nowrap">
                 {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
               </span>
-              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
-                ▼
+              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+                <ChevronDown className="w-4 h-4 text-white" />
               </div>
             </div>
           </button>
@@ -2729,7 +2729,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           {!isBroadcastPanelCollapsed && (
             <div className="space-y-2.5 text-white">
               {/* Switch Feed and Fan page links moved from header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white pt-4">
                 <div className="flex items-center gap-3 no-glow">
                   <span className="text-white uppercase font-bold  font-sans">Switch Dashboard Feed:</span>
                   <div className="relative inline-flex items-center">
@@ -3144,29 +3144,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               Shopify Admin ↗
                             </a>
                           </div>
-                          <button onClick={() => window.location.reload()} className="text-white/40 hover:text-white flex items-center gap-1 border border-white/10">↻ Refresh</button>
+                          <button onClick={() => window.location.reload()} className=" p-2 text-white/40 hover:text-white flex items-center gap-1 border border-white/10">↻ Refresh</button>
                         </div>
 
                         <div className="mb-4">
-                          <select
-                            aria-label="Select product to add to Flash Drop"
-                            value=""
-                            onChange={e => {
-                              if (e.target.value) {
-                                addProductToDrop(e.target.value);
-                                e.target.value = "";
-                              }
-                            }}
-                            className="w-full border border-white/10 p-3 text-white font-bold outline-none cursor-pointer appearance-none"
-                            style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
-                          >
-                            <option value="" className="text-white/40 bg-black">Select product to add to Flash Drop...</option>
-                            {shopifyProducts.map(p => (
-                              <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)} className=" text-white">
-                                {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
-                              </option>
-                            ))}
-                          </select>
+                          <div className="relative flex items-center w-full">
+                            <select
+                              aria-label="Select product to add to Flash Drop"
+                              value=""
+                              onChange={e => {
+                                if (e.target.value) {
+                                  addProductToDrop(e.target.value);
+                                  e.target.value = "";
+                                }
+                              }}
+                              className="w-full appearance-none bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-3 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                            >
+                              <option value="" className="bg-[#0e0720] text-white/50">Select product to add to Flash Drop...</option>
+                              {shopifyProducts.map(p => (
+                                <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)} className="bg-[#0e0720] text-white">
+                                  {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
+                                </option>
+                              ))}
+                            </select>
+                            <ChevronDown className="w-4 h-4 text-white pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" />
+                          </div>
                         </div>
 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
@@ -3316,7 +3318,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <div className="flex gap-2 items-end">
                               {/* Input 1: Prize Name */}
                               <div className="flex-1 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="font-bold uppercase    text-[#a78bfa] block">1. Prize Name</span>}
+                                {idx === 0 && <span className="font-bold uppercase text-white block">1. Prize Name</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="text"
@@ -3331,8 +3333,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               </div>
 
                               {/* Input 2: Entries Needed */}
-                              <div className="w-20 flex flex-col gap-1.5 relative no-glow">
-                                {idx === 0 && <span className="font-bold uppercase    text-[var(--color-accent)] truncate block">2. Entries</span>}
+                              <div className="w-28 flex flex-col gap-1.5 relative no-glow">
+                                {idx === 0 && <span className="font-bold uppercase text-white block whitespace-nowrap">2. Entries</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3353,8 +3355,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               </div>
 
                               {/* Input 3: Prize Qty */}
-                              <div className="w-14 flex flex-col gap-1.5 no-glow">
-                                {idx === 0 && <span className="font-bold uppercase    text-[#a78bfa] truncate block">3. Qty</span>}
+                              <div className="w-20 flex flex-col gap-1.5 no-glow">
+                                {idx === 0 && <span className="font-bold uppercase text-white block whitespace-nowrap">3. Qty</span>}
                                 <div className="input-glow-border">
                                   <input
                                     type="number"
@@ -3612,7 +3614,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               <div>
                 <h3 className="font-bold tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                <p className="font-bold uppercase    mt-0.5">
+                <p className="font-bold ">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
@@ -3631,7 +3633,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
                 className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
               >
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-4 h-4 text-white" />
               </button>
             </div>
           </div>
@@ -3764,7 +3766,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   >
                     <div>
                       <h3 className="font-bold tracking-wide text-white">Your Work Schedule</h3>
-                      <p className="font-bold uppercase    mt-0.5">Assigned shifts, locations & responsibilities</p>
+                      <p className="font-bold">Assigned shifts, locations & responsibilities</p>
                     </div>
                   </button>
                   <div className="flex items-center gap-2">
@@ -3794,7 +3796,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
                       className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}
                     >
-                      ▼
+                      <ChevronDown className="w-4 h-4 text-white" />
                     </button>
                   </div>
                 </div>

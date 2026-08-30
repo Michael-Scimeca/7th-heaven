@@ -11,9 +11,9 @@ export default function TermsPage() {
         <section className="site-container py-section-fluid min-h-screen text-[var(--text-color)] text-left">
             <div className="mb-12 text-left">
                 <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
-                    Terms of <span className="text-[var(--color-accent)]">Service</span>
+                    Terms of Service
                 </h1>
-                <p className="uppercase tracking-[0.15em] font-bold">
+                <p className="font-bold">
                     Last Updated: April 12, 2026
                 </p>
             </div>

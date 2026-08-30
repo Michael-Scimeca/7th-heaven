@@ -5,6 +5,7 @@ import SearchInput from "@/components/SearchInput";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import { SectionBadge } from "@/components/SectionBadge";
 
 export interface RoleUser {
   id: string;
@@ -204,21 +205,18 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Role Tabs */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => (
-            <FoolishShrimpButton
-              key={tab}
-              isActive={activeTab === tab}
-              onClick={() => setActiveTab(tab)}
-              className="px-3.5 py-2 font-bold uppercase cursor-pointer flex items-center gap-2"
-            >
-              <span>
-                {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
-              </span>
-              <span className={`px-1.5 py-0.5 rounded-lg    font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10 text-white'}`}>
-                {counts[tab]}
-              </span>
-            </FoolishShrimpButton>
-          ))}
+          {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => {
+            const labelText = tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS";
+            return (
+              <SectionBadge
+                key={tab}
+                isActive={activeTab === tab}
+                onClick={() => setActiveTab(tab)}
+                label={`${counts[tab]} ${labelText}`}
+                className="cursor-pointer"
+              />
+            );
+          })}
         </div>
 
         {/* Action Buttons */}

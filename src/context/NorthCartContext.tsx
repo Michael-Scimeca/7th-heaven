@@ -66,6 +66,9 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("cart_updated"));
+    }
   }, [cartItems, hydrated]);
 
   const getCartItemQuantity = useCallback((variantId: string) => {
@@ -112,6 +115,9 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
   const clearCart = useCallback(() => {
     setCartItems([]);
     localStorage.removeItem(CART_STORAGE_KEY);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("cart_updated"));
+    }
   }, []);
 
   const value: CartContextValue = useMemo(() => ({

@@ -12,7 +12,7 @@ export default function PrivacyPage() {
                 <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
                     Privacy Policy
                 </h1>
-                <p className="uppercase] font-bold">
+                <p className="font-bold">
                     Last Updated: April 12, 2026
                 </p>
             </div>
@@ -140,11 +140,11 @@ export default function PrivacyPage() {
                     <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
                     <div className="py-2 border-0 bg-transparent shadow-none">
                         <p className="">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline !mt-0">info@7thheavenband.com</a></p>
-                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline !mt-0">7thheavenband.com</a></p>
+                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>
                 </div>
 
             </div>
-        </section>
+        </section >
     );
 }

@@ -753,10 +753,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         {/* Hero Text */}
         <div
           ref={heroForegroundRef}
-          className="relative z-10 text-left site-container mb-4 pt-4"
-          style={{
-            transform: heroParallax.pxForeground ? `translate3d(0px, ${heroParallax.pxRange / 2}%, 0px)` : "none",
-          }}
+          className="relative z-10 text-left site-container mb-4"
         >
 
           {/* Chicago Music Cruise Official Branding Badges & Social Links */}

@@ -350,11 +350,11 @@ export default function MediaPage() {
   };
 
   return (
-    <div className="min-h-screen text-white pt-20 pb-24 relative overflow-hidden">
+    <div className="min-h-screen text-white pt-[100px] pb-24 relative overflow-hidden">
 
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
-        <div className="text-center mb-6 pt-4">
+        <div className="text-center mb-6">
           <h1 className=" font-bold uppercase tracking-tight text-white">MEDIA</h1>
         </div>
 

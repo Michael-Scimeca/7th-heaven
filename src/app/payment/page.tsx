@@ -63,7 +63,7 @@ function PaymentTestContent() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20">
+    <div className="min-h-screen pt-[100px] pb-20">
       <div className="site-container max-w-xl mx-auto px-6">
         <div className="mb-8 text-left">
           <Link

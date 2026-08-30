@@ -10,9 +10,9 @@ export default function ReturnsPage() {
     <section className="site-container pt-[var(--page-top-offset)] min-h-screen text-[var(--text-color)]">
       <div className="w-full text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
-          Return & Refund <span className="text-[var(--color-accent)]">Policy</span>
+          Return & Refund Policy
         </h1>
-        <p className="uppercase tracking-[0.15em] font-bold mb-12">
+        <p className="font-bold mb-12">
           Last Updated: April 12, 2026
         </p>
 
