@@ -98,7 +98,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
     <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
-      <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] pt-2 relative z-10">
+      <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
 
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT

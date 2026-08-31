@@ -508,20 +508,15 @@ export default function CruiseChat({
       style={{
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className={`  backdrop-blur-[45px] flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
+      className={`flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
     >
       {showHeader && (
-        <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
+        <div className="py-2 px-3 flex items-center justify-between z-10 relative shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-cyan-600 flex items-center justify-center shadow-md text-white">
-              💬
-            </div>
+
             <div>
               <h3 className="font-bold text-white tracking-wide flex items-center gap-1.5">
                 Passenger Lounge
-                <span className="  font-bold uppercase    text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-lg">
-                  LIVE
-                </span>
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse    " />
@@ -532,33 +527,6 @@ export default function CruiseChat({
             </div>
           </div>
 
-          {/* Online users panel */}
-          {onlineUsers.length > 0 && (
-            <div className="flex items-center gap-1 pr-1 max-w-[55%] overflow-hidden">
-              <div className="flex flex-col gap-0.5 overflow-y-auto max-h-[52px] pr-1 scrollbar-hide">
-                {onlineUsers.map((u) => (
-                  <div key={u.name} className="flex items-center gap-1 group">
-                    <div
-                      className="w-4 h-4 rounded-lg flex items-center justify-center text-[7px] font-bold shrink-0 ring-1"
-                      style={{
-                        background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
-                        borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
-                        color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : '#fff',
-                      }}
-                    >
-                      {u.avatar?.slice(0, 2).toUpperCase()}
-                    </div>
-                    <span className="text-[8px] font-semibold truncate max-w-[60px]"
-                      style={{ color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : 'rgba(255,255,255,0.6)' }}
-                    >
-                      {u.name}
-                    </span>
-                    <span className="w-1 h-1 rounded-lg bg-emerald-400 shrink-0" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
 
@@ -627,15 +595,9 @@ export default function CruiseChat({
           )}
 
           {/* Scrollable Message List Container with Fixed Pure Glass Blur Clipping Mask */}
-          <div className="relative flex-1 min-h-0 flex flex-col">
+          <div className="relative flex-1 min-h-0 flex flex-col border-t border-white/10">
             {/* Fixed Top Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
-            <div
-              style={{
-                maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
-              }}
-              className="absolute top-0 left-0 right-0 h-12 backdrop-blur-[45px] z-20 pointer-events-none"
-            />
+
 
             <div
               ref={chatContainerRef}
@@ -678,23 +640,30 @@ export default function CruiseChat({
 
                   return (
                     <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
-                      <div className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-bold mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
-                        {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
+                      <div className="relative shrink-0">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold mt-0.5  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10">
+                          {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
+                        </div>
+                        {(msg.sender_role === 'crew' || msg.sender_role === 'admin') && (
+                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">
+                            {msg.sender_role === 'admin' ? 'ADMIN' : 'CREW'}
+                          </span>
+                        )}
                       </div>
                       <div className="flex flex-col items-start flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1 flex-wrap w-full">
                           <span className={`font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className={`text-[8px] font-bold uppercase    px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
+                          <span className="text-[12px] font-bold uppercase px-2 py-1 rounded-full border border-white/20 leading-none">
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[8px] font-bold uppercase    text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[12px] font-bold uppercase border border-white/20 px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-[10px] text-white    font-medium leading-none ml-auto tracking-tight">
+                          <span className="text-white font-medium leading-none ml-auto tracking-tight">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -725,61 +694,56 @@ export default function CruiseChat({
                         </div>
                       </div>
 
-                      {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
-                          <button
-                            aria-label="Warn User"
-                            onClick={() => handleWarn(msg.sender_name)}
-                            title="Warn User"
-                            className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
-                          >
-                            <AlertTriangle className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            aria-label="Ban User"
-                            onClick={() => handleBan(msg.sender_name)}
-                            title="Ban User"
-                            className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
-                          >
-                            <Ban className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            aria-label="Delete Message"
-                            onClick={() => handleDeleteMsg(msg.id)}
-                            title="Delete Message"
-                            className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            aria-label="Remove Fan Completely"
-                            onClick={() => handleKick(msg.sender_name)}
-                            title="Remove Fan Completely"
-                            className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
-                          >
-                            <LogOut className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      )}
+                      {
+                        isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
+                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                            <button
+                              aria-label="Warn User"
+                              onClick={() => handleWarn(msg.sender_name)}
+                              title="Warn User"
+                              className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
+                            >
+                              <AlertTriangle className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              aria-label="Ban User"
+                              onClick={() => handleBan(msg.sender_name)}
+                              title="Ban User"
+                              className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
+                            >
+                              <Ban className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              aria-label="Delete Message"
+                              onClick={() => handleDeleteMsg(msg.id)}
+                              title="Delete Message"
+                              className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              aria-label="Remove Fan Completely"
+                              onClick={() => handleKick(msg.sender_name)}
+                              title="Remove Fan Completely"
+                              className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
+                            >
+                              <LogOut className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )
+                      }
                     </div>
                   );
                 })
               )}
             </div>
-            {/* Fixed Bottom Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
-            <div
-              style={{
-                maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-              }}
-              className="absolute bottom-0 left-0 right-0 h-10 backdrop-blur-[45px] z-20 pointer-events-none"
-            />
-          </div>
+
+          </div >
 
           <div className="relative shrink-0">
             {showTagMenu && (
               <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
-                <div className="font-bold uppercase    text-purple-400px-2 py-1 flex items-center justify-between">
+                <div className="font-bold uppercase text-purple-400px-2 py-1 flex items-center justify-between">
                   <span>Tag Admin / Crew Member</span>
                   <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
                 </div>
@@ -826,33 +790,36 @@ export default function CruiseChat({
             )}
           </div>
 
-          {isArchived ? (
-            <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
-              <span>🔒</span> This cruise chat has been archived.
-            </div>
-          ) : (
-            <ChatInputBar
-              value={newMessage}
-              onChange={(val) => {
-                setNewMessage(val);
-                if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
-                  setShowTagMenu(true);
-                }
-              }}
-              onSubmit={handleSend}
-              disabled={!member || isSending || member.is_banned}
-              placeholder={member ? (member.is_banned ? "Banned from chat" : "Type a message...") : "Log in to chat"}
-              maxLength={500}
-              showEmojiBtn
-              onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
-              showAtBtn
-              onAtToggle={() => { setShowTagMenu(!showTagMenu); if (showEmojiPicker) setShowEmojiPicker(false); }}
-              showRulesFooter
-              onAdminTag={() => insertTag('@admin')}
-            />
-          )}
+          {
+            isArchived ? (
+              <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
+                <span>🔒</span> This cruise chat has been archived.
+              </div>
+            ) : (
+              <ChatInputBar
+                value={newMessage}
+                onChange={(val) => {
+                  setNewMessage(val);
+                  if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
+                    setShowTagMenu(true);
+                  }
+                }}
+                onSubmit={handleSend}
+                disabled={!member || isSending || member.is_banned}
+                placeholder={member ? (member.is_banned ? "Banned from chat" : "Type a message...") : "Log in to chat"}
+                maxLength={500}
+                showEmojiBtn
+                onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
+                showAtBtn
+                onAtToggle={() => { setShowTagMenu(!showTagMenu); if (showEmojiPicker) setShowEmojiPicker(false); }}
+                showRulesFooter
+                onAdminTag={() => insertTag('@admin')}
+              />
+            )
+          }
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }

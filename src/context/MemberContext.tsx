@@ -117,9 +117,10 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             const profileUsername = profile?.username || user.user_metadata?.username || "";
 
             // profiles.role is the authoritative source — no client-side email overrides
+            const formattedName = fullName.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase());
             const syncedMember: Member = {
               id: user.id,
-              name: fullName,
+              name: formattedName,
               username: profileUsername,
               email: user.email?.toLowerCase() || "",
               joinDate: user.created_at || new Date().toISOString(),

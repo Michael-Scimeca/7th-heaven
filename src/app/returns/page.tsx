@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="site-container pt-[var(--page-top-offset)] min-h-screen text-[var(--text-color)]">
+    <section className="site-container pt-[100px] min-h-screen text-[var(--text-color)]">
       <div className="w-full text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
           Return & Refund Policy
@@ -87,7 +87,7 @@ export default function ReturnsPage() {
             <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg">
               <p className="font-bold">7th Heaven Support</p>
               <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-              <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+              <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
             </div>
           </div>
 

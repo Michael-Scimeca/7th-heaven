@@ -100,7 +100,7 @@ export default function PlannerDashboardPage() {
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={displayName} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-purple-900 border-2 border-[var(--color-accent)]/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
+                <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] border-[var(--color-accent)]/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
                   {initials}
                 </div>
               )}

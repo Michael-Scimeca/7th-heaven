@@ -138,7 +138,7 @@ export default function CompleteProfilePage() {
               <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎸
               </div>
-              <h1 className="text-2xl font-bold tracking-tight mb-2">
+              <h1 className="text-xl font-bold  mb-2">
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>

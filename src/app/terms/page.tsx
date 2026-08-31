@@ -160,9 +160,8 @@ export default function TermsPage() {
                     <h2 className="font-bold mb-3">13. Contact</h2>
                     <p className="mb-2">For questions about these Terms of Service:</p>
                     <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg">
-                        <p className="font-bold">7th Heaven</p>
                         <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+                        <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>
                 </div>
 

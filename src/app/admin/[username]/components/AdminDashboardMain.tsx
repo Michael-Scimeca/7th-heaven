@@ -7710,7 +7710,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Email action bar */}
               {signups.length > 0 && (
-                <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
+                <div className="flex items-center justify-between bg-black/20 px-4 py-3 border-t border-r border-l border-white/5">
                   <div className="flex items-center gap-3">
                     <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20  border-white/20  text-white/10 hover:border-white/25'}`}>
                       {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
@@ -7801,14 +7801,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <p className="">No cruise signups yet.</p>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
+                <div className="space-y-2 max-h-[750px] min-h-[450px] overflow-y-auto scrollbar-hide">
                   {/* Table header */}
-                  <div className="grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 px-3 py-2 text-[0.5rem] font-bold text-white/25 uppercase    border-b border-white/5">
+                  <div className="sticky top-0 z-20  grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 px-4 py-3 text-[0.65rem] font-bold mb-0 uppercase  border-b border-white/10">
                     <span></span>
                     <span>#</span>
                     <span>Name / Email</span>
                     <span>Phone</span>
-                    <span>Party</span>
+                    <span>Party / Date</span>
                     <span className="text-center">Checked</span>
                     <span className="text-center">Deposit</span>
                     <span className="text-center">Full</span>
@@ -7817,7 +7817,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {(() => {
                     const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
                     return signups.map((s: any, i: number) => (
-                      <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                      <div key={s.id || s.email} className={`grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 items-center bg-black/20 hover:bg-white/[0.03] px-4 py-3 border mb-0  group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/40 bg-cyan-500/10' : 'border-white/5 hover:border-cyan-500/20'}`}>
                         {/* Email checkbox */}
                         <div className="flex justify-center">
                           <SquishyToggle
@@ -7828,41 +7828,43 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           />
                         </div>
                         {/* Row number */}
-                        <span className="  text-[0.9rem]     text-white/20">{i + 1}</span>
+                        <span className="text-xs font-mono text-white/30">{i + 1}</span>
                         {/* Name + Email */}
                         <div className="min-w-0">
-                          <p className="font-bold truncate">{s.name}</p>
-                          <p className="truncate">{s.email}</p>
+                          <p className="font-bold text-white text-sm truncate">{s.name}</p>
+                          <p className="text-xs text-white/50 truncate">{s.email}</p>
                         </div>
                         {/* Phone */}
-                        <p className="   truncate">{s.phone || '—'}</p>
+                        <p className="text-xs text-white/70 font-mono truncate">{s.phone || '—'}</p>
                         {/* Party size + date */}
                         <div>
-                          <p className="font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                          <p className="">{s.date}</p>
+                          <p className="text-xs font-semibold text-white/90">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          <p className="text-[11px] text-white/40">{s.date}</p>
                         </div>
                         {/* Checked off */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                            {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                            {s.checkedOff && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>
                         {/* Deposit paid */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                            {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                            {s.depositPaid && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>
                         {/* Full paid */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-white/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                            {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                            {s.fullPaid && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>
                         {/* Delete */}
-                        <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-lg border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
-                        </button>
+                        <div className="flex justify-center">
+                          <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-7 h-7 rounded-lg border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/20 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
+                          </button>
+                        </div>
                       </div>
                     ));
                   })()}
@@ -11494,438 +11496,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <div id="admin-dashboard-root" className="site-container min-h-screen text-[var(--text-color)] pt-[122px] font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
-      <style>{`
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        @keyframes coveragePulseGlow {
-          0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-          50% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-          100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        .coverage-highlight-glow {
-          animation: coveragePulseGlow 1.5s ease-in-out infinite;
-          border: 2px solid #ef4444 !important;
-          z-index: 50 !important;
-        }
-
-
-
-
-        /* Transparent Section Header Bars & Universal Hover Highlight */
-        #admin-dashboard-root .admin-section-header,
-        #admin-dashboard-root div[role="button"][tabIndex],
-        #admin-dashboard-root div[onClick*="toggleSection"] {
-          background-color: transparent !important;
-          background: transparent !important;
-          padding-left: 0px !important;
-          border-top-left-radius: 0px !important;
-          border-top-right-radius: 0px !important;
-          transition: background-color 0.2s ease-in-out !important;
-        }
-
-        /* Remove All Hover Background Highlights Across Sections, Cards, and Rows */
-        #admin-dashboard-root .admin-section-header:hover,
-        #admin-dashboard-root div[role="button"][tabIndex]:hover,
-        #admin-dashboard-root div[onClick*="toggleSection"]:hover,
-        #admin-dashboard-root section:hover,
-        #admin-dashboard-root [id^="admin-sec-"]:hover,
-        #admin-dashboard-root tr:hover,
-        #admin-dashboard-root div[class*="hover:bg-"]:hover {
-          background-color: transparent !important;
-          background: transparent !important;
-        }
-
-        /* Inline Load-In Input Styling */
-        #admin-dashboard-root .inline-loadin-popover {
-          background-color: transparent !important;
-          background: transparent !important;
-          border: none !important;
-        }
-
-        #admin-dashboard-root .admin-section-header h3,
-        #admin-dashboard-root .admin-section-header span,
-        #admin-dashboard-root .admin-section-header svg,
-        #admin-dashboard-root div[role="button"][tabIndex] h3,
-        #admin-dashboard-root div[role="button"][tabIndex] span,
-        #admin-dashboard-root div[role="button"][tabIndex] svg {
-          color: var(--text-color) !important;
-        }
-
-        #admin-dashboard-root .admin-section-header p,
-        #admin-dashboard-root div[role="button"][tabIndex] p {
-          color: rgba(255, 255, 255, 0.45) !important;
-        }
-
-        /* Force section card bodies and inner components to have zero container borders */
-        #admin-dashboard-root [class*="border"]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-b:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-t:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-white\/10:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-white\/5:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-purple-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-rose-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-amber-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-cyan-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-\[\#ffffff1f\]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
-        #admin-dashboard-root .border-\[var\(--border-color\)\]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]) {
-          background-color: transparent !important;
-          border: none !important;
-          border-style: none !important;
-          border-width: 0px !important;
-          border-color: transparent !important;
-          box-shadow: none !important;
-          color: var(--text-color) !important;
-        }
-
-        #admin-dashboard-root section,
-        #admin-dashboard-root [id^="admin-sec-"] {
-          background: transparent !important;
-          border: none !important;
-          border-bottom: none !important;
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-          padding-top: 0 !important;
-          padding-bottom: 0 !important;
-        }
-
-        #admin-dashboard-root section > div[role="button"]:not(.border-none),
-        #admin-dashboard-root [id^="admin-sec-"] > div[role="button"]:not(.border-none),
-        #admin-dashboard-root section > div.flex:not(.border-none),
-        #admin-dashboard-root [id^="admin-sec-"] > div.flex:not(.border-none) {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-          padding-top: 1.25rem !important;
-          padding-bottom: 1.25rem !important;
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-          margin-top: 0 !important;
-          margin-bottom: 0 !important;
-        }
-
-        #admin-dashboard-root .border-none {
-          border: none !important;
-          border-bottom: 0px !important;
-          border-bottom-width: 0px !important;
-          border-bottom-style: none !important;
-        }
-
-        #admin-dashboard-root h3 svg,
-        #admin-dashboard-root h3 svg *,
-        #admin-dashboard-root section h3 svg,
-        #admin-dashboard-root section h3 svg * {
-          fill: none !important;
-          fill-opacity: 0 !important;
-        }
-
-        #admin-dashboard-root table thead tr,
-        #admin-dashboard-root table tr.bg-black\/20 {
-          background-color: transparent !important;
-          background: transparent !important;
-        }
-
-        /* Universal Custom Dropdown Select & Option Styling */
-        #admin-dashboard-root select,
-        #admin-dashboard-root select.bg-white,
-        #admin-dashboard-root select[class*="bg-white"] {
-          background-color: #9333ea !important;
-          background: #9333ea !important;
-          color: #ffffff !important;
-          border: 1px solid #c084fc !important;
-          border-radius: 8px !important;
-          padding-right: 2.25rem !important;
-          appearance: none !important;
-          -webkit-appearance: none !important;
-          -moz-appearance: none !important;
-          background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
-          background-repeat: no-repeat !important;
-          background-position: right 0.75rem center !important;
-          background-size: 0.6rem auto !important;
-          cursor: pointer !important;
-          box-shadow: 0 0 15px rgba(147, 51, 234, 0.15) !important;
-        }
-
-        #admin-dashboard-root select option,
-        #admin-dashboard-root select option.bg-white,
-        #admin-dashboard-root select option[class*="bg-white"] {
-          background-color: #0c0d12 !important;
-          color: #ffffff !important;
-        }
-
-        #admin-dashboard-root #admin-sec-cruise-command,
-        #admin-dashboard-root #admin-sec-cruise-roster,
-        #admin-dashboard-root #admin-sec-cruise-blast {
-          background-color: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
-        }
-
-        /* Explicit protection for GooeyDropdown liquid morphing shapes */
-        #admin-dashboard-root .gooey-panel-shape,
-        #admin-dashboard-root .gooey-trigger-shape {
-          background-color: #9333ea !important;
-          background: #9333ea !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-          display: block !important;
-        }
-
-        #admin-dashboard-root .gooey-shapes-layer {
-          opacity: 1 !important;
-          visibility: visible !important;
-          display: block !important;
-        }
-
-        /* Explicit background protection for GooeyMessagesDropdown / Dropdown */
-        #admin-dashboard-root button[aria-haspopup="listbox"],
-        #admin-dashboard-root button[aria-haspopup="listbox"] ~ *,
-        #admin-dashboard-root div:has(> button[aria-haspopup="listbox"]) div {
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-
-
-        /* Global Textarea & Input Style: Transparent Dark Background & Crisp White Text */
-        #admin-dashboard-root textarea,
-        #admin-dashboard-root input[type="text"],
-        #admin-dashboard-root input[type="email"],
-        #admin-dashboard-root input[type="password"],
-        #admin-dashboard-root input[type="date"],
-        #admin-dashboard-root input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]),
-        #admin-dashboard-root select {
-         
-          backdrop-filter: blur(12px) !important;
-          -webkit-backdrop-filter: blur(12px) !important;
-          color-scheme: dark !important;
-          color: #ffffff !important;
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
-          border-radius: 8px !important;
-        }
-
-        #admin-dashboard-root input[type="date"]::-webkit-calendar-picker-indicator,
-        #admin-dashboard-root input[type="time"]::-webkit-calendar-picker-indicator {
-          filter: none !important;
-          color-scheme: dark !important;
-          cursor: pointer !important;
-          opacity: 0.9 !important;
-        }
-
-        #admin-dashboard-root textarea:focus,
-        #admin-dashboard-root input[type="text"]:focus,
-        #admin-dashboard-root input[type="email"]:focus,
-        #admin-dashboard-root input[type="password"]:focus,
-        #admin-dashboard-root select:focus {
-          border-color: #a855f7 !important;
-          box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.4), 0 0 12px rgba(168, 85, 247, 0.3) !important;
-          outline: none !important;
-        }
-
-        #admin-dashboard-root textarea::placeholder,
-        #admin-dashboard-root input::placeholder {
-          color: rgba(255, 255, 255, 0.4) !important;
-        }
-
-        /* Ensure all text inside stat cards, alert boxes, and presets renders in crisp black */
-        #admin-dashboard-root .bg-rose-50 *,
-        #admin-dashboard-root .bg-amber-50 *,
-        #admin-dashboard-root .bg-purple-50 *,
-        #admin-dashboard-root .bg-emerald-50 *,
-        #admin-dashboard-root .bg-cyan-50 *,
-        #admin-dashboard-root .bg-rose-100 *,
-        #admin-dashboard-root .bg-amber-100 *,
-        #admin-dashboard-root .bg-purple-100 *,
-        #admin-dashboard-root .bg-emerald-100 *,
-        #admin-dashboard-root .bg-cyan-100 * {
-          color: #000000 !important;
-        }
-
-        /* Text Boxes & Rich Text Editor: Dark Gray Background & Crisp White Text */
-        #admin-dashboard-root .quill,
-        #admin-dashboard-root .ql-container,
-        #admin-dashboard-root .ql-editor,
-        #admin-dashboard-root .ql-toolbar {
- 
-        }
-
-        #admin-dashboard-root .ql-editor,
-        #admin-dashboard-root .ql-editor *,
-        #admin-dashboard-root .ql-editor p,
-        #admin-dashboard-root .ql-editor h1,
-        #admin-dashboard-root .ql-editor h2,
-        #admin-dashboard-root .ql-editor h3,
-        #admin-dashboard-root .ql-editor span,
-        #admin-dashboard-root .ql-editor strong,
-        #admin-dashboard-root .ql-editor em {
-          color: #ffffff !important;
-        }
-
-        #admin-dashboard-root .ql-editor.ql-blank::before {
-        }
-
-        #admin-dashboard-root .ql-snow .ql-stroke {
-          stroke: #ffffff !important;
-        }
-
-        #admin-dashboard-root .ql-snow .ql-fill {
-          fill: #ffffff !important;
-        }
-
-        #admin-dashboard-root .ql-snow .ql-picker {
-          color: #ffffff !important;
-        }
-
-        /* ReactQuill Dropdown Pickers & Format Popup Options */
-        #admin-dashboard-root .ql-snow .ql-picker-label,
-        #admin-dashboard-root .ql-snow .ql-picker-label *,
-        #admin-dashboard-root .ql-snow .ql-picker-options,
-        #admin-dashboard-root .ql-snow .ql-picker-item,
-        #admin-dashboard-root .ql-snow .ql-picker-item *,
-        #admin-dashboard-root .ql-snow .ql-picker-label::before,
-        #admin-dashboard-root .ql-snow .ql-picker-item::before {
-          color: #ffffff !important;
-        }
-
-        #admin-dashboard-root .ql-snow .ql-picker-options {
-          background-color: #1e1e28 !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
-        }
-
-        #admin-dashboard-root .ql-snow .ql-picker-item:hover,
-        #admin-dashboard-root .ql-snow .ql-picker-item.ql-selected {
-          color: #38bdf8 !important;
-        }
-
-        /* Guidelines Welcome Pack Editor Light Mode (Exact Match to /cruise/michael) */
-        #admin-dashboard-root .guidelines-wysiwyg-editor .quill,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-container,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor {
-          background-color: #ffffff !important;
-          color: rgba(0, 0, 0, 0.85) !important;
-          border-color: rgba(0, 0, 0, 0.15) !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor *,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor p,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor h1,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor h2,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor h3,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor span,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor strong,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor em,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor li {
-          color: rgba(0, 0, 0, 0.85) !important;
-          font-family: inherit !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a *,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a span,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a strong {
-          color: #0891b2 !important;
-          text-decoration: underline !important;
-          text-underline-offset: 4px !important;
-          font-weight: 700 !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {
-          color: rgba(255, 255, 255, 1) !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar {
-          background-color: #f8fafc !important;
-          border-color: rgba(0, 0, 0, 0.15) !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-stroke {
-          stroke: #334155 !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-fill {
-          fill: #334155 !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-label,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-label::before,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-label *,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item::before,
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item * {
-          color: #000000 !important;
-        }
-
-        #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-options {
-          background-color: #ffffff !important;
-          border-color: rgba(0, 0, 0, 0.15) !important;
-        }
-
-
-
-       
-        /* Complete background removal for Admin Dashboard page */
-        #admin-dashboard-root section:not(.squishy-toggle),
-        #admin-dashboard-root article:not(.squishy-toggle),
-        #admin-dashboard-root div:not([class*="bg-purple"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-cyan"]):not([class*="bg-amber"]):not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb),
-        #admin-dashboard-root table,
-        #admin-dashboard-root tbody,
-        #admin-dashboard-root tr,
-        #admin-dashboard-root td,
-        #admin-dashboard-root th,
-        #admin-dashboard-root header,
-        #admin-dashboard-root main,
-        #admin-dashboard-root [class*="bg-black"]:not(.squishy-toggle),
-        #admin-dashboard-root [class*="bg-[#"]:not(.squishy-track),
-        #admin-dashboard-root [class*="bg-[var(--"]:not(.squishy-toggle):not(.squishy-track) {
-
-          box-shadow: none !important;
-        }
-
-        /* Clean Bottom Border Dividers for List Rows & Table Rows */
-        #admin-dashboard-root tr,
-        #admin-dashboard-root td,
-        #admin-dashboard-root th,
-        #admin-dashboard-root .border-b,
-        #admin-dashboard-root [class*="border-b"],
-        #admin-dashboard-root div[class*="border-b"],
-        #admin-dashboard-root li[class*="border-b"] {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-        }
-
-        /* Remove Left Padding Across All Section Containers, List Item Rows, and Table Cells */
-        #admin-dashboard-root section > div,
-        #admin-dashboard-root [id^="admin-sec-"] > div,
-        #admin-dashboard-root .admin-section-header,
-        #admin-dashboard-root div[role="button"][tabIndex],
-        #admin-dashboard-root div[onClick*="toggleSection"],
-        #admin-dashboard-root div[class*="overflow-y-auto"],
-        #admin-dashboard-root div[class*="custom-scrollbar"],
-        #admin-dashboard-root div[class*="border-b"],
-        #admin-dashboard-root td:first-child,
-        #admin-dashboard-root th:first-child,
-        #admin-dashboard-root table td:first-child,
-        #admin-dashboard-root table th:first-child {
-        
-        }
-
-        #admin-dashboard-root section > div[role="button"] {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-          background-color: transparent !important;
-          background: transparent !important;
-        }
-      `}</style>
-
-
+    <div id="admin-dashboard-root" className="site-container min-h-screen text-[var(--text-color)] pt-[100px] font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
 
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
-
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
       <div className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
         {/* Admin Identity & Badges */}
-        <div className="flex items-center gap-5">
+        <div className="flex  gap-5">
           <input
             type="file"
             ref={adminPhotoInputRef}
@@ -11950,38 +11528,38 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               }
             }}
           />
-          <button
-            type="button"
-            onClick={() => adminPhotoInputRef.current?.click()}
-            title="Click to upload crew photo"
-            className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-bold text-[var(--color-accent)] shrink-0     overflow-hidden cursor-pointer group transition-colors"
-          >
-            {isAvatarUrl ? (
-              <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
-            ) : (
-              <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
-            )}
-            {/* Hover overlay with camera icon */}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[12px] font-bold uppercase transition-opacity">
-              <span className=""></span>
-              <span>{adminAvatarUploading ? "..." : "Upload"}</span>
-            </div>
-          </button>
+          <div className="relative w-12 h-12 shrink-0">
+            <button
+              type="button"
+              onClick={() => adminPhotoInputRef.current?.click()}
+              title="Click to upload crew photo"
+              className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl font-bold text-[var(--color-accent)] !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10"
+            >
+              {isAvatarUrl ? (
+                <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
+              ) : (
+                <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
+              )}
+              {/* Hover overlay with camera icon */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[12px] font-bold uppercase transition-opacity">
+                <span>{adminAvatarUploading ? "..." : "Upload"}</span>
+              </div>
+            </button>
+            <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm pointer-events-none z-10">
+              {(member?.role || effectiveAdmin.role) === 'crew' ? 'CREW' : 'ADMIN'}
+            </span>
+          </div>
           <div>
             <div className="flex items-center flex-wrap gap-2.5 mb-1">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text-color)]">{effectiveAdmin.name}</h1>
-              <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full   text-[0.9rem]  font-bold uppercase  ${(member?.role || effectiveAdmin.role) === 'crew'
-                ? 'bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] dark:text-emerald-300'
-                : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
-                }`}>
-                {(member?.role || effectiveAdmin.role) === 'crew' ? ' Crew' : ' Admin'}
-              </span>
+              <h1 className="text-xl font-bold tracking-tight text-[var(--text-color)] !normal-case">
+                {effectiveAdmin.name ? effectiveAdmin.name.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase()) : ''}
+              </h1>
               <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300   text-[0.9rem]  font-bold uppercase  animate-pulse">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                 God Mode
               </span>
             </div>
-            <p className="   font-semibold">{effectiveAdmin.email}</p>
+            <p className="font-semibold">{effectiveAdmin.email}</p>
             <p className="font-bold mt-0.5">
               {(member?.role || effectiveAdmin.role) === 'crew'
                 ? 'Manage setlists, live feeds, community updates, and crew tools.'
@@ -12200,28 +11778,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* === CRUISE BROADCAST CENTER === */}
           <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
-                <div className="w-full h-full rounded-full flex items-center justify-center">
-                  <span className="text-lg"></span>
-                </div>
-              </div>
-              <div>
-                <h2 className="font-bold    tracking-wide text-white uppercase">Cruise Command Center</h2>
-                <p className="font-bold uppercase   ">Manage cruise dashboard announcements, links & chat</p>
-              </div>
-            </div>
+
 
             {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
               {/* Column 1: Cruise Information & Guidelines Editor */}
-              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8   ">
+              <div className="relative z-10   ">
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
                     <div>
-                      <h3 className="font-bold    tracking-wide text-white">Cruise Information & Guidelines</h3>
-                      <p className="text-purple-400font-bold uppercase    leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
+                      <h3 className="font-bold tracking-wide text-white">Cruise Information & Guidelines</h3>
+                      <p className="  leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
                     </div>
                   </div>
                   {adminGuidelinesSaveStatus === 'saved' && (
@@ -12239,26 +11806,35 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="admin-guidelines-title" className="  text-[0.9rem]  font-bold text-white/50 uppercase    block mb-1.5 font-sans">Section Title</label>
+                      <label htmlFor="admin-guidelines-title" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Section Title</label>
                       <input
                         id="admin-guidelines-title"
                         type="text"
                         value={adminGuidelinesTitle}
                         onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
                         placeholder="Cruise Information & Guidelines"
-                        className="w-full bg-white border border-black/15 px-4 py-2.5 !text-black outline-none focus:border-cyan-600 transition-colors font-bold"
+                        className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
                       />
                     </div>
                     <div>
-                      <label htmlFor="admin-guidelines-subtitle" className="  text-[0.9rem]  font-bold text-white/50 uppercase    block mb-1.5 font-sans">Subtitle Badge</label>
-                      <input
-                        id="admin-guidelines-subtitle"
-                        type="text"
-                        value={adminGuidelinesSubtitle}
-                        onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
-                        placeholder="Cruiser Welcome Pack"
-                        className="w-full bg-white border border-black/15 px-4 py-2.5 !text-cyan-700 outline-none focus:border-cyan-600 transition-colors font-bold"
-                      />
+                      <label htmlFor="admin-guidelines-subtitle" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Subtitle Badge</label>
+                      <div className="relative">
+                        <input
+                          id="admin-guidelines-subtitle"
+                          type="text"
+                          value={adminGuidelinesSubtitle}
+                          onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
+                          placeholder="Cruiser Welcome Pack"
+                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12 text-cyan-400 placeholder:text-cyan-400/40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-500/40 to-pink-500/40 border border-purple-400/30 text-white hover:brightness-125 transition-all text-xs font-bold"
+                          title="Badge options"
+                        >
+                          <span className="leading-none tracking-tighter">•••</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -12299,9 +11875,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         }
                       }}
                       disabled={adminGuidelinesUpdating}
-                      className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-bold uppercase    transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
+                      className="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                     >
-                      <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
+                      <span>{adminGuidelinesUpdating ? 'SAVING...' : 'SAVE GUIDELINES'}</span>
                     </button>
                   </div>
                 </div>
@@ -12315,25 +11891,24 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
-              <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden`}>
+              <div className={`relative z-10  flex flex-col group overflow-hidden`}>
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover: transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 shrink-0 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                       <div>
                         <h3 className="font-bold    tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
                         <p className="font-bold uppercase    leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
-                    <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
+                    <div className="px-3 py-1.5 rounded-lg  flex items-center gap-2 mt-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
-                      <span className="text-[0.5rem] font-bold text-purple-400uppercase   ">Unified Dispatch</span>
+                      <span className="text-[0.5rem] font-bold text-purple-400 uppercase">Unified Dispatch</span>
                     </div>
                   </div>
 
                   {cruiseSaveStatus && (
-                    <div className={`flex items-center gap-2 px-4 py-2.5   text-[0.9rem]  font-bold uppercase    animate-[slideIn_0.3s_ease-out] backdrop-blur-[45px] ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    <div className={`flex items-center gap-2 px-4 py-2.5   text-[0.9rem]  font-bold uppercase    animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
                       {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                     </div>
                   )}
@@ -12341,16 +11916,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* 2 Columns Container: Left Form | Right Live Preview */}
                   <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                     {/* Left Column: Form Inputs & Target Controls */}
-                    <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
+                    <div className="flex flex-col gap-3  rounded-lg h-full">
                       <div>
-                        <label htmlFor="admin-cruise-blast-subject" className="  text-[0.9rem]  font-bold text-white/40 uppercase    block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
+                        <label htmlFor="admin-cruise-blast-subject" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Notice Title / Email Subject Line</label>
                         <input
                           id="admin-cruise-blast-subject"
                           type="text"
                           value={cruiseBlastSubject}
                           onChange={(e) => setCruiseBlastSubject(e.target.value)}
-                          placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
-                          className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-white outline-none focus:border-cyan-500/60 transition-colors placeholder:text-white/20 mb-2 font-sans"
+                          placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
+                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
                         />
                       </div>
 
@@ -12424,33 +11999,33 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
-                    <div className="p-4 md:p-5 bg-black/40 border border-white/10 font-sans h-full flex flex-col">
+                    <div className="h-full flex flex-col">
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-base"></span>
                           <h4 className="font-bold uppercase    text-cyan-400">Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
-                        <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
+                        <div className="inline-flex items-center p-1 bg-[#0e041d] border border-white/15 rounded-xl shadow-inner">
                           <button
                             type="button"
                             onClick={() => setLivePreviewTab('dashboard')}
-                            className={`px-3 py-1 rounded-lg text-[12px] font-bold uppercase  transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
-                              ? 'bg-cyan-500 text-black shadow-md'
-                              : ' text-white  hover:text-white hover: bg-[#00000029]   '
+                            className={`px-4 py-2 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer ${livePreviewTab === 'dashboard'
+                              ? 'bg-cyan-400 text-black shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                              : 'text-white hover:text-cyan-300'
                               }`}
                           >
-                            Cruise Dashboard Banner
+                            CRUISE DASHBOARD BANNER
                           </button>
                           <button
                             type="button"
                             onClick={() => setLivePreviewTab('email')}
-                            className={`px-3 py-1 rounded-lg text-[12px] font-bold uppercase  transition-colors cursor-pointer ${livePreviewTab === 'email'
-                              ? 'bg-cyan-500 text-black shadow-md'
-                              : ' text-white  hover:text-white hover: bg-[#00000029]   '
+                            className={`px-4 py-2 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer ${livePreviewTab === 'email'
+                              ? 'bg-cyan-400 text-black shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                              : 'text-white hover:text-cyan-300'
                               }`}
                           >
-                            Email Broadcast
+                            EMAIL BROADCAST
                           </button>
                         </div>
                       </div>
@@ -12477,14 +12052,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* Cruise Roster & Signup Stats */}
           <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 border-white/10 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden">
+            <div className="relative z-10 flex flex-col group overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-colors duration-700 pointer-events-none" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                   <div>
                     <h3 className="font-bold    tracking-wide text-white">Cruise Roster</h3>
-                    <p className="font-bold uppercase    leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
+                    <p className="   leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
                   </div>
                 </div>
 
@@ -12507,16 +12081,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Recent Signups */}
                 {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
-                    <p className="font-bold uppercase    mb-2">Recent Signups</p>
-                    <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
+                    <p className="font-bold uppercase mb-2">Recent Signups</p>
+                    <div className="max-h-[550px] min-h-[320px] overflow-y-auto scrollbar-hide space-y-1.5">
                       {(cruiseStats.recentSignups || []).map((s) => (
-                        <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 border-white/10 transition-colors group/row">
+                        <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5  border-b border-white/10 transition-colors group/row mb-0">
                           <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem] font-bold text-[var(--color-accent)] shrink-0">
                             {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-bold truncate">{s.name}</p>
-                            <p className="truncate">{s.email}</p>
+                            <p className="truncate mt-0">{s.email}</p>
                           </div>
                           <div className="text-right shrink-0">
                             <p className="  ">{s.phone || '—'}</p>

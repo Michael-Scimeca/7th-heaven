@@ -39,7 +39,7 @@ export default function CruiseDashboardGate() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('bypass') === 'true') {
+      if (urlParams.get('bypass') === 'true' || urlParams.get('demo') === 'true') {
         window.location.replace('/cruise/demo?bypass=true');
       }
     }
@@ -248,6 +248,16 @@ export default function CruiseDashboardGate() {
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                     </button>
+
+                    <div className="pt-3 border-t border-white/10 mt-4">
+                      <button
+                        type="button"
+                        onClick={() => router.replace('/cruise/demo')}
+                        className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer rounded-lg"
+                      >
+                        ⚡ Instant Demo Access
+                      </button>
+                    </div>
                   </form>
                 ) : (
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
@@ -274,6 +284,16 @@ export default function CruiseDashboardGate() {
                     <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                     </button>
+
+                    <div className="pt-3 border-t border-white/10 mt-4">
+                      <button
+                        type="button"
+                        onClick={() => router.replace('/cruise/demo')}
+                        className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer rounded-lg"
+                      >
+                        ⚡ Instant Demo Access →
+                      </button>
+                    </div>
                   </form>
                 )}
               </div>

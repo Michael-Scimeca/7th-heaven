@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PastShowsPage() {
   return (
-    <section className="site-container min-h-screen pt-[100px] pb-16">
+    <section className="site-container min-h-screen pt-[100px]">
       <PastShowsClient
         years={pastShowsData.years}
         totalShowsCount={pastShowsData.totalShows}

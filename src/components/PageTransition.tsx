@@ -230,7 +230,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           </div>
         )}
       </div> */}
-      <div ref={contentRef} className="transform-gpu">
+      <div ref={contentRef} className={mode !== "idle" ? "transform-gpu" : undefined}>
         {children}
       </div>
     </>

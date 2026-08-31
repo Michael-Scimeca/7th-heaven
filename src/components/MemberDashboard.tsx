@@ -258,7 +258,7 @@ export default function MemberDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-5">
-            <div className="relative w-16 h-16 flex items-center justify-center text-xl font-bold bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] text-[var(--color-accent)]">
+            <div className="relative w-12 h-12 flex items-center justify-center text-xl font-bold bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] text-[var(--color-accent)]">
               {member!.avatar}
             </div>
             <div>

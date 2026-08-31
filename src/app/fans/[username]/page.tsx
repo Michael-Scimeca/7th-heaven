@@ -425,20 +425,27 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Account Identity Header */}
         <div className="flex items-center justify-between mb-10 border-b border-[var(--border-color)] pb-5">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 !rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-bold text-[var(--color-accent)] overflow-hidden shrink-0">
-              {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
-                <Image width={200} height={200} unoptimized
-                  src={effectiveMember?.avatar || member?.avatar}
-                  alt={effectiveMember?.name || 'Profile'}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              ) : (
-                effectiveMember?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'
-              )}
+            <div className="relative w-12 h-12 shrink-0">
+              <div className="w-full h-full rounded-full flex items-center justify-center font-bold bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2 border-white/20 overflow-hidden">
+                {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
+                  <Image width={200} height={200} unoptimized
+                    src={effectiveMember?.avatar || member?.avatar}
+                    alt={effectiveMember?.name || 'Profile'}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  effectiveMember?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'
+                )}
+              </div>
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">
+                {effectiveMember?.role === 'admin' ? 'ADMIN' : effectiveMember?.role === 'crew' ? 'CREW' : 'FAN'}
+              </span>
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-2xl font-bold tracking-tight">{effectiveMember?.name}</h1>
+                <h1 className="text-xl font-bold tracking-tight !normal-case">
+                  {effectiveMember?.name ? effectiveMember.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''}
+                </h1>
                 {(() => {
                   const role = effectiveMember?.role;
                   const isCruiseOnly = effectiveMember?.signup_source === 'cruise_member_signup';
@@ -462,9 +469,6 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   if (role === 'crew') {
                     return (
                       <>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 font-bold uppercase tracking-[0.15em] border rounded-lg bg-emerald-400/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
-                          CREW
-                        </span>
                         {showCruise && (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 font-bold uppercase tracking-[0.15em] border rounded-lg bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
@@ -788,14 +792,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="relative text-white mb-10">
                   <div className="relative z-10">
                     {isHappeningNow ? (
-                      <span className="inline-flex items-center gap-2 font-bold uppercase    text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
+                      <SectionBadge className="gap-2 text-emerald-400 bg-emerald-500/10 border-emerald-500/30">
                         <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-lg h-1.5 w-1.5 bg-emerald-500" /></span>
                         Happening Now
-                      </span>
+                      </SectionBadge>
                     ) : isEnded ? (
-                      <span className="font-bold text-white uppercase    bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg">Show Completed</span>
+                      <SectionBadge>Show Completed</SectionBadge>
                     ) : (
-                      <span className="font-bold uppercase    text-white bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Next Show</span>
+                      <SectionBadge className="bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20">Next Show</SectionBadge>
                     )}
                     {nextShow ? (() => {
                       return (
@@ -875,7 +879,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {show.time && (show.doorsTime || show.playTime)
                               ? <span className="  text-[0.9rem]  text-white/35 font-semibold">Event: {show.time}</span>
                               : show.time && !show.doorsTime && !show.playTime
-                                ? <span className="  text-[0.9rem]  text-white/50 font-semibold">{show.time}</span>
+                                ? <span className=" font-semibold">{show.time}</span>
                                 : null}
                           </div>
                         )}

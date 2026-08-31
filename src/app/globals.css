@@ -390,6 +390,9 @@ select {
 }
 
 select.no-bg-arrow,
+select.bg-none,
+select[class*="bg-none"],
+select.no-arrow,
 select[style*="background-image: none"],
 select[style*="background-image:none"] {
   background-image: none !important;
@@ -3187,7 +3190,7 @@ textarea,
 
 /* CruiseSnakeItinerary */
 .snake-itinerary-root {
-  padding: 88px 0px;
+  padding-bottom: 60px;
   box-sizing: border-box;
   background: transparent;
   overflow-y: visible;
@@ -5705,22 +5708,7 @@ section {
   z-index: 50 !important;
 }
 
-#admin-dashboard-root h1,
-#admin-dashboard-root h2,
-#admin-dashboard-root h3,
-#admin-dashboard-root h4,
-#admin-dashboard-root h5,
-#admin-dashboard-root h6,
-#admin-dashboard-root p,
-#admin-dashboard-root span:not(.badge-text),
-#admin-dashboard-root label,
-#admin-dashboard-root td,
-#admin-dashboard-root th,
-#admin-dashboard-root input,
-#admin-dashboard-root select,
-#admin-dashboard-root textarea {
-  color: var(--text-color);
-}
+
 
 /* Protect CruiseChat styling & Live SMS Preview from global admin text overrides */
 #admin-dashboard-root #cruise-chat-root [class*="text-white"] {
@@ -5782,9 +5770,7 @@ section {
 #admin-dashboard-root div[role="button"][tabIndex] h3,
 #admin-dashboard-root div[role="button"][tabIndex] span,
 #admin-dashboard-root div[role="button"][tabIndex] svg,
-#admin-dashboard-root div[role="button"][tabIndex] p {
-  color: var(--text-color) !important;
-}
+#admin-dashboard-root div[role="button"][tabIndex] p {}
 
 /* Force section card bodies and inner components to have transparent backgrounds */
 #admin-dashboard-root .border-purple-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
@@ -5793,7 +5779,6 @@ section {
 #admin-dashboard-root .border-cyan-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]) {
   background-color: transparent !important;
   box-shadow: none !important;
-  color: var(--text-color) !important;
 }
 
 #admin-dashboard-root section,

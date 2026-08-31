@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
     return (
-        <section className="site-container py-section-fluid min-h-screen text-[var(--text-color)] text-left">
+        <section className="site-container pt-[100px] min-h-screen text-[var(--text-color)] text-left">
             <div className="mb-12 text-left">
                 <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
                     Privacy Policy

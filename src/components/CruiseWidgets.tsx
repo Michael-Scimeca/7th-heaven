@@ -532,18 +532,18 @@ export function BookingManager({ email }: { email?: string }) {
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
       <div className="my-3">
-        <span className="font-bold text-white/50 uppercase    block mb-2">Travel Readiness Checklist</span>
+        <span className="font-bold  uppercase    block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 font-bold py-1 ">
             <span>✓</span> Passport Verified
           </div>
-          <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-bold px-2 py-1">
-            <span>🎸</span> Band VIP Pass Included
+          <div className="flex items-center gap-1.5 font-bold px-2 py-1">
+            Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 text-cyan-300 font-medium py-1 ">
+          <div className="flex items-center gap-1.5 font-medium py-1 ">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
-          <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium px-2 py-1">
+          <div className="flex items-center gap-1.5  font-medium px-2 py-1">
             <span>🏷️</span> Luggage Tags: Dec 1st
           </div>
         </div>
@@ -552,7 +552,7 @@ export function BookingManager({ email }: { email?: string }) {
       {/* Payment Breakdown: Total Fare, Paid & Owed */}
       <div className="space-y-2.5 my-3">
         <div className="flex justify-between items-center">
-          <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
+          <span className="font-bold uppercase tracking-wider">Total Cruise Fare</span>
           <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
@@ -563,7 +563,7 @@ export function BookingManager({ email }: { email?: string }) {
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
           <span className="font-bold text-rose-400 uppercase  flex items-center gap-1">
-            <span>⏳</span> Balance Owed
+            <span></span> Balance Owed
           </span>
           <div className="flex items-center gap-2">
             <span className="text-rose-400 font-bold">{booking.balance_due || "$350.00"}</span>

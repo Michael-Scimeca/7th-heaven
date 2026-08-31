@@ -2483,7 +2483,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                   <span className="text-[14px] font-bold text-white truncate">{activeShow.venue}</span>
                                   <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
                                 </div>
-                                <span className="text-[12px] font-bold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded-lg border border-white/20">
+                                <span className="text-[12px] font-bold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-white/20 rounded-lg">
                                   {formattedDate}
                                 </span>
                               </div>

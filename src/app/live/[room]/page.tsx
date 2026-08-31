@@ -2,7 +2,16 @@
 
 import { FakeLiveStream } from '@/components/FakeLiveStream';
 import { useParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
+function useIsHydrated() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
 
 /**
  * Dynamic live room page — /live/[room]
@@ -11,13 +20,14 @@ import { useState, useEffect } from 'react';
  */
 export default function LiveRoomPage() {
   const params = useParams();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const hydrated = useIsHydrated();
 
   const rawRoom = typeof params?.room === 'string' ? params.room : 'michael';
   const memberId = rawRoom.replace(/^live_/, '');
 
-  if (!mounted) return null;
+  if (!hydrated) {
+    return <div className="min-h-screen bg-[rgb(10,10,15)]" />;
+  }
 
-  return <FakeLiveStream memberId={memberId} />;
+  return <FakeLiveStream memberId={memberId || 'michael'} />;
 }

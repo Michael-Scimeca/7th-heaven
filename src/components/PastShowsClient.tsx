@@ -117,7 +117,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
             <h1 className="text-[clamp(2rem,4vw,3rem)] font-bold uppercase tracking-tight text-[var(--text-color)] leading-tight mb-3">
-              Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
+              Past Shows Archive
             </h1>
             <p className="max-w-2xl font-medium">
               A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985.
@@ -169,9 +169,9 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg font-bold  uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+              className={`px-3 py-1.5 rounded-lg font-bold  uppercase transition-colors cursor-pointer ${selectedYear === "All"
                 ? "bg-[var(--color-accent)] text-white  "
-                : " bg-[#00000029]    text-white/70 hover:text-white border-0"
+                : " bg-[#00000029] text-white/70 hover:text-white border-0"
                 }`}
             >
               All Years

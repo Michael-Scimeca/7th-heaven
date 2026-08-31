@@ -522,7 +522,6 @@ export default function CruiseDashboard() {
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
-            <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
             <h1 className="text-2xl font-bold uppercase    text-black">Cruise Hub</h1>
             <p className="text-cyan-600 font-bold uppercase    mt-1">Exclusive Passenger Community</p>
           </div>
@@ -651,7 +650,7 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 selection:bg-cyan-500 selection:text-black">
+    <div className="site-container min-h-screen bg-transparent text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="flex items-start gap-5">
@@ -662,7 +661,7 @@ export default function CruiseDashboard() {
                   <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 !rounded-full bg-gradient-to-br from-cyan-600 to-purple-700 border-2 border-cyan-400/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
                   {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                 </div>
               )}
@@ -760,7 +759,6 @@ export default function CruiseDashboard() {
             <div className="h-fit min-w-0 max-w-full overflow-hidden">
               <div className="relative z-10 min-w-0 max-w-full">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
-                  <span className="text-3xl">📋</span>
                   <div>
                     <h2 className="font-bold uppercase  text-white">{guidelines.title}</h2>
                     <p className="text-purple-400font-bold uppercase    mt-0.5">{guidelines.subtitle}</p>
@@ -846,7 +844,7 @@ export default function CruiseDashboard() {
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
       <section
         id="itinerary"
-        className="py-16 md:py-24 w-full max-w-none px-0 overflow-x-clip"
+        className="pt-16 md:pt-24 w-full max-w-none px-0 overflow-x-clip"
         style={{
           position: "relative",
           left: "50%",

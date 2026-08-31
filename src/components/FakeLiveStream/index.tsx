@@ -1247,7 +1247,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
         {/* ── TOP BAR ── */}
         <div
-          className="shrink-0 flex items-center justify-between gap-2 site-container py-2"
+          className="shrink-0 flex items-center justify-between gap-2 site-container"
           style={{ backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
           {/* Left */}
@@ -1267,18 +1267,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
             {/* Stream identity — updates with active cam */}
             <div className="flex items-center gap-2 min-w-0">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-black font-bold shrink-0 transition-colors duration-300"
-                style={{ background: activeFeedCrew.gradient }}
-              >{activeFeedCrew.avatar}</div>
+              <div className="relative shrink-0">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center  font-bold shrink-0  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2 border-white/20"
+
+                >{activeFeedCrew.avatar}</div>
+                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[9px] font-bold uppercase text-purple-300 bg-purple-600/50 border border-purple-500/50 rounded-full leading-none shadow-md">
+                  Crew
+                </span>
+              </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-white/95 font-bold truncate">{activeFeedCrew.name} — {activeFeedCrew.cameraLabel}</span>
-                  <span
-                    className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg font-bold uppercase  shrink-0 bg-purple-600/20 border border-purple-500/35 text-purple-300"
-                  >
-                    CREW
-                  </span>
+
                 </div>
                 <p className="hidden sm:block">
                   7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}
@@ -1291,12 +1292,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           <div className="shrink-0 flex items-center gap-2">
             {/* Live Stream Push Alert Button — Restricted to Admin & Crew */}
             {(contextMember?.role === 'crew' || contextMember?.role === 'admin') && (
-              <button
-                type="button"
+              <FoolishShrimpButton
+                disabled={notifyingFans}
                 onClick={async () => {
+                  if (notifyingFans) return;
                   setNotifyingFans(true);
                   try {
-                    await fetch('/api/ntfy/push-live', {
+                    await fetch('/api/notifications/trigger', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
@@ -1314,31 +1316,34 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     setNotifyingFans(false);
                   }
                 }}
-                className={`flex items-center gap-1.5 font-bold uppercase  px-3 py-1.5 rounded-lg border transition-all duration-300 shadow-md ${notifySuccess ? 'bg-emerald-600 text-white border-emerald-400'
-                  : 'bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white border-white/25 shadow-[0_0_20px_rgba(217,70,239,0.5)] hover:scale-105'
-                  }`}
+                className="!py-1.5 !px-3 text-xs font-bold uppercase"
                 title="Broadcast push alert to all subscribed fans"
               >
-                <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
-                <span>
+                <span className="flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
                   {notifySuccess
                     ? "✓ Push Sent to Fans! 🔔"
                     : notifyingFans
                       ? "Connecting..."
                       : "BROADCASTING PUSH ALERT 🔔"}
                 </span>
-              </button>
+              </FoolishShrimpButton>
             )}
 
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
               className="flex items-center gap-2 font-bold uppercase  text-purple-300 hover:text-white transition-colors no-underline"
             >
-              <div
-                className="w-5 h-5 rounded-full flex items-center justify-center text-black font-bold shrink-0"
-                style={{ background: activeFeedCrew.gradient, fontSize: 8 }}
-              >
-                {activeFeedCrew.avatar}
+              <div className="relative shrink-0">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold shrink-0  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10 text-white"
+
+                >
+                  {activeFeedCrew.avatar}
+                </div>
+                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm text-[var(--color-accent)]">
+                  CREW
+                </span>
               </div>
               <span className="hidden sm:inline">{activeFeedCrew.name}</span>
               {flaggedMsgs.length > 0 && (
@@ -1451,7 +1456,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-white font-bold uppercase tracking-wider"
                     style={{ background: 'rgba(255,255,255,0.1)' }}
                   >
-                    OFFLINE
+                    Offline
                   </span>
                 )}
 
