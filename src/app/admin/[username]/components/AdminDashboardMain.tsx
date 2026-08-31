@@ -11894,14 +11894,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className={`relative z-10  flex flex-col group overflow-hidden`}>
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover: transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col gap-6">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
                     <div className="flex items-center gap-4">
                       <div>
-                        <h3 className="font-bold    tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
-                        <p className="font-bold uppercase    leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
+                        <h3 className="font-bold tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
+                        <p className="font-bold uppercase leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
-                    <div className="px-3 py-1.5 rounded-lg  flex items-center gap-2 mt-1">
+                    <div className="px-3 py-1.5 rounded-lg flex items-center gap-2 mt-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
                       <span className="text-[0.5rem] font-bold text-purple-400 uppercase">Unified Dispatch</span>
                     </div>

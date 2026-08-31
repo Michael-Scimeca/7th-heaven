@@ -511,7 +511,7 @@ export default function CruiseChat({
       className={`flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
     >
       {showHeader && (
-        <div className="py-2 px-3 flex items-center justify-between z-10 relative shrink-0">
+        <div className="py-3 px-3 flex items-center justify-between z-10 relative shrink-0 border-b border-white/10">
           <div className="flex items-center gap-2.5">
 
             <div>
