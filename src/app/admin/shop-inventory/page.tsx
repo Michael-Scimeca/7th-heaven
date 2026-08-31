@@ -170,14 +170,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border  border-white/10   text-white  hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border border-white/10  text-white  hover:text-white"}`}
+            className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029]    border  border-white/10   text-white  hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -407,7 +407,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           setLabel(e.target.value);
           markDirty();
         }}
-        className="col-span-2 sm:col-span-1 bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+        className="col-span-2 sm:col-span-1 bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white"
         placeholder="Label"
       />
       <div className="flex items-center gap-1">
@@ -420,7 +420,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setPrice(e.target.value);
             markDirty();
           }}
-          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+          className="w-full bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white"
         />
       </div>
       <div>
@@ -445,7 +445,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setLowStock(e.target.value);
             markDirty();
           }}
-          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+          className="w-full bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white"
           title="Low-stock threshold"
         />
       </div>
@@ -526,18 +526,18 @@ function AddVariantForm({
   };
 
   return (
-    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed border-white/10 rounded-lg p-3">
+    <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed  border-white/10  rounded-lg p-3">
       <div>
         <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Label</label>
-        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
+        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white w-24" />
       </div>
       <div>
         <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Price</label>
-        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
+        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white w-24" />
       </div>
       <div>
         <label className="block text-[12px] font-bold uppercase text-white/40 mb-1">Stock</label>
-        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-20" />
+        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#00000029] border  border-white/10  rounded px-2 py-1.5 text-white w-20" />
       </div>
       <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px] font-bold uppercase rounded-md">
         Add
@@ -612,7 +612,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
       <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between border-b  border-white/10  pb-4">
           <h2 className="text-white font-bold uppercase tracking-wide">Add Product</h2>
           <button type="button" onClick={onClose} className="text-white/40 hover:text-white text-lg font-bold p-1">
             ✕

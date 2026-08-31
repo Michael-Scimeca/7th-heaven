@@ -296,7 +296,7 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border  border-white/10  font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -310,7 +310,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border  border-white/10  font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -400,7 +400,7 @@ export default function AdminGatewayPage() {
                         className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                           : digit
                             ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                            : ' border-white/10  text-white/40 hover:border-white/40'
+                            : '  border-white/10   text-white/40 hover:border-white/40'
                           }`}
                       />
                     </div>

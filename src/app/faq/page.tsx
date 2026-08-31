@@ -246,7 +246,7 @@ export default function FAQPage() {
             );
           })
         ) : (
-          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-8">
+          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-8">
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
@@ -259,7 +259,7 @@ export default function FAQPage() {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
+      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
         <div>
           <h4 className="text-white font-bold mb-1">Still need help?</h4>
           <p className="font-medium">

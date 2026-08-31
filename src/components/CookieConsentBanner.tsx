@@ -72,7 +72,7 @@ export default function CookieConsentBanner() {
         }`}
       aria-label="Cookie consent"
     >
-      <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border  border-white/10  shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Purple accent line */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
 
@@ -101,7 +101,7 @@ export default function CookieConsentBanner() {
 
           {/* Expandable custom preferences */}
           {expanded && (
-            <div className="mb-4 space-y-2 border border-white/10 p-4 bg-white/[0.02]">
+            <div className="mb-4 space-y-2 border  border-white/10  p-4 bg-white/[0.02]">
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>

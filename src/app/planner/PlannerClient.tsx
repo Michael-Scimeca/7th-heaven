@@ -177,7 +177,7 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase tracking-[0.18em] transition-colors rounded-lg cursor-pointer"
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border  border-white/10  text-white font-bold uppercase tracking-[0.18em] transition-colors rounded-lg cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -245,7 +245,7 @@ export default function PlannerClient() {
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
                     <div key={step.label} className="flex items-center gap-4 relative">
-                      <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10  border-white/10 '}`}>
+                      <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10   border-white/10  '}`}>
                         {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
                       <span className={`font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
@@ -311,7 +311,7 @@ export default function PlannerClient() {
                 </div>
                 <div className="input-glow-border rounded-xl">
                   <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                    className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                    className="w-full bg-[#00000029] border  border-white/10  px-3 py-2.5 text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
                 </div>
                 <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50">
@@ -349,7 +349,7 @@ export default function PlannerClient() {
                                 defaultValue={item.val || ''}
                                 autoFocus
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
-                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-white focus:border-purple-500 outline-none"
+                                className="flex-1 bg-white/10 border  border-white/10  px-2 py-1 rounded text-white focus:border-purple-500 outline-none"
                               />
                               <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase  cursor-pointer px-1.5">Save</button>
                               <button aria-label="Action button" type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 font-bold uppercase  cursor-pointer px-1">✕</button>
@@ -386,11 +386,11 @@ export default function PlannerClient() {
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase  transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase  transition-colors cursor-pointer bg-[#00000029]  border-white/10  text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase  transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border font-bold uppercase  transition-colors cursor-pointer bg-[#00000029]  border-white/10  text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}

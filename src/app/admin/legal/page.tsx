@@ -370,7 +370,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold uppercase  text-white/80 hover:text-white transition-colors text-center"
+              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border  border-white/10  rounded-lg font-bold uppercase  text-white/80 hover:text-white transition-colors text-center"
             >
               ← Back to Admin
             </Link>
@@ -397,7 +397,7 @@ export default function AdminLegalPage() {
                   onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
-                    : `border-white/10 bg-white/[0.02] hover: border-white/10  hover: bg-[#00000029]    text-white/70`
+                    : ` border-white/10  bg-white/[0.02] hover:  border-white/10   hover: bg-[#00000029]    text-white/70`
                     }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -419,7 +419,7 @@ export default function AdminLegalPage() {
             })}
 
             {/* Legal Disclaimer Box */}
-            <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
+            <div className="mt-8 p-5 bg-white/[0.02] border  border-white/10  rounded-lg ">
               <span className="  text-[0.9rem]  font-bold uppercase    text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
               <p className="leading-relaxed">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
@@ -431,7 +431,7 @@ export default function AdminLegalPage() {
           <div className={`border rounded-lg p-8 lg:p-10 transition-colors duration-300 bg-white/[0.01] ${active.borderColor} shadow-2xl`}>
 
             {/* Active Header Info */}
-            <div className="flex items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10 flex-wrap">
+            <div className="flex items-center justify-between gap-4 mb-6 pb-6 border-b  border-white/10  flex-wrap">
               <div className="flex items-center gap-4">
                 <div className={`p-4 rounded-lg bg-[#00000029] ${active.color} shrink-0`}>
                   {active.icon}
@@ -471,7 +471,7 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02]   border-white/10  '
+                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02]    border-white/10   '
                       : 'bg-rose-950/10 border-rose-500/30'
                       }`}
                   >
@@ -501,14 +501,14 @@ export default function AdminLegalPage() {
                     </div>
 
                     {/* Developer Action & System Verification Proof */}
-                    <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="mt-4 pt-3.5 border-t  border-white/10  flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex items-start gap-2">
                         <span className="text-emerald-400 font-bold shrink-0">🛠️ DEV ACTION:</span>
                         <p className="leading-relaxed">{req.actionItem}</p>
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="px-2.5 py-1 bg-[#00000029] border border-white/10 text-purple-300    text-[10px] rounded-lg shrink-0 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-[#00000029] border  border-white/10  text-purple-300    text-[10px] rounded-lg shrink-0 flex items-center gap-1">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

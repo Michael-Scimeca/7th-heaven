@@ -471,8 +471,8 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
-        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin" />
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border  border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+        <div className="w-6 h-6 border-2  border-white/10  border-t-cyan-400 rounded-lg animate-spin" />
         <p className="font-bold uppercase    mt-3">Loading chat...</p>
       </div>
     );
@@ -561,7 +561,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border border-white/10 transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border  border-white/10  transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -618,7 +618,7 @@ export default function CruiseChat({
                     const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
                     const isBan = msg.content.includes('banned');
                     const bgClass = isWarning
-                      ? "bg-purple-600/10 border-white/20 text-purple-100"
+                      ? "bg-purple-600/10  border-white/10  text-purple-100"
                       : isBan
                         ? "bg-red-500/10 border-red-500/20 text-red-200"
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";
@@ -655,11 +655,11 @@ export default function CruiseChat({
                           <span className={`font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className="text-[12px] font-bold uppercase px-2 py-1 rounded-full border border-white/20 leading-none">
+                          <span className="text-[12px] font-bold uppercase px-2 py-1 rounded-full border  border-white/10  leading-none">
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[12px] font-bold uppercase border border-white/20 px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[12px] font-bold uppercase border  border-white/10  px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
@@ -696,7 +696,7 @@ export default function CruiseChat({
 
                       {
                         isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border  border-white/10  rounded-lg p-1 z-20 shadow-lg">
                             <button
                               aria-label="Warn User"
                               onClick={() => handleWarn(msg.sender_name)}
@@ -792,7 +792,7 @@ export default function CruiseChat({
 
           {
             isArchived ? (
-              <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
+              <div className="w-full bg-[var(--color-bg-card)] border  border-white/10  px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
                 <span>🔒</span> This cruise chat has been archived.
               </div>
             ) : (

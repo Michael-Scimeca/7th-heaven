@@ -1198,7 +1198,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
       <button aria-label="Action button"
         onClick={() => setExpanded(true)}
         className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
-          : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+          : " border-white/10  hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
           }`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1223,7 +1223,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <span className={`font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
-            : "bg-black/50  border-white/10  text-white/80"
+            : "bg-black/50   border-white/10   text-white/80"
             }`}>
             ▶ Live Preview
           </span>
@@ -1251,7 +1251,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
               </h3>
             </div>
             {/* Image */}
-            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "  border-white/10  "}`}>
+            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "   border-white/10   "}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized
                 src={src}
@@ -1274,7 +1274,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
   const isPurple = !!f.highlight;
 
   return (
-    <div className={`group relative flex flex-col border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover: border-white/10 "}`}>
+    <div className={`group relative flex flex-col border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:  border-white/10  "}`}>
       {/* accent top line */}
       <div className={`h-px w-full ${isPurple ? "bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent" : "bg-gradient-to-r from-white/10 to-transparent"}`} />
 
@@ -1343,7 +1343,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 pt-1">
           {f.tags.map((tag) => (
-            <span key={tag} className={`text-base px-3 py-1 rounded-lg font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : " bg-[#00000029]    border-white/10 text-white/40"}`}>
+            <span key={tag} className={`text-base px-3 py-1 rounded-lg font-medium border ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/25 text-[#c084fc]" : " bg-[#00000029]     border-white/10  text-white/40"}`}>
               {tag}
             </span>
           ))}
@@ -1393,7 +1393,7 @@ export default function FeaturesPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
-              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40 font-semibold">{p}</span>
+              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border  border-white/10  text-white/40 font-semibold">{p}</span>
             ))}
           </div>
 
@@ -1401,8 +1401,8 @@ export default function FeaturesPage() {
             <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
             <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">View All Pages ↓</a>
           </div>
         </div>
@@ -1439,7 +1439,7 @@ export default function FeaturesPage() {
             </div>
 
             {/* Outer chrome */}
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
@@ -1567,7 +1567,7 @@ export default function FeaturesPage() {
 
                   {/* Input */}
                   <div className="px-3 pb-3">
-                    <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2">
+                    <div className="flex items-center gap-2 bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2">
                       <span className="text-white/20 flex-1">Say something...</span>
                       <button aria-label="Action button" className="text-[var(--color-accent)] font-bold uppercase">Send</button>
                     </div>
@@ -1591,7 +1591,7 @@ export default function FeaturesPage() {
               <span className="text-white/20">— what crew sees at /crew</span>
             </div>
 
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.10)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.10)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
@@ -1605,7 +1605,7 @@ export default function FeaturesPage() {
                 {/* Col 1: Video preview + controls */}
                 <div className="flex flex-col gap-4">
                   {/* Camera preview */}
-                  <div className="overflow-hidden border border-white/10 relative aspect-video bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
+                  <div className="overflow-hidden border  border-white/10  relative aspect-video bg-gradient-to-br from-[#1a0533] via-[#0d0d1a] to-black">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[var(--color-accent)] opacity-20 blur-[40px] rounded-lg" />
                     {/* Performer */}
                     <div className="absolute inset-0 flex items-center justify-center flex-col opacity-80">
@@ -1636,10 +1636,10 @@ export default function FeaturesPage() {
 
                   {/* A/V controls */}
                   <div className="flex gap-2">
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border  border-white/10  rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       🎤 Mic On
                     </button>
-                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
+                    <button aria-label="Action button" className="flex-1 py-2.5 bg-[#00000029] border  border-white/10  rounded-lg text-white font-bold flex items-center justify-center gap-2 hover:bg-white/10 cursor-pointer">
                       📹 Cam On
                     </button>
                   </div>
@@ -1685,7 +1685,7 @@ export default function FeaturesPage() {
                   <div>
                     <div className="text-white/30 mb-1.5 font-bold uppercase   ">📌 Pin Announcement</div>
                     <div className="flex gap-2">
-                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white" />
+                      <input aria-label="Input field" readOnly value="Merch drop in 5 min! 🔥" className="flex-1 bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2 text-white" />
                       <button aria-label="Action button" className="px-3 py-2 bg-[var(--color-accent)] rounded-lg text-white font-bold cursor-pointer">Pin</button>
                     </div>
                   </div>
@@ -1741,12 +1741,12 @@ export default function FeaturesPage() {
                       <span className="text-white font-bold uppercase tracking-wide">Merch Flash Drop</span>
                     </div>
                     <div className="space-y-2 mb-3">
-                      <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                      <input aria-label="Input field" readOnly value="7th Heaven Tour Tee — Limited" className="w-full bg-black/40 border  border-white/10  rounded-lg px-3 py-2 text-white" />
                       <div className="grid grid-cols-2 gap-2">
-                        <input aria-label="Input field" readOnly value="$35.00" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
-                        <input aria-label="Input field" readOnly value="Stock: 50" className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                        <input aria-label="Input field" readOnly value="$35.00" className="bg-black/40 border  border-white/10  rounded-lg px-3 py-2 text-white" />
+                        <input aria-label="Input field" readOnly value="Stock: 50" className="bg-black/40 border  border-white/10  rounded-lg px-3 py-2 text-white" />
                       </div>
-                      <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                      <input aria-label="Input field" readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border  border-white/10  rounded-lg px-3 py-2 text-white" />
                     </div>
                     <button aria-label="Action button" className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black font-bold uppercase    transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
@@ -1760,7 +1760,7 @@ export default function FeaturesPage() {
                       <span className="text-white/70 font-bold uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 mb-2">Blast to all subscribers within 50mi</div>
-                    <button aria-label="Action button" className="w-full py-2 bg-[#00000029] border border-white/10 rounded-lg text-white/50 font-bold uppercase    hover:bg-white/10 transition-colors cursor-pointer">
+                    <button aria-label="Action button" className="w-full py-2 bg-[#00000029] border  border-white/10  rounded-lg text-white/50 font-bold uppercase    hover:bg-white/10 transition-colors cursor-pointer">
                       📲 Send Live Alert SMS
                     </button>
                   </div>
@@ -1771,7 +1771,7 @@ export default function FeaturesPage() {
             {/* Caption */}
             <div className="mt-4 flex flex-wrap gap-3">
               {["One-Click LiveKit Broadcast", "Chat Moderation + Mute Controls", "Live Raffle Engine", "Merch Flash Drop", "Batch Emoji Blasts", "Pinned Announcements", "Real-Time Viewer Stats", "SMS Fan Alerts"].map(t => (
-                <span key={t} className="px-2.5 py-1 rounded-lg bg-[#00000029] border border-white/10 text-white/40">{t}</span>
+                <span key={t} className="px-2.5 py-1 rounded-lg bg-[#00000029] border  border-white/10  text-white/40">{t}</span>
               ))}
             </div>
           </div>
@@ -1783,7 +1783,7 @@ export default function FeaturesPage() {
               <span className="text-white/20">— what admins see at /admin</span>
             </div>
 
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.08)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.08)]">
               {/* Browser bar */}
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
@@ -1913,7 +1913,7 @@ export default function FeaturesPage() {
                           { bg: "from-[#001a2a] via-[#002d3d] to-[#00080d]", label: "MelM · Wrig", ok: true, glow: "#3b82f6" },
                           { bg: "from-[#1a1500] via-[#2d2200] to-[#0d0900]", label: "superfan99", ok: true, glow: "#eab308" },
                         ].map((p, i) => (
-                          <div key={p.label} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
+                          <div key={p.label} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? ' border-white/10  hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
                             <div className="absolute inset-0">
                               <div className="absolute top-0 left-1/3 w-6 h-12 rounded-lg opacity-50" style={{ background: p.glow, filter: 'blur(8px)' }} />
                               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40">
@@ -1994,9 +1994,9 @@ export default function FeaturesPage() {
                           <span className="text-white/70 font-bold uppercase   ">SMS Blast</span>
                           <span className="ml-auto text-white/25">2,847 subs</span>
                         </div>
-                        <textarea aria-label="Text input" readOnly rows={2} value={"🔥 7th Heaven LIVE tonight @ House of Blues!\nDoors 7pm · Show 8pm · Merch drop mid-set 🎸"} className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/50 resize-none" />
+                        <textarea aria-label="Text input" readOnly rows={2} value={"🔥 7th Heaven LIVE tonight @ House of Blues!\nDoors 7pm · Show 8pm · Merch drop mid-set 🎸"} className="w-full bg-black/40 border  border-white/10  rounded-lg px-3 py-2 text-white/50 resize-none" />
                         <div className="flex gap-2">
-                          <select aria-label="Select option" className="flex-1 bg-black/40 border border-white/10 rounded-lg px-2 py-1.5 text-white/40">
+                          <select aria-label="Select option" className="flex-1 bg-black/40 border  border-white/10  rounded-lg px-2 py-1.5 text-white/40">
                             <option>All 2,847 subscribers</option>
                             <option>Within 50mi of venue</option>
                             <option>Gold + Platinum fans</option>
@@ -2059,10 +2059,10 @@ export default function FeaturesPage() {
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-white/10 text-[var(--color-accent)] font-bold uppercase    rounded-lg">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border  border-white/10  text-[var(--color-accent)] font-bold uppercase    rounded-lg">⭐ Profile & Show Countdown</span>
               <span className="text-white/20">— personalized identity + next show timer</span>
             </div>
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
@@ -2080,7 +2080,7 @@ export default function FeaturesPage() {
               <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase    rounded-lg">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20">— upcoming dates + location-based notifications</span>
             </div>
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
@@ -2098,7 +2098,7 @@ export default function FeaturesPage() {
               <span className="px-3 py-1 bg-purple-600/15 border border-purple-500/30 text-purple-300 font-bold uppercase    rounded-lg">🎸 Show Memories & Referrals</span>
               <span className="text-white/20">— post-show engagement + fan-to-fan growth</span>
             </div>
-            <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
+            <div className="border  border-white/10  overflow-hidden shadow-[0_0_80px_rgba(147, 51, 234,0.08)]">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-bg-card)] border-b border-white/[0.06]">
                 <span className="w-3 h-3 rounded-lg bg-red-500/60" />
                 <span className="w-3 h-3 rounded-lg bg-purple-600/60" />
@@ -2139,7 +2139,7 @@ export default function FeaturesPage() {
               { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
-              { color: " bg-[#00000029]    border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
+              { color: " bg-[#00000029]     border-white/10  text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
             ].map(l => (
               <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border font-bold ${l.color}`}>
                 <span className={`w-2 h-2 rounded-lg ${l.dot}`} />
@@ -2232,7 +2232,7 @@ export default function FeaturesPage() {
               public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
               login: "bg-purple-600/10  border-purple-500/25  text-purple-300",
               admin: "bg-blue-500/10   border-blue-500/25   text-blue-400",
-              dev: " bg-[#00000029]          border-white/10      text-white/30",
+              dev: " bg-[#00000029]           border-white/10       text-white/30",
             };
             const accessLabel: Record<string, string> = {
               public: "Public",
@@ -2322,7 +2322,7 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03]  border-white/10  text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
                   <span className={`ml-1 px-1.5 py-0.5 rounded-lg font-bold ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029]    text-white/30"}`}>{count}</span>
                 </button>
@@ -2346,8 +2346,8 @@ export default function FeaturesPage() {
           <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover: border-white/10 hover:bg-white/[0.04] transition-colors cursor-default">
-                <div className="w-10 h-10 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
+              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:  border-white/10  hover:bg-white/[0.04] transition-colors cursor-default">
+                <div className="w-10 h-10 rounded-lg bg-[#00000029] border  border-white/10  flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-bold uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
                   <p className="leading-relaxed mt-0.5">{t.desc}</p>
@@ -2377,7 +2377,7 @@ export default function FeaturesPage() {
               { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
-              { color: " bg-[#00000029]    border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
+              { color: " bg-[#00000029]     border-white/10  text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
             ].map(l => (
               <div key={l.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border font-bold ${l.color}`}>
                 <span className={`w-2 h-2 rounded-lg ${l.dot}`} />
@@ -2469,7 +2469,7 @@ export default function FeaturesPage() {
               public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
               login: "bg-purple-600/10 border-purple-500/25 text-purple-300",
               admin: "bg-blue-500/10 border-blue-500/25 text-blue-400",
-              dev: " bg-[#00000029]    border-white/10 text-white/30",
+              dev: " bg-[#00000029]     border-white/10  text-white/30",
             };
             const accessLabel: Record<string, string> = {
               public: "Public",
@@ -2561,10 +2561,10 @@ export default function FeaturesPage() {
             >
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

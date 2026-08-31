@@ -664,7 +664,7 @@ export default function VinylHeroPlayer({
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">
-                    <div className="flex items-center gap-2 bg-black /60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 shadow w-full">
+                    <div className="flex items-center gap-2 bg-black /60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border  border-white/10  shadow w-full">
                       <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                       </button>
@@ -727,7 +727,7 @@ export default function VinylHeroPlayer({
                         }}
                       >
                         {/* Track Background */}
-                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
+                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
                           <div
                             className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                             style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
@@ -798,7 +798,7 @@ export default function VinylHeroPlayer({
                   <div className="pointer-events-auto px-1 mt-2">
                     <div className="relative w-full h-4 flex items-center cursor-pointer group">
                       {/* Track Background */}
-                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
+                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
                         {/* Filled Progress Gradient Bar */}
                         <div
                           className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_10px_rgba(217,70,239,0.8)]"
@@ -838,9 +838,9 @@ export default function VinylHeroPlayer({
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative border border-white/10 h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
+              <div className="relative border  border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
                 {/* Always-Visible Glowing Purple Scrollbar Indicator Track */}
-                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10 rounded-lg border border-white/10 overflow-hidden pointer-events-none z-50">
+                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10 rounded-lg border  border-white/10  overflow-hidden pointer-events-none z-50">
                   <div
                     className="w-full rounded-lg bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-75"
                     style={{
@@ -849,7 +849,7 @@ export default function VinylHeroPlayer({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap px-4">
+                <div className="flex items-center justify-between mb-1.5 pb-1 border-b  border-white/10  whitespace-nowrap px-4">
                   <span className="text-[12px] font-bold uppercase  text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>

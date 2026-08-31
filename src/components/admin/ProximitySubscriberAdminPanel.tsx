@@ -164,7 +164,7 @@ export default function ProximitySubscriberAdminPanel() {
         <button
           type="button"
           onClick={fetchSubscribers}
-          className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border border-white/10 flex items-center gap-1.5"
+          className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border  border-white/10  flex items-center gap-1.5"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Refresh</span>
@@ -218,7 +218,7 @@ export default function ProximitySubscriberAdminPanel() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-[#00000029] font-bold uppercase">
+            <tr className="border-b  border-white/10  bg-[#00000029] font-bold uppercase">
               <th className="py-3.5 px-4">Fan / Device</th>
               <th className="py-3.5 px-4">Zip Code</th>
               <th className="py-3.5 px-4">Radius</th>

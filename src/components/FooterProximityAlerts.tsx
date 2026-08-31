@@ -205,7 +205,7 @@ export default function FooterProximityAlerts() {
 
   return (
     <div className="w-full relative z-10">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b  border-white/10  relative z-10">
         <div className="flex items-center gap-3">
 
           <div>
@@ -307,7 +307,7 @@ export default function FooterProximityAlerts() {
         </span>
       </div>
 
-      <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
+      <div className="pt-5 border-t  border-white/10  flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
           <div className="flex items-center gap-3 shrink-0 flex-nowrap">
             <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold uppercase  whitespace-nowrap shrink-0">
@@ -321,7 +321,7 @@ export default function FooterProximityAlerts() {
             >
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
-                  <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                  <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block shrink-0" />
                 ) : status === "saved" ? (
                   <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Saved!</span></>
                 ) : (
@@ -339,7 +339,7 @@ export default function FooterProximityAlerts() {
           >
             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
               {status === "saving" ? (
-                <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block shrink-0" />
               ) : status === "saved" ? (
                 <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Preferences Saved!</span></>
               ) : (

@@ -160,7 +160,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="font-bold uppercase    text-white bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
+          <span className="font-bold uppercase    text-white bg-[#00000029] border  border-white/10  backdrop-blur-[16px] px-3 py-1 rounded-lg border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
@@ -170,7 +170,7 @@ export default function ProximityPanel() {
         </p>
 
         {/* Notification Toggle */}
-        <div className="flex items-center justify-between py-3 border-b border-white/10 mb-4">
+        <div className="flex items-center justify-between py-3 border-b  border-white/10  mb-4">
           <div>
             <p className="font-bold">Enable Proximity Notifications</p>
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
@@ -243,7 +243,7 @@ export default function ProximityPanel() {
               <span className="text-white/40 animate-pulse">Checking nearby shows…</span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
+            <div className="py-8 flex flex-col items-center rounded-lg border  border-white/10  bg-[#00000029] border-dashed">
               <p className="font-bold">No shows in your area yet.</p>
               <p className="mt-1">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
@@ -252,7 +252,7 @@ export default function ProximityPanel() {
               {nearbyShows.map(show => (
                 <div
                   key={show.id}
-                  className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group"
+                  className="p-4 bg-[#00000029] border  border-white/10  hover:border-blue-500/40 transition-colors group"
                 >
                   <div className="flex items-center justify-between">
                     <button
@@ -280,7 +280,7 @@ export default function ProximityPanel() {
                       type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2 font-bold uppercase    rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white/10 text-white   border-white/10   hover:bg-blue-500 hover:text-black hover:border-blue-500"
+                        : "bg-white/10 text-white    border-white/10    hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}
                     >
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}

@@ -1336,7 +1336,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             >
               <div className="relative shrink-0">
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold shrink-0  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10 text-white"
+                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold shrink-0  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border  border-white/10  text-white"
 
                 >
                   {activeFeedCrew.avatar}
@@ -1403,7 +1403,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div className="w-16 h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00000029] border  border-white/10  flex items-center justify-center mb-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                       <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -1493,7 +1493,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] transition-opacity duration-300 ease-out">
                     <div
-                      className="flex items-center gap-2 px-3 py-1.5 text-black font-bold uppercase  border border-white/10 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                      className="flex items-center gap-2 px-3 py-1.5 text-black font-bold uppercase  border  border-white/10  shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
                         background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
                         backdropFilter: 'blur(8px)',
@@ -2127,7 +2127,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-1.5 text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full bg-[#00000029] border  border-white/10  rounded-lg px-3 py-1.5 text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <button aria-label="Action button"
@@ -2517,7 +2517,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
                       }}
-                      className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border border-white/10 transition-all cursor-pointer"
+                      className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border  border-white/10  transition-all cursor-pointer"
                     >
                       Sign In to Account
                     </button>
@@ -2585,7 +2585,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
-                                  : 'bg-white/10 border   border-white/10   hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
+                                  : 'bg-white/10 border    border-white/10    hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >

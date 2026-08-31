@@ -18,7 +18,7 @@ import dynamic from "next/dynamic";
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 font-bold uppercase   ">
+    <div className="animate-pulse bg-white/[0.02] border  border-white/10  p-8 text-center text-white/40 font-bold uppercase   ">
       Loading Upload Form...
     </div>
   ),
@@ -275,7 +275,7 @@ export default function FansPage() {
                     Viewed & Approved by Admins & Crew only
                   </p>
                 </div>
-                <span className="ml-auto bg-[#00000029] text-white px-3 py-1    rounded-lg border border-white/10 font-bold">
+                <span className="ml-auto bg-[#00000029] text-white px-3 py-1    rounded-lg border  border-white/10  font-bold">
                   {pendingPhotos.length} Pending
                 </span>
               </div>
@@ -289,10 +289,10 @@ export default function FansPage() {
                   return (
                     <div
                       key={photo.id}
-                      className="p-4 bg-[#e1e6ff15] border border-white/10 rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-lg backdrop-blur-md max-w-[520px] w-full"
+                      className="p-4 bg-[#e1e6ff15] border  border-white/10  rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-lg backdrop-blur-md max-w-[520px] w-full"
                     >
                       {/* Thumbnail twice as big (w-56 h-56 / 224px) */}
-                      <div className="relative w-56 h-56 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/40">
+                      <div className="relative w-56 h-56 shrink-0 rounded-xl overflow-hidden border  border-white/10  bg-black/40">
                         {isVideo ? (
                           <video
                             src={photo.src}
@@ -388,7 +388,7 @@ export default function FansPage() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                  <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase    px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                  <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase    px-3 py-1 rounded-lg border  border-white/10  bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
                     Featured Moment
                   </span>
                   <h3 className="font-bold uppercase tracking-tight text-purple-300 leading-none drop-shadow-md">
@@ -424,7 +424,7 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r border-white/10 overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full"
+                    className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r  border-white/10  overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full"
                   >
                     <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
                       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -511,7 +511,7 @@ export default function FansPage() {
           ) : (
             /* Empty state */
             <div className="text-center py-32">
-              <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto mb-8 border  border-white/10  flex items-center justify-center">
                 <svg
                   width="32"
                   height="32"
@@ -549,7 +549,7 @@ export default function FansPage() {
               >
                 <button aria-label="Close"
                   onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20"
+                  className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border  border-white/10  transition-colors cursor-pointer z-20"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -571,7 +571,7 @@ export default function FansPage() {
                     className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
                   />
                 )}
-                <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
+                <div className="mt-4 flex items-start justify-between gap-4 border-t  border-white/10  pt-4">
                   <div>
                     <p className="font-bold text-white text-lg">
                       {selectedPhoto.name}

@@ -243,7 +243,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-bold uppercase  rounded-lg border border-white/20 transition-colors cursor-pointer"
+            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-bold uppercase  rounded-lg border  border-white/10  transition-colors cursor-pointer"
           >
             Reset Defaults
           </button>

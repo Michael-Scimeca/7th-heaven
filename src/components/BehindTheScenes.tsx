@@ -104,7 +104,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </button>
 
               {/* Director credit */}
-              <div className="mt-10 border-t border-white/10 pt-6">
+              <div className="mt-10 border-t  border-white/10  pt-6">
                 <p className="font-bold tracking-[0.15em] uppercase mb-1">
                   Directed by
                 </p>

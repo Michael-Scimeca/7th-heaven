@@ -80,7 +80,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
   };
 
   return (
-    <div className="w-full max-w-xl bg-black/75backdrop-blur-[18px] border border-white/10 rounded-lg p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
+    <div className="w-full max-w-xl bg-black/75backdrop-blur-[18px] border  border-white/10  rounded-lg p-5 md:p-6 shadow-[0_16px_50px_rgba(0,0,0,0.85)] relative overflow-hidden group">
 
       {/* Background Subtle Accent Glow */}
       <div className="absolute -right-20 -top-20 w-64 h-64 bg-[var(--color-accent)]/20 rounded-lg blur-3xl pointer-events-none group-hover:bg-[var(--color-accent)]/30 transition-colors duration-700" />
@@ -116,7 +116,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
         <button
           type="button"
           onClick={togglePlay}
-          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border border-white/10 shrink-0 cursor-pointer group/art border-0 p-0 text-left bg-transparent"
+          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border  border-white/10  shrink-0 cursor-pointer group/art border-0 p-0 text-left bg-transparent"
         >
           <Image
             src={youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : "/images/hero-banner.png"}
@@ -168,7 +168,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       </div>
 
       {/* Platform & Store Action Buttons */}
-      <div className="pt-3 border-t border-white/10 grid grid-cols-3 gap-2">
+      <div className="pt-3 border-t  border-white/10  grid grid-cols-3 gap-2">
 
         {/* Spotify Link */}
         <a
@@ -188,7 +188,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           href={appleMusicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1.5 py-2.5 px-3 !bg-black hover:!bg-zinc-900 border border-white/10 !text-white font-bold uppercase  transition-colors shadow-md group/btn"
+          className="flex items-center justify-center gap-1.5 py-2.5 px-3 !bg-black hover:!bg-zinc-900 border  border-white/10  !text-white font-bold uppercase  transition-colors shadow-md group/btn"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 group-hover/btn:scale-110 transition-transform">
             <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.7.263C18.96.11 18.21.06 17.46.04a69.69 69.69 0 00-1.4-.03L6.06.01c-.5 0-1 .01-1.5.04C3.82.07 3.08.12 2.35.27a5.1 5.1 0 00-1.89.63A4.89 4.89 0 00.28 2.26a5.1 5.1 0 00-.23.55A9.13 9.13 0 000 5.87v12.26c.05.86.16 1.69.44 2.49.41 1.17 1.18 2.05 2.27 2.63.62.33 1.29.5 1.99.58.79.09 1.58.11 2.38.11h10.2c.67 0 1.34-.02 2-.07a7.54 7.54 0 001.64-.29 4.84 4.84 0 002.53-1.84 4.98 4.98 0 00.75-1.79c.22-.77.3-1.55.33-2.35.04-.68.04-1.36.04-2.04V8.16c0-.69-.01-1.37-.04-2.04zM16.87 17c0 .18-.03.36-.09.53a1.08 1.08 0 01-.83.7c-.32.06-.64.1-.96.14a2.72 2.72 0 01-.67-.01c-.57-.08-1.01-.44-1.13-1-.07-.3-.05-.6.03-.89.15-.54.56-.87 1.08-.99.26-.06.53-.1.79-.16.22-.05.34-.17.37-.4V10.6a.54.54 0 00-.02-.15.27.27 0 00-.22-.2c-.07-.02-.14-.02-.22-.01l-4.6.93c-.09.02-.18.04-.26.08-.12.06-.18.16-.19.29-.01.07-.01.14-.01.22v7.48c0 .26-.04.51-.13.75-.14.4-.43.66-.82.79-.29.1-.59.15-.89.18-.35.03-.69.03-1.03-.04-.59-.12-1-.51-1.12-1.1-.08-.37-.05-.74.08-1.09.18-.48.56-.78 1.04-.91.26-.07.52-.11.78-.17.2-.04.33-.16.36-.36.01-.07.01-.14.01-.21V8.6c0-.22.02-.43.07-.65a1.1 1.1 0 01.78-.83c.18-.06.37-.1.56-.13l5.33-1.08c.26-.05.52-.1.79-.12.36-.03.59.16.65.52.01.1.02.2.02.3V17z" />
@@ -200,7 +200,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
         {buyUrl.startsWith("/") ? (
           <Link
             href={buyUrl}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white/10 hover:bg-white/20 border border-white/10 !text-white font-bold uppercase  transition-colors shadow-md group/btn"
+            className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white/10 hover:bg-white/20 border  border-white/10  !text-white font-bold uppercase  transition-colors shadow-md group/btn"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 group-hover/btn:scale-110 transition-transform">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -214,7 +214,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             href={buyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white/10 hover:bg-white/20 border border-white/10 !text-white font-bold uppercase  transition-colors shadow-md group/btn"
+            className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white/10 hover:bg-white/20 border  border-white/10  !text-white font-bold uppercase  transition-colors shadow-md group/btn"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 group-hover/btn:scale-110 transition-transform">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />

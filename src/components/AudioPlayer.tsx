@@ -373,7 +373,7 @@ export default function AudioPlayerSection() {
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
-                    <div className="relative w-7 h-7 shrink-0 bg-[#00000029] border border-white/10 rounded overflow-hidden">
+                    <div className="relative w-7 h-7 shrink-0 bg-[#00000029] border  border-white/10  rounded overflow-hidden">
                       <Image src={album.image} alt={album.title} fill sizes="28px" style={{ objectFit: 'cover' }} />
                     </div>
                   )}
@@ -512,7 +512,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden   ">
+        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r  border-white/10  pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden   ">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -526,7 +526,7 @@ export default function AudioPlayerSection() {
                 placeholder="Search 700+ songs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg px-4 py-2.5 pl-9 text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
+                className="w-full bg-black/40 backdrop-blur-xl border  border-white/10  rounded-lg px-4 py-2.5 pl-9 text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
               />
               {searchQuery && (
                 <button aria-label="Clear search"
@@ -578,9 +578,9 @@ export default function AudioPlayerSection() {
             {/* Middle Tracklist Column */}
             <div className="flex-1 relative flex flex-col justify-between  self-stretch h-full min-h-full overflow-hidden min-w-0 bg-[#00000029] ">
               {/* Tablet & Mobile Album Header Bar */}
-              <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
+              <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b  border-white/10  shrink-0 z-20">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border  border-white/10  shrink-0">
                     {activeAlbum?.image ? (
                       <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
                     ) : (
@@ -598,7 +598,7 @@ export default function AudioPlayerSection() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-lg px-2.5 py-1.5 text-white placeholder:text-white/40 outline-none"
+                    className="w-full bg-black/40 border  border-white/10  rounded-lg px-2.5 py-1.5 text-white placeholder:text-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -708,7 +708,7 @@ export default function AudioPlayerSection() {
               data-lenis-prevent-wheel="true"
               data-lenis-prevent-touch="true"
               onWheel={(e) => e.stopPropagation()}
-              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40   "
+              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l  border-white/10  pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40   "
               style={{ overscrollBehavior: "contain" }}
             >
 
@@ -728,7 +728,7 @@ export default function AudioPlayerSection() {
               </div>
 
               {/* Album cover thumbnail container */}
-              <div className="relative z-[2] w-[100px] h-[100px] border border-white/10 rounded-sm mb-3 flex items-center justify-center bg-[#00000029] overflow-hidden shrink-0">
+              <div className="relative z-[2] w-[100px] h-[100px] border  border-white/10  rounded-sm mb-3 flex items-center justify-center bg-[#00000029] overflow-hidden shrink-0">
                 {activeAlbum?.image ? (
                   <Image
                     src={activeAlbum.image}
@@ -793,7 +793,7 @@ export default function AudioPlayerSection() {
                     )}
 
                     {/* Buy / Stream Buttons */}
-                    <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2 w-full">
+                    <div className="pt-4 border-t  border-white/10  mt-6 flex flex-col gap-2 w-full">
                       {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
                         <CosmicRadialButton
                           icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>}
@@ -849,7 +849,7 @@ export default function AudioPlayerSection() {
           </div>
 
           {/* --- PLAY CONTROLS STRIP (EXTENDS ON TABLET, CONFINED TO MIDDLE COLUMN ON DESKTOP) --- */}
-          <div className="bg-black/50 backdrop-blur-xl border-t border-white/10 h-[54px] flex items-center px-4 md:px-8 gap-3 sm:gap-4 relative w-full xl:w-[calc(100%-clamp(220px,22vw,350px))] shrink-0 z-30">
+          <div className="bg-black/50 backdrop-blur-xl border-t  border-white/10  h-[54px] flex items-center px-4 md:px-8 gap-3 sm:gap-4 relative w-full xl:w-[calc(100%-clamp(220px,22vw,350px))] shrink-0 z-30">
 
             {/* Album Cover & Play Button Overlay */}
             <button
@@ -908,7 +908,7 @@ export default function AudioPlayerSection() {
             {/* Progress Bar (Extends across all available space to the right!) */}
             <div className="relative flex-1 h-3 flex items-center cursor-pointer group mx-2 sm:mx-3 min-w-[100px]">
               {/* Track Background */}
-              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
+              <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
                 <div
                   className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
@@ -966,7 +966,7 @@ export default function AudioPlayerSection() {
                   }}
                 >
                   {/* Track Background */}
-                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
+                  <div className="h-1.5 w-full bg-white/15 group-hover:bg-white/25 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
                     <div
                       className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                       style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
@@ -1005,7 +1005,7 @@ export default function AudioPlayerSection() {
         });
         return (
           <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-[45px] cursor-default" onClick={() => setShowLyrics(false)}>
-            <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4 cursor-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden flex flex-col mx-4 cursor-auto" onClick={(e) => e.stopPropagation()}>
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">

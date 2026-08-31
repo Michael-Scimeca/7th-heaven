@@ -79,7 +79,7 @@ export function DailyPoll() {
   const totalVotes = POLL_OPTIONS.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🗳️</span>
       </div>
@@ -101,7 +101,7 @@ export function DailyPoll() {
               className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
                   ? 'border-white/5  bg-[#00000029]    cursor-default'
-                  : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029]    cursor-pointer'
+                  : ' border-white/10  bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029]    cursor-pointer'
                 }`}
             >
               {/* Progress bar background (only shows after voting) */}
@@ -189,7 +189,7 @@ export function PhotoWall() {
           <h2 className="font-bold tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="font-bold uppercase   ">Share your prep and packing photos!</p>
         </div>
-        <button aria-label="Action button" className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg font-bold text-white transition-colors uppercase   ">
+        <button aria-label="Action button" className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border  border-white/10  rounded-lg font-bold text-white transition-colors uppercase   ">
           + Upload
         </button>
       </div>
@@ -198,7 +198,7 @@ export function PhotoWall() {
         {MOCK_PHOTOS.map((src, i) => (
           <div
             key={i}
-            className="aspect-square bg-[#00000029] border border-white/10 overflow-hidden group cursor-pointer relative"
+            className="aspect-square bg-[#00000029] border  border-white/10  overflow-hidden group cursor-pointer relative"
           >
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-colors z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
@@ -503,7 +503,7 @@ export function BookingManager({ email }: { email?: string }) {
           <div>
             <label htmlFor="cruise-reg-cabin-pref" className="block   font-bold text-white/40 uppercase    mb-1">Cabin Preference *</label>
             <div className="input-glow-border rounded-lg">
-              <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-white outline-none transition-colors cursor-pointer">
+              <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border  border-white/10  rounded-lg px-3 py-2 text-white outline-none transition-colors cursor-pointer">
                 <option value="group_n5">Ocean View</option>
                 <option value="group_if">Infinite Central Park</option>
                 <option value="group_d4">Ocean View Balcony</option>
@@ -522,7 +522,7 @@ export function BookingManager({ email }: { email?: string }) {
           disabled={registering}
           className="w-full mt-2 py-2.5 text-white font-bold  rounded-lg disabled:opacity-50"
         >
-          {registering ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Complete Cruise Registration"}
+          {registering ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
       </form>
     </div>
@@ -555,13 +555,13 @@ export function BookingManager({ email }: { email?: string }) {
           <span className="font-bold uppercase tracking-wider">Total Cruise Fare</span>
           <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
         </div>
-        <div className="flex justify-between items-center border-t border-white/10 pt-2">
+        <div className="flex justify-between items-center border-t  border-white/10  pt-2">
           <span className="font-bold text-emerald-400 uppercase  flex items-center gap-1">
             <span>✓</span> Amount Paid
           </span>
           <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
         </div>
-        <div className="flex justify-between items-center border-t border-white/10 pt-2">
+        <div className="flex justify-between items-center border-t  border-white/10  pt-2">
           <span className="font-bold text-rose-400 uppercase  flex items-center gap-1">
             <span></span> Balance Owed
           </span>
@@ -594,7 +594,7 @@ export function BookingManager({ email }: { email?: string }) {
       )}
 
       {/* Two Clickable Cruise Agent Email Buttons */}
-      <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+      <div className="mt-4 pt-3 border-t  border-white/10  space-y-2">
         <span className="font-bold text-white/40 uppercase    block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
@@ -632,7 +632,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       {/* Cruising Power Travel Agent Portal Hook */}
-      <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white text-left">
+      <div className="mt-4 pt-4 border-t  border-white/10  text-[10.5px] leading-relaxed relative z-10 text-white text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="">🚢</span>
           <span className="font-bold uppercase  text-cyan-400">Cruising Power Integration</span>
@@ -844,7 +844,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                         placeholder="John Doe"
                         value={cardName}
                         onChange={e => setCardName(e.target.value)}
-                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
+                        className="w-full bg-[var(--color-bg-card)] border  border-white/10  px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
                       />
                     </div>
                     <div>
@@ -856,7 +856,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
                           onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
+                          className="w-full bg-[var(--color-bg-card)] border  border-white/10  pl-9 pr-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                         <span className="absolute left-3 top-2.5 text-white/40">💳</span>
                       </div>
@@ -870,7 +870,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
+                          className="w-full bg-[var(--color-bg-card)] border  border-white/10  px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                       </div>
                       <div>
@@ -881,7 +881,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           placeholder="123"
                           value={cardCVC}
                           onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
+                          className="w-full bg-[var(--color-bg-card)] border  border-white/10  px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors   "
                         />
                       </div>
                     </div>
@@ -936,7 +936,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-lg shadow-2xl text-white relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border  border-white/10  p-6 md:p-8 rounded-lg shadow-2xl text-white relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
@@ -955,7 +955,7 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3.5 bg-[#00000029] border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-lg transition-colors text-left group/item"
+            className="w-full flex items-center justify-between p-3.5 bg-[#00000029] border  border-white/10  hover:bg-white/10 hover:border-cyan-500/40 rounded-lg transition-colors text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
@@ -987,7 +987,7 @@ export function SongRequestLeaderboard() {
   };
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-white/20 p-6 relative overflow-hidden">
+    <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center text-[var(--color-accent)]">🎸</div>
         <div>
@@ -1008,7 +1008,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button aria-label="Action button"
               onClick={() => handleVote(song.id)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-[#00000029] flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
+              className="w-8 h-8 rounded-lg border  border-white/10  bg-[#00000029] flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
             >
               ▲
             </button>

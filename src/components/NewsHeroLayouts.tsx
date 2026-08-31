@@ -28,7 +28,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
   return (
     <div className="relative">
       {/* ── OPTION 2 VARIATIONS SWITCHER TOOLBAR ── */}
-      <div className="bg-[var(--color-bg-surface)] border-b border-white/10 px-4 py-3 sticky top-[72px] z-50 flex items-center justify-between flex-wrap gap-2 text-white">
+      <div className="bg-[var(--color-bg-surface)] border-b  border-white/10  px-4 py-3 sticky top-[72px] z-50 flex items-center justify-between flex-wrap gap-2 text-white">
         <div className="flex items-center gap-2">
           <span className="font-bold uppercase text-purple-400tracking-wider flex items-center gap-1">
             <span>⚡</span> Option 2 Split Showcase Variations:
@@ -41,7 +41,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               type="button"
               onClick={() => setActiveLayout(opt.id)}
               className={`px-3 py-1.5 font-bold uppercase transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
-                : " bg-[#00000029]    border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                : " bg-[#00000029]     border-white/10  text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               {opt.name}
@@ -69,7 +69,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </p>
             </div>
 
-            <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
+            <div className="lg:col-span-7 bg-[#110b20]/90 border  border-white/10  p-8 text-left relative">
               <div className="flex items-center justify-between mb-4">
                 <span className="font-bold uppercase    text-[var(--color-accent)]">Featured Article</span>
                 <span className="   text-white/50">{featured.date}</span>

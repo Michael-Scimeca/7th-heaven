@@ -190,7 +190,7 @@ export default function DevRouteList() {
                   placeholder="Search routes or keywords..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60   "
+                  className="w-full bg-black/40 border  border-white/10  rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60   "
                 />
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function DevRouteList() {
                 return (
                   <div
                     key={item.path}
-                    className="group relative p-3.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
+                    className="group relative p-3.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.07] border  border-white/10  hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">

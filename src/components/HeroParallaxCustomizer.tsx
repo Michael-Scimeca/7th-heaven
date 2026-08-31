@@ -56,7 +56,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+          className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
           title="Open Parallax Customizer"
         >
           <svg
@@ -76,7 +76,7 @@ export default function HeroParallaxCustomizer({
           </svg>
         </button>
       ) : (
-        <div className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
+        <div className="w-[280px] bg-black/75 backdrop-blur-xl border  border-white/10  p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/5 pb-2">
             <div className="flex flex-col">

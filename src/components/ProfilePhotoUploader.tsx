@@ -108,7 +108,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 p-3">
+      <div className="flex items-center gap-3 bg-white/[0.03] border  border-white/10  p-3">
         <div className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/60 flex items-center justify-center overflow-hidden shrink-0">
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />

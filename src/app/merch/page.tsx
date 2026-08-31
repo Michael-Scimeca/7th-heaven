@@ -241,7 +241,7 @@ function MerchDashboard() {
   // ─── Auth gates ──────────────────────────────────────────────────────────────
   if (!isDemo && (!isLoggedIn || !member)) return (
     <div className="min-h-screen flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center max-w-sm w-full">
+      <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-bold uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="mb-6">Sign in with your merch team account.</p>
@@ -267,7 +267,7 @@ function MerchDashboard() {
     <div className="site-container min-h-screen pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
-      <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
+      <div className="border-b  border-white/10  bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-pink-500 font-bold uppercase tracking-[0.3em]">7th Heaven</p>
@@ -285,7 +285,7 @@ function MerchDashboard() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-24 text-center flex flex-col items-center justify-center min-h-[55vh]">
-        <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-white/20 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
+        <div className="w-16 h-16 rounded-lg bg-purple-600/10 border  border-white/10  flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
         <h2 className="font-bold uppercase    text-white">

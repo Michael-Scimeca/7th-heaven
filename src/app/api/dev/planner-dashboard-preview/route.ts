@@ -92,14 +92,14 @@ export async function GET() {
               <button class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  rounded-lg transition">
                 Manage Details
               </button>
-              <button class="py-2 px-3 bg-[#00000029] border border-white/10 text-white/70 font-bold rounded-xl">
+              <button class="py-2 px-3 bg-[#00000029] border  border-white/10  text-white/70 font-bold rounded-xl">
                 Stage Rider
               </button>
             </div>
           </div>
 
           {/* Quick Actions Card */}
-          <div class="bg-[#0b0b14] border border-white/10 rounded-lg p-5 space-y-4">
+          <div class="bg-[#0b0b14] border  border-white/10  rounded-lg p-5 space-y-4">
             <div class="pb-3 border-b border-white/10">
               <span class="font-bold text-white">Planner Coordinator Tools</span>
               <p class="mt-0.5">Quick actions for your upcoming events</p>

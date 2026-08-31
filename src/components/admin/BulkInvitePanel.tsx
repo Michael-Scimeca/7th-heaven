@@ -218,7 +218,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent border-white/20   ${isDragging ? "scale-[0.99]"
+            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent  border-white/10    ${isDragging ? "scale-[0.99]"
               : "border-black/20   ]"
               }`}
           >
@@ -256,7 +256,7 @@ export default function BulkInvitePanel() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="w-full bg-black/40  border-white/10  outline-none text-white px-4 py-3 rounded-lg resize-none placeholder:text-white/40  transition-colors"
+                className="w-full bg-black/40   border-white/10   outline-none text-white px-4 py-3 rounded-lg resize-none placeholder:text-white/40  transition-colors"
               />
             </div>
             <CosmicRadialButton

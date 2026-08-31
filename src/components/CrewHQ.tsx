@@ -565,7 +565,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <Link
               href={studioPath}
               className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24 font-bold uppercase    text-center transition-colors border ${isLive ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
-                : "bg-white/[0.04] border-white/10  text-white  hover:bg-white/[0.08] hover:text-white hover: border-white/10 "
+                : "bg-white/[0.04]  border-white/10   text-white  hover:bg-white/[0.08] hover:text-white hover:  border-white/10  "
                 }`}
             >
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
@@ -593,7 +593,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
                       className={`ml-2 px-2.5 py-1 rounded-lg font-bold   uppercase    transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
-                        : " bg-[#00000029]    border border-white/10 text-white/40 hover: text-white "
+                        : " bg-[#00000029]    border  border-white/10  text-white/40 hover: text-white "
                         }`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
@@ -767,7 +767,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           value={newCustomWord}
                           onChange={e => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                          className="flex-1 bg-black/60 border  border-white/10  px-4 py-2.5 text-white outline-none focus:border-[#ec4899]/50 font-bold"
                         />
                         <button aria-label="Action button"
                           type="submit"
@@ -789,7 +789,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-[#00000029] border border-white/10 font-bold text-white/80"
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-[#00000029] border  border-white/10  font-bold text-white/80"
                             >
                               <span>{word}</span>
                               <button aria-label="Action button"
@@ -857,7 +857,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <Link
                     href={`/live/${defaultMemberId || slug}`}
                     target="_blank"
-                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 font-bold border border-white/10 text-white/40 hover:text-white hover: border-white/10 transition-colors"
+                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 font-bold border  border-white/10  text-white/40 hover:text-white hover:  border-white/10  transition-colors"
                   >
                     👁 View Fan Feed ↗
                   </Link>
@@ -918,7 +918,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 border border-white/[0.07] hover: border-white/10 hover:bg-white/[0.02] transition-colors group"
+                  className="flex items-center gap-2 p-3 border border-white/[0.07] hover:  border-white/10  hover:bg-white/[0.02] transition-colors group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>

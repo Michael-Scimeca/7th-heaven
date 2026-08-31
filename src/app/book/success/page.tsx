@@ -50,7 +50,7 @@ function SuccessContent() {
           </h1>
 
           {bookingId && (
-            <div className="inline-block bg-[var(--color-accent)]/10 border border-white/10 px-4 py-2 mb-4">
+            <div className="inline-block bg-[var(--color-accent)]/10 border  border-white/10  px-4 py-2 mb-4">
               <span className="font-bold uppercase    text-white/40 block">Booking ID</span>
               <span className="text-lg font-bold text-[var(--color-accent)]   ">{bookingId}</span>
             </div>

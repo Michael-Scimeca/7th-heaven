@@ -217,7 +217,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ?"backdrop-blur-lg border-b border-white/5 "
+        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/5 "
           : ""
           }`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}
@@ -239,7 +239,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ?"bg-white text-black"
+                className={`font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black"
                   : "bg-white/[0.05]  text-white  hover:bg-white/10 hover:text-white"
                   }`}
               >
@@ -303,7 +303,7 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="w-9 h-9 shrink-0 rounded-lg bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
+                <div className="w-9 h-9 shrink-0 rounded-lg bg-[var(--color-accent)]/20 border  border-white/10  flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
                   <h3 className="font-bold text-white leading-tight line-clamp-2 group-hover: transition-colors mb-1">
                     {video.title}

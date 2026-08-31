@@ -233,7 +233,7 @@ export default function CruiseVideoGallery() {
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="text-center py-16 bg-white/5 rounded-lg border border-white/10 text-white/50 font-bold uppercase tracking-wider">
+        <div className="text-center py-16 bg-white/5 rounded-lg border  border-white/10  text-white/50 font-bold uppercase tracking-wider">
           No videos found in this category.
         </div>
       ) : (
@@ -301,7 +301,7 @@ export default function CruiseVideoGallery() {
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border border-white/10 text-white  transition-[background-color,border-color,transform] duration-200  cursor-pointer flex items-center justify-center group"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border  border-white/10  text-white  transition-[background-color,border-color,transform] duration-200  cursor-pointer flex items-center justify-center group"
           >
             <X className="w-6 h-6 text-white" />
           </button>
@@ -310,7 +310,7 @@ export default function CruiseVideoGallery() {
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e]"
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
+            <div className="flex items-center justify-between border-b  border-white/10  pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
                 <span className="font-bold uppercase text-purple-400    block mb-1">
                   {activeVideo.category}

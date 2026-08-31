@@ -133,7 +133,7 @@ export default function LogoTicker({
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-4 border-r border-white/10 px-4 sm:px-8 transform-gpu"
+                className="flex shrink-0 items-center gap-4 border-r  border-white/10  px-4 sm:px-8 transform-gpu"
                 style={{ height: "clamp(44px, 6vw, 96px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}

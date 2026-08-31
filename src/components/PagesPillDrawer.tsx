@@ -157,7 +157,7 @@ export default function PagesPillDrawer() {
           <div className="relative w-full max-w-5xl max-h-[85vh] rounded-lg bg-[rgba(18,18,26,0.95)] border border-purple-500/30 p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col z-10 overflow-hidden">
 
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
+            <div className="flex items-center justify-between pb-6 border-b  border-white/10  shrink-0">
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-lg bg-[#8b3dff]/20 border border-[#8b3dff]/40 text-[#a855f7]">
                   <Menu className="w-6 h-6" />
@@ -177,7 +177,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
+                className="p-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white border  border-white/10  transition-colors"
                 aria-label="Close Pages Modal"
               >
                 <X className="w-6 h-6" />
@@ -211,7 +211,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff]   "
+                    className="w-full bg-black/50 border  border-white/10  rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff]   "
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function PagesPillDrawer() {
                 return (
                   <div
                     key={item.path}
-                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
+                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border  border-white/10  hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">

@@ -325,7 +325,7 @@ export default function FallingPicks() {
         </button>
 
         {panelOpen && (
-          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto rounded-lg border border-white/10 bg-black/70 p-4 pr-3 backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]: rounded-lg [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]: bg-[#00000029]">
+          <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto rounded-lg border  border-white/10  bg-black/70 p-4 pr-3 backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]: rounded-lg [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]: bg-[#00000029]">
             <p className="font-semibold uppercase tracking-wide">
               Spawning
             </p>

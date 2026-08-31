@@ -284,11 +284,11 @@ export default function ShowPageClient({
           ? "border-emerald-500/30 bg-emerald-500/[0.03]"
           : isMe
             ? "border-purple-500/40 bg-purple-500/5"
-            : `border-white/[0.06] bg-white/[0.02] hover:border-white/10 ${tierGlow[tier] || ""}`
+            : `border-white/[0.06] bg-white/[0.02] hover: border-white/10  ${tierGlow[tier] || ""}`
           }`}
       >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 font-bold border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10  text-white "} bg-white/[0.04]`}>
+        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 font-bold border-2 ${isAnon ? " border-white/10  text-white/30" : tierColors[tier] || " border-white/10   text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-lg" />
           ) : isAnon ? "👤" : initials}
@@ -377,12 +377,12 @@ export default function ShowPageClient({
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
                 {show.doors_time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase    text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border  border-white/10  font-bold uppercase    text-white">
                     🚪 Doors {show.doors_time}
                   </span>
                 )}
                 {show.time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase    text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border  border-white/10  font-bold uppercase    text-white">
                     🎸 Show {show.time}
                   </span>
                 )}
@@ -392,7 +392,7 @@ export default function ShowPageClient({
                   </span>
                 )}
                 {show.cover && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase    text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border  border-white/10  font-bold uppercase    text-white">
                     💵 Cover: {show.cover}
                   </span>
                 )}
@@ -408,7 +408,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 font-bold uppercase    transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                      className="px-8 py-4 font-bold uppercase    transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border  border-white/10  hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -426,7 +426,7 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-[#00000029]">
+                    <div className="flex items-center gap-2 px-3 py-1.5 border  border-white/10  rounded-lg bg-[#00000029]">
                       <GradientToggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"
@@ -437,10 +437,10 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 font-bold uppercase    border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 font-bold uppercase    border  border-white/10  text-white hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 font-bold uppercase    border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 font-bold uppercase    border  border-white/10  text-white hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -459,7 +459,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase    mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border  border-white/10  rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase    mb-4">
                     Missed this show?
                   </span>
                   <h3 className="font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
@@ -469,7 +469,7 @@ export default function ShowPageClient({
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="p-4 bg-emerald-500/10 border border-white/10 text-center">
+                    <div className="p-4 bg-emerald-500/10 border  border-white/10  text-center">
                       <p className="text-emerald-400 font-bold">✓ Successfully subscribed!</p>
                       <p className="mt-1">We will alert you when new dates are announced.</p>
                     </div>
@@ -484,7 +484,7 @@ export default function ShowPageClient({
                           onChange={(e) => setNotifyEmail(e.target.value)}
                           containerClassName="flex-1"
                           glow={true}
-                          inputClassName="bg-black/40 border border-white/10 px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                          inputClassName="bg-black/40 border  border-white/10  px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                         />
                         <CosmicRadialButton
                           type="submit"
@@ -510,7 +510,7 @@ export default function ShowPageClient({
                   </span>
                   <h3 className="font-bold text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
                 </div>
-                <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
+                <div className="aspect-video w-full overflow-hidden border  border-white/10  bg-black">
                   <iframe
                     src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
                     title="7th Heaven Live Performance Video"
@@ -528,7 +528,7 @@ export default function ShowPageClient({
           <button aria-label="Action button"
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover:border-white/10 transition-colors mb-1 group cursor-pointer"
+            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover: border-white/10  transition-colors mb-1 group cursor-pointer"
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
@@ -631,7 +631,7 @@ export default function ShowPageClient({
                 </CosmicRadialButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 font-bold uppercase    hover:border-white/30 hover:text-white transition-colors"
+                  className="px-6 py-3 border  border-white/10  text-white/50 font-bold uppercase    hover:border-white/30 hover:text-white transition-colors"
                 >
                   💬 Text a Friend
                 </a>

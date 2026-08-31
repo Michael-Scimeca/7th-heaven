@@ -42,7 +42,7 @@ export default function NotFound() {
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 font-bold uppercase tracking-[0.15em] transition-colors"
+                        className="px-8 py-3.5 border  border-white/10  text-white/50 hover:text-white hover:border-white/30 font-bold uppercase tracking-[0.15em] transition-colors"
                     >
                         View Tour Dates
                     </Link>

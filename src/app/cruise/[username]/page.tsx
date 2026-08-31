@@ -555,7 +555,7 @@ export default function CruiseDashboard() {
                   {authError && <p className="text-rose-500 mt-2 text-center font-bold">{authError}</p>}
 
                   <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
+                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
@@ -604,7 +604,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
@@ -630,7 +630,7 @@ export default function CruiseDashboard() {
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
                       <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
+                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
                   )}
@@ -652,7 +652,7 @@ export default function CruiseDashboard() {
   return (
     <div className="site-container min-h-screen bg-transparent text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
       <div>
-        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <header className="mb-8 border-b  border-white/10  pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="flex items-start gap-5">
             {/* Member Avatar */}
             <div className="relative shrink-0">
@@ -689,7 +689,7 @@ export default function CruiseDashboard() {
         <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl group">
+          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border  border-white/10  rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
@@ -718,7 +718,7 @@ export default function CruiseDashboard() {
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
@@ -728,7 +728,7 @@ export default function CruiseDashboard() {
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
@@ -758,7 +758,7 @@ export default function CruiseDashboard() {
             {/* 1. Cruise Information & Guidelines */}
             <div className="h-fit min-w-0 max-w-full overflow-hidden">
               <div className="relative z-10 min-w-0 max-w-full">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b  border-white/10  flex-wrap">
                   <div>
                     <h2 className="font-bold uppercase  text-white">{guidelines.title}</h2>
                     <p className="text-purple-400font-bold uppercase    mt-0.5">{guidelines.subtitle}</p>
@@ -787,7 +787,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -797,13 +797,13 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
                       <span className="block font-bold text-white/50 uppercase    mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border border-white/10 backdrop-blur-[16px] border border-white/10 rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border  border-white/10  backdrop-blur-[16px] border  border-white/10  rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">

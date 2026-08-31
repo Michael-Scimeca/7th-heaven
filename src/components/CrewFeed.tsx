@@ -296,7 +296,7 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 hover:border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
+                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 hover: border-white/10  hover:bg-white/[0.04] ${isNew ? "  border-white/10  " : "border-white/[0.06]"
                       }`}
                   >
                     {/* Header: Avatar + Name + Time */}
@@ -345,7 +345,7 @@ export default function CrewFeed() {
 
                     {/* Image attachment */}
                     {post.image_url && (
-                      <div className="mb-4 border border-white/10 overflow-hidden">
+                      <div className="mb-4 border  border-white/10  overflow-hidden">
                         <Image width={200} height={200} unoptimized src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
                       </div>
                     )}

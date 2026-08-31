@@ -669,7 +669,7 @@ export function Header() {
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}

@@ -1313,7 +1313,7 @@ ${filterLine}
                     {/* Header Row: Date Badge & Time */}
                     <div className="flex items-center justify-between gap-2 ">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold  uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border  border-white/10  backdrop-blur-[16px] text-white font-bold  uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1321,7 +1321,7 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white text-[11px] font-medium px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
+                              <span className="text-white text-[11px] font-medium px-2 py-0.5 bg-[#00000029] border  border-white/10  rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
@@ -1331,7 +1331,7 @@ ${filterLine}
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 font-bold px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap">
+                              <span className="text-white/90 font-bold px-2 py-0.5 bg-white/10 border  border-white/10  rounded-lg whitespace-nowrap">
                                 {show.time}
                               </span>
                             )}
@@ -1461,7 +1461,7 @@ ${filterLine}
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2 border border-white/10 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px] font-sans">
+                              <div className="absolute left-0 mt-2 border  border-white/10  rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px] font-sans">
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
@@ -1492,7 +1492,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap font-bold uppercase  h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover: border-white/10 transition-colors rounded-lg text-center"
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap font-bold uppercase  h-9 bg-[rgba(255,255,255,0.06)] border  border-white/10  text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:  border-white/10  transition-colors rounded-lg text-center"
                             >
                               <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}
@@ -1541,7 +1541,7 @@ ${filterLine}
       {/* Show Edit/Add Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+          <div className="bg-[var(--color-bg-surface)] border  border-white/10  rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
             <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
             <div className="p-6 md:p-8 text-left">
               <div className="flex items-center justify-between mb-6">
@@ -1566,12 +1566,12 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
                     <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
                     <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1579,12 +1579,12 @@ ${filterLine}
                   <div className="sm:col-span-2">
                     <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
                     <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
                     <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1592,22 +1592,22 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
                     <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
                     <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
                     <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
                     <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1615,12 +1615,12 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://..." className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions / Google Maps (URL)</label>
                     <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1628,19 +1628,19 @@ ${filterLine}
                   <div>
                     <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Directions Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Info / Notes</label>
                     <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
-                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
                   <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
+                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
@@ -1727,7 +1727,7 @@ ${filterLine}
 
       {notifyPopupShow && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-[var(--color-bg-surface)] border  border-white/10  w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
             {/* Accent bar */}
             <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1765,7 +1765,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1784,7 +1784,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1803,7 +1803,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1846,7 +1846,7 @@ ${filterLine}
       {/* ── Font Customizer Modal/Panel ── */}
       {isFontCustomizerOpen && (
         <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-          <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
+          <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border  border-white/10  p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
@@ -1866,7 +1866,7 @@ ${filterLine}
                 id="tour-font-style"
                 value={tourFontFamily}
                 onChange={(e) => setTourFontFamily(e.target.value)}
-                className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+                className="w-full bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
               >
                 <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                 <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
@@ -2130,7 +2130,7 @@ ${filterLine}
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold uppercase  cursor-pointer transition-colors animate-all"
+                className="py-2.5 bg-[#00000029] border  border-white/10  hover:bg-white/10 rounded-lg text-white font-bold uppercase  cursor-pointer transition-colors animate-all"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>

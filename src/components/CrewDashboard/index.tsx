@@ -34,9 +34,9 @@ const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short',
 function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) => void }) {
   const reqDate = new Date(req.date + 'T12:00:00');
   return (
-    <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10 transition-colors">
+    <div key={req.id} className="p-4 bg-[#00000029] border  border-white/10  flex flex-col md:flex-row md:items-center justify-between gap-4 hover:  border-white/10  transition-colors">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-white/20 flex flex-col items-center justify-center text-center shrink-0">
+        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border  border-white/10  flex flex-col items-center justify-center text-center shrink-0">
           <span className=" text-[9px]  text-rose-400 font-bold uppercase tracking-wider">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
@@ -93,7 +93,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
 function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: string) => void }) {
   const itemDate = new Date(item.date + 'T12:00:00');
   return (
-    <div key={item.id} className="p-3 bg-[#00000029] border border-white/10 flex items-center justify-between gap-3 hover: border-white/10 transition-colors">
+    <div key={item.id} className="p-3 bg-[#00000029] border  border-white/10  flex items-center justify-between gap-3 hover:  border-white/10  transition-colors">
       <div className="flex items-center gap-3">
         <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
           <span className=" text-[9px]  font-bold uppercase tracking-wider">
@@ -157,7 +157,7 @@ function AvailabilityCardForm({
               required
               value={availDate}
               onChange={e => setAvailDate(e.target.value)}
-              className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+              className="w-full px-3 py-2 border  border-white/10  text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
             />
           </div>
           <div>
@@ -166,7 +166,7 @@ function AvailabilityCardForm({
               id="avail-type-select"
               value={availType}
               onChange={e => setAvailType(e.target.value as any)}
-              className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+              className="w-full px-3 py-2 border  border-white/10  text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
             >
               <option value="unavailable" className=" text-white">Unavailable / Blackout</option>
               <option value="available" className=" text-white">Available</option>
@@ -179,7 +179,7 @@ function AvailabilityCardForm({
                 id="avail-note-select"
                 value={availNote}
                 onChange={e => setAvailNote(e.target.value)}
-                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2 border  border-white/10  text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select note / reason...</option>
                 <option value="Out of town" className=" text-white">Out of town</option>
@@ -202,7 +202,7 @@ function AvailabilityCardForm({
         </form>
 
         {myAvailabilities.length === 0 ? (
-          <div className="text-center py-6 border rounded-lg border-dashed border-white/10 bg-white/[0.01]">
+          <div className="text-center py-6 border rounded-lg border-dashed  border-white/10  bg-white/[0.01]">
             <p className="">No availability blocks configured yet.</p>
           </div>
         ) : (
@@ -242,7 +242,7 @@ function TimeOffCardForm({
               required
               value={timeOffDate}
               onChange={e => setTimeOffDate(e.target.value)}
-              className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+              className="w-full px-3 py-2 border  border-white/10  text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
             />
           </div>
           <div className="sm:col-span-2 flex gap-3 items-end">
@@ -253,7 +253,7 @@ function TimeOffCardForm({
                 required
                 value={timeOffReason}
                 onChange={e => setTimeOffReason(e.target.value)}
-                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2 border  border-white/10  text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select reason for time-off...</option>
                 <option value="Family vacation" className=" text-white">Family vacation</option>
@@ -275,7 +275,7 @@ function TimeOffCardForm({
         </form>
 
         {myTimeOffRequests.length === 0 ? (
-          <div className="text-center py-6 rounded-lg border border-dashed border-white/10 bg-white/[0.01]">
+          <div className="text-center py-6 rounded-lg border border-dashed  border-white/10  bg-white/[0.01]">
             <p className="">No time-off requests submitted yet.</p>
           </div>
         ) : (
@@ -2702,7 +2702,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           <button
             type="button"
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group pb-5 !rounded-none"
+            className="w-full text-left border-b  border-white/10  flex items-center justify-between cursor-pointer select-none transition-colors text-white group pb-5 !rounded-none"
           >
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
@@ -2716,7 +2716,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase    shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]      border-white/10    text-white '}`}>
+                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border font-bold uppercase    shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029]       border-white/10     text-white '}`}>
                   <span className={`w-1.5 h-1.5 rounded-lg ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
@@ -2726,7 +2726,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <span className="font-bold text-white uppercase  hidden sm:inline whitespace-nowrap">
                 {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
               </span>
-              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
+              <div className={`w-8 h-8 rounded-lg border  border-white/10  flex items-center justify-center text-white transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
                 <ChevronDown className="w-4 h-4 text-white" />
               </div>
             </div>
@@ -2742,7 +2742,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="appearance-none no-bg-arrow bg-none bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                      className="appearance-none no-bg-arrow bg-none bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
                       onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -2757,7 +2757,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white font-bold uppercase    flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#00000029] border  border-white/10  backdrop-blur-[16px] text-[var(--color-accent)] hover:text-white font-bold uppercase    flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2784,7 +2784,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </p>
                   </div>
                   <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white font-bold uppercase    rounded border border-white/10 hover:border-emerald-500/50 transition-colors">
+                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white font-bold uppercase    rounded border  border-white/10  hover:border-emerald-500/50 transition-colors">
                       Open <span className="ml-0.5">→</span>
                     </Link>
                     <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] font-bold uppercase    rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
@@ -2819,7 +2819,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     />
                   ) : (
                     <div className="absolute inset-0 bg-transparent flex flex-col items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 rounded-full bg-[#00000029] border  border-white/10  flex items-center justify-center mb-4">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                           <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                           <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
@@ -2854,10 +2854,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                         <span className="font-bold text-white uppercase   ">Live</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 text-white/90">
+                      <div className="px-3 py-1 bg-black/60 backdrop-blur border  border-white/10  rounded-lg flex items-center gap-1.5 text-white/90">
                         <span className="font-medium">{viewerCount} Viewers</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 text-white/90">
+                      <div className="px-3 py-1 bg-black/60 backdrop-blur border  border-white/10  rounded-lg flex items-center gap-1.5 text-white/90">
                         <span className="font-medium">{formatTime(elapsed)}</span>
                       </div>
                     </div>
@@ -3095,7 +3095,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </div>
 
                         {/* Countdown timer */}
-                        <div className="bg-black/40 border border-white/10 p-4 text-center">
+                        <div className="bg-black/40 border  border-white/10  p-4 text-center">
                           <p className="font-bold    uppercase mb-1">Time Remaining</p>
                           <p className="font-bold     animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
@@ -3112,7 +3112,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                           <p className="font-bold    uppercase">Active Products</p>
                           {activeDrop.products.map(p => (
-                            <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border border-white/10 items-center justify-between">
+                            <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border  border-white/10  items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                               <div className="flex-1 min-w-0">
                                 <p className="font-bold truncate" title={p.title}>{p.title}</p>
@@ -3145,7 +3145,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-lg   !text-white font-bold uppercase  flex items-center gap-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2 py-0.5 rounded"
+                              className="rounded-lg   !text-white font-bold uppercase  flex items-center gap-1 bg-[#00000029] border  border-white/10  backdrop-blur-[16px] px-2 py-0.5 rounded"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -3165,7 +3165,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   e.target.value = "";
                                 }
                               }}
-                              className="w-full appearance-none no-bg-arrow bg-none !appearance-none [webkit-appearance:none] [moz-appearance:none] bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-3 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                              className="w-full appearance-none no-bg-arrow bg-none !appearance-none [webkit-appearance:none] [moz-appearance:none] bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-3 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
                             >
                               <option value="" className="bg-[#0e0720] text-white/50">Select product to add to Flash Drop...</option>
                               {shopifyProducts.map(p => (
@@ -3181,19 +3181,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
                           <p className="font-bold    uppercase mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
-                            <div className="text-center py-6 rounded-lg border border-white/10 text-white">
+                            <div className="text-center py-6 rounded-lg border  border-white/10  text-white">
                               No products selected yet. Select a product above.
                             </div>
                           ) : (
                             selectedProducts.map(p => (
-                              <div key={p.id} className="flex gap-4 p-3 border border-white/10 items-center justify-between text-white bg-[#00000029]">
+                              <div key={p.id} className="flex gap-4 p-3 border  border-white/10  items-center justify-between text-white bg-[#00000029]">
                                 <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                                 <div className="flex-1 min-w-0">
                                   <p className="font-bold truncate pr-2" title={p.title}>{p.title}</p>
                                   <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
-                                  <div className="flex items-center bg-black/60 border border-white/10 rounded-lg px-2 py-1 max-w-[90px]">
+                                  <div className="flex items-center bg-black/60 border  border-white/10  rounded-lg px-2 py-1 max-w-[90px]">
                                     <span className="text-white/40 mr-1">$</span>
                                     <input
                                       type="text"
@@ -3228,7 +3228,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   selectEl.focus();
                                 }
                               }}
-                              className="w-full bg-[#00000029] h-[36px] border border-white/10 hover:border-purple-400/60 rounded-lg p-2 text-center font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                              className="w-full bg-[#00000029] h-[36px] border  border-white/10  hover:border-purple-400/60 rounded-lg p-2 text-center font-bold text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                               title="Click to select products from the dropdown above"
                             >
                               <span className="   text-purple-300 font-extrabold">{selectedProducts.length}</span>
@@ -3334,7 +3334,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className={`w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none transition-colors`}
+                                    className={`w-full bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none transition-colors`}
                                   />
                                 </div>
                               </div>
@@ -3350,12 +3350,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.min || ''}
                                     onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#00000029] border border-white/10 px-3 py-2 text-purple-300 font-bold outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#00000029] border  border-white/10  px-3 py-2 text-purple-300 font-bold outline-none transition-colors text-center`}
                                   />
                                 </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                  <div className="absolute -top-5 right-0 text-[var(--color-accent)] font-bold uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/10 whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                  <div className="absolute -top-5 right-0 text-[var(--color-accent)] font-bold uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border  border-white/10  whitespace-nowrap overflow-visible z-10 w-auto text-right">
                                     {raffleEntrants.length} / {item.min} Entries
                                   </div>
                                 )}
@@ -3372,7 +3372,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.qty || ''}
                                     onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-[#00000029] border border-white/10 px-3 py-2 text-white outline-none transition-colors text-center`}
+                                    className={`w-full bg-[#00000029] border  border-white/10  px-3 py-2 text-white outline-none transition-colors text-center`}
                                   />
                                 </div>
                               </div>
@@ -3388,7 +3388,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
-                                      : 'border-white/10 text-white/30 opacity-30 shadow-none'
+                                      : ' border-white/10  text-white/30 opacity-30 shadow-none'
                                     }`}
                                 >
                                   {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
@@ -3412,7 +3412,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/10 text-white hover:text-white font-bold uppercase    rounded-lg hover:border-white/50 hover: bg-[#00000029] transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed  border-white/10  text-white hover:text-white font-bold uppercase    rounded-lg hover:border-white/50 hover: bg-[#00000029] transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3420,13 +3420,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     {raffleStatus === 'open' && (
-                      <div className="mt-2 text-center p-3 border border-white/20 bg-purple-600/5">
+                      <div className="mt-2 text-center p-3 border  border-white/10  bg-purple-600/5">
                         <p className="font-bold mb-1">{raffleEntrants.length} <span className="text-white/50">/ {raffleMinEntrants}</span></p>
                         <p className="font-bold uppercase    mt-0.5">Fan entries collected</p>
                         <div className="flex flex-col gap-2 mt-4 px-2">
                           <div className="flex gap-2">
-                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase    transition-colors">+ Fake Entry</button>
-                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg font-bold text-white uppercase    transition-colors">+ Multi Fake</button>
+                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border  border-white/10  rounded-lg font-bold text-white uppercase    transition-colors">+ Fake Entry</button>
+                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border  border-white/10  rounded-lg font-bold text-white uppercase    transition-colors">+ Multi Fake</button>
                           </div>
                           <button
                             type="button"
@@ -3500,7 +3500,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newCustomWord}
                             onChange={e => setNewCustomWord(e.target.value)}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#00000029] border border-white/10 px-4 py-2.5 text-white outline-none font-bold placeholder:text-white/30"
+                            className="w-full bg-[#00000029] border  border-white/10  px-4 py-2.5 text-white outline-none font-bold placeholder:text-white/30"
                           />
                         </div>
                         <CosmicRadialButton
@@ -3516,7 +3516,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
                       <p className="font-bold uppercase   ">Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="text-center rounded-lg py-6 border border-dashed border-white/10 bg-white/[0.01]">
+                        <div className="text-center rounded-lg py-6 border border-dashed  border-white/10  bg-white/[0.01]">
                           <p className="">No custom keywords configured.</p>
                         </div>
                       ) : (
@@ -3524,7 +3524,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/10 font-bold text-white"
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border  border-white/10  font-bold text-white"
                             >
                               <span>{word}</span>
                               <button
@@ -3612,7 +3612,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
         {/* LIVE SETLIST & FAN LIKES */}
         <div className={`xl:col-span-2 bg-transparent overflow-hidden flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'} mt-6`}>
-          <div className="w-full text-left py-4 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-transparent select-none group">
+          <div className="w-full text-left py-4 border-b  border-white/10  flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-transparent select-none group">
             <button
               type="button"
               onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
@@ -3630,7 +3630,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)] font-bold uppercase    rounded-lg transition-colors border bg-[#00000029] text-white border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
+                className="px-4 py-2 text-[var(--font-size-2xs)] font-bold uppercase    rounded-lg transition-colors border bg-[#00000029] text-white  border-white/10  hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
               >
                 Reset Likes
               </button>
@@ -3638,7 +3638,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
+                className={`w-8 h-8 rounded-lg border  border-white/10  flex items-center justify-center text-white transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
               >
                 <ChevronDown className="w-4 h-4 text-white" />
               </button>
@@ -3694,7 +3694,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       value={newSongTitle}
                       onChange={e => setNewSongTitle(e.target.value)}
                       rows={4}
-                      className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
+                      className="w-full bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
                     />
                     <div className="flex justify-between items-center">
                       <button
@@ -3723,7 +3723,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         value={newSongTitle}
                         onChange={e => setNewSongTitle(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                        className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
+                        className="flex-1 bg-[#00000029] border  border-white/10  rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                       />
                       <CosmicRadialButton
                         type="button"
@@ -3786,23 +3786,23 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                           setIsEmailModalOpen(true);
                         }}
-                        className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white rounded-lg font-bold uppercase    cursor-pointer transition-colors flex items-center gap-1"
+                        className="px-3 py-1 bg-[#00000029] border  border-white/10  backdrop-blur-[16px] text-white rounded-lg font-bold uppercase    cursor-pointer transition-colors flex items-center gap-1"
                       >
                         Contact Admins
                       </button>
                       {pendingShifts.length > 0 && (
-                        <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
+                        <span className="px-3 py-1 bg-[var(--color-accent)]/10 border  border-white/10  text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
                           {pendingShifts.length} Pending
                         </span>
                       )}
-                      <span className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px rounded-lg font-bold uppercase   ">
+                      <span className="px-3 py-1 bg-[#00000029] border  border-white/10  backdrop-blur-[16px rounded-lg font-bold uppercase   ">
                         {activeShifts.length} Shifts
                       </span>
                       <button
                         type="button"
                         aria-label="Toggle schedule"
                         onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                        className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}
+                        className={`w-8 h-8 rounded-lg border  border-white/10  flex items-center justify-center text-white transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}
                       >
                         <ChevronDown className="w-4 h-4 text-white" />
                       </button>
@@ -3832,7 +3832,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
 
                       {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                      <div className="grid grid-cols-2 gap-2 bg-[#00000029] p-1 border border-white/10 mb-6 shrink-0 font-sans rounded-xl">
+                      <div className="grid grid-cols-2 gap-2 bg-[#00000029] p-1 border  border-white/10  mb-6 shrink-0 font-sans rounded-xl">
                         {activeScheduleTab === 'my_schedule' ? (
                           <CosmicRadialButton
                             type="button"
@@ -3874,7 +3874,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                       {activeScheduleTab === 'my_schedule' ? (
                         activeShifts.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
+                          <div className="text-center py-8 border border-dashed  border-white/10  bg-white/[0.01]">
                             <p className="">You have no upcoming work shifts scheduled.</p>
                           </div>
                         ) : (
@@ -3911,7 +3911,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   {/* Role & Location Column */}
                                   <div className="flex-1 min-w-[160px]">
                                     <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] text-[12px] font-bold uppercase  rounded">
+                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border  border-white/10  text-[var(--color-accent)] text-[12px] font-bold uppercase  rounded">
                                         {shift.role}
                                       </span>
                                       {(() => {
@@ -3963,7 +3963,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                       <button
                                         type="button"
                                         onClick={() => setActiveDiscussionDate(shift.date)}
-                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none"
+                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border  border-white/10  text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none"
                                         title="View show lineup acts and discuss details with crew"
                                       >
                                         💬 Lineup & Discuss
@@ -3979,7 +3979,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                           ✓ Confirmed
                                         </span>
                                         {shift.isCoverageRequested ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[12px] font-bold uppercase  shrink-0 bg-[var(--color-accent)]/10 border-white/10 text-[var(--color-accent)] animate-pulse">
+                                          <span className="px-1.5 py-0.5 rounded border text-[12px] font-bold uppercase  shrink-0 bg-[var(--color-accent)]/10  border-white/10  text-[var(--color-accent)] animate-pulse">
                                             ⏳ Coverage Requested
                                           </span>
                                         ) : (
@@ -4084,7 +4084,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
                                   {/* Instructions/Notes Column */}
                                   {shift.notes || shift.declineReason ? (
-                                    <div className="flex-1 md:max-w-[40%] bg-[#00000029] border border-white/10 p-2 rounded-lg space-y-0.5">
+                                    <div className="flex-1 md:max-w-[40%] bg-[#00000029] border  border-white/10  p-2 rounded-lg space-y-0.5">
                                       {shift.notes && (
                                         <>
                                           <p className="font-bold uppercase tracking-wider">Instructions:</p>
@@ -4106,7 +4106,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         )
                       ) : (
                         tourDates.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
+                          <div className="text-center py-8 border border-dashed  border-white/10  bg-white/[0.01]">
                             <p className="">No band tour events or shows loaded.</p>
                           </div>
                         ) : (
@@ -4132,7 +4132,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   {/* Date Column */}
                                   <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
                                     <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ? 'bg-purple-600/10 border-purple-500/30'
-                                      : ' bg-[#00000029]      border-white/10  '
+                                      : ' bg-[#00000029]       border-white/10   '
                                       }`}>
                                       <span className={`text-[8px] font-bold uppercase  leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
                                       <span className="font-bold text-white leading-none mt-0.5">{dayNum}</span>
@@ -4175,7 +4175,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       <button
                                         type="button"
                                         onClick={() => setActiveDiscussionDate(show.date)}
-                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none flex items-center gap-1"
+                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border  border-white/10  text-purple-300 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer select-none flex items-center gap-1"
                                       >
                                         <MessageSquare className="w-3 h-3 text-purple-300 inline" /> Lineup & Discuss
                                       </button>
@@ -4189,7 +4189,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
                                     {userShift ? (
                                       <div className="flex items-center gap-1.5">
-                                        <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] text-[12px] font-bold uppercase  rounded leading-none">
+                                        <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border  border-white/10  text-[var(--color-accent)] text-[12px] font-bold uppercase  rounded leading-none">
                                           🛡️ {userShift.role}
                                         </span>
                                         {userShift.approvalStatus === 'approved' ? (
@@ -4252,7 +4252,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                   showToast('Failed to save availability', 'error', 'Error');
                                                 }
                                               }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer border border-white/10 hover:border-emerald-500/40"
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer border  border-white/10  hover:border-emerald-500/40"
                                             >
                                               🟢 Available
                                             </button>
@@ -4278,7 +4278,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                   showToast('Failed to save availability', 'error', 'Error');
                                                 }
                                               }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer border border-white/10 hover:border-purple-500/40"
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[12px] font-bold uppercase  rounded transition-colors cursor-pointer border  border-white/10  hover:border-purple-500/40"
                                             >
                                               🔴 Unavailable
                                             </button>
@@ -4302,13 +4302,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <div className="bg-white border border-black/10 overflow-hidden shadow-md mt-6">
                     <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center text-xl">🚨</div>
+                        <div className="w-10 h-10 bg-[var(--color-accent)]/20 border  border-white/10  flex items-center justify-center text-xl">🚨</div>
                         <div>
                           <h3 className="font-bold tracking-widetext-black">Available Shift Coverage Requests</h3>
                           <p className="font-bold text-black/40 uppercase   ">First qualified crew member to claim gets it</p>
                         </div>
                       </div>
-                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border  border-white/10  text-[var(--color-accent)] rounded-lg font-bold uppercase    animate-pulse">
                         {coverageShifts.length} Available
                       </span>
                     </div>
@@ -4365,7 +4365,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <button
                                   type="button"
                                   onClick={() => setActiveDiscussionDate(shift.date)}
-                                  className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/20 text-purple-300   font-bold uppercase  rounded transition-colors cursor-pointer select-none"
+                                  className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border  border-white/10  text-purple-300   font-bold uppercase  rounded transition-colors cursor-pointer select-none"
                                   title="View show lineup acts and discuss details with crew"
                                 >
                                   💬 Lineup & Discuss
@@ -4632,7 +4632,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
                 {/* Wifi Password */}
                 {selectedVenuePopup.wifiPassword && (
-                  <div className="p-3 bg-purple-950/15 border border-white/20 flex items-center justify-between gap-3">
+                  <div className="p-3 bg-purple-950/15 border  border-white/10  flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <span className="  uppercase  text-purple-300/70 font-bold block mb-0.5">📶 Backstage Wi-Fi</span>
                       <span className="   font-bold text-black select-all">{selectedVenuePopup.wifiPassword}</span>

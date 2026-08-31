@@ -128,7 +128,7 @@ export default function CompleteProfilePage() {
     <div className="min-h-screen text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
+        <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden animate-[fadeIn_0.3s_ease]">
           {/* Accent bar */}
           <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
 
@@ -173,7 +173,7 @@ export default function CompleteProfilePage() {
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
@@ -190,7 +190,7 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
                     }`}
                 >
                   <SquishyToggle
@@ -215,7 +215,7 @@ export default function CompleteProfilePage() {
                         value={zipCode}
                         onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
                         placeholder="e.g. 60601"
-                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                        className="w-full px-3 py-2 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                       />
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
                     }`}
                 >
                   <SquishyToggle

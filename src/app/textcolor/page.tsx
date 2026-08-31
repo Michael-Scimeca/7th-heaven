@@ -85,7 +85,7 @@ export default function TextColorTestPage() {
             {PRESETS.map((preset) => (
               <div
                 key={preset.name}
-                className="flex flex-col gap-2 rounded-lg border border-white/10 p-6"
+                className="flex flex-col gap-2 rounded-lg border  border-white/10  p-6"
               >
                 <p className="font-extrabold">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
@@ -104,7 +104,7 @@ export default function TextColorTestPage() {
             Playground
           </h3>
 
-          <div className="flex flex-col gap-6 rounded-lg border border-white/10 p-6">
+          <div className="flex flex-col gap-6 rounded-lg border  border-white/10  p-6">
             <p className="font-bold">
               <AuroraText colors={colors} speed={speed}>
                 {text || " "}
@@ -117,7 +117,7 @@ export default function TextColorTestPage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border  border-white/10  bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
 
@@ -142,7 +142,7 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
+                      className="h-8 w-8 cursor-pointer rounded border  border-white/10  bg-transparent"
                     />
                     <span className="   text-white/50">
                       {c}

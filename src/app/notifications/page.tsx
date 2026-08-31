@@ -134,7 +134,7 @@ export default function NotificationsPage() {
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5 rounded-lg font-bold uppercase  transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
-                : " bg-[#00000029]      border-white/10   text-white/70 hover:text-white hover:border-white/30"
+                : " bg-[#00000029]       border-white/10    text-white/70 hover:text-white hover:border-white/30"
                 }`}
             >
               {tab.label}
@@ -144,7 +144,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-10 shadow-md">
+      <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-6 sm:p-10 shadow-md">
         <p className="font-medium text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
@@ -182,7 +182,7 @@ export default function NotificationsPage() {
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border  border-white/10  text-white font-bold hover:bg-white/15 transition-colors"
                     >
                       <AppleIcon /> App Store
                     </a>
@@ -190,7 +190,7 @@ export default function NotificationsPage() {
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border  border-white/10  text-white font-bold hover:bg-white/15 transition-colors"
                     >
                       <AndroidIcon /> Google Play
                     </a>

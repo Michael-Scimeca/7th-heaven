@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const INPUT = "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
+const INPUT = "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
 const COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ec4899"];
 
 type Guest = { name: string; email: string; phone: string };
@@ -21,7 +21,7 @@ function VersionA() {
         {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
           <button aria-label="Action button" key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer ${activeTab === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-              : "bg-white/[0.04] border border-white/10 text-white/40 hover: text-white "
+              : "bg-white/[0.04] border  border-white/10  text-white/40 hover: text-white "
               }`}>
             <span className="w-5 h-5 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
               {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}
@@ -55,7 +55,7 @@ function VersionB() {
             <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 bg-transparent p-0 text-left" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                 : step > i ? "bg-[var(--color-accent)]/30 text-white"
-                  : " bg-[#00000029]    border border-white/10 text-white/30"
+                  : " bg-[#00000029]    border  border-white/10  text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase    font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
@@ -70,7 +70,7 @@ function VersionB() {
         <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
       </div>
       <div className="flex gap-3">
-        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg font-bold text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
+        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border  border-white/10  rounded-lg font-bold text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
         <button aria-label="Action button" type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
           className="flex-1 py-2.5 bg-[var(--color-accent)] rounded-lg font-bold text-white cursor-pointer hover:bg-[var(--color-accent)]/80 transition-colors">
           {step === 2 ? "Submit" : "Next →"}
@@ -100,7 +100,7 @@ function VersionC() {
           <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover: border-white/10 transition-colors cursor-pointer">
+      <button aria-label="Action button" type="button" className="p-4 border border-dashed  border-white/10  flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover:  border-white/10  transition-colors cursor-pointer">
         <span className="text-xl">+</span>
         <span className="font-bold uppercase   ">Add Guest</span>
       </button>
@@ -112,10 +112,10 @@ function VersionC() {
 function VersionD() {
   const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
   const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
-  const SMALL = "bg-transparent border-0 border-b border-white/10 rounded-none px-2 py-2 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
+  const SMALL = "bg-transparent border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
 
   return (
-    <div className="border border-white/10 overflow-hidden">
+    <div className="border  border-white/10  overflow-hidden">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
         <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">#</span>
         <span className="text-[var(--font-size-2xs)] font-bold uppercase    text-white/20">Name</span>
@@ -166,7 +166,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 font-bold uppercase    text-white/20 hover: text-[var(--color-accent)] hover: border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed  border-white/10  font-bold uppercase    text-white/20 hover: text-[var(--color-accent)] hover:  border-white/10  transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -225,7 +225,7 @@ export default function CruisePreviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {VERSIONS.map(({ label, title, desc, Component }) => (
-            <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 overflow-hidden">
+            <div key={label} className="bg-[var(--color-bg-surface)]/80 border  border-white/10  overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">{label}</span>
                 <div>

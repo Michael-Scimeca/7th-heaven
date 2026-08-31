@@ -117,7 +117,7 @@ export default function EmailPreviewPage() {
 
             <div className="flex items-center gap-4">
               {/* Test Email Form */}
-              <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg pl-3 pr-1 py-1 group focus-within:border-[var(--color-accent)]/50 transition-colors">
+              <div className="flex items-center gap-2 bg-white/[0.03] border  border-white/10  rounded-lg pl-3 pr-1 py-1 group focus-within:border-[var(--color-accent)]/50 transition-colors">
                 <input aria-label="Input field"
                   type="email"
                   placeholder="test@example.com"

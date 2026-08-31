@@ -402,7 +402,7 @@ export default function RockNRollKidsPage() {
                 </p>
 
                 {/* Animated Singles Quick Select Buttons */}
-                <div className="pt-3 border-t border-white/20 space-y-3">
+                <div className="pt-3 border-t  border-white/10  space-y-3">
                   <div className="flex flex-wrap gap-2.5">
                     {FEATURED_MUSIC_SINGLES.map((single) => (
                       <FoolishShrimpButton
@@ -443,7 +443,7 @@ export default function RockNRollKidsPage() {
 
           {/* ── MODULE 3: COMPLETE PRODUCTS & BOOK COLLECTION (Pulled from products.html) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 border- pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b  border-white/10  border- pb-3">
               <div>
                 <h2 className="font-sans text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
               </div>
@@ -465,7 +465,7 @@ export default function RockNRollKidsPage() {
                   className="group flex flex-col justify-between shadow-lg hover:shadow-purple-500/30 cursor-pointer text-left transition-all"
                 >
                   <div>
-                    <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 mb-2.5 bg-black">
+                    <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border  border-white/10  mb-2.5 bg-black">
                       <Image
                         src={p.coverImg}
                         alt={p.title}
@@ -488,7 +488,7 @@ export default function RockNRollKidsPage() {
 
           {/* ── MODULE 5: CREATORS & CONTACT MATRIX (Pulled from contact.html) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/20 pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b  border-white/10  pb-3">
               <div>
                 <h2 className="font-sans text-white font-bold uppercase">Series Founders & Contact</h2>
               </div>

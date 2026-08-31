@@ -60,7 +60,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
     <div
       title={data.description || data.title}
-      className={`${isSmall ? "w-[190px]" : "w-60"} rounded-lg border border-white/10 bg-[#0d0d14] overflow-hidden select-none transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${accent.ring} group`}
+      className={`${isSmall ? "w-[190px]" : "w-60"} rounded-lg border  border-white/10  bg-[#0d0d14] overflow-hidden select-none transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${accent.ring} group`}
     >
       <Handle type="target" position={Position.Top} className={`!w-2 !h-2 ${accent.bar} !border-0`} />
 
@@ -1691,7 +1691,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg border border-white/10 bg-[#00000029] text-white font-bold hover:bg-white/10 transition flex items-center gap-1 ml-1"
+            className="px-3 py-1.5 rounded-lg border  border-white/10  bg-[#00000029] text-white font-bold hover:bg-white/10 transition flex items-center gap-1 ml-1"
           >
             <span>XML</span>
             <ExternalLink className="w-3 h-3" />
@@ -1700,7 +1700,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[calc(100vh-180px)] min-h-[650px] rounded-lg border border-white/10 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[calc(100vh-180px)] min-h-[650px] rounded-lg border  border-white/10  bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           key={activeTab}
           nodes={nodes}
@@ -1714,12 +1714,12 @@ export default function VisualSitemapClient() {
           colorMode="dark"
         >
           <Background color="#1e1b2e" gap={24} size={1} />
-          <Controls className="!bg-black/90 ! border-white/10 !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
+          <Controls className="!bg-black/90 !  border-white/10  !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
             nodeColor="#71717a"
-            className="!bg-black/90 ! border-white/10 ! rounded-lg !shadow-2xl"
+            className="!bg-black/90 !  border-white/10  ! rounded-lg !shadow-2xl"
           />
         </ReactFlow>
       </div>

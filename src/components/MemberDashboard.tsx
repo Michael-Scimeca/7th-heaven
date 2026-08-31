@@ -205,7 +205,7 @@ export default function MemberDashboard() {
     return (
       <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">
         <div className="site-container max-w-xl w-full">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden relative">
+          <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden relative">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
             <div className="p-10">
               <div className="text-center mb-10">
@@ -228,16 +228,16 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border  border-white/10  text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border  border-white/10  text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-white/10 text-center text-white/30">
+              <div className="mt-8 pt-8 border-t  border-white/10  text-center text-white/30">
                 <p>By creating an account, you agree to receive SMS proximity notifications. You can turn these off at any time using the dashboard.</p>
               </div>
             </div>
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border  border-white/10  hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -292,7 +292,7 @@ export default function MemberDashboard() {
         <PushAlertsCard group="fans" className="mb-10" />
 
         {/* Digital Tickets / Inbox moved to top */}
-        <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border   border-white/10 relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
+        <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border    border-white/10  relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
           <div className="absolute top-0 right-0 p-4 opacity-30 blur-[2px] transition-colors duration-500 group-hover:blur-0 group-hover:opacity-40 translate-x-4 -translate-y-4">
             <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 22h20L12 2z" /></svg>
@@ -342,7 +342,7 @@ export default function MemberDashboard() {
                         {pin && (
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
-                              <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
+                              <div className="px-5 py-2 border  border-white/10  bg-[#00000029] opacity-50 grayscale">
                                 <span className="text-[var(--font-size-2xs)] uppercase    font-bold text-white/40 block text-center mb-1">Claimed</span>
                                 <span className="   text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
@@ -396,7 +396,7 @@ export default function MemberDashboard() {
                   key={photo.id}
                   className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
                     : photo.approved
-                      ? "   border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+                      ? "    border-white/10  shadow-[0_0_15px_rgba(16,185,129,0.05)]"
                       : "border-white/10"
                     }`}
                 >
@@ -427,7 +427,7 @@ export default function MemberDashboard() {
 
                   <div className="p-4 flex flex-col gap-2">
                     {photo.caption && (
-                      <p className="border-l-2 border-white/10 pl-2 line-clamp-2">
+                      <p className="border-l-2  border-white/10  pl-2 line-clamp-2">
                         "{photo.caption}"
                       </p>
                     )}

@@ -392,7 +392,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Show Type Preferences */}
-                  <div className="pt-2 border-t border-white/10 space-y-1.5">
+                  <div className="pt-2 border-t  border-white/10  space-y-1.5">
                     <label className="block text-[11px] font-bold uppercase  text-purple-300/80 flex items-center gap-1">
                       <Music className="w-3 h-3 text-cyan-400" /> Notification Types
                     </label>

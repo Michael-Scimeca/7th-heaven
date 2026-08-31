@@ -86,7 +86,7 @@ export default function EmailMapPage() {
 
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] border border-white/10 px-3 py-1 mb-4">
+          <span className="inline-block font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] border  border-white/10  px-3 py-1 mb-4">
             System Architecture
           </span>
           <h1 className="text-4xl font-bold tracking-tight mb-4">

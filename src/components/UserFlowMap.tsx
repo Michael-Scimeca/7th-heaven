@@ -169,7 +169,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-bold shadow-2xlbackdrop-blur-[18px] cursor-pointer hover:scale-105 transition duration-300`}>
-      <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5 mb-2">
+      <div className="flex items-center justify-between gap-1 border-b  border-white/10  pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-lg bg-black/40 text-cyan-300    text-[12px] font-bold">
           ROOT 0.0
         </span>
@@ -198,7 +198,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
     <div className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
-      <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
+      <div className="flex items-center justify-between gap-1 mb-1.5 border-b  border-white/10  pb-1.5">
         <span className={`px-2 py-0.5 rounded text-[12px]    font-bold uppercase  ${scheme.badge}`}>
           HEADER NAV
         </span>
@@ -206,7 +206,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       </div>
 
       <div className="flex items-center justify-center gap-2 my-1">
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border  border-white/10  ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
         <h3 className="font-bold text-white uppercase  truncate">
@@ -254,7 +254,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-start gap-3">
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border  border-white/10  ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
 
@@ -277,7 +277,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       </div>
 
       {data.imgUrl && (
-        <div className="mt-2.5 rounded-lg overflow-hidden border border-white/10 relative h-28 bg-black/50 shadow-inner">
+        <div className="mt-2.5 rounded-lg overflow-hidden border  border-white/10  relative h-28 bg-black/50 shadow-inner">
           <Image src={data.imgUrl} alt={data.label} fill unoptimized sizes="256px" className="object-cover object-top hover:scale-105 transition duration-300" />
         </div>
       )}
@@ -494,7 +494,7 @@ export default function UserFlowMap() {
     <div className="relative w-full h-[850px] rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden shadow-2xl backdrop-blur-[45px]">
 
       {/* Header Info Bar */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
+      <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b  border-white/10  px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-lg bg-pink-400 animate-pulse" />
           <span className="font-bold uppercase    text-white">
@@ -521,7 +521,7 @@ export default function UserFlowMap() {
         className="pt-10"
       >
         <Background color="#1e1b4b" gap={20} size={1} />
-        <Controls className="!bg-black/80 !border-white/10 !text-white ! rounded-lg overflow-hidden" />
+        <Controls className="!bg-black/80 ! border-white/10  !text-white ! rounded-lg overflow-hidden" />
         <MiniMap
           style={{ height: 110, width: 160 }}
           nodeColor={(n) => {
@@ -543,12 +543,12 @@ export default function UserFlowMap() {
                           : "#10b981";
           }}
           maskColor="rgba(0, 0, 0, 0.7)"
-          className="!bg-black/90 !border-white/10 !rounded-xl"
+          className="!bg-black/90 ! border-white/10  !rounded-xl"
         />
       </ReactFlow>
 
       {/* Bottom Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-xl font-bold uppercase   ">
+      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border  border-white/10  px-4 py-2 rounded-lg backdrop-blur-xl font-bold uppercase   ">
         <span className="text-white/40 text-[12px]   ">Legend:</span>
         <span className="flex items-center gap-1.5 text-pink-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-pink-400" /> Home</span>
         <span className="flex items-center gap-1.5 text-teal-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-teal-400" /> Merch</span>
@@ -564,7 +564,7 @@ export default function UserFlowMap() {
         <div className="absolute top-14 right-4 bottom-4 w-96 bg-black/95 border border-purple-500/40 rounded-lg p-6 shadow-2xlbackdrop-blur-[18px] z-30 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right-8 duration-200">
           <div className="space-y-5">
             {/* Header */}
-            <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-3 border-b  border-white/10  pb-4">
               <div>
                 <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300    text-[12px] font-bold uppercase tracking-wider">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
@@ -608,7 +608,7 @@ export default function UserFlowMap() {
           </div>
 
           {/* Action Footer */}
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+          <div className="pt-4 border-t  border-white/10  flex items-center justify-between">
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}

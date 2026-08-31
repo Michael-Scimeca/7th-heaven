@@ -48,9 +48,9 @@ export const PillBadgeButton = React.forwardRef<
         ref={ref}
         type="button"
         onClick={onClick}
-        className={`relative inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-[#301650]/80 hover:bg-[#3d1d66] border border-white/20 hover:border-purple-400/60 shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-all duration-200 cursor-pointer active:scale-95 ${isActive
-            ? "bg-[#451f73] border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-            : ""
+        className={`relative inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-[#301650]/80 hover:bg-[#3d1d66] border  border-white/10  hover:border-purple-400/60 shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-all duration-200 cursor-pointer active:scale-95 ${isActive
+          ? "bg-[#451f73] border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+          : ""
           } ${className}`}
         {...props}
       >

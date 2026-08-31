@@ -284,7 +284,7 @@ export default function PlannerDashboard() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-lg pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
+          <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden">
             <div className="h-px bg-[var(--color-accent)]/40" />
 
             <div className="p-10">
@@ -305,18 +305,18 @@ export default function PlannerDashboard() {
                   <div>
                     <label htmlFor="planner-full-name" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input aria-label="Input field" id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
-                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
                   <label htmlFor="planner-login-email" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                   <input aria-label="Input field" id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
-                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
                   <label htmlFor="planner-login-password" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
                   <input aria-label="Input field" id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
-                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
                 {plannerMode === 'signup' && (
@@ -465,40 +465,40 @@ export default function PlannerDashboard() {
                 <div>
                   <label htmlFor="planner-edit-event-name" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
                   <input aria-label="Input field" id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
-                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
+                    className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <label htmlFor="planner-edit-start-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
                     <input aria-label="Input field" id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-end-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
                     <input aria-label="Input field" id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-venue" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
                     <input aria-label="Input field" id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-attendance" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
                     <input aria-label="Input field" id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="planner-edit-city" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
                     <input aria-label="Input field" id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-state" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
                     <input aria-label="Input field" id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
-                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
               </div>
@@ -526,7 +526,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border  border-white/10  hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -547,7 +547,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border  border-white/10  hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
@@ -565,7 +565,7 @@ export default function PlannerDashboard() {
             ) : (
               <Link
                 href="/planner"
-                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase  transition-colors border border-white/10 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase  transition-colors border  border-white/10  flex items-center justify-center gap-2"
               >
                 <History className="w-4 h-4" />
                 Sign in to manage
@@ -735,7 +735,7 @@ export default function PlannerDashboard() {
                     {/* Card */}
                     <button aria-label="Action button"
                       onClick={() => { setBooking(b); setEditDraft(b); }}
-                      className={`flex-1 text-left px-5 py-4 border-b border-white/10 !rounded-none transition-colors cursor-pointer ${isActive
+                      className={`flex-1 text-left px-5 py-4 border-b  border-white/10  !rounded-none transition-colors cursor-pointer ${isActive
                         ? ``
                         : ''
                         }`}

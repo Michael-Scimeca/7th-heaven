@@ -293,7 +293,7 @@ a:hover {
           <div className="bg-[#0c0817]/95backdrop-blur-[18px] border border-cyan-500/30 rounded-lg w-full max-w-xl max-h-[88vh] flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.2)] text-white overflow-hidden pointer-events-auto shadow-2xl">
 
             {/* Modal Header */}
-            <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+            <div className="p-5 border-b  border-white/10  flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
                   <Sliders className="w-5 h-5" />
@@ -325,7 +325,7 @@ a:hover {
             </div>
 
             {/* Presets Bar */}
-            <div className="px-5 py-3 border-b border-white/10 bg-black/40 flex items-center gap-2 overflow-x-auto">
+            <div className="px-5 py-3 border-b  border-white/10  bg-black/40 flex items-center gap-2 overflow-x-auto">
               <span className="text-[10px] font-bold uppercase    text-white/40 shrink-0 mr-1 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-yellow-400" /> Presets:
               </span>
@@ -333,7 +333,7 @@ a:hover {
                 <button
                   key={p.name}
                   onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
-                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80 hover:text-cyan-300 border border-white/10 hover:border-cyan-400/40 font-bold transition-all shrink-0 cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80 hover:text-cyan-300 border  border-white/10  hover:border-cyan-400/40 font-bold transition-all shrink-0 cursor-pointer"
                 >
                   {p.name}
                 </button>
@@ -341,7 +341,7 @@ a:hover {
             </div>
 
             {/* View Tabs */}
-            <div className="flex border-b border-white/10 font-bold">
+            <div className="flex border-b  border-white/10  font-bold">
               <button
                 onClick={() => setActiveTab("controls")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300  bg-[#00000029]   " : "border-transparent text-white/50 hover:text-white"
@@ -478,7 +478,7 @@ a:hover {
                           type="text"
                           value={settings.borderColor}
                           onChange={(e) => update("borderColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-1.5 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-1.5 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -561,13 +561,13 @@ a:hover {
                           type="color"
                           value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.searchIconColor || "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -725,13 +725,13 @@ a:hover {
                           type="color"
                           value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.checkboxAccentColor}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -794,13 +794,13 @@ a:hover {
                           type="color"
                           value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.headingColor}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -812,13 +812,13 @@ a:hover {
                           type="color"
                           value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.pTextColor}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -830,13 +830,13 @@ a:hover {
                           type="color"
                           value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.linkColor}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
@@ -848,19 +848,19 @@ a:hover {
                           type="color"
                           value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border  border-white/10  shrink-0"
                         />
                         <input
                           type="text"
                           value={settings.linkHoverColor}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg    text-white"
+                          className="flex-1 bg-black/50 border  border-white/10  px-3 py-2 rounded-lg    text-white"
                         />
                       </div>
                     </div>
 
                     {/* Live Typography Preview */}
-                    <div className="pt-3 border-t border-white/10 space-y-2">
+                    <div className="pt-3 border-t  border-white/10  space-y-2">
                       <p className="font-bold uppercase  mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
@@ -911,7 +911,7 @@ a:hover {
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg    text-cyan-200/90 overflow-x-auto max-h-[300px] leading-relaxed">
+                  <pre className="p-4 bg-black/80 border  border-white/10  rounded-lg    text-cyan-200/90 overflow-x-auto max-h-[300px] leading-relaxed">
                     {generatedCSS}
                   </pre>
                 </div>
@@ -919,7 +919,7 @@ a:hover {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-white/10 bg-black/40 flex items-center justify-between">
+            <div className="p-4 border-t  border-white/10  bg-black/40 flex items-center justify-between">
               <span className="text-white/50">Changes apply live to all forms, checkboxes, headings, p tags & links across the site.</span>
               <button
                 onClick={() => setIsOpen(false)}

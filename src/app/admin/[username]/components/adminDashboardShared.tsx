@@ -59,7 +59,7 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border border-white/20 shrink-0 shadow-md"
+        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0 shadow-md"
       />
     );
   }
@@ -91,7 +91,7 @@ export const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 flex items-center  border-b border-white/10  gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029]  !rounded-none'
+      className={`w-full text-left px-2 py-1.5 flex items-center  border-b  border-white/10   gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029]  !rounded-none'
         : isActiveWeek
           ? ' bg-[#00000029] '
           : 'bg-transparent'

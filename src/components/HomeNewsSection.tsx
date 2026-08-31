@@ -55,7 +55,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 border-0  pb-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1  font-bold uppercase  rounded-lg inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
+                <span className="px-3 py-1  font-bold uppercase  rounded-lg inline-flex items-center gap-2 bg-[#00000029] border  border-white/10  px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
                   Featured Announcement
                 </span>
                 <span className="    text-[var(--color-accent)] font-bold">

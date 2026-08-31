@@ -998,7 +998,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
                       className={`py-1.5 px-2 font-bold uppercase  transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
                         ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-                        : ' bg-[#00000029]    text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                        : ' bg-[#00000029]    text-white/70  border-white/10  hover:bg-white/10 hover:text-white'
                         }`}
                     >
                       {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}
@@ -1177,7 +1177,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
+            <div className="flex items-center justify-between border-t  border-white/10  pt-4 mt-6">
               <button aria-label="Action button"
                 onClick={handleResetTuning}
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase    transition-colors cursor-pointer"

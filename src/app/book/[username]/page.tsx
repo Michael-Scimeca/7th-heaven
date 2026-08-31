@@ -91,7 +91,7 @@ export default function PlannerDashboardPage() {
     <div className="site-container bg-transparent text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
       <div>
         {/* Planner Profile Header */}
-        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row items-end md:items-end justify-between gap-6">
+        <header className="mb-8 border-b  border-white/10  pb-8 flex flex-col md:flex-row items-end md:items-end justify-between gap-6">
           <div className="flex items-start gap-5">
             {/* Member Avatar */}
             <div className="relative shrink-0">

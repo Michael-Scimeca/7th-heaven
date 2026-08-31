@@ -9,7 +9,7 @@ import { CalendarBadgeIcon } from "@/components/CalendarBadgeIcon";
 
 const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
   ssr: false,
-  loading: () => <div className="p-8 text-center    text-white/40 bg-black/40 rounded-lg border border-white/10 animate-pulse">Loading Input Style Editor Studio...</div>
+  loading: () => <div className="p-8 text-center    text-white/40 bg-black/40 rounded-lg border  border-white/10  animate-pulse">Loading Input Style Editor Studio...</div>
 });
 
 const CruiseChat = dynamic(() => import("@/components/CruiseChat"), {
@@ -191,7 +191,7 @@ function HoldToActivateButtonDemo() {
   };
 
   return (
-    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+    <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="   font-bold text-amber-400 uppercase tracking-wider">
           Hold to Activate Action Button
@@ -363,9 +363,9 @@ function CosmicRadialButtonDemo() {
   return (
     <div className="space-y-4">
       {/* Interactive Controls & Tuning Panel */}
-      <div className="p-4 rounded-lg bg-[#00000029] border border-white/10 space-y-4">
+      <div className="p-4 rounded-lg bg-[#00000029] border  border-white/10  space-y-4">
         {/* Render Engine Selector */}
-        <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border border-white/10 flex-wrap">
+        <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border  border-white/10  flex-wrap">
           <div className="flex items-center gap-2">
             <span className="   font-bold text-white uppercase tracking-wider">Smooth Motion Engine</span>
           </div>
@@ -375,7 +375,7 @@ function CosmicRadialButtonDemo() {
               onClick={() => setRenderEngine("property")}
               className={`px-3 py-1 rounded-lg    font-bold transition-all cursor-pointer border ${renderEngine === "property"
                 ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
-                : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10"
+                : " bg-[#00000029]     text-white   border-white/10  hover:bg-white/10"
                 }`}
             >
               ⚡ CSS @property Engine (Smooth CSS Transition)
@@ -385,7 +385,7 @@ function CosmicRadialButtonDemo() {
               onClick={() => setRenderEngine("raf")}
               className={`px-3 py-1 rounded-lg    font-bold transition-all cursor-pointer border ${renderEngine === "raf"
                 ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
-                : " bg-[#00000029]     text-white  border-white/10 hover:bg-white/10"
+                : " bg-[#00000029]     text-white   border-white/10  hover:bg-white/10"
                 }`}
             >
               🌊 60fps RAF Lerp Loop (Fluid Physics)
@@ -436,7 +436,7 @@ function CosmicRadialButtonDemo() {
               value={easingCurve}
               onChange={(e) => setEasingCurve(e.target.value)}
               disabled={renderEngine === "raf"}
-              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-white    focus:outline-none cursor-pointer disabled:opacity-30"
+              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border  border-white/10  text-white    focus:outline-none cursor-pointer disabled:opacity-30"
             >
               <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
               <option value="cubic-bezier(0.16, 1, 0.3, 1)">Expo Out (cubic-bezier(0.16, 1, 0.3, 1))</option>
@@ -448,7 +448,7 @@ function CosmicRadialButtonDemo() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/10 flex-wrap">
+        <div className="flex items-center justify-between gap-3 pt-2 border-t  border-white/10  flex-wrap">
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -463,7 +463,7 @@ function CosmicRadialButtonDemo() {
               type="button"
               onClick={() => setIsAutoDrifting(!isAutoDrifting)}
               className={`px-3.5 py-1.5    font-bold rounded-lg transition-all cursor-pointer border ${isAutoDrifting ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
-                : "bg-white/10 text-white/70  border-white/10  hover:bg-white/20"
+                : "bg-white/10 text-white/70   border-white/10   hover:bg-white/20"
                 }`}
             >
               {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
@@ -477,7 +477,7 @@ function CosmicRadialButtonDemo() {
               setCopiedCode(true);
               setTimeout(() => setCopiedCode(false), 2000);
             }}
-            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white    font-bold rounded-lg border border-white/10 cursor-pointer transition-all flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white    font-bold rounded-lg border  border-white/10  cursor-pointer transition-all flex items-center gap-1.5"
           >
             {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedCode ? "Copied CSS!" : "Copy Generated CSS"}</span>
@@ -486,7 +486,7 @@ function CosmicRadialButtonDemo() {
       </div>
 
       {/* Showcase Stage */}
-      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-white/20 relative overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border  border-white/10  relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
 
         {/* Reusable CosmicRadialButton Component Instance with Default Icon */}
@@ -519,7 +519,7 @@ function CosmicRadialButtonDemo() {
       </div>
 
       {/* Real-time Radial Center Points Readout Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-lg border border-white/10    text-[11px]">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-lg border  border-white/10     text-[11px]">
         {activeCenters.map((c, i) => (
           // eslint-disable-next-line react-doctor/no-array-index-as-key
           <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-[#00000029] border border-white/5 text-center">
@@ -822,7 +822,7 @@ export default function StyleGuidePage() {
       <div className="max-w-7xl mx-auto space-y-12">
 
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b  border-white/10  pb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 font-bold  uppercase flex items-center gap-1.5">
@@ -840,7 +840,7 @@ export default function StyleGuidePage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => resetToDefaults()}
-              className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/80 font-bold transition flex items-center gap-2"
+              className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border  border-white/10  text-white/80 font-bold transition flex items-center gap-2"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Reset Tokens
             </button>
@@ -857,7 +857,7 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Sticky Section Quick Navigation Bar */}
-        <div className="sticky top-20 z-40 bg-[#070510]/90 backdrop-blur-xl border border-white/10 rounded-lg p-2 shadow-2xl flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <div className="sticky top-20 z-40 bg-[#070510]/90 backdrop-blur-xl border  border-white/10  rounded-lg p-2 shadow-2xl flex items-center gap-2 overflow-x-auto scrollbar-none">
           {sections.map((sec) => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -878,8 +878,8 @@ export default function StyleGuidePage() {
         </div>
 
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
-        <section id="typography" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="typography" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
@@ -915,7 +915,7 @@ export default function StyleGuidePage() {
                 <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-lg bg-pink-600/10 blur-3xl" />
 
                 {/* Studio Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b  border-white/10  pb-4 relative z-10">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg- purple-white/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                       <Sliders className="h-5 w-5 text-purple-300" />
@@ -967,12 +967,12 @@ export default function StyleGuidePage() {
                 {/* Controls Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                   {/* 1. Min Font Size */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg bg-white/[0.03] border  border-white/10  p-4 space-y-2">
                     <div className="flex items-center justify-between   ">
                       <span className="font-bold text-emerald-400 flex items-center gap-1">
                         1. Min Font Size:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 bg-black/40 border  border-white/10  rounded-lg px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinFs}
@@ -996,12 +996,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 2. Max Font Size */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg bg-white/[0.03] border  border-white/10  p-4 space-y-2">
                     <div className="flex items-center justify-between   ">
                       <span className="font-bold text-purple-400 flex items-center gap-1">
                         2. Max Font Size:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 bg-black/40 border  border-white/10  rounded-lg px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxFs}
@@ -1025,12 +1025,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 3. Min Viewport Width */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg bg-white/[0.03] border  border-white/10  p-4 space-y-2">
                     <div className="flex items-center justify-between   ">
                       <span className="font-bold text-amber-400 flex items-center gap-1">
                         3. Min Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 bg-black/40 border  border-white/10  rounded-lg px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinVw}
@@ -1055,12 +1055,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 4. Max Viewport Width */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="rounded-lg bg-white/[0.03] border  border-white/10  p-4 space-y-2">
                     <div className="flex items-center justify-between   ">
                       <span className="font-bold text-cyan-400 flex items-center gap-1">
                         4. Max Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 bg-black/40 border  border-white/10  rounded-lg px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxVw}
@@ -1086,7 +1086,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* 5. Below Min Viewport Behavior Toggle */}
-                <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                <div className="rounded-lg bg-white/[0.03] border  border-white/10  p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
                   <div>
                     <h4 className="font-bold text-white flex items-center gap-2">
                       5. Below {studioMinVw}px Boundary Behavior:
@@ -1095,7 +1095,7 @@ export default function StyleGuidePage() {
                       Choose whether font stays locked at {studioMinFs}px below {studioMinVw}px or chains into Tablet/Mobile ranges.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-white/10 self-start sm:self-auto">
+                  <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border  border-white/10  self-start sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
                       className={`px-3 py-1.5 rounded-lg font-bold transition ${studioMode === "locked"
@@ -1119,7 +1119,7 @@ export default function StyleGuidePage() {
 
                 {/* Live Formula & Computed Viewport Readout Card */}
                 <div className="rounded-lg bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b  border-white/10  pb-3">
                     <div className="flex items-center gap-2">
                       <span className="   font-bold uppercase  text-purple-300">
                         Generated CSS Formula & Live Inspection:
@@ -1169,7 +1169,7 @@ export default function StyleGuidePage() {
                     <span className="text-[10px]    font-bold uppercase    text-white/40 block mb-2">
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
-                    <div className=" rounded-lg bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
+                    <div className=" rounded-lg bg-white/[0.02] border  border-white/10  p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
                       <div className={`text-${studioSelectedTier} font-bold text-white uppercase tracking-tight text-center leading-none`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
@@ -1293,7 +1293,7 @@ ${deskRules.join("\n")}
                   const maxLimit = isHero ? 8 : 4; // 128px max for hero display, 64px max for standard text
 
                   return (
-                    <div key={tier.key} data-tier={tier.key} className="group rounded-lg bg-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-colors p-4">
+                    <div key={tier.key} data-tier={tier.key} className="group rounded-lg bg-white/[0.02] border  border-white/10  hover:border-purple-500/30 transition-colors p-4">
                       <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
                         {/* Label */}
                         <div className="flex items-center gap-2">
@@ -1314,7 +1314,7 @@ ${deskRules.join("\n")}
                             <span data-val="mMax">{remToPx(tier.mobMax)}px</span>
                           </div>
                           <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
@@ -1327,7 +1327,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
@@ -1364,7 +1364,7 @@ ${deskRules.join("\n")}
                             <span data-val="tMax">{remToPx(tier.tabMax)}px</span>
                           </div>
                           <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
@@ -1387,7 +1387,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
@@ -1424,7 +1424,7 @@ ${deskRules.join("\n")}
                             <span data-val="dMax">{remToPx(tier.deskMax)}px</span>
                           </div>
                           <div className="flex items-center gap-2 bg-white/[0.02] rounded-lg p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
@@ -1447,7 +1447,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border  border-white/10  rounded-lg px-3 py-1.5">
                               <input
                                 type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
                                 className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
@@ -1568,7 +1568,7 @@ ${deskRules.join("\n")}
                           });
                         }
                       }}
-                      className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase  transition flex items-center gap-2"
+                      className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border  border-white/10  text-white font-bold uppercase  transition flex items-center gap-2"
                     >
                       ↺ Reset All to Defaults
                     </button>
@@ -1598,7 +1598,7 @@ ${deskRules.join("\n")}
                         The CSS below has been copied to your clipboard. Paste this block directly into <code className="text-purple-400   ">src/app/globals.css</code> to make your fluid typography settings permanent globally across the entire site.
                       </p>
 
-                      <pre className="p-4 rounded-lg bg-black/60 border border-white/10 text-emerald-400    text-[11px] max-h-80 overflow-y-auto leading-relaxed select-all">
+                      <pre className="p-4 rounded-lg bg-black/60 border  border-white/10  text-emerald-400    text-[11px] max-h-80 overflow-y-auto leading-relaxed select-all">
                         {generatedCssExport}
                       </pre>
 
@@ -1629,8 +1629,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 2: COLORS */}
-        <section id="colors" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <section id="colors" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
                 <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
@@ -1667,11 +1667,11 @@ ${deskRules.join("\n")}
               <div
                 key={varName}
                 onClick={() => handleCopyToken(varName, colorVal)}
-                className="group relative p-3 rounded-lg bg-[#0d091a] border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40"
+                className="group relative p-3 rounded-lg bg-[#0d091a] border  border-white/10  hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40"
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="w-full h-20 rounded-lg border border-white/10 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  className="w-full h-20 rounded-lg border  border-white/10  overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -1712,7 +1712,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
                   onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white    focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border  border-white/10  text-white    focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -1721,7 +1721,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
                   onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white    focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border  border-white/10  text-white    focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -1730,7 +1730,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
                   onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white    focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border  border-white/10  text-white    focus:border-purple-500 outline-none"
                 />
               </div>
             </div>
@@ -1738,8 +1738,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 3: BUTTONS */}
-        <section id="buttons" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="buttons" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-emerald-400 flex items-center gap-2">
               <MousePointer className="w-6 h-6" /> 3. Button Variants & States
             </h2>
@@ -1750,7 +1750,7 @@ ${deskRules.join("\n")}
 
           <div className="space-y-6">
             {/* Primary Purple Glow */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
               <h3 className="   font-bold text-purple-400 uppercase tracking-wider">Primary Glow Purple</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <CosmicRadialButton>
@@ -1766,7 +1766,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Cyan Neon */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
               <h3 className="   font-bold text-purple-400uppercase tracking-wider">Cyan Neon Action</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase  shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
@@ -1782,13 +1782,13 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Secondary Glass */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
               <h3 className="   font-bold text-white/70 uppercase tracking-wider">Secondary Glass</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold transition">
+                <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border  border-white/10  text-white font-bold transition">
                   Glass Default
                 </button>
-                <button className="px-5 py-2.5 rounded-lg bg-white/20 border border-white/10 text-white font-bold ring-2 ring-white/20">
+                <button className="px-5 py-2.5 rounded-lg bg-white/20 border  border-white/10  text-white font-bold ring-2 ring-white/20">
                   Glass Hover
                 </button>
                 <button disabled className="px-5 py-2.5 rounded-lg bg-[#00000029] border border-white/5 text-white/30 font-bold cursor-not-allowed">
@@ -1798,7 +1798,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Ghost & Danger */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
               <h3 className="   font-bold text-amber-400 uppercase tracking-wider">Ghost & Danger Buttons</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 font-bold transition">
@@ -1814,7 +1814,7 @@ ${deskRules.join("\n")}
             <HoldToActivateButtonDemo />
 
             {/* Morphing Multi-Radial Gradient Cosmic Button */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-2">
                   <h3 className="   font-bold text-indigo-400 uppercase tracking-wider">
@@ -1831,8 +1831,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 4: FORM ELEMENTS */}
-        <section id="form-elements" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="form-elements" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
             </h2>
@@ -1847,7 +1847,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Text Inputs */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <h3 className="   font-bold text-purple-400uppercase tracking-wider">Text Inputs</h3>
 
               {/* Default */}
@@ -1857,7 +1857,7 @@ ${deskRules.join("\n")}
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border  border-white/10  text-white/80 placeholder-white/40 font-medium outline-none transition"
                   />
                 </div>
               </div>
@@ -1900,7 +1900,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Search & Textarea */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <h3 className="   font-bold text-purple-400 uppercase tracking-wider">Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
@@ -1929,7 +1929,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* PIN / OTP Digit Input */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-5 md:col-span-2">
               <h3 className="   font-bold text-purple-400 uppercase tracking-wider">PIN / OTP Digit Input</h3>
 
               {/* Default State */}
@@ -1963,7 +1963,7 @@ ${deskRules.join("\n")}
                           className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20 ${pinDefaultFocusedIndex === i ? 'border-white/40 text-white'
                             : digit
                               ? 'border-white/30 text-white/70'
-                              : ' border-white/10  text-white/40 hover:border-white/30'
+                              : '  border-white/10   text-white/40 hover:border-white/30'
                             }`}
                         />
                       </div>
@@ -2002,7 +2002,7 @@ ${deskRules.join("\n")}
                           className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${pinFocusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                             : digit
                               ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                              : ' border-white/10  text-white/40 hover:border-white/40'
+                              : '  border-white/10   text-white/40 hover:border-white/40'
                             }`}
                         />
                       </div>
@@ -2070,7 +2070,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Verify Module Cards */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-6 md:col-span-2">
               <h3 className="   font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p className="">Full glassmorphism verify card modules as used on <code className="text-purple-300   ">/crew/verify</code>, <code className="text-purple-300   ">/planner/verify</code>, <code className="text-purple-300   ">/cruise/verify</code>, and <code className="text-purple-300   ">/admin</code> (2FA).</p>
 
@@ -2098,7 +2098,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2139,7 +2139,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2192,7 +2192,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2235,7 +2235,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none  border-white/10  text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
@@ -2262,7 +2262,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Auth Modal Modules */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-6 md:col-span-2">
               <h3 className="   font-bold text-purple-400 uppercase tracking-wider">Auth Modal Modules (Sign In · Sign Up)</h3>
               <p className="">Full glassmorphism authentication modal cards as used in <code className="text-purple-300   ">LoginModal.tsx</code> for fan and member login/signup.</p>
 
@@ -2298,7 +2298,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border  border-white/10  rounded-lg mb-4 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
                       <button className="relative z-10 py-2 font-bold uppercase    text-white text-center">Sign In</button>
                       <button className="relative z-10 py-2 font-bold uppercase    text-white text-center">Sign Up</button>
@@ -2309,7 +2309,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       </div>
-                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
+                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border  border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
                           <button
                             key={r}
@@ -2330,13 +2330,13 @@ ${deskRules.join("\n")}
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                         <div className="input-glow-border rounded-lg w-full">
-                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                         <div className="input-glow-border rounded-lg w-full">
-                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div className="text-right">
@@ -2401,7 +2401,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border  border-white/10  rounded-lg mb-4 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
                       <button className="relative z-10 py-2 font-bold uppercase    text-white text-center">Sign In</button>
                       <button className="relative z-10 py-2 font-bold uppercase    text-white text-center">Sign Up</button>
@@ -2410,7 +2410,7 @@ ${deskRules.join("\n")}
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
+                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border  border-white/10  rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
                             key={r}
@@ -2433,13 +2433,13 @@ ${deskRules.join("\n")}
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
-                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                         </div>
@@ -2448,13 +2448,13 @@ ${deskRules.join("\n")}
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
                             <div className="input-glow-border rounded-lg w-full">
-                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                         </div>
@@ -2464,13 +2464,13 @@ ${deskRules.join("\n")}
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">FULL NAME</label>
                               <div className="input-glow-border rounded-lg w-full">
-                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
                               <div className="input-glow-border rounded-lg w-full">
-                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                           </div>
@@ -2491,7 +2491,7 @@ ${deskRules.join("\n")}
                               <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
                                 <div className="input-glow-border rounded-lg flex-1">
-                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" placeholder="Zip code" />
                                 </div>
                                 <div className="shrink-0 relative z-30">
                                   <GooeyDropdown
@@ -2517,13 +2517,13 @@ ${deskRules.join("\n")}
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">EMAIL</label>
                           <div className="input-glow-border rounded-lg w-full">
-                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-white/80 mb-1 block">PASSWORD</label>
                           <div className="input-glow-border rounded-lg w-full">
-                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border  border-white/10  text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                       </div>
@@ -2545,7 +2545,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Checkboxes & Radios */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <h3 className="   font-bold text-emerald-400 uppercase tracking-wider">Checkboxes & Radio Controls</h3>
 
               <div className="space-y-3">
@@ -2581,7 +2581,7 @@ ${deskRules.join("\n")}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-white/10 space-y-2">
+              <div className="pt-3 border-t  border-white/10  space-y-2">
                 <span className="font-bold text-white/70 block mb-2">Performance Tier Radio Group</span>
                 <div className="flex flex-col gap-2">
                   <label className="flex items-center gap-3 cursor-pointer">
@@ -2611,7 +2611,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Switches & Toggles */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <h3 className="   font-bold text-pink-400 uppercase tracking-wider">Toggles & Switches</h3>
 
               <div className="space-y-4">
@@ -2648,8 +2648,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 5: DROPDOWNS */}
-        <section id="dropdowns" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="dropdowns" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
@@ -2661,7 +2661,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-6 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="   font-bold text-purple-400uppercase tracking-wider">Default Site Pill Dropdown (`CITY ▼`)</h3>
                 <span className="text-[10px]    font-bold uppercase    text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
@@ -2687,8 +2687,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 6: CHAT BOX COMPONENT */}
-        <section id="chat" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <section id="chat" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
@@ -2740,7 +2740,7 @@ ${deskRules.join("\n")}
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white hover:text-white font-bold transition"
+                className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border  border-white/10  text-white hover:text-white font-bold transition"
               >
                 Reset Controls
               </button>
@@ -2748,14 +2748,14 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
-          <div className="p-5 rounded-lg bg-white/[0.03] border border-white/10 space-y-6">
+          <div className="p-5 rounded-lg bg-white/[0.03] border  border-white/10  space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h3 className="   font-bold text-purple-400uppercase  flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
               </h3>
 
               {/* Multi-User Distinct Color Mode Toggle */}
-              <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 p-1.5 rounded-xl">
+              <div className="flex items-center gap-2 bg-[#00000029] border  border-white/10  p-1.5 rounded-xl">
                 <span className="text-[11px] font-bold text-white/80 pl-1">Multi-User Unique Colors:</span>
                 <button
                   type="button"
@@ -2792,7 +2792,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {r === 0 ? "0px" : `${r}px`}
@@ -2822,7 +2822,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-cyan-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {w === 0 ? "0px" : `${w}px`}
@@ -2852,7 +2852,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {s}px
@@ -2882,7 +2882,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingY === py ? "bg-cyan-600 border-cyan-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {py}px
@@ -2912,7 +2912,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {px}px
@@ -2942,7 +2942,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {sp}px
@@ -2972,7 +2972,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {o}%
@@ -3017,7 +3017,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5 rounded-lg border border-white/10 bg-transparent cursor-pointer"
+                    className="w-5 h-5 rounded-lg border  border-white/10  bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
                   <span className="text-[12px]    text-white uppercase truncate max-w-[80px]">
@@ -3041,7 +3041,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
                       className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {bg.label}
@@ -3080,7 +3080,7 @@ ${deskRules.join("\n")}
                   ? bubbleColorPalette
                   : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="morph-pick rounded-lg border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            className="morph-pick rounded-lg border  border-white/10  bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
             data-pick-label="Live Chat"
           >
             <CruiseChat activeChannel="general" />
@@ -3088,8 +3088,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 7: CARDS & BADGES */}
-        <section id="components" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="components" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
@@ -3125,7 +3125,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/10">
 
             {/* Glass Card Container */}
-            <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
+            <div className="p-6 rounded-lg bg-white/[0.03] border  border-white/10  backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
               <span className="   font-bold text-purple-400 uppercase">Glassmorphism Card</span>
               <h4 className="font-bold text-white">House of Blues Chicago</h4>
               <p className="">
@@ -3147,7 +3147,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Modal Trigger */}
-            <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-lg bg-white/[0.03] border  border-white/10  space-y-3 flex flex-col justify-between">
               <div>
                 <span className="   font-bold text-emerald-400 uppercase">Interactive Modal</span>
                 <h4 className="font-bold text-white">Login & Authentication Modal</h4>
@@ -3167,8 +3167,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 8: MODALS & DIALOGS */}
-        <section id="modals" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="modals" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
             </h2>
@@ -3180,7 +3180,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* 1 — Glassmorphism Modal Shell */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3 flex flex-col justify-between">
               <div>
                 <span className="   font-bold text-cyan-400 uppercase">Glass Shell</span>
                 <h4 className="font-bold text-white">Glassmorphism Modal</h4>
@@ -3197,7 +3197,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 2 — Confirmation / Alert Dialog */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3 flex flex-col justify-between">
               <div>
                 <span className="   font-bold text-amber-400 uppercase">Confirm / Alert</span>
                 <h4 className="font-bold text-white">Confirmation Dialog</h4>
@@ -3219,7 +3219,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 3 — Login / Auth Modal */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3 flex flex-col justify-between">
               <div>
                 <span className="   font-bold text-emerald-400 uppercase">Auth Modal</span>
                 <h4 className="font-bold text-white">Login & Signup Modal</h4>
@@ -3237,7 +3237,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Alert / Success Toast Demo (inline) */}
-          <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
             <h3 className="   font-bold text-purple-400 uppercase tracking-wider">Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Success */}
@@ -3288,7 +3288,7 @@ ${deskRules.join("\n")}
                 <button
                   onClick={() => setShowGlassModal(false)}
                   aria-label="Close modal"
-                  className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                  className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 border  border-white/10  flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -3306,7 +3306,7 @@ ${deskRules.join("\n")}
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 font-medium outline-none transition"
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border  border-white/10  text-white/80 placeholder-white/40 font-medium outline-none transition"
                     />
                   </div>
                   <button
@@ -3348,7 +3348,7 @@ ${deskRules.join("\n")}
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
-                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase    transition cursor-pointer"
+                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border  border-white/10  text-white font-bold uppercase    transition cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -3365,8 +3365,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 9: BORDERS & GLASS */}
-        <section id="borders" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="borders" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
@@ -3375,7 +3375,7 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="p-6 rounded-lg bg-white/[0.02] border  border-white/10  space-y-4">
             <div className="flex items-center justify-between    text-white">
               <span>Variable: <strong className="text-white">--color-border-main</strong></span>
               <span>Computed Value: <strong className="text-cyan-400">rgba(255, 255, 255, 0.08)</strong></span>
@@ -3384,13 +3384,13 @@ ${deskRules.join("\n")}
             <div className="h-px bg-white/10 w-full" />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-bold text-center">
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border  border-white/10  bg-white/[0.02] text-white/80">
                 Card Border: border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border  border-white/10  bg-white/[0.02] text-white/80">
                 Divider: border-b border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border  border-white/10  bg-white/[0.02] text-white/80">
                 Input Border: border-white/10
               </div>
             </div>
@@ -3398,8 +3398,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SCROLLBAR SHOWCASE */}
-        <section id="scrollbars" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="scrollbars" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               <Sliders className="w-6 h-6" /> Custom Scrollbars
             </h2>
@@ -3414,7 +3414,7 @@ ${deskRules.join("\n")}
             {/* Vertical scroll demo */}
             <div className="space-y-3">
               <p className="font-bold uppercase    text-purple-400">Vertical Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
+              <div className="bg-white/[0.02] border  border-white/10  rounded-lg overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/[0.06]">
@@ -3433,7 +3433,7 @@ ${deskRules.join("\n")}
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
               <p className="font-bold uppercase    text-purple-400">Horizontal Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
+              <div className="bg-white/[0.02] border  border-white/10  rounded-lg overflow-hidden">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
@@ -3453,13 +3453,13 @@ ${deskRules.join("\n")}
               <p className="font-bold uppercase    text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
-                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4"
+                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border  border-white/10  rounded-lg p-4"
               >
                 <div style={{ minWidth: 900 }} className="space-y-2">
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
                       {Array.from({ length: 10 }).map((_, col) => (
-                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-white/20 flex items-center justify-center text-[12px]    text-purple-300">
+                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border  border-white/10  flex items-center justify-center text-[12px]    text-purple-300">
                           {row},{col}
                         </div>
                       ))}
@@ -3473,7 +3473,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Usage code block */}
-          <div className="bg-black/40 border border-white/10 rounded-lg p-5">
+          <div className="bg-black/40 border  border-white/10  rounded-lg p-5">
             <p className="font-bold uppercase    text-purple-400 mb-3">Usage</p>
             <pre className="text-[11px] text-purple-200    leading-relaxed overflow-x-auto custom-scrollbar">
               {`// globals.css already defines:
@@ -3490,8 +3490,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 10: SPACING & PADDING TOKENS */}
-        <section id="spacing" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="spacing" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
@@ -3501,19 +3501,19 @@ ${deskRules.join("\n")}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-2">
               <span className="   font-bold text-cyan-400">Mobile Page Padding</span>
               <div className="text-2xl font-bold text-white">16px (<code className="text-white/50   ">var(--page-padding-x)</code>)</div>
               <p className="">Used on screens below 768px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-2">
               <span className="   font-bold text-purple-400">Tablet Page Padding</span>
               <div className="text-2xl font-bold text-white">32px (<code className="text-white/50   ">var(--page-padding-x)</code>)</div>
               <p className="">Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="p-5 rounded-lg bg-white/[0.02] border  border-white/10  space-y-2">
               <span className="   font-bold text-emerald-400">Desktop Page Padding</span>
               <div className="text-2xl font-bold text-white">42px (<code className="text-white/50   ">var(--page-padding-x)</code>)</div>
               <p className="">Standardized max desktop horizontal container padding.</p>
@@ -3534,7 +3534,7 @@ ${deskRules.join("\n")}
                 The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="text-cyan-300">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
-            <div className="shrink-0 p-4 rounded-lg bg-black/60 border border-white/10    text-purple-300 space-y-1">
+            <div className="shrink-0 p-4 rounded-lg bg-black/60 border  border-white/10     text-purple-300 space-y-1">
               <div><span className="text-white/40">width:</span> 100%;</div>
               <div><span className="text-white/40">max-width:</span> 100% !important;</div>
               <div><span className="text-white/40">padding:</span> 0 var(--page-padding-x);</div>
@@ -3543,8 +3543,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 11: CANVAS SHADER & FILM GRAIN STUDIO */}
-        <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+        <section id="canvas-studio" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b  border-white/10  pb-4">
             <div>
               <h2 className="font-bold uppercase  text-emerald-400 flex items-center gap-2">
                 <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
@@ -3566,7 +3566,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Full-Page Film Grain Controls */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-6">
+            <div className="p-6 rounded-lg bg-white/[0.02] border  border-white/10  space-y-6">
               <h3 className="font-bold uppercase  text-emerald-400 flex items-center gap-2">
                 Film Grain Controls
               </h3>
@@ -3595,7 +3595,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {op}%
@@ -3626,7 +3626,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {sz}
@@ -3651,7 +3651,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
-                        : " bg-[#00000029]    border-white/10  text-white  hover:text-white"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:text-white"
                         }`}
                     >
                       {mode.label}
@@ -3662,7 +3662,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
+            <div className="p-6 rounded-lg bg-white/[0.02] border  border-white/10  space-y-5">
               <h3 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
@@ -3716,7 +3716,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "
+                      className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : "  border-white/10  "
                         }`}
                     />
                   ))}
@@ -3724,7 +3724,7 @@ ${deskRules.join("\n")}
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6 rounded-lg border border-white/10 bg-transparent cursor-pointer ml-auto"
+                    className="w-6 h-6 rounded-lg border  border-white/10  bg-transparent cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
                 </div>
@@ -3734,8 +3734,8 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
-        <section id="global-containers" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="global-containers" className="scroll-mt-36 border  border-white/10  rounded-lg p-6 sm:p-8 space-y-8">
+          <div className="border-b  border-white/10  pb-4">
             <h2 className="font-bold uppercase  text-pink-400 flex items-center gap-2">
               <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
             </h2>
@@ -3762,7 +3762,7 @@ ${deskRules.join("\n")}
             ]).map((item) => {
               const currentValue = tokens[item.category]?.[item.token] || "";
               return (
-                <div key={item.token} className="p-4 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+                <div key={item.token} className="p-4 rounded-lg bg-white/[0.02] border  border-white/10  space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="font-bold uppercase  text-pink-400">{item.label}</span>
@@ -3772,20 +3772,20 @@ ${deskRules.join("\n")}
                   </div>
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-8 h-8 rounded-lg border border-white/10 shrink-0"
+                      className="w-8 h-8 rounded-lg border  border-white/10  shrink-0"
                       style={{ backgroundColor: currentValue }}
                     />
                     <input
                       type="text"
                       value={currentValue}
                       onChange={(e) => updateToken(item.category, item.token, e.target.value)}
-                      className="flex-1 px-3 py-1.5 bg-[#00000029] border border-white/10 rounded-lg    text-white focus:border-pink-500 focus:outline-none transition"
+                      className="flex-1 px-3 py-1.5 bg-[#00000029] border  border-white/10  rounded-lg    text-white focus:border-pink-500 focus:outline-none transition"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
                       type="button"
                       onClick={() => updateToken(item.category, item.token, "transparent")}
-                      className="px-2 py-1.5 text-[10px] font-bold uppercase text-white bg-[#00000029] border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition"
+                      className="px-2 py-1.5 text-[10px] font-bold uppercase text-white bg-[#00000029] border  border-white/10  rounded-lg hover:text-white hover:border-white/30 transition"
                     >
                       Clear
                     </button>
@@ -3801,7 +3801,7 @@ ${deskRules.join("\n")}
                         type="button"
                         onClick={() => updateToken(item.category, item.token, preset)}
                         className={`px-2 py-1 rounded text-[12px] font-bold border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200"
-                          : " bg-[#00000029]    border-white/10 text-white/50 hover:text-white"
+                          : " bg-[#00000029]     border-white/10  text-white/50 hover:text-white"
                           }`}
                       >
                         {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
@@ -3835,7 +3835,7 @@ ${deskRules.join("\n")}
 
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-6 overflow-hidden">
-          <div className="border-b border-white/10 px-0 py-4 pb-4">
+          <div className="border-b  border-white/10  px-0 py-4 pb-4">
             <h2 className="font-bold uppercase  text-purple-400flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
@@ -3917,7 +3917,7 @@ ${deskRules.join("\n")}
                     <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
                     <h3 className="font-bold uppercase text-white mt-1">Suite Class Perks</h3>
                   </div>
-                  <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
+                  <div className="flex gap-1.5 bg-[#00000029] p-1.5 border  border-white/10  rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
                       <button aria-label="Action button"
                         key={perk}
@@ -4003,7 +4003,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Disclaimers & Notes */}
-              <div className="mt-8 border-t border-white/10 pt-4 text-white space-y-1.5 leading-relaxed font-semibold">
+              <div className="mt-8 border-t  border-white/10  pt-4 text-white space-y-1.5 leading-relaxed font-semibold">
                 {suiteTab === "sea" && (
                   <>
                     <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -4030,7 +4030,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Stateroom Pricing & Rate Cards Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
+          <div className="pt-8 border-t  border-white/10  space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Prevailing Market Pricing Cards</span>
@@ -4095,7 +4095,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Guest Reservation Form Card Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
+          <div className="pt-8 border-t  border-white/10  space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
@@ -4178,7 +4178,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Policies & Guidelines 3-Column Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
+          <div className="pt-8 border-t  border-white/10  space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Policies & Terms Component</span>
@@ -4221,7 +4221,7 @@ ${deskRules.join("\n")}
                     <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites).</span>
                   </li>
                 </ul>
-                <div className="pt-3 border-t border-white/10 space-y-2">
+                <div className="pt-3 border-t  border-white/10  space-y-2">
                   <p className="">
                     <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">Mary@NTDVacations.com</a>
                   </p>
@@ -4289,7 +4289,7 @@ ${deskRules.join("\n")}
 
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section id="crew-scheduling" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-8 overflow-hidden">
-          <div className="border-b border-white/10 px-0 py-4 pb-4">
+          <div className="border-b  border-white/10  px-0 py-4 pb-4">
             <h2 className="font-bold uppercase  text-purple-400 flex items-center gap-2">
               <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
             </h2>
@@ -4301,9 +4301,9 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6 flex flex-col justify-between">
+            <div className="bg-white/[0.02] border  border-white/10  rounded-lg p-6 space-y-6 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                <div className="flex items-center justify-between border-b  border-white/10  pb-3 mb-4">
                   <div>
                     <h3 className="font-bold uppercase text-white   ">OpenShifts Cell & Group Popover</h3>
                     <p className="">Grid cell action buttons & frosted glass group selection popover</p>
@@ -4314,7 +4314,7 @@ ${deskRules.join("\n")}
                 {/* OpenShifts Cell Controls Mockup */}
                 <div className="space-y-3">
                   <span className="text-[10px] font-bold text-white/40 uppercase    block">1. OpenShifts Grid Cell Buttons</span>
-                  <div className="p-3 bg-[#0d0d14] border border-white/10 rounded-lg space-y-2 max-w-sm">
+                  <div className="p-3 bg-[#0d0d14] border  border-white/10  rounded-lg space-y-2 max-w-sm">
                     <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                       <span className="text-purple-400 font-bold group-hover:text-purple-300">+</span>
                       <span className="text-[12px] font-bold uppercase  text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
@@ -4337,10 +4337,10 @@ ${deskRules.join("\n")}
                 <div className="space-y-3 mt-6">
                   <span className="text-[10px] font-bold text-white/40 uppercase    block">2. Frosted Glass Select Crew Group Popover</span>
                   <div
-                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg shadow-2xl p-4 flex flex-col gap-2 font-sans"
+                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border  border-white/10  rounded-lg shadow-2xl p-4 flex flex-col gap-2 font-sans"
                     style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
                   >
-                    <div className="text-white/90 font-bold uppercase  px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                    <div className="text-white/90 font-bold uppercase  px-2 py-2 border-b  border-white/10  mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
                       <span className="text-white/50 font-bold px-2 py-0.5 bg-[#00000029] rounded-lg border border-white/10">3 saved</span>
                     </div>
@@ -4354,7 +4354,7 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border  border-white/10  hover:  border-white/10  flex items-center gap-3 bg-transparent"
                         >
                           <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300    font-bold flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
@@ -4370,8 +4370,8 @@ ${deskRules.join("\n")}
             </div>
 
             {/* MODULE 2: Create New Crew Group Modal Spec */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="bg-white/[0.02] border  border-white/10  rounded-lg p-6 space-y-6">
+              <div className="flex items-center justify-between border-b  border-white/10  pb-3">
                 <div>
                   <h3 className="font-bold uppercase text-white   ">Create New Crew Group Glass Modal</h3>
                   <p className="">Modal container, input spacing, toggle checklist & role preset pills</p>
@@ -4380,9 +4380,9 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Modal Frame Mockup */}
-              <div className="bg-black/30backdrop-blur-[18px] border border-white/10 rounded-lg overflow-hidden shadow-2xl font-sans">
+              <div className="bg-black/30backdrop-blur-[18px] border  border-white/10  rounded-lg overflow-hidden shadow-2xl font-sans">
                 {/* Header */}
-                <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                <div className="p-4 border-b  border-white/10  bg-transparent flex items-center justify-between shrink-0">
                   <div>
                     <h3 className="font-bold italic tracking-wide text-white">Create New Crew Group</h3>
                     <p className="uppercase    font-bold mt-0.5">Select members and customize their shift slots</p>
@@ -4399,14 +4399,14 @@ ${deskRules.join("\n")}
                       type="text"
                       readOnly
                       value="Weekend Tech Crew"
-                      className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 rounded-lg text-white font-bold"
+                      className="w-full px-3.5 py-2.5 bg-transparent border  border-white/10  rounded-lg text-white font-bold"
                     />
                   </div>
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
                     <span className="text-[12px] uppercase  text-white/50 font-bold block">Select Crew Members</span>
-                    <div className="p-3 bg-transparent border border-white/10 rounded-lg space-y-3">
+                    <div className="p-3 bg-transparent border  border-white/10  rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-4 bg-purple-600 rounded-lg relative cursor-pointer">
@@ -4423,13 +4423,13 @@ ${deskRules.join("\n")}
                       </div>
 
                       {/* Time Frame box */}
-                      <div className="p-2.5 bg-transparent border border-white/10 space-y-2 rounded-lg">
+                      <div className="p-2.5 bg-transparent border  border-white/10  space-y-2 rounded-lg">
                         <div className="flex items-center justify-between">
                           <span className="uppercase  text-purple-300 font-bold text-[9.5px]">Time Frame 1</span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px] text-white font-bold">5:00 PM</div>
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px] text-white font-bold">10:00 PM</div>
+                          <div className="p-1.5 bg-[#00000029] border  border-white/10  rounded text-[10px] text-white font-bold">5:00 PM</div>
+                          <div className="p-1.5 bg-[#00000029] border  border-white/10  rounded text-[10px] text-white font-bold">10:00 PM</div>
                         </div>
 
                         {/* Role Pills Showcase */}
@@ -4442,7 +4442,7 @@ ${deskRules.join("\n")}
                                 <span
                                   key={preset}
                                   className={`px-2 py-0.5 rounded-lg text-[10.5px] font-bold uppercase  border font-sans ${isSelected ? 'bg-purple-600 text-white border-purple-500    '
-                                    : ' bg-[#00000029]    border-white/10 text-white/70'
+                                    : ' bg-[#00000029]     border-white/10  text-white/70'
                                     }`}
                                 >
                                   {isSelected ? `✓ ${preset}` : preset}
@@ -4457,8 +4457,8 @@ ${deskRules.join("\n")}
                 </CustomScrollbar>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-white/10 bg-transparent flex items-center justify-between gap-3 shrink-0">
-                  <button type="button" className="px-4 py-2 border border-white/10 hover: bg-[#00000029] text-white/70 font-bold uppercase  rounded-lg transition-colors cursor-pointer">
+                <div className="p-4 border-t  border-white/10  bg-transparent flex items-center justify-between gap-3 shrink-0">
+                  <button type="button" className="px-4 py-2 border  border-white/10  hover: bg-[#00000029] text-white/70 font-bold uppercase  rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
