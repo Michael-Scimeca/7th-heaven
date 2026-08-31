@@ -1575,7 +1575,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         .eq('user_id', userId)
         .eq('status', 'live')
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (data && !error) {
         setIsLive(true);
