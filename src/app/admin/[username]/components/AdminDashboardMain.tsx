@@ -7801,7 +7801,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <p className="">No cruise signups yet.</p>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[750px] min-h-[450px] overflow-y-auto scrollbar-hide">
+                <div className="space-y-2 max-h-[750px] min-h-[450px] overflow-y-auto custom-admin-scrollbar pr-1">
                   {/* Table header */}
                   <div className="sticky top-0 z-20  grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 px-4 py-3 text-[0.65rem] font-bold mb-0 uppercase  border-b border-white/10">
                     <span></span>
@@ -12082,7 +12082,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
                     <p className="font-bold uppercase mb-2">Recent Signups</p>
-                    <div className="max-h-[550px] min-h-[320px] overflow-y-auto scrollbar-hide space-y-1.5">
+                    <div className="max-h-[550px] min-h-[320px] overflow-y-auto custom-admin-scrollbar space-y-1.5 pr-1">
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5  border-b border-white/10 transition-colors group/row mb-0">
                           <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem] font-bold text-[var(--color-accent)] shrink-0">
