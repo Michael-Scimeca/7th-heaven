@@ -78,7 +78,7 @@ export default function HeroParallaxCustomizer({
       ) : (
         <div className="w-[280px] bg-black/75 backdrop-blur-xl border  border-white/10  p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-white/5 pb-2">
+          <div className="flex items-center justify-between border-b  border-white/10  pb-2">
             <div className="flex flex-col">
               <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase  text-[var(--color-accent)]">
                 Parallax Tester
@@ -109,7 +109,7 @@ export default function HeroParallaxCustomizer({
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
                   className={`px-2 py-1   font-bold uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
-                    : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
+                    : " bg-[#00000029]     border-white/10   text-white  hover:bg-white/10 hover:border-white/10"
                     }`}
                 >
                   {preset.name}
@@ -159,7 +159,7 @@ export default function HeroParallaxCustomizer({
             aria-label="Toggle foreground counter-drift"
             onClick={() => updatePxForeground(!pxForeground)}
             className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
-              : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10"
+              : " bg-[#00000029]     border-white/10   text-white  hover:bg-white/10"
               }`}
           >
             <span className="font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
@@ -172,7 +172,7 @@ export default function HeroParallaxCustomizer({
           </button>
 
           {/* Active Values HUD */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2      text-white/40 space-y-0.5">
+          <div className="bg-white/[0.02] border  border-white/10  rounded-lg p-2      text-white/40 space-y-0.5">
             <div>
               Depth: <span className="text-white font-bold">±{pxRange}%</span>
             </div>

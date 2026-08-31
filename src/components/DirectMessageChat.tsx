@@ -139,7 +139,7 @@ export default function DirectMessageChat() {
       {open && (
         <div className="absolute bottom-16 right-0 w-[300px] h-[380px] bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border  border-white/10  shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col animate-[fadeIn_0.25s_ease-out]">
           {/* Header */}
-          <div className="p-3.5 bg-white/[0.02] border-b border-white/5 flex items-center gap-2">
+          <div className="p-3.5 bg-white/[0.02] border-b  border-white/10  flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
               <span className="font-bold uppercase    text-[var(--color-accent)]">Direct Message</span>

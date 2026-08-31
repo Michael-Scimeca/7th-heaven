@@ -190,15 +190,15 @@ export default function ReferralProgramPanel() {
 
         {/*  Metrics Strip  */}
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
+          <div className="p-4 bg-white/[0.02] border  border-white/10  text-center">
             <p className="font-bold text-purple-300">{totalReferrals}</p>
             <p className="uppercase    font-bold mt-1">Total Referrals</p>
           </div>
-          <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
+          <div className="p-4 bg-white/[0.02] border  border-white/10  text-center">
             <p className="font-bold">{totalConverted}</p>
             <p className="uppercase    font-bold mt-1">Converted</p>
           </div>
-          <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
+          <div className="p-4 bg-white/[0.02] border  border-white/10  text-center">
             <p className="font-bold">{leaderboard.length}</p>
             <p className="uppercase    font-bold mt-1">Active Referrers</p>
           </div>
@@ -223,7 +223,7 @@ export default function ReferralProgramPanel() {
             {Array.from(milestones, (m, i) => ({ m, i })).map(({ m, i }) => (
               <div
                 key={m.threshold}
-                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 group"
+                className="flex items-center justify-between p-3 bg-white/[0.02] border  border-white/10  group"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-lg">{m.emoji}</span>
@@ -322,7 +322,7 @@ export default function ReferralProgramPanel() {
             {milestones.map((m) => (
               <div
                 key={m.threshold}
-                className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg"
+                className="flex-1 text-center p-2 bg-white/[0.02] border  border-white/10  rounded-lg"
               >
                 <p className="font-bold text-purple-300">{m.threshold}</p>
                 <p className="font-bold uppercase    mt-0.5">
@@ -410,7 +410,7 @@ export default function ReferralProgramPanel() {
                                   ? " border-white/10  bg-white/[0.02]"
                                   : i === 2
                                     ? " border-white/10  bg-white/[0.015]"
-                                    : "border-white/5 bg-white/[0.01]"
+                                    : " border-white/10  bg-white/[0.01]"
                                 }`}
                             >
                               <div className="flex items-center gap-3">
@@ -466,7 +466,7 @@ export default function ReferralProgramPanel() {
 
                           {/* Expanded details */}
                           {expandedRow === entry.referrer_code && (
-                            <div className="p-4 bg-white/[0.02] border-x border-b border-white/5 space-y-3">
+                            <div className="p-4 bg-white/[0.02] border-x border-b  border-white/10  space-y-3">
                               {/* Stats */}
                               <div className="flex gap-4">
                                 <div>
@@ -527,7 +527,7 @@ export default function ReferralProgramPanel() {
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
-                                        className="px-2 py-0.5 bg-[#00000029] border border-white/5 text-white/40   "
+                                        className="px-2 py-0.5 bg-[#00000029] border  border-white/10  text-white/40   "
                                       >
                                         {email}
                                       </span>

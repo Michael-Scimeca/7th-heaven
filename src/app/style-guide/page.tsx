@@ -522,7 +522,7 @@ function CosmicRadialButtonDemo() {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-lg border  border-white/10     text-[11px]">
         {activeCenters.map((c, i) => (
           // eslint-disable-next-line react-doctor/no-array-index-as-key
-          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-[#00000029] border border-white/5 text-center">
+          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-[#00000029] border  border-white/10  text-center">
             <span className="text-purple-400 font-bold block text-[10px]">Radial {i + 1}</span>
             <span className="text-white/90 font-semibold">{c.x}% {c.y}%</span>
           </div>
@@ -1791,7 +1791,7 @@ ${deskRules.join("\n")}
                 <button className="px-5 py-2.5 rounded-lg bg-white/20 border  border-white/10  text-white font-bold ring-2 ring-white/20">
                   Glass Hover
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-[#00000029] border border-white/5 text-white/30 font-bold cursor-not-allowed">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-[#00000029] border  border-white/10  text-white/30 font-bold cursor-not-allowed">
                   Glass Disabled
                 </button>
               </div>
@@ -1894,7 +1894,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value="Read-only System ID: 7H-ADMIN-99"
                   disabled
-                  className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/5 text-white/30 cursor-not-allowed"
+                  className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border  border-white/10  text-white/30 cursor-not-allowed"
                 />
               </div>
             </div>

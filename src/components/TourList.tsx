@@ -1388,7 +1388,7 @@ ${filterLine}
                             return (
                               <span
                                 title="No Directions Link"
-                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/5 text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border  border-white/10  text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
                               >
                                 <MapPin className="w-3.5 h-3.5 text-white/20" />
                                 <span>Map</span>
@@ -1417,7 +1417,7 @@ ${filterLine}
                             return (
                               <span
                                 title="No Parking Link"
-                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/5 text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border  border-white/10  text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
                               >
                                 <Car className="w-3.5 h-3.5 text-white/20" />
                                 <span>Ride / Park</span>
@@ -1470,7 +1470,7 @@ ${filterLine}
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                                  className="flex items-center gap-2 px-4 py-2 font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t  border-white/10  mt-1 pt-2 cursor-pointer font-sans"
                                 >
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> SMS / Text Alerts
                                 </button>
@@ -1643,7 +1643,7 @@ ${filterLine}
                     placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b  border-white/10  my-2">
                   <div className="flex items-center gap-2 font-bold uppercase  text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-all-ages-toggle"
@@ -1751,7 +1751,7 @@ ${filterLine}
               </div>
 
               {/* Show info */}
-              <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
+              <div className="bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5 mb-4">
                 <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
                 <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
               </div>
@@ -2118,7 +2118,7 @@ ${filterLine}
             </div>
 
             {/* Code telemetry */}
-            <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5      text-white select-all leading-relaxed whitespace-pre-wrap">
+            <div className="bg-black/40 border  border-white/10  rounded-lg p-3.5 mb-5      text-white select-all leading-relaxed whitespace-pre-wrap">
               {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
             </div>
 

@@ -134,9 +134,9 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
   ];
 
   return (
-    <div className="border border-white/5 overflow-hidden">
+    <div className="border  border-white/10  overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-3 bg-white/[0.02] border-b border-white/5 flex items-center justify-between">
+      <div className="px-5 py-3 bg-white/[0.02] border-b  border-white/10  flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div>
             <span className="font-bold text-white/80">Show Crew — {bookingId}</span>
@@ -235,7 +235,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   value={event.time}
                   onChange={e => updateTimeline(i, e.target.value)}
                   placeholder="e.g. 3:00 PM"
-                  className="flex-1 bg-transparent border-b border-white/5 focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
+                  className="flex-1 bg-transparent border-b  border-white/10  focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
                 />
               </div>
             ))}
@@ -295,7 +295,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             ) : (
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {data.notes.map((note) => (
-                  <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
+                  <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border  border-white/10  rounded-lg">
                     <p className="leading-relaxed">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)]/50">{note.author}</span>

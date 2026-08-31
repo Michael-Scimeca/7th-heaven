@@ -61,7 +61,7 @@ export default function EmailPreviewPage() {
       <div className="flex h-full overflow-hidden">
 
         {/* ── Sidebar ── */}
-        <div className="w-[320px] border-r border-white/5 bg-[#08080c] flex flex-col shrink-0 min-h-0 overflow-hidden">
+        <div className="w-[320px] border-r  border-white/10  bg-[#08080c] flex flex-col shrink-0 min-h-0 overflow-hidden">
           <div className="p-6 border-b border-white/5">
             <h1 className="text-lg font-bold tracking-tight text-white mb-1">Email Templates</h1>
             <p className="">{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
@@ -106,7 +106,7 @@ export default function EmailPreviewPage() {
         {/* ── Preview Panel ── */}
         <div className="flex-1 flex flex-col">
           {/* Toolbar */}
-          <div className="h-14 border-b border-white/5 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
+          <div className="h-14 border-b  border-white/10  bg-[#08080c] flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center gap-3">
               <h2 className="font-bold text-white">{active.name}</h2>
               <span className={`font-bold uppercase    px-2 py-0.5 rounded-lg ${active.status === 'live'
@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/5 p-6 text-white/50    overflow-x-auto whitespace-pre-wrap leading-relaxed">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border  border-white/10  p-6 text-white/50    overflow-x-auto whitespace-pre-wrap leading-relaxed">
                 {html}
               </pre>
             )}

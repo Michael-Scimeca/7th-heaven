@@ -332,7 +332,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
             {/* Mini playlist list */}
             {track.songs && track.songs.length > 1 && (
-              <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1 max-h-[110px] overflow-y-auto pr-1 select-none">
+              <div className="mt-2.5 pt-2.5 border-t  border-white/10  space-y-1 max-h-[110px] overflow-y-auto pr-1 select-none">
                 {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                   const isActive = idx === currentSongIndex;
                   return (
@@ -374,7 +374,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   }
 
   return (
-    <section className="relative py-16 bg-[var(--color-bg-primary)] border-y border-white/5 overflow-hidden">
+    <section className="relative py-16 bg-[var(--color-bg-primary)] border-y  border-white/10  overflow-hidden">
       {/* Visual background lights */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-lg opacity-[0.08] blur-[120px] pointer-events-none"
         style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
@@ -515,7 +515,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                   {/* Close timer (if temporary) */}
                   {track.expires_at && (
-                    <div className="text-white/30 uppercase font-bold  flex items-center gap-1.5 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-lg">
+                    <div className="text-white/30 uppercase font-bold  flex items-center gap-1.5 bg-white/[0.02] border  border-white/10  px-3 py-1.5 rounded-lg">
                       🕒 Drop Expires: {new Date(track.expires_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   )}
@@ -525,7 +525,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     type="button"
                     onClick={toggleCompressor}
                     className={`text-[0.65rem] uppercase font-bold    flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
-                      : 'bg-white/[0.02] border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
+                      : 'bg-white/[0.02]  border-white/10  text-white/40 hover:text-white/70 hover:border-white/10'
                       }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
                   >
@@ -566,7 +566,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* EP / Album Playlist tracks */}
               {track.songs && track.songs.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
+                <div className="mt-8 pt-6 border-t  border-white/10  space-y-3">
                   <span className="block text-[0.65rem] font-bold uppercase    text-white/35">Drop Playlist</span>
                   <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {

@@ -34,7 +34,7 @@ class MapErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/5 flex flex-col items-center justify-center gap-3">
+        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border  border-white/10  flex flex-col items-center justify-center gap-3">
           <p className="">Map reloading...</p>
           <button aria-label="Action button"
             onClick={() => this.setState({ hasError: false })}

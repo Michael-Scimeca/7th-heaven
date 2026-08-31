@@ -1206,7 +1206,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   }
                 }}
               >
-                <div className="text-center pb-2 border-b border-white/5 mb-2 flex flex-col items-center">
+                <div className="text-center pb-2 border-b  border-white/10  mb-2 flex flex-col items-center">
                   <span className="  uppercase font-bold    text-white/30 block">{day.dayName}</span>
                   <span className="font-bold text-white/70 block mt-0.5">{day.monthName} {day.dayOfMonth}</span>
                   {(() => {
@@ -1230,7 +1230,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                 <div className="flex-1 flex flex-col gap-2">
                   {sortedShifts.length === 0 ? (
-                    <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-lg p-4 bg-black/20">
+                    <div className="flex-1 flex items-center justify-center border border-dashed  border-white/10  rounded-lg p-4 bg-black/20">
                       <span className="text-white/30 italic font-medium">Empty</span>
                     </div>
                   ) : (
@@ -1295,7 +1295,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   <div
                     key={idx}
                     className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10  border-solid'
-                      : 'border-white/5 border-dashed'
+                      : ' border-white/10  border-dashed'
                       }`}
                   />
                 ))}
@@ -1424,26 +1424,26 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             position: sticky;
             top: 0;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.4) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 24, 0.96) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
           }
           .wiw-sticky-header {
             position: sticky;
             top: 0;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.4) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(15, 15, 24, 0.96) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-col {
             position: sticky;
             left: 0;
             z-index: 20;
-            background-color: rgba(15, 15, 19, 0.9) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(15, 15, 24, 0.96) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             color: var(--text-color) !important;
            
           }
@@ -1452,18 +1452,18 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             top: 0;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.9) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(15, 15, 24, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-header-2 {
             position: sticky;
             top: 46px;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.4) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(15, 15, 24, 0.96) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-corner-2 {
@@ -1471,9 +1471,9 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             top: 46px;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.9) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(15, 15, 24, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             color: var(--text-color) !important;
           }
           tr:hover .wiw-sticky-col {
@@ -1666,7 +1666,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                   <div className="space-y-3">
                     {coEditors.map(ed => (
-                      <div key={ed.id} className="p-3 bg-black/40 border border-white/5 flex items-center justify-between gap-3">
+                      <div key={ed.id} className="p-3 bg-black/40 border  border-white/10  flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 font-bold flex items-center justify-center">
                             {ed.avatar}
@@ -1721,7 +1721,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     <button
                       type="button"
                       onClick={handlePrevWeek}
-                      className="p-2 hover: bg-[#00000029] transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      className="p-2 hover: bg-[#00000029] transition-colors border-r  border-white/10  text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                       title="Previous Week"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
@@ -1731,7 +1731,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       onClick={() => {
                         document.getElementById('wiw-date-picker')?.click();
                       }}
-                      className="p-2 hover: bg-[#00000029] transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      className="p-2 hover: bg-[#00000029] transition-colors border-r  border-white/10  text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                       title="Choose Date"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -2014,7 +2014,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
               {/* Expandable Advanced Filters Panel */}
               {isFiltersPanelExpanded && (
-                <div className="relative z-50 border-b border-white/5 backdrop-blur-[45px] px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
+                <div className="relative z-50 border-b  border-white/10  backdrop-blur-[45px] px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {/* Search by Person */}
                     <div className="flex flex-col gap-1.5">
@@ -2125,7 +2125,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   </div>
 
                   {/* Info summary under filters */}
-                  <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
+                  <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t  border-white/10  pt-2">
                     <div className="flex items-center gap-4">
                       <span>
                         Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
@@ -2176,7 +2176,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                   {/* Tour Dates Section Box */}
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
-                    <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b border-white/5 relative z-20 ">
+                    <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b  border-white/10  relative z-20 ">
                       <div className="flex items-center gap-1.5">
                         <span className="font-bold  uppercase ">Tour Dates</span>
                       </div>
@@ -2338,7 +2338,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 </button>
                               </div>
 
-                              <div className="border-t border-white/5 pt-3 space-y-2.5">
+                              <div className="border-t  border-white/10  pt-3 space-y-2.5">
                                 <div className="flex items-center justify-between">
                                   <span className="font-bold uppercase  text-white/50">Assign Coverage:</span>
 
@@ -2980,7 +2980,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       </CustomScrollbar>
 
                       {/* Drawer Footer */}
-                      <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+                      <div className="p-5 border-t  border-white/10  flex items-center justify-between gap-3 shrink-0">
                         <button
                           type="button"
                           onClick={() => setCellGroupPopover(null)}
@@ -3121,7 +3121,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                                 {/* Multiple time frames and role pill selector when active */}
                                 {setting.active && (
-                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
+                                  <div className="w-full mt-2.5 pt-2.5 border-t  border-white/10  space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
                                     {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf: any, tfIdx: number) => (
                                       <div key={tfIdx} className="p-2.5 bg-transparent border  border-white/10  space-y-2 relative">
                                         <div className="flex items-center justify-between">
@@ -3273,7 +3273,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     </CustomScrollbar>
 
                     {/* Modal Footer */}
-                    <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+                    <div className="p-5 border-t  border-white/10  flex items-center justify-between gap-3 shrink-0">
                       <button
                         type="button"
                         onClick={() => {
@@ -3385,7 +3385,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <div>
                           <h4 className="font-bold uppercase text-white/40  mb-2.5">Scheduled Crew</h4>
                           {filledShifts.length === 0 ? (
-                            <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 italic">
+                            <div className="text-center py-4 bg-white/[0.01] border border-dashed  border-white/10  text-white/30 italic">
                               No crew members scheduled yet
                             </div>
                           ) : (
@@ -3396,7 +3396,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 const color = member?.color || getAvatarColor(shift.crewName);
 
                                 return (
-                                  <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover: border-white/10  transition-colors">
+                                  <div key={shift.id} className="bg-black/20 border  border-white/10  p-3 flex items-center justify-between gap-3 hover: border-white/10  transition-colors">
                                     <div className="flex items-center gap-2.5 min-w-0">
                                       {member?.avatar ? (
                                         <NextImage src={member.avatar} alt="7th Heaven Media" width={32} height={32} unoptimized className="w-8 h-8 rounded-full object-cover shrink-0" />
@@ -3437,7 +3437,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <div>
                           <h4 className="font-bold uppercase text-white/40  mb-2.5">Open Positions</h4>
                           {openShifts.length === 0 ? (
-                            <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/5 text-white/30 italic">
+                            <div className="text-center py-4 bg-white/[0.01] border border-dashed  border-white/10  text-white/30 italic">
                               No open positions
                             </div>
                           ) : (

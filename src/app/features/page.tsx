@@ -1352,7 +1352,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-bold uppercase    transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : "border-white/5 text-white/25 hover:text-white hover: bg-[#00000029]   "}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-bold uppercase    transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : " border-white/10  text-white/25 hover:text-white hover: bg-[#00000029]   "}`}>
           Explore live →
         </Link>
       )}
@@ -1841,7 +1841,7 @@ export default function FeaturesPage() {
                       { label: "Fan Photos", val: "134", icon: "📸", color: "#34d399", trend: "8 need review", bar: 55 },
                       { label: "Live Viewers", val: "1,891", icon: "📡", color: "#f87171", trend: "Peak right now", bar: 89 },
                     ].map(s => (
-                      <div key={s.label} className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-2">
+                      <div key={s.label} className="bg-[var(--color-bg-surface)] border  border-white/10  p-4 flex flex-col gap-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xl">{s.icon}</span>
                           <span className="text-white/25 font-bold">{s.trend}</span>
@@ -1859,7 +1859,7 @@ export default function FeaturesPage() {
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
                     {/* Col 1: Bookings */}
-                    <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
+                    <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-bold uppercase   ">📋 Booking Requests</span>
                         <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-white/20">3 Pending</span>
@@ -1899,7 +1899,7 @@ export default function FeaturesPage() {
                     </div>
 
                     {/* Col 2: Fan Photo Queue */}
-                    <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden flex flex-col">
+                    <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden flex flex-col">
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                         <span className="text-white/70 font-bold uppercase   ">📸 Fan Photo Queue</span>
                         <span className="text-purple-300 font-bold px-2 py-0.5 bg-purple-600/10 rounded-lg border border-white/20">8 Awaiting</span>
@@ -1959,7 +1959,7 @@ export default function FeaturesPage() {
 
                     {/* Col 3: Live Monitor + SMS + Audit */}
                     <div className="flex flex-col gap-4">
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
+                      <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden">
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70 font-bold uppercase   ">📡 Live Streams</span>
                           <span className="flex items-center gap-1 text-red-400 font-bold"><span className="w-1.5 h-1.5 rounded-lg bg-red-500 animate-pulse" />2 Active</span>
@@ -1988,7 +1988,7 @@ export default function FeaturesPage() {
                         </div>
                       </div>
 
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 p-4 flex flex-col gap-3">
+                      <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-4 flex flex-col gap-3">
                         <div className="flex items-center gap-2">
                           <span>📣</span>
                           <span className="text-white/70 font-bold uppercase   ">SMS Blast</span>
@@ -2006,7 +2006,7 @@ export default function FeaturesPage() {
                         <div className="text-white/20">Last blast: Dec 10 — 94% open rate</div>
                       </div>
 
-                      <div className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
+                      <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden">
                         <div className="px-4 py-3 border-b border-white/[0.05]">
                           <span className="text-white/70 font-bold uppercase   ">📝 Audit Log</span>
                         </div>

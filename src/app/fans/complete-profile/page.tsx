@@ -241,7 +241,7 @@ export default function CompleteProfilePage() {
               </div>
 
               {/* Info callout */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-lg px-4 py-3">
+              <div className="bg-white/[0.02] border  border-white/10  rounded-lg px-4 py-3">
                 <p className="leading-relaxed">
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>

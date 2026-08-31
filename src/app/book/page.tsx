@@ -835,7 +835,7 @@ function BookPageContent() {
         {/* Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-lg blur-[150px] pointer-events-none" />
 
-        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/5 backdrop-blur-xl p-10 rounded-[2rem]">
+        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border  border-white/10  backdrop-blur-xl p-10 rounded-[2rem]">
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>

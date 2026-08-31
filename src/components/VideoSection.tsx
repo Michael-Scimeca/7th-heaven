@@ -217,7 +217,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/5 "
+        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b  border-white/10  "
           : ""
           }`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}

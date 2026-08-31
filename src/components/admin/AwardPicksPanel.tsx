@@ -191,7 +191,7 @@ export default function AwardPicksPanel() {
           containerClassName="max-w-[300px] mb-3"
         />
 
-        <div className="max-h-48 overflow-y-auto border border-white/5 rounded-lg">
+        <div className="max-h-48 overflow-y-auto border  border-white/10  rounded-lg">
           {filteredFans.length === 0 ? (
             <p className="text-center py-4">No fans found</p>
           ) : (
@@ -199,7 +199,7 @@ export default function AwardPicksPanel() {
               <button aria-label="Action button"
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
-                className={`w-full text-left px-4 py-2.5 border-b border-white/5 last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10 text-white"
+                className={`w-full text-left px-4 py-2.5 border-b  border-white/10  last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10 text-white"
                   : "hover:bg-white/[0.03]  text-white "
                   }`}
               >
@@ -243,7 +243,7 @@ export default function AwardPicksPanel() {
           <span className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Recent Awards</span>
           <div className="space-y-1.5">
             {recentAwards.map((a) => (
-              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg">
+              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border  border-white/10  rounded-lg">
                 <span className="w-3 h-3 rounded-lg" style={{ background: a.color }} />
                 <span className="text-white/70 font-bold">{a.fan}</span>
                 <span className="text-white/30">→</span>

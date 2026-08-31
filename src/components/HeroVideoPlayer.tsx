@@ -576,7 +576,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               className="w-[280px] bg-black/75 backdrop-blur-xl border  border-white/10  p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <div className="flex items-center justify-between border-b  border-white/10  pb-2">
                 <div className="flex flex-col">
                   <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase  text-[var(--color-accent)]">
                     Video Tint Tester
@@ -655,7 +655,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       key={mode}
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1   font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
-                        : " bg-[#00000029]    border-white/5  text-white  hover:bg-white/10 hover:border-white/10"
+                        : " bg-[#00000029]     border-white/10   text-white  hover:bg-white/10 hover:border-white/10"
                         }`}
                     >
                       {mode}
@@ -665,7 +665,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
 
               {/* Active Values HUD */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2      text-white/40 space-y-0.5">
+              <div className="bg-white/[0.02] border  border-white/10  rounded-lg p-2      text-white/40 space-y-0.5">
                 <div>Color: <span className="text-white font-bold">{tintColor}</span></div>
                 <div>Opacity: <span className="text-white font-bold">{tintOpacity}</span></div>
                 <div>Blend: <span className="text-white font-bold">{mixBlendMode}</span></div>

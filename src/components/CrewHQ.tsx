@@ -781,7 +781,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
                       <p className="font-bold uppercase   ">Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
+                        <div className="text-center py-6 border border-dashed  border-white/10  bg-white/[0.01]">
                           <p className="">No custom keywords configured.</p>
                         </div>
                       ) : (

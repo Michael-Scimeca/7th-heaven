@@ -753,7 +753,7 @@ export default function CruiseChat({
                       key={s.tag}
                       type="button"
                       onClick={() => insertTag(s.tag)}
-                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-500/40 text-white transition-colors text-left cursor-pointer"
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 border  border-white/10  hover:border-cyan-500/40 text-white transition-colors text-left cursor-pointer"
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">

@@ -106,15 +106,15 @@ export async function GET() {
             </div>
 
             <div class="space-y-2.5">
-              <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5 rounded-lg bg-white/[0.03] border  border-white/10  flex items-center justify-between">
                 <span class="text-white/80 font-medium">📥 Download Official Contract (.pdf)</span>
                 <span class="text-purple-400 font-bold text-[10px]">READY</span>
               </div>
-              <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5 rounded-lg bg-white/[0.03] border  border-white/10  flex items-center justify-between">
                 <span class="text-white/80 font-medium">📅 Export Schedule (.ics)</span>
                 <span class="text-purple-400 font-bold text-[10px]">EXPORT</span>
               </div>
-              <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="p-2.5 rounded-lg bg-white/[0.03] border  border-white/10  flex items-center justify-between">
                 <span class="text-white/80 font-medium">💬 Band Management Direct Chat</span>
                 <span class="text-emerald-400 font-bold text-[10px]">ONLINE</span>
               </div>

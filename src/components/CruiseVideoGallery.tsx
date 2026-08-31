@@ -279,7 +279,7 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400  pt-3 border-t border-white/5 ">
+                <div className="flex items-center gap-1.5 font-bold uppercase text-purple-400  pt-3 border-t  border-white/10  ">
                   <span>Watch Video Tour</span>
 
                 </div>

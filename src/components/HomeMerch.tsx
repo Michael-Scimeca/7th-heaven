@@ -99,7 +99,7 @@ export default function HomeMerch() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white/[0.02] border border-white/5 overflow-hidden animate-pulse">
+              <div key={i} className="bg-white/[0.02] border  border-white/10  overflow-hidden animate-pulse">
                 <div className="aspect-square bg-white/[0.03]" />
                 <div className="p-4 space-y-2">
                   <div className="h-2 w-16 bg-[#00000029] rounded" />
@@ -162,7 +162,7 @@ export default function HomeMerch() {
             const soldOut = product.quantityAvailable === 0;
 
             return (
-              <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden  border-white/10  transition-colors group relative">
+              <div key={product.id} className="bg-white/[0.02] border  border-white/10  overflow-hidden  border-white/10  transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-bold uppercase    px-2.5 py-1 rounded-lg shadow-red-500/20">

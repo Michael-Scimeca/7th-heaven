@@ -506,7 +506,7 @@ export default function PlannerDashboard() {
           </div>
 
           {/* Actions — require real sign-in */}
-          <div className="lg:w-64 flex flex-col justify-center gap-3 lg:border-l border-white/5 lg:pl-8">
+          <div className="lg:w-64 flex flex-col justify-center gap-3 lg:border-l  border-white/10  lg:pl-8">
             {isSignedInPlanner ? (
               <>
                 {isEditing ? (

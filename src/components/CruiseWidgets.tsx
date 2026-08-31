@@ -100,7 +100,7 @@ export function DailyPoll() {
               disabled={voted !== null}
               className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
-                  ? 'border-white/5  bg-[#00000029]    cursor-default'
+                  ? ' border-white/10   bg-[#00000029]    cursor-default'
                   : ' border-white/10  bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029]    cursor-pointer'
                 }`}
             >
@@ -147,7 +147,7 @@ export function OriginStats() {
   const maxCount = Math.max(...ORIGIN_STATS.map(s => s.count));
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-6 relative overflow-hidden group">
       <h2 className="font-bold    uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
 
       <div className="space-y-4">
@@ -580,7 +580,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       {booking.guests && booking.guests.length > 0 && (
-        <div className="mt-3 border-t border-white/5 pt-3">
+        <div className="mt-3 border-t  border-white/10  pt-3">
           <h3 className="font-bold text-white/40 uppercase    mb-2">Guest List</h3>
           <div className="space-y-1.5">
             {booking.guests.map((g: any, i: number) => (
@@ -820,7 +820,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 </div>
 
                 {tab === 'saved' ? (
-                  <div className=" border border-white/5 p-4 space-y-3">
+                  <div className=" border  border-white/10  p-4 space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">💳</span>

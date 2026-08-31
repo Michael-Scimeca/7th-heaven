@@ -312,7 +312,7 @@ export default function MemberDashboard() {
             {(() => {
               if (localInbox.length === 0) {
                 return (
-                  <div className="py-6 flex flex-col items-center border border-white/5 bg-[#00000029] border-dashed">
+                  <div className="py-6 flex flex-col items-center border  border-white/10  bg-[#00000029] border-dashed">
                     <p className="font-bold">Your wallet is currently empty.</p>
                     <p className="mt-1 uppercase    font-bold">Keep participating in live streams for a chance to win</p>
                   </div>
@@ -385,7 +385,7 @@ export default function MemberDashboard() {
           </div>
 
           {myPhotos.length === 0 ? (
-            <div className="py-8 flex flex-col items-center border border-white/5 bg-[#00000029] border-dashed">
+            <div className="py-8 flex flex-col items-center border  border-white/10  bg-[#00000029] border-dashed">
               <p className="font-bold">No photo submissions found.</p>
               <p className="mt-1 uppercase    font-bold">Upload a photo to join the fan wall!</p>
             </div>
@@ -444,7 +444,7 @@ export default function MemberDashboard() {
                       </div>
                     )}
 
-                    <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
+                    <div className="flex justify-between items-center mt-2 pt-2 border-t  border-white/10  text-[0.65rem] text-white/30">
                       {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-purple-400shrink-0" /> {photo.venue}</span>}
                       <span className="  ">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
@@ -499,7 +499,7 @@ export default function MemberDashboard() {
             return (
               <div className="flex flex-col gap-3">
                 {purchases.map((order) => (
-                  <div key={order.id} className="border border-white/5 bg-white/[0.01] overflow-hidden">
+                  <div key={order.id} className="border  border-white/10  bg-white/[0.01] overflow-hidden">
                     {/* Order header */}
                     <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-b border-white/5">
                       <div className="flex items-center gap-4">

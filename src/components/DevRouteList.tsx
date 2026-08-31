@@ -238,7 +238,7 @@ export default function DevRouteList() {
                       </p>
                     </div>
 
-                    <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between">
+                    <div className="mt-3 pt-2.5 border-t  border-white/10  flex items-center justify-between">
                       {isApi ? (
                         <a
                           href={item.path}

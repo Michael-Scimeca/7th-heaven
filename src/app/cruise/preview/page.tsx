@@ -30,7 +30,7 @@ function VersionA() {
           </button>
         ))}
       </div>
-      <div className="p-4 bg-white/[0.02] border border-white/5 space-y-3 animate-[fade-in_0.2s_ease]">
+      <div className="p-4 bg-white/[0.02] border  border-white/10  space-y-3 animate-[fade-in_0.2s_ease]">
         <input aria-label="Input field" type="text" placeholder={activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`} value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
         <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
         <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
@@ -226,7 +226,7 @@ export default function CruisePreviewPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {VERSIONS.map(({ label, title, desc, Component }) => (
             <div key={label} className="bg-[var(--color-bg-surface)]/80 border  border-white/10  overflow-hidden">
-              <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
+              <div className="px-6 py-4 border-b  border-white/10  flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">{label}</span>
                 <div>
                   <h2 className="font-bold text-white">{title}</h2>

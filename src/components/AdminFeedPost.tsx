@@ -108,7 +108,7 @@ export default function AdminFeedPost() {
     <div className="min-h-screen pt-[72px]">
       <div className="max-w-[600px] mx-auto px-4 py-8">
         {/* Presence Header */}
-        <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 rounded-sm">
+        <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border  border-white/10  rounded-sm">
           <div className="flex -space-x-2">
             {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(({ m, i }) => (
               <div

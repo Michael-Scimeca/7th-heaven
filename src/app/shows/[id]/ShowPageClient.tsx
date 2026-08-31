@@ -347,7 +347,7 @@ export default function ShowPageClient({
       )}
 
       {/* ── HERO ──────────────────────────────────────────────────── */}
-      <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/5 overflow-hidden">
+      <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b  border-white/10  overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
           <Link href="/#tour" className="inline-flex items-center gap-2 uppercase    text-white/30 hover: text-white transition-colors mb-8 font-bold">
@@ -456,7 +456,7 @@ export default function ShowPageClient({
           {isPast && (
             <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
               {/* Notify Me Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border  border-white/10  rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase    mb-4">
@@ -502,7 +502,7 @@ export default function ShowPageClient({
               </div>
 
               {/* Video Embed Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-[var(--color-bg-surface)] border  border-white/10  p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-red-400 uppercase    mb-4">
@@ -566,7 +566,7 @@ export default function ShowPageClient({
 
               {/* Filter tabs */}
               {totalCount > 0 && (
-                <div className="flex items-center gap-1 mb-6 bg-white/[0.03] border border-white/5 p-1 w-fit">
+                <div className="flex items-center gap-1 mb-6 bg-white/[0.03] border  border-white/10  p-1 w-fit">
                   {(["all", "going", "there"] as const).map((f) => (
                     <button aria-label="Action button"
                       key={f}

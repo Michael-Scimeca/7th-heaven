@@ -76,7 +76,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           </span>
         </div>
 
-        <div className={`w-full ${isSmall ? "h-14" : "h-24"} bg-[#08080d] border-y border-white/5 overflow-hidden relative`}>
+        <div className={`w-full ${isSmall ? "h-14" : "h-24"} bg-[#08080d] border-y  border-white/10  overflow-hidden relative`}>
           {!imgError ? (
             <Image
               src={data.imgUrl}

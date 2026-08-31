@@ -426,7 +426,7 @@ export default function FansPage() {
                     key={photo.id}
                     className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r  border-white/10  overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full"
                   >
-                    <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/5 bg-black/[0.02] gap-3">
+                    <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b  border-white/10  bg-black/[0.02] gap-3">
                       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                         <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center font-bold text-white   " style={{ aspectRatio: "1 / 1" }}>
                           {photo.name
@@ -497,7 +497,7 @@ export default function FansPage() {
                       </div>
                     </div>
                     {photo.caption && (
-                      <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/5 flex-1 flex items-center">
+                      <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t  border-white/10  flex-1 flex items-center">
                         <p className="leading-relaxed font-medium">
                           &ldquo;{photo.caption}&rdquo;
                         </p>
