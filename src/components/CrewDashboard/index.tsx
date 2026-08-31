@@ -2674,7 +2674,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         <div className="py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="relative w-12 h-12 shrink-0">
-              <div className="w-full h-full rounded-full flex items-center justify-center font-bold bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2 border-white/20">
+              <div className="w-full h-full rounded-full flex items-center justify-center font-bold bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2  border-white/10  overflow-hidden">
                 {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
               </div>
               <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">

@@ -41,7 +41,7 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
+    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none  pb-2 relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white font-bold tracking-wide leading-normal py-0.5">Embarkation</h2>
