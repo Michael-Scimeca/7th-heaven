@@ -180,7 +180,7 @@ function HomeShaderGradientComponent() {
     const onScroll = () => {
       isScrolling = true;
       if (neatInstance) {
-        neatInstance.yOffset = window.scrollY;
+        neatInstance.yOffset = (GRADIENT_SETTINGS.yOffset || 50041) + window.scrollY;
       }
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
