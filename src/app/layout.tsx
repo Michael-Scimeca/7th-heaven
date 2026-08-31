@@ -190,7 +190,7 @@ export default async function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "var(--font-family-sans, 'Switzer', sans-serif)", letterSpacing: "0" }} suppressHydrationWarning>
-        <HomeShaderGradient />
+        {/* <HomeShaderGradient /> */}
         <Preloader />
         {/* <GrainOverlay /> */}
         {process.env.NEXT_PUBLIC_GA_ID && (
