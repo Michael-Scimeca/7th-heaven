@@ -827,9 +827,9 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
             className="w-full flex flex-col text-left select-none bg-transparent text-[var(--text-color)]"
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/95 backdrop-blur-xl border-b border-white/10 shadow-lg">
               <div className="flex w-full border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-bold tracking-wider">
-                <div className="p-2 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</div>
+                <div className="p-2 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-bold text-[10px] bg-transparent">Crew Member</div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
