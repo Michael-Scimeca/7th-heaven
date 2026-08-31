@@ -269,7 +269,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className="w-8 h-8 ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
+              className="w-8 h-8 !rounded-full !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (

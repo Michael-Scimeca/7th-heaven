@@ -5936,6 +5936,7 @@ body:has(textarea:focus) .cursor-tail-circle {
 .uiverse-foolish-shrimp.rounded-full,
 .uiverse-foolish-shrimp[class*="rounded-full"] {
   --round: 9999px !important;
+  border-radius: 9999px !important;
 }
 
 .uiverse-foolish-shrimp.rounded-full::before,
