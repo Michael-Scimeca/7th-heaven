@@ -1057,7 +1057,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               {renderRoleBadges(member.role)}
                             </div>
 
-                            <div className="mt-1 text-[10px]       space-y-0.5 leading-tight font-medium">
+                            <div className="mt-1 text-[11px] space-y-0.5 leading-tight font-medium">
                               {member.phone && <div className="truncate   " title={member.phone}> {member.phone}</div>}
                               {member.email && <div className="truncate   " title={member.email}> {member.email}</div>}
                             </div>
