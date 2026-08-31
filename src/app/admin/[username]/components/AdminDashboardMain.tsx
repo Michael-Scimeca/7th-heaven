@@ -3375,7 +3375,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderAnalytics = () => (
     <div id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b  border-white/10  flex items-center justify-between text-white cursor-pointer select-none !rounded-none !rounded-none">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 mb-5 px-0 border-b  border-white/10  flex items-center justify-between text-white cursor-pointer select-none !rounded-none !rounded-none">
         <div className="flex flex-col">
           <h3 className="font-bold    tracking-wide text-white uppercase flex items-center gap-2 font-sans">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
@@ -3424,13 +3424,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase    mt-1 block">Traffic → Purchases</span>
               </div>
 
-              <div className="bg-[var(--card-bg)] p-4    ">
+              <div className="bg-[var(--card-bg)]    ">
                 <span className="text-[0.55rem] font-bold uppercase       block mb-1">Rev / Session</span>
                 <span className="text-2xl font-bold text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
                 <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase    mt-1 block">Avg Fan Value</span>
               </div>
 
-              <div className="bg-[var(--card-bg)] p-4    ">
+              <div className="bg-[var(--card-bg)]    ">
                 <span className="text-[0.55rem] font-bold uppercase       block mb-1">Bounce Rate</span>
                 <span className="text-2xl font-bold text-purple-300 block">{gaData.bounceRate}</span>
                 <span className="text-[0.55rem] font-bold text-purple-300 uppercase    mt-1 block">High Engagement</span>
