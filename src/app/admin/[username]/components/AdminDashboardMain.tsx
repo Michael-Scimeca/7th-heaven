@@ -10291,7 +10291,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <h3 className="font-bold    tracking-wide text-white">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
-                          <p className="uppercase    font-bold mt-1">
+                          <p className=" mt-1">
                             Assigning {(() => {
                               const found = crewMembers.find(c => c.id === draggedCrewMemberId);
                               return found ? found.name : draggedCrewMemberId;
@@ -10639,7 +10639,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       </span>
                                                     )}
                                                   </div>
-                                                  <span className=" text-[11px] text-white/40    block leading-tight mt-0.5">
+                                                  <span className=" block  mt-0.5">
                                                     {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                   </span>
                                                   {(() => {
@@ -10953,7 +10953,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-start justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
                           <h3 className="font-bold tracking-wide text-white uppercase">Select Crew Group</h3>
-                          <p className="uppercase    font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
+                          <p className=" mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                           <span className="text-white/50 font-bold px-2.5 py-1 bg-[#00000029] rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
@@ -11073,7 +11073,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="p-5 border-b border-white/10 bg-transparent flex items-start justify-between shrink-0">
                       <div>
                         <h3 className="font-bold    tracking-wide text-white">Create New Crew Group</h3>
-                        <p className="uppercase    font-bold mt-1">Select members and customize their shift slots</p>
+                        <p className=" mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
                         aria-label="Close create group modal"
@@ -11135,8 +11135,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     />
                                     <CrewAvatar member={m} />
                                     <div className="min-w-0">
-                                      <p className="font-bold group-hover:text-white truncate transition-colors">{m.name}</p>
-                                      <span className="text-white/40 uppercase font-semibold  block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
+                                      <p className="font-bold text-white text-sm truncate font-sans">{m.name}</p>
+                                      <span className="text-xs text-white/50 block leading-tight mt-0.5 font-sans font-normal">
+                                        {m.phone || '(555) 123-4567'} | {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
+                                      </span>
                                     </div>
                                   </div>
                                 </label>
@@ -11892,7 +11894,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
               <div className={`relative z-10  flex flex-col group overflow-hidden`}>
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover: transition-colors duration-700 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5  blur-[80px]   pointer-events-none" />
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
                     <div className="flex items-center gap-4">
@@ -11925,14 +11927,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={cruiseBlastSubject}
                           onChange={(e) => setCruiseBlastSubject(e.target.value)}
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
                         />
                       </div>
 
                       <div>
                         <span className="  text-[0.9rem]  font-bold text-white/40 uppercase    block mb-1.5 font-sans">Notice & Email Content</span>
                         <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="rounded-lg border border-white/10 text-white overflow-hidden" />
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="text-white overflow-hidden" />
                         </div>
                       </div>
 

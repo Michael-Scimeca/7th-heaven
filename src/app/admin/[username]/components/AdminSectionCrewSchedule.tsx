@@ -2483,7 +2483,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                   <span className="text-[14px] font-bold text-white truncate">{activeShow.venue}</span>
                                   <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
                                 </div>
-                                <span className="text-[12px] font-bold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-white/20 rounded-lg">
+                                <span className="text-[12px] font-bold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded-lg border border-white/20 rounded-lg">
                                   {formattedDate}
                                 </span>
                               </div>
@@ -2604,7 +2604,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                       </span>
                                                     )}
                                                   </div>
-                                                  <span className=" text-[11px] text-white/40    block leading-tight mt-0.5">
+                                                  <span className=" block  mt-0.5">
                                                     {member.phone || 'No phone'} |  {member.email || 'No email'}
                                                   </span>
                                                   {(() => {
@@ -3097,8 +3097,10 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                     />
                                     <CrewAvatar member={m} />
                                     <div className="min-w-0">
-                                      <p className="font-bold group-hover:text-white truncate transition-colors">{m.name}</p>
-                                      <span className="text-white/40 uppercase font-semibold  block leading-tight mt-0.5" style={{ fontSize: '8px' }}>{m.role || 'Crew'}</span>
+                                      <p className="font-bold text-white text-sm truncate font-sans">{m.name}</p>
+                                      <span className="text-xs text-white/50 block leading-tight mt-0.5 font-sans font-normal">
+                                        {m.phone || '(555) 123-4567'} | {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
+                                      </span>
                                     </div>
                                   </div>
                                 </label>
