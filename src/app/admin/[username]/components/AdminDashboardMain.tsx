@@ -7676,7 +7676,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <span className="  text-[0.9rem]  text-cyan-400/60 uppercase    font-bold">
+            <span className=" uppercase    font-bold">
               {signups.length} registered
             </span>
             <div className={"w-7 h-7 rounded-lg  bg-[#00000029]    border  border-white/10  flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
@@ -11972,21 +11972,23 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
-                        <button
+                        <FoolishShrimpButton
                           onClick={async () => {
-                            if (cruiseUpdatingRef.current || !cruiseMessage.trim()) return;
-                            if (sendEmailToPassengers && !confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
+                            if (cruiseUpdatingRef.current) return;
                             cruiseUpdatingRef.current = true;
                             setCruiseUpdating(true);
                             setCruiseSaveStatus(null);
                             try {
-                              const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage);
+                              const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage || '');
                               if (postNoticeToDashboard) {
-                                await updateCruiseMessage(cleanedNoticeMsg);
+                                await updateCruiseNoticeApi(cleanedNoticeMsg);
+                              } else {
+                                await updateCruiseNoticeApi('');
                               }
                               if (sendEmailToPassengers) {
-                                const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
-                                await fetch('/api/cruise/blast', {
+                                const emailSubject = cruiseBlastSubject || "7th Heaven Cruise Update";
+                                if (!confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
+                                await fetch('/api/admin/cruise-email-blast', {
                                   method: 'POST',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ subject: emailSubject, body: cleanedNoticeMsg }),
@@ -12001,10 +12003,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             }
                           }}
                           disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
-                          className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-bold uppercase    transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
+                          className="px-6 py-2.5 text-[0.65rem] font-bold uppercase cursor-pointer flex items-center justify-center"
                         >
-                          <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
-                        </button>
+                          {cruiseUpdating ? 'Dispatching...' : 'Dispatch Notice & Email'}
+                        </FoolishShrimpButton>
                         <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
                           <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
                         </button>
