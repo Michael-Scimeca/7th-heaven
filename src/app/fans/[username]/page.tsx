@@ -444,7 +444,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <div className="text-left">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl font-bold tracking-tight !normal-case">
-                  {effectiveMember?.name ? effectiveMember.name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''}
+                  {effectiveMember?.name ? effectiveMember.name.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase()) : ''}
                 </h1>
                 {(() => {
                   const role = effectiveMember?.role;

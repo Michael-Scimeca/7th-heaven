@@ -11981,9 +11981,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             try {
                               const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage || '');
                               if (postNoticeToDashboard) {
-                                await updateCruiseNoticeApi(cleanedNoticeMsg);
+                                await updateCruiseMessage(cleanedNoticeMsg);
                               } else {
-                                await updateCruiseNoticeApi('');
+                                await updateCruiseMessage('');
                               }
                               if (sendEmailToPassengers) {
                                 const emailSubject = cruiseBlastSubject || "7th Heaven Cruise Update";
