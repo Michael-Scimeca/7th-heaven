@@ -212,7 +212,7 @@ export default function FooterProximityAlerts() {
                         <h4 className="  ">
                             Proximity & Show Alert Filters
                         </h4>
-                        <p className="text-purple-300/90 font-bold uppercase tracking-wider">
+                        <p className="">
                             Get notified only for shows within your distance & preferences
                         </p>
                     </div>

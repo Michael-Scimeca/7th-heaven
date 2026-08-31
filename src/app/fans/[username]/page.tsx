@@ -605,7 +605,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="font-bold uppercase    px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
-                              <span className="font-bold text-white/50 uppercase   ">{day.location}</span>
+                              <span className="font-bold uppercase   ">{day.location}</span>
                             </div>
                             <h3 className="font-bold uppercase tracking-wide text-white mb-2">{day.theme}</h3>
                             <ul className="space-y-4 mt-5 border-t border-white/10 pt-5">
@@ -614,7 +614,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                   <span className="   font-bold  mt-0.5" style={{ color: day.colorTheme }}>{ev.time}</span>
                                   <div>
                                     <strong className="block text-white tracking-wide">{ev.title}</strong>
-                                    <span className="text-white/50">{ev.subtitle}</span>
+                                    <span className="">{ev.subtitle}</span>
                                   </div>
                                 </li>
                               ))}
@@ -862,7 +862,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
                     <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-4 md:pb-3">
                       <div className="flex flex-col items-center justify-center w-14 h-14 bg-[#00000029]  p-3 border border-white/10 rounded-lg shrink-0">
-                        <span className="font-bold text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
+                        <span className="font-bold  uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-lg font-bold text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -1045,9 +1045,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {liveAlertsEnabled && (
               <div className="mb-8 relative text-white">
                 <div className="relative z-10">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="font-bold uppercase    text-white px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px]">Live Stream Alerts</span>
-                  </div>
+
                   <h3 className="font-bold text-white mb-1">Never Miss a Live Feed</h3>
                   <p className="mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
@@ -1103,8 +1101,6 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 {/* Tour Memories Gallery & Upload */}
                 <div className="space-y-6 pt-4 border-t border-black/10">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold tracking-tight">Tour Memories</h3>
-                    <Link href="/fan-photo-wall" className="text-[var(--color-accent)] font-bold uppercase    hover:text-black transition-colors">Global Fan Wall</Link>
                   </div>
 
                   {/* Photo Gallery Grid */}

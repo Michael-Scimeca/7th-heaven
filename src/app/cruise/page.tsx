@@ -1216,7 +1216,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               {room.icon && <span className="text-xl">{room.icon}</span>}
                               <SectionBadge label={room.badge} />
                             </div>
-                            <span className="font-bold text-white/50 uppercase    block mb-0.5">{room.code} Category</span>
+                            <span className="font-bold uppercase    block mb-0.5">{room.code} Category</span>
                             <h4 className="font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
                           </div>
                         </div>
@@ -1290,7 +1290,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
                                   <SectionBadge label={room.label} />
                                 </div>
-                                <span className="font-bold text-white/50 uppercase    block text-left">{room.code} Category</span>
+                                <span className="font-bold  uppercase block text-left">{room.code} Category</span>
                                 <h4 className="font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>

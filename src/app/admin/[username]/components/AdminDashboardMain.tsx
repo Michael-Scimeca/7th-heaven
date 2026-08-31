@@ -10220,7 +10220,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
                     <div className="px-3 py-2.5 flex items-center justify-between bg-[#0a00653b] shrink-0 border-b border-white/5 relative z-20">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
+                        <span className="font-bold  uppercase tracking-wider">Tour Dates</span>
                       </div>
                       <div className="flex items-center gap-1.5">
 
@@ -11533,7 +11533,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               type="button"
               onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
-              className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl font-bold text-[var(--color-accent)] !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10"
+              className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl font-bold text-white !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10"
             >
               {isAvatarUrl ? (
                 <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
@@ -11806,7 +11806,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="admin-guidelines-title" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Section Title</label>
+                      <label htmlFor="admin-guidelines-title" className=" font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Section Title</label>
                       <input
                         id="admin-guidelines-title"
                         type="text"
@@ -11817,7 +11817,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       />
                     </div>
                     <div>
-                      <label htmlFor="admin-guidelines-subtitle" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Subtitle Badge</label>
+                      <label htmlFor="admin-guidelines-subtitle" className=" font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Subtitle Badge</label>
                       <div className="relative">
                         <input
                           id="admin-guidelines-subtitle"
@@ -11839,9 +11839,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div>
-                    <span className="  text-[0.9rem]  font-bold text-white/40 uppercase    block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
-                    <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-[#00000029] border border-white/10 text-white overflow-hidden" />
+                    <span className=" block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
+                    <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px] !rounded-lg">
+                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className=" rouned-lg border border-white/10 text-white overflow-hidden" />
                     </div>
                   </div>
 
@@ -11918,21 +11918,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Left Column: Form Inputs & Target Controls */}
                     <div className="flex flex-col gap-3  rounded-lg h-full">
                       <div>
-                        <label htmlFor="admin-cruise-blast-subject" className="text-xs font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Notice Title / Email Subject Line</label>
+                        <label htmlFor="admin-cruise-blast-subject" className=" font-bold text-white/70 uppercase tracking-wider block mb-2 font-sans">Notice Title / Email Subject Line</label>
                         <input
                           id="admin-cruise-blast-subject"
                           type="text"
                           value={cruiseBlastSubject}
                           onChange={(e) => setCruiseBlastSubject(e.target.value)}
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
                         />
                       </div>
 
                       <div>
                         <span className="  text-[0.9rem]  font-bold text-white/40 uppercase    block mb-1.5 font-sans">Notice & Email Content</span>
                         <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-[#00000029] border border-white/10 text-white overflow-hidden" />
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="rounded-lg border border-white/10 text-white overflow-hidden" />
                         </div>
                       </div>
 

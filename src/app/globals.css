@@ -6018,12 +6018,13 @@ section {
   color: #38bdf8 !important;
 }
 
-/* Guidelines Welcome Pack Editor Light Mode (Exact Match to /cruise/michael) */
+/* Guidelines Welcome Pack Editor Dark Theme (No White Background) */
 #admin-dashboard-root .guidelines-wysiwyg-editor .quill,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-container,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor {
-  background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.15) !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
 }
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor,
@@ -6036,7 +6037,7 @@ section {
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor strong,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor em,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor li {
-  color: rgba(0, 0, 0, 0.85) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   font-family: inherit !important;
 }
 
@@ -6044,25 +6045,28 @@ section {
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a *,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a span,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor a strong {
-  color: #0891b2 !important;
+  color: #38bdf8 !important;
   text-decoration: underline !important;
   text-underline-offset: 4px !important;
   font-weight: 700 !important;
 }
 
-#admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {}
+#admin-dashboard-root .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {
+  color: rgba(255, 255, 255, 0.35) !important;
+  font-style: normal !important;
+}
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar {
-  background-color: #f8fafc !important;
-  border-color: rgba(0, 0, 0, 0.15) !important;
+  background-color: rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-stroke {
-  stroke: #334155 !important;
+  stroke: rgba(255, 255, 255, 0.8) !important;
 }
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-fill {
-  fill: #334155 !important;
+  fill: rgba(255, 255, 255, 0.8) !important;
 }
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker,
@@ -6072,12 +6076,14 @@ section {
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item::before,
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-item * {
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 #admin-dashboard-root .guidelines-wysiwyg-editor .ql-toolbar .ql-picker-options {
-  background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.15) !important;
+  background-color: #18082c !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Complete background removal for Admin Dashboard page */

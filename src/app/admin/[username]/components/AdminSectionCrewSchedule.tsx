@@ -2178,7 +2178,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
                     <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b border-white/5 relative z-20 ">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
+                        <span className="font-bold  uppercase ">Tour Dates</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         {selectedTourDate && (
