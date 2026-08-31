@@ -33,8 +33,8 @@ const GRADIENT_SETTINGS = {
   wireframe: false,
   antialias: false,
   colorBlending: 6,
-  backgroundColor: '#003FFF',
-  backgroundAlpha: 1,
+  backgroundColor: '#05030a',
+  backgroundAlpha: 0,
   grainScale: 0,
   grainSparsity: 0,
   grainIntensity: 0,
@@ -371,7 +371,8 @@ function HomeShaderGradientComponent() {
         if (settings.highlights !== undefined) neat.highlights = settings.highlights;
         if (settings.hPressure !== undefined) neat.horizontalPressure = settings.hPressure;
         if (settings.vPressure !== undefined) neat.verticalPressure = settings.vPressure;
-        if (settings.bgColor) neat.backgroundColor = settings.bgColor;
+        if (settings.bgColor && settings.bgColor !== '#003FFF') neat.backgroundColor = settings.bgColor;
+        else neat.backgroundColor = '#05030a';
       }
     };
 
