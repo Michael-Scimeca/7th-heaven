@@ -376,13 +376,7 @@ function HomeShaderGradientComponent() {
       }
     };
 
-    // Apply initial saved settings from localStorage if available
-    try {
-      const saved = localStorage.getItem("7th_heaven_canvas_settings_v1");
-      if (saved) {
-        applySettings(JSON.parse(saved));
-      }
-    } catch { }
+
 
     const handleSettingsChange = (e: Event) => {
       const customEv = e as CustomEvent;
