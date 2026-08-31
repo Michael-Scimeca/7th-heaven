@@ -2658,7 +2658,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     bannerUpdatingRef.current = false;
   };
 
-  if (isLoading) return <div className="min-h-screen bg-[#f0f2f5]" />;
+  if (isLoading) return <div className="min-h-screen bg-transparent" />;
 
   const activeProduct = shopifyProducts.find(p => p.id === selectedProductIdRef.current) || shopifyProducts[0];
   const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';

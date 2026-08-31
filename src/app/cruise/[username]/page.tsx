@@ -511,11 +511,11 @@ export default function CruiseDashboard() {
     }
   };
 
-  if (isLoggedIn === undefined) return <div className="min-h-screen bg-[#f0f2f5] text-black flex items-center justify-center">Loading...</div>;
+  if (isLoggedIn === undefined) return <div className="min-h-screen bg-transparent text-white flex items-center justify-center">Loading...</div>;
 
   if (showAuth) {
     return (
-      <div className="min-h-screen bg-[#f0f2f5] text-black pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen bg-transparent text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
         {/* Subtle background elements */}
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-lg blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-lg blur-[100px] pointer-events-none" />
