@@ -11914,7 +11914,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex items-center gap-4">
                       <div>
                         <h3 className="font-bold tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
-                        <p className="font-bold uppercase leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
+                        <p className=" mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
 

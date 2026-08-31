@@ -43,16 +43,16 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="bg-white text-slate-900 rounded-lg overflow-hidden shadow-2xl border border-slate-300 font-sans min-h-[300px]">
-      <div className="bg-slate-800 text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-700">
-        <span className="font-bold text-[11px] uppercase  text-slate-300">📧 Email Dispatch Mockup</span>
-        <span className="text-[10px] text-slate-400   ">To: All Cruise Guests</span>
+    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden shadow-2xl border border-white/10 font-sans min-h-[300px]">
+      <div className="bg-[#180e2b] text-white px-4 py-2.5 flex items-center justify-between border-b border-white/10">
+        <span className="font-bold text-[11px] uppercase text-purple-300">📧 Email Dispatch Mockup</span>
+        <span className="text-[10px] text-white/50">To: All Cruise Guests</span>
       </div>
-      <div className="p-4 bg-slate-100 border-b border-slate-200 text-slate-700    text-[11px]">
+      <div className="p-4 bg-[#140b24] border-b border-white/10 text-purple-200 text-[11px]">
         <strong>Subject:</strong> {cruiseBlastSubject || '7th Heaven Cruise Update'}
       </div>
       <div
-        className="p-6 bg-white prose max-w-none leading-relaxed"
+        className="p-6 bg-[#090412] prose prose-invert max-w-none leading-relaxed text-white/90"
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(
             cruiseCommunityBlast({
