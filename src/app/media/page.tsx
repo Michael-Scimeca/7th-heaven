@@ -118,11 +118,9 @@ function VideoCardVisual({
 
       {/* 4. Hover Active Card Overlay */}
       <div
-        className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 z-20 pointer-events-none rounded-full transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
       >
-        <div className="w-16 h-16 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-2xl scale-100 group-hover:scale-110 transition-transform duration-300 border border-white/20">
-          <Play className="w-7 h-7 fill-white ml-1 text-white" />
-        </div>
+
       </div>
     </div>
   );
@@ -434,7 +432,7 @@ export default function MediaPage() {
                 <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-12 h-12 sm:w-16 sm:h-16 ! rounded-lg !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
+                    className="w-12 h-12 sm:w-16 sm:h-16 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
                   >
                     <Play className="w-5 h-5 sm:w-7 sm:h-7 text-white fill-white ml-1" />
                   </CosmicRadialButton>
