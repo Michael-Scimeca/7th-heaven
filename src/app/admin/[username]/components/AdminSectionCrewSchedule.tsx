@@ -3098,8 +3098,22 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                     <CrewAvatar member={m} />
                                     <div className="min-w-0">
                                       <p className="font-bold text-white text-sm truncate font-sans">{m.name}</p>
-                                      <span className="text-xs text-white/50 block leading-tight mt-0.5 font-sans font-normal">
-                                        {m.phone || '(555) 123-4567'} | {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
+                                      <span className="text-xs text-white/50 block leading-tight mt-0.5 font-sans font-normal truncate">
+                                        <a
+                                          href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
+                                          onClick={(e) => e.stopPropagation()}
+                                          className="hover:text-cyan-400 hover:underline transition-colors"
+                                        >
+                                          {m.phone || '(555) 123-4567'}
+                                        </a>
+                                        <span className="mx-1 text-white/30">|</span>
+                                        <a
+                                          href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
+                                          onClick={(e) => e.stopPropagation()}
+                                          className="hover:text-cyan-400 hover:underline transition-colors"
+                                        >
+                                          {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
+                                        </a>
                                       </span>
                                     </div>
                                   </div>
@@ -3187,7 +3201,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                                         {/* Multi-role selection pills */}
                                         <div>
-                                          <span className="uppercase  text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</span>
+                                          <span className="uppercase  text-white/50 mb-1 block font-bold">Roles / Duties</span>
                                           <div className="flex flex-wrap gap-1">
                                             {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
                                               const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];

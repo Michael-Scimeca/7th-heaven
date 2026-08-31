@@ -4434,7 +4434,7 @@ ${deskRules.join("\n")}
 
                         {/* Role Pills Showcase */}
                         <div className="pt-1">
-                          <span className="uppercase  text-white/50 mb-1 block font-bold text-[8px]">Roles / Duties</span>
+                          <span className="uppercase  text-white/50 mb-1 block font-bold ">Roles / Duties</span>
                           <div className="flex flex-wrap gap-1">
                             {["STAGE HAND", "AUDIO MIX", "LIGHTS", "STAGE MANAGER"].map(preset => {
                               const isSelected = preset === "STAGE MANAGER" || preset === "LIGHTS";
