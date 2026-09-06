@@ -355,7 +355,7 @@ export default function MemberDashboard() {
                                 <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase    cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase    transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase    transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)]   cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}

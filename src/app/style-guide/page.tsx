@@ -36,6 +36,7 @@ import CustomScrollbar from "@/components/CustomScrollbar";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import SparkleGenerateButton from "@/components/SparkleGenerateButton";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { useThemeTokens } from "@/components/ThemeProvider";
 import { useMember } from "@/context/MemberContext";
@@ -532,6 +533,98 @@ function CosmicRadialButtonDemo() {
   );
 }
 
+/* ── GSAP Sparkle Generate Button Demo Component with Live Active Checkbox & Controls ── */
+function SparkleGenerateButtonDemo() {
+  const [isActive, setIsActive] = useState(false);
+  const [buttonText, setButtonText] = useState("Generate Site");
+  const [particleCount, setParticleCount] = useState(12);
+
+  return (
+    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
+      <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
+        <div className="flex items-center gap-3">
+          <h3 className="font-bold text-violet-400 uppercase tracking-wider text-sm sm:text-base">
+            Sparkle Generate Button (GSAP Dust Particles)
+          </h3>
+          <span
+            className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide border ${
+              isActive
+                ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
+                : "bg-white/5 text-white/50 border-white/10"
+            }`}
+          >
+            {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
+          </span>
+        </div>
+        <SectionBadge label={`Physics2D + ${particleCount} Particles`} color="purple" />
+      </div>
+
+      {/* Interactive Controls Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-lg bg-black/30 border border-purple-500/20">
+        {/* Active Checkbox */}
+        <label className="flex items-center gap-3 cursor-pointer select-none group">
+          <input
+            type="checkbox"
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
+            className="w-5 h-5 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-gray-900 bg-purple-950/40 cursor-pointer accent-purple-500"
+          />
+          <div>
+            <span className="text-sm font-semibold text-purple-200 group-hover:text-white transition">
+              Active State
+            </span>
+            <p className="text-[11px] text-white/40">Lock active glow &amp; dust loop</p>
+          </div>
+        </label>
+
+        {/* Button Label Text Input */}
+        <div className="space-y-1">
+          <label htmlFor="sgb-button-text-input" className="block text-xs font-semibold text-purple-200 uppercase tracking-wider">
+            Button Text
+          </label>
+          <input
+            id="sgb-button-text-input"
+            type="text"
+            value={buttonText}
+            onChange={(e) => setButtonText(e.target.value)}
+            placeholder="Generate Site"
+            className="w-full px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500"
+          />
+        </div>
+
+        {/* Particle Count Slider */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-xs font-semibold text-purple-200">
+            <label htmlFor="sgb-particle-count-slider">Particles</label>
+            <span className="text-white/60">{particleCount} dots</span>
+          </div>
+          <input
+            id="sgb-particle-count-slider"
+            type="range"
+            min="0"
+            max="30"
+            step="1"
+            value={particleCount}
+            onChange={(e) => setParticleCount(Number(e.target.value))}
+            className="w-full accent-purple-500 cursor-pointer"
+          />
+        </div>
+      </div>
+
+      {/* Button Render Display Area */}
+      <div className="flex flex-col items-center justify-center py-8 rounded-lg bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 border border-white/5 min-h-[140px] relative overflow-hidden">
+        <SparkleGenerateButton active={isActive} dotCount={particleCount}>
+          {buttonText || "Generate Site"}
+        </SparkleGenerateButton>
+      </div>
+
+      <p className="text-[13px] text-white/40">
+        Check <strong className="text-purple-300">Active State</strong> above to lock the button into its continuous glowing hover state with Physics2D dust particles and animated stroke trace, allowing you to easily preview and edit it without holding the cursor over it.
+      </p>
+    </div>
+  );
+}
+
 /* ── FreeFrontend Sparkle Generate Button Defaults ── */
 const sgbDefaults = {
   hue: 260,
@@ -866,7 +959,7 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`px-4 py-2.5 rounded-lg font-bold whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-md"
+                className={`px-4 py-2.5 rounded-lg font-bold whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50   "
                   : "bg-transparent  text-white  hover:text-white border-transparent hover:border-white/10"
                   }`}
               >
@@ -1099,7 +1192,7 @@ export default function StyleGuidePage() {
                     <button
                       onClick={() => setStudioMode("locked")}
                       className={`px-3 py-1.5 rounded-lg font-bold transition ${studioMode === "locked"
-                        ? "bg-purple-500 text-white shadow-md"
+                        ? "bg-purple-500 text-white   "
                         : "text-white/50 hover:text-white"
                         }`}
                     >
@@ -1108,7 +1201,7 @@ export default function StyleGuidePage() {
                     <button
                       onClick={() => setStudioMode("chained")}
                       className={`px-3 py-1.5 rounded-lg font-bold transition ${studioMode === "chained"
-                        ? "bg-purple-500 text-white shadow-md"
+                        ? "bg-purple-500 text-white   "
                         : "text-white/50 hover:text-white"
                         }`}
                     >
@@ -1826,6 +1919,9 @@ ${deskRules.join("\n")}
 
               <CosmicRadialButtonDemo />
             </div>
+
+            {/* GSAP Sparkle "Generate Site" Button Demo with Active Checkbox */}
+            <SparkleGenerateButtonDemo />
 
           </div>
         </section>
@@ -3923,7 +4019,7 @@ ${deskRules.join("\n")}
                         key={perk}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
-                        className={`px-4 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30"
+                        className={`px-4 py-2 rounded-lg font-bold uppercase    transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 text-white    shadow-cyan-600/30"
                           : "bg-transparent  text-white  hover:text-white"
                           }`}
                       >
@@ -4051,7 +4147,7 @@ ${deskRules.join("\n")}
                     className="overflow-hidden rounded-lg flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
                   >
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-lg    shadow-md flex items-center gap-1 border-0 z-10">
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-lg       flex items-center gap-1 border-0 z-10">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                         <span>Popular</span>
                       </div>
@@ -4080,7 +4176,7 @@ ${deskRules.join("\n")}
                       <span className="text-[10px] text-white/50 uppercase    font-bold block mt-1">Rates as of June 27, 2026</span>
                       <button
                         type="button"
-                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase  flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase  flex items-center justify-center gap-1.5 cursor-pointer    border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
                           : 'bg-purple-600 hover:bg-purple-500 text-white'
                           }`}
                       >
@@ -4154,7 +4250,7 @@ ${deskRules.join("\n")}
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg font-bold uppercase  border-0 transition-colors cursor-pointer ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : " bg-[#00000029]    text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg font-bold uppercase  border-0 transition-colors cursor-pointer ${sgGuestInsurance === opt ? "bg-cyan-600 text-white    shadow-cyan-600/30" : " bg-[#00000029]    text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
@@ -4166,7 +4262,7 @@ ${deskRules.join("\n")}
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg font-bold uppercase  border-0 transition-colors cursor-pointer ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : " bg-[#00000029]    text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg font-bold uppercase  border-0 transition-colors cursor-pointer ${sgGuestGratuities === opt ? "bg-purple-600 text-white    shadow-purple-600/30" : " bg-[#00000029]    text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}

@@ -185,7 +185,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
             className={`px-3.5 py-2.5 rounded-lg  font-bold text-left transition-all cursor-pointer border ${alertType === "cancellation"
-              ? "bg-rose-600 text-white border-rose-400/50 shadow-md shadow-rose-900/30"
+              ? "bg-rose-600 text-white border-rose-400/50    shadow-rose-900/30"
               : "bg-white/[0.03]  border-white/10     hover:bg-white/10 hover:  border-white/10   hover:text-[var(--text-color)]"
               }`}
           >
@@ -199,7 +199,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             type="button"
             onClick={() => handleApplyPreset("time_change")}
             className={`px-3.5 py-2.5 rounded-lg font-bold text-left transition-all cursor-pointer border ${alertType === "time_change"
-              ? "bg-purple-700 text-white border-purple-400/50 shadow-md shadow-purple-900/30"
+              ? "bg-purple-700 text-white border-purple-400/50    shadow-purple-900/30"
               : "bg-white/[0.03]  border-white/10     hover:bg-white/10 hover:  border-white/10   hover:text-[var(--text-color)]"
               }`}
           >
@@ -213,7 +213,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
             className={`px-3.5 py-2.5 rounded-lg font-bold text-left transition-all cursor-pointer border ${alertType === "venue_change"
-              ? "bg-[var(--color-accent)] text-white border-purple-400/50 shadow-md shadow-purple-900/30"
+              ? "bg-[var(--color-accent)] text-white border-purple-400/50    shadow-purple-900/30"
               : "bg-white/[0.03]  border-white/10     hover:bg-white/10 hover:  border-white/10   hover:text-[var(--text-color)]"
               }`}
           >
@@ -227,7 +227,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             type="button"
             onClick={() => handleApplyPreset("announcement")}
             className={`px-3.5 py-2.5 rounded-lg  font-bold text-left transition-all cursor-pointer border ${alertType === "announcement"
-              ? "bg-cyan-600 text-white border-cyan-400/50 shadow-md shadow-cyan-900/30"
+              ? "bg-cyan-600 text-white border-cyan-400/50    shadow-cyan-900/30"
               : "bg-white/[0.03]  border-white/10     hover:bg-white/10 hover:  border-white/10   hover:text-[var(--text-color)]"
               }`}
           >
@@ -404,7 +404,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           type="button"
           onClick={handleDispatch}
           disabled={isSending}
-          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold  uppercase    rounded-lg transition-colors shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold  uppercase    rounded-lg transition-colors    cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
         >
           {isSending ? (
             <>

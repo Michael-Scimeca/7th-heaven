@@ -59,7 +59,7 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0 shadow-md"
+        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0   "
       />
     );
   }

@@ -168,7 +168,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
       <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-black/[0.02] border border-black/10">
         {/* Preview Box */}
-        <div className="relative w-24 h-24 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] flex items-center justify-center overflow-hidden shrink-0 shadow-md group">
+        <div className="relative w-24 h-24 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] flex items-center justify-center overflow-hidden shrink-0    group">
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (

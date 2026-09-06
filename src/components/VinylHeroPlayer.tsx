@@ -763,7 +763,7 @@ export default function VinylHeroPlayer({
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 shadow-md min-w-[130px] cursor-pointer"
+                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1    min-w-[130px] cursor-pointer"
                       >
                         <div className="text-[12px] font-bold uppercase leading-tight flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
@@ -784,7 +784,7 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase  px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all hover:scale-105 shrink-0 z-10"
+                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase  px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all   shrink-0 z-10"
                         style={{ color: "#ffffff", fill: "#ffffff" }}
                       >
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="#ffffff" style={{ color: "#ffffff", fill: "#ffffff" }} className="shrink-0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>

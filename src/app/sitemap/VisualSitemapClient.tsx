@@ -68,7 +68,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         <div className={`h-1 w-full ${accent.bar}`} />
 
         <div className="flex items-center justify-between gap-1 px-2 py-1">
-          <span className={`font-bold ${isSmall ? "text-[8px]" : " text-[12px] "} tracking-wide uppercase truncate ${accent.text}`}>
+          <span className={`font-bold ${isSmall ? "text-[10px]" : " text-[12px] "} tracking-wide uppercase truncate ${accent.text}`}>
             {data.header}
           </span>
           <span className={`shrink-0 px-1 py-[1px] rounded text-[7px]    font-bold ${accent.chip}`}>
@@ -1616,7 +1616,7 @@ export default function VisualSitemapClient() {
       {/* Header bar with View Selector Tabs */}
       <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold   ">
             7H
           </div>
           <div>

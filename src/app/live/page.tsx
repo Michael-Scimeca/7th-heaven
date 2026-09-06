@@ -341,13 +341,13 @@ export default function LiveHubPage() {
                         <p className="" style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
-                            className="flex-1 text-center py-1.5 rounded-lg font-bold transition-colors hover:scale-105"
+                            className="flex-1 text-center py-1.5 rounded-lg font-bold transition-colors  "
                             style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
                           <button aria-label="Previous"
                             onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
-                            className="py-1.5 px-3 rounded-lg font-bold transition-colors hover:scale-105"
+                            className="py-1.5 px-3 rounded-lg font-bold transition-colors  "
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
                             🛑 End
                           </button>
@@ -522,7 +522,7 @@ export default function LiveHubPage() {
             <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
               {/* Avatar badge */}
               <div
-                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 shadow-md"
+                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20   "
                 style={{ background: room.gradient }}
               >
                 {room.member}
@@ -538,7 +538,7 @@ export default function LiveHubPage() {
                   const slug = room.name.replace(/^live_/, "");
                   navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                 }}
-                className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border  border-white/10  text-white cursor-pointer"
+                className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors   bg-white/10 hover:bg-white/20 border  border-white/10  text-white cursor-pointer"
               >
                 Copy Link
               </button>

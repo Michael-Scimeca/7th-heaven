@@ -161,12 +161,12 @@ function PassengersWidget() {
           {AVATARS.map((initials, i) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
             return (
-              <div key={initials} className={`w-10 h-10 rounded-lg border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
+              <div key={initials} className={`w-10 h-10 rounded-lg border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden    hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
                 <span className="font-bold text-white/90   ">{initials}</span>
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] text-xs font-bold relative z-0">
+          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center    text-[var(--color-accent)] text-xs font-bold relative z-0">
             +{totalFans - AVATARS.length}
           </div>
         </div>
@@ -629,7 +629,7 @@ export default function CruiseDashboard() {
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors    flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
@@ -665,7 +665,7 @@ export default function CruiseDashboard() {
                   {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold  text-white bg-sky-500 rounded-lg shadow-md border border-sky-400/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold  text-white bg-sky-500 rounded-lg    border border-sky-400/50">
                 Cruise
               </span>
             </div>

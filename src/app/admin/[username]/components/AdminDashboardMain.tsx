@@ -210,7 +210,7 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0 shadow-md"
+        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0   "
       />
     );
   }
@@ -390,7 +390,7 @@ function DutyRoleEditorPopover({
                   }
                   setEditingDutyValue(updated.join(', '));
                 }}
-                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase  transition-all cursor-pointer border select-none ${isSelected ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-[1.02]'
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase  transition-all cursor-pointer border select-none ${isSelected ? 'bg-purple-600 border-purple-400 text-white    scale-[1.02]'
                   : 'bg-white/10   border-white/10   text-white/90 hover:bg-white/20 hover:border-purple-400/40 hover:text-white'
                   }`}
               >
@@ -4191,7 +4191,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {order.status === 'Pending' && order.method === 'shipping' && (
                                 <button
                                   onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
-                                  className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-bold uppercase  rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
+                                  className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-bold uppercase  rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)]   active:scale-95"
                                 >
                                   Ship Package
                                 </button>
@@ -4199,7 +4199,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {order.status === 'Ready for Pickup' && (
                                 <button
                                   onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
-                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-bold uppercase  rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
+                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-bold uppercase  rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)]   active:scale-95"
                                 >
                                   Claim Merch
                                 </button>
@@ -4339,7 +4339,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               type="button"
                               onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(b.bookingId); }}
                               title="Click to set official load-in/out time and email planner"
-                              className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-bold uppercase  px-2.5 py-1 rounded-full transition-all cursor-pointer     hover:scale-105 active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
+                              className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-bold uppercase  px-2.5 py-1 rounded-full transition-all cursor-pointer       active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
                                 ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
                                 : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
                                 }`}
@@ -4500,7 +4500,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 type="button"
                                 disabled={loadInSaving[b.bookingId]}
                                 onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
-                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold uppercase  rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold uppercase  rounded-lg transition-all    cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
                               >
                                 {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
                               </button>
@@ -5085,7 +5085,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Messages App Header */}
                       <div className="bg-[#181824] px-4 py-2.5 border-b  border-white/10  flex items-center gap-3 shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center font-bold text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center font-bold text-white   ">
                           7H
                         </div>
                         <div>
@@ -5603,7 +5603,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <img
                                           src={avatarSrc}
                                           alt={r.name}
-                                          className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                          className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white    ${!r.phone ? 'opacity-40' : ''}`}
                                           onError={(e) => {
                                             const fallback = resolveMemberAvatar(r.name, '');
                                             if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -5635,7 +5635,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm font-bold uppercase  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg leading-none shrink-0     cursor-pointer transition-colors hover:scale-105"
+                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm font-bold uppercase  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg leading-none shrink-0     cursor-pointer transition-colors  "
                                         title={`Click to change or edit role(s): ${r.duty}`}
                                       >
                                         <span className="truncate max-w-[200px] md:max-w-[320px]">{r.duty}</span>
@@ -6473,7 +6473,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       <img
                                         src={avatarSrc}
                                         alt={r.name}
-                                        className="w-10 h-10 rounded-full object-cover shrink-0 border-2  border-white/10  shadow-md"
+                                        className="w-10 h-10 rounded-full object-cover shrink-0 border-2  border-white/10    "
                                         onError={(e) => {
                                           const fallback = resolveMemberAvatar(r.name, '');
                                           if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -6483,7 +6483,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       />
                                     ) : (
                                       <div
-                                        className="w-10 h-10 rounded-full border-2 border-purple-400/50 shadow-md shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans"
+                                        className="w-10 h-10 rounded-full border-2 border-purple-400/50    shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans"
                                         style={{ backgroundColor: getAvatarColor(r.name) }}
                                       >
                                         {getFirstAndLastInitials(r.name)}
@@ -8711,7 +8711,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           {showOverlapAvatar && (
-            <div className="absolute -left-2.5 -bottom-2.5 w-6 h-6 rounded-full border-2 border-[#0f0f13] shadow-md z-20 flex items-center justify-center shrink-0 wiw-tooltip-container">
+            <div className="absolute -left-2.5 -bottom-2.5 w-6 h-6 rounded-full border-2 border-[#0f0f13]    z-20 flex items-center justify-center shrink-0 wiw-tooltip-container">
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
@@ -8825,7 +8825,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           )}
 
           {shift.crewId === 'openshifts' && shift.openSlots && (
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-bold   w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-md animate-pulse">
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-bold   w-4 h-4 rounded-full flex items-center justify-center border border-white    animate-pulse">
               {shift.openSlots}
             </span>
           )}
@@ -11561,7 +11561,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <span>{adminAvatarUploading ? "..." : "Upload"}</span>
               </div>
             </button>
-            <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm pointer-events-none z-10">
+            <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm pointer-events-none z-10">
               {(member?.role || effectiveAdmin.role) === 'crew' ? 'CREW' : 'ADMIN'}
             </span>
           </div>

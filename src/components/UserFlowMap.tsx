@@ -168,7 +168,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "pink"];
 
   return (
-    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-bold shadow-2xlbackdrop-blur-[18px] cursor-pointer hover:scale-105 transition duration-300`}>
+    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-bold shadow-2xlbackdrop-blur-[18px] cursor-pointer   transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b  border-white/10  pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-lg bg-black/40 text-cyan-300    text-[12px] font-bold">
           ROOT 0.0
@@ -195,7 +195,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer   select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b  border-white/10  pb-1.5">
@@ -226,7 +226,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 // 3. Decision Branch Node (Gold Pill)
 function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
-    <div className="group relative rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 shadow-[0_0_15px_rgba(245,158,11,0.25)] px-3 py-2 w-48 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none">
+    <div className="group relative rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 shadow-[0_0_15px_rgba(245,158,11,0.25)] px-3 py-2 w-48 text-center backdrop-blur-xl transition-all duration-300 cursor-pointer   select-none">
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-center gap-1.5">
@@ -249,7 +249,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Globe;
 
   return (
-    <div className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer   select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
       <Handle type="target" position={Position.Left} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
@@ -278,7 +278,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       {data.imgUrl && (
         <div className="mt-2.5 rounded-lg overflow-hidden border  border-white/10  relative h-28 bg-black/50 shadow-inner">
-          <Image src={data.imgUrl} alt={data.label} fill unoptimized sizes="256px" className="object-cover object-top hover:scale-105 transition duration-300" />
+          <Image src={data.imgUrl} alt={data.label} fill unoptimized sizes="256px" className="object-cover object-top   transition duration-300" />
         </div>
       )}
 
@@ -294,7 +294,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const IconComp = ICON_MAP[data.iconName] || Mail;
 
   return (
-    <div className={`group relative rounded-lg border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer hover:scale-105 select-none`}>
+    <div className={`group relative rounded-lg border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} p-3.5 w-64 backdrop-blur-xl transition-all duration-300 cursor-pointer   select-none`}>
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-amber-400 !border-2 !border-black" />
 
       <div className="flex items-start gap-3">

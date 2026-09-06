@@ -662,7 +662,7 @@ export function Header() {
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square      transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
                   >

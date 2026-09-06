@@ -2677,7 +2677,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <div className="w-full h-full rounded-full flex items-center justify-center font-bold bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2  border-white/10  overflow-hidden">
                 {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
               </div>
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm">
                 CREW
               </span>
             </div>
@@ -2742,7 +2742,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="relative inline-flex items-center">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="appearance-none no-bg-arrow bg-none bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                      className="appearance-none no-bg-arrow bg-none bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-2 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer   "
                       onChange={(e) => { if (e.target.value) requestTransition(e.target.value); }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
@@ -3006,28 +3006,28 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               <button
                                 onClick={() => handleWarn(username)}
                                 title={isUserWarned ? "Unwarn User" : "Warn User"}
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-purple-600/15 text-[var(--color-accent)] hover:scale-105 transition-colors cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-purple-600/15 text-[var(--color-accent)]   transition-colors cursor-pointer"
                               >
                                 ⚠️
                               </button>
                               <button
                                 onClick={() => handleBan(username)}
                                 title={isUserBanned ? "Unban User" : "Ban User"}
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/15 text-red-500 hover:scale-105 transition-colors cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/15 text-red-500   transition-colors cursor-pointer"
                               >
                                 🚫
                               </button>
                               <button
                                 onClick={() => handleDeleteMsg(p.id)}
                                 title="Delete Message"
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-100 text-black/40 hover:scale-105 transition-colors cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-100 text-black/40   transition-colors cursor-pointer"
                               >
                                 🗑
                               </button>
                               <button
                                 onClick={() => handleKick(username)}
                                 title="Remove Fan Completely"
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/20 text-red-500 hover:scale-105 transition-colors cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/20 text-red-500   transition-colors cursor-pointer"
                               >
                                 🚪
                               </button>
@@ -3165,7 +3165,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   e.target.value = "";
                                 }
                               }}
-                              className="w-full appearance-none no-bg-arrow bg-none !appearance-none [webkit-appearance:none] [moz-appearance:none] bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-3 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer shadow-md"
+                              className="w-full appearance-none no-bg-arrow bg-none !appearance-none [webkit-appearance:none] [moz-appearance:none] bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg pl-3.5 pr-9 py-3 font-bold text-white outline-none focus:border-[var(--color-accent)] transition-all cursor-pointer   "
                             >
                               <option value="" className="bg-[#0e0720] text-white/50">Select product to add to Flash Drop...</option>
                               {shopifyProducts.map(p => (
@@ -4299,7 +4299,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
                 {/* Available Shift Coverage Requests */}
                 {coverageShifts.length > 0 && (
-                  <div className="bg-white border border-black/10 overflow-hidden shadow-md mt-6">
+                  <div className="bg-white border border-black/10 overflow-hidden    mt-6">
                     <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[var(--color-accent)]/20 border  border-white/10  flex items-center justify-center text-xl">🚨</div>
@@ -4401,7 +4401,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         {
           showEndModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-[45px] p-4 transition-opacity duration-200 ease-out">
-              <div className="max-w-md w-full bg-white border border-black/10 p-8 shadow-md relative overflow-hidden">
+              <div className="max-w-md w-full bg-white border border-black/10 p-8    relative overflow-hidden">
                 {isSavingReplay && (
                   <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
                     <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-lg animate-spin mb-4"></div>
@@ -4443,7 +4443,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         {
           isDeclineModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-              <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4 shadow-md relative">
+              <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4    relative">
                 <h3 className="font-bold tracking-wide text-black uppercase flex items-center gap-2">
                   <span className="text-rose-500">✗</span> Decline Work Shift
                 </h3>
@@ -4497,7 +4497,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         isEmailModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-            <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4 shadow-md relative">
+            <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4    relative">
               <h3 className="font-bold tracking-wide text-black uppercase flex items-center gap-2">
                 <span className=" text-[var(--color-accent)]">📧</span> Email Administrators
               </h3>
@@ -4591,7 +4591,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         selectedVenuePopup && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
+            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative    text-black font-sans flex flex-col">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4">
                 <div className="flex items-center gap-2.5">
@@ -4708,7 +4708,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         activeDiscussionDate && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative shadow-md text-black font-sans flex flex-col max-h-[90vh]">
+            <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative    text-black font-sans flex flex-col max-h-[90vh]">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
                 <div className="flex items-center gap-2.5">
@@ -4924,7 +4924,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         requestingCoverageShift && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative shadow-md text-black font-sans flex flex-col">
+            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative    text-black font-sans flex flex-col">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
                 <div className="flex items-center gap-2.5">

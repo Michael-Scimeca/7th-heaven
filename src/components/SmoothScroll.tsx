@@ -20,6 +20,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     (window as any).__lenis = lenis;
 
+    if (document.documentElement.classList.contains("is-preloading")) {
+      lenis.stop();
+    }
+
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);

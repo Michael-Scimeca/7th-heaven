@@ -127,7 +127,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
   }));
 
   return (
-    <div className="mb-6 p-6 bg-white border border-black/10 shadow-md text-black">
+    <div className="mb-6 p-6 bg-white border border-black/10    text-black">
       <div className="flex items-center justify-between mb-5">
         <h2 className="font-bold text-black">
           Pick <span className="gradient-text">Awards</span>

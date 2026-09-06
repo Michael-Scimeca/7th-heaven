@@ -234,7 +234,7 @@ export function CalendarPicker({
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-lg bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border  border-white/10  text-white font-bold w-5 h-5 rounded-lg flex items-center justify-center shadow-md animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border  border-white/10  text-white font-bold w-5 h-5 rounded-lg flex items-center justify-center    animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}

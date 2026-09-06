@@ -437,7 +437,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   effectiveMember?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'
                 )}
               </div>
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm">
                 {effectiveMember?.role === 'admin' ? 'ADMIN' : effectiveMember?.role === 'crew' ? 'CREW' : 'FAN'}
               </span>
             </div>
@@ -568,7 +568,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Captain's Log */}
             {cruiseAnnouncement && (
-              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 mb-8 shadow-md">
+              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 mb-8   ">
                 <div className="absolute top-0 right-0 w-64 h-64 rounded-lg blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
@@ -728,7 +728,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     }
 
                     return [(
-                      <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? '    border-white/10  opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group shadow-md`}>
+                      <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? '    border-white/10  opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group   `}>
                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         </div>
                         <div className="flex items-start justify-between relative z-10">
@@ -1119,15 +1119,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {/* Status Badge */}
                             <div className="absolute top-2 right-2 z-10">
                               {photo.approved ? (
-                                <span className="px-2 py-0.5 bg-emerald-500 text-black      text-[0.9rem]  uppercase    rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-emerald-500 text-black      text-[0.9rem]  uppercase    rounded font-bold   ">
                                   Live
                                 </span>
                               ) : photo.rejected ? (
-                                <span className="px-2 py-0.5 bg-red-500 text-black      text-[0.9rem]  uppercase    rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-red-500 text-black      text-[0.9rem]  uppercase    rounded font-bold   ">
                                   Declined
                                 </span>
                               ) : (
-                                <span className="px-2 py-0.5 bg-yellow-500 text-black      text-[0.9rem]  uppercase    rounded font-bold shadow-md">
+                                <span className="px-2 py-0.5 bg-yellow-500 text-black      text-[0.9rem]  uppercase    rounded font-bold   ">
                                   Review
                                 </span>
                               )}

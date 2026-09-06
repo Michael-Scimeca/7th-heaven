@@ -665,7 +665,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
           </div>
 
           {showOverlapAvatar && (
-            <div className="absolute -left-2.5 -bottom-2.5 w-6 h-6 rounded-full border-2 border-[#0f0f13] shadow-md z-20 flex items-center justify-center shrink-0 wiw-tooltip-container">
+            <div className="absolute -left-2.5 -bottom-2.5 w-6 h-6 rounded-full border-2 border-[#0f0f13]    z-20 flex items-center justify-center shrink-0 wiw-tooltip-container">
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
@@ -785,7 +785,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
           )}
 
           {shift.crewId === 'openshifts' && shift.openSlots && (
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-bold   w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-md animate-pulse">
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white font-bold   w-4 h-4 rounded-full flex items-center justify-center border border-white    animate-pulse">
               {shift.openSlots}
             </span>
           )}

@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import FoolishShrimpButton, { FoolishShrimpButtonProps } from "./FoolishShrimpButton";
+import SparkleGenerateButton, { SparkleGenerateButtonProps } from "./SparkleGenerateButton";
 
-export interface CosmicRadialButtonProps extends FoolishShrimpButtonProps {
+export interface CosmicRadialButtonProps extends SparkleGenerateButtonProps {
   duration?: number;
   easing?: string;
   autoDrift?: boolean;
@@ -33,9 +33,9 @@ export const CosmicRadialButton = React.forwardRef<
     ref
   ) => {
     return (
-      <FoolishShrimpButton ref={ref} className={className} {...props}>
+      <SparkleGenerateButton ref={ref} className={className} {...props}>
         {children}
-      </FoolishShrimpButton>
+      </SparkleGenerateButton>
     );
   }
 );
@@ -43,3 +43,4 @@ export const CosmicRadialButton = React.forwardRef<
 CosmicRadialButton.displayName = "CosmicRadialButton";
 
 export default CosmicRadialButton;
+

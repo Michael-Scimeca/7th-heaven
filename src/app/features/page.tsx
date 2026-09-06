@@ -1398,7 +1398,7 @@ export default function FeaturesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors   hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />Watch Live
             </Link>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
@@ -2112,7 +2112,7 @@ export default function FeaturesPage() {
 
           {/* CTA */}
           <div className="text-center mt-12">
-            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors   hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Try the Fan Dashboard →
             </Link>
           </div>

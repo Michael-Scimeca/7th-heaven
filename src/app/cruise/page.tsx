@@ -1787,7 +1787,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               icon={false}
                               type="submit"
                               disabled={signupStatus === "submitting"}
-                              className="w-full !py-4 font-bold uppercase    justify-center shadow-md cursor-pointer disabled:opacity-70"
+                              className="w-full !py-4 font-bold uppercase    justify-center    cursor-pointer disabled:opacity-70"
                             >
                               {signupStatus === "submitting" ? <span className="w-5 h-5 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block" /> : "Submit Cruise Booking"}
                             </CosmicRadialButton>
@@ -1797,7 +1797,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               icon={false}
                               type="button"
                               onClick={() => window.print()}
-                              className="w-full !py-4 font-bold uppercase    justify-center shadow-md cursor-pointer"
+                              className="w-full !py-4 font-bold uppercase    justify-center    cursor-pointer"
                             >
                               Print / Save Booking Form
                             </CosmicRadialButton>
@@ -2133,7 +2133,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="text-[10px]    uppercase    text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
                             <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2">
                               {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => (
-                                <div key={gIdx} className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border  border-white/10  shadow-md">
+                                <div key={gIdx} className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border  border-white/10    ">
                                   <Image width={96} height={64} unoptimized src={gImg} alt="Gallery Still" className="w-full h-full object-cover" />
                                 </div>
                               ))}
@@ -2249,7 +2249,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {PORTS_DATA.map((port, idx) => (
                       <div key={`list-${port.name}`} className="bg-[#00000029]  border-white/10  backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
                         <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden rounded-lg relative shrink-0">
-                          {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
+                          {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover   transition-transform" />}
                           <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded   font-bold text-purple-300 uppercase border border-white/10">
                             Port #{idx + 1}
                           </span>

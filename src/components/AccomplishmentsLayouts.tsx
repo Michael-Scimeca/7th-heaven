@@ -36,7 +36,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <button aria-label="Action button"
               key={l.id}
               onClick={() => setActiveLayout(l.id)}
-              className={`w-9 h-9 font-bold transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id ? "bg-[var(--color-accent)] text-white shadow-md border border-[var(--color-accent)]/50 scale-110"
+              className={`w-9 h-9 font-bold transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id ? "bg-[var(--color-accent)] text-white    border border-[var(--color-accent)]/50 scale-110"
                 : " bg-[#00000029]     text-white  hover:text-white hover:bg-white/15 border border-transparent"
                 }`}
             >

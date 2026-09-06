@@ -504,7 +504,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <button aria-label="Action button"
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-colors cursor-pointer"
+                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center   active:scale-95 transition-colors cursor-pointer"
                   >
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>

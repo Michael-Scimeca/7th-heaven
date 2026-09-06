@@ -388,10 +388,10 @@ export default function FansPage() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                  <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase    px-3 py-1 rounded-lg border  border-white/10  bg-black/45 backdrop-blur-md text-white/90 shadow-md mb-2">
+                  <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase    px-3 py-1 rounded-lg border  border-white/10  bg-black/45 backdrop-blur-md text-white/90    mb-2">
                     Featured Moment
                   </span>
-                  <h3 className="font-bold uppercase tracking-tight text-purple-300 leading-none drop-shadow-md">
+                  <h3 className="font-bold uppercase tracking-tight text-purple-300 leading-none drop-  ">
                     {approvedPhotos[0].name}
                   </h3>
                   <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">

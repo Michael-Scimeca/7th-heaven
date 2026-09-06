@@ -104,7 +104,7 @@ export default function PlannerDashboardPage() {
                   {initials}
                 </div>
               )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg shadow-md border border-[var(--color-accent)]/50">
+              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg    border border-[var(--color-accent)]/50">
                 Planner
               </span>
             </div>

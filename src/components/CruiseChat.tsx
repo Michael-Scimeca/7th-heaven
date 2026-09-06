@@ -76,12 +76,12 @@ const getRoleColor = (role: string) => {
 
 const getAvatarGradient = (name: string) => {
   const gradients = [
-    'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white shadow-md',
-    'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-md',
-    'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-md',
-    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black  font-bold  shadow-md',
-    'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-md',
-    'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md',
+    'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white   ',
+    'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white   ',
+    'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white   ',
+    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black  font-bold    ',
+    'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white   ',
+    'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white   ',
   ];
   let hash = 0;
   const str = name || 'user';
@@ -480,7 +480,7 @@ export default function CruiseChat({
 
   if (!chatEnabled) {
     return (
-      <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group shadow-md text-black">
+      <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group    text-black">
         <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-lg opacity-50">
@@ -645,7 +645,7 @@ export default function CruiseChat({
                           {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                         </div>
                         {(msg.sender_role === 'crew' || msg.sender_role === 'admin') && (
-                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm">
+                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm">
                             {msg.sender_role === 'admin' ? 'ADMIN' : 'CREW'}
                           </span>
                         )}
@@ -688,7 +688,7 @@ export default function CruiseChat({
                                 : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
                             fontSize: "var(--chat-bubble-font-size, 12px)",
                           }}
-                          className="w-fit max-w-[85%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
+                          className="w-fit max-w-[85%] leading-relaxed break-words    transition-all text-white font-medium"
                         >
                           {formatMessageContent(msg.content)}
                         </div>
@@ -701,7 +701,7 @@ export default function CruiseChat({
                               aria-label="Warn User"
                               onClick={() => handleWarn(msg.sender_name)}
                               title="Warn User"
-                              className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20   transition cursor-pointer"
                             >
                               <AlertTriangle className="w-3.5 h-3.5" />
                             </button>
@@ -709,7 +709,7 @@ export default function CruiseChat({
                               aria-label="Ban User"
                               onClick={() => handleBan(msg.sender_name)}
                               title="Ban User"
-                              className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20   transition cursor-pointer"
                             >
                               <Ban className="w-3.5 h-3.5" />
                             </button>
@@ -717,7 +717,7 @@ export default function CruiseChat({
                               aria-label="Delete Message"
                               onClick={() => handleDeleteMsg(msg.id)}
                               title="Delete Message"
-                              className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10   transition cursor-pointer"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -725,7 +725,7 @@ export default function CruiseChat({
                               aria-label="Remove Fan Completely"
                               onClick={() => handleKick(msg.sender_name)}
                               title="Remove Fan Completely"
-                              className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20   transition cursor-pointer"
                             >
                               <LogOut className="w-3.5 h-3.5" />
                             </button>

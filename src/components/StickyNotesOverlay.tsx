@@ -600,7 +600,7 @@ function SingleStickyCard({
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-bold text-[10px] uppercase  transition flex items-center gap-1.5 shadow-md shadow-amber-400/20 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-bold text-[10px] uppercase  transition flex items-center gap-1.5    shadow-amber-400/20 cursor-pointer"
           >
             <Send className="w-3 h-3" />
             <span>Submit Note</span>

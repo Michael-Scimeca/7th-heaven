@@ -40,7 +40,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
 
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
-      <div className="bg-gray-50/98 backdrop-blur-xl border border-purple-500/40 p-6 w-full max-w-sm shadow-md relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black">
+      <div className="bg-gray-50/98 backdrop-blur-xl border border-purple-500/40 p-6 w-full max-w-sm    relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black">
         <button aria-label="Close"
           onClick={handleClose}
           className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg"

@@ -446,7 +446,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full py-3.5 uppercase  font-bold shadow-lg shadow-purple-600/30 rounded-lg cursor-pointer hover:scale-[1.02] transition-transform disabled:opacity-60"
+                    className="w-full uppercase  font-bold  cursor-pointer transition disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>

@@ -235,9 +235,9 @@ export default function CursorFollower() {
       const isInput = !!(
         target &&
         (target.closest('label, input, textarea, select, [contenteditable="true"], .site-input, .form-input, .input-glow-border') ||
-         target.tagName === 'INPUT' ||
-         target.tagName === 'TEXTAREA' ||
-         target.tagName === 'LABEL')
+          target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'LABEL')
       );
       setInputHovered(isInput);
       if (isInput) {
@@ -671,7 +671,7 @@ export default function CursorFollower() {
           </svg>
           {handActive && (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img src="/images/hand.svg" className="w-full h-full object-contain pointer-events-none select-none drop-shadow-md" alt="" />
+            <img src="/images/hand.svg" className="w-full h-full object-contain pointer-events-none select-none drop-  " alt="" />
           )}
           <div
             ref={pickTextRef}

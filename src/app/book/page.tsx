@@ -143,7 +143,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < today;
                   return (
                     <button aria-label="Action button" key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base font-bold uppercase  transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/30' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase  transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] text-white    shadow-purple-600/30' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -166,7 +166,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-md shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white    shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -1023,7 +1023,7 @@ function BookPageContent() {
               <button aria-label="Action button"
                 type="button"
                 onClick={handleLoadLastForm}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  transition-colors cursor-pointer shadow-md rounded-lg shrink-0 flex items-center gap-1.5"
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  transition-colors cursor-pointer    rounded-lg shrink-0 flex items-center gap-1.5"
               >
                 <Zap className="w-3.5 h-3.5" /> Populate
               </button>
@@ -1239,7 +1239,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white   ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1258,7 +1258,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white   ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1511,7 +1511,7 @@ function BookPageContent() {
               </p>
 
               {isLoadInUnsure && (
-                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
+                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both]   ">
                   <div className="space-y-1">
                     <span className="font-bold text-white block">Unsure of exact load-in time? No problem!</span>
                     <span className="text-white/80 leading-relaxed block">
@@ -1701,7 +1701,7 @@ function BookPageContent() {
                           key={option.id}
                           type="button"
                           onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20 shadow-md'
+                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20   '
                             : ' border-white/10   bg-[#00000029]    hover:  border-white/10   hover:bg-white/10'
                             }`}
                         >
@@ -2108,7 +2108,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg font-bold text-white uppercase  transition-transform shadow-md cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg font-bold text-white uppercase  transition-transform    cursor-pointer flex items-center gap-1.5"
             >
               <Check className="w-4 h-4" /> Save Location to Form
             </button>

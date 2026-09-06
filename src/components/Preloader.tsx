@@ -48,15 +48,33 @@ export default function Preloader() {
   useEffect(() => {
     const html = document.documentElement;
 
+    const unlockScroll = () => {
+      html.classList.remove("is-preloading");
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        try {
+          (window as any).__lenis.start();
+          (window as any).__lenis.resize();
+        } catch {}
+      }
+    };
+
     if (!html.classList.contains("is-preloading")) {
       setPhase("done");
       return;
     }
 
     if (shouldSkip()) {
-      html.classList.remove("is-preloading");
+      unlockScroll();
       setPhase("done");
       return;
+    }
+
+    // Reset scroll to top and pause Lenis while preloading
+    window.scrollTo(0, 0);
+    if ((window as any).__lenis) {
+      try {
+        (window as any).__lenis.stop();
+      } catch {}
     }
 
     let cancelled = false;
@@ -78,7 +96,7 @@ export default function Preloader() {
 
         const overlay = overlayRef.current;
         if (!overlay) {
-          html.classList.remove("is-preloading");
+          unlockScroll();
           setPhase("done");
           return;
         }
@@ -93,7 +111,7 @@ export default function Preloader() {
           },
           onComplete: () => {
             if (cancelled) return;
-            html.classList.remove("is-preloading");
+            unlockScroll();
             setPhase("done");
           },
         });
@@ -103,6 +121,7 @@ export default function Preloader() {
     return () => {
       cancelled = true;
       counterTween.kill();
+      unlockScroll();
     };
   }, []);
 

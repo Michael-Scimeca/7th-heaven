@@ -54,7 +54,7 @@ export default function ChatInputBar({
           maxLength={maxLength}
           glow={true}
           containerClassName="w-full"
-          inputClassName={`bg-[#00000029] !border-0 !border-t pl-3.5 py-3 text-white !rounded-none font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
+          inputClassName={`bg-[#00000029] !border-0 !border-t pl-3.5 py-3 text-white !rounded-none font-medium outline-none transition-all    placeholder:text-white/40 ${rightPadding}`}
         />
 
         <div className="absolute right-1.5 flex items-center gap-1">

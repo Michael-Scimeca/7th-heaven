@@ -295,7 +295,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="!py-3 !px-6 font-bold uppercase    !text-white shadow-md disabled:opacity-40"
+                className="!py-3 !px-6 font-bold uppercase    !text-white    disabled:opacity-40"
               >
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </CosmicRadialButton>

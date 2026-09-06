@@ -67,7 +67,7 @@
   },
   "shadows": {
     "-- ": "none",
-    "--shadow-md": "none",
+    "--  ": "none",
     "--shadow-lg": "none",
     "--shadow-accent-glow": "none"
   },

@@ -192,7 +192,7 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white shadow-md"
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white   "
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20    "
                 }`}
             >
@@ -259,7 +259,7 @@ export default function FAQPage() {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
+      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left   ">
         <div>
           <h4 className="text-white font-bold mb-1">Still need help?</h4>
           <p className="font-medium">
@@ -268,7 +268,7 @@ export default function FAQPage() {
         </div>
         <Link
           href="/contact"
-          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold transition duration-200 whitespace-nowrap shadow-md"
+          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold transition duration-200 whitespace-nowrap   "
         >
           Contact Us
         </Link>

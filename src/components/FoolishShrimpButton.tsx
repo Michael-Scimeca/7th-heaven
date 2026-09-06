@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import SparkleGenerateButton, { SparkleGenerateButtonProps } from "./SparkleGenerateButton";
 
-export interface FoolishShrimpButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface FoolishShrimpButtonProps extends SparkleGenerateButtonProps {
   children?: React.ReactNode;
   className?: string;
   icon?: React.ReactNode;
@@ -15,27 +15,9 @@ export const FoolishShrimpButton = React.forwardRef<
   FoolishShrimpButtonProps
 >(({ children = "Credits", className = "", icon, isActive, ...props }, ref) => {
   return (
-    <button
-      ref={ref}
-      type="button"
-      className={`uiverse-foolish-shrimp ${isActive ? "is-active" : ""} ${className}`}
-      {...props}
-    >
-      <div className="points_wrapper">
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-      </div>
-
-      <span className="inner">{children}</span>
-    </button>
+    <SparkleGenerateButton ref={ref} active={isActive} className={className} {...props}>
+      {children}
+    </SparkleGenerateButton>
   );
 });
 
@@ -46,30 +28,13 @@ export const FoolishShrimpAlwaysButton = React.forwardRef<
   FoolishShrimpButtonProps
 >(({ children = "Credits", className = "", icon, ...props }, ref) => {
   return (
-    <button
-      ref={ref}
-      type="button"
-      className={`uiverse-foolish-shrimp always ${className}`}
-      {...props}
-    >
-      <div className="points_wrapper">
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-        <i className="point" />
-      </div>
-
-      <span className="inner">{children}</span>
-    </button>
+    <SparkleGenerateButton ref={ref} active={true} className={className} {...props}>
+      {children}
+    </SparkleGenerateButton>
   );
 });
 
 FoolishShrimpAlwaysButton.displayName = "FoolishShrimpAlwaysButton";
 
 export default FoolishShrimpButton;
+

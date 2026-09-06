@@ -1272,7 +1272,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   className="w-12 h-12 rounded-full flex items-center justify-center  font-bold shrink-0  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2 border-white/20"
 
                 >{activeFeedCrew.avatar}</div>
-                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[9px] font-bold uppercase text-purple-300 bg-purple-600/50 border border-purple-500/50 rounded-full leading-none shadow-md">
+                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[9px] font-bold uppercase text-purple-300 bg-purple-600/50 border border-purple-500/50 rounded-full leading-none   ">
                   Crew
                 </span>
               </div>
@@ -1341,7 +1341,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 >
                   {activeFeedCrew.avatar}
                 </div>
-                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none shadow-md backdrop-blur-sm text-[var(--color-accent)]">
+                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[8px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm text-[var(--color-accent)]">
                   CREW
                 </span>
               </div>
@@ -1735,7 +1735,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             background: activeMerchDrop.product.color,
                             boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
                           }}
-                          className="px-3.5 py-1.5 text-black font-bold uppercase    hover:scale-105 active:scale-95 transition-colors cursor-pointer border-none shrink-0"
+                          className="px-3.5 py-1.5 text-black font-bold uppercase      active:scale-95 transition-colors cursor-pointer border-none shrink-0"
                         >
                           BUY NOW
                         </button>
@@ -1953,34 +1953,34 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <div className="flex gap-1.5 flex-wrap mt-2">
                           {msg.account && !warnedUsers.has(msg.account.id) && (
                             <button aria-label="Action button" onClick={() => msg.account && handleWarn(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors hover:scale-105"
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors  "
                               style={{ background: 'rgba(192, 132, 252,0.15)', border: '1px solid rgba(192, 132, 252,0.3)', color: '#c084fc' }}>
                               ⚠️ Warn
                             </button>
                           )}
                           {msg.account && !mutedUsers.has(msg.account.id) && (
                             <button aria-label="Action button" onClick={() => msg.account && handleMute(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors hover:scale-105"
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors  "
                               style={{ background: 'rgba(156,163,175,0.1)', border: '1px solid rgba(156,163,175,0.2)', color: '#9ca3af' }}>
                               🔇 Mute
                             </button>
                           )}
                           {msg.account && (
                             <button aria-label="Action button" onClick={() => msg.account && handleKick(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors hover:scale-105"
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors  "
                               style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.25)', color: '#fb923c' }}>
                               👢 Kick
                             </button>
                           )}
                           {msg.account && !bannedUsers.has(msg.account.id) && (
                             <button aria-label="Action button" onClick={() => msg.account && handleBan(msg.account, reason)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors hover:scale-105"
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors  "
                               style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.35)', color: '#f87171' }}>
                               🚫 Ban
                             </button>
                           )}
                           <button aria-label="Action button" onClick={() => handleDismissFlag(msg.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors hover:scale-105 ml-auto"
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold transition-colors   ml-auto"
                             style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.3)' }}>
                             ✓ Dismiss
                           </button>
@@ -2421,7 +2421,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         }]);
                         setAdminTab('flagged');
                       }}
-                      className="px-2.5 py-1.5 rounded-lg font-bold transition-colors hover:scale-105"
+                      className="px-2.5 py-1.5 rounded-lg font-bold transition-colors  "
                       style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#fca5a5' }}
                     >
                       {label}
@@ -2432,7 +2432,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 <div className="mt-2 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                   <button aria-label="Action button"
                     onClick={() => setAdminTab('merch')}
-                    className="w-full px-3 py-1.5 rounded-lg font-bold transition-colors hover:scale-105 flex items-center justify-center gap-2"
+                    className="w-full px-3 py-1.5 rounded-lg font-bold transition-colors   flex items-center justify-center gap-2"
                     style={{ background: 'rgba(192, 132, 252,0.08)', border: '1px solid rgba(192, 132, 252,0.2)', color: '#c084fc' }}
                   >
                     🛍 Go to Merch Drop Tab
@@ -2585,7 +2585,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
-                                  : 'bg-white/10 border    border-white/10    hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
+                                  : 'bg-white/10 border    border-white/10    hover:border-white/25 text-white/70 hover:text-white   active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >
@@ -2838,7 +2838,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
           return (
             <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm shadow-md relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black text-left"
+              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm    relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black text-left"
                 style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
 
                 {/* Close Button */}

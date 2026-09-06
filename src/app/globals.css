@@ -3614,7 +3614,7 @@ textarea,
 }
 
 #contact-page {
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 /* =============================================
@@ -4626,6 +4626,14 @@ textarea,
     animation: none;
   }
 }
+
+/* Prevent page scrolling while preloader is active */
+html.is-preloading,
+html.is-preloading body {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 
 /* ── Preloader overlay + PageTransition heading reveal (original impl,
    own timings/easing -- not reusing the old .preloader-mark* rules above,

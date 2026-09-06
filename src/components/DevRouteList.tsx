@@ -173,7 +173,7 @@ export default function DevRouteList() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${activeCategory === cat ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
+                    className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${activeCategory === cat ? "bg-purple-600 text-white    shadow-purple-900/40"
                       : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
                       }`}
                   >

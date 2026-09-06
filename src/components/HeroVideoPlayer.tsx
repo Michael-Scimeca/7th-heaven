@@ -545,7 +545,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center cursor-pointer hover:bg-black/85   active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg

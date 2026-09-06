@@ -723,7 +723,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1    border border-[var(--color-accent)]/40">
+                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg    mx-1    border border-[var(--color-accent)]/40">
                   FAN
                 </span>{" "}
                 MEMBERSHIP

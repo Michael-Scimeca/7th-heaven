@@ -1047,7 +1047,7 @@ export function CaptainsLog() {
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button aria-label="Action button"
           onClick={() => setIsPlaying(!isPlaying)}
-          className="w-12 h-12 rounded-lg bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
+          className="w-12 h-12 rounded-lg bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7]   transition-colors   "
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
