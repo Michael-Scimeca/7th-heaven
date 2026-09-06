@@ -12,7 +12,6 @@ import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import MP4VideoSection from "@/components/MP4VideoSection";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
-const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), { ssr: false });
 
 interface Video {
   id: string;
@@ -358,16 +357,6 @@ export default function MediaPage() {
           <h1 className=" font-bold uppercase tracking-tight text-white">MEDIA</h1>
         </div>
 
-        {/* ── 700+ SONG CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <div className="mb-16">
-          <AudioPlayer />
-        </div>
-
-        {/* ── HD MP4 VIDEO SHOWCASE SECTION (TOP OF VIDEO VAULT) ── */}
-        <div className="mb-12">
-          <MP4VideoSection />
-        </div>
-
         {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
           <SearchInput
@@ -490,6 +479,9 @@ export default function MediaPage() {
             </button>
           </div>
         )}
+
+        {/* ── MP4 VIDEO PLAYERS SHOWCASE AT BOTTOM ── */}
+        <MP4VideoSection />
       </div>
 
       {/* ── FULL SCREEN VIDEO PLAYER OVERLAY ── */}
