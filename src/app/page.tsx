@@ -9,7 +9,6 @@ const BioParallaxSlider = nextDynamic(() => import("@/components/BioParallaxSlid
 const HomeVideoShowcase = nextDynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
 const HomeMerch = nextDynamic(() => import("@/components/HomeMerch"));
-const AudioPlayerSection = nextDynamic(() => import("@/components/AudioPlayer"));
 const HomeNewsSection = nextDynamic(() => import("@/components/HomeNewsSection"));
 const HomeDataLoader = nextDynamic(() => import("@/components/HomeDataLoader"));
 
@@ -88,11 +87,6 @@ export default function Home() {
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
       <LazySection fallbackHeight="400px">
         <HomeMerch />
-      </LazySection>
-
-      {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <LazySection fallbackHeight="600px" id="music" className="relative w-full min-h-[600px] py-section-fluid overflow-visible hidden md:block">
-        <AudioPlayerSection />
       </LazySection>
     </div>
   );
