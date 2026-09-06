@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import MP4VideoSection from "@/components/MP4VideoSection";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 
@@ -478,6 +479,9 @@ export default function MediaPage() {
             </button>
           </div>
         )}
+
+        {/* ── MP4 VIDEO PLAYERS SHOWCASE AT BOTTOM ── */}
+        <MP4VideoSection />
       </div>
 
       {/* ── FULL SCREEN VIDEO PLAYER OVERLAY ── */}
