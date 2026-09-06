@@ -1,5 +1,5 @@
-/* eslint-disable react-doctor/no-giant-component, react-doctor/no-event-handler */
-/* oxlint-disable react-doctor/no-giant-component, react-doctor/no-event-handler */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-event-handler, react-doctor/no-high-complexity-react-function */
+/* oxlint-disable react-doctor/no-giant-component, react-doctor/no-event-handler, react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -502,7 +502,7 @@ export default function AudioPlayerSection() {
   return (
     <section
       ref={sectionRef}
-      className="h-[calc(100dvh-90px)] flex flex-col justify-between relative w-full bg-transparent overflow-hidden hidden md:flex"
+      className="h-[650px] min-h-[500px] flex flex-col justify-between relative w-full bg-transparent overflow-hidden flex"
       id="music-player-section"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
@@ -512,7 +512,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r  border-white/10  pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden   ">
+        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r  border-white/10  pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 flex self-stretch h-full min-h-full overflow-hidden">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}

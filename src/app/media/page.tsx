@@ -12,6 +12,7 @@ import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import MP4VideoSection from "@/components/MP4VideoSection";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
+const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), { ssr: false });
 
 interface Video {
   id: string;
@@ -355,6 +356,11 @@ export default function MediaPage() {
         {/* ── CENTERED PAGE TITLE ── */}
         <div className="text-center mb-6">
           <h1 className=" font-bold uppercase tracking-tight text-white">MEDIA</h1>
+        </div>
+
+        {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
+        <div className="mb-16 rounded-2xl overflow-hidden border border-purple-500/20 shadow-2xl bg-black/40 backdrop-blur-xl">
+          <AudioPlayer />
         </div>
 
         {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
