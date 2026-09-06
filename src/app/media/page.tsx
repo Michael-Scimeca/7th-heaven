@@ -68,11 +68,12 @@ function VideoCardVisual({
   // 5-Second snippet clip of this specific video (loops between 10s and 15s)
   const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
 
-  const shouldRenderIframe = isHovered || shouldPrefetch;
+  // Render 5-second video snippet iframe only when hovered or during prefetch phase
+  const shouldRenderIframe = isHovered || (shouldPrefetch && index < 6);
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
-      {/* 1. Base Stylized Poster Layer (Paints immediately on frame 0) */}
+      {/* 1. Base Stylized Poster Layer */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl opacity-40 pointer-events-none"
@@ -83,18 +84,18 @@ function VideoCardVisual({
             <Play className="w-8 h-8 text-white fill-white ml-1" />
           </div>
         </div>
-        <h4 className="text-white/90 font-bold uppercase  line-clamp-2 px-2 drop-shadow-md">
+        <h4 className="text-white/90 font-bold uppercase line-clamp-2 px-2 drop-shadow-md">
           {title}
         </h4>
       </div>
 
-      {/* 2. Cover Image Layer (Overlays base poster when available with smooth fade-in) */}
+      {/* 2. Cover Image Layer */}
       {!imgFailed && (
         <Image
           src={imgSrc}
           alt={title}
           fill
-          loading="eager"
+          loading={index < 6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={`object-cover transition-all duration-300 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
@@ -103,13 +104,13 @@ function VideoCardVisual({
         />
       )}
 
-      {/* 3. 5-Second Video Hover Snippet Clip for this specific YouTube Video (Prefetched for top cards) */}
+      {/* 3. 5-Second Video Hover Snippet (Loops 10s-15s, lazy loaded on hover to avoid network congestion) */}
       {shouldRenderIframe && (
         <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${isHovered && iframeLoaded ? "opacity-100" : "opacity-0"}`}>
           <iframe
             src={embedSnippetUrl}
             title={title}
-            loading="eager"
+            loading="lazy"
             onLoad={() => setIframeLoaded(true)}
             className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10"
             allow="autoplay; encrypted-media"
@@ -119,7 +120,7 @@ function VideoCardVisual({
 
       {/* 4. Hover Active Card Overlay */}
       <div
-        className={`absolute inset-0 z-20 pointer-events-none rounded-full transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 z-20 pointer-events-none  transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
       >
 
       </div>
@@ -373,7 +374,7 @@ export default function MediaPage() {
           {isAdmin && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase  rounded-md transition-all hover:scale-105 cursor-pointer shrink-0 shadow-md animate-[fade-in_0.2s_ease-out]"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase  rounded-md transition-all cursor-pointer shrink-0    animate-[fade-in_0.2s_ease-out]"
             >
               <Plus className="w-4 h-4" />
               <span>Add Video</span>
@@ -488,7 +489,7 @@ export default function MediaPage() {
 
       {/* ── FULL SCREEN VIDEO PLAYER OVERLAY ── */}
       {playingVideo && (
-        <div className="fixed inset-0 z-[999999] bg-black w-screen h-screen flex items-center justify-center animate-[fade-in_0.2s_ease-out] overflow-hidden">
+        <div className="fixed inset-0 z-[999999] !rounded-none bg-black w-screen h-screen flex items-center justify-center animate-[fade-in_0.2s_ease-out] overflow-hidden">
           <CustomVideoPlayer
             videoId={playingVideo.id}
             title={playingVideo.title}
