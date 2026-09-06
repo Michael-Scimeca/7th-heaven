@@ -369,7 +369,7 @@ export default function AudioPlayerSection() {
                     window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId: album.id } }));
                   }
                 }}
-                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 rounded-lg ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'hover:bg-white/10 cursor-pointer'}`}
+                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 !rounded-none ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'hover:bg-white/10 cursor-pointer'}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
@@ -502,7 +502,7 @@ export default function AudioPlayerSection() {
   return (
     <section
       ref={sectionRef}
-      className="h-[650px] min-h-[500px] flex flex-col justify-between relative w-full bg-transparent overflow-hidden flex"
+      className="min-h-[700px] h-[780px] flex flex-col justify-between relative w-full bg-transparent overflow-hidden flex"
       id="music-player-section"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
@@ -708,7 +708,7 @@ export default function AudioPlayerSection() {
               data-lenis-prevent-wheel="true"
               data-lenis-prevent-touch="true"
               onWheel={(e) => e.stopPropagation()}
-              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l  border-white/10  pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40   "
+              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l  border-white/10  pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative self-stretch h-full z-10"
               style={{ overscrollBehavior: "contain" }}
             >
 
@@ -848,8 +848,8 @@ export default function AudioPlayerSection() {
             </div>
           </div>
 
-          {/* --- PLAY CONTROLS STRIP (EXTENDS ON TABLET, CONFINED TO MIDDLE COLUMN ON DESKTOP) --- */}
-          <div className="bg-black/50 backdrop-blur-xl border-t  border-white/10  h-[54px] flex items-center px-4 md:px-8 gap-3 sm:gap-4 relative w-full xl:w-[calc(100%-clamp(220px,22vw,350px))] shrink-0 z-30">
+          {/* --- PLAY CONTROLS STRIP --- */}
+          <div className="bg-black/50 backdrop-blur-xl border-t  border-white/10  h-[54px] flex items-center px-4 md:px-8 gap-3 sm:gap-4 relative w-full shrink-0 z-30">
 
             {/* Album Cover & Play Button Overlay */}
             <button
@@ -876,8 +876,8 @@ export default function AudioPlayerSection() {
 
             {/* Song Title */}
             <div className="min-w-0 max-w-[180px] shrink-0 hidden md:block">
-              <p className="font-bold truncate leading-tight">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
-              <p className="truncate leading-tight">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+              <p className="font-bold truncate leading-tight pt-0">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
+              <p className="truncate leading-tight mt-0">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
             </div>
 
             {/* Prev / Next Controls */}
