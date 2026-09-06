@@ -42,6 +42,10 @@ const FAILSAFE_MS = 3000;
 // mounted (it hasn't, on a client-side route change).
 const CURTAIN_BG = "rgb(13, 14, 19)";
 
+// Exo Ape Custom Ease Curve: cubic-bezier(0.496, 0.004, 0, 1)
+const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
+const TRANSITION_DURATION = 1.0;
+
 function shouldSkip(): boolean {
   if (typeof window === "undefined") return false;
   return (
@@ -96,35 +100,22 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Animate incoming new page: scale, rotate & translate back to original
+    // Exo Ape style incoming page reveal: content resets to identity as clip-path wipes away
     if (contentRef.current) {
       contentTweenRef.current?.kill();
       gsap.set(contentRef.current, {
-        scale: 1.03,
-        y: 35,
-        rotation: 1,
-        opacity: 0.7,
-      });
-      contentTweenRef.current = gsap.to(contentRef.current, {
         scale: 1,
         y: 0,
         rotation: 0,
         opacity: 1,
-        duration: REVEAL_DURATION,
-        ease: "expo.out",
-        onComplete: () => {
-          if (contentRef.current) {
-            gsap.set(contentRef.current, { clearProps: "all" });
-          }
-        },
       });
     }
 
     const proxy = { p: 0 };
     tweenRef.current = gsap.to(proxy, {
       p: 1,
-      duration: REVEAL_DURATION,
-      ease: REVEAL_EASE,
+      duration: TRANSITION_DURATION,
+      ease: "power2.inOut",
       onUpdate: () => setClip(proxy.p),
       onComplete: finish,
     });
@@ -145,16 +136,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Exo Ape style outgoing page animation: scale down, rotate & translate Y upward
+    // Exo Ape exact outgoing page exit: scale to 1.30x, rotate +7.0deg & slide downward (+50vh)
     if (contentRef.current) {
       contentTweenRef.current?.kill();
+      const halfVh = typeof window !== "undefined" ? window.innerHeight * 0.5 : 370;
       contentTweenRef.current = gsap.to(contentRef.current, {
-        scale: 0.95,
-        y: -40,
-        rotation: -1.5,
-        opacity: 0.35,
-        duration: COVER_DURATION,
-        ease: "power2.inOut",
+        scale: 1.3,
+        y: halfVh,
+        rotation: 7,
+        opacity: 1.0,
+        duration: TRANSITION_DURATION,
+        ease: EXO_EASE,
       });
     }
 
@@ -162,8 +154,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     tweenRef.current?.kill();
     tweenRef.current = gsap.to(proxy, {
       p: 0,
-      duration: COVER_DURATION,
-      ease: COVER_EASE,
+      duration: TRANSITION_DURATION,
+      ease: EXO_EASE,
       onUpdate: () => setClip(proxy.p),
       onComplete: () => {
         // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
@@ -175,8 +167,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }, [mode, pendingHref]);
 
   // Phase 2: fully covered -- wait for the destination to actually be the
-  // current route AND ready, then wipe away. The failsafe below guarantees
-  // this can never hang even if that condition somehow never arrives.
+  // current route AND ready, then wipe away.
   useEffect(() => {
     if (mode !== "covered" || !pendingHref) return;
 
@@ -208,14 +199,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {/* <div
+      <div
         ref={overlayRef}
         id="curtain-primary"
         aria-hidden="true"
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: "var(--z-overlay-fx)",
+          zIndex: 9999,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -226,10 +217,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       >
         {(mode === "covering" || mode === "covered") && (
           <div className="hvn-page-curtain__mark">
-            <Logo className="hvn-page-curtain__logo" />
+            <Logo className="hvn-page-curtain__logo w-32 h-auto text-white opacity-80 animate-pulse" />
           </div>
         )}
-      </div> */}
+      </div>
       <div ref={contentRef} className={mode !== "idle" ? "transform-gpu" : undefined}>
         {children}
       </div>
