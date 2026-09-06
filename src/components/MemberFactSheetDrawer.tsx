@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { X, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
 
 export interface BandMemberFactSheet {
