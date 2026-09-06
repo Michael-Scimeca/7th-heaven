@@ -191,7 +191,41 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }, [mode, pathname, pendingHref, reveal]);
 
   useEffect(() => {
+    const handlePreloaderWipe = () => {
+      if (shouldSkip() || !contentRef.current) return;
+      contentTweenRef.current?.kill();
+      const initialY = typeof window !== "undefined" ? window.innerHeight * 0.15 : 100;
+      gsap.fromTo(
+        contentRef.current,
+        {
+          rotation: 7,
+          scale: 1.15,
+          y: initialY,
+          opacity: 1,
+          transformOrigin: "center center",
+        },
+        {
+          rotation: 0,
+          scale: 1,
+          y: 0,
+          duration: TRANSITION_DURATION,
+          ease: EXO_EASE,
+          onComplete: () => {
+            if (contentRef.current) {
+              gsap.set(contentRef.current, { clearProps: "all" });
+            }
+          },
+        }
+      );
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("preloader-wiping", handlePreloaderWipe);
+    }
     return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("preloader-wiping", handlePreloaderWipe);
+      }
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
     };

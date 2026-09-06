@@ -24,8 +24,8 @@ import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
 // which held the overlay on screen indefinitely. A fixed timer can't hang.
 type Phase = "loading" | "wiping" | "done";
 
-const WIPE_DURATION = 0.8;
-const WIPE_EASE = "expo.inOut";
+const WIPE_DURATION = 1.0;
+const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
@@ -44,6 +44,7 @@ export default function Preloader() {
   const [phase, setPhase] = useState<Phase>("loading");
   const [count, setCount] = useState<number>(0);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -79,11 +80,45 @@ export default function Preloader() {
 
     let cancelled = false;
 
-    // Exo Ape style smooth progress counter 0 -> 100
+    const startWipe = () => {
+      if (cancelled) return;
+      setPhase("wiping");
+
+      const overlay = overlayRef.current;
+      if (!overlay) {
+        unlockScroll();
+        setPhase("done");
+        return;
+      }
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("preloader-wiping"));
+      }
+
+      const proxy = { p: 0 };
+      gsap.to(proxy, {
+        p: 1,
+        duration: WIPE_DURATION,
+        ease: EXO_EASE,
+        onUpdate: () => {
+          overlay.style.clipPath = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
+        },
+        onComplete: () => {
+          if (cancelled) return;
+          unlockScroll();
+          setPhase("done");
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("preloader-complete"));
+          }
+        },
+      });
+    };
+
+    // Exo Ape style smooth progress counter 0 -> 100%
     const counterProxy = { value: 0 };
     const counterTween = gsap.to(counterProxy, {
       value: 100,
-      duration: 1.1,
+      duration: 1.2,
       ease: "power2.out",
       onUpdate: () => {
         if (!cancelled) {
@@ -92,29 +127,17 @@ export default function Preloader() {
       },
       onComplete: () => {
         if (cancelled) return;
-        setPhase("wiping");
-
-        const overlay = overlayRef.current;
-        if (!overlay) {
-          unlockScroll();
-          setPhase("done");
-          return;
+        if (contentRef.current) {
+          gsap.to(contentRef.current, {
+            opacity: 0,
+            y: -25,
+            duration: 0.3,
+            ease: "power2.in",
+            onComplete: startWipe,
+          });
+        } else {
+          startWipe();
         }
-
-        const proxy = { p: 0 };
-        gsap.to(proxy, {
-          p: 1,
-          duration: WIPE_DURATION,
-          ease: WIPE_EASE,
-          onUpdate: () => {
-            overlay.style.clipPath = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
-          },
-          onComplete: () => {
-            if (cancelled) return;
-            unlockScroll();
-            setPhase("done");
-          },
-        });
       },
     });
 
@@ -144,7 +167,10 @@ export default function Preloader() {
         pointerEvents: "none",
       }}
     >
-      <div className="flex flex-col items-center justify-center text-center p-6 select-none z-10">
+      <div
+        ref={contentRef}
+        className="preloader-content flex flex-col items-center justify-center text-center p-6 select-none z-10"
+      >
         {/* Brandmark Logo */}
         <div className="mb-4">
           <Logo className="w-24 sm:w-32 h-auto text-white animate-[fade-in_0.4s_ease-out_both]" />
@@ -152,13 +178,13 @@ export default function Preloader() {
 
         {/* Subtitle */}
         <div className="mb-8">
-          <p className="text-[10px] sm:text-xs    font-bold tracking-[0.3em] uppercase text-purple-300/80">
+          <p className="text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase text-purple-300/80">
             Digital Experience • 40 Years of Rock
           </p>
         </div>
 
         {/* Exo Ape Style Numerical Counter */}
-        <div className="   font-bold text-4xl sm:text-6xl text-white tracking-tighter tabular-nums drop-shadow-lg">
+        <div className="font-bold text-4xl sm:text-6xl text-white tracking-tighter tabular-nums drop-shadow-lg">
           {String(count).padStart(2, "0")}<span className="text-purple-400 text-2xl sm:text-3xl ml-0.5">%</span>
         </div>
       </div>
