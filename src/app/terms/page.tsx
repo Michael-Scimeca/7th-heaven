@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="site-container py-section-fluid min-h-screen text-[var(--text-color)] text-left">
+        <section className="site-container pt-[100px] min-h-screen    text-left">
             <div className="mb-12 text-left">
-                <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
+                <h1 className="text-[clamp(2rem,4vw,3rem)]    tracking-tight mb-2 font-bold text-[var(--text-color)]">
                     Terms of Service
                 </h1>
                 <p className="font-bold">
@@ -18,7 +18,7 @@ export default function TermsPage() {
                 </p>
             </div>
 
-            <div className="prose-legal flex flex-col gap-10 text-[var(--text-color)] text-base leading-relaxed">
+            <div className="prose-legal flex flex-col gap-10    text-base leading-relaxed">
 
                 {/* 1 */}
                 <div>
@@ -159,7 +159,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">13. Contact</h2>
                     <p className="mb-2">For questions about these Terms of Service:</p>
-                    <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg">
+                    <div className="">
                         <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
                         <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>

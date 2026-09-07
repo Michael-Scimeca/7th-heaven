@@ -63,9 +63,7 @@ export const SparkleGenerateButton = React.forwardRef<
       forcedRef.current = forced;
     }, [forced]);
 
-    const strokeGroupRef = useRef<HTMLDivElement | null>(null);
-
-    // one-time DOM setup: dust layer + dashed stroke-trace layer
+    // one-time DOM setup: dust layer
     useEffect(() => {
       let isMounted = true;
       let timerId: ReturnType<typeof setTimeout> | null = null;
@@ -78,8 +76,6 @@ export const SparkleGenerateButton = React.forwardRef<
 
       const width = button.offsetWidth;
       const height = button.offsetHeight;
-      const style = getComputedStyle(button);
-      const borderRadius = parseInt(style.borderRadius, 10) || height / 2;
       const svgNS = "http://www.w3.org/2000/svg";
 
       const createSVG = (
@@ -107,97 +103,15 @@ export const SparkleGenerateButton = React.forwardRef<
       circleTemplateRef.current = dotsMade.child as unknown as SVGCircleElement;
       button.appendChild(dotsMade.svg);
 
-      const strokeGroup = document.createElement("div");
-      strokeGroup.classList.add("sgb-stroke");
-      strokeGroupRef.current = strokeGroup;
-
-      const computeDashArray = (w: number, h: number) => {
-        const straight = 2 * Math.max(0, w - h);
-        const curves = Math.PI * h;
-        const perimeter = straight + curves;
-        if (perimeter <= 0) return "48 52";
-        const dashPercent = Math.min(52, Math.max(30, Math.round((w / perimeter) * 100)));
-        return `${dashPercent} ${100 - dashPercent}`;
-      };
-
-      const createStrokeSVG = () => {
-        const svg = document.createElementNS(svgNS, "svg");
-        svg.classList.add("sgb-stroke-line");
-        svg.setAttribute("preserveAspectRatio", "none");
-        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-        const computedR = Math.min(borderRadius, Math.min(width, height) / 2);
-        const rect = document.createElementNS(svgNS, "rect");
-        rect.setAttribute("x", "1");
-        rect.setAttribute("y", "1");
-        rect.setAttribute("width", String(Math.max(0, width - 2)));
-        rect.setAttribute("height", String(Math.max(0, height - 2)));
-        rect.setAttribute("rx", String(computedR));
-        rect.setAttribute("ry", String(computedR));
-        rect.setAttribute("pathLength", "100");
-        rect.style.strokeDasharray = computeDashArray(width, height);
-        svg.appendChild(rect);
-        return svg;
-      };
-
-      const s1 = createStrokeSVG();
-      const s2 = createStrokeSVG();
-      strokeGroup.appendChild(s1);
-      strokeGroup.appendChild(s2);
-      button.appendChild(strokeGroup);
-
-      const updateStrokeRects = () => {
-        const btn = buttonRef.current;
-        if (!btn || !strokeGroupRef.current) return;
-        const box = btn.getBoundingClientRect();
-        const w = box.width || btn.offsetWidth;
-        const h = box.height || btn.offsetHeight;
-        if (w <= 0 || h <= 0) return;
-
-        const st = getComputedStyle(btn);
-        const rawR = parseFloat(st.borderRadius);
-        const r = isNaN(rawR) ? h / 2 : Math.min(rawR, Math.min(w, h) / 2);
-        const dashStr = computeDashArray(w, h);
-
-        const svgs = strokeGroupRef.current.querySelectorAll("svg");
-        svgs.forEach((svg) => {
-          svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-          svg.setAttribute("preserveAspectRatio", "none");
-          const rect = svg.querySelector("rect");
-          if (rect) {
-            rect.setAttribute("x", "1");
-            rect.setAttribute("y", "1");
-            rect.setAttribute("width", String(Math.max(0, w - 2)));
-            rect.setAttribute("height", String(Math.max(0, h - 2)));
-            rect.setAttribute("rx", String(r));
-            rect.setAttribute("ry", String(r));
-            rect.setAttribute("pathLength", "100");
-            rect.style.strokeDasharray = dashStr;
-          }
-        });
-      };
-
       buildDots(dotCount);
-      updateStrokeRects();
 
       const ro = new ResizeObserver(() => {
-        updateStrokeRects();
         if (dotsSvgRef.current) buildDots(dotCount);
       });
       ro.observe(button);
 
-      const onWindowResize = () => {
-        updateStrokeRects();
-      };
-      window.addEventListener("resize", onWindowResize);
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-          if (isMounted) updateStrokeRects();
-        }).catch(() => {});
-      }
-
       const onEnter = () => {
         hoveringRef.current = true;
-        updateStrokeRects();
         activate();
       };
       const onLeave = () => {
@@ -224,7 +138,6 @@ export const SparkleGenerateButton = React.forwardRef<
         isMounted = false;
         if (timerId) clearTimeout(timerId);
         ro.disconnect();
-        window.removeEventListener("resize", onWindowResize);
         button.removeEventListener("pointerenter", onEnter);
         button.removeEventListener("pointerleave", onLeave);
         button.removeEventListener("pointerdown", onDown);
@@ -232,7 +145,6 @@ export const SparkleGenerateButton = React.forwardRef<
         button.removeEventListener("pointercancel", onUp);
         finalTimelineRef.current?.kill();
         dotsSvgRef.current?.remove();
-        strokeGroup.remove();
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -259,26 +171,8 @@ export const SparkleGenerateButton = React.forwardRef<
 
       const width = button.offsetWidth;
       const height = button.offsetHeight;
-      const borderRadius = height / 2;
 
       dotsSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-      if (strokeGroupRef.current) {
-        const svgs = strokeGroupRef.current.querySelectorAll("svg");
-        svgs.forEach((svg) => {
-          svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-          const rect = svg.querySelector("rect");
-          if (rect) {
-            rect.setAttribute("x", "1");
-            rect.setAttribute("y", "1");
-            rect.setAttribute("width", String(Math.max(0, width - 2)));
-            rect.setAttribute("height", String(Math.max(0, height - 2)));
-            rect.setAttribute("rx", String(borderRadius));
-            rect.setAttribute("ry", String(borderRadius));
-            rect.setAttribute("pathLength", "100");
-          }
-        });
-      }
 
       finalTimelineRef.current?.kill();
       finalTimelineRef.current = null;
@@ -372,38 +266,11 @@ export const SparkleGenerateButton = React.forwardRef<
           className={`sgb-generate-button ${forced ? "sgb-is-forced" : ""} ${className}`}
           {...buttonProps}
         >
-          {/* 5-Radial Purple Gradient Cosmic Background Container */}
-          <div className="sgb-cosmic-bg" aria-hidden="true">
-            <div className="sgb-radial sgb-radial-1" />
-            <div className="sgb-radial sgb-radial-2" />
-            <div className="sgb-radial sgb-radial-3" />
-            <div className="sgb-radial sgb-radial-4" />
-            <div className="sgb-radial sgb-radial-5" />
-          </div>
-
           <span>
             {typeof icon === "object" && icon !== null ? icon : null}
             {children}
           </span>
         </button>
-
-        {/* SVG Blur Filter Definition for the Gradient Background */}
-        <svg
-          width="0"
-          height="0"
-          style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}
-          aria-hidden="true"
-        >
-          <defs>
-            <filter id="sgb-cosmic-blur" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-        </svg>
 
         <style jsx global>{`
           .sgb-generate-button {
@@ -419,7 +286,7 @@ export const SparkleGenerateButton = React.forwardRef<
             padding: 10px 24px;
             border-radius: 29px;
             margin: 0;
-            background: transparent;
+            background: #7116ff26;
             color: #fff;
             display: inline-flex;
             align-items: center;
@@ -432,103 +299,6 @@ export const SparkleGenerateButton = React.forwardRef<
 
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, box-shadow 0.3s,
               color 0.3s;
-          }
-
-          /* 5-Radial Purple Gradient Cosmic Background with SVG Blur Filter */
-          .sgb-cosmic-bg {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-            background-color: #3b0764;
-            filter: url(#sgb-cosmic-blur);
-            transition: filter 0.4s ease, opacity 0.4s ease;
-          }
-
-          .sgb-radial {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            mix-blend-mode: screen;
-            transition: transform 0.6s ease-out, opacity 0.4s ease;
-          }
-
-          /* 5 Distinct Radial Gradient Purple Blobs */
-          .sgb-radial-1 {
-            top: -30%;
-            left: -10%;
-            width: 70%;
-            height: 110%;
-            background: radial-gradient(circle, rgba(97, 11, 110, 0.78) 0%, rgba(216, 180, 254, 0) 70%);
-            animation: sgb-drift-1 4s ease-in-out infinite alternate;
-          }
-
-          .sgb-radial-2 {
-            top: -25%;
-            right: -10%;
-            width: 75%;
-            height: 110%;
-            background: radial-gradient(circle, rgba(85, 10, 156, 0.79) 0%, rgba(126, 34, 206, 0) 70%);
-            animation: sgb-drift-2 5s ease-in-out infinite alternate;
-          }
-
-          .sgb-radial-3 {
-            bottom: -35%;
-            left: 20%;
-            width: 80%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(51, 12, 117, 0.57) 0%, rgba(76, 29, 149, 0) 75%);
-            animation: sgb-drift-3 1s ease-in-out infinite alternate;
-          }
-
-          .sgb-radial-4 {
-            bottom: -25%;
-            left: -15%;
-            width: 60%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(78, 12, 128, 0.48) 0%, rgba(236, 72, 153, 0) 70%);
-            animation: sgb-drift-4 2.5s ease-in-out infinite alternate;
-          }
-
-          .sgb-radial-5 {
-            bottom: -25%;
-            right: -15%;
-            width: 65%;
-            height: 105%;
-            background: radial-gradient(circle, rgba(67, 6, 85, 0.4) 0%, rgba(147, 51, 234, 0) 70%);
-            animation: sgb-drift-5 2.5s ease-in-out infinite alternate;
-          }
-
-          @keyframes sgb-drift-1 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(12px, 8px) scale(1.15); }
-          }
-
-          @keyframes sgb-drift-2 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-10px, 10px) scale(1.12); }
-          }
-
-          @keyframes sgb-drift-3 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(6px, -12px) scale(1.18); }
-          }
-
-          @keyframes sgb-drift-4 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(14px, -6px) scale(1.1); }
-          }
-
-          @keyframes sgb-drift-5 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-8px, -10px) scale(1.14); }
-          }
-
-          .sgb-generate-button:hover .sgb-cosmic-bg,
-          .sgb-generate-button.sgb-is-forced .sgb-cosmic-bg {
-            filter: url(#sgb-cosmic-blur) brightness(1.25);
           }
 
           .sgb-generate-button span {
@@ -564,77 +334,31 @@ export const SparkleGenerateButton = React.forwardRef<
             opacity: var(--sgb-dots-opacity, 0.9);
           }
 
-          .sgb-generate-button .sgb-stroke {
-            mix-blend-mode: hard-light;
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-          }
-          .sgb-generate-button .sgb-stroke svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            fill: none;
-            stroke-width: 1px;
-            stroke: #ffffff;
-            stroke-dasharray: 38 62;
-            stroke-dashoffset: 0;
-            stroke-linecap: round;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-          }
-          .sgb-generate-button .sgb-stroke svg:nth-child(2) {
-            stroke-width: 1px;
-            stroke-opacity: 0.45;
-            filter: blur(3.5px);
-          }
-
           .sgb-generate-button:hover,
           .sgb-generate-button.sgb-is-forced {
-          }
-          .sgb-generate-button:hover .sgb-stroke svg,
-          .sgb-generate-button.sgb-is-forced .sgb-stroke svg {
-            animation: sgb-stroke 4.2s linear infinite !important;
-            opacity: 1 !important;
+            animation: sgb-bg-fade 2s ease-in-out infinite alternate;
           }
 
-          /* Tactile Push-Down & Moving Outline Animation on Click */
+          @keyframes sgb-bg-fade {
+            0% {
+              background: #7116ff26;
+              border-color: rgba(255, 255, 255, 0.25);
+            }
+            100% {
+              background: #7116ff99;
+              border-color: rgba(255, 255, 255, 0.5);
+            }
+          }
+
+          /* Tactile Push-Down & Background Fade on Click */
           .sgb-generate-button:active,
           .sgb-generate-button:hover:active,
           .sgb-generate-button.sgb-is-forced:active,
           .sgb-generate-button.sgb-is-clicked {
             --sgb-translate-y: 3px;
-            transition: transform 0.08s ease, box-shadow 0.08s ease;
-          }
-
-          .sgb-generate-button:active .sgb-stroke svg,
-          .sgb-generate-button.sgb-is-clicked .sgb-stroke svg {
-            animation: sgb-stroke-click 0.5s linear infinite !important;
-            stroke: #ffffff82 !important;
-            stroke-width: 1px !important;
-            opacity: 1 !important;
-          }
-
-          @keyframes sgb-stroke {
-            0% {
-              stroke-dashoffset: 100;
-            }
-            100% {
-              stroke-dashoffset: 0;
-            }
-          }
-
-          @keyframes sgb-stroke-click {
-            0% {
-              stroke-dashoffset: 100;
-            }
-            100% {
-              stroke-dashoffset: -100;
-            }
+            animation: none !important;
+            background: #7116ff8c;
+            transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease;
           }
 
           @media (prefers-reduced-motion: reduce) {

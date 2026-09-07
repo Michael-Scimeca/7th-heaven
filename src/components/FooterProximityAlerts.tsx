@@ -68,6 +68,26 @@ async function createSubscription(): Promise<PushSubscription | null> {
   }
 }
 
+function CrispCheckIcon() {
+  return (
+    <svg
+      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block drop-shadow-[0_0_6px_rgba(244,114,182,0.5)]"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M3.25 8.25L6.5 11.5L12.75 4.75"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function FooterProximityAlerts() {
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
@@ -293,7 +313,7 @@ export default function FooterProximityAlerts() {
               >
                 <span>{type.icon}</span>
                 <span>{type.label}</span>
-                {isSelected && <Check className="w-3.5 h-3.5 text-pink-300 ml-0.5" />}
+                {isSelected && <CrispCheckIcon />}
               </FoolishShrimpButton>
             );
           })}
@@ -302,7 +322,7 @@ export default function FooterProximityAlerts() {
 
       <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
         <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-        <span className="text-white leading-tight font-medium">
+        <span className="text-white    font-medium">
           I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
         </span>
       </div>

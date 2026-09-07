@@ -47,6 +47,26 @@ interface ProximityNotifyProps {
   };
 }
 
+function CrispCheckIcon() {
+  return (
+    <svg
+      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block drop-shadow-[0_0_6px_rgba(244,114,182,0.5)]"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M3.25 8.25L6.5 11.5L12.75 4.75"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {}) {
   const showVenue = nextShow?.venue || "Station 34";
   const showCity = nextShow?.city || "Mt. Prospect";
@@ -260,7 +280,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
-              <h2 className="lg:text-6xl font-bold text-white tracking-tight leading-tight mb-3">
+              <h2 className="lg:text-6xl font-bold text-white tracking-tight    mb-3">
                 Never Miss a Show
               </h2>
               <p className="text-purple-200/70 max-w-xl">
@@ -414,7 +434,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           >
                             <span>{type.icon}</span>
                             <span>{type.label}</span>
-                            {isSelected && <Check className="w-3 h-3 text-pink-300 ml-0.5" />}
+                            {isSelected && <CrispCheckIcon />}
                           </FoolishShrimpButton>
                         );
                       })}
@@ -435,7 +455,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           onChange={setAgreeTerms}
                         />
                       </div>
-                      <span className="text-white/40 leading-tight">
+                      <span className="text-white/40   ">
                         I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
                     </div>

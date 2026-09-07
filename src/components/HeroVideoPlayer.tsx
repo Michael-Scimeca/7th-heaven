@@ -116,6 +116,16 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+
+  useEffect(() => {
+    const handleSongPlaying = (e: Event) => {
+      const customEvt = e as CustomEvent<boolean>;
+      setIsMusicPlaying(Boolean(customEvt.detail));
+    };
+    window.addEventListener("cursor:song-playing", handleSongPlaying);
+    return () => window.removeEventListener("cursor:song-playing", handleSongPlaying);
+  }, []);
 
   // ── Bottom-Up Gradient Customizer states ──────────────────────────────────
   const [gradHeight, setGradHeight] = useState(46); // %
@@ -507,7 +517,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         role="button"
         tabIndex={0}
         aria-label="Play video audio and music player"
-        className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-colors duration-300"
+        className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-all duration-700 ease-in-out"
         onClick={handleHeroClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -518,22 +528,24 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         title="Click to play video audio & music player"
         style={{
           backgroundColor: tintColor,
-          opacity: tintOpacity,
+          opacity: isMusicPlaying ? Math.min(tintOpacity * 0.35, 0.18) : tintOpacity,
           mixBlendMode: mixBlendMode,
         }}
       />
 
       {/* ── Top-Down Black Gradient Overlay for Top Header Navigation ── */}
       <div
-        className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent"
+        className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent transition-opacity duration-700"
+        style={{ opacity: isMusicPlaying ? 0.6 : 1 }}
       />
 
       {/* ── Bottom-Up Black Gradient Overlay ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-colors duration-150"
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
         style={{
           height: `${gradHeight}%`,
-          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, gradOpacity * 0.75)} ${gradMidstop}%, transparent 100%)`,
+          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
+          opacity: isMusicPlaying ? 0.7 : 1,
         }}
       />
 
