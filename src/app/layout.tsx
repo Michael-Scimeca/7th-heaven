@@ -45,8 +45,7 @@ import { ThemeTokens } from "@/lib/theme-tokens";
 // The reduced-motion check is the one exception: those users get no animation,
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
-const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot|Chrome-Lighthouse|HeadlessChrome|ptst|SpeedInsights|Pingdom|gtmetrix/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+const PRELOAD_SCRIPT_CONTENT = "";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
@@ -164,6 +163,11 @@ export default function RootLayout({
          * wordmark font) is untouched on purpose. */}
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=optional"
+        />
         <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=optional"

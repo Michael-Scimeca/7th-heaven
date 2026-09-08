@@ -77,26 +77,25 @@ export default function CruisePage() {
 
   const transitionDone = true;
 
-  const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [formData, setFormData] = useState({
-    name: "", email: "", phone: "", notes: "", anonymous: false,
-    joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
-    dob1: "", crownAnchor1: "", tshirtSize1: "L",
-    cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
-    cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
-    splitPayment: false,
-    insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
-  });
-
-  useEffect(() => {
+  const [formData, setFormData] = useState(() => {
+    const defaults = {
+      name: "", email: "", phone: "", notes: "", anonymous: false,
+      joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
+      dob1: "", crownAnchor1: "", tshirtSize1: "L",
+      cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
+      cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
+      splitPayment: false,
+      insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
+    };
+    if (typeof window === "undefined") return defaults;
     try {
       const saved = localStorage.getItem("7h_cruise_cabin_draft_v1") || localStorage.getItem("7h_cruise_cabin_draft");
       if (saved) {
-        const parsed = JSON.parse(saved);
-        setFormData(prev => ({ ...prev, ...parsed }));
+        return { ...defaults, ...JSON.parse(saved) };
       }
     } catch { }
-  }, []);
+    return defaults;
+  });
 
   useEffect(() => {
     if (typeof document !== "undefined" && "fonts" in document) {
