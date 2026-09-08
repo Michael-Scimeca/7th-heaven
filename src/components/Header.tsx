@@ -450,19 +450,26 @@ export function Header() {
                 ? `/cruise/${member?.username || "dashboard"}`
                 : `/fans/${member?.username || "me"}`;
 
+  const isMichael =
+    (displayName && displayName.toLowerCase().includes("michael")) ||
+    (member?.email && member.email.toLowerCase().includes("michael")) ||
+    (member?.name && member.name.toLowerCase().includes("michael"));
+
+  const customAvatar = typeof window !== "undefined" ? localStorage.getItem("7h_profile_avatar_v1") : null;
+
   const avatarSrc =
     member?.avatar &&
     (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"))
       ? member.avatar
-      : displayRole === "crew" || isCrewRoute
-        ? "/images/members/mark.webp"
-        : displayRole === "admin" || isAdminRoute
-          ? "/images/members/adam.webp"
+      : customAvatar
+        ? customAvatar
+        : isMichael || isAdminRoute || isCrewRoute || displayRole === "admin" || displayRole === "crew" || (member && (member.role === "admin" || member.role === "crew"))
+          ? "/michaelscimeca.png"
           : displayRole === "cruise" || isDemoCruisePage
             ? "/images/members/dicky.webp"
             : displayRole === "planner" || isDemoPlannerPage
               ? "/images/members/frankie.webp"
-              : "/images/members/mark.webp";
+              : "/michaelscimeca.png";
 
   const isAvatarUrl = Boolean(avatarSrc);
 
