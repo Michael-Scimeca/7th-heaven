@@ -296,24 +296,19 @@ export default function CruisePage() {
 
   return (
     <div className="min-h-screen bg-transparent text-white pt-[100px]">
+      {/* SECTION 1: HERO */}
+      <CruiseHeroSection
+        heroVideoRef={heroVideoRef}
+        heroForegroundRef={heroForegroundRef}
+        heroMaskSettings={heroMaskSettings}
+        heroVideoReady={heroVideoReady}
+        setHeroVideoReady={setHeroVideoReady}
+        heroParallax={heroParallax}
+        setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+      />
+
       {transitionDone && (
         <>
-          {/* SECTION 5: FAQS (Moved to Top Section for Testing) */}
-          <LazyMount minHeight="600px" rootMargin="300px 0px">
-            <CruiseFaqSection />
-          </LazyMount>
-
-          {/* SECTION 1: HERO */}
-          <CruiseHeroSection
-            heroVideoRef={heroVideoRef}
-            heroForegroundRef={heroForegroundRef}
-            heroMaskSettings={heroMaskSettings}
-            heroVideoReady={heroVideoReady}
-            setHeroVideoReady={setHeroVideoReady}
-            heroParallax={heroParallax}
-            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-          />
-
           {/* SECTION 2: CABINS & PRICING */}
           <LazyMount minHeight="800px" rootMargin="300px 0px">
             <CruiseCabinsPricingSection
