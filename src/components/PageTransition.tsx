@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import Logo from "@/components/Logo";
@@ -129,6 +129,36 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // each click. Killed explicitly below (new transition start + watchdog)
   // instead of trusting onComplete to always fire.
   const outgoingTweensRef = useRef<gsap.core.Tween[]>([]);
+
+  // Slow-motion testing UI & speed multiplier state
+  const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
+  const [showControls, setShowControls] = useState<boolean>(true);
+  const speedMultiplierRef = useRef<number>(1);
+
+  useEffect(() => {
+    speedMultiplierRef.current = speedMultiplier;
+  }, [speedMultiplier]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("7h_transition_speed_mult");
+      if (saved) {
+        const parsed = parseFloat(saved);
+        if (parsed > 0 && !isNaN(parsed)) {
+          setSpeedMultiplier(parsed);
+          speedMultiplierRef.current = parsed;
+        }
+      }
+    } catch {}
+  }, []);
+
+  const changeSpeed = (mult: number) => {
+    setSpeedMultiplier(mult);
+    speedMultiplierRef.current = mult;
+    try {
+      localStorage.setItem("7h_transition_speed_mult", mult.toString());
+    } catch {}
+  };
 
   // Line-by-Line 1:1 Implementation of Exo Ape Production Module 464 (6f3a20d.js)
   //
@@ -263,7 +293,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
-    const duration = EXIT_DURATION;
+    const duration = EXIT_DURATION * speedMultiplierRef.current;
     const ease = TRANSITION_EASE;
 
     // Fresh navigation -- clear any stale "already revealed" marker from a
@@ -390,9 +420,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     let cancelled = false;
     setMode("uncovering");
 
-    const duration = REVEAL_DURATION;
+    const duration = REVEAL_DURATION * speedMultiplierRef.current;
     const ease = TRANSITION_EASE;
-    const failsafe = new Promise<void>((resolve) => setTimeout(resolve, FAILSAFE_MS));
+    const failsafeMs = Math.max(FAILSAFE_MS, (EXIT_DURATION + REVEAL_DURATION) * speedMultiplierRef.current * 1000 + 4000);
+    const failsafe = new Promise<void>((resolve) => setTimeout(resolve, failsafeMs));
 
     Promise.race([waitForPageReady(), failsafe]).then(() => {
       if (cancelled) return;
@@ -505,7 +536,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // wedge navigation until the user reloads.
   useEffect(() => {
     if (mode === "idle") return;
-    const watchdogMs = FAILSAFE_MS + (EXIT_DURATION + REVEAL_DURATION) * 1000 + 1000;
+    const watchdogMs = Math.max(FAILSAFE_MS, (EXIT_DURATION + REVEAL_DURATION) * speedMultiplierRef.current * 1000 + 5000);
     const id = setTimeout(() => {
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
@@ -619,6 +650,76 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         {children}
       </div>
     </div>
+
+      {/* Floating Slow-Mo Test & Debug UI Control Panel */}
+      <div className="fixed bottom-4 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/90 p-3.5 shadow-2xl backdrop-blur-md text-white text-xs select-none pointer-events-auto min-w-[240px]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 font-bold tracking-wider uppercase text-[11px] text-purple-400">
+            <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+            Transition Slow-Mo UI
+          </div>
+          <button
+            onClick={() => setShowControls(!showControls)}
+            className="text-white/60 hover:text-white text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-white/20 hover:border-white/40 transition bg-white/5"
+          >
+            {showControls ? "Hide" : "Controls"}
+          </button>
+        </div>
+
+        {showControls && (
+          <div className="flex flex-col gap-2.5 pt-1 border-t border-white/10 mt-1">
+            <div className="flex items-center justify-between text-[11px] text-white/80 font-mono">
+              <span>Speed: <strong className="text-purple-300 font-bold">{speedMultiplier}x</strong></span>
+              <span className="text-white/50">
+                Reveal: {(REVEAL_DURATION * speedMultiplier).toFixed(2)}s
+              </span>
+            </div>
+
+            {/* Quick Speed Preset Buttons */}
+            <div className="flex items-center gap-1">
+              {[1, 2.5, 5, 10].map((m) => (
+                <button
+                  key={m}
+                  onClick={() => changeSpeed(m)}
+                  className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
+                    speedMultiplier === m
+                      ? "bg-purple-600 text-white shadow-[#9333ea]/40 shadow-lg ring-1 ring-purple-300"
+                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                  }`}
+                >
+                  {m}x
+                </button>
+              ))}
+            </div>
+
+            {/* Custom Speed Slider */}
+            <div className="flex flex-col gap-1">
+              <input
+                type="range"
+                min={0.5}
+                max={15}
+                step={0.5}
+                value={speedMultiplier}
+                onChange={(e) => changeSpeed(parseFloat(e.target.value))}
+                className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+              <div className="flex justify-between text-[9px] text-white/40 font-mono">
+                <span>0.5x (fast)</span>
+                <span>15x (ultra slow)</span>
+              </div>
+            </div>
+
+            {/* Replay Slide-Up Button */}
+            <button
+              onClick={() => requestTransition(pathname)}
+              disabled={mode !== "idle"}
+              className="w-full mt-0.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+            >
+              <span>🎬 Replay Slide-Up ({speedMultiplier}x)</span>
+            </button>
+          </div>
+        )}
+      </div>
     </>
   );
 }
