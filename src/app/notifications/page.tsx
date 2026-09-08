@@ -145,7 +145,7 @@ export default function NotificationsPage() {
 
       {/* Main Card */}
       <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-10 ">
-        <p className="font-medium text-center mb-8">{activeMeta.blurb}</p>
+        <p className="  text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">

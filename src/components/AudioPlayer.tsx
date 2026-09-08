@@ -674,7 +674,7 @@ export default function AudioPlayerSection() {
                           <button
                             type="button"
                             key={`${albumIdx}-${trackIdx}`}
-                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 !rounded-none ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0 hover: cursor-pointer'}`} onClick={() => {
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 transition-colors select-none border-0 !rounded-none ${isActive ? 'bg-[var(--color-accent)]/15 border-0 cursor-default' : 'border-0   cursor-pointer'}`} onClick={() => {
                               setActiveAlbumIndex(albumIdx);
                               setActiveTrackIndex(trackIdx);
                               setIsPlaying(true);
@@ -813,7 +813,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-4">
                         <h3 className="font-bold text-white/90 uppercase mb-1.5">Line-Up</h3>
-                        <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px]   text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
                           ))}
@@ -824,7 +824,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-4">
                         <h3 className="font-bold text-white/90 uppercase mb-1.5">Credits</h3>
-                        <ul className="flex flex-col gap-1 text-[12px] font-medium text-white/80 leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px]   text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
                           ))}
@@ -836,7 +836,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
                       <button aria-label="Action button"
                         onClick={() => setShowLyrics(true)}
-                        className="text-[var(--color-accent)] hover: text-[var(--color-accent)] font-bold transition-colors cursor-pointer text-left mt-2 block"
+                        className="text-[var(--color-accent)]   text-[var(--color-accent)] font-bold transition-colors cursor-pointer text-left mt-2 block"
                       >
                         Lyrics
                       </button>

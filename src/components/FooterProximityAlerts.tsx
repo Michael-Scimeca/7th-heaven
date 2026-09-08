@@ -254,7 +254,7 @@ export default function FooterProximityAlerts() {
       <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
-            Full Name <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+            Full Name <span className="text-white/30 normal-case   tracking-normal">(optional)</span>
           </label>
           <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full sm:w-[300px]" />
         </div>
@@ -268,7 +268,7 @@ export default function FooterProximityAlerts() {
 
         <div className="shrink-0 w-full sm:w-[300px]">
           <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
-            Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+            Email <span className="text-white/30 normal-case   tracking-normal">(optional)</span>
           </label>
           <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full sm:w-[300px]" />
         </div>

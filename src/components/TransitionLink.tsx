@@ -86,12 +86,7 @@ export default function TransitionLink({
       className={className}
       {...rest}
     >
-      <span className="inline-flex items-center gap-2">
-        <span>{children}</span>
-        {isPending && (
-          <span className="w-4 h-4 rounded-full border-[3px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.8)] shrink-0" />
-        )}
-      </span>
+      {children}
     </Link>
   );
 }

@@ -295,11 +295,11 @@ a:hover {
             {/* Modal Header */}
             <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-3">
-                <div className=" w-11 h-11  rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
+                <div className=" w-11 h-11  rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center   ">
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold uppercase text-cyan-300 ">Style Customization Studio</h3>
+                  <h3 className="font-bold uppercase    ">Style Customization Studio</h3>
                   <p className="">Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
@@ -333,7 +333,7 @@ a:hover {
                 <button
                   key={p.name}
                   onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
-                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80 hover:text-cyan-300 border border-white/10 hover:border-cyan-400/40 font-bold transition-all shrink-0 cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80     border border-white/10 hover:border-cyan-400/40 font-bold transition-all shrink-0 cursor-pointer"
                 >
                   {p.name}
                 </button>
@@ -344,42 +344,42 @@ a:hover {
             <div className="flex border-b border-white/10 font-bold">
               <button
                 onClick={() => setActiveTab("controls")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Search className="w-3.5 h-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}
               >
                 <Layers className="w-3.5 h-3.5" /> CSS
@@ -398,7 +398,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Fill Opacity</span>
-                        <span className=" text-cyan-300">{Math.round(settings.bgOpacity * 100)}%</span>
+                        <span className="   ">{Math.round(settings.bgOpacity * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0" max="1" step="0.01"
@@ -411,7 +411,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Backdrop Blur</span>
-                        <span className=" text-cyan-300">{settings.blurAmount}px</span>
+                        <span className="   ">{settings.blurAmount}px</span>
                       </label>
                       <input
                         type="range" min="0" max="40" step="1"
@@ -448,7 +448,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Border Width</span>
-                        <span className=" text-cyan-300">{settings.borderWidth}px</span>
+                        <span className="   ">{settings.borderWidth}px</span>
                       </label>
                       <input
                         type="range" min="0" max="6" step="1"
@@ -461,7 +461,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Corner Radius</span>
-                        <span className=" text-cyan-300">{settings.borderRadius}px</span>
+                        <span className="   ">{settings.borderRadius}px</span>
                       </label>
                       <input
                         type="range" min="0" max="36" step="1"
@@ -492,7 +492,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Focus Glow Opacity</span>
-                        <span className=" text-cyan-300">{Math.round(settings.focusGlowOpacity * 100)}%</span>
+                        <span className="   ">{Math.round(settings.focusGlowOpacity * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0" max="1" step="0.05"
@@ -521,7 +521,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Vertical Padding</span>
-                        <span className=" text-cyan-300">{settings.paddingY}px</span>
+                        <span className="   ">{settings.paddingY}px</span>
                       </label>
                       <input
                         type="range" min="6" max="24" step="1"
@@ -534,7 +534,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Horizontal Padding</span>
-                        <span className=" text-cyan-300">{settings.paddingX}px</span>
+                        <span className="   ">{settings.paddingX}px</span>
                       </label>
                       <input
                         type="range" min="8" max="32" step="1"
@@ -575,7 +575,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Opacity</span>
-                        <span className=" text-cyan-300">{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
+                        <span className="   ">{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0.1" max="1" step="0.05"
@@ -588,7 +588,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Left Offset</span>
-                        <span className=" text-cyan-300">{settings.searchIconLeft ?? 16}px</span>
+                        <span className="   ">{settings.searchIconLeft ?? 16}px</span>
                       </label>
                       <input
                         type="range" min="8" max="36" step="2"
@@ -601,7 +601,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Vertical Alignment (Nudge Down)</span>
-                        <span className=" text-cyan-300">+{settings.searchIconTopOffset ?? 1.5}px</span>
+                        <span className="   ">+{settings.searchIconTopOffset ?? 1.5}px</span>
                       </label>
                       <input
                         type="range" min="-6" max="6" step="0.5"
@@ -614,7 +614,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Text Left Padding (Icon Clearance)</span>
-                        <span className=" text-cyan-300">{settings.searchPaddingLeft ?? 48}px</span>
+                        <span className="   ">{settings.searchPaddingLeft ?? 48}px</span>
                       </label>
                       <input
                         type="range" min="32" max="80" step="2"
@@ -627,7 +627,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Text Right Padding</span>
-                        <span className=" text-cyan-300">{settings.searchPaddingRight ?? 48}px</span>
+                        <span className="   ">{settings.searchPaddingRight ?? 48}px</span>
                       </label>
                       <input
                         type="range" min="24" max="80" step="2"
@@ -640,7 +640,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Vertical Padding (Height)</span>
-                        <span className=" text-cyan-300">{settings.searchPaddingY ?? 14}px</span>
+                        <span className="   ">{settings.searchPaddingY ?? 14}px</span>
                       </label>
                       <input
                         type="range" min="6" max="24" step="1"
@@ -653,7 +653,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Search Bar Max Width</span>
-                        <span className=" text-cyan-300">{settings.searchMaxWidth ?? 500}px</span>
+                        <span className="   ">{settings.searchMaxWidth ?? 500}px</span>
                       </label>
                       <input
                         type="range" min="300" max="900" step="20"
@@ -666,7 +666,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Search Corner Radius</span>
-                        <span className=" text-cyan-300">{settings.searchRadius ?? 12}px</span>
+                        <span className="   ">{settings.searchRadius ?? 12}px</span>
                       </label>
                       <input
                         type="range" min="0" max="32" step="2"
@@ -739,7 +739,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Checkbox Dimension Size</span>
-                        <span className=" text-cyan-300">{settings.checkboxSize}px</span>
+                        <span className="   ">{settings.checkboxSize}px</span>
                       </label>
                       <input
                         type="range" min="12" max="32" step="1"
@@ -752,7 +752,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Checkbox Corner Radius</span>
-                        <span className=" text-cyan-300">{settings.checkboxRadius}px</span>
+                        <span className="   ">{settings.checkboxRadius}px</span>
                       </label>
                       <input
                         type="range" min="0" max="16" step="1"
@@ -864,7 +864,7 @@ a:hover {
                       <p className="font-bold uppercase mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
-                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="text-cyan-400 font-bold underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
+                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="   font-bold underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
                     </div>
                   </div>
                 </div>
@@ -872,7 +872,7 @@ a:hover {
 
               {activeTab === "preview" && (
                 <div className="p-6 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black rounded-lg border border-cyan-500/20 space-y-4">
-                  <h4 className="font-bold uppercase text-cyan-300">Live Input Testing Sandbox</h4>
+                  <h4 className="font-bold uppercase   ">Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
                       <label className="font-bold uppercase text-white block mb-1">Full Name</label>
@@ -902,16 +902,16 @@ a:hover {
               {activeTab === "css" && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold uppercase text-cyan-300">Generated Global CSS Rules</span>
+                    <span className="font-bold uppercase   ">Generated Global CSS Rules</span>
                     <button
                       onClick={copyCSS}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40    font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                     >
                       {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg text-cyan-200/90 overflow-x-auto max-h-[300px] ">
+                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg   /90 overflow-x-auto max-h-[300px] ">
                     {generatedCSS}
                   </pre>
                 </div>

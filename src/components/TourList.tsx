@@ -1012,12 +1012,12 @@ ${filterLine}
                         </button>
                         {activeCalDropdownId === 'upnext' && (
                           <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 z-50 min-w-[170px] ">
-                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase hover: hover: transition-colors text-left w-full">Google Calendar</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase hover: hover: transition-colors text-left w-full">Apple / iCal</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase hover: hover: transition-colors text-left w-full">Outlook</a>
+                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Google Calendar</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Apple / iCal</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Outlook</a>
                             <button aria-label="Action button"
                               onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase hover: hover: transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                              className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
                             >SMS / Text Alerts</button>
                           </div>
                         )}
@@ -1142,13 +1142,13 @@ ${filterLine}
                     <span className="font-[var(--font-heading)] font-bold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
                     <span className="text-white font-bold text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
                     <span className="font-bold text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
-                    <span className="text-white/80 font-medium text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="text-white/80   text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
-                          {show.doorsTime && <span className="text-white font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.doorsTime && <span className="text-white   whitespace-nowrap">Doors: {show.doorsTime}</span>}
                           {show.playTime && <span className="text-rose-400 font-bold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
-                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 font-medium whitespace-nowrap">Event: {show.time}</span>}
+                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70   whitespace-nowrap">Event: {show.time}</span>}
                           {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
@@ -1321,7 +1321,7 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white text-[11px] font-medium px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
+                              <span className="text-white text-[11px]   px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
@@ -1492,7 +1492,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap font-bold uppercase h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover: border-white/10 transition-colors rounded-lg text-center"
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap font-bold uppercase h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)]   border-white/10 transition-colors rounded-lg text-center"
                             >
                               <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}
@@ -1765,7 +1765,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1774,7 +1774,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><Mic className="w-3.5 h-3.5 text-cyan-400" /> This specific show</p>
+                    <p className="font-bold flex items-center gap-1.5"><Mic className="w-3.5 h-3.5   " /> This specific show</p>
                     <p className="">Reminders & updates for {notifyPopupShow.venue}</p>
                   </div>
                 </button>
@@ -1784,7 +1784,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1793,7 +1793,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-cyan-400" /> Shows near me</p>
+                    <p className="font-bold flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5   " /> Shows near me</p>
                     <p className="">Get emailed when we book near your area</p>
                   </div>
                 </button>
@@ -1803,7 +1803,7 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1812,7 +1812,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-cyan-400" /> Newsletter & exclusives</p>
+                    <p className="font-bold flex items-center gap-1.5"><Mail className="w-3.5 h-3.5   " /> Newsletter & exclusives</p>
                     <p className="">News, drops & merch updates</p>
                   </div>
                 </button>

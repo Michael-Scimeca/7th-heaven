@@ -1646,9 +1646,9 @@ export default function VisualSitemapClient() {
           <button
             onClick={() => setActiveTab("ARCH")}
             className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
- ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
- : " text-white hover:text-white hover: bg-[#00000029] "
- }`}
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : " text-white hover:text-white   bg-[#00000029] "
+              }`}
           >
             <Layers className="w-3.5 h-3.5 text-purple-300" />
             <span>Full Architecture</span>
@@ -1657,20 +1657,20 @@ export default function VisualSitemapClient() {
           <button
             onClick={() => setActiveTab("BOOKING")}
             className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
- ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
- : " text-white hover:text-white hover: bg-[#00000029] "
- }`}
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : " text-white hover:text-white   bg-[#00000029] "
+              }`}
           >
-            <Calendar className="w-3.5 h-3.5 text-cyan-300" />
+            <Calendar className="w-3.5 h-3.5   " />
             <span>Booking Flow</span>
           </button>
 
           <button
             onClick={() => setActiveTab("CRUISE")}
             className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
- ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
- : " text-white hover:text-white hover: bg-[#00000029] "
- }`}
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : " text-white hover:text-white   bg-[#00000029] "
+              }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
             <span>Cruise Flow</span>
@@ -1679,9 +1679,9 @@ export default function VisualSitemapClient() {
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
             className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
- ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
- : " text-white hover:text-white hover: bg-[#00000029] "
- }`}
+              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+              : " text-white hover:text-white   bg-[#00000029] "
+              }`}
           >
             <UserPlus className="w-3.5 h-3.5 text-pink-300" />
             <span>Fan Signup Flow</span>

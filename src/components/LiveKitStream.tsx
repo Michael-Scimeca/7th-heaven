@@ -124,7 +124,7 @@ export function LiveKitStream({
     return (
       <div className={`flex items-center justify-center bg-black/40 p-8 ${className}`}>
         <div className="text-center">
-          <p className="text-red-400 font-medium mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
+          <p className="text-red-400   mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
           <p className="max-w-sm">{error}</p>
         </div>
       </div>
@@ -240,7 +240,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
             <div className="w-24 h-24 mx-auto mb-4 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center">
-              <Mic className="w-8 h-8 text-cyan-400" />
+              <Mic className="w-8 h-8   " />
             </div>
             <p className="font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
             <p className="mt-1">Camera is warming up or in audio-only mode</p>

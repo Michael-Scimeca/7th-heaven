@@ -344,7 +344,7 @@ export default function PlannerDashboard() {
                 </button>
 
                 <button aria-label="Action button" type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
-                  className="text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
+                  className="text-[var(--color-accent)]/60   text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
               </form>
@@ -439,7 +439,7 @@ export default function PlannerDashboard() {
             {!isEditing ? (
               <>
                 <h2 className={`font-bold text-white mb-2 ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
-                <p className="font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
+                <p className="  mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
@@ -617,11 +617,11 @@ export default function PlannerDashboard() {
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Richard Hofherr
                 </h3>
-                <p className="text-white/70 text-sm font-medium mb-2">NTD Management</p>
+                <p className="text-white/70 text-sm   mb-2">NTD Management</p>
                 <a href="tel:8475515363" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
                   (847) 551-5363
                 </a>
-                <a href="mailto:info@NTDManagement.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                <a href="mailto:info@NTDManagement.com" className="text-white/80 hover:text-white text-sm   truncate max-w-full px-2">
                   info@NTDManagement.com
                 </a>
               </div>
@@ -653,11 +653,11 @@ export default function PlannerDashboard() {
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Jeff Dobbs
                 </h3>
-                <p className="text-white/70 text-sm font-medium mb-2">Production & Sound</p>
+                <p className="text-white/70 text-sm   mb-2">Production & Sound</p>
                 <a href="tel:8477725333" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
                   (847) 772-5333
                 </a>
-                <a href="mailto:jeffdobbs64@yahoo.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                <a href="mailto:jeffdobbs64@yahoo.com" className="text-white/80 hover:text-white text-sm   truncate max-w-full px-2">
                   jeffdobbs64@yahoo.com
                 </a>
               </div>
@@ -689,11 +689,11 @@ export default function PlannerDashboard() {
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Alan McRae
                 </h3>
-                <p className="text-white/70 text-sm font-medium mb-2">NTD Management</p>
+                <p className="text-white/70 text-sm   mb-2">NTD Management</p>
                 <a href="tel:6308429129" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
                   (630) 842-9129
                 </a>
-                <a href="mailto:Alan@NTDManagement.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                <a href="mailto:Alan@NTDManagement.com" className="text-white/80 hover:text-white text-sm   truncate max-w-full px-2">
                   Alan@NTDManagement.com
                 </a>
               </div>
@@ -725,11 +725,11 @@ export default function PlannerDashboard() {
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Lenny Rago
                 </h3>
-                <p className="text-white/70 text-sm font-medium mb-2">NTD Records</p>
+                <p className="text-white/70 text-sm   mb-2">NTD Records</p>
                 <a href="tel:8472696200" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
                   (847) 269-6200
                 </a>
-                <a href="mailto:LRago@NTDRecords.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                <a href="mailto:LRago@NTDRecords.com" className="text-white/80 hover:text-white text-sm   truncate max-w-full px-2">
                   LRago@NTDRecords.com
                 </a>
               </div>

@@ -44,7 +44,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           <h2 className="font-bold uppercase font-[family-name:var(--font-rockstar)]">
             Latest Band News
           </h2>
-          <p className="mt-2 max-w-2xl text-sm md:text-base font-medium ">
+          <p className="mt-2 max-w-2xl text-sm md:text-base   ">
             Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.
           </p>
         </div>
@@ -59,7 +59,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                   {featured.date}
                 </span>
               </div>
-              <h3 className="font-bold mb-4 group-hover: transition-colors">
+              <h3 className="font-bold mb-4 group-  transition-colors">
                 {featured.title}
               </h3>
               <p className="   font-normal">
@@ -80,11 +80,11 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                   <span className=" font-bold text-[var(--color-accent)]">
                     {item.date}
                   </span>
-                  <span className="font-bold group-hover: text-[var(--color-accent)] transition-colors">
+                  <span className="font-bold group-  text-[var(--color-accent)] transition-colors">
                     Read
                   </span>
                 </div>
-                <h4 className="font-bold group-hover: transition-colors line-clamp-1">
+                <h4 className="font-bold group-  transition-colors line-clamp-1">
                   {item.title}
                 </h4>
                 <p className="   line-clamp-2 mt-1">
@@ -110,7 +110,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               </span>
               <button aria-label="Action button"
                 onClick={() => setSelectedArticle(null)}
-                className=" hover: text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
+                className="   text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
               >
                 ✕
               </button>

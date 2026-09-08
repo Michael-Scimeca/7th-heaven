@@ -264,7 +264,7 @@ export default function LiveHubPage() {
           <h1 className="font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
           </h1>
-          <p className="font-medium mt-3 max-w-2xl ">
+          <p className="  mt-3 max-w-2xl ">
             {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
           </p>
         </div>

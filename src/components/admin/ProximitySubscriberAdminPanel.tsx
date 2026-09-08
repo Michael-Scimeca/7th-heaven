@@ -244,7 +244,7 @@ export default function ProximitySubscriberAdminPanel() {
                 const isEditing = editingId === sub.id;
 
                 return (
-                  <tr key={sub.id} className="hover: bg-[#00000029] transition-colors">
+                  <tr key={sub.id} className="  bg-[#00000029] transition-colors">
                     {/* Fan / Device */}
                     <td className="py-4 px-4 font-medium">
                       {isEditing ? (

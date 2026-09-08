@@ -197,7 +197,7 @@ export default function FansPage() {
               <h1 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
-              <p className="font-medium mt-3 max-w-2xl ">
+              <p className="  mt-3 max-w-2xl ">
                 Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!
               </p>
 

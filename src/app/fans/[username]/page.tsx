@@ -449,7 +449,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               </button>
               <button aria-label="Action button"
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-lg font-bold uppercase transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
+                className={`px-6 py-2 rounded-lg font-bold uppercase transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40    '
                   }`}
               >
                 Cruise Hub
@@ -487,7 +487,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <span className="ml-auto font-bold uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
-                    className="text-black/80 space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
+                    className="text-black/80 space-y-4 [&_a]:   [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
                   />
                 </div>
@@ -555,7 +555,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-center relative z-10 mb-4">
                       <div className="flex -space-x-3">
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
-                          const colors = ['bg-rose-500/20 text-rose-300', 'bg- purple-white/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
+                          const colors = ['bg-rose-500/20 text-rose-300', 'bg- purple-white/20 text-purple-300', 'bg-cyan-500/20   ', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
                           return (
                             <div key={`fan-avatar-${i}-${initials}`} className={` w-11 h-11  rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="font-bold">{initials}</span>
@@ -932,7 +932,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                         <h3 className="font-bold text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="max-w-lg ">
-                          7 nights, 3 islands, 6 live shows. Sign up for the cruise and unlock your <span className="text-cyan-400 font-bold">Cruise Hub</span> right here on your dashboard.
+                          7 nights, 3 islands, 6 live shows. Sign up for the cruise and unlock your <span className="   font-bold">Cruise Hub</span> right here on your dashboard.
                         </p>
                       </div>
                     </div>
@@ -1045,7 +1045,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     <span>⚠️</span> Declined
                                   </p>
                                   <div className="p-2 bg-red-900/20 border border-red-500/10 rounded">
-                                    <p className="text-red-100/90 font-medium leading-normal line-clamp-4">
+                                    <p className="text-red-100/90   leading-normal line-clamp-4">
                                       {photo.rejection_reason || 'Content does not meet community guidelines.'}
                                     </p>
                                   </div>
@@ -1093,7 +1093,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                   <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
                     {inboxMessages.map((msg) => (
-                      <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3 hover: bg-[#00000029] transition-colors border border-transparent hover: border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
+                      <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3   bg-[#00000029] transition-colors border border-transparent   border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">
                           <div className={`w-8 h-8 rounded-lg ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
                             <span className="">{msg.icon}</span>
@@ -1130,7 +1130,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mt-8 text-white">
                 <div className="flex items-center justify-between mb-5">
                   <span className="flex items-center gap-2 font-bold uppercase text-fuchsia-400">🛍️ Quick Shop</span>
-                  <Link href="/merch" className="text-white/40 hover: text-[var(--color-accent)] uppercase font-bold transition-colors">Full Store</Link>
+                  <Link href="/merch" className="text-white/40   text-[var(--color-accent)] uppercase font-bold transition-colors">Full Store</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (

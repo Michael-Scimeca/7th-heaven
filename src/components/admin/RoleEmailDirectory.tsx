@@ -271,7 +271,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </div>
               ) : (
                 filteredUsers.map(user => (
-                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 hover: bg-[#00000029] transition-colors border-b border-white/10">
+                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2   bg-[#00000029] transition-colors border-b border-white/10">
                     <div className="font-bold text-white truncate flex items-center gap-2.5">
                       {(() => {
                         const avatarSrc = resolveMemberAvatar(user.name, user.avatar);

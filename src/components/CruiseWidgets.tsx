@@ -45,7 +45,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white font-bold tracking-wide leading-normal py-0.5">Embarkation</h2>
-          <p className="text-cyan-400 font-bold uppercase ">Port of Miami</p>
+          <p className="   font-bold uppercase ">Port of Miami</p>
         </div>
       </div>
 
@@ -101,7 +101,7 @@ export function DailyPoll() {
               className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
                   ? ' border-white/10 bg-[#00000029] cursor-default'
-                  : ' border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029] cursor-pointer'
+                  : ' border-white/10 bg-black/40 hover:border-emerald-500/40   bg-[#00000029] cursor-pointer'
                 }`}
             >
               {/* Progress bar background (only shows after voting) */}
@@ -113,7 +113,7 @@ export function DailyPoll() {
               )}
 
               <div className="relative z-10 flex items-center justify-between p-4">
-                <span className={`font-medium ${voted === opt.id ? 'text-emerald-400' : 'text-white/80'}`}>
+                <span className={`  ${voted === opt.id ? 'text-emerald-400' : 'text-white/80'}`}>
                   {opt.text}
                 </span>
                 {voted !== null && (
@@ -540,10 +540,10 @@ export function BookingManager({ email }: { email?: string }) {
           <div className="flex items-center gap-1.5 font-bold px-2 py-1">
             Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 font-medium py-1 ">
+          <div className="flex items-center gap-1.5   py-1 ">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
-          <div className="flex items-center gap-1.5 font-medium px-2 py-1">
+          <div className="flex items-center gap-1.5   px-2 py-1">
             <span>🏷️</span> Luggage Tags: Dec 1st
           </div>
         </div>
@@ -635,10 +635,10 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] relative z-10 text-white text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="">🚢</span>
-          <span className="font-bold uppercase text-cyan-400">Cruising Power Integration</span>
+          <span className="font-bold uppercase   ">Cruising Power Integration</span>
         </div>
         <p>
-          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
+          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white    ">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
         </p>
       </div>
 
@@ -806,14 +806,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${tab === 'saved' ? ' border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${tab === 'saved' ? ' border border-cyan-500/20   ' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${tab === 'new' ? ' border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${tab === 'new' ? ' border border-cyan-500/20   ' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -959,7 +959,7 @@ export function ImportantLinksWidget() {
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="font-medium text-white group-hover/item:text-cyan-300 transition-colors">
+              <span className="  text-white group-hover/item:   transition-colors">
                 {link.title}
               </span>
             </div>
@@ -1091,7 +1091,7 @@ export function ExcursionTeasers() {
           <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="font-bold text-white mb-0.5">{ex.title}</div>
-              <div className="text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>
+              <div className="  /80 uppercase tracking-wider">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
               <div className="font-bold text-white">{ex.spots}</div>

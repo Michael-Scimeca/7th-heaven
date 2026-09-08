@@ -190,7 +190,7 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}
                 >
                   <SquishyToggle
@@ -225,7 +225,7 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}
                 >
                   <SquishyToggle

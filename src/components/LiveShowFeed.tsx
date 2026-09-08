@@ -256,7 +256,7 @@ export default function LiveShowFeed() {
                 className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                   : isNew
                     ? "border-red-500/50"
-                    : "border-white/[0.06] hover: border-white/10 "
+                    : "border-white/[0.06]   border-white/10 "
                   }`}
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
               >

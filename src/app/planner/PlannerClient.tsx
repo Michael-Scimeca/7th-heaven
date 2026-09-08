@@ -360,7 +360,7 @@ export default function PlannerClient() {
                         </div>
                         {!isEditing && (
                           item.done ? (
-                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-white/40 hover: text-[var(--color-accent)] uppercase cursor-pointer transition-colors shrink-0">Edit</button>
+                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-white/40   text-[var(--color-accent)] uppercase cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
                             <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )

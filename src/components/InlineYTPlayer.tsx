@@ -181,7 +181,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70 hover: text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
+            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70   text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             aria-label="Close video"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
@@ -224,7 +224,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {onClose && (
         <button onClick={handleClose}
           className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ? "opacity-100" : "opacity-0"
- }`}
+            }`}
           aria-label="Close"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
@@ -236,7 +236,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {/* Controls overlay */}
       <div
         className={`absolute bottom-0 inset-x-0 z-20 px-4 pb-3 pt-8 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
- }`}
+          }`}
         aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >

@@ -71,7 +71,7 @@ export default function EmailPreviewPage() {
           <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
             {categories.map(c => (
               <button aria-label="Action button" key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 font-bold uppercase rounded-lg transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover: text-white '
+                className={`px-3 py-1 font-bold uppercase rounded-lg transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30   text-white '
                   }`}
               >{c}</button>
             ))}
@@ -138,11 +138,11 @@ export default function EmailPreviewPage() {
 
               <div className="flex items-center gap-2">
                 <button aria-label="Previous" onClick={() => setViewMode("preview")}
-                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover: text-white '
+                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
                     }`}
                 >Preview</button>
                 <button aria-label="Action button" onClick={() => setViewMode("code")}
-                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover: text-white '
+                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
                     }`}
                 >HTML</button>
               </div>

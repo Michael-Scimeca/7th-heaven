@@ -94,7 +94,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             >
               <div className="absolute top-0 right-0 w-24 h-24 rounded-lg blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
               <div className="flex justify-between items-center mb-4">
-                <span className="text-4xl font-bold text-cyan-400">
+                <span className="text-4xl font-bold   ">
                   {s.number}
                 </span>
                 <span className="px-2.5 py-0.5 rounded font-bold uppercase text-purple-400border border-cyan-500/30">
@@ -293,9 +293,9 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <div key={s.label} className="relative p-7 border-2 border-cyan-400/40 hover:border-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-colors group">
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-cyan-400 border border-black" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-cyan-400 border border-black" />
-              <div className="text-4xl font-bold text-cyan-300 mb-2">{s.number}</div>
+              <div className="text-4xl font-bold    mb-2">{s.number}</div>
               <h4 className=" font-bold uppercase text-white mb-2">{s.label}</h4>
-              <p className=" text-cyan-100/70">{s.text}</p>
+              <p className="">{s.text}</p>
             </div>
           ))}
         </div>
@@ -373,7 +373,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                   <p className="mt-0.5">{s.text}</p>
                 </div>
               </div>
-              <span className="text-[var(--font-size-2xs)] font-bold text-white/40 group-hover: text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
+              <span className="text-[var(--font-size-2xs)] font-bold text-white/40 group-  text-[var(--color-accent)] transition-colors">✦ 0{i + 1}</span>
             </div>
           ))}
         </div>

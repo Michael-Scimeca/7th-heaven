@@ -103,7 +103,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT
         </h1>
-        <p className="font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl ">
+        <p className="  mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl ">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
         </p>
       </div>
@@ -185,8 +185,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               <div
                 key={photo.id}
                 className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
- : "opacity-0 scale-95 filter blur-sm"
- }`}
+                  : "opacity-0 scale-95 filter blur-sm"
+                  }`}
               >
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />

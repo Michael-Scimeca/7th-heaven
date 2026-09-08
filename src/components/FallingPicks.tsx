@@ -453,19 +453,19 @@ export default function FallingPicks() {
             <div className="mt-1 flex gap-2">
               <button
                 onClick={() => setPaused((p) => !p)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 font-medium text-white hover:bg-white/20"
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
               >
                 {paused ? "Resume" : "Pause"}
               </button>
               <button
                 onClick={() => setClearSignal((n) => n + 1)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 font-medium text-white hover:bg-white/20"
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
               >
                 Clear
               </button>
               <button
                 onClick={() => setConfig(DEFAULTS)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 font-medium text-white hover:bg-white/20"
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
               >
                 Reset
               </button>

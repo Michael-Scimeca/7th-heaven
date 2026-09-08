@@ -178,7 +178,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
                 <p className="mb-3">No crew assigned yet</p>
-                <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="font-bold uppercase text-[var(--color-accent)] hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="font-bold uppercase text-[var(--color-accent)]   text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
@@ -213,7 +213,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                     <button aria-label="Action button" onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
                   </div>
                 ) : (
-                  <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="font-bold uppercase text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
+                  <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="font-bold uppercase text-[var(--color-accent)]/60   text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -271,7 +271,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <button aria-label="Action button" onClick={() => setAddingGear(false)} className="text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ) : (
-                <button aria-label="Action button" onClick={() => setAddingGear(true)} className="font-bold uppercase text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
+                <button aria-label="Action button" onClick={() => setAddingGear(true)} className="font-bold uppercase text-[var(--color-accent)]/60   text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>

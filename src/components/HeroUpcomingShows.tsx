@@ -209,7 +209,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           <div className="flex flex-wrap gap-1.5 items-center mt-0.5 pt-2 border-t border-white/5">
             {nextShow.mapUrl && (
               <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase font-bold flex items-center gap-1" id="hero-upnext-map">
-                <MapPin className="w-3 h-3 text-cyan-400" /> Directions
+                <MapPin className="w-3 h-3   " /> Directions
               </a>
             )}
             {nextShow.websiteUrl && (
@@ -223,7 +223,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                 className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase font-bold text-white/70"
                 id="hero-upnext-calendar-btn"
               >
-                <Calendar className="w-3 h-3 text-cyan-400" /> Calendar
+                <Calendar className="w-3 h-3   " /> Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
                 <div className="absolute left-0 bottom-full mb-1 border border-white/10 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">

@@ -55,7 +55,7 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10   ">
           {product.category}
         </span>
         {soldOut && (
@@ -307,7 +307,7 @@ export default function PaymentTestShopPage() {
             </button>
             <Link
               href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
+              className="flex items-center gap-1.5 font-bold    bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors"
             >
               🛠️ Manage Inventory
             </Link>
@@ -394,7 +394,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-cyan-300 font-bold uppercase text-[10px] block mb-1">
+                <span className="   font-bold uppercase text-[10px] block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
                 <p className="  ">

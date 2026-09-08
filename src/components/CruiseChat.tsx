@@ -30,7 +30,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300 font-bold ' : 'text-purple-300 font-bold'}`}
+          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ? '   font-bold ' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
@@ -50,9 +50,9 @@ const getNameColor = (role?: string, name?: string) => {
   if (role === 'admin') return '!text-purple-300 font-extrabold';
   if (role === 'crew') return '!text-emerald-400 font-extrabold';
   if (role === 'planner') return '!text-pink-400 font-extrabold';
-  if (role === 'cruise') return '!text-cyan-400 font-extrabold';
+  if (role === 'cruise') return '!   font-extrabold';
   const colors = [
-    '!text-cyan-400 font-bold',
+    '!   font-bold',
     '!text-purple-400 font-bold',
     '!text-pink-400 font-bold',
     '!text-emerald-400 font-bold',
@@ -575,7 +575,7 @@ export default function CruiseChat({
               <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
                 <h4 className="font-bold uppercase text-purple-300/80 mb-0.5">Warning Alert</h4>
-                <p className="text-amber-100/90 font-medium ">
+                <p className="text-amber-100/90   ">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
               </div>
@@ -587,7 +587,7 @@ export default function CruiseChat({
               <span className="text-red-400 shrink-0">🚫</span>
               <div className="flex-1">
                 <h4 className="font-bold uppercase text-red-400/80 mb-0.5">Banned Alert</h4>
-                <p className="text-red-100/90 font-medium ">
+                <p className="text-red-100/90   ">
                   You have been permanently banned from sending messages in this chat.
                 </p>
               </div>
@@ -623,7 +623,7 @@ export default function CruiseChat({
                         ? "bg-red-500/10 border-red-500/20 text-red-200"
                         : "bg-sky-500/10 border-sky-500/20 text-sky-200";
                     return (
-                      <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${bgClass} font-medium animate-[slideIn_0.3s_ease-out]`}>
+                      <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${bgClass}   animate-[slideIn_0.3s_ease-out]`}>
                         <span className="shrink-0">{msg.sender_avatar || '🛡️'}</span>
                         <div className="flex-1 ">
                           {msg.content}
@@ -663,7 +663,7 @@ export default function CruiseChat({
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-white font-medium leading-none ml-auto ">
+                          <span className="text-white   leading-none ml-auto ">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -757,7 +757,7 @@ export default function CruiseChat({
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">
-                        <span className="font-bold text-cyan-300">{s.tag}</span>
+                        <span className="font-bold   ">{s.tag}</span>
                         <span className="text-white/40 block truncate">{s.label}</span>
                       </div>
                     </button>

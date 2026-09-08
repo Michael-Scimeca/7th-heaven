@@ -305,11 +305,11 @@ export default function VideoSection() {
               <div className="mt-3 flex gap-3">
                 <div className=" w-11 h-11  shrink-0 rounded-lg bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
-                  <h3 className="font-bold text-white line-clamp-2 group-hover: transition-colors mb-1">
+                  <h3 className="font-bold text-white line-clamp-2 group-  transition-colors mb-1">
                     {video.title}
                   </h3>
                   <div className="flex flex-col">
-                    <span className="text-white/40 font-medium hover:text-white transition-colors cursor-pointer">7th Heaven Official</span>
+                    <span className="text-white/40   hover:text-white transition-colors cursor-pointer">7th Heaven Official</span>
                     <div className="flex items-center gap-1.5 text-white/40">
                       {video.viewCount && <span>{video.viewCount} views</span>}
                       <span className="text-white/10">•</span>

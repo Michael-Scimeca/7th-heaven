@@ -62,7 +62,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <h1 className="text-4xl md:text-5xl font-bold uppercase text-white mt-4 mb-4">
-                7th Heaven <br /><span className="text-cyan-400">Band News</span>
+                7th Heaven <br /><span className="  ">Band News</span>
               </h1>
               <p className="   mb-6">
                 Direct updates from the band — tour announcements, new releases, and live event updates.
@@ -86,11 +86,11 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#05030a] text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
-              <span className=" font-bold uppercase text-cyan-300">
+              <span className=" font-bold uppercase   ">
                 OPTION 2B — PHOTO BOX RIGHT
               </span>
               <h1 className="text-3xl md:text-4xl font-bold text-white uppercase mt-3 mb-3">
-                Band Bulletins <span className="text-cyan-400">&</span> Updates
+                Band Bulletins <span className="  ">&</span> Updates
               </h1>
               <p className="  ">
                 Stay tuned for studio news, upcoming summer festival dates, and cruise announcements.
@@ -104,7 +104,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   <span className="px-3 py-1 bg-cyan-400 text-black font-bold uppercase ">
                     Latest News
                   </span>
-                  <span className=" text-cyan-300 font-bold">{featured.date}</span>
+                  <span className="    font-bold">{featured.date}</span>
                 </div>
                 <h2 className="font-bold text-white mb-4">{featured.title}</h2>
                 <p className="   mb-6">{featured.content}</p>
@@ -137,7 +137,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-5">
               <span className=" text-purple-400font-bold uppercase ">Official Channel</span>
               <h1 className="text-4xl md:text-5xl font-bold uppercase text-white mt-2 mb-4">
-                7th Heaven <br /><span className="text-cyan-400">News Feed</span>
+                7th Heaven <br /><span className="  ">News Feed</span>
               </h1>
               <p className="">
                 Get real-time alerts on tour additions, VIP packages, and new merchandise drops.
@@ -155,7 +155,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
               <span className="font-bold uppercase text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
               <h1 className="text-3xl md:text-4xl font-bold uppercase text-white ">
-                7th Heaven <br /><span className="text-cyan-400">Dispatch</span>
+                7th Heaven <br /><span className="  ">Dispatch</span>
               </h1>
               <p className="mt-4">
                 Direct updates from the band's official news desk.
@@ -165,7 +165,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Right Column */}
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
-                <span className=" text-cyan-300 font-bold uppercase">{featured.date}</span>
+                <span className="    font-bold uppercase">{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
@@ -181,7 +181,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-4">
               <div className="space-y-3">
-                <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold uppercase inline-block">
+                <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40    font-bold uppercase inline-block">
                   OPTION 2E — STACKED BADGE
                 </span>
                 <h1 className="text-3xl font-bold uppercase text-white ">
@@ -194,7 +194,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             </div>
 
             <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
-              <span className=" text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
+              <span className="    font-bold uppercase block mb-2">{featured.date}</span>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
               <p className="  ">{featured.content}</p>
             </div>
@@ -211,13 +211,13 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
               <h1 className="text-4xl font-bold uppercase text-white leading-none">
-                Latest <br /><span className="text-cyan-400">Headlines</span>
+                Latest <br /><span className="  ">Headlines</span>
               </h1>
             </div>
 
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-3">
-                <span className=" text-cyan-300 font-bold uppercase">{featured.date}</span>
+                <span className="    font-bold uppercase">{featured.date}</span>
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-lg" />
                 <span className="font-bold uppercase text-white/50">Band Announcement</span>
               </div>

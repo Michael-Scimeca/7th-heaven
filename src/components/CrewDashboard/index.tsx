@@ -36,7 +36,7 @@ const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short',
 function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) => void }) {
   const reqDate = new Date(req.date + 'T12:00:00');
   return (
-    <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10 transition-colors">
+    <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4   border-white/10 transition-colors">
       <div className="flex items-center gap-4">
         <div className=" w-11 h-11  rounded-lg bg-purple-600/10 border border-white/10 flex flex-col items-center justify-center text-center shrink-0">
           <span className=" text-[9px] text-rose-400 font-bold uppercase tracking-wider">
@@ -53,7 +53,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
             {FULL_DATE_FORMATTER.format(reqDate)}
           </span>
           <span className="text-white/50 block mt-0.5">
-            Reason: <span className="text-white/80 font-medium ">“{req.reason}”</span>
+            Reason: <span className="text-white/80   ">“{req.reason}”</span>
           </span>
           {req.declineReason && (
             <span className="text-rose-400/80 block mt-1">
@@ -95,7 +95,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
 function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: string) => void }) {
   const itemDate = new Date(item.date + 'T12:00:00');
   return (
-    <div key={item.id} className="p-3 bg-[#00000029] border border-white/10 flex items-center justify-between gap-3 hover: border-white/10 transition-colors">
+    <div key={item.id} className="p-3 bg-[#00000029] border border-white/10 flex items-center justify-between gap-3   border-white/10 transition-colors">
       <div className="flex items-center gap-3">
         <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
           <span className=" text-[9px] font-bold uppercase tracking-wider">
@@ -181,7 +181,7 @@ function AvailabilityCardForm({
                 id="avail-note-select"
                 value={availNote}
                 onChange={e => setAvailNote(e.target.value)}
-                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors   cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select note / reason...</option>
                 <option value="Out of town" className=" text-white">Out of town</option>
@@ -255,7 +255,7 @@ function TimeOffCardForm({
                 required
                 value={timeOffReason}
                 onChange={e => setTimeOffReason(e.target.value)}
-                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+                className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors   cursor-pointer"
               >
                 <option value="" className=" text-white/50">Select reason for time-off...</option>
                 <option value="Family vacation" className=" text-white">Family vacation</option>
@@ -3489,7 +3489,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/10 text-white hover:text-white font-bold uppercase rounded-lg hover:border-white/50 hover: bg-[#00000029] transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed border-white/10 text-white hover:text-white font-bold uppercase rounded-lg hover:border-white/50   bg-[#00000029] transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3712,7 +3712,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-bold text-white/40 hover: text-white transition-colors"
+                        className="text-3xs uppercase font-bold text-white/40   text-white transition-colors"
                       >
                         Cancel
                       </button>

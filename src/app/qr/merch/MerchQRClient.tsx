@@ -287,7 +287,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold uppercase text-white">
-            7th Heaven <span className="text-cyan-400">Merch Express</span>
+            7th Heaven <span className="  ">Merch Express</span>
           </h1>
 
           <p className="max-w-xl mx-auto">
@@ -296,7 +296,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
           {/* Live Scannable QR Code Card */}
           <div className="bg-[#0b0b14]/90 border border-cyan-500/40 p-4 max-w-xs mx-auto shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col items-center space-y-2">
-            <span className="font-bold uppercase text-cyan-400">📱 Scan QR Code to Test</span>
+            <span className="font-bold uppercase   ">📱 Scan QR Code to Test</span>
             <div className="w-44 h-44 bg-white p-2.5 border border-white/10">
               <Image width={200} height={200} unoptimized
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}
@@ -317,7 +317,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             </div>
             <button aria-label="Action button"
               onClick={() => setShowQRSignModal(true)}
-              className="flex items-center gap-1.5 font-bold text-cyan-300 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 font-bold    hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors cursor-pointer"
             >
               <span>🖨️</span> Printable Venue QR Sign
             </button>
@@ -354,14 +354,14 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
             <div className="space-y-4 text-white/70">
               <p>
-                This QR Merch page is fully pre-wired to pull real-time inventory, variants, prices, and images from your band's Shopify store using the official <code className="text-cyan-300 ">Storefront GraphQL API</code>.
+                This QR Merch page is fully pre-wired to pull real-time inventory, variants, prices, and images from your band's Shopify store using the official <code className="   ">Storefront GraphQL API</code>.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
                 <div className="bg-black/40 border border-white/10 p-3">
-                  <span className="text-cyan-400 font-bold uppercase block mb-1">Step 1: Environment Variables</span>
+                  <span className="   font-bold uppercase block mb-1">Step 1: Environment Variables</span>
                   <p className="">Add these 2 variables to your <code className="text-white ">.env.local</code> file:</p>
-                  <pre className="p-2 rounded text-cyan-300 mt-2 overflow-x-auto">
+                  <pre className="p-2 rounded    mt-2 overflow-x-auto">
                     NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="7th-heaven-store.myshopify.com"{"\n"}
                     {'NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'}="your_token_here"
                   </pre>
@@ -484,7 +484,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 font-bold uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
+                  <span className="absolute top-3 left-3 font-bold uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10   ">
                     {product.category}
                   </span>
 
@@ -498,7 +498,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
                 {/* Info */}
                 <div className="p-5 space-y-2">
-                  <h3 className="text-white font-bold group-hover:text-cyan-300 transition-colors line-clamp-1">
+                  <h3 className="text-white font-bold group-    transition-colors line-clamp-1">
                     {product.title}
                   </h3>
                   <p className="line-clamp-2 ">
@@ -511,7 +511,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div className="p-5 pt-0 flex items-center justify-between gap-3">
                 <div>
                   <span className="text-white/40 block font-bold">Price</span>
-                  <span className="text-xl font-bold text-cyan-400">${product.price}</span>
+                  <span className="text-xl font-bold   ">${product.price}</span>
                 </div>
 
                 <button aria-label="Action button"
@@ -538,7 +538,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 <Image width={200} height={200} unoptimized src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-12 h-12 object-cover border border-white/10" />
                 <div>
                   <h3 className="text-white font-bold line-clamp-1">{selectedProduct.title}</h3>
-                  <p className="text-cyan-400 font-bold">${selectedProduct.price}</p>
+                  <p className="   font-bold">${selectedProduct.price}</p>
                 </div>
               </div>
               <button aria-label="Action button"
@@ -770,12 +770,12 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
           <div className="bg-[var(--color-bg-surface)] border border-cyan-500/50 rounded-lg max-w-md w-full p-6 sm:p-8 space-y-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)]">
 
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <span className="font-bold uppercase text-cyan-400">Venue Printable QR Sign</span>
+              <span className="font-bold uppercase   ">Venue Printable QR Sign</span>
               <button aria-label="Action button" onClick={() => setShowQRSignModal(false)} className="text-white/40 hover:text-white font-bold cursor-pointer">✕ Close</button>
             </div>
 
             <div className="p-6 bg-gradient-to-b from-[#091a28] to-[#0a0a12] border-2 border-cyan-400 relative">
-              <span className="font-bold uppercase tracking-[0.3em] text-cyan-300 block mb-1">7th Heaven Band</span>
+              <span className="font-bold uppercase tracking-[0.3em]    block mb-1">7th Heaven Band</span>
               <h2 className="font-bold uppercase text-white mb-1">Scan for Express Merch</h2>
               <p className="mb-5">Pick Up at Band Table or Ship to Your Door</p>
 

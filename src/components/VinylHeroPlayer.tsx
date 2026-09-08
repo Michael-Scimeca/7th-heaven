@@ -575,8 +575,8 @@ export default function VinylHeroPlayer({
             {/* LAYER 2 & 3: Vinyl disc track & Controls overlay — REVEALED SMOOTHLY ONCE READY */}
             <div
               className={`transition-all duration-700 ease-out ${isPlayerReady ? "opacity-100 scale-100 blur-0 pointer-events-auto"
- : "opacity-0 scale-95 blur-xs pointer-events-none"
- }`}
+                : "opacity-0 scale-95 blur-xs pointer-events-none"
+                }`}
             >
               {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div style={{
@@ -609,8 +609,8 @@ export default function VinylHeroPlayer({
                           <button
                             type="button"
                             className={`relative rounded-lg flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
- : "opacity-90 scale-90 z-0"
- } ${isActive ? "vinyl-spinning" : ""}`}
+                              : "opacity-90 scale-90 z-0"
+                              } ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
                               height: "165px",
@@ -684,8 +684,8 @@ export default function VinylHeroPlayer({
                       <button aria-label="Toggle Playlist"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
                         className={`p-1.5 rounded-lg transition-all duration-300 cursor-pointer ${showTracklist ? "text-white bg-[#d946ef] border border-white shadow-[0_0_20px_#d946ef,0_0_10px_#ffffff] scale-110"
- : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
- }`}
+                          : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
+                          }`}
                         title="Toggle Playlist"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_4px_rgba(255,255,255,0.9)]">
@@ -833,8 +833,8 @@ export default function VinylHeroPlayer({
             {/* ── TRACKLIST PANEL — aligned flush with the top of the glass sleeve box ── */}
             <div
               className={`absolute top-0 bottom-0 flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist ? "opacity-100 pointer-events-auto"
- : "opacity-0 pointer-events-none"
- }`}
+                : "opacity-0 pointer-events-none"
+                }`}
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -873,8 +873,8 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover: bg-[#00000029] cursor-pointer"
- }`}
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white   bg-[#00000029] cursor-pointer"
+                            }`}
                         >
                           <span className="text-[12px] opacity-50 w-4 text-right">{track.number}.</span>
                           <span className="truncate flex-1 text-[14px]">{track.title}</span>

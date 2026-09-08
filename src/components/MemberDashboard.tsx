@@ -228,7 +228,7 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)]   text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
                   <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
@@ -300,7 +300,7 @@ export default function MemberDashboard() {
 
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <Ticket className="w-6 h-6 text-cyan-400" />
+              <Ticket className="w-6 h-6   " />
               <h2 className="font-bold ">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
@@ -395,10 +395,10 @@ export default function MemberDashboard() {
                 <div
                   key={photo.id}
                   className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
- : photo.approved
- ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
- : "border-white/10"
- }`}
+                    : photo.approved
+                      ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+                      : "border-white/10"
+                    }`}
                 >
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized

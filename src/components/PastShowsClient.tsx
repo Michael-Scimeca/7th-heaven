@@ -222,7 +222,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left hover: bg-[#00000029] transition-colors"
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left   bg-[#00000029] transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">

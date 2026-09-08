@@ -284,7 +284,7 @@ export default function ShowPageClient({
           ? "border-emerald-500/30 bg-emerald-500/[0.03]"
           : isMe
             ? "border-purple-500/40 bg-purple-500/5"
-            : `border-white/[0.06] bg-white/[0.02] hover: border-white/10  ${tierGlow[tier] || ""}`
+            : `border-white/[0.06] bg-white/[0.02]   border-white/10  ${tierGlow[tier] || ""}`
           }`}
       >
         {/* Avatar */}
@@ -350,7 +350,7 @@ export default function ShowPageClient({
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/#tour" className="inline-flex items-center gap-2 uppercase text-white/30 hover: text-white transition-colors mb-8 font-bold">
+          <Link href="/#tour" className="inline-flex items-center gap-2 uppercase text-white/30   text-white transition-colors mb-8 font-bold">
             ← All Shows
           </Link>
 
@@ -528,7 +528,7 @@ export default function ShowPageClient({
           <button aria-label="Action button"
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover: border-white/10 transition-colors mb-1 group cursor-pointer"
+            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06]   border-white/10 transition-colors mb-1 group cursor-pointer"
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
@@ -571,7 +571,7 @@ export default function ShowPageClient({
                     <button aria-label="Action button"
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 font-bold uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover: text-white "
+                      className={`px-4 py-1.5 font-bold uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30   text-white "
                         }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}

@@ -88,11 +88,11 @@ export default function CookieConsentBanner() {
               <h2 className="text-white font-bold mb-0.5">Your Privacy</h2>
               <p className="leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
-                <a href="/privacy" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
+                <a href="/privacy" className=" text-[var(--color-accent)]/80   text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
                   Privacy Policy
                 </a>{" "}
                 and{" "}
-                <a href="/terms" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
+                <a href="/terms" className=" text-[var(--color-accent)]/80   text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
                   Terms of Service
                 </a>.
               </p>
@@ -162,7 +162,7 @@ export default function CookieConsentBanner() {
                 <button aria-label="Action button"
                   id="cookie-customize"
                   onClick={() => setExpanded(true)}
-                  className="text-white/30 hover: text-white font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
+                  className="text-white/30   text-white font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
                 >
                   Customize
                 </button>

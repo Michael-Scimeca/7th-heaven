@@ -170,7 +170,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
     <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-bold shadow-2xlbackdrop-blur-[18px] cursor-pointer transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5 mb-2">
-        <span className="px-2.5 py-0.5 rounded-lg bg-black/40 text-cyan-300 text-[12px] font-bold">
+        <span className="px-2.5 py-0.5 rounded-lg bg-black/40    text-[12px] font-bold">
           ROOT 0.0
         </span>
         <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[12px] uppercase tracking-wider">
@@ -178,7 +178,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
         </span>
       </div>
       <h2 className="uppercase font-bold flex items-center justify-center gap-2">
-        <Globe className="w-5 h-5 text-cyan-200" />
+        <Globe className="w-5 h-5   " />
         <span>Home Page (/)</span>
       </h2>
       <p className="font-normal mt-1">
@@ -214,7 +214,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         </h3>
       </div>
 
-      <code className="text-[10px] text-cyan-300/90 block truncate">
+      <code className="text-[10px]   /90 block truncate">
         {data.sub}
       </code>
 
@@ -270,7 +270,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             {data.label}
           </h4>
 
-          <code className="text-[10px] text-cyan-300/80 block truncate mt-0.5">
+          <code className="text-[10px]   /80 block truncate mt-0.5">
             {data.sub}
           </code>
         </div>
@@ -572,7 +572,7 @@ export default function UserFlowMap() {
                 <h3 className="font-bold uppercase text-white mt-1">
                   {selectedNode.data.label}
                 </h3>
-                <code className=" text-cyan-300 block mt-0.5">
+                <code className="    block mt-0.5">
                   {selectedNode.data.sub}
                 </code>
               </div>

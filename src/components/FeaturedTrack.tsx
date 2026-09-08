@@ -253,7 +253,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-1 rounded-lg bg-cyan-400 animate-pulse" />
-          <span className=" font-bold uppercase text-cyan-400">Now Playing</span>
+          <span className=" font-bold uppercase   ">Now Playing</span>
         </div>
 
         {locked ? (
@@ -353,7 +353,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                       {isActive && isPlaying ? (
                         <span className="text-[var(--font-size-5xs)] text-[var(--color-accent)] font-bold animate-pulse uppercase shrink-0">Playing</span>
                       ) : (
-                        <span className="text-[var(--font-size-5xs)] text-white/25 uppercase font-medium shrink-0">MP3</span>
+                        <span className="text-[var(--font-size-5xs)] text-white/25 uppercase   shrink-0">MP3</span>
                       )}
                     </button>
                   );
@@ -390,7 +390,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 hover: border-white/10 ">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300   border-white/10 ">
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
@@ -587,7 +587,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             <span className={` font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
                               {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
                             </span>
-                            <span className={`font-medium truncate ${isActive ? 'font-bold' : ''}`}>{song.title}</span>
+                            <span className={`  truncate ${isActive ? 'font-bold' : ''}`}>{song.title}</span>
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (

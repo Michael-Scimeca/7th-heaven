@@ -18,10 +18,7 @@ import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
 // Suppress blob URL texture errors that occur during page transitions
 suppressBlobTextureErrors();
 
-// Preload 3D ship asset immediately so it renders without network delay on production
-if (typeof window !== 'undefined') {
-  useGLTF.preload('/objects/ship.glb');
-}
+// 3D ship asset is loaded lazily when the component mounts in viewport
 
 function ShipModel({
   scale = 1.0,
@@ -781,9 +778,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
             {/* SECTION 1: Velocity & Viewport Triggers */}
             <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <div className="flex justify-between items-center text-cyan-300 font-bold">
+              <div className="flex justify-between items-center    font-bold">
                 <span>⚡ Cruise Boat & Line Travel Speed</span>
-                <span className="text-cyan-400 text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
+                <span className="   text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.2" max="4.0" step="0.1"
@@ -802,7 +799,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🚢 Ship Bow Path Advance Offset</span>
-                <span className="text-cyan-400 ">{(tuning.shipAdvancePx ?? 80)}px</span>
+                <span className="   ">{(tuning.shipAdvancePx ?? 80)}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="-200" max="300" step="5"
@@ -816,7 +813,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🌊 Blue Line Lead/Lag Offset</span>
-                <span className="text-cyan-400 ">{(tuning.lineFillLeadPx ?? 0)}px</span>
+                <span className="   ">{(tuning.lineFillLeadPx ?? 0)}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="-200" max="200" step="5"
@@ -830,7 +827,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>📍 Start Trigger Location</span>
-                <span className="text-cyan-400 ">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
+                <span className="   ">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.0" max="1.0" step="0.01"
@@ -844,7 +841,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>📍 End Trigger Location</span>
-                <span className="text-cyan-400 ">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
+                <span className="   ">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.0" max="1.0" step="0.01"
@@ -858,7 +855,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🛑 Start Path Padding</span>
-                <span className="text-cyan-400 ">{tuning.minShipDist ?? 0}px</span>
+                <span className="   ">{tuning.minShipDist ?? 0}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0" max="400" step="10"
@@ -872,7 +869,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🏁 End Path Finish Padding</span>
-                <span className="text-cyan-400 ">{tuning.maxShipDistPad ?? 0}px</span>
+                <span className="   ">{tuning.maxShipDistPad ?? 0}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0" max="400" step="10"
@@ -886,7 +883,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>⚓ Anchor X Offset</span>
-                <span className="text-cyan-400 ">{tuning.anchorOffsetX ?? 0}px</span>
+                <span className="   ">{tuning.anchorOffsetX ?? 0}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="-100" max="100" step="1"
@@ -900,7 +897,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>⚓ Anchor Y Offset</span>
-                <span className="text-cyan-400 ">{tuning.anchorOffsetY ?? 0}px</span>
+                <span className="   ">{tuning.anchorOffsetY ?? 0}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="-100" max="100" step="1"
@@ -914,7 +911,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/30 border border-white/10 p-3 space-y-1.5 backdrop-blur-sm">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🔎 3D Ship Scale</span>
-                <span className="text-cyan-400 ">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
+                <span className="   ">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.05" max="8.0" step="0.05"
@@ -928,7 +925,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>⚓ Hull Y Path Offset</span>
-                <span className="text-cyan-400 ">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
+                <span className="   ">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.0" max="3.0" step="0.1"
@@ -959,9 +956,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         key={act.id}
                         onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                         className={`flex-1 py-1.5 px-2 rounded-lg font-bold uppercase transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
- ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
- : ' bg-[#00000029] text-white hover:bg-white/10'
- }`}
+                          ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                          : ' bg-[#00000029] text-white hover:bg-white/10'
+                          }`}
                       >
                         {act.label}
                       </button>
@@ -973,7 +970,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
                   <div className="flex justify-between items-center font-bold text-white/90">
                     <span>🔎 Min Scale Over Circle</span>
-                    <span className="text-cyan-400 ">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
+                    <span className="   ">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
                   </div>
                   <input aria-label="Input field"
                     type="range" min="0.0" max="1.0" step="0.05"
@@ -987,7 +984,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
                   <div className="flex justify-between items-center font-bold text-white/90">
                     <span>📏 Scale Down Trigger Radius</span>
-                    <span className="text-cyan-400 ">{tuning.nodeDipRadius ?? 65}px</span>
+                    <span className="   ">{tuning.nodeDipRadius ?? 65}px</span>
                   </div>
                   <input aria-label="Input field"
                     type="range" min="20" max="250" step="5"
@@ -1001,7 +998,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
                   <div className="flex justify-between items-center font-bold text-white/90">
                     <span>🚀 Re-appear Pop Distance</span>
-                    <span className="text-cyan-400 ">{tuning.nodePopDist ?? 60}px</span>
+                    <span className="   ">{tuning.nodePopDist ?? 60}px</span>
                   </div>
                   <input aria-label="Input field"
                     type="range" min="20" max="200" step="5"
@@ -1017,7 +1014,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🚢 Tracking Smoothness Lerp</span>
-                <span className="text-cyan-400 ">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
+                <span className="   ">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.05" max="1.0" step="0.05"
@@ -1031,7 +1028,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>🌊 Wave Ripple Height</span>
-                <span className="text-cyan-400 ">{tuning.rippleAmp ?? 7}px</span>
+                <span className="   ">{tuning.rippleAmp ?? 7}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0" max="40" step="1"
@@ -1045,7 +1042,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>⏱️ Wave Motion Speed</span>
-                <span className="text-cyan-400 ">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
+                <span className="   ">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0.0001" max="0.0050" step="0.0001"
@@ -1059,7 +1056,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>📏 SVG Line Thickness</span>
-                <span className="text-cyan-400 ">{tuning.lineWidth ?? 6}px</span>
+                <span className="   ">{tuning.lineWidth ?? 6}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="2" max="20" step="1"
@@ -1073,7 +1070,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>✨ Neon Glow Blur</span>
-                <span className="text-cyan-400 ">{tuning.glowBlur ?? 6}px</span>
+                <span className="   ">{tuning.glowBlur ?? 6}px</span>
               </div>
               <input aria-label="Input field"
                 type="range" min="0" max="25" step="1"
@@ -1211,7 +1208,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         <div>
                           <div className="snake-itinerary-eventTitle flex items-center gap-2">
                             {isGuitar && <Guitar className="w-4 h-4 text-purple-400 shrink-0 inline-block" />}
-                            {!isGuitar && isShip && <Ship className="w-4 h-4 text-cyan-400 shrink-0 inline-block" />}
+                            {!isGuitar && isShip && <Ship className="w-4 h-4    shrink-0 inline-block" />}
                             {!isGuitar && !isShip && isIsland && <Palmtree className="w-4 h-4 text-emerald-400 shrink-0 inline-block" />}
                             {!isGuitar && !isShip && !isIsland && <Compass className="w-4 h-4 text-purple-300 shrink-0 inline-block" />}
                             <span>{cleanTitle}</span>
@@ -1364,10 +1361,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   boxShadow: 'none',
                 }}
                 className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
- }`}
+                  }`}
               >
                 {isSea ? (
-                  <Waves className="w-3.5 h-3.5 text-cyan-400 shrink-0 inline-block" />
+                  <Waves className="w-3.5 h-3.5    shrink-0 inline-block" />
                 ) : (
                   <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0 inline-block" />
                 )} {formatNodeBadgeText(day, i)}

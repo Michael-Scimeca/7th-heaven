@@ -285,7 +285,7 @@ const mainCharacters = [
     image: "/images/comics/Frank.png",
     desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle.",
     icon: BassGuitarIcon,
-    color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+    color: "   border-cyan-500/30 bg-cyan-500/10",
   },
   {
     role: "Drums & Percussion",
@@ -428,7 +428,7 @@ export default function RockNRollKidsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
               <div className="lg:col-span-5 space-y-6">
-                <p className="font-medium text-cyan-100 font-sans py-4">
+                <p className="font-sans pb-2">
                   {ABOUT_DATA.paragraph1}
                 </p>
                 <p className="   font-normal">

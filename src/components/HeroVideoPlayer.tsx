@@ -569,7 +569,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-white/80 group-hover: text-[var(--color-accent)] group-hover:rotate-45 transition-colors duration-300"
+                className="text-white/80 group-  text-[var(--color-accent)] group-hover:rotate-45 transition-colors duration-300"
               >
                 <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                 <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />

@@ -296,7 +296,7 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 hover: border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
+                    className={`border bg-white/[0.02] p-6 transition-colors duration-300   border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
                       }`}
                   >
                     {/* Header: Avatar + Name + Time */}

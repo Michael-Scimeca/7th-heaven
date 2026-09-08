@@ -1149,7 +1149,7 @@ export default function StyleGuidePage() {
                   {/* 4. Max Viewport Width */}
                   <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between ">
-                      <span className="font-bold text-cyan-400 flex items-center gap-1">
+                      <span className="font-bold    flex items-center gap-1">
                         4. Max Viewport Width:
                       </span>
                       <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
@@ -1157,7 +1157,7 @@ export default function StyleGuidePage() {
                           type="number"
                           value={studioMaxVw}
                           onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
-                          className="w-16 bg-transparent text-right text-cyan-300 font-bold outline-none"
+                          className="w-16 bg-transparent text-right    font-bold outline-none"
                         />
                         <span className="text-white/40">px</span>
                       </div>
@@ -1220,7 +1220,7 @@ export default function StyleGuidePage() {
 
                     <div className="flex items-center gap-2 ">
                       <span className="text-white/40">Live Viewport:</span>
-                      <span className="font-bold text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-lg">
+                      <span className="font-bold    bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-lg">
                         {liveWinW}px
                       </span>
                       <span className="text-white/40">Computed Size:</span>
@@ -1248,7 +1248,7 @@ export default function StyleGuidePage() {
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
                       <span className="block text-white/30 text-[12px] uppercase">Slope (vw)</span>
-                      <span className="text-cyan-300 font-bold">{studioClamp.slopeVw.toFixed(4)}vw</span>
+                      <span className="   font-bold">{studioClamp.slopeVw.toFixed(4)}vw</span>
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
                       <span className="block text-white/30 text-[12px] uppercase">Intercept (rem)</span>
@@ -1867,7 +1867,7 @@ ${deskRules.join("\n")}
                 <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950 font-bold uppercase shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
                   Hover / Active
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 text-cyan-400/40 font-bold uppercase cursor-not-allowed border border-cyan-500/10">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20   /40 font-bold uppercase cursor-not-allowed border border-cyan-500/10">
                   Disabled
                 </button>
               </div>
@@ -1952,7 +1952,7 @@ ${deskRules.join("\n")}
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40   outline-none transition"
                   />
                 </div>
               </div>
@@ -1965,7 +1965,7 @@ ${deskRules.join("\n")}
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none text-white/80 font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none text-white/80   outline-none transition"
                   />
                 </div>
               </div>
@@ -2017,7 +2017,7 @@ ${deskRules.join("\n")}
                     rows={4}
                     value={textareaInput}
                     onChange={(e) => setTextareaInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none text-white/80 placeholder-white/40 font-medium outline-none focus:ring-0 transition resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none text-white/80 placeholder-white/40   outline-none focus:ring-0 transition resize-none"
                   />
                 </div>
               </div>
@@ -2206,7 +2206,7 @@ ${deskRules.join("\n")}
                         <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
                       </div>
                       <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer hover: transition">← Back to Crew Page</p>
+                      <p className="text-center cursor-pointer   transition">← Back to Crew Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
                         <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CREW ACCESS</span>
@@ -2251,7 +2251,7 @@ ${deskRules.join("\n")}
                         <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
                       </p>
                       <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer hover: transition">← Back to Planner Page</p>
+                      <p className="text-center cursor-pointer   transition">← Back to Planner Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
                         <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · PLANNER ACCESS</span>
@@ -2300,7 +2300,7 @@ ${deskRules.join("\n")}
                         <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
                       </div>
                       <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer hover: transition">← Back to Cruise Page</p>
+                      <p className="text-center cursor-pointer   transition">← Back to Cruise Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
                         <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
@@ -2343,7 +2343,7 @@ ${deskRules.join("\n")}
                         <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
                       </div>
                       <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer hover: transition">← Back to Login</p>
+                      <p className="text-center cursor-pointer   transition">← Back to Login</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
                         <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · ADMIN ACCESS</span>
@@ -2749,7 +2749,7 @@ ${deskRules.join("\n")}
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
             <p className="mt-1">
-              Standardized dropdown implementation using our global border standard <code className="text-cyan-300 ">rgba(255,255,255,0.08)</code>.
+              Standardized dropdown implementation using our global border standard <code className="   ">rgba(255,255,255,0.08)</code>.
             </p>
           </div>
 
@@ -2900,7 +2900,7 @@ ${deskRules.join("\n")}
               <div className="space-y-2">
                 <div className="flex justify-between items-center font-bold text-white/80">
                   <span>Border Width</span>
-                  <span className=" text-cyan-300">{bubbleBorderWidth}px</span>
+                  <span className="   ">{bubbleBorderWidth}px</span>
                 </div>
                 <input
                   type="range"
@@ -2960,7 +2960,7 @@ ${deskRules.join("\n")}
               <div className="space-y-2">
                 <div className="flex justify-between items-center font-bold text-white/80">
                   <span>Padding Y (Vertical)</span>
-                  <span className=" text-cyan-300">{bubblePaddingY}px</span>
+                  <span className="   ">{bubblePaddingY}px</span>
                 </div>
                 <input
                   type="range"
@@ -3277,7 +3277,7 @@ ${deskRules.join("\n")}
             {/* 1 — Glassmorphism Modal Shell */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className=" font-bold text-cyan-400 uppercase">Glass Shell</span>
+                <span className=" font-bold    uppercase">Glass Shell</span>
                 <h4 className="font-bold text-white">Glassmorphism Modal</h4>
                 <p className="mt-1">
                   The frosted-glass card used for verify screens, PIN entry, and success states.
@@ -3285,7 +3285,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-bold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40    font-bold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
               </button>
@@ -3401,7 +3401,7 @@ ${deskRules.join("\n")}
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 font-medium outline-none transition"
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40   outline-none transition"
                     />
                   </div>
                   <button
@@ -3466,14 +3466,14 @@ ${deskRules.join("\n")}
               9. Border & Glass Standard
             </h2>
             <p className="mt-1">
-              Confirming all dividers and component boundaries use our standardized global border color: <code className="text-cyan-300 ">rgba(255, 255, 255, 0.08)</code>.
+              Confirming all dividers and component boundaries use our standardized global border color: <code className="   ">rgba(255, 255, 255, 0.08)</code>.
             </p>
           </div>
 
           <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
             <div className="flex items-center justify-between text-white">
               <span>Variable: <strong className="text-white">--color-border-main</strong></span>
-              <span>Computed Value: <strong className="text-cyan-400">rgba(255, 255, 255, 0.08)</strong></span>
+              <span>Computed Value: <strong className="  ">rgba(255, 255, 255, 0.08)</strong></span>
             </div>
 
             <div className="h-px bg-white/10 w-full" />
@@ -3597,7 +3597,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
-              <span className=" font-bold text-cyan-400">Mobile Page Padding</span>
+              <span className=" font-bold   ">Mobile Page Padding</span>
               <div className="text-2xl font-bold text-white">16px (<code className="text-white/50 ">var(--page-padding-x)</code>)</div>
               <p className="">Used on screens below 768px viewport width.</p>
             </div>
@@ -3626,7 +3626,7 @@ ${deskRules.join("\n")}
                 <span className="font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg uppercase tracking-wider">Active Globally</span>
               </h3>
               <p className="max-w-2xl mt-1">
-                The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="text-cyan-300">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
+                The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="  ">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
             <div className="shrink-0 p-4 rounded-lg bg-black/60 border border-white/10 text-purple-300 space-y-1">
@@ -3921,8 +3921,8 @@ ${deskRules.join("\n")}
                 <p className="">Uses <code className="text-purple-300 text-[10px]">--color-bg-glass</code></p>
               </div>
               <div className="p-5 rounded-lg space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
-                <span className="font-bold text-cyan-400">Surface Panel</span>
-                <p className="">Uses <code className="text-cyan-300 text-[10px]">--color-bg-surface</code> + <code className="text-cyan-300 text-[10px]">--color-border-purple</code></p>
+                <span className="font-bold   ">Surface Panel</span>
+                <p className="">Uses <code className="   text-[10px]">--color-bg-surface</code> + <code className="   text-[10px]">--color-border-purple</code></p>
               </div>
             </div>
           </div>
@@ -4009,7 +4009,7 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
-                    <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
+                    <span className="font-bold uppercase tracking-[0.25em]   ">VIP Experiences</span>
                     <h3 className="font-bold uppercase text-white mt-1">Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
@@ -4029,7 +4029,7 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Benefits List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium ">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90   ">
                   {suiteTab === "sea" && [
                     "Dedicated check-in line",
                     "Priority boarding",
@@ -4063,7 +4063,7 @@ ${deskRules.join("\n")}
                     "Lavazza Espresso coffee machine"
                   ].map((perk) => (
                     <div key={`sky-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-cyan-400 font-bold text-base shrink-0">✓</span>
+                      <span className="   font-bold text-base shrink-0">✓</span>
                       <span>{perk}</span>
                     </div>
                   ))}
@@ -4193,7 +4193,7 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
+                <span className="font-bold uppercase tracking-[0.25em]   ">Reservation Form Component</span>
                 <h3 className="font-bold uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
@@ -4318,7 +4318,7 @@ ${deskRules.join("\n")}
                 </ul>
                 <div className="pt-3 border-t border-white/10 space-y-2">
                   <p className="">
-                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">Mary@NTDVacations.com</a>
+                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="   hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="   hover:text-white underline font-bold transition-colors">Mary@NTDVacations.com</a>
                   </p>
                   <p className="">
                     <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
@@ -4346,7 +4346,7 @@ ${deskRules.join("\n")}
                     For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                   </p>
                   <p>
-                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-cyan-400 font-bold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="   font-bold underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
                   </p>
                 </div>
               </div>
@@ -4449,7 +4449,7 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center gap-3 bg-transparent"
+                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10   border-white/10 flex items-center gap-3 bg-transparent"
                         >
                           <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 font-bold flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
@@ -4553,7 +4553,7 @@ ${deskRules.join("\n")}
 
                 {/* Footer */}
                 <div className="p-4 border-t border-white/10 bg-transparent flex items-center justify-between gap-3 shrink-0">
-                  <button type="button" className="px-4 py-2 border border-white/10 hover: bg-[#00000029] text-white/70 font-bold uppercase rounded-lg transition-colors cursor-pointer">
+                  <button type="button" className="px-4 py-2 border border-white/10   bg-[#00000029] text-white/70 font-bold uppercase rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">

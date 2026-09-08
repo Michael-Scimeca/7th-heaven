@@ -286,7 +286,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             disabled={busy}
             onClick={toggleActive}
             className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029] text-white/40 border border-white/10"
- }`}
+              }`}
           >
             {product.active ? "Active" : "Inactive"}
           </button>
@@ -330,7 +330,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             <button
               type="button"
               onClick={() => setShowAddVariant(true)}
-              className="mt-2 font-bold text-cyan-300 hover:text-cyan-200"
+              className="mt-2 font-bold       "
             >
               + Add {product.variant_kind.toLowerCase()} variant
             </button>
@@ -691,7 +691,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <button
             type="button"
             onClick={() => setVariants([...variants, { id: `var-${Date.now()}-${variants.length}`, label: "", price: "", stock: "0" }])}
-            className="mt-2 font-bold text-cyan-300 hover:text-cyan-200"
+            className="mt-2 font-bold       "
           >
             + Another variant
           </button>

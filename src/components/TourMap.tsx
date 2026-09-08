@@ -848,7 +848,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
                 onClick={() => setLegendOpen(o => !o)}
-                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer hover: bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors"
+                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer   bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors"
               >
                 <span className="sm:text-[16px] font-bold uppercase transition-colors">Show Types</span>
                 <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -875,7 +875,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                             });
                           }}
                           className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
- }`}
+                            }`}
                         >
                           <div className="w-3.5 h-3.5 rounded-lg shrink-0 flex items-center justify-center font-bold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                             {showLetter}
@@ -905,8 +905,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
                   className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px] font-bold uppercase text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
- : " border-white/10 hover:border-purple-400/50 hover:text-purple-300"
- }`}
+                    : " border-white/10 hover:border-purple-400/50 hover:text-purple-300"
+                    }`}
                   title="Zoom in on dates & filter show markers"
                 >
 

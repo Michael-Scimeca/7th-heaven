@@ -481,7 +481,7 @@ export default function CursorFollower() {
 
     if (songPlaying) {
       // Smaller "now playing" badge — same pick shape, scaled down, with "Stop Music"
-      // instead of the marquee label. Takes priority over hover: once a track is
+      // instead of the marquee label. Takes priority over   once a track is
       // playing, this shows even while still hovering the hero, so the cursor
       // "toggles" the instant playback starts instead of waiting for mouseout.
       tl.set(spin, { width: circleSize, height: circleSize, opacity: 0 })

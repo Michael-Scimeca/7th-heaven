@@ -62,7 +62,7 @@ export default function StudioDPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#0d0e13] text-white overflow-x-hidden">
+    <div className="relative min-h-screen w-full  text-white overflow-x-hidden">
       {/* Full-bleed Hero Media Container */}
       <div className="relative h-screen w-full overflow-hidden flex items-end">
         <div
@@ -78,7 +78,7 @@ export default function StudioDPage() {
             className="object-cover object-center brightness-90"
           />
           {/* Subtle gradient vignette overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e13] via-transparent to-black/30" />
+          <div className="absolute inset-0 " />
         </div>
 
         {/* Hero Content Overlay (Positioned exactly like Exo Ape Studio D) */}
@@ -106,7 +106,7 @@ export default function StudioDPage() {
               href="https://7thheavenband.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-sm sm:text-base font-medium text-white hover:text-purple-300 transition-colors border-b border-white/60 hover:border-purple-300 pb-0.5"
+              className="group inline-flex items-center gap-2 text-sm sm:text-base   text-white hover:text-purple-300 transition-colors border-b border-white/60 hover:border-purple-300 pb-0.5"
             >
               <span>Visit website</span>
               <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

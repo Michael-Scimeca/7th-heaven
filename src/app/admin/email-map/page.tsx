@@ -9,7 +9,7 @@ const COLORS = {
   purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
   red: "border-red-500/30 bg-red-500/5 text-red-300",
   amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
-  cyan: "border-cyan-500/30 bg-cyan-500/5 text-cyan-300",
+  cyan: "border-cyan-500/30 bg-cyan-500/5   ",
   emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
 };
 
@@ -211,7 +211,7 @@ export default function EmailMapPage() {
             <p className="   mb-4">
               Cancellation and status links use crypographic tokens stored in Supabase. This allows fans to manage their RSVPs or bookings directly from their inbox without requiring a password login every time.
             </p>
-            <div className="bg-black/40 p-4 rounded text-cyan-400">
+            <div className="bg-black/40 p-4 rounded   ">
               URL: /cruise/cancel?token=7f9a...
             </div>
           </div>

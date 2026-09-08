@@ -504,18 +504,6 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
       suppressHydrationWarning
     >
-      {/* ── TOP GLOBAL PAGE TRANSITION PROGRESS LOADER BAR ── */}
-      {mode !== "idle" && (
-        <div className="fixed top-0 left-0 right-0 h-[3px] z-[100005] pointer-events-none overflow-hidden bg-purple-950/40">
-          <div
-            className="h-full bg-gradient-to-r from-[#9333ea] via-purple-300 to-[#9333ea] shadow-[0_0_12px_#9333ea] w-full origin-left"
-            style={{
-              animation: "headerNavProgress 1s cubic-bezier(0.4, 0, 0.2, 1) infinite",
-            }}
-          />
-        </div>
-      )}
-
       <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"

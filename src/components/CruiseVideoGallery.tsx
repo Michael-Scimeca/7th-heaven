@@ -269,7 +269,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="py-6 flex-1 flex flex-col space-y-3">
                 <div>
-                  <h3 className="font-bold text-white uppercase group-hover:text-cyan-300 transition-colors">
+                  <h3 className="font-bold text-white uppercase group-    transition-colors">
                     {vid.title}
                   </h3>
                   {vid.description && (

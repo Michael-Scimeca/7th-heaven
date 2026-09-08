@@ -2531,14 +2531,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <div className="flex gap-1.5">
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30   text-white '
                           }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30   text-white border border-transparent'
                           }`}
                       >
                         Most Liked
