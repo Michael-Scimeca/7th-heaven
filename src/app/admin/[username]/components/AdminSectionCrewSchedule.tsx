@@ -190,25 +190,66 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
     };
 
     const roleStyles: Record<string, { bg: string, tagBg: string, label: string }> = {
-      SERVER: { bg: '#0ea5e9', tagBg: '#0369a1', label: 'SERVER' },       // Vibrant Cyan / Sky Blue
-      BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },       // Vibrant Emerald Green
-      LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },  // Vibrant Indigo
-      CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },           // Vibrant Rose Red
-      HOST: { bg: '#9333ea', tagBg: '#6b21a8', label: 'HOST' },           // Vibrant Amber Gold
-      MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },     // Vibrant Purple / Violet
-      POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' },   // Vibrant Electric Teal
-      UNLOADING: { bg: '#f97316', tagBg: '#c2410c', label: 'UNLOADING' },  // Orange
-      CAMERA: { bg: '#ec4899', tagBg: '#be185d', label: 'CAMERA' },        // Pink
+      TOUR_MANAGER: { bg: '#9333ea', tagBg: '#6b21a8', label: 'TOUR MANAGER' },     // Amethyst Purple
+      STAGE_MANAGER: { bg: '#6366f1', tagBg: '#4338ca', label: 'STAGE MANAGER' },   // Indigo
+      STAGE_HAND: { bg: '#0d9488', tagBg: '#0f766e', label: 'STAGE HAND' },         // Teal
+      SOUND_ENGINEER: { bg: '#06b6d4', tagBg: '#0891b2', label: 'SOUND ENGINEER' }, // Electric Cyan
+      AUDIO_ENGINEER: { bg: '#06b6d4', tagBg: '#0891b2', label: 'AUDIO ENGINEER' },
+      AUDIO_MIX: { bg: '#0284c7', tagBg: '#0369a1', label: 'AUDIO MIX' },           // Sky Blue
+      AUDIO: { bg: '#0284c7', tagBg: '#0369a1', label: 'AUDIO' },
+      LIGHTS: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTS' },               // Gold / Yellow
+      LIGHTING: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTING' },
+      MERCH: { bg: '#f43f5e', tagBg: '#be123c', label: 'MERCH' },                 // Rose Crimson
+      MERCHANDISE: { bg: '#f43f5e', tagBg: '#be123c', label: 'MERCHANDISE' },
+      ROAD_MANAGER: { bg: '#f97316', tagBg: '#c2410c', label: 'ROAD MANAGER' },     // Coral Orange
+      DRIVER: { bg: '#84cc16', tagBg: '#4d7c0f', label: 'DRIVER' },                 // Lime Green
+      SECURITY: { bg: '#475569', tagBg: '#334155', label: 'SECURITY' },             // Steel Slate
+      CAMERA: { bg: '#ec4899', tagBg: '#be185d', label: 'CAMERA' },               // Hot Pink
+      VIDEO: { bg: '#ec4899', tagBg: '#be185d', label: 'VIDEO' },
       BAND_EQUIPMENT: { bg: '#8b5cf6', tagBg: '#6d28d9', label: 'BAND EQUIPMENT' }, // Violet
-      AUDIO_MIX: { bg: '#a855f7', tagBg: '#7e22ce', label: 'AUDIO MIX' },  // Purple
-      LIGHTS: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTS' },        // Yellow
-      MERCH: { bg: '#14b8a6', tagBg: '#0f766e', label: 'MERCH' }          // Teal
+      BACKLINE: { bg: '#8b5cf6', tagBg: '#6d28d9', label: 'BACKLINE' },
+      UNLOADING: { bg: '#ea580c', tagBg: '#9a3412', label: 'UNLOADING' },         // Burnt Orange
+      LOAD_IN: { bg: '#ea580c', tagBg: '#9a3412', label: 'LOAD IN' },
+      LOAD_OUT: { bg: '#c2410c', tagBg: '#7c2d12', label: 'LOAD OUT' },
+      VOCALS: { bg: '#a855f7', tagBg: '#7e22ce', label: 'VOCALS' },               // Purple
+      GUITAR: { bg: '#dc2626', tagBg: '#991b1b', label: 'GUITAR' },               // Red
+      BASS: { bg: '#2563eb', tagBg: '#1d4ed8', label: 'BASS' },                   // Blue
+      DRUMS: { bg: '#d97706', tagBg: '#b45309', label: 'DRUMS' },                 // Amber
+      KEYS: { bg: '#10b981', tagBg: '#047857', label: 'KEYS' },                   // Emerald
+      SERVER: { bg: '#0ea5e9', tagBg: '#0369a1', label: 'SERVER' },
+      BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },
+      LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },
+      CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },
+      HOST: { bg: '#9333ea', tagBg: '#6b21a8', label: 'HOST' },
+      MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },
+      POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' },
     };
 
+    const ROLE_PALETTE_FALLBACKS = [
+      { bg: '#9333ea', tagBg: '#6b21a8' },
+      { bg: '#0d9488', tagBg: '#0f766e' },
+      { bg: '#f43f5e', tagBg: '#be123c' },
+      { bg: '#f97316', tagBg: '#c2410c' },
+      { bg: '#6366f1', tagBg: '#4338ca' },
+      { bg: '#06b6d4', tagBg: '#0891b2' },
+      { bg: '#eab308', tagBg: '#a16207' },
+      { bg: '#ec4899', tagBg: '#be185d' },
+      { bg: '#10b981', tagBg: '#047857' },
+      { bg: '#8b5cf6', tagBg: '#6d28d9' },
+      { bg: '#0ea5e9', tagBg: '#0369a1' },
+      { bg: '#d97706', tagBg: '#b45309' },
+    ];
+
     const getRoleStyle = (role: string) => {
-      const norm = (role || '').toUpperCase().trim().replace(/\s+/g, '_');
-      const roleStylesTyped: Record<string, { bg: string, tagBg: string, label: string }> = roleStyles;
-      return roleStylesTyped[norm] || { bg: '#3b82f6', tagBg: '#1d4ed8', label: role };
+      if (!role) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: 'Shift' };
+      const norm = role.toUpperCase().trim().replace(/[\s\/-]+/g, '_');
+      if (roleStyles[norm]) return roleStyles[norm];
+      let hash = 0;
+      for (let i = 0; i < norm.length; i++) {
+        hash = norm.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const item = ROLE_PALETTE_FALLBACKS[Math.abs(hash) % ROLE_PALETTE_FALLBACKS.length];
+      return { bg: item.bg, tagBg: item.tagBg, label: role };
     };
 
     const getShiftColor = (shift: any, mode: 'role' | 'eventType' | 'band') => {
@@ -519,9 +560,9 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             opacity: isBeingDragged ? 0.3 : 1
           }}
           className={`wiw-card group relative select-none rounded-lg p-1.5 flex flex-col justify-between text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
- } ${shift.isDraft ? 'wiw-striped' : ''
- } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
- }`}
+            } ${shift.isDraft ? 'wiw-striped' : ''
+            } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
+            }`}
           title={shift.crewId !== 'openshifts' ? (() => {
             const member = crewMembers.find(c => c.id === shift.crewId);
             const name = member?.name || shift.crewName || shift.crewId || '?';
@@ -599,6 +640,30 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             {!showCrewName ? (
               /* Compact When I Work style for Roster Grid */
               <div className="flex-1 flex flex-col justify-center gap-1 w-full select-none min-h-0">
+                {(() => {
+                  const member = crewMembers.find((c: any) => c.id === shift.crewId);
+                  const memberName = member?.name || shift.crewName;
+                  if (!memberName || shift.crewId === 'openshifts') return null;
+                  const avatarUrl = resolveMemberAvatar(memberName, member?.avatar || member?.avatarUrl);
+                  return (
+                    <div className="flex items-center gap-1.5 pb-0.5 border-b border-white/15 w-full overflow-hidden">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={memberName}
+                          className="w-4 h-4 rounded-full object-cover border border-white/30 shrink-0"
+                        />
+                      ) : (
+                        <div className="w-4 h-4 rounded-full bg-purple-500/30 text-white text-[8px] font-bold flex items-center justify-center border border-white/30 shrink-0">
+                          {memberName[0]?.toUpperCase()}
+                        </div>
+                      )}
+                      <span className="text-[10px] font-bold text-white truncate   ">
+                        {memberName}
+                      </span>
+                    </div>
+                  );
+                })()}
                 <div className="flex items-center justify-between gap-1 w-full min-h-0">
                   <span className=" text-[11px] font-bold text-white whitespace-nowrap">
                     {timeLabel}
@@ -829,7 +894,17 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
           >
             <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/95 backdrop-blur-xl border-b border-white/10 shadow-lg">
               <div className="flex w-full border-[var(--border-color)] bg-transparent text-[10px] font-bold tracking-wider">
-                <div className="p-2 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase font-bold text-[10px] bg-transparent">Crew Member</div>
+                <div className="p-1.5 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-transparent">
+                  <div className="flex items-center gap-2 pl-1">
+                    <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
+                    </div>
+                    <div>
+                      <span className="font-bold block text-white text-[11px]   ">OpenShifts</span>
+                      <span className="text-[10px] font-bold uppercase leading-none text-purple-300">Positions</span>
+                    </div>
+                  </div>
+                </div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
@@ -843,16 +918,16 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         setScheduleSortByDate(nextDate);
                       }}
                       className={`p-2 w-36 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? 'bg- purple-white/20 text-purple-300 font-bold shadow-[inset_0_-3px_0_#9333ea]'
- : isNextShow
- ? 'bg-purple-500/10 text-purple-300 font-bold border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
- : ' '
- }`}
+                        : isNextShow
+                          ? 'bg-purple-500/10 text-purple-300 font-bold border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
+                          : ' '
+                        }`}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <span className=" font-bold text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
+                            <span className=" font-bold text-[12px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
                               <span className="text-[12px] bg-purple-600 text-white px-1 py-0.5 rounded font-bold uppercase scale-[0.85] origin-left select-none">
                                 NEXT
@@ -880,8 +955,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 setScheduleSortByDate(prev => prev === day.dateStr ? null : day.dateStr);
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr ? 'bg- purple-white/20 text-purple-300 font-extrabold'
- : ' hover:text-[var(--text-color) '
- }`}
+                                : ' hover:text-[var(--text-color) '
+                                }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5" /><polyline points="5 12 12 5 19 12" /></svg>
@@ -910,14 +985,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
                 <div className="flex w-full border-b border-[var(--border-color)] transition-colors bg-transparent">
                   <div className="p-1 w-60 shrink-0 border-l border-r border-[var(--border-color)] flex items-center wiw-sticky-col bg-transparent">
-                    <div className="flex items-center gap-2 pl-1">
-                      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 ">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
-                      </div>
-                      <div>
-                        <span className="font-bold block ">OpenShifts</span>
-                        <span className="text-[12px] font-bold uppercase leading-none">Positions</span>
-                      </div>
+                    <div className="flex items-center gap-2 pl-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300/80">Open Shifts</span>
                     </div>
                   </div>
                   {filteredDays.map(day => {
@@ -927,10 +996,10 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <div
                         key={day.dateStr}
                         className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)] relative transition-colors cursor-pointer ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
- : isNextShow
- ? 'bg-purple-500/10 border-x border-white/20'
- : 'bg-transparent'
- }`}
+                          : isNextShow
+                            ? 'bg-purple-500/10 border-x border-white/20'
+                            : 'bg-transparent'
+                          }`}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
@@ -1106,10 +1175,10 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               }
                             }}
                             className={`p-1 w-36 shrink-0 border-r border-[var(--border-color)] relative transition-colors cursor-pointer group ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
- : isNextShow
- ? 'bg-purple-500/10 border-x border-white/20'
- : 'bg-[var(--card-bg)]'
- }`}
+                              : isNextShow
+                                ? 'bg-purple-500/10 border-x border-white/20'
+                                : 'bg-[var(--card-bg)]'
+                              }`}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
@@ -1127,9 +1196,9 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                   e.stopPropagation();
                                   handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                                 }}
-                                className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[9px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-colors cursor-pointer"
+                                className="mt-1 w-full py-1 flex items-center justify-center gap-1 text-[10px] font-bold text-purple-300 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/30 rounded transition-colors cursor-pointer"
                               >
-                                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                 + ADD
                               </button>
                             )}
@@ -1159,7 +1228,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <div
                 key={day.dateStr}
                 className={`border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
- }`}
+                  }`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -1295,8 +1364,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   <div
                     key={idx}
                     className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10 border-solid'
- : ' border-white/10 border-dashed'
- }`}
+                      : ' border-white/10 border-dashed'
+                      }`}
                   />
                 ))}
               </div>
@@ -1368,7 +1437,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             right: '4px',
                           }}
                           className={`wiw-card text-white p-1 rounded-lg font-bold overflow-hidden cursor-pointer ${shift.isDraft ? 'wiw-striped' : ''
- }`}
+                            }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
                           <div className="text-purple-300 font-bold text-[var(--font-size-5xs)] uppercase truncate">{shift.role || 'Crew'}</div>
@@ -1387,161 +1456,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
     return (
       <section className="overflow-hidden">
-        <style>{`
-          .wiw-scheduler-container {
-            color: #ffffff;
-            font-family: 'Switzer', var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar {
-            width: 12px !important;
-            height: 12px !important;
-            display: block !important;
-            -webkit-appearance: none !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-track {
-            background: rgba(88, 28, 135, 0.25) !important;
-            border-radius: 9999px !important;
-            border: 1px solid rgba(192, 132, 252, 0.35) !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%) !important;
-            border-radius: 9999px !important;
-            box-shadow: 0 0 12px 2px rgba(192, 132, 252, 0.9), inset 0 0 6px rgba(255, 255, 255, 0.2) !important;
-            border: 2px solid rgba(255, 255, 255, 0.25) !important;
-            min-height: 40px !important;
-            min-width: 40px !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #a855f7 100%) !important;
-            box-shadow: 0 0 20px 4px rgba(192, 132, 252, 1) !important;
-          }
-          .wiw-scheduler-container td, .wiw-scheduler-container th {
-            border-style: solid;
-            border-width: 1px !important;
-            border-color: #ffffff1f !important;
-          }
-          .wiw-scheduler-container thead {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-          }
-          .wiw-sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-col {
-            position: sticky;
-            left: 0;
-            z-index: 20;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-           
-          }
-          .wiw-sticky-corner {
-            position: sticky;
-            top: 0;
-            left: 0;
-            z-index: 40;
-            background-color: rgba(15, 15, 24, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-header-2 {
-            position: sticky;
-            top: 46px;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-corner-2 {
-            position: sticky;
-            top: 46px;
-            left: 0;
-            z-index: 40;
-            background-color: rgba(15, 15, 24, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          tr:hover .wiw-sticky-col {
-            background-color: rgba(25, 25, 35, 0.9) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
-          }
-          .wiw-card {
-            transition: all 0.15s ease-in-out;
-            position: relative;
-          }
-          .wiw-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
-          }
-          .wiw-striped {
-            background-image: repeating-linear-gradient(
-              -45deg,
-              rgba(255, 255, 255, 0.15),
-              rgba(255, 255, 255, 0.15) 8px,
-              transparent 8px,
-              transparent 16px
-            ) !important;
-          }
-          .wiw-tooltip-container {
-            position: relative;
-          }
-          .wiw-tooltip {
-            visibility: hidden;
-            position: absolute;
-            z-index: 100;
-            bottom: 125%;
-            left: 20px;
-            opacity: 0;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-            transform: translateY(5px);
-          }
-          .wiw-tooltip-container:hover .wiw-tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-          }
-          .info-tooltip-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-          }
-          .info-tooltip {
-            visibility: hidden;
-            position: absolute;
-            z-index: 101;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            opacity: 0;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-            white-space: nowrap;
-          }
-          .info-tooltip-container:hover .info-tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-          @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
+
 
         {/* Section Header */}
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
@@ -1614,7 +1529,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
                 <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
                   <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-                    <div className="w-10 h-10 bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
+                    <div className=" w-11 h-11  bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
 
                     </div>
                     <div>
@@ -1772,9 +1687,9 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     type="button"
                     onClick={handleGoToMonth}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month'
- ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg- purple-white/20'
- : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
- }`}
+                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg- purple-white/20'
+                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      }`}
                   >
                     MONTH
                   </button>
@@ -1810,8 +1725,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       type="button"
                       onClick={() => setShowTourDropdown(prev => !prev)}
                       className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
- : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
- }`}
+                        : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                        }`}
                     >
                       SHOWS
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
@@ -1861,8 +1776,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     type="button"
                     onClick={() => setShowTourDatesOnly(prev => !prev)}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
- : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
- }`}
+                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      }`}
                     title="Show only days with tour shows"
                   >
                     {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
@@ -1888,8 +1803,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     type="button"
                     onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-bold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
- : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
- }`}
+                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      }`}
                     title="Search & advanced filters by person, venue, date range, and event type"
                   >
                     <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
@@ -2348,8 +2263,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                       type="button"
                                       onClick={() => setOnlyShowFitRole(true)}
                                       className={`px-2 py-0.5 font-bold uppercase rounded transition-colors cursor-pointer ${onlyShowFitRole ? 'bg-purple-600 text-white font-bold '
- : ' text-white hover:text-white'
- }`}
+                                        : ' text-white hover:text-white'
+                                        }`}
                                     >
                                       Fit Role ({editingShift.role})
                                     </button>
@@ -2357,8 +2272,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                       type="button"
                                       onClick={() => setOnlyShowFitRole(false)}
                                       className={`px-2 py-0.5 font-bold uppercase rounded transition-colors cursor-pointer ${!onlyShowFitRole ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-bold '
- : ' text-white hover:text-white'
- }`}
+                                        : ' text-white hover:text-white'
+                                        }`}
                                     >
                                       Override (All)
                                     </button>
@@ -2451,8 +2366,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                               setEditingShiftId(null);
                                             }}
                                             className={`px-2 py-1 font-bold uppercase rounded transition-colors border-none ${isOverlapping ? ' bg-[#00000029] text-white/20 cursor-not-allowed'
- : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
- }`}
+                                              : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
+                                              }`}
                                           >
                                             Assign
                                           </button>
@@ -2552,8 +2467,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                         <div
                                           key={member.id}
                                           className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active ? 'bg-transparent border border-purple-500/40 shadow-purple-900/20'
- : 'border border-transparent'
- }`}
+                                            : 'border border-transparent'
+                                            }`}
                                         >
                                           <div className="flex items-center justify-between">
                                             <label className="flex items-center gap-3 select-none cursor-pointer w-full">
@@ -2737,8 +2652,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                               setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => i === index ? { ...item, role: newRoleStr } : item));
                                                             }}
                                                             className={`px-2 py-0.5 rounded-full text-[10.5px] font-bold uppercase border transition-colors cursor-pointer font-sans ${isSelected ? 'bg-purple-600 text-white border-purple-500 font-bold '
- : ' bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:bg-white/10'
- }`}
+                                                              : ' bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                              }`}
                                                           >
                                                             {isSelected ? ` ${preset}` : preset}
                                                           </button>
@@ -3229,8 +3144,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                     }));
                                                   }}
                                                   className={`px-1.5 py-0.5 rounded-full font-bold uppercase border transition-colors cursor-pointer ${isSelected ? 'bg-purple-600 text-white border-purple-500 '
- : ' bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:bg-white/10'
- }`}
+                                                    : ' bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                    }`}
                                                   style={{ fontSize: '7.5px' }}
                                                 >
                                                   {isSelected ? `✓ ${preset}` : preset}

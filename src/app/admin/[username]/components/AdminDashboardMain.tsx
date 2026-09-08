@@ -210,14 +210,14 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0 "
+        className=" w-11 h-11  rounded-full object-cover border border-white/10 shrink-0 "
       />
     );
   }
 
   return (
     <div
-      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold shrink-0 text-white select-none border border-white/10"
+      className=" w-11 h-11  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold shrink-0 text-white select-none border border-white/10"
       style={{ color: '#ffffff' }}
     >
       {initials}
@@ -243,7 +243,7 @@ const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029] !rounded-none'
+      className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group !rounded-none ${isSelected ? ' bg-[#00000029] !rounded-none'
         : isActiveWeek
           ? ' bg-[#00000029] '
           : 'bg-transparent'
@@ -4283,7 +4283,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         }}
                         className="col-span-4 relative flex items-center gap-3 cursor-pointer group"
                       >
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center font-bold text-purple-300 text-xs shrink-0 border border-purple-500/30 group-hover:border-purple-400">
+                        <div className=" w-11 h-11  rounded-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center font-bold text-purple-300 text-xs shrink-0 border border-purple-500/30 group-hover:border-purple-400">
                           {b.name?.substring(0, 2).toUpperCase() || 'EP'}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -4564,7 +4564,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                   <div key={planner.email} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-white/10 px-4 py-4 transition-colors bg-[#00000029]">
                     <div className="col-span-12 md:col-span-4 flex items-center gap-4 min-w-0">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center font-bold text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
+                      <div className=" w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center font-bold text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
                         {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
                       </div>
                       <div className="overflow-hidden min-w-0">
@@ -5579,7 +5579,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             return (
                               <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none bg-[#00000029] !mb-0">
                                 <div
-                                  className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? 'text-white'
+                                  className={`flex items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? 'text-white'
                                     : ''
                                     }`}
                                   title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
@@ -5603,7 +5603,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <img
                                           src={avatarSrc}
                                           alt={r.name}
-                                          className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
+                                          className={` w-11 h-11  rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
                                           onError={(e) => {
                                             const fallback = resolveMemberAvatar(r.name, '');
                                             if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -5613,7 +5613,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         />
                                       ) : (
                                         <div
-                                          className={`w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
+                                          className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans ${!r.phone ? 'opacity-40' : ''}`}
 
                                         >
                                           {getFirstAndLastInitials(r.name)}
@@ -6473,7 +6473,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       <img
                                         src={avatarSrc}
                                         alt={r.name}
-                                        className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/10 "
+                                        className=" w-11 h-11  rounded-full object-cover shrink-0 border-2 border-white/10 "
                                         onError={(e) => {
                                           const fallback = resolveMemberAvatar(r.name, '');
                                           if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -6483,7 +6483,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       />
                                     ) : (
                                       <div
-                                        className="w-10 h-10 rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans"
+                                        className=" w-11 h-11  rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center font-bold text-white uppercase font-sans"
                                         style={{ backgroundColor: getAvatarColor(r.name) }}
                                       >
                                         {getFirstAndLastInitials(r.name)}
@@ -7057,7 +7057,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {isSectionOpen('registry') && (<>
           <div className="w-full text-left">
             {/* Fixed Header Row */}
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.9rem] uppercase border-b border-black/10 dark: border-white/10 font-bold select-none">
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 uppercase border-b border-black/10 dark:border-white/10 font-bold select-none">
               <div>User</div>
               <div>Role</div>
               <div>Status</div>
@@ -7090,14 +7090,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <img
                                     src={avatarSrc}
                                     alt={user.name}
-                                    className="w-9 h-9 rounded-full object-cover shrink-0 border border-purple-400/30 "
+                                    className=" w-11 h-11  rounded-full object-cover shrink-0 border border-purple-400/30 "
                                     onError={(e) => {
                                       (e.currentTarget as HTMLElement).style.display = 'none';
                                     }}
                                   />
                                 ) : (
                                   <div
-                                    className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
+                                    className=" w-11 h-11  rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
                                     style={{ backgroundColor: getAvatarColor(user.name) }}
                                   >
                                     {user.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '?'}
@@ -7108,7 +7108,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           </div>
                           <div className="">
-                            <span className={`px-2 py-0.5 rounded text-[0.9rem] font-bold uppercase ${user.role === 'crew' || user.role === 'admin' ? ' text-[var(--color-accent)] ' : ' text-white '}`}>
+                            <span className={`py-0.5 rounded text-[0.9rem] font-bold uppercase ${user.role === 'crew' || user.role === 'admin' ? ' text-[var(--color-accent)] ' : ' text-white '}`}>
                               {user.role}
                             </span>
                           </div>
@@ -7318,7 +7318,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
+                    <div className=" w-11 h-11  rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
                       <h4 className="font-bold">Crew Account Created</h4>
                       <p className="mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
@@ -7466,7 +7466,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="mt-4 p-5 bg-purple-600/[0.08] border border-purple-500/30">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
+                    <div className=" w-11 h-11  rounded-full bg-white/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
                       <h4 className="font-bold text-purple-300">Admin Account Created</h4>
                       <p className="mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
@@ -8236,25 +8236,66 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     };
 
     const roleStyles: Record<string, { bg: string, tagBg: string, label: string }> = {
-      SERVER: { bg: '#0ea5e9', tagBg: '#0369a1', label: 'SERVER' },       // Vibrant Cyan / Sky Blue
-      BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },       // Vibrant Emerald Green
-      LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },  // Vibrant Indigo
-      CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },           // Vibrant Rose Red
-      HOST: { bg: '#9333ea', tagBg: '#6b21a8', label: 'HOST' },           // Vibrant Amber Gold
-      MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },     // Vibrant Purple / Violet
-      POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' },   // Vibrant Electric Teal
-      UNLOADING: { bg: '#f97316', tagBg: '#c2410c', label: 'UNLOADING' },  // Orange
-      CAMERA: { bg: '#ec4899', tagBg: '#be185d', label: 'CAMERA' },        // Pink
+      TOUR_MANAGER: { bg: '#9333ea', tagBg: '#6b21a8', label: 'TOUR MANAGER' },     // Amethyst Purple
+      STAGE_MANAGER: { bg: '#6366f1', tagBg: '#4338ca', label: 'STAGE MANAGER' },   // Indigo
+      STAGE_HAND: { bg: '#0d9488', tagBg: '#0f766e', label: 'STAGE HAND' },         // Teal
+      SOUND_ENGINEER: { bg: '#06b6d4', tagBg: '#0891b2', label: 'SOUND ENGINEER' }, // Electric Cyan
+      AUDIO_ENGINEER: { bg: '#06b6d4', tagBg: '#0891b2', label: 'AUDIO ENGINEER' },
+      AUDIO_MIX: { bg: '#0284c7', tagBg: '#0369a1', label: 'AUDIO MIX' },           // Sky Blue
+      AUDIO: { bg: '#0284c7', tagBg: '#0369a1', label: 'AUDIO' },
+      LIGHTS: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTS' },               // Gold / Yellow
+      LIGHTING: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTING' },
+      MERCH: { bg: '#f43f5e', tagBg: '#be123c', label: 'MERCH' },                 // Rose Crimson
+      MERCHANDISE: { bg: '#f43f5e', tagBg: '#be123c', label: 'MERCHANDISE' },
+      ROAD_MANAGER: { bg: '#f97316', tagBg: '#c2410c', label: 'ROAD MANAGER' },     // Coral Orange
+      DRIVER: { bg: '#84cc16', tagBg: '#4d7c0f', label: 'DRIVER' },                 // Lime Green
+      SECURITY: { bg: '#475569', tagBg: '#334155', label: 'SECURITY' },             // Steel Slate
+      CAMERA: { bg: '#ec4899', tagBg: '#be185d', label: 'CAMERA' },               // Hot Pink
+      VIDEO: { bg: '#ec4899', tagBg: '#be185d', label: 'VIDEO' },
       BAND_EQUIPMENT: { bg: '#8b5cf6', tagBg: '#6d28d9', label: 'BAND EQUIPMENT' }, // Violet
-      AUDIO_MIX: { bg: '#a855f7', tagBg: '#7e22ce', label: 'AUDIO MIX' },  // Purple
-      LIGHTS: { bg: '#eab308', tagBg: '#a16207', label: 'LIGHTS' },        // Yellow
-      MERCH: { bg: '#14b8a6', tagBg: '#0f766e', label: 'MERCH' }          // Teal
+      BACKLINE: { bg: '#8b5cf6', tagBg: '#6d28d9', label: 'BACKLINE' },
+      UNLOADING: { bg: '#ea580c', tagBg: '#9a3412', label: 'UNLOADING' },         // Burnt Orange
+      LOAD_IN: { bg: '#ea580c', tagBg: '#9a3412', label: 'LOAD IN' },
+      LOAD_OUT: { bg: '#c2410c', tagBg: '#7c2d12', label: 'LOAD OUT' },
+      VOCALS: { bg: '#a855f7', tagBg: '#7e22ce', label: 'VOCALS' },               // Purple
+      GUITAR: { bg: '#dc2626', tagBg: '#991b1b', label: 'GUITAR' },               // Red
+      BASS: { bg: '#2563eb', tagBg: '#1d4ed8', label: 'BASS' },                   // Blue
+      DRUMS: { bg: '#d97706', tagBg: '#b45309', label: 'DRUMS' },                 // Amber
+      KEYS: { bg: '#10b981', tagBg: '#047857', label: 'KEYS' },                   // Emerald
+      SERVER: { bg: '#0ea5e9', tagBg: '#0369a1', label: 'SERVER' },
+      BUSSER: { bg: '#10b981', tagBg: '#047857', label: 'BUSSER' },
+      LINE_COOK: { bg: '#6366f1', tagBg: '#4338ca', label: 'LINE COOK' },
+      CHEF: { bg: '#f43f5e', tagBg: '#be123c', label: 'CHEF' },
+      HOST: { bg: '#9333ea', tagBg: '#6b21a8', label: 'HOST' },
+      MANAGER: { bg: '#a855f7', tagBg: '#7e22ce', label: 'MANAGER' },
+      POSITION: { bg: '#06b6d4', tagBg: '#0891b2', label: 'POSITION' },
     };
 
+    const ROLE_PALETTE_FALLBACKS = [
+      { bg: '#9333ea', tagBg: '#6b21a8' },
+      { bg: '#0d9488', tagBg: '#0f766e' },
+      { bg: '#f43f5e', tagBg: '#be123c' },
+      { bg: '#f97316', tagBg: '#c2410c' },
+      { bg: '#6366f1', tagBg: '#4338ca' },
+      { bg: '#06b6d4', tagBg: '#0891b2' },
+      { bg: '#eab308', tagBg: '#a16207' },
+      { bg: '#ec4899', tagBg: '#be185d' },
+      { bg: '#10b981', tagBg: '#047857' },
+      { bg: '#8b5cf6', tagBg: '#6d28d9' },
+      { bg: '#0ea5e9', tagBg: '#0369a1' },
+      { bg: '#d97706', tagBg: '#b45309' },
+    ];
+
     const getRoleStyle = (role: string) => {
-      const norm = (role || '').toUpperCase().trim().replace(/\s+/g, '_');
-      const roleStylesTyped: Record<string, { bg: string, tagBg: string, label: string }> = roleStyles;
-      return roleStylesTyped[norm] || { bg: '#3b82f6', tagBg: '#1d4ed8', label: role };
+      if (!role) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: 'Shift' };
+      const norm = role.toUpperCase().trim().replace(/[\s\/-]+/g, '_');
+      if (roleStyles[norm]) return roleStyles[norm];
+      let hash = 0;
+      for (let i = 0; i < norm.length; i++) {
+        hash = norm.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const item = ROLE_PALETTE_FALLBACKS[Math.abs(hash) % ROLE_PALETTE_FALLBACKS.length];
+      return { bg: item.bg, tagBg: item.tagBg, label: role };
     };
 
     const getShiftColor = (shift: any, mode: 'role' | 'eventType' | 'band') => {
@@ -8645,8 +8686,32 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {!showCrewName ? (
               /* Compact When I Work style for Roster Grid */
               <div className="flex-1 flex flex-col justify-center gap-1 w-full select-none min-h-0">
+                {(() => {
+                  const member = crewMembers.find((c: any) => c.id === shift.crewId);
+                  const memberName = member?.name || shift.crewName;
+                  if (!memberName || shift.crewId === 'openshifts') return null;
+                  const avatarUrl = resolveMemberAvatar(memberName, member?.avatar || member?.avatarUrl);
+                  return (
+                    <div className="flex items-center gap-1.5 pb-0.5 border-b border-white/15 w-full overflow-hidden">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={memberName}
+                          className="w-8 h-8 rounded-full object-cover border border-white/30 shrink-0"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full  text-white  font-bold flex items-center justify-center shrink-0">
+                          {memberName[0]?.toUpperCase()}
+                        </div>
+                      )}
+                      <span className="text-[12px] font-bold text-white truncate   ">
+                        {memberName}
+                      </span>
+                    </div>
+                  );
+                })()}
                 <div className="flex items-center justify-between gap-1 w-full min-h-0">
-                  <span className=" text-[11px] font-bold text-white whitespace-nowrap">
+                  <span className=" font-bold text-white whitespace-nowrap">
                     {timeLabel}
                   </span>
                 </div>
@@ -8655,7 +8720,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string) => (
                       <span
                         key={singleRole}
-                        className="px-1.5 py-0.5 rounded text-[8.5px] font-bold uppercase leading-none bg-white/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
+                        className="px-1.5 py-0.5 rounded text-[12.5px] font-bold uppercase leading-none select-none truncate max-w-full"
                       >
                         {singleRole}
                       </span>
@@ -8867,9 +8932,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
             className="w-full flex flex-col text-left select-none bg-transparent "
           >
-            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/95 backdrop-blur-xl border-b border-white/10 shadow-lg">
+            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10 shadow-lg">
               <div className="flex w-full border-r border-[var(--border-color)] bg-transparent text-[10px] font-bold tracking-wider">
-                <div className="p-2 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase font-bold text-[10px] bg-transparent"></div>
+                <div className="p-1.5 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-[var(--color-bg-card)]">
+                  <div className="flex items-center gap-2 pl-1">
+                    <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
+                    </div>
+                    <div>
+                      <span className="font-bold block text-white text-[11px]   ">OpenShifts</span>
+                      <span className="text-[10px] font-bold uppercase leading-none text-purple-300">Positions</span>
+                    </div>
+                  </div>
+                </div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
@@ -8882,9 +8957,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 flex-1 min-w-[130px] border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? 'bg-white/20 text-purple-300 font-bold shadow-[inset_0_-3px_0_#9333ea]'
+                      className={`p-2 flex-1 min-w-[130px] border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? ' text-purple-300 font-bold '
                         : isNextShow
-                          ? 'bg-purple-500/10 text-purple-300 font-bold border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
+                          ? ' text-purple-300 font-bold border-x border-white/10'
                           : ' '
                         }`}
                       title="Click to select date & stack working crew at top"
@@ -8892,7 +8967,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <span className=" font-bold text-[10px]">{getDayLabelOverride(day.dateStr, idx)}</span>
+                            <span className=" font-bold text-[12px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
                               <span className="text-[12px] bg-purple-600 text-white px-1 py-0.5 rounded font-bold uppercase scale-[0.85] origin-left select-none">
                                 NEXT
@@ -8935,7 +9010,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[9px] font-bold uppercase text-purple-300 hover:text-white truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full text-[12px] font-bold uppercase text-purple-300 hover:text-white truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -8950,14 +9025,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
                 <div className="flex w-full border-b border-[var(--border-color)] transition-colors bg-transparent">
                   <div className="p-1 w-60 shrink-0 border-r border-[var(--border-color)] flex items-center wiw-sticky-col bg-transparent">
-                    <div className="flex items-center gap-2 pl-1">
-                      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 ">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
-                      </div>
-                      <div>
-                        <span className="font-bold block ">OpenShifts</span>
-                        <span className="text-[12px] font-bold uppercase leading-none">Positions</span>
-                      </div>
+                    <div className="flex items-center gap-2 pl-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300/80">Open Shifts</span>
                     </div>
                   </div>
                   {filteredDays.map(day => {
@@ -9167,9 +9236,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   e.stopPropagation();
                                   handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                                 }}
-                                className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[9px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-colors cursor-pointer"
+                                className="mt-1 w-full py-1 flex items-center justify-center gap-1 text-[10px] font-bold text-purple-300 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/30 rounded transition-colors cursor-pointer"
                               >
-                                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                 + ADD
                               </button>
                             )}
@@ -9427,161 +9496,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <div className="overflow-hidden">
-        <style>{`
-          .wiw-scheduler-container {
-            color: #ffffff;
-            font-family: 'Switzer', var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar {
-            width: 12px !important;
-            height: 12px !important;
-            display: block !important;
-            -webkit-appearance: none !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-track {
-            background: rgba(88, 28, 135, 0.25) !important;
-            border-radius: 9999px !important;
-            border: 1px solid rgba(192, 132, 252, 0.35) !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%) !important;
-            border-radius: 9999px !important;
-            box-shadow: 0 0 12px 2px rgba(192, 132, 252, 0.9), inset 0 0 6px rgba(255, 255, 255, 0.2) !important;
-            border: 2px solid rgba(255, 255, 255, 0.25) !important;
-            min-height: 40px !important;
-            min-width: 40px !important;
-          }
-          .wiw-scheduler-container ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #a855f7 100%) !important;
-            box-shadow: 0 0 20px 4px rgba(192, 132, 252, 1) !important;
-          }
-          .wiw-scheduler-container td, .wiw-scheduler-container th {
-            border-style: solid;
-            border-width: 1px !important;
-            border-color: #ffffff1f !important;
-          }
-          .wiw-scheduler-container thead {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-          }
-          .wiw-sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-col {
-            position: sticky;
-            left: 0;
-            z-index: 20;
-            background-color: rgba(15, 15, 24, 0.56) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-           
-          }
-          .wiw-sticky-corner {
-            position: sticky;
-            top: 0;
-            left: 0;
-            z-index: 40;
-            background-color: rgba(15, 15, 24, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-header-2 {
-            position: sticky;
-            top: 46px;
-            z-index: 30;
-            background-color: rgba(15, 15, 24, 0.96) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          .wiw-sticky-corner-2 {
-            position: sticky;
-            top: 46px;
-            left: 0;
-            z-index: 40;
-            background-color: rgba(15, 15, 24, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            color: var(--text-color) !important;
-          }
-          tr:hover .wiw-sticky-col {
-            background-color: rgba(25, 25, 35, 0.9) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
-          }
-          .wiw-card {
-            transition: all 0.15s ease-in-out;
-            position: relative;
-          }
-          .wiw-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
-          }
-          .wiw-striped {
-            background-image: repeating-linear-gradient(
-              -45deg,
-              rgba(255, 255, 255, 0.15),
-              rgba(255, 255, 255, 0.15) 8px,
-              transparent 8px,
-              transparent 16px
-            ) !important;
-          }
-          .wiw-tooltip-container {
-            position: relative;
-          }
-          .wiw-tooltip {
-            visibility: hidden;
-            position: absolute;
-            z-index: 100;
-            bottom: 125%;
-            left: 20px;
-            opacity: 0;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-            transform: translateY(5px);
-          }
-          .wiw-tooltip-container:hover .wiw-tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-          }
-          .info-tooltip-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-          }
-          .info-tooltip {
-            visibility: hidden;
-            position: absolute;
-            z-index: 101;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            opacity: 0;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-            white-space: nowrap;
-          }
-          .info-tooltip-container:hover .info-tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-          @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
+
+
 
         {/* Section Header */}
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
@@ -9655,7 +9571,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
                 <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
                   <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-                    <div className="w-10 h-10 bg-white/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
+                    <div className=" w-11 h-11  bg-white/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
 
                     </div>
                     <div>
@@ -10231,7 +10147,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {/* Gradient Blur Fade Overlays */}
-                    <div className="pointer-events-none absolute top-[44px] left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] z-10" />
+                    <div className="pointer-events-none absolute top-[50px] left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] z-10" />
                     <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] z-10" />
 
                     <CustomScrollbar className="bg-[#0a00653b] flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
@@ -10617,14 +10533,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     <img
                                                       src={avatarSrc}
                                                       alt={member.name}
-                                                      className="w-9 h-9 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                      className=" w-11 h-11  rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
                                                       onError={(e) => {
                                                         (e.currentTarget as HTMLElement).style.display = 'none';
                                                       }}
                                                     />
                                                   ) : (
                                                     <div
-                                                      className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                      className=" w-11 h-11  rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0 font-sans bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
                                                     >
                                                       {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                     </div>
@@ -11862,7 +11778,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div className="flex justify-end pt-2 border-t border-white/5">
-                    <button
+                    <FoolishShrimpButton
+                      type="button"
                       onClick={async () => {
                         if (adminGuidelinesUpdatingRef.current) return;
                         adminGuidelinesUpdatingRef.current = true;
@@ -11891,10 +11808,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         }
                       }}
                       disabled={adminGuidelinesUpdating}
-                      className="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+                      className="px-8 py-3.5 !h-auto disabled:opacity-50 cursor-pointer"
                     >
-                      <span>{adminGuidelinesUpdating ? 'SAVING...' : 'SAVE GUIDELINES'}</span>
-                    </button>
+                      {adminGuidelinesUpdating ? 'SAVING...' : 'SAVE GUIDELINES'}
+                    </FoolishShrimpButton>
                   </div>
                 </div>
               </div>
@@ -12007,7 +11924,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         >
                           {cruiseUpdating ? 'Dispatching...' : 'Dispatch Notice & Email'}
                         </FoolishShrimpButton>
-                        <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
+                        <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className=" w-11 h-11  flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
                           <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
                         </button>
                       </div>
