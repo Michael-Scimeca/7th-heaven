@@ -68,7 +68,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
             </button>
             {/* Title */}
             <div className="mb-4">
-              <h3 className="font-bold text-white uppercase tracking-wide" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+              <h3 className="font-bold text-white uppercase tracking-wide" style={{ fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -109,7 +109,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Titles */}
         <div>
-          <h3 className="font-bold text-white uppercase tracking-wide mb-1.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>{f.title}</h3>
+          <h3 className="font-bold text-white uppercase tracking-wide mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
           <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 

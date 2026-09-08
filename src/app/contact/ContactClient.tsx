@@ -100,7 +100,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
 
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none">
           CONTACT
         </h1>
         <p className="  mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl ">

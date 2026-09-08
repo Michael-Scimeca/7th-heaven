@@ -89,7 +89,7 @@ export default function CruiseHeroSection({
         </div>
 
         {/* Main Title: Cruise Name */}
-        <h1 className="font-bold uppercase er text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+        <h1 className="font-bold uppercase er text-white leading-none">
           7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span>
         </h1>
 

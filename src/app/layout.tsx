@@ -190,7 +190,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body style={{ fontFamily: "var(--font-family-sans, 'Switzer', sans-serif)", letterSpacing: "0" }} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <HomeShaderGradient />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />

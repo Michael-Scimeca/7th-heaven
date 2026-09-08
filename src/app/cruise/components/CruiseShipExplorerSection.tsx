@@ -14,7 +14,7 @@ export default function CruiseShipExplorerSection() {
     <div id="ship-explorer" className="py-[32px] md:py-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
-          <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h2 className="font-bold uppercase text-white leading-none">
             Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
@@ -40,7 +40,7 @@ export default function CruiseShipExplorerSection() {
         {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
         <div className="mb-16">
           <div className="mb-6 text-left">
-            <h3 className="font-bold uppercase text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h3 className="font-bold uppercase text-white">
               Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
             </h3>
             <p className="font-semibold mt-1">

@@ -12,7 +12,7 @@ export default function CruiseFaqSection() {
     <div id="faqs" className="pt-20 pb-10" style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}>
       <LazyMount minHeight="600px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
-          <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h2 className="font-bold uppercase text-white leading-none">
             Frequently Asked <span className="accent-gradient-text">Questions</span>
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">

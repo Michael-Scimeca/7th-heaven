@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/three-prefer-set-animation-loop, react-doctor/no-high-complexity-react-function */
 /* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 'use client';
@@ -563,7 +564,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </span>
         <h3
           className="font-bold uppercase text-white "
-          style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>

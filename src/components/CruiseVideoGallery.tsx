@@ -200,7 +200,6 @@ export default function CruiseVideoGallery() {
         </div>
         <h2
           className="md:text-6xl font-bold uppercase text-white leading-none"
-          style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>

@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 /* eslint-disable react-doctor/no-initialize-state */
 /* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element, react-doctor/img-redundant-alt */
 "use client";
@@ -194,7 +195,7 @@ export default function FansPage() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-10 pt-4">
             <div className="text-left">
 
-              <h1 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h1 className="font-bold uppercase text-white leading-none">
                 FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
               </h1>
               <p className="  mt-3 max-w-2xl ">

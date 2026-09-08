@@ -475,7 +475,6 @@ export default function MediaPage() {
                   <div className="h-10 sm:h-14 flex items-center justify-center">
                     <h3
                       className="font-bold uppercase text-white drop-shadow-md line-clamp-2"
-                      style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), sans-serif" }}
                     >
                       {video.title}
                     </h3>

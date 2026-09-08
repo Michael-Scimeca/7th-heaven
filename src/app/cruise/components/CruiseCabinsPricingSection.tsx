@@ -69,7 +69,7 @@ export default function CruiseCabinsPricingSection({
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <section id="pricing" className="pt-4 sm:pt-8 pb-16 relative z-20">
           <div className="text-left max-w-3xl mb-6">
-            <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="font-bold uppercase text-white leading-none">
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
             </h2>
             <p className="mt-4 font-semibold">
@@ -466,7 +466,7 @@ export default function CruiseCabinsPricingSection({
               <div className="mb-3">
                 <SectionBadge label="Accommodations Guide" />
               </div>
-              <h3 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="font-bold uppercase text-white leading-none">
                 Stateroom Catalog &amp; Suite Perks
               </h3>
             </div>
@@ -569,7 +569,7 @@ export default function CruiseCabinsPricingSection({
           <div id="signup" className="relative z-10">
             <div>
               <div className="mb-8 text-left">
-                <h2 className="font-bold uppercase mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase mb-1 text-white">
                   Official <span className="accent-gradient-text">Booking Form</span> &amp; Reservation Portal
                 </h2>
                 <p className="font-semibold">
@@ -768,7 +768,7 @@ export default function CruiseCabinsPricingSection({
       <LazyMount minHeight="500px" rootMargin="300px 0px">
         <section id="artists" className="py-section-fluid">
           <div className="text-left w-full mb-10">
-            <h2 className="font-bold uppercase text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="font-bold uppercase text-white leading-none mt-2">
               Featured <span className="accent-gradient-text">Artists</span>
             </h2>
           </div>

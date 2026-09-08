@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -281,7 +282,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-white truncate uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h4 className="font-bold text-white truncate uppercase">
                   {track.title}
                 </h4>
                 {currentSong && (
@@ -394,7 +395,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="font-bold uppercase er text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="font-bold uppercase er text-white mb-2">
                 Exclusive Fan Release
               </h3>
               <p className="   max-w-md mx-auto mb-8">
@@ -435,7 +436,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <span className=" text-[0.9rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="font-bold text-white mt-2 truncate uppercase" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h4 className="font-bold text-white mt-2 truncate uppercase">
                     {track.title}
                   </h4>
                   {currentSong && (

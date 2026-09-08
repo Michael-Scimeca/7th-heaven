@@ -1,4 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/three-prefer-set-animation-loop */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -261,7 +263,7 @@ export default function LiveHubPage() {
       {/* ── HERO HEADER ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
         <div className="text-left">
-          <h1 className="font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none">
             LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
           </h1>
           <p className="  mt-3 max-w-2xl ">

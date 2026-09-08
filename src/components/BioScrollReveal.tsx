@@ -78,7 +78,6 @@ export default function BioScrollReveal({
         </span>
         <h2
           className="md:text-6xl font-bold uppercase er text-white"
-          style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           {title}
         </h2>
@@ -111,7 +110,6 @@ export default function BioScrollReveal({
                   className={`md:text-7xl font-bold uppercase transition-all duration-300 ${isActive ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                     : "text-white/30 group-hover:text-white/70"
                     }`}
-                  style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
                 >
                   {member.name}
                 </h3>

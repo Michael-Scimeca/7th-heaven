@@ -28,7 +28,7 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl font-bold text-white tabular-nums leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl font-bold text-white tabular-nums leading-none" style={{ fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
       <div className="text-base font-bold uppercase tracking-[0.15em] text-white mt-2">{label}</div>
@@ -60,7 +60,7 @@ export default function FeaturesPage() {
             Full Platform Overview · All Features Live & Documented
           </div>
 
-          <h1 className="text-6xl font-bold uppercase text-white mb-6 leading-[0.9] " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h1 className="text-6xl font-bold uppercase text-white mb-6 leading-[0.9] " style={{ fontStyle: "italic" }}>
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 
@@ -100,7 +100,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
+            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -114,7 +114,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -142,7 +142,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Built With</h2>
+            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -167,7 +167,7 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl font-bold uppercase text-white mb-4 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl font-bold uppercase text-white mb-4 leading-none" style={{ fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>

@@ -12,7 +12,7 @@ html {
 body {
   background-color: var(--bg-color, #05030a);
   color: var(--text-color, #ffffff);
-  font-family: 'Switzer', system-ui, sans-serif;
+  font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
   font-weight: 400;
   font-size: 1rem;
   line-height: var(--leading-body, 1.65);
@@ -30,6 +30,10 @@ p {
   line-height: 1.5rem;
   color: #ffffff;
   font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
 }
 
 h1 {

@@ -20,7 +20,7 @@ export default function CruisePortsCatalogSection() {
           <div>
             <div className="text-center md:text-left mb-10">
               <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
-              <h3 className="font-bold uppercase italic text-white mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+              <h3 className="font-bold uppercase italic text-white mt-0.5">
                 Ports of Call Catalog
               </h3>
             </div>
@@ -86,7 +86,7 @@ export default function CruisePortsCatalogSection() {
                     </div>
                   </div>
                   <div className="p-8 relative z-20 -mt-16">
-                    <h3 className="font-bold uppercase text-white mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    <h3 className="font-bold uppercase text-white mb-3">
                       {PORTS_DATA[activeSpotlightPort].name}
                     </h3>
                     <p className="mb-4">

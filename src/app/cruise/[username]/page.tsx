@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 /* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
 /* eslint-disable react-doctor/nextjs-no-client-side-redirect */
@@ -891,7 +892,7 @@ export default function CruiseDashboard() {
             <span className="font-bold uppercase tracking-[0.25em]   ">
               Interactive Voyage Map
             </span>
-            <h2 className="font-bold uppercase text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="font-bold uppercase text-white mt-1 leading-none">
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="mt-4 font-semibold">

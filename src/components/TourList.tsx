@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 /* eslint-disable react-doctor/prefer-useReducer */
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
@@ -1347,7 +1348,7 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div className="pt-0.5">
-                      <h4 className="font-bold text-white uppercase " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      <h4 className="font-bold text-white uppercase ">{show.venue}</h4>
                       {(show.city || show.state) && (
                         <p className="flex items-center gap-1.5 mt-1 font-semibold">
                           <MapPin className="w-4 h-4 text-purple-400 shrink-0" />

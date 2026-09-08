@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 import Image from 'next/image';
 import { createPortal } from "react-dom";
@@ -822,7 +823,7 @@ export function Header() {
                     </div>
                   </div>
 
-                  <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:'Switzer', var(--font-barlow-condensed)]">
+                  <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full">
                     {[
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
