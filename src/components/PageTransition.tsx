@@ -146,16 +146,43 @@ function pathOf(href: string): string {
   }
 }
 
+function cubicBezier(p1x: number, p1y: number, p2x: number, p2y: number) {
+  return function (t: number): number {
+    if (t <= 0) return 0;
+    if (t >= 1) return 1;
+    let sampleT = t;
+    for (let i = 0; i < 8; i++) {
+      const currentX = 3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1x + 3 * (1 - sampleT) * sampleT * sampleT * p2x + sampleT * sampleT * sampleT - t;
+      if (Math.abs(currentX) < 0.0001) break;
+      const currentSlope = 3 * (1 - sampleT) * (1 - sampleT) * p1x + 6 * (1 - sampleT) * sampleT * (p2x - p1x) + 3 * sampleT * sampleT * (1 - p2x);
+      if (Math.abs(currentSlope) < 0.00001) break;
+      sampleT -= currentX / currentSlope;
+    }
+    return 3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1y + 3 * (1 - sampleT) * sampleT * sampleT * p2y + sampleT * sampleT * sampleT;
+  };
+}
+
+const EASE_MAP: Record<string, (t: number) => number> = {
+  "expo.out": (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  "power3.out": (t) => 1 - Math.pow(1 - t, 3),
+  "power2.out": (t) => 1 - Math.pow(1 - t, 2),
+  "circ.out": (t) => Math.sqrt(1 - Math.pow(t - 1, 2)),
+  "sine.out": (t) => Math.sin((t * Math.PI) / 2),
+  "exo": cubicBezier(0.496, 0.004, 0, 1),
+  "linear": (t) => t,
+};
+
+function solveEase(name: string): (t: number) => number {
+  return EASE_MAP[name] || EASE_MAP["expo.out"];
+}
+
 export default function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { mode, pendingHref, setMode, clearPendingHref, requestTransition } = useTransition();
 
   const outerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
-  const contentTweenRef = useRef<gsap.core.Tween | null>(null);
   const revealStartedForRef = useRef<string | null>(null);
-  const outgoingTweensRef = useRef<(gsap.core.Tween | gsap.core.Timeline)[]>([]);
 
   // Live tuning settings & persistence
   const [settings, setSettings] = useState<TransitionSettings>(DEFAULT_SETTINGS);
@@ -217,13 +244,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   const triggerReplay = useCallback(() => {
     const currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
-    tweenRef.current?.kill();
-    contentTweenRef.current?.kill();
-    outgoingTweensRef.current.forEach((t) => t.kill());
-    outgoingTweensRef.current = [];
-    document.querySelectorAll(".exoape-snapshot-inner, .exoape-snapshot-overlay").forEach((el) => {
-      gsap.killTweensOf(el);
-    });
     document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
     document.documentElement.classList.remove("is-page-transitioning");
 
@@ -240,7 +260,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(next));
     } catch { }
 
     setTimeout(() => {
@@ -248,6 +268,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }, 20);
   };
 
+  // Pure Vanilla JS requestAnimationFrame Animation Engine
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
 
@@ -274,17 +295,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
-    tweenRef.current?.kill();
-    contentTweenRef.current?.kill();
-    outgoingTweensRef.current.forEach((t) => t.kill());
-    outgoingTweensRef.current = [];
-    document.querySelectorAll(".exoape-snapshot-inner, .exoape-snapshot-overlay").forEach((el) => {
-      gsap.killTweensOf(el);
-    });
     document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
 
-    const windowHeight = typeof window !== "undefined" ? window.innerHeight : 800;
     const initialScrollY = typeof window !== "undefined" ? window.scrollY : 0;
+    const s = settingsRef.current;
+    const durationMs = s.exitSpeed * s.speedMult * 1000;
+    const easeFn = solveEase(s.exitEase);
 
     const snapshotOuter = document.createElement("div");
     snapshotOuter.className = "exoape-snapshot-outer";
@@ -299,23 +315,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       background-color: ${CURTAIN_BG};
     `;
 
-    const s = settingsRef.current;
-    const exitDuration = s.exitSpeed * s.speedMult;
-    const exitEase = s.exitEase;
-    const exitOrigin = s.exitOrigin || "center center";
-
-    const offset = s.revealDurationOffset !== undefined ? s.revealDurationOffset : 0.25;
-    const revealDuration = (s.exitSpeed + offset) * s.speedMult;
-    const revealEase = s.revealEase;
-    const revealOrigin = s.revealOrigin || "top left";
-    const revealStartTime = exitDuration * 0.35;
-
     const snapshotInner = document.createElement("div");
     snapshotInner.className = "exoape-snapshot-inner";
     snapshotInner.style.cssText = `
       width: 100%;
       min-height: 100vh;
-      transform-origin: ${exitOrigin};
+      transform-origin: ${s.exitOrigin || "center center"};
     `;
 
     const snapshotOverlay = document.createElement("div");
@@ -339,32 +344,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
-    revealStartedForRef.current = null;
-
-    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
-
-    snapshotOuter.style.willChange = s.clipExitPath ? "clip-path" : "";
-    snapshotOuter.style.clipPath = s.clipExitPath
-      ? buildExitClipPath(0, s.exitSlantRatio, s.exitFlipSlant, viewportHeight)
-      : "none";
-
-    if (outerRef.current) {
-      outerRef.current.style.willChange = s.clipRevealPath ? "clip-path" : "";
-      outerRef.current.style.clipPath = s.clipRevealPath
-        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant, viewportHeight)
-        : "none";
-    }
-
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
-      gsap.set(contentRef.current, {
-        opacity: 1,
-        x: s.revealX || 0,
-        y: s.revealY ?? 100,
-        scale: s.revealScale,
-        rotation: s.revealRotation ?? 4,
-        transformOrigin: revealOrigin,
-      });
+      contentRef.current.style.transformOrigin = s.revealOrigin || "center center";
+    }
+    if (outerRef.current) {
+      outerRef.current.style.willChange = "clip-path";
     }
 
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
@@ -373,8 +358,61 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       window.scrollTo(0, 0);
     }
 
-    const masterTl = gsap.timeline({
-      onComplete: () => {
+    let animId = 0;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, Math.max(0, elapsed / durationMs));
+      const p = easeFn(progress);
+
+      const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+
+      // 1. Snapshot outer clip path & inner transform
+      if (snapshotOuter) {
+        snapshotOuter.style.clipPath = s.clipExitPath
+          ? buildExitClipPath(p, s.exitSlantRatio, s.exitFlipSlant, vh)
+          : "none";
+      }
+
+      if (snapshotInner) {
+        const curX = (s.exitX || 0) * p;
+        const curY = -initialScrollY + (s.exitY || 0) * p;
+        const curScale = 1 + ((s.exitScale || 1.1) - 1) * p;
+        const curRot = (s.exitRotation || 0) * p;
+        const curOpacity = 1 - p;
+
+        snapshotInner.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+        snapshotInner.style.opacity = curOpacity.toFixed(3);
+      }
+
+      if (snapshotOverlay) {
+        snapshotOverlay.style.opacity = (0.3 * p).toFixed(3);
+      }
+
+      // 2. Incoming page clip path
+      if (outerRef.current) {
+        outerRef.current.style.clipPath = s.clipRevealPath
+          ? buildRevealClipPath(p, s.revealSlantRatio, s.revealFlipSlant, vh)
+          : "none";
+      }
+
+      // 3. Incoming page contentRef transform (y: 100 -> 0, rotation: 4 -> 0)
+      if (contentRef.current) {
+        const remP = 1 - p;
+        const curY = (s.revealY ?? 100) * remP;
+        const curRot = (s.revealRotation ?? 4) * remP;
+        const curX = (s.revealX || 0) * remP;
+        const curScale = 1 + ((s.revealScale || 1.0) - 1) * remP;
+
+        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+        contentRef.current.style.opacity = "1";
+      }
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(tick);
+      } else {
+        // Completion: Direct Teardown (0 flicker, 0 GSAP layer collapse)
         if (snapshotOuter && snapshotOuter.parentNode) {
           snapshotOuter.parentNode.removeChild(snapshotOuter);
         }
@@ -385,8 +423,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           outerRef.current.style.willChange = "";
         }
         if (contentRef.current) {
-          gsap.set(contentRef.current, { clearProps: "all" });
+          contentRef.current.style.transform = "";
+          contentRef.current.style.opacity = "";
+          contentRef.current.style.willChange = "";
+          contentRef.current.style.transformOrigin = "";
         }
+
         if (typeof window !== "undefined" && (window as any).__lenis) {
           try {
             (window as any).__lenis.start();
@@ -397,91 +439,42 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         revealStartedForRef.current = null;
         clearPendingHref();
         setMode("idle");
-      },
-    });
+      }
+    };
 
-    tweenRef.current = masterTl;
+    animId = requestAnimationFrame(tick);
 
-    // 1. Old page snapshot exit motion (z-index 900)
-    snapshotInner.style.willChange = "transform, opacity";
-    masterTl.fromTo(
-      snapshotInner,
-      { opacity: 1, x: 0, scale: 1, y: -initialScrollY, rotation: 0, transformOrigin: exitOrigin },
-      {
-        opacity: 0,
-        x: s.exitX || 0,
-        scale: s.exitScale,
-        y: -initialScrollY + (s.exitY || 0),
-        rotation: s.exitRotation,
-        transformOrigin: exitOrigin,
-        duration: exitDuration,
-        ease: exitEase,
-      },
-      0
-    );
+    const sWatchdog = settingsRef.current;
+    const watchdogMs = Math.max(FAILSAFE_MS, (sWatchdog.exitSpeed + (sWatchdog.exitSpeed + 0.25)) * sWatchdog.speedMult * 1000 + 5000);
+    const watchdogId = setTimeout(() => {
+      cancelAnimationFrame(animId);
+      document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
+      document.documentElement.classList.remove("is-page-transitioning");
+      if (outerRef.current) {
+        outerRef.current.style.clipPath = "";
+        outerRef.current.style.willChange = "";
+      }
+      if (contentRef.current) {
+        contentRef.current.style.transform = "";
+        contentRef.current.style.opacity = "";
+        contentRef.current.style.willChange = "";
+      }
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        try {
+          (window as any).__lenis.start();
+          (window as any).__lenis.resize();
+        } catch { }
+      }
+      revealStartedForRef.current = null;
+      clearPendingHref();
+      setMode("idle");
+    }, watchdogMs);
 
-    // Synchronized clip path sweep - dynamic exit & reveal path clipping
-    const exitProxy = { p: 0 };
-    masterTl.to(
-      exitProxy,
-      {
-        p: 1,
-        duration: exitDuration,
-        ease: exitEase,
-        onUpdate: () => {
-          const vh = typeof window !== "undefined" ? window.innerHeight : 800;
-          if (snapshotOuter) {
-            snapshotOuter.style.clipPath = s.clipExitPath
-              ? buildExitClipPath(exitProxy.p, s.exitSlantRatio, s.exitFlipSlant, vh)
-              : "none";
-          }
-          if (outerRef.current) {
-            outerRef.current.style.clipPath = s.clipRevealPath
-              ? buildRevealClipPath(exitProxy.p, s.revealSlantRatio, s.revealFlipSlant, vh)
-              : "none";
-          }
-        },
-      },
-      0
-    );
-
-    // Dark overlay fade on old page snapshot
-    masterTl.fromTo(
-      snapshotOverlay,
-      { opacity: 0 },
-      { opacity: 0.3, duration: exitDuration, ease: exitEase },
-      0
-    );
-
-    // 2. New page reveal motion (4deg rotation + 100px upward move to 0).
-    if (contentRef.current) {
-      masterTl.fromTo(
-        contentRef.current,
-        {
-          opacity: 1,
-          x: s.revealX || 0,
-          y: s.revealY ?? 100,
-          scale: s.revealScale,
-          rotation: s.revealRotation ?? 4,
-          transformOrigin: revealOrigin,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          transformOrigin: revealOrigin,
-          duration: exitDuration,
-          ease: exitEase,
-        },
-        0
-      );
-    }
-
-    outgoingTweensRef.current = [masterTl];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, pendingHref]);
+    return () => {
+      cancelAnimationFrame(animId);
+      clearTimeout(watchdogId);
+    };
+  }, [mode, pendingHref, router, clearPendingHref, setMode]);
 
 
 
