@@ -296,20 +296,9 @@ export default function CruisePage() {
 
   return (
     <div className="min-h-screen bg-transparent text-white pt-[100px]">
-      {/* SECTION 1: HERO */}
-      <CruiseHeroSection
-        heroVideoRef={heroVideoRef}
-        heroForegroundRef={heroForegroundRef}
-        heroMaskSettings={heroMaskSettings}
-        heroVideoReady={heroVideoReady}
-        setHeroVideoReady={setHeroVideoReady}
-        heroParallax={heroParallax}
-        setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-      />
-
       {transitionDone && (
         <>
-          {/* SECTION 2: CABINS & PRICING */}
+          {/* SECTION 2: CABINS & PRICING (Moved to Top Section) */}
           <LazyMount minHeight="800px" rootMargin="300px 0px">
             <CruiseCabinsPricingSection
               handleSelectCabin={handleSelectCabin}
@@ -335,6 +324,17 @@ export default function CruisePage() {
               PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
             />
           </LazyMount>
+
+          {/* SECTION 1: HERO */}
+          <CruiseHeroSection
+            heroVideoRef={heroVideoRef}
+            heroForegroundRef={heroForegroundRef}
+            heroMaskSettings={heroMaskSettings}
+            heroVideoReady={heroVideoReady}
+            setHeroVideoReady={setHeroVideoReady}
+            heroParallax={heroParallax}
+            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+          />
 
           {/* SECTION 3: PORTS OF CALL */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
