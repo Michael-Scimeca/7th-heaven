@@ -93,24 +93,36 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   exitFlipSlant: true,
 };
 
-function buildRevealClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
+function buildRevealClipPath(
+  progress: number,
+  ratio: number,
+  flip: boolean,
+  vh: number = typeof window !== "undefined" ? window.innerHeight : 800,
+  rampFraction = 0.05
+): string {
   const p = Math.min(1, Math.max(0, progress));
-  const mainY = 100 * (1 - p);
+  const mainY = vh * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
   const leadY = mainY / (1 + rampedRatio);
   const leftY = flip ? leadY : mainY;
   const rightY = flip ? mainY : leadY;
-  return `polygon(0% ${leftY}%, 100% ${rightY}%, 100% 100%, 0% 100%)`;
+  return `polygon(0px ${leftY.toFixed(1)}px, 100% ${rightY.toFixed(1)}px, 100% 99999px, 0px 99999px)`;
 }
 
-function buildExitClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
+function buildExitClipPath(
+  progress: number,
+  ratio: number,
+  flip: boolean,
+  vh: number = typeof window !== "undefined" ? window.innerHeight : 800,
+  rampFraction = 0.05
+): string {
   const p = Math.min(1, Math.max(0, progress));
-  const mainY = 100 * (1 - p);
+  const mainY = vh * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
   const leadY = mainY / (1 + rampedRatio);
   const leftY = flip ? leadY : mainY;
   const rightY = flip ? mainY : leadY;
-  return `polygon(0% 0%, 100% 0%, 100% ${rightY}%, 0% ${leftY}%)`;
+  return `polygon(0px 0px, 100% 0px, 100% ${rightY.toFixed(1)}px, 0px ${leftY.toFixed(1)}px)`;
 }
 
 function shouldSkip(): boolean {
@@ -329,19 +341,21 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     revealStartedForRef.current = null;
 
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+
     snapshotOuter.style.willChange = s.clipExitPath ? "clip-path" : "";
     snapshotOuter.style.clipPath = s.clipExitPath
-      ? buildExitClipPath(0, s.exitSlantRatio, s.exitFlipSlant)
+      ? buildExitClipPath(0, s.exitSlantRatio, s.exitFlipSlant, viewportHeight)
       : "none";
 
     if (outerRef.current) {
       outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = s.clipRevealPath ? "clip-path" : "";
       outerRef.current.style.clipPath = s.clipRevealPath
-        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant)
+        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant, viewportHeight)
         : "none";
     }
-    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
       gsap.set(contentRef.current, {
@@ -414,14 +428,15 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         duration: exitDuration,
         ease: exitEase,
         onUpdate: () => {
+          const vh = typeof window !== "undefined" ? window.innerHeight : 800;
           if (snapshotOuter) {
             snapshotOuter.style.clipPath = s.clipExitPath
-              ? buildExitClipPath(exitProxy.p, s.exitSlantRatio, s.exitFlipSlant)
+              ? buildExitClipPath(exitProxy.p, s.exitSlantRatio, s.exitFlipSlant, vh)
               : "none";
           }
           if (outerRef.current) {
             outerRef.current.style.clipPath = s.clipRevealPath
-              ? buildRevealClipPath(exitProxy.p, s.revealSlantRatio, s.revealFlipSlant)
+              ? buildRevealClipPath(exitProxy.p, s.revealSlantRatio, s.revealFlipSlant, vh)
               : "none";
           }
         },
