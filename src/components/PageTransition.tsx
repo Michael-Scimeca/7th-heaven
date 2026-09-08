@@ -74,9 +74,9 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 20,
+  revealY: 100,
   revealScale: 1.00,
-  revealRotation: -2,
+  revealRotation: 4,
   revealOrigin: "center center",
   revealEase: "expo.out",
   revealSlantRatio: 0.08,
@@ -169,7 +169,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v13");
+      const saved = localStorage.getItem("7h_page_transition_settings_v14");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -203,7 +203,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v13", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(next));
     } catch { }
   };
 
@@ -211,7 +211,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v13", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -361,9 +361,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       gsap.set(contentRef.current, {
         opacity: 1,
         x: s.revealX || 0,
-        y: s.revealY ?? 20,
+        y: s.revealY ?? 100,
         scale: s.revealScale,
-        rotation: s.revealRotation ?? -2,
+        rotation: s.revealRotation ?? 4,
         transformOrigin: revealOrigin,
       });
     }
@@ -453,16 +453,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       0
     );
 
-    // 2. New page reveal — subtle motion (-2deg rotation + 20px upward move to 0).
+    // 2. New page reveal motion (4deg rotation + 100px upward move to 0).
     if (contentRef.current) {
       masterTl.fromTo(
         contentRef.current,
         {
           opacity: 1,
           x: s.revealX || 0,
-          y: s.revealY ?? 20,
+          y: s.revealY ?? 100,
           scale: s.revealScale,
-          rotation: s.revealRotation ?? -2,
+          rotation: s.revealRotation ?? 4,
           transformOrigin: revealOrigin,
         },
         {
