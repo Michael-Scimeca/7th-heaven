@@ -55,11 +55,8 @@ const FAILSAFE_MS = 3000;
 const CURTAIN_BG = "rgb(13, 14, 19)";
 
 const TRANSITION_EASE = "circ.out";
-const EXIT_DURATION = 0.55;
-// Always a fixed quarter-second slower than the exit -- see the comment
-// block above for why this is what actually makes the new page read as
-// "covering" the old one instead of just replacing it.
-const REVEAL_DURATION = EXIT_DURATION + 0.25;
+const EXIT_DURATION = 0.20;
+const REVEAL_DURATION = EXIT_DURATION + 0.20;
 
 // Local, flipped mirror of @/lib/curtainClipPath's buildDecayingSlantCoverClipPath
 // (left edge leads instead of right). The verified, measured-from-video
@@ -171,6 +168,13 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }
 
     if (shouldSkip()) {
+      document.documentElement.classList.remove("is-page-transitioning");
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        try {
+          (window as any).__lenis.start();
+          (window as any).__lenis.resize();
+        } catch {}
+      }
       // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
       router.push(pendingHref);
       clearPendingHref();
@@ -419,27 +423,44 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           }
         },
         onComplete: () => {
-          document.documentElement.classList.remove("is-page-transitioning");
-          if (outerRef.current) {
-            outerRef.current.style.position = "";
-            outerRef.current.style.inset = "";
-            outerRef.current.style.zIndex = "";
-            outerRef.current.style.overflow = "";
-            outerRef.current.style.clipPath = "none";
-            outerRef.current.style.willChange = "";
-          }
-          if (contentRef.current) {
-            gsap.set(contentRef.current, { clearProps: "all" });
-          }
-          if (typeof window !== "undefined" && (window as any).__lenis) {
-            try {
-              (window as any).__lenis.start();
-              (window as any).__lenis.resize();
-            } catch {}
-          }
-          revealStartedForRef.current = null;
-          clearPendingHref();
-          setMode("idle");
+          // Deferred two animation frames: at the instant this tween
+          // finishes, the clip-path is ALREADY visually equivalent to
+          // "no clip" (buildIncomingRevealClipPath(1, ratio) resolves to
+          // the full 0,0-100,100 rectangle), so nothing looks different
+          // yet. But stripping position/inset/z-index/willChange, clearing
+          // the slide-up transform, AND restarting Lenis all in this same
+          // synchronous tick forces the browser into one big layout +
+          // composite recalculation on the very frame the reveal visually
+          // completes -- that simultaneous unpin is what reads as a flash/
+          // flicker right as the new page "finishes loading in". Letting
+          // two rAFs pass first means the browser has already painted the
+          // settled, fully-revealed frame on its own compositing layer
+          // before any of this fires, so the cleanup below is invisible.
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              document.documentElement.classList.remove("is-page-transitioning");
+              if (outerRef.current) {
+                outerRef.current.style.position = "";
+                outerRef.current.style.inset = "";
+                outerRef.current.style.zIndex = "";
+                outerRef.current.style.overflow = "";
+                outerRef.current.style.clipPath = "none";
+                outerRef.current.style.willChange = "";
+              }
+              if (contentRef.current) {
+                gsap.set(contentRef.current, { clearProps: "all" });
+              }
+              if (typeof window !== "undefined" && (window as any).__lenis) {
+                try {
+                  (window as any).__lenis.start();
+                  (window as any).__lenis.resize();
+                } catch {}
+              }
+              revealStartedForRef.current = null;
+              clearPendingHref();
+              setMode("idle");
+            });
+          });
         },
       });
     });

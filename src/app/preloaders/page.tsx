@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 import { buildDecayingSlantCoverClipPath } from "@/lib/curtainClipPath";
 
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
@@ -30,7 +31,7 @@ function DemoFrame({
         <button
           onClick={onPlay}
           disabled={playing}
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm font-medium tracking-wide transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm   tracking-wide transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {playing ? "Playing…" : "Replay"}
         </button>
@@ -116,7 +117,6 @@ function CurtainWipeDemo() {
   const contentRef = useRef<HTMLDivElement>(null);
   const oldRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
-  const [showNew, setShowNew] = useState(false);
 
   // Tunable knobs -- exposed via the control panel under the demo so you can
   // feel out speed/easing/slant combinations live instead of round-tripping
@@ -165,13 +165,11 @@ function CurtainWipeDemo() {
   const play = () => {
     if (playing) return;
     setPlaying(true);
-    setShowNew(false);
 
     const el = outerRef.current!.parentElement!;
     const height = el.clientHeight;
 
-    // Pre-hide the incoming content, exactly like Phase 1 of the real
-    // PageTransition: scaled up, pushed down, clip-path fully covered.
+    // Pre-hide the incoming content
     gsap.set(outerRef.current, { clipPath: buildClip(0, slantRatio) });
     gsap.set(contentRef.current, { scale: revealScale, y: height / 2 });
     gsap.set(oldRef.current, { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" });
@@ -180,18 +178,7 @@ function CurtainWipeDemo() {
       onComplete: () => setPlaying(false),
     });
 
-    // Both the outgoing exit and the incoming reveal start at the exact
-    // same timeline position (0) now -- no more staggered "route commit"
-    // gap between them. revealDuration (derived above, oldDuration + 0.25s)
-    // means the reveal always runs a fixed quarter-second slower than
-    // whatever the exit is currently set to, so the new page keeps
-    // "chasing" the old page's wipe instead of only starting once it's
-    // fully gone.
-    setShowNew(true);
-
-    // Outgoing snapshot flies away AND wipes off along the same
-    // decaying-slant diagonal as the incoming reveal -- driven by the same
-    // speed/easing/slant/flip knobs as the panel below.
+    // Outgoing snapshot flies away AND wipes off along diagonal
     tl.fromTo(
       oldRef.current,
       { scale: 1, y: 0, opacity: 1 },
@@ -208,9 +195,7 @@ function CurtainWipeDemo() {
       },
       0
     );
-    // Incoming reveal -- content settle and clip-path sweep share the same
-    // duration/ease so they stay in sync with each other. Started at
-    // position 0 too, so it runs alongside the exit rather than after it.
+    // Incoming reveal -- content settle and clip-path sweep share duration/ease
     tl.to(contentRef.current, { scale: 1, y: 0, duration: revealDuration, ease: revealEase, clearProps: "all" }, 0);
     tl.to(
       { p: 0 },
@@ -233,13 +218,19 @@ function CurtainWipeDemo() {
   return (
     <div className="flex flex-col gap-3">
       <DemoFrame label="Curtain wipe (current)" onPlay={play} playing={playing}>
-        <div className="relative h-full w-full bg-gradient-to-br from-purple-900 to-fuchsia-950">
-          <div ref={oldRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900 to-fuchsia-950">
-            <span className="text-2xl font-black ">OLD PAGE</span>
+        <div className="relative h-full w-full bg-black overflow-hidden">
+          <div ref={oldRef} className="absolute inset-0 z-0">
+            <Image src="/preloader-demo/cruise-v2.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
+            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/90">
+              Cruise (old)
+            </span>
           </div>
-          <div ref={outerRef} className="absolute inset-0 overflow-hidden" style={{ clipPath: "polygon(0% 100%,100% 100%,100% 100%,0% 100%)" }}>
-            <div ref={contentRef} className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-800 to-blue-950">
-              {showNew && <span className="text-2xl font-black ">NEW PAGE</span>}
+          <div ref={outerRef} className="absolute inset-0 z-10 overflow-hidden" style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}>
+            <div ref={contentRef} className="relative h-full w-full">
+              <Image src="/preloader-demo/book.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
+              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/90">
+                Book (new)
+              </span>
             </div>
           </div>
         </div>
@@ -247,7 +238,7 @@ function CurtainWipeDemo() {
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-400/80">New page reveal</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em]   /80">New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
             Reveal speed <span className="text-white/35">(exit + 0.25s, linked)</span>
@@ -292,7 +283,7 @@ function CurtainWipeDemo() {
           className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90"
         >
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="bg-[#0d0e13] text-white">
+            <option key={o.value} value={o.value} className=" text-white">
               {o.label}
             </option>
           ))}
@@ -391,7 +382,7 @@ function CurtainWipeDemo() {
           className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90"
         >
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="bg-[#0d0e13] text-white">
+            <option key={o.value} value={o.value} className=" text-white">
               {o.label}
             </option>
           ))}
@@ -434,6 +425,25 @@ function CurtainWipeDemo() {
 //    stepped (not smooth) ease while a jagged clip-path tears them, then
 //    everything resolves clean onto the new content.
 // ---------------------------------------------------------------------------
+function jaggedPolygon(intensity: number) {
+  // A handful of horizontal bands, each independently offset left/right --
+  // intensity 1 = maximum tear, 0 = clean rectangle.
+  const bands = 6;
+  let top = "polygon(";
+  const points: string[] = [];
+  for (let i = 0; i <= bands; i++) {
+    const y = (i / bands) * 100;
+    const jitter = (Math.random() - 0.5) * intensity * 18;
+    points.push(`${0 + jitter}% ${y}%`);
+  }
+  for (let i = bands; i >= 0; i--) {
+    const y = (i / bands) * 100;
+    const jitter = (Math.random() - 0.5) * intensity * 18;
+    points.push(`${100 + jitter}% ${y}%`);
+  }
+  return top + points.join(",") + ")";
+}
+
 function GlitchCutDemo() {
   const stageRef = useRef<HTMLDivElement>(null);
   const rLayer = useRef<HTMLDivElement>(null);
@@ -441,25 +451,6 @@ function GlitchCutDemo() {
   const bLayer = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [label, setLabel] = useState("OLD PAGE");
-
-  function jaggedPolygon(intensity: number) {
-    // A handful of horizontal bands, each independently offset left/right --
-    // intensity 1 = maximum tear, 0 = clean rectangle.
-    const bands = 6;
-    let top = "polygon(";
-    const points: string[] = [];
-    for (let i = 0; i <= bands; i++) {
-      const y = (i / bands) * 100;
-      const jitter = (Math.random() - 0.5) * intensity * 18;
-      points.push(`${0 + jitter}% ${y}%`);
-    }
-    for (let i = bands; i >= 0; i--) {
-      const y = (i / bands) * 100;
-      const jitter = (Math.random() - 0.5) * intensity * 18;
-      points.push(`${100 + jitter}% ${y}%`);
-    }
-    return top + points.join(",") + ")";
-  }
 
   const play = () => {
     if (playing) return;

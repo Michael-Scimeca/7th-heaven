@@ -29,6 +29,7 @@ p {
   font-size: 1rem;
   line-height: 1.5rem;
   color: #ffffff;
+  font-weight: 600;
 }
 
 h1 {
@@ -1717,7 +1718,7 @@ select::placeholder,
 /* Guarantee the content area between header and footer is ALWAYS at least
    full viewport height. This prevents the footer from ever floating to the
    top when page content is loading or a transition is in progress. */
-#page-content-wrapper>.content-area {
+#page-content-wrapper > .exoape-page-outer {
   min-height: 100svh;
   padding-bottom: 60px;
 }
