@@ -349,7 +349,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       : "none";
 
     if (outerRef.current) {
-      outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = s.clipRevealPath ? "clip-path" : "";
       outerRef.current.style.clipPath = s.clipRevealPath
         ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant, viewportHeight)
@@ -381,22 +380,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         }
         document.documentElement.classList.remove("is-page-transitioning");
 
-        requestAnimationFrame(() => {
-          if (outerRef.current) {
-            outerRef.current.style.overflow = "";
-            outerRef.current.style.clipPath = "none";
-            outerRef.current.style.willChange = "";
-          }
-          if (contentRef.current) {
-            gsap.set(contentRef.current, { clearProps: "all" });
-          }
-          if (typeof window !== "undefined" && (window as any).__lenis) {
-            try {
-              (window as any).__lenis.start();
-              (window as any).__lenis.resize();
-            } catch { }
-          }
-        });
+        if (outerRef.current) {
+          outerRef.current.style.clipPath = "";
+          outerRef.current.style.willChange = "";
+        }
+        if (contentRef.current) {
+          gsap.set(contentRef.current, { clearProps: "all" });
+        }
+        if (typeof window !== "undefined" && (window as any).__lenis) {
+          try {
+            (window as any).__lenis.start();
+            (window as any).__lenis.resize();
+          } catch { }
+        }
 
         revealStartedForRef.current = null;
         clearPendingHref();

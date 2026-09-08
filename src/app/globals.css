@@ -1718,25 +1718,9 @@ select::placeholder,
 /* Guarantee the content area between header and footer is ALWAYS at least
    full viewport height. This prevents the footer from ever floating to the
    top when page content is loading or a transition is in progress. */
-#page-content-wrapper > .exoape-page-outer {
+#page-content-wrapper>.exoape-page-outer {
   min-height: 100svh;
   padding-bottom: 60px;
-}
-
-/* ─── Global gradient passthrough ─────────────────────────────────────────
-   The HomeShaderGradient canvas is position:fixed at z-index:0 behind
-   everything. Page wrappers and the first child div of each page must be
-   transparent so the gradient shows through instead of being covered by
-   solid or gradient background-colors on individual pages.
-   Inline bg-* classes on page roots should be removed; use bg-transparent.
-   ────────────────────────────────────────────────────────────────────────── */
-.exoape-page-inner > *:first-child {
-  /* The direct first child of the content wrapper (page root div) should
-     never cover the gradient with a solid background. Pages that genuinely
-     need a section-level background should scope it to that section, not
-     the page root. */
-  background-color: transparent;
-  background-image: none;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2343,12 +2327,7 @@ html.tour-sort-stuck #tour-sort-bar {
   overflow: hidden;
 }
 
-/* Hide film grain overlay during page transitions to prevent double-grain flickering */
-html.is-page-transitioning .grain-overlay,
-html.is-page-transitioning .grain-overlay::after {
-  opacity: 0 !important;
-  transition: opacity 0.15s ease;
-}
+/* Keep film grain overlay continuous so no full-screen blend flicker occurs when transitions finish */
 
 .grain-overlay::after {
   content: "";
@@ -6469,9 +6448,11 @@ tr:hover .wiw-sticky-col {
   0% {
     transform: translateX(-100%) scaleX(0.2);
   }
+
   50% {
     transform: translateX(0%) scaleX(0.6);
   }
+
   100% {
     transform: translateX(100%) scaleX(0.2);
   }
