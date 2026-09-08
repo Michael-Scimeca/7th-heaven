@@ -175,7 +175,7 @@ export default function CruiseDashboardGate() {
                 <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
                 <h3 className="font-bold text-white uppercase mb-2">Verify Your Email</h3>
                 <p className="  ">
-                  We've sent a 6-digit verification PIN to <strong className="text-cyan-400">{email}</strong>. Enter it below to activate your account.
+                  We've sent a 6-digit verification PIN to <strong className="  ">{email}</strong>. Enter it below to activate your account.
                 </p>
               </div>
 
@@ -201,7 +201,7 @@ export default function CruiseDashboardGate() {
                 </button>
 
                 <div className="text-center mt-4">
-                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover: text-white text-[var(--font-size-2xs)] font-bold uppercase transition-colors cursor-pointer">
+                  <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40   text-white text-[var(--font-size-2xs)] font-bold uppercase transition-colors cursor-pointer">
                     ← Cancel and Back
                   </button>
                 </div>
@@ -302,7 +302,7 @@ export default function CruiseDashboardGate() {
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/cruise" className="text-white/40 hover: text-white font-bold uppercase transition-colors">
+          <Link href="/cruise" className="text-white/40   text-white font-bold uppercase transition-colors">
             ← Back to Cruise Information
           </Link>
         </div>

@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold uppercase text-black">Cruise Hub</h1>
-            <p className="text-cyan-600 font-bold uppercase mt-1">Exclusive Passenger Community</p>
+            <p className="   font-bold uppercase mt-1">Exclusive Passenger Community</p>
           </div>
 
           <div className="bg-white border border-black/10 overflow-hidden ">
@@ -579,7 +579,7 @@ export default function CruiseDashboard() {
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
                   <h3 className="font-bold text-black uppercase mb-2">Verify Your Email</h3>
                   <p className="text-black/60 ">
-                    We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
+                    We've sent a 6-digit verification PIN to <strong className="  ">{email}</strong>. Enter it below to activate your account.
                   </p>
                 </div>
 
@@ -719,17 +719,17 @@ export default function CruiseDashboard() {
           <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/20    flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
                   <span className="animate-pulse">🔔</span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[12px] font-bold tracking-[0.15em] uppercase text-cyan-300 px-2 py-0.5 rounded-lg border border-cyan-500/30">Priority Update</span>
+                    <span className="text-[12px] font-bold tracking-[0.15em] uppercase    px-2 py-0.5 rounded-lg border border-cyan-500/30">Priority Update</span>
                   </div>
                   <h3 className="font-bold tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold text-cyan-300 hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
+                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold    hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -769,7 +769,7 @@ export default function CruiseDashboard() {
                 </div>
               ) : sanitizedAnnouncement ? (
                 <div
-                  className="text-white/80 space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
+                  className="text-white/80 space-y-4 [&_a]:   [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
@@ -798,7 +798,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto font-bold text-cyan-300 hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30"
+                      className="ml-auto font-bold    hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -844,7 +844,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 md:text-base tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-400 [&_a]:hover:text-cyan-300 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+                    className="space-y-4 text-white/80 md:text-base tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:   [&_a]:    [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
                     dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
                   />
                 )}
@@ -888,7 +888,7 @@ export default function CruiseDashboard() {
       >
         <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
           <div className="text-center mb-12 max-w-3xl mx-auto px-4">
-            <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">
+            <span className="font-bold uppercase tracking-[0.25em]   ">
               Interactive Voyage Map
             </span>
             <h2 className="font-bold uppercase text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
